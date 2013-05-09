@@ -157,8 +157,8 @@
                 <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Description"/>
             </list>
         </property>
-        <!-- custom "resultsActionsFieldGroup" to display "edit" link only -->
-        <property name="resultsActionsFieldGroup">
+        <!-- display "edit" link only -->
+        <property name="resultsGroup.lineActions">
             <bean parent="Uif-FieldGroupBase">
                 <property name="label" value="Actions"/>
                 <property name="group">

@@ -79,8 +79,8 @@
                 <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
             </list>
         </property>
-        <!-- use KS-Uif-LookupView-ResultActions-EditOnly to display edit link only -->
-        <property name="resultsActionsFieldGroup">
+        <!-- display edit link only -->
+        <property name="resultsGroup.lineActions">
             <bean parent="Uif-FieldGroupBase">
                 <property name="label" value="Actions"/>
                 <property name="group">
