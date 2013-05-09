@@ -27,6 +27,13 @@ public interface ClassFinderForm {
 	}
 
 	/**
+	 * Get the criteria key.
+	 * 
+	 * @return The criteria key.
+	 */
+	String getCriteriaKey();
+
+	/**
 	 * Get the search query.
 	 * 
 	 * @return The search query.

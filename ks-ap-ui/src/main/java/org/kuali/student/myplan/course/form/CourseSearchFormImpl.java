@@ -41,6 +41,7 @@ public class CourseSearchFormImpl extends UifFormBase implements
 	private List<String> campusSelect;
 
 	// class finder properties
+	private String criteriaKey;
 	private List<String> facet;
 	private int start;
 	private int count;
@@ -58,6 +59,15 @@ public class CourseSearchFormImpl extends UifFormBase implements
 
 	public void setSearchQuery(String searchQuery) {
 		this.searchQuery = searchQuery;
+	}
+
+	@Override
+	public String getCriteriaKey() {
+		return criteriaKey;
+	}
+
+	public void setCriteriaKey(String criteriaKey) {
+		this.criteriaKey = criteriaKey;
 	}
 
 	@Override

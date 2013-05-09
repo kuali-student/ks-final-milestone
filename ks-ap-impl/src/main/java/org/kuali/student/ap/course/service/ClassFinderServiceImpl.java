@@ -12,11 +12,10 @@ import org.kuali.student.ap.course.dao.ClassFinderDao;
 import org.kuali.student.ap.course.model.ClassFinderCriteriaEntity;
 import org.kuali.student.ap.framework.course.ClassFinderForm;
 import org.kuali.student.ap.framework.course.ClassFinderService;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Singleton
-@Transactional(readOnly = true, noRollbackFor = { DoesNotExistException.class }, rollbackFor = { Throwable.class })
+@Transactional(noRollbackFor = { Throwable.class })
 public class ClassFinderServiceImpl implements ClassFinderService, Serializable {
 
 	private static final long serialVersionUID = -992006040285011026L;
@@ -65,7 +64,11 @@ public class ClassFinderServiceImpl implements ClassFinderService, Serializable 
 		ClassFinderCriteriaEntity cfc = classFinderDao.find(key);
 		if (cfc == null)
 			return;
-		form.setFacet(cfc.getFacet());
+		List<String> ofc = form.getFacet();
+		if (ofc == null)
+			form.setFacet(cfc.getFacet());
+		else
+			ofc.addAll(cfc.getFacet());
 	}
 
 }

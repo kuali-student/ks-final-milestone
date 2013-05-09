@@ -767,15 +767,26 @@ public class CourseSearchController extends UifControllerBase {
 						// Truncate results to show only the 50 most relevant
 						// words in the facet
 						sk = Arrays.copyOf(sk, Math.min(sk.length, 50));
-						// Sort according to strategy definitions
-						Arrays.sort(sk, searcher.getFacetSort().get(fk));
-						nfm = new java.util.LinkedHashMap<String, FacetState>(
-								sk.length);
+						Map<String, List<String>> vtk = new java.util.HashMap<String, List<String>>();
 						for (String k : sk) {
 							assert k != null : fk;
-							// Insert truncated facet keys in order
-							nfm.put(k, fm.get(k));
+							String v = fm.get(k).value;
+							List<String> l = vtk.get(v);
+							if (l == null)
+								vtk.put(v,
+										l = new java.util.LinkedList<String>());
+							l.add(k);
 						}
+						String[] sv = vtk.keySet().toArray(
+								new String[vtk.size()]);
+						// Sort according to strategy definitions
+						Arrays.sort(sv, searcher.getFacetSort().get(fk));
+						nfm = new java.util.LinkedHashMap<String, FacetState>(
+								sk.length);
+						for (String v : sv)
+							for (String k : vtk.get(v))
+								// Insert truncated facet keys in order
+								nfm.put(k, fm.get(k));
 
 						// Seal the map for synchronized use
 						facetStateMap.put(fk, Collections
@@ -1170,6 +1181,15 @@ public class CourseSearchController extends UifControllerBase {
 		}
 
 		private List<SearchInfo> getFilteredResults(final ClassFinderForm form) {
+			Map<String, Boolean> all = new java.util.HashMap<String, Boolean>();
+			for (Entry<String, Map<String, FacetState>> fs : this.facetState
+					.entrySet()) {
+				boolean a = true;
+				for (Entry<String, FacetState> fsc : fs.getValue().entrySet())
+					if (a && !fsc.getValue().checked)
+						a = false;
+				all.put(fs.getKey(), a);
+			}
 			List<SearchInfo> filteredResults = new ArrayList<SearchInfo>(
 					searchResults);
 			Iterator<SearchInfo> i = filteredResults.iterator();
@@ -1177,7 +1197,9 @@ public class CourseSearchController extends UifControllerBase {
 				SearchInfo ln = i.next();
 				boolean removed = false;
 				for (Entry<String, Map<String, Map<String, String>>> group : ln.item
-						.getFacetColumns().entrySet())
+						.getFacetColumns().entrySet()) {
+					if (Boolean.TRUE.equals(all.get(group.getKey())))
+						continue; // only scan groups that are partially checked
 					for (Entry<String, Map<String, String>> cell : group
 							.getValue().entrySet()) {
 						boolean match = false;
@@ -1195,6 +1217,7 @@ public class CourseSearchController extends UifControllerBase {
 								removed = true;
 							}
 					}
+				}
 			}
 
 			// TODO: sort not required by current front-end, implement here
@@ -1629,10 +1652,14 @@ public class CourseSearchController extends UifControllerBase {
 			@ModelAttribute("KualiForm") final ClassFinderForm form,
 			BindingResult result, final HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		//
-		// List<String> tempFacets = new ArrayList<String>(form.getFacet());
-		// tempFacets.add(CourseSearchForm.SEARCH_TERM_ANY_ITEM);
-		// form.setFacet(tempFacets);
+
+		if (form.getCriteriaKey() != null)
+			try {
+				KsapFrameworkServiceLocator.getClassFinderService()
+						.restoreCriteria(form.getCriteriaKey(), form);
+			} catch (Throwable t) {
+				LOG.warn("Failed to restore criteria for form " + form, t);
+			}
 
 		SessionSearchInfo table = form.getQuery() == null ? null
 				: getSearchResults(new FormKey(form),
@@ -1695,14 +1722,17 @@ public class CourseSearchController extends UifControllerBase {
 		List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
 				.getEnumerationHelper().getEnumerationValueInfoList(
 						"kuali.lu.campusLocation");
+		
+		EnumeratedValueInfo csa = null;
 		for (EnumeratedValueInfo ev : enumeratedValueInfoList)
 			if (!"IUCSA".equals(ev.getValue())) {
 				ObjectNode campusFacet = campusFacetState.addObject();
 				campusFacet.put("label", ev.getValue());
-				campusFacet
-						.put("value", form.getFacet().contains(ev.getCode()));
+				campusFacet.put("value", form.getFacet().contains(ev.getCode()));
 				campusFacet.put("id", ev.getCode());
 			}
+			else
+				csa = ev;
 
 		// TODO - Online class search may be IU specific,
 		// move to strategy override
@@ -1710,8 +1740,14 @@ public class CourseSearchController extends UifControllerBase {
 		ArrayNode onlineFacetState = onlineFacets.putArray("facets");
 		ObjectNode onlineFacet = onlineFacetState.addObject();
 		onlineFacet.put("label", "Online");
-		onlineFacet.put("value", false);
+		onlineFacet.put("value", form.getFacet().contains("ONLINE"));
 		onlineFacet.put("id", "ONLINE");
+		if (csa != null) {
+			onlineFacet = onlineFacetState.addObject();
+			onlineFacet.put("label", csa.getValue());
+			onlineFacet.put("value", form.getFacet().contains(csa.getCode()));
+			onlineFacet.put("id", csa.getCode());
+		}
 
 		// Output Course Level options to json
 		ObjectNode levelFacets = ofas.addObject();
@@ -1889,17 +1925,20 @@ public class CourseSearchController extends UifControllerBase {
 
 		} else {
 			Map<String, Map<String, FacetState>> facetStates = table.facetState;
-			List<String> facetStateKeys = new ArrayList<String>(
-					facetStates.keySet());
 
-			for (String key : facetStateKeys) {
+			// TODO: configure from strategy
+			Map<String, String> facetOrder = new java.util.LinkedHashMap<String, String>();
+			facetOrder.put("facet_gened", "Gen Ed");
+			facetOrder.put("facet_credits", "Credits");
+			facetOrder.put("facet_level", "Class Level");
+			facetOrder.put("facet_subject", "Subject");
+			facetOrder.put("facet_keywords", "Keywords");
+			for (Entry<String, String> fo : facetOrder.entrySet()) {
 				ObjectNode filterFacet = filtersFacets.addObject();
-				String tempLabel = key.replaceAll("facet_", "");
-				tempLabel = tempLabel.substring(0, 1).toUpperCase()
-						+ tempLabel.substring(1);
-				filterFacet.put("label", tempLabel);
+				filterFacet.put("label", fo.getValue());
 				ArrayNode filterFacetFacets = filterFacet.putArray("facets");
-				Map<String, FacetState> facetStateValues = facetStates.get(key);
+				Map<String, FacetState> facetStateValues = facetStates.get(fo
+						.getKey());
 				List<String> tempKeys = new ArrayList<String>(
 						facetStateValues.keySet());
 
@@ -1907,20 +1946,18 @@ public class CourseSearchController extends UifControllerBase {
 					FacetState state = facetStateValues.get(key2);
 					ObjectNode stateNode = filterFacetFacets.addObject();
 					stateNode.put("id", key2);
-					if (key.compareTo("facet_keywords") == 0)
+					if (fo.getKey().equals("facet_keywords"))
+						// TODO: make lowercase in SisCourseSearchItem
 						stateNode.put("label", state.value.toLowerCase());
 					else
 						stateNode.put("label", state.value);
 					stateNode.put("count", state.count);
 					stateNode.put("value", state.checked);
-
 				}
-
 			}
 
-			// List<SearchInfo> filteredResults =
-			// table.getFilteredResults(form);
-			List<SearchInfo> filteredResults = table.searchResults;
+			List<SearchInfo> filteredResults = table.getFilteredResults(form);
+			// List<SearchInfo> filteredResults = table.searchResults;
 			json.put("count", filteredResults.size());
 			ArrayNode results = json.putArray("results");
 			int start = Math.min(form.getStart(), filteredResults.size());
@@ -1943,5 +1980,4 @@ public class CourseSearchController extends UifControllerBase {
 		response.getWriter().println(jsonString);
 		return null;
 	}
-
 }
