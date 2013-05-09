@@ -1818,7 +1818,7 @@ public class CourseSearchController extends UifControllerBase {
 		termFacets.put("radio", true);
 		ArrayNode termFacetState = termFacets.putArray("facets");
 
-		StringBuilder termCondition = new StringBuilder("(");
+		StringBuilder termCondition = new StringBuilder();
 
 		ObjectNode anyTermFacet = termFacetState.addObject();
 		anyTermFacet.put("label", "Any term");
@@ -1828,7 +1828,7 @@ public class CourseSearchController extends UifControllerBase {
 								CourseSearchForm.SEARCH_TERM_ANY_ITEM));
 		anyTermFacet.put("id", CourseSearchForm.SEARCH_TERM_ANY_ITEM);
 		termCondition.append("!" + CourseSearchForm.SEARCH_TERM_ANY_ITEM
-				+ "&&!");
+				+ "&&(!");
 
 		ObjectNode specificTermFacet = termFacetState.addObject();
 		specificTermFacet.put("label", "Specific term");
@@ -1904,7 +1904,7 @@ public class CourseSearchController extends UifControllerBase {
 						.compareTo("edu.iu.sis.acadorg.SisTerm.type.winter") == 0) {
 					seasonTerm
 							.put("condition",
-									"(PROFESSIONAL&&edu.iu.sis.acadorg.SisInstitution.IUBLA||edu.iu.sis.acadorg.SisInstitution.IUINA)");
+									"PROFESSIONAL&&(edu.iu.sis.acadorg.SisInstitution.IUBLA||edu.iu.sis.acadorg.SisInstitution.IUINA)");
 				}
 			}
 		} catch (InvalidParameterException e) {
