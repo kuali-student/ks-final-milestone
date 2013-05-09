@@ -15,7 +15,21 @@
  */
 package org.kuali.rice.krad.uif.service.impl;
 
+import java.io.Serializable;
+import java.lang.annotation.Annotation;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.kim.api.identity.Person;
@@ -77,19 +91,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.MethodInvoker;
-
-import java.io.Serializable;
-import java.lang.annotation.Annotation;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * Default Implementation of <code>ViewHelperService</code>
@@ -301,8 +302,7 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
         }
 
         // TODO: need to handle updating client state for component refresh
-        Map<String, Object> clientState = new HashMap<String, Object>();
-        performComponentFinalize(view, component, model, parent, clientState);
+        performComponentFinalize(view, component, model, parent);
 
         // make sure id, binding, and label settings stay the same as initial
         if (component instanceof Group || component instanceof FieldGroup) {
@@ -333,14 +333,6 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
                 }
             }
         }
-
-        // get client state for component and build update script for on load
-        String clientStateScript = buildClientSideStateScript(view, clientState, true);
-        String onLoadScript = component.getOnLoadScript();
-        if (StringUtils.isNotBlank(onLoadScript)) {
-            clientStateScript = onLoadScript + clientStateScript;
-        }
-        component.setOnLoadScript(clientStateScript);
 
         // get script for generating growl messages
         String growlScript = buildGrowlScript(view);
@@ -686,7 +678,7 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
         context.put(UifConstants.ContextVariableNames.VIEW, view);
         context.put(UifConstants.ContextVariableNames.VIEW_HELPER, this);
 
-        Map<String, String> properties = KRADServiceLocator.getKualiConfigurationService().getAllProperties();
+        Map<String, String> properties = CoreApiServiceLocator.getKualiConfigurationService().getAllProperties();
         context.put(UifConstants.ContextVariableNames.CONFIG_PROPERTIES, properties);
         context.put(UifConstants.ContextVariableNames.CONSTANTS, KRADConstants.class);
         context.put(UifConstants.ContextVariableNames.UIF_CONSTANTS, UifConstants.class);
@@ -1034,7 +1026,8 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
      * @param view - view instance for component
      * @param component - component instance to push context to
      */
-    protected Map<String, Object> getCommonContext(View view, Component component) {
+    @Override
+    public Map<String, Object> getCommonContext(View view, Component component) {
         Map<String, Object> context = new HashMap<String, Object>();
 
         context.putAll(view.getContext());
@@ -1054,15 +1047,10 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
         String growlScript = buildGrowlScript(view);
         ((ViewModel) model).setGrowlScript(growlScript);
 
-        Map<String, Object> clientState = new HashMap<String, Object>();
-        performComponentFinalize(view, view, model, null, clientState);
+        performComponentFinalize(view, view, model, null);
 
-        String clientStateScript = buildClientSideStateScript(view, clientState, false);
-        String viewPreLoadScript = view.getPreLoadScript();
-        if (StringUtils.isNotBlank(viewPreLoadScript)) {
-            clientStateScript = viewPreLoadScript + clientStateScript;
-        }
-        view.setPreLoadScript(clientStateScript);
+        String clientStateScript = buildClientSideStateScript(view, model);
+        view.setPreLoadScript(ScriptUtils.appendScript(view.getPreLoadScript(), clientStateScript));
 
         // apply default values if they have not been applied yet
         if (!((ViewModel) model).isDefaultsApplied()) {
@@ -1079,14 +1067,13 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
      * </p>
      *
      * @param view - view instance that is being built
-     * @param clientSideState - map of key/value pairs that should be exposed as client side state
-     * @param updateOnly - boolean that indicates whether we are just updating a component (true), or the full view
+     * @param model model containing the client side state map
      */
-    protected String buildClientSideStateScript(View view, Map<String, Object> clientSideState, boolean updateOnly) {
+    protected String buildClientSideStateScript(View view, Object model) {
         // merge any additional client side state added to the view during processing
         // state from view will override in all cases except when both values are maps, in which the maps
         // be combined for the new value
-        for (Entry<String, Object> additionalState : view.getClientSideState().entrySet()) {
+        /*for (Entry<String, Object> additionalState : view.getClientSideState().entrySet()) {
             if (!clientSideState.containsKey(additionalState.getKey())) {
                 clientSideState.put(additionalState.getKey(), additionalState.getValue());
             } else {
@@ -1120,7 +1107,7 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
 
         // add necessary configuration parameters
         if (!updateOnly) {
-            String kradImageLocation = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
+            String kradImageLocation = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
                     "krad.externalizable.images.url");
             clientStateScript += "setConfigParam('"
                     + UifConstants.ClientSideVariables.KRAD_IMAGE_LOCATION
@@ -1128,10 +1115,33 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
                     + kradImageLocation
                     + "');";
 
-            String kradURL = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("krad.url");
+            String kradURL = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString("krad.url");
             clientStateScript +=
                     "setConfigParam('" + UifConstants.ClientSideVariables.KRAD_URL + "','" + kradURL + "');";
         }
+
+        return clientStateScript;
+        */
+
+        Map<String, Object> clientSideState = ((ViewModel) model).getClientStateForSyncing();
+
+        // script for initializing client side state on load
+        String clientStateScript = "";
+        if (!clientSideState.isEmpty()) {
+            clientStateScript = ScriptUtils.buildFunctionCall(UifConstants.JsFunctions.INITIALIZE_VIEW_STATE,
+                    clientSideState);
+        }
+
+        // add necessary configuration parameters
+        String kradImageLocation = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
+                UifConstants.ConfigProperties.KRAD_IMAGES_URL);
+        clientStateScript += ScriptUtils.buildFunctionCall(UifConstants.JsFunctions.SET_CONFIG_PARM,
+                UifConstants.ClientSideVariables.KRAD_IMAGE_LOCATION, kradImageLocation);
+
+        String kradURL = CoreApiServiceLocator.getKualiConfigurationService().getPropertyValueAsString(
+                UifConstants.ConfigProperties.KRAD_URL);
+        clientStateScript += ScriptUtils.buildFunctionCall(UifConstants.JsFunctions.SET_CONFIG_PARM,
+                UifConstants.ClientSideVariables.KRAD_URL, kradURL);
 
         return clientStateScript;
     }
@@ -1202,10 +1212,8 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
      * @param component - the component instance that should be updated
      * @param model - top level object containing the data
      * @param parent - Parent component for the component being finalized
-     * @param clientSideState - map to add client state to
      */
-    protected void performComponentFinalize(View view, Component component, Object model, Component parent,
-            Map<String, Object> clientSideState) {
+    protected void performComponentFinalize(View view, Component component, Object model, Component parent) {
         if (component == null) {
             return;
         }
@@ -1226,9 +1234,6 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
         // invoke component to update its state
         component.performFinalize(view, model, parent);
 
-        // add client side state for annotated component properties
-        addClientSideStateForComponent(component, clientSideState);
-
         // invoke service override hook
         performCustomFinalize(view, component, model, parent);
 
@@ -1243,52 +1248,7 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
 
         // get components children and recursively update state
         for (Component nestedComponent : component.getComponentsForLifecycle()) {
-            performComponentFinalize(view, nestedComponent, model, component, clientSideState);
-        }
-    }
-
-    /**
-     * Reflects the class for the given component to find any fields that are annotated with
-     * <code>ClientSideState</code> and adds the corresponding property name/value pair to the client side state
-     * map
-     *
-     * <p>
-     * Note if the component is the <code>View</code, state is added directly to the client side state map, while
-     * for other components a nested Map is created to hold the state, which is then placed into the client side
-     * state map with the component id as the key
-     * </p>
-     *
-     * @param component - component instance to get client state for
-     * @param clientSideState - map to add client side variable name/values to
-     */
-    protected void addClientSideStateForComponent(Component component, Map<String, Object> clientSideState) {
-        Map<String, Annotation> annotatedFields = CloneUtils.getFieldsWithAnnotation(component.getClass(),
-                ClientSideState.class);
-
-        if (!annotatedFields.isEmpty()) {
-            Map<String, Object> componentClientState = null;
-            if (component instanceof View) {
-                componentClientState = clientSideState;
-            } else {
-                if (clientSideState.containsKey(component.getId())) {
-                    componentClientState = (Map<String, Object>) clientSideState.get(component.getId());
-                } else {
-                    componentClientState = new HashMap<String, Object>();
-                    clientSideState.put(component.getId(), componentClientState);
-                }
-            }
-
-            for (Entry<String, Annotation> annotatedField : annotatedFields.entrySet()) {
-                ClientSideState clientSideStateAnnot = (ClientSideState) annotatedField.getValue();
-
-                String variableName = clientSideStateAnnot.variableName();
-                if (StringUtils.isBlank(variableName)) {
-                    variableName = annotatedField.getKey();
-                }
-
-                Object value = ObjectPropertyUtils.getPropertyValue(component, annotatedField.getKey());
-                componentClientState.put(variableName, value);
-            }
+            performComponentFinalize(view, nestedComponent, model, component);
         }
     }
 
@@ -2008,7 +1968,7 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
      */
     public ConfigurationService getConfigurationService() {
         if (this.configurationService == null) {
-            this.configurationService = KRADServiceLocator.getKualiConfigurationService();
+            this.configurationService = CoreApiServiceLocator.getKualiConfigurationService();
         }
         return this.configurationService;
     }
