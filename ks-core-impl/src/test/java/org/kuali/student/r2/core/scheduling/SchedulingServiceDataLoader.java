@@ -71,6 +71,10 @@ public class SchedulingServiceDataLoader {
     private AtpService atpService;
     private RoomService roomService;
 
+    private ScheduleInfo testSchedule1;
+    private ScheduleInfo testSchedule2;
+    private ScheduleInfo testSchedule3;
+
     public SchedulingServiceDataLoader() {
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
@@ -151,6 +155,14 @@ public class SchedulingServiceDataLoader {
         CommonServiceConstants.setIsIdAllowedOnCreate(contextInfo, false);
 
         setupAtpAndRoomForDisplay(ATP_ID,ROOM_ID);
+
+        testSchedule1 = setupScheduleInfo("testScheduleId1",ATP_ID,false,ROOM_ID);
+        testSchedule2 = setupScheduleInfo("testScheduleId2",ATP_ID,false,ROOM_ID);
+        testSchedule3 = setupScheduleInfo("testScheduleId3",ATP_ID,false,ROOM_ID);
+        schedulingService.createSchedule(testSchedule1.getTypeKey(), testSchedule1, contextInfo);
+        schedulingService.createSchedule(testSchedule2.getTypeKey(), testSchedule2, contextInfo);
+        schedulingService.createSchedule(testSchedule3.getTypeKey(), testSchedule3, contextInfo);
+
     }
 
     private void loadTimeSlotInfo (String ts_id, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
