@@ -466,6 +466,16 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 spWrapper.setId(seatPoolDefinitionInfo.getId());
                 seatPoolWrapperList.add(spWrapper);
             }
+            //try to add an empty line
+            if(seatPoolWrapperList.size()==0){
+                SeatPoolWrapper spWrapper = new SeatPoolWrapper();
+                SeatPoolDefinitionInfo seatPool = new SeatPoolDefinitionInfo();
+                seatPool.setProcessingPriority(1);
+                spWrapper.setSeatPool(seatPool);
+                PopulationInfo seatPoolPopulation = new PopulationInfo();
+                spWrapper.setSeatPoolPopulation(seatPoolPopulation);
+                seatPoolWrapperList.add(spWrapper);
+            }
             wrapper.setSeatpools(seatPoolWrapperList);
 
             Person user = GlobalVariables.getUserSession().getPerson();
@@ -583,7 +593,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             for (SeatPoolWrapper seatPoolWrapper : seatPoolWrappers) {
                 SeatPoolDefinitionInfo seatPool = seatPoolWrapper.getSeatPool();
                 seatPool.setPopulationId(seatPoolWrapper.getSeatPoolPopulation().getId());
-                spRet.add(seatPool);
+                //do not add empty SeatPool item(s) to the list
+                if (seatPool.getSeatLimit()!=null && seatPool.getPopulationId()!=null){
+                    spRet.add(seatPool);
+                }
+
             }
         }
 
