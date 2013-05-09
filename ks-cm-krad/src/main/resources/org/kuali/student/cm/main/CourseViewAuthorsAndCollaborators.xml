@@ -12,7 +12,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-AuthorsAndCollaborators" parent="Uif-Page" p:id="authorsAndCollaboratorsPage"
+	<bean id="KS-CourseView-AuthorsAndCollaboratorsPage" parent="Uif-Page"
 		p:headerText="Authors And Collaborators" p:disclosure.render="false">
 		<property name="header">
 			<bean parent="Uif-HeaderTwo">

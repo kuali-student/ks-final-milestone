@@ -12,7 +12,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-ActiveDates" parent="Uif-Page" p:id="activeDatesPage"
+	<bean id="KS-CourseView-ActiveDatesPage" parent="Uif-Page"
 		p:headerText="Active Dates" p:disclosure.render="false">
 		<property name="header">
 			<bean parent="Uif-HeaderTwo">

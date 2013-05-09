@@ -12,7 +12,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-LearningObjectives" parent="Uif-Page" p:id="learningObjectivesPage"
+	<bean id="KS-CourseView-LearningObjectivesPage" parent="Uif-Page"
 		p:headerText="Learning Objectives" p:disclosure.render="false">
 		<property name="header">
 			<bean parent="Uif-HeaderTwo">

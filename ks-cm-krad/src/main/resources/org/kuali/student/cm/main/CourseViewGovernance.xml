@@ -12,7 +12,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-Governance" parent="Uif-Page" p:id="governancePage"
+	<bean id="KS-CourseView-GovernancePage" parent="Uif-Page"
 		p:headerText="Governance" p:disclosure.render="false">
 		<property name="header">
 			<bean parent="Uif-HeaderTwo">
@@ -40,7 +40,7 @@
 		</property>
 	</bean>
 
-    <bean id="KS-CourseView-Governance-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-GovernancePage-Widgets" parent="Uif-VerticalBoxSection">
 		<property name="items">
 			<list>
 			</list>

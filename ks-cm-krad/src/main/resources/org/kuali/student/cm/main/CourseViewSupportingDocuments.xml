@@ -12,7 +12,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-SupportingDocuments" parent="Uif-Page" p:id="supportingDocumentsPage"
+	<bean id="KS-CourseView-SupportingDocumentsPage" parent="Uif-Page"
 		p:headerText="Supporting Documents" p:disclosure.render="false">
 		<property name="header">
 			<bean parent="Uif-HeaderTwo">

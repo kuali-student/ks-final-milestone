@@ -37,56 +37,29 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping(value = "/courses")
 public class CourseController extends UifControllerBase {
-    protected String thing;
-
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-        return new CourseForm();
+    	CourseForm courseForm = new CourseForm();
+    	return courseForm;
     }
 
-    /**
-     */
     @Override
     @RequestMapping(method = RequestMethod.GET, value = "/start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        return super.start(form, result, request, response);
+    	CourseForm courseForm = (CourseForm)form;
+    	return getUIFModelAndView(courseForm);
     }
 
-    /*
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=reload")
-    public ModelAndView reload(@ModelAttribute("KualiForm") CourseForm courseForm, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) {
-        return super.reload(courseForm, result, request, response);
-    }
-    */
-
-    @RequestMapping(method = RequestMethod.GET, value = "/new")
-    public ModelAndView startNew( @ModelAttribute("KualiForm") CourseForm form, BindingResult result,
-                                  HttpServletRequest request, HttpServletResponse response) {
-
-        return getUIFModelAndView(form);
-    }
-
-	@Override
-	@RequestMapping(method = RequestMethod.POST, value = "/new", params = "methodToCall=navigate")
+    @Override
+	@RequestMapping(method = RequestMethod.POST, value = "/start", params = "methodToCall=navigate")
 	public ModelAndView navigate(UifFormBase form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
 		return super.navigate(form, result, request, response);
 	}
 
 
-    /**
-     * This will save the academic calendar.
-     *
-     * @param academicCalendarForm
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     */
     /*
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
