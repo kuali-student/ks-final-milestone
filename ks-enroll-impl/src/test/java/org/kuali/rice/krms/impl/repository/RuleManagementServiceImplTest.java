@@ -52,13 +52,12 @@ import org.kuali.student.r2.lum.lu.service.impl.CluDataLoader;
 import org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  *
  * @author nwright
  */
-@Ignore
+//@Ignore
 public class RuleManagementServiceImplTest extends KSKRMSTestCase {
 
     private KrmsTypeRepositoryService krmsTypeRepositoryService = null;
@@ -384,10 +383,8 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         if (propBldr.getCompoundComponents().size() < 2) {
             fail("there must be at least 2 compound components " + propBldr.getCompoundComponents().size());
         }
-        List<PropositionDefinition> compoundProps = new ArrayList<PropositionDefinition> (prop.getCompoundComponents());
-        Collections.sort(compoundProps, new CompoundPropositionComparator());
         for (int i = 0; i < propBldr.getCompoundComponents().size(); i++) {
-            PropositionDefinition childProp = compoundProps.get(i);
+            PropositionDefinition childProp = prop.getCompoundComponents().get(i);
             PropositionDefinition.Builder childPropBldr = propBldr.getCompoundComponents().get(i);
             this.checkProposition(ruleId, childPropBldr, childProp);
         }

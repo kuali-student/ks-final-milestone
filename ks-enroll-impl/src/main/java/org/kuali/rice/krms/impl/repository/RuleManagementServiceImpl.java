@@ -840,7 +840,30 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
             throw new RiceIllegalArgumentException (id);
         }
         proposition = this.replaceTermValues (proposition).build();
+        proposition = this.orderCompoundPropositionsIfNeeded (proposition);
         return proposition;
+    }
+    
+    private PropositionDefinition orderCompoundPropositionsIfNeeded (PropositionDefinition prop) {
+        if (!prop.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+            return prop;
+        }
+        if (prop.getCompoundComponents() == null) {
+            return prop;
+        }
+        if (prop.getCompoundComponents().size() <= 1) {
+            return prop;
+        }
+        PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(prop);        
+        List<PropositionDefinition> childProps = new ArrayList<PropositionDefinition> (prop.getCompoundComponents());
+        Collections.sort(childProps, new CompoundPropositionComparator());
+        List<PropositionDefinition.Builder> childPropBldrs = new ArrayList<PropositionDefinition.Builder> (childProps.size());
+        for (PropositionDefinition chidProp : childProps) {
+            PropositionDefinition.Builder childPropBlder = PropositionDefinition.Builder.create(chidProp);
+            childPropBldrs.add(childPropBlder);
+        }
+        propBldr.setCompoundComponents(childPropBldrs);
+        return propBldr.build();
     }
     
     private PropositionDefinition.Builder replaceTermValues(PropositionDefinition proposition) {
