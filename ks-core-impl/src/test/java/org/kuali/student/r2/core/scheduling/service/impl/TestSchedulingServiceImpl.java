@@ -963,17 +963,6 @@ public class TestSchedulingServiceImpl {
 
     @Test
     public void testSearchForScheduleDisplays() throws Exception {
-
-        String scheduleId = "1";
-        String atpId = SchedulingServiceDataLoader.ATP_ID;
-        String roomId = SchedulingServiceDataLoader.ROOM_ID;
-
-        ScheduleInfo scheduleInfo = SchedulingServiceDataLoader.setupScheduleInfo(scheduleId,atpId,false,roomId);
-
-        ScheduleInfo returnedInfo = schedulingService.createSchedule(scheduleInfo.getTypeKey(),scheduleInfo,contextInfo);
-
-        assertNotNull(returnedInfo);
-
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
 
@@ -985,13 +974,13 @@ public class TestSchedulingServiceImpl {
 
         List<ScheduleDisplayInfo> list = schedulingService.searchForScheduleDisplays(qBuilder.build(),contextInfo);
 
-        assertEquals(1,list.size());
+        //  There are 3 schedules in test data
+        assertEquals(3,list.size());
 
         ScheduleDisplayInfo displayInfo = list.get(0);
 
         assertNotNull(displayInfo);
 
-        assertEquals(scheduleId,displayInfo.getId());
         assertNotNull(displayInfo.getAtp());
         assertNotNull(displayInfo.getScheduleComponentDisplays().get(0).getRoom());
         assertNotNull(displayInfo.getScheduleComponentDisplays().get(0).getBuilding());
