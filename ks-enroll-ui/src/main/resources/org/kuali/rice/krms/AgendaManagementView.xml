@@ -127,7 +127,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEdit-Links" parent="Uif-LinkGroup">
+    <bean id="KRMS-RuleEdit-Links" parent="Uif-LinkGroup" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
@@ -143,10 +143,25 @@
         </property>
     </bean>
 
+    <bean id="KRMS-RuleView-Links" parent="Uif-LinkGroup" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+        <property name="linkSeparator" value=" | "/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                              p:tooltipContent="Compares Rules"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>
     </bean>
@@ -163,6 +178,7 @@
         <property name="items">
             <list>
                 <bean parent="KRMS-RuleEdit-Links" p:id="KRSM-RuleEdit-ActionLinks" p:align="right"/>
+                <bean parent="KRMS-RuleView-Links" p:id="KRSM-RuleView-ActionLinks" p:align="right"/>
                 <bean id="KRMS-Instruction-EditMessage" parent="Uif-MessageField"/>
                 <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode"
                       p:style="border: 1px solid #999999">
