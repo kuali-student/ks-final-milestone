@@ -134,14 +134,17 @@ public class ManageSOCController extends UifControllerBase {
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         ManageSOCViewHelperService viewHelper = (ManageSOCViewHelperService) KSControllerHelper.getViewHelperService(socForm);
-        socForm.clear();
+
 
         TermInfo term = viewHelper.getTermByCode(socForm.getTermCode());
-        socForm.setTermInfo(term);
-
-        viewHelper.buildModel(socForm);
-
+        if(term!=null){
+            socForm.clear();
+            socForm.setTermInfo(term);
+            viewHelper.buildModel(socForm);
+        }
         return getUIFModelAndView(socForm);
+
+
     }
 
     @RequestMapping(params = "methodToCall=allowFinalEdits")
