@@ -767,7 +767,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         if (PropositionType.SIMPLE.getCode ().equalsIgnoreCase (propBldr.getPropositionTypeCode())) {
             return maintainTermValues(propBldr);
         } else {
-            return createCompoundPropsIfNeeded(propBldr);
+            return createChildPropsIfNeeded(propBldr);
         }
     }
     
@@ -812,7 +812,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         return propBldr;
     }
         
-    private PropositionDefinition.Builder createCompoundPropsIfNeeded(PropositionDefinition.Builder propBldr) {
+    private PropositionDefinition.Builder createChildPropsIfNeeded(PropositionDefinition.Builder propBldr) {
         if (propBldr.getCompoundComponents() == null) {
             return propBldr;
         }
@@ -820,13 +820,16 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
             return propBldr;
         }
 
-        List<PropositionDefinition.Builder> compPropBldrs = new ArrayList<PropositionDefinition.Builder>();
+        List<PropositionDefinition.Builder> childPropBldrs = new ArrayList<PropositionDefinition.Builder>();
+        int seq = 0;
         for (PropositionDefinition.Builder compPropBldr : propBldr.getCompoundComponents()) {
+            seq++;
+            compPropBldr.setDescription(CompoundPropositionComparator.DESCRIPTION_SORT_BY_PREFIX + seq);
             compPropBldr.setRuleId(propBldr.getRuleId());
             compPropBldr = maintainTermValuesAndChildPropositions(compPropBldr);
-            compPropBldrs.add(compPropBldr);
+            childPropBldrs.add(compPropBldr);
         }
-        propBldr.setCompoundComponents(compPropBldrs);
+        propBldr.setCompoundComponents(childPropBldrs);
         return propBldr;
     }
 
