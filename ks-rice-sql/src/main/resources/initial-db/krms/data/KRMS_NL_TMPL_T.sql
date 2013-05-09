@@ -235,7 +235,7 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1091','KS-KRMS-NL-USAGE-1004','Must have successfully completed all courses from <courses>','10018',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1092','KS-KRMS-NL-USAGE-1004','Must have successfully completed a minimum of <n> credits from <course>','10054',0)
+  VALUES ('en', 'KS-KRMS-NL-TMPL-1092','KS-KRMS-NL-USAGE-1004','Must have successfully completed a minimum of <n> credits from <courses>','10054',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1093','KS-KRMS-NL-USAGE-1004','Must have successfully completed a minimum of <n> credits from courses in the <org>','10055',0)
