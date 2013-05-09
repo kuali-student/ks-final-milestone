@@ -71,10 +71,6 @@ public class SchedulingServiceDataLoader {
     private AtpService atpService;
     private RoomService roomService;
 
-    private ScheduleInfo testSchedule1;
-    private ScheduleInfo testSchedule2;
-    private ScheduleInfo testSchedule3;
-
     public SchedulingServiceDataLoader() {
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
@@ -156,9 +152,9 @@ public class SchedulingServiceDataLoader {
 
         setupAtpAndRoomForDisplay(ATP_ID,ROOM_ID);
 
-        testSchedule1 = setupScheduleInfo("testScheduleId1",ATP_ID,false,ROOM_ID);
-        testSchedule2 = setupScheduleInfo("testScheduleId2",ATP_ID,false,ROOM_ID);
-        testSchedule3 = setupScheduleInfo("testScheduleId3",ATP_ID,false,ROOM_ID);
+        ScheduleInfo testSchedule1 = setupScheduleInfo("testScheduleId1", ATP_ID,false,ROOM_ID);
+        ScheduleInfo testSchedule2 = setupScheduleInfo("testScheduleId2", ATP_ID,false,ROOM_ID);
+        ScheduleInfo testSchedule3 = setupScheduleInfo("testScheduleId3", ATP_ID,false,ROOM_ID);
         schedulingService.createSchedule(testSchedule1.getTypeKey(), testSchedule1, contextInfo);
         schedulingService.createSchedule(testSchedule2.getTypeKey(), testSchedule2, contextInfo);
         schedulingService.createSchedule(testSchedule3.getTypeKey(), testSchedule3, contextInfo);
@@ -240,7 +236,7 @@ public class SchedulingServiceDataLoader {
         List<ScheduleComponentInfo> scheduleComponents = new ArrayList<ScheduleComponentInfo>();
 
         ScheduleComponentInfo scheduleComponentInfo = new ScheduleComponentInfo();
-        scheduleComponentInfo.setId("ScheduleComponent1");
+        scheduleComponentInfo.setId(id + "-ScheduleComponent1");
         scheduleComponentInfo.setIsTBA(Boolean.valueOf(isTBA));
 
         List<String> timeSlotIds = new ArrayList();

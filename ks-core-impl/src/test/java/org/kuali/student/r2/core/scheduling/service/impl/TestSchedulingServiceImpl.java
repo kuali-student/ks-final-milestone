@@ -84,18 +84,6 @@ public class TestSchedulingServiceImpl {
     @Resource(name = "atpEnrService" )
     private AtpService atpService;
 
-
-    public TypeService getTypeService() {
-        if(typeService == null) {
-            typeService = GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return typeService;
-    }
-
-    public void setTypeService(TypeService typeService) {
-        this.typeService = typeService;
-    }
-
     public static String principalId = "123";
     public ContextInfo contextInfo = null;
 
@@ -113,7 +101,7 @@ public class TestSchedulingServiceImpl {
      private void loadData() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         SchedulingServiceDataLoader loader = new SchedulingServiceDataLoader(this.schedulingService);
         loader.setAtpService(atpService);
-         loader.setRoomService(roomService);
+        loader.setRoomService(roomService);
 
         TypeInfo info =  createTypeInfo(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_REQUEST);
         try {
