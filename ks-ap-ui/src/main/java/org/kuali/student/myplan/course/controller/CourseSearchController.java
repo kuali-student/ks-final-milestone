@@ -771,10 +771,14 @@ public class CourseSearchController extends UifControllerBase {
 						Map<String, List<String>> vtk = new java.util.HashMap<String, List<String>>();
 						for (String k : sk) {
 							assert k != null : fk;
-							KeyValue v = fm.get(k).value;
-							List<String> l = vtk.get(v.getKey());
+							String fvk = fm.get(k).value.getKey();
+							assert fvk.length() >= 3 && fvk.charAt(0) == ';'
+									&& fk.charAt(fvk.length() - 1) == ';' : fk
+									+ " " + fm.get(k).value.getValue();
+							fvk = fvk.substring(1, fvk.length() - 1);
+							List<String> l = vtk.get(fvk);
 							if (l == null)
-								vtk.put(v.getKey(),
+								vtk.put(fvk,
 										l = new java.util.LinkedList<String>());
 							l.add(k);
 						}
