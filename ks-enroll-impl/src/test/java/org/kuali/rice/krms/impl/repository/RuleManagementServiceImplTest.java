@@ -57,7 +57,7 @@ import java.util.Arrays;
  *
  * @author nwright
  */
-//@Ignore
+@Ignore
 public class RuleManagementServiceImplTest extends KSKRMSTestCase {
 
     private KrmsTypeRepositoryService krmsTypeRepositoryService = null;
