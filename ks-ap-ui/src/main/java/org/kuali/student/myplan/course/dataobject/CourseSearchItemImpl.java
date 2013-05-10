@@ -15,6 +15,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.myplan.course.util.CollectionListPropertyEditorHtmlListType;
@@ -75,7 +76,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	/**
 	 * Lazy initialized column data for supporting server side result caching.
 	 */
-	private transient Map<String, Map<String, Map<String, String>>> facetColumns;
+	private transient Map<String, Map<String, Map<String, KeyValue>>> facetColumns;
 
 	public String getCourseId() {
 		return courseId;
@@ -510,12 +511,24 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 *            The facet keys related to this item.
 	 * @return A string for passing as a column in the results.
 	 */
-	protected Map<String, Map<String, String>> facetString(
+	protected Map<String, Map<String, KeyValue>> facetString(
 			Collection<String> facetKeys) {
-		Map<String, Map<String, String>> rv = new java.util.LinkedHashMap<String, Map<String, String>>();
-		Map<String, String> ug = new java.util.LinkedHashMap<String, String>();
-		for (String fk : facetKeys)
-			ug.put(fk, fk);
+		Map<String, Map<String, KeyValue>> rv = new java.util.LinkedHashMap<String, Map<String, KeyValue>>();
+		Map<String, KeyValue> ug = new java.util.LinkedHashMap<String, KeyValue>();
+		for (final String fk : facetKeys)
+			ug.put(fk, new KeyValue() {
+				private static final long serialVersionUID = 6620894647540404487L;
+
+				@Override
+				public String getKey() {
+					return fk;
+				}
+
+				@Override
+				public String getValue() {
+					return fk;
+				}
+			});
 		rv.put("", Collections.synchronizedMap(Collections.unmodifiableMap(ug)));
 		return Collections.synchronizedMap(Collections.unmodifiableMap(rv));
 	}
@@ -535,9 +548,9 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	}
 
 	@Override
-	public Map<String, Map<String, Map<String, String>>> getFacetColumns() {
+	public Map<String, Map<String, Map<String, KeyValue>>> getFacetColumns() {
 		if (facetColumns == null) {
-			Map<String, Map<String, Map<String, String>>> m = new java.util.LinkedHashMap<String, Map<String, Map<String, String>>>(
+			Map<String, Map<String, Map<String, KeyValue>>> m = new java.util.LinkedHashMap<String, Map<String, Map<String, KeyValue>>>(
 					6);
 			m.put("facet_quarter", facetString(getTermsFacetKeys()));
 			m.put("facet_genedureq", facetString(getGenEduReqFacetKeys()));

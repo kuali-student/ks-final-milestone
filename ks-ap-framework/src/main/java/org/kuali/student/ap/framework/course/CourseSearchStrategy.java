@@ -28,6 +28,10 @@ public interface CourseSearchStrategy {
 				return -1;
 			if (o2 == null)
 				return 1;
+			if (o1.startsWith("<") && !o2.startsWith("<"))
+				return -1;
+			if (o2.startsWith("<") && !o1.startsWith("<"))
+				return 1;
 			int i1;
 			try {
 				i1 = Integer.parseInt(o1);
