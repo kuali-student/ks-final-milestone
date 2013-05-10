@@ -694,7 +694,7 @@
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
-                <artifactId>rice-development-tools</artifactId>
+                <artifactId>rice-krad-development-tools</artifactId>
                 <version>${kuali.rice.version}</version>
             </dependency>
             <dependency>
