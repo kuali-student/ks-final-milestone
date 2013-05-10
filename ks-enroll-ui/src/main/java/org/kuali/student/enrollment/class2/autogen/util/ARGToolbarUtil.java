@@ -33,6 +33,7 @@ import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -125,11 +126,12 @@ public class ARGToolbarUtil {
                 //for delete CO button
                 if (checkBzLogicForCOButtons(socStateKey, socSchedulingState, coStateKey, "deleteCO")) {
                     // Term Registration Start Date (Milestone:First Day to Add < in the AZ matrix)
-                    if(coStateKey.equals("kuali.lui.course.offering.state.planned")) {    //for performance - skip if not applicable
+                    if(coStateKey.equals(LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) {    //for performance - skip if not applicable
                         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
                         Date termRegStartDate = null;
                         try {
-                            List<TypeInfo> regPeriods = getTypeService().getTypesForGroupType("kuali.milestone.type.group.appt.regperiods", contextInfo);
+                            //loop through the key dates and registration periods in order to determine the start date for the registration within the subject term
+                            List<TypeInfo> regPeriods = getTypeService().getTypesForGroupType(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_GROUP_TYPE_KEY, contextInfo);
                             List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(form.getTermInfo().getId(), contextInfo);
                             if (keyDateInfoList != null && keyDateInfoList.size() > 0) {
                                 for (KeyDateInfo keyDateInfo : keyDateInfoList) {
@@ -142,7 +144,9 @@ public class ARGToolbarUtil {
                                     }
                                 }
                             }
-                        } catch (Exception e){ }
+                        } catch (Exception e){
+                            throw new RuntimeException("Exception in processCoToolbarForUser(): "+e);
+                        }
                         Date nowReg = new Date();
                         if (termRegStartDate == null || nowReg.before(termRegStartDate)) {
                             permissionDetails.put("termRegStartDateLater", "true");
