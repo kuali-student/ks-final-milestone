@@ -172,7 +172,7 @@ public class KRMSDataGenerator {
         };
     }
 
-    public static PropositionDefinitionContract createPropositionDefinition(final String description, final String typeId, final String ruleId, final String propTypeCode, final List<? extends PropositionParameterContract> parameters, final String compOpCode, final List<? extends PropositionDefinitionContract> compComponents, final String id, final Long verNumber){
+    public static PropositionDefinitionContract createPropositionDefinition(final String description, final String typeId, final String ruleId, final String propTypeCode, final List<? extends PropositionParameterContract> parameters, final String compOpCode, final Integer compSeqNo, final List<? extends PropositionDefinitionContract> compComponents, final String id, final Long verNumber){
         return new PropositionDefinitionContract() {
             @Override
             public String getDescription() {
@@ -202,6 +202,11 @@ public class KRMSDataGenerator {
             @Override
             public String getCompoundOpCode() {
                 return compOpCode;
+            }
+
+            @Override
+            public Integer getCompoundSequenceNumber() {
+                return compSeqNo;
             }
 
             @Override

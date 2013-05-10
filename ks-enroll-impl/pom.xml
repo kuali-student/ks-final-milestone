@@ -8,6 +8,13 @@
     </parent>
     <artifactId>ks-enroll-impl</artifactId>
     <name>KS Enroll Impl</name>
+    <properties>
+        <!-- TODO: remove this, only used to override rice groovy files for now -->
+        <groovy.version>1.8.5</groovy.version>
+        <gmaven.stubs.phase>generate-resources</gmaven.stubs.phase>
+        <gmaven.compile.phase>compile</gmaven.compile.phase>
+        <gmaven.test.compile.phase>test-compile</gmaven.test.compile.phase>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -20,6 +27,59 @@
                     <forkMode>always</forkMode>
                     <argLine>-Xms256m -Xmx512m</argLine>
                 </configuration>
+            </plugin> 
+            <!-- TODO: remove this, only used to override rice groovy files for now -->
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.4</version>
+                <configuration>
+                    <providerSelection>1.8</providerSelection>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.codehaus.gmaven.runtime</groupId>
+                        <artifactId>gmaven-runtime-1.8</artifactId>
+                        <version>1.4</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>org.codehaus.groovy</groupId>
+                                <artifactId>groovy-all</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.codehaus.groovy</groupId>
+                        <artifactId>groovy-all</artifactId>
+                        <version>${groovy.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>gmaven-generate-stubs</id>
+                        <phase>${gmaven.stubs.phase}</phase>
+                        <goals>
+                            <goal>generateStubs</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>gmaven-compile-stubs</id>
+                        <phase>${gmaven.compile.phase}</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <!-- test stubs aren't needed now since we are not creating
+                    groovy test code for reference in java test code -->
+                    <!--<goal>generateTestStubs</goal> -->
+                    <execution>
+                        <id>gmaven-test-compile-stubs</id>
+                        <phase>${gmaven.test.compile.phase}</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -102,6 +162,12 @@
             <artifactId>${oracle.artifactId}</artifactId>
             <version>${oracle.version}</version>
             <scope>test</scope>
+        </dependency> 
+        <!-- TODO: remove this, only used to override rice groovy files for now -->
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>${groovy.version}</version>
         </dependency>
         <!-- end -->
     </dependencies>

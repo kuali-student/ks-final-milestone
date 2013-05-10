@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 
 /**
  * Concrete model object implementation of KRMS Proposition. 
@@ -65,7 +66,8 @@ import java.util.List;
         PropositionDefinition.Elements.TYPE_ID,
 		PropositionDefinition.Elements.PROP_TYPE_CODE,
 		PropositionDefinition.Elements.PARAMETERS,									// xml element name differs from class property name
-		PropositionDefinition.Elements.CMPND_OP_CODE,
+		PropositionDefinition.Elements.CMPND_OP_CODE,									// xml element name differs from class property name
+		PropositionDefinition.Elements.CMPND_SEQ_NO,
 		PropositionDefinition.Elements.CMPND_COMPONENTS,
         CoreConstants.CommonElements.VERSION_NUMBER,
 		CoreConstants.CommonElements.FUTURE_ELEMENTS
@@ -95,7 +97,9 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
 
 	@XmlElement(name = Elements.CMPND_OP_CODE, required=false)
 	private String compoundOpCode;
-
+	@XmlElement(name = Elements.CMPND_SEQ_NO, required=false)
+	private Integer compoundSequenceNumber;
+        
 	@XmlElementWrapper(name = Elements.CMPND_COMPONENTS, required=false)
 	@XmlElement(name = Elements.CMPND_COMPONENT, required=false)
 	private List<PropositionDefinition> compoundComponents;
@@ -118,6 +122,7 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
     	this.propositionTypeCode = null;
     	this.parameters = null;
     	this.compoundOpCode = null;
+//    	this.compoundSequenceNumber = null;
     	this.compoundComponents = null;
         this.versionNumber = null;
     }
@@ -145,6 +150,7 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
 
         // Build Compound Proposition properties
         this.compoundOpCode = builder.getCompoundOpCode();
+        this.compoundSequenceNumber = builder.getCompoundSequenceNumber();
         List <PropositionDefinition> componentList = new ArrayList<PropositionDefinition>();
         if (builder.compoundComponents != null){
         	for (Builder b : builder.compoundComponents){
@@ -192,6 +198,11 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
 	public String getCompoundOpCode() {
 		return this.compoundOpCode;
 	}
+        
+	@Override
+	public Integer getCompoundSequenceNumber() {
+            return this.compoundSequenceNumber;
+	}
 
 	@Override
 	public List<PropositionDefinition> getCompoundComponents() {
@@ -216,6 +227,7 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
         private String propositionTypeCode;
         private List<PropositionParameter.Builder> parameters;
         private String compoundOpCode;
+        private Integer compoundSequenceNumber;
         private List<Builder> compoundComponents;
         private RuleDefinition.Builder rule;
         private Long versionNumber;
@@ -297,6 +309,7 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
                 builder.setCompoundComponents(componentBuilderList);
         	}
         	builder.setCompoundOpCode(contract.getCompoundOpCode());
+        	builder.setCompoundSequenceNumber(contract.getCompoundSequenceNumber());
             builder.setDescription(contract.getDescription());
             builder.setVersionNumber(contract.getVersionNumber());
             return builder;
@@ -398,6 +411,17 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
 			}
 			this.compoundOpCode = opCode;
 		}
+                
+        /**
+         * Sets the value of the compound sequence no on this builder to the
+         * given value.
+         *
+         * @param seqNo the sequence number for this compound prop
+         * @throws IllegalArgumentException if the seqNo invalid
+         */
+        public void setCompoundSequenceNumber(Integer seqNo) {
+            this.compoundSequenceNumber = seqNo;
+        }
 
         /**
          * Sets the value of the components on this builder to the given value.
@@ -457,6 +481,11 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
 		}
 
 		@Override
+		public Integer getCompoundSequenceNumber() {
+			return compoundSequenceNumber;
+		}
+
+		@Override
 		public List<Builder> getCompoundComponents() {
 			return compoundComponents;
 		}
@@ -475,6 +504,36 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
         public PropositionDefinition build() {
             return new PropositionDefinition(this);
         }
+
+//        @Override
+//        public String toString() {
+//            StringBuilder sb = new StringBuilder(super.toString());
+//            sb.append("id=").append(this.id).append(", ");
+//            sb.append("propositionTypeCode=").append(this.propositionTypeCode).append(", ");
+//            sb.append("typeId=").append(this.typeId).append(", ");
+//            sb.append("compoundOpCode=").append(this.compoundOpCode).append(", ");
+//            sb.append("compoundSequenceNumber=").append(this.compoundSequenceNumber).append(", ");
+//            if (this.getParameters() != null) {
+//                for (PropositionParameter.Builder propParamBldr : this.getParameters()) {
+//                    sb.append("sequenceNumber=").append(propParamBldr.getSequenceNumber()).append(", ");
+//                    sb.append("parameterType=").append(propParamBldr.getParameterType()).append(", ");
+//                    sb.append("value=").append(propParamBldr.getValue()).append(", ");
+//                    if (propParamBldr.getTermValue() != null) {
+//                        if (propParamBldr.getTermValue().getSpecification() != null) {
+//                            sb.append("specification.name=").append(propParamBldr.getTermValue().getSpecification().getName()).append(", ");
+//                        }
+//                        for (TermParameterDefinition termParam : propParamBldr.getTermValue().getParameters()) {
+//                            sb.append("termParam.name=").append(termParam.getName()).append(", ");
+//                            sb.append("termParam.value=").append(termParam.getValue()).append(", ");
+//                        }
+//                    }
+//                }
+//            }
+//            sb.append("typeId=").append(this.typeId).append(", ");
+//            return sb.toString();
+//        }
+        
+        
 
     }
 
@@ -499,6 +558,7 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
 		final static String PARAMETER = "parameter";
 		final static String PARAMETERS = "parameters";
 		final static String CMPND_OP_CODE = "compoundOpCode";
+		final static String CMPND_SEQ_NO = "compoundSequenceNumber";
 		final static String CMPND_COMPONENTS = "compoundComponents";
 		final static String CMPND_COMPONENT = "proposition";
 	}
@@ -506,5 +566,4 @@ public final class PropositionDefinition extends AbstractDataTransferObject impl
     public static class Cache {
         public static final String NAME = KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0 + "/" + Constants.TYPE_NAME;
     }
-	
 }

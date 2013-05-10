@@ -132,7 +132,7 @@ public class NaturalLanguageUtil {
         parameters.add(KRMSDataGenerator.createPropositionParameter("prop-id","term-id", PropositionParameterType.TERM.getCode(),1,"param-3",0L));
         parameters.add(KRMSDataGenerator.createPropositionParameter("prop-id",expectedValue, PropositionParameterType.CONSTANT.getCode(),2,"param-1",0L));
         parameters.add(KRMSDataGenerator.createPropositionParameter("prop-id",operator, PropositionParameterType.OPERATOR.getCode(),3,"param-2",0L));
-    	PropositionDefinitionContract proposition = KRMSDataGenerator.createPropositionDefinition("test proposition",propositionType,"rule-id", PropositionType.SIMPLE.getCode(),parameters,null,null,"prop-id",0L);
+    	PropositionDefinitionContract proposition = KRMSDataGenerator.createPropositionDefinition("test proposition",propositionType,"rule-id", PropositionType.SIMPLE.getCode(),parameters,null,null,null,"prop-id",0L);
     	//ReqComponentType reqCompType = createDefaultReqComponentType(nlUsageTypeKey, reqComponentType);
     	//reqComponent.setRequiredComponentType(reqCompType);
     	return proposition;

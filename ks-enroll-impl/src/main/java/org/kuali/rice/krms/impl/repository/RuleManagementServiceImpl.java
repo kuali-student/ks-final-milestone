@@ -565,6 +565,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
             PropositionDefinition proposition = agendaItem.getRule().getProposition();
             if(proposition!=null){
                 AgendaItemDefinition.Builder itemBuiler = AgendaItemDefinition.Builder.create(agendaItem);
+                proposition = this.orderCompoundPropositionsIfNeeded (proposition);                
                 itemBuiler.getRule().setProposition(this.replaceTermValues(proposition));
                 agendaItem = itemBuiler.build();
             }
@@ -672,6 +673,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         PropositionDefinition.Builder propBldr = ruleBldr.getProposition();
         if (rule.getProposition().getId() != null) {
             this.crossCheckPropositionParameters(rule.getProposition());
+            propBldr = setSequenceOnCompoundPropositionsIfNeeded(propBldr);
             propBldr = maintainTermValuesAndChildPropositions(propBldr);
         } else {
             // create the proposition
@@ -758,6 +760,7 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         }
         crossCheckPropositionParameters(propositionDefinition);
         PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(propositionDefinition);
+        propBldr = setSequenceOnCompoundPropositionsIfNeeded(propBldr);
         propBldr = maintainTermValuesAndChildPropositions(propBldr);
         PropositionDefinition prop = propositionBoService.createProposition(propBldr.build());
         return prop;
@@ -821,11 +824,12 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
         }
 
         List<PropositionDefinition.Builder> childPropBldrs = new ArrayList<PropositionDefinition.Builder>();
-        int seq = 0;
+//        int seq = 0;
         for (PropositionDefinition.Builder compPropBldr : propBldr.getCompoundComponents()) {
-            seq++;
-            compPropBldr.setDescription(CompoundPropositionComparator.DESCRIPTION_SORT_BY_PREFIX + seq);
+//            seq++;
+//            compPropBldr.setDescription(CompoundPropositionComparator.DESCRIPTION_SORT_BY_PREFIX + seq);
             compPropBldr.setRuleId(propBldr.getRuleId());
+            propBldr = setSequenceOnCompoundPropositionsIfNeeded(propBldr);
             compPropBldr = maintainTermValuesAndChildPropositions(compPropBldr);
             childPropBldrs.add(compPropBldr);
         }
@@ -938,8 +942,27 @@ public class RuleManagementServiceImpl extends RuleRepositoryServiceImpl impleme
     public void updateProposition(PropositionDefinition propositionDefinition) throws RiceIllegalArgumentException {
         this.crossCheckPropositionParameters(propositionDefinition);
         PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(propositionDefinition);
+        propBldr = setSequenceOnCompoundPropositionsIfNeeded (propBldr);
         propBldr = maintainTermValuesAndChildPropositions(propBldr);
         propositionBoService.updateProposition(propBldr.build());
+    }
+    
+    private PropositionDefinition.Builder setSequenceOnCompoundPropositionsIfNeeded(PropositionDefinition.Builder propBldr) {
+        if (propBldr.getCompoundComponents() == null) {
+            return propBldr;
+        }
+        if (propBldr.getCompoundComponents().size() <= 1) {
+            return propBldr;
+        }
+        List<PropositionDefinition.Builder> childList = new ArrayList<PropositionDefinition.Builder>(propBldr.getCompoundComponents().size());
+        int i = 1; // start at 1 because rice does that
+        for (PropositionDefinition.Builder childPropBldr : propBldr.getCompoundComponents()) {
+            childPropBldr.setCompoundSequenceNumber(i);
+            i++;
+            childList.add(childPropBldr);
+        }
+        propBldr.setCompoundComponents(childList);
+        return propBldr;
     }
 
     @Override

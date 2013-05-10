@@ -162,6 +162,10 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         PropositionDefinition.Builder mainBldr = PropositionDefinition.Builder.create(propId, propTypeCode, ruleId, typeId, parameters);
         mainBldr.setCompoundOpCode(LogicalOperator.AND.getCode());
         List<PropositionDefinition.Builder> childList = Arrays.asList(childPropBldrs);
+//        System.out.println ("order for AND is:");
+//        for (PropositionDefinition.Builder childBldr : childList) {
+//            System.out.println ("order is " + childBldr);
+//        }
         mainBldr.setCompoundComponents(childList);
         return mainBldr;
     }
@@ -176,7 +180,11 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         List<PropositionParameter.Builder> parameters = new ArrayList<PropositionParameter.Builder>();
         PropositionDefinition.Builder mainBldr = PropositionDefinition.Builder.create(propId, propTypeCode, ruleId, typeId, parameters);
         mainBldr.setCompoundOpCode(LogicalOperator.OR.getCode());
-        List<PropositionDefinition.Builder> childList = Arrays.asList(childPropBldrs);
+        List<PropositionDefinition.Builder> childList = Arrays.asList (childPropBldrs);
+//        System.out.println ("order for OR is:");
+//        for (PropositionDefinition.Builder childBldr : childList) {
+//            System.out.println ("order is " + childBldr);
+//        }
         mainBldr.setCompoundComponents(childList);
         return mainBldr;
     }
@@ -338,7 +346,8 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
 
         AgendaItemDefinition.Builder itemBldr = AgendaItemDefinition.Builder.create(firstItem);
         itemBldr.setRule(ruleBldr);
-        this.ruleManagementService.updateAgendaItem(itemBldr.build());
+        AgendaItemDefinition item2Update = itemBldr.build();
+        this.ruleManagementService.updateAgendaItem(item2Update);
         agenda = this.ruleManagementService.getAgenda(agenda.getId());
         firstItem = this.ruleManagementService.getAgendaItem(firstItem.getId());
         this.checkAgendaItem(agenda, itemBldr, firstItem);
@@ -359,6 +368,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
 
     private void checkProposition(String ruleId, PropositionDefinition.Builder propBldr, PropositionDefinition prop) {
         assertEquals(ruleId, prop.getRuleId());
+//        assertEquals(propBldr.getCompoundSequenceNumber(), prop.getCompoundSequenceNumber());
         assertEquals(propBldr.getPropositionTypeCode(), prop.getPropositionTypeCode());
         assertEquals(propBldr.getTypeId(), prop.getTypeId());
         if (propBldr.getPropositionTypeCode().equals(PropositionType.SIMPLE.getCode())) {
@@ -380,6 +390,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertEquals(0, propBldr.getParameters().size());
         assertEquals(0, prop.getParameters().size());
         assertEquals(propBldr.getCompoundComponents().size(), prop.getCompoundComponents().size());
+        
         if (propBldr.getCompoundComponents().size() < 2) {
             fail("there must be at least 2 compound components " + propBldr.getCompoundComponents().size());
         }
@@ -516,7 +527,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         KrmsTypeDefinition propType = this.krmsTypeRepositoryService.getTypeByName(KsKrmsConstants.NAMESPACE_CODE, KsKrmsConstants.PROPOSITION_TYPE_COURSE_COURSESET_COMPLETED_NOF);
         String typeId = propType.getId();
         PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(propId, propTypeCode, ruleId, typeId, parameters);
-        propBldr.setDescription(propType.getName());
+//        propBldr.setDescription(propType.getName());
         return propBldr;
     }
 
@@ -589,7 +600,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         KrmsTypeDefinition propType = this.krmsTypeRepositoryService.getTypeByName(KsKrmsConstants.NAMESPACE_CODE, KsKrmsConstants.PROPOSITION_TYPE_FREEFORM_TEXT);
         String typeId = propType.getId();
         PropositionDefinition.Builder propBldr = PropositionDefinition.Builder.create(propId, propTypeCode, ruleId, typeId, parameters);
-        propBldr.setDescription(propType.getName());
+//        propBldr.setDescription(propType.getName());
         return propBldr;
     }
 
