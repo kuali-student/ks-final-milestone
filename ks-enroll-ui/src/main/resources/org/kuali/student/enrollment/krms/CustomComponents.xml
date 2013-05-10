@@ -49,6 +49,9 @@
         <!--property name="suggest">
             <bean parent="KRMS-Course-SuggestControl"/>
         </property-->
+        <property name="control">
+            <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:disabled="true"/>
+        </property>
         <property name="quickfinder">
             <bean parent="KRMS-Course-QuickFinder"/>
         </property>
