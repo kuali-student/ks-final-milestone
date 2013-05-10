@@ -18,6 +18,8 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.ap.framework.course.FacetIndex;
+import org.kuali.student.ap.framework.course.FacetIndexBuilder;
 import org.kuali.student.myplan.course.util.CollectionListPropertyEditorHtmlListType;
 import org.kuali.student.myplan.course.util.FacetKeyFormatter;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -76,7 +78,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	/**
 	 * Lazy initialized column data for supporting server side result caching.
 	 */
-	private transient Map<String, Map<String, Map<String, KeyValue>>> facetColumns;
+	private transient FacetIndex facetColumns;
 
 	public String getCourseId() {
 		return courseId;
@@ -548,10 +550,9 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	}
 
 	@Override
-	public Map<String, Map<String, Map<String, KeyValue>>> getFacetColumns() {
+	public FacetIndex getFacetColumns() {
 		if (facetColumns == null) {
-			Map<String, Map<String, Map<String, KeyValue>>> m = new java.util.LinkedHashMap<String, Map<String, Map<String, KeyValue>>>(
-					6);
+			FacetIndexBuilder m = new FacetIndexBuilder();
 			m.put("facet_quarter", facetString(getTermsFacetKeys()));
 			m.put("facet_genedureq", facetString(getGenEduReqFacetKeys()));
 			m.put("facet_credits", facetString(getCreditsFacetKeys()));
@@ -561,8 +562,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			for (String kw : getKeywords())
 				kwf.add(';' + kw + ';');
 			m.put("facet_keywords", facetString(kwf));
-			facetColumns = Collections.synchronizedMap(Collections
-					.unmodifiableMap(m));
+			facetColumns = m.build();
 		}
 		return facetColumns;
 	}
