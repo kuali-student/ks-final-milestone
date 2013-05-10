@@ -258,7 +258,7 @@
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
-                <bean id="ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
+                <bean id="KS-ActivityOffering-Inquiry-SeatPool-SeatpoolsSection" parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="6"
                       p:id="ao-seatpoolgroup"
                       p:layoutManager.style="width: 100%; display:block;">
