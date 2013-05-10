@@ -171,7 +171,7 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-development-tools</artifactId>
+            <artifactId>rice-krad-development-tools</artifactId>
         </dependency>
         <!-- TODO: RICE-M7 UPGRADE -fix ks-admin
       <dependency>
