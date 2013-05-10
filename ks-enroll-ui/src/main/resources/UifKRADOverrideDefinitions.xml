@@ -24,22 +24,20 @@
 
    <bean id="Uif-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean"  abstract="true" />
 
-    <bean id="Uif-LookupCriteriaFooter" parent="Uif-FooterBase">
+
+    <!-- We're overriding the KRAD bean just to add ids to it for AFT purpose. I think We have a jira
+    out there at rice to seperate out the inner beans so that we can avoid copying bean defs at client apps-->
+   <bean id="Uif-LookupCriteriaFooter" parent="Uif-FooterBase">
         <property name="items">
-            <list>
-                <!-- TODO: put back once KULRICE-7061 is resolved -->
-                <!--bean parent="Uif-AjaxActionButton" p:methodToCall="search" p:actionLabel="Search" p:refreshId="uLookupResults"/-->
-                <bean id="button_search" parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
-                <bean id="button_clearValues" parent="Uif-PrimaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
-                <bean id="button_cancel" parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel" p:render="@{!#form.renderedInLightBox}"/>
-                <bean id="button_returnToPrevious" parent="Uif-PrimaryActionButton" p:methodToCall="returnToPrevious" p:actionLabel="Cancel"
-                      p:render="@{#form.renderedInLightBox and formHistory != null and !formHistory?.historyEntries?.empty}"/>
-                <bean id="button_returnToHub" parent="Uif-PrimaryActionButton" p:methodToCall="returnToHub" p:actionLabel="Home"
-                      p:render="@{#form.renderedInLightBox and formHistory != null and (formHistory?.historyEntries?.size() > 1)}"/>
-                <bean id="button_close" parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
-                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
-            </list>
+          <list>
+            <bean id="button_search" parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+            <bean id="button_clearValues" parent="Uif-PrimaryActionButton" p:methodToCall="clearValues" p:actionLabel="Clear Values"/>
+            <bean id="button_cancel" parent="Uif-PrimaryActionButton" p:methodToCall="cancel" p:actionLabel="Cancel"
+                  p:render="@{!#form.renderedInLightBox}"/>
+            <bean id="button_close" parent="Uif-PrimaryActionButton" p:actionLabel="Close" p:render="@{#form.renderedInLightBox}"
+                  p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+          </list>
         </property>
-    </bean>
+   </bean>
 
 </beans>
