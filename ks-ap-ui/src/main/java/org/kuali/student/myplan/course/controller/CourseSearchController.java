@@ -773,8 +773,8 @@ public class CourseSearchController extends UifControllerBase {
 							assert k != null : fk;
 							String fvk = fm.get(k).value.getKey();
 							assert fvk.length() >= 3 && fvk.charAt(0) == ';'
-									&& fk.charAt(fvk.length() - 1) == ';' : fk
-									+ " " + fm.get(k).value.getValue();
+									&& fvk.charAt(fvk.length() - 1) == ';' : fk
+									+ " " + fvk;
 							fvk = fvk.substring(1, fvk.length() - 1);
 							List<String> l = vtk.get(fvk);
 							if (l == null)
