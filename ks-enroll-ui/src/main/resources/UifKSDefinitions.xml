@@ -91,9 +91,6 @@
         <!--</property>-->
     </bean>
 
-    <!--Note: might not need CustomizedBreadCrumb bean after rice 2.2.3 release -->
-    <bean id="KS-Uif-MaintenanceView-CustomizedBreadCrumb" class="org.kuali.student.enrollment.uif.view.KSUifMaintenanceView" parent="KS-Uif-MaintenanceView" abstract="true"/>
-
     <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
     <bean id="KS-Uif-DocumentPageFooter-SubmitCancel"  parent="KS-Uif-DocumentPageFooter-SubmitCancel-parent"/>
     <bean id="KS-Uif-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">

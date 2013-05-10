@@ -17,6 +17,14 @@
                 <value>ks-enrollment-home</value>
             </list>
         </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Home"/>
+                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+                </bean>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Page" p:disclosure.render="false">

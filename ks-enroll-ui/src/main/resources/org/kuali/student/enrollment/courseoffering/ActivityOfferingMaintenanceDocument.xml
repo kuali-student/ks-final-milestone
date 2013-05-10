@@ -49,7 +49,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-MaintenanceView" parent="KS-Uif-MaintenanceView-CustomizedBreadCrumb" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+    <bean id="ActivityOffering-MaintenanceView" parent="KS-Uif-MaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
@@ -58,9 +58,31 @@
         <!--<property name="viewLabelFieldPropertyName" value="aoInfo.activityCode"/>-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
-        <property name="singlePageView" value="true"/>
+        <property name="singlePageView" value="false"/>
         <property name="onLoadScript" value="activityEditDocumentOnLoad();"/>
 
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Home"/>
+                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Enrollment"/>
+                    <property name="url.viewId" value="enrollmentHomeView"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Manage Course Offerings"/>
+                    <property name="url.viewId" value="courseOfferingManagementView"/>
+                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.activityCode})" value=""/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
         <!--<property name="breadCrumbConfigMap">
             <map>
                 <entry key="ActivityOfferingEdit-MainPage">

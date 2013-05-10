@@ -47,7 +47,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEditPage" parent="Uif-Page" p:onDocumentReadyScript="replaceBreadCrumbs('@{breadCrumbJSON}');">
+    <bean id="ActivityOfferingEditPage" parent="Uif-Page" >
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderFour" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.credits} Credits)"/>

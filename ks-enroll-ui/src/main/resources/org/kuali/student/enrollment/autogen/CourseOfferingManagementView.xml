@@ -42,6 +42,10 @@
                     <property name="label" value="Home"/>
                     <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
                 </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Enrollment"/>
+                    <property name="url.viewId" value="enrollmentHomeView"/>
+                </bean>
             </list>
         </property>
 
