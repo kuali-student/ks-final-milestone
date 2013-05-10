@@ -51,7 +51,22 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
         <property name="maintenanceUrlMapping" value="population"/>
         <property name="resultsGroup">
-            <bean parent="Uif-LookupResultsCollectionSection" p:id="population_lookup"/>
+            <bean parent="Uif-LookupResultsCollectionSection" p:id="population_lookup">
+                <property name="lineActions">
+                    <list>
+                        <bean parent="Uif-ActionLink" p:order="10">
+                            <property name="actionLabel" value="edit"/>
+                            <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                            <property name="finalizeMethodAdditionalArguments">
+                                <list>
+                                    <value>maintenanceEdit</value>
+                                </list>
+                            </property>
+                            <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="criteriaFields">
             <list>
@@ -78,15 +93,6 @@
                 <bean parent="Uif-DataField" p:propertyName="populationRuleTypeKeyName"  p:label="Type"/>
                 <bean parent="Uif-DataField" p:propertyName="populationStateKeyName"  p:label="State"/>
             </list>
-        </property>
-        <!-- display edit link only -->
-        <property name="resultsGroup.lineActions">
-            <bean parent="Uif-FieldGroupBase">
-                <property name="label" value="Actions"/>
-                <property name="group">
-                    <bean parent="KS-Uif-LookupView-ResultActions-EditOnly"/>
-                </property>
-            </bean>
         </property>
     </bean>
 
