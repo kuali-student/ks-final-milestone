@@ -51,6 +51,7 @@ import org.kuali.student.ap.framework.course.ClassFinderForm.CourseLevel;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
+import org.kuali.student.ap.framework.course.FacetKeyValue;
 import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
 import org.kuali.student.myplan.course.util.CampusSearch;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -519,11 +520,11 @@ public class CourseSearchController extends UifControllerBase {
 	public static class FacetState implements Serializable {
 		private static final long serialVersionUID = 1719950239861974273L;
 
-		private FacetState(String value) {
+		private FacetState(KeyValue value) {
 			this.value = value;
 		}
 
-		private final String value;
+		private final KeyValue value;
 		private boolean checked = true;
 		private int count;
 	}
@@ -546,12 +547,12 @@ public class CourseSearchController extends UifControllerBase {
 			this.item = item;
 			sortColumns = item.getSortColumns();
 			facetColumns = new java.util.LinkedHashMap<String, List<String>>();
-			for (Entry<String, Map<String, Map<String, String>>> fe : item
+			for (Entry<String, Map<String, Map<String, KeyValue>>> fe : item
 					.getFacetColumns().entrySet()) {
 				List<String> fl = facetColumns.get(fe.getKey());
 				if (fl == null)
 					facetColumns.put(fe.getKey(), fl = new ArrayList<String>());
-				for (Map<String, String> fv : fe.getValue().values())
+				for (Map<String, KeyValue> fv : fe.getValue().values())
 					fl.addAll(fv.keySet());
 			}
 
@@ -719,19 +720,19 @@ public class CourseSearchController extends UifControllerBase {
 					for (Entry<String, Map<String, FacetState>> fce : facetStateMap
 							.entrySet()) {
 						Map<String, FacetState> fm = fce.getValue();
-						for (Entry<String, Map<String, String>> group : row.item
+						for (Entry<String, Map<String, KeyValue>> group : row.item
 								.getFacetColumns().get(fce.getKey()).entrySet())
-							for (Entry<String, String> fe : group.getValue()
+							for (Entry<String, KeyValue> fe : group.getValue()
 									.entrySet()) {
-								String fv = fe.getValue();
-								assert fv.startsWith(";") && fv.endsWith(";")
-										&& fv.length() >= 3 : fv;
+								KeyValue fv = fe.getValue();
+								assert fv.getKey().startsWith(";")
+										&& fv.getKey().endsWith(";")
+										&& fv.getKey().length() >= 3 : fv
+										.getKey();
 								String facetKey = fe.getKey();
 								FacetState fs = fm.get(facetKey);
 								if (fs == null)
-									fm.put(facetKey,
-											fs = new FacetState(fv.substring(1,
-													fv.length() - 1)));
+									fm.put(facetKey, fs = new FacetState(fv));
 								fs.count++;
 							}
 					}
@@ -770,10 +771,14 @@ public class CourseSearchController extends UifControllerBase {
 						Map<String, List<String>> vtk = new java.util.HashMap<String, List<String>>();
 						for (String k : sk) {
 							assert k != null : fk;
-							String v = fm.get(k).value;
-							List<String> l = vtk.get(v);
+							String fvk = fm.get(k).value.getKey();
+							assert fvk.length() >= 3 && fvk.charAt(0) == ';'
+									&& fvk.charAt(fvk.length() - 1) == ';' : fk
+									+ " " + fvk;
+							fvk = fvk.substring(1, fvk.length() - 1);
+							List<String> l = vtk.get(fvk);
 							if (l == null)
-								vtk.put(v,
+								vtk.put(fvk,
 										l = new java.util.LinkedList<String>());
 							l.add(k);
 						}
@@ -819,7 +824,7 @@ public class CourseSearchController extends UifControllerBase {
 			}
 			// Tread pruned facets as not checked unless all
 			// visible facet values in the same group are checked
-			pruned = new FacetState("");
+			pruned = new FacetState(new FacetKeyValue("", ""));
 			pruned.checked = false;
 		}
 
@@ -1219,11 +1224,11 @@ public class CourseSearchController extends UifControllerBase {
 			while (i.hasNext()) { // filter search results
 				SearchInfo ln = i.next();
 				boolean removed = false;
-				for (Entry<String, Map<String, Map<String, String>>> group : ln.item
+				for (Entry<String, Map<String, Map<String, KeyValue>>> group : ln.item
 						.getFacetColumns().entrySet()) {
 					if (Boolean.TRUE.equals(all.get(group.getKey())))
 						continue; // only scan groups that are partially checked
-					for (Entry<String, Map<String, String>> cell : group
+					for (Entry<String, Map<String, KeyValue>> cell : group
 							.getValue().entrySet()) {
 						boolean match = false;
 						for (String c : cell.getValue().keySet()) {
@@ -1573,7 +1578,8 @@ public class CourseSearchController extends UifControllerBase {
 			ObjectNode ofm = oFacetState.putObject(row.getKey());
 			for (Entry<String, FacetState> fse : row.getValue().entrySet()) {
 				ObjectNode ofs = ofm.putObject(fse.getKey());
-				ofs.put("value", fse.getValue().value);
+				ofs.put("key", fse.getValue().value.getKey());
+				ofs.put("value", fse.getValue().value.getValue());
 				ofs.put("checked", fse.getValue().checked);
 				ofs.put("count", fse.getValue().count);
 			}
@@ -1818,7 +1824,7 @@ public class CourseSearchController extends UifControllerBase {
 		termFacets.put("radio", true);
 		ArrayNode termFacetState = termFacets.putArray("facets");
 
-		StringBuilder termCondition = new StringBuilder("(");
+		StringBuilder termCondition = new StringBuilder();
 
 		ObjectNode anyTermFacet = termFacetState.addObject();
 		anyTermFacet.put("label", "Any term");
@@ -1828,7 +1834,7 @@ public class CourseSearchController extends UifControllerBase {
 								CourseSearchForm.SEARCH_TERM_ANY_ITEM));
 		anyTermFacet.put("id", CourseSearchForm.SEARCH_TERM_ANY_ITEM);
 		termCondition.append("!" + CourseSearchForm.SEARCH_TERM_ANY_ITEM
-				+ "&&!");
+				+ "&&!(");
 
 		ObjectNode specificTermFacet = termFacetState.addObject();
 		specificTermFacet.put("label", "Specific term");
@@ -1904,7 +1910,7 @@ public class CourseSearchController extends UifControllerBase {
 						.compareTo("edu.iu.sis.acadorg.SisTerm.type.winter") == 0) {
 					seasonTerm
 							.put("condition",
-									"(PROFESSIONAL&&edu.iu.sis.acadorg.SisInstitution.IUBLA||edu.iu.sis.acadorg.SisInstitution.IUINA)");
+									"GRADUATE&&(edu.iu.sis.acadorg.SisInstitution.IUBLA||edu.iu.sis.acadorg.SisInstitution.IUINA)");
 				}
 			}
 		} catch (InvalidParameterException e) {
@@ -1972,11 +1978,13 @@ public class CourseSearchController extends UifControllerBase {
 						FacetState state = facetStateValues.get(key2);
 						ObjectNode stateNode = filterFacetFacets.addObject();
 						stateNode.put("id", key2);
-						if (fo.getKey().equals("facet_keywords"))
-							// TODO: make lowercase in SisCourseSearchItem
-							stateNode.put("label", state.value.toLowerCase());
-						else
-							stateNode.put("label", state.value);
+						String fk = state.value.getKey();
+						assert fk.length() >= 3 && fk.charAt(0) == ';'
+								&& fk.charAt(fk.length() - 1) == ';' : fk + " "
+								+ state.value.getValue();
+						stateNode
+								.put("label", fk.substring(1, fk.length() - 1));
+						stateNode.put("value", state.value.getValue());
 						stateNode.put("count", state.count);
 						stateNode.put("value", state.checked);
 					}

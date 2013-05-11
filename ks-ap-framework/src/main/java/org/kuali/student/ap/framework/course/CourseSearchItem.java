@@ -2,7 +2,6 @@ package org.kuali.student.ap.framework.course;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.codehaus.jackson.node.ObjectNode;
@@ -156,7 +155,7 @@ public interface CourseSearchItem {
 	 * @see CourseSearchUI.xml
 	 * @see myplan.search.js
 	 */
-	Map<String, Map<String, Map<String, String>>> getFacetColumns();
+	FacetIndex getFacetColumns();
 
 	/**
 	 * Get the list of term ATP type IDs for which this course is projected.
