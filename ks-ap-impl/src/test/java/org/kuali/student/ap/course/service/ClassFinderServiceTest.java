@@ -33,16 +33,7 @@ public class ClassFinderServiceTest {
 		private String sort;
 		private boolean reverse;
 
-        /**
-         * Get the criteria key.
-         *
-         * @return The criteria key.
-         */
-        @Override
-        public String getCriteriaKey() {
-            return "";
-        }
-
+		@Override
         public String getQuery() {
 			return query;
 		}
