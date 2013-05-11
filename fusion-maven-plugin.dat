@@ -1,5 +1,5 @@
 # module = ks-api branch Path = enrollment/ks-api/branches/KSAP revision = 41973
-ks-api::enrollment_ks-api_branches_KSAP::e055402a407e325a2db969ac8a7d454ca7217a0a
+ks-api::enrollment_ks-api_branches_KSAP::a1d4ec3f145a81244769fa81a4be0efbc17b1c9f
 # module = ks-core branch Path = enrollment/ks-core/branches/KSAP revision = 41973
 ks-core::enrollment_ks-core_branches_KSAP::86946303c62097f860186e088d9d582b92c2e2c1
 # module = ks-lum branch Path = enrollment/ks-lum/branches/KSAP revision = 41973
