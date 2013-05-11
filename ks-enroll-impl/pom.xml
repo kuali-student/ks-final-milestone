@@ -27,7 +27,7 @@
                     <forkMode>always</forkMode>
                     <argLine>-Xms256m -Xmx512m</argLine>
                 </configuration>
-            </plugin> 
+            </plugin>
             <!-- TODO: remove this, only used to override rice groovy files for now -->
             <plugin>
                 <groupId>org.codehaus.gmaven</groupId>
@@ -162,7 +162,7 @@
             <artifactId>${oracle.artifactId}</artifactId>
             <version>${oracle.version}</version>
             <scope>test</scope>
-        </dependency> 
+        </dependency>
         <!-- TODO: remove this, only used to override rice groovy files for now -->
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
