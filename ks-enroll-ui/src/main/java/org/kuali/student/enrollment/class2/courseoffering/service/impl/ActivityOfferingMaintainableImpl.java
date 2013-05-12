@@ -901,10 +901,12 @@ public class ActivityOfferingMaintainableImpl extends MaintainableImpl implement
     }
 
     @Override
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        super.processAfterAddLine(view, collectionGroup, model, addLine);
+	protected void processAfterAddLine(View view,
+			CollectionGroup collectionGroup, Object model, Object addLine,
+			boolean isValidLine) {
+		super.processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
 
-        if (addLine instanceof ScheduleComponentWrapper) {
+		if (addLine instanceof ScheduleComponentWrapper) {
             ScheduleComponentWrapper scheduleComponentWrapper = (ScheduleComponentWrapper)addLine;
             if ("1".equals(scheduleComponentWrapper.getAddDaysSpecifiedBoolean())) {
                 if (null != scheduleComponentWrapper.getAddWeekDayOptions()) {
