@@ -34,39 +34,54 @@ import javax.xml.namespace.QName;
 import java.util.Map;
 
 /**
- * This class sets up the {@link GlobalResourceLoader} for a fake environment (suitable for running in tests).
- * Mostly necessitated due to bean post processing addition in Rice 2.2.0 final causing NPE in
- * {@link DictionaryBeanFactoryPostProcesser#postProcessBeanFactory() postProcessBeanFactory}.
- *
+ * This class sets up the {@link GlobalResourceLoader} for a fake environment
+ * (suitable for running in tests). Mostly necessitated due to bean post
+ * processing addition in Rice 2.2.0 final causing NPE in
+ * {@link DictionaryBeanFactoryPostProcesser#postProcessBeanFactory()
+ * postProcessBeanFactory}.
+ * 
  * @author Kuali Student Team
  */
 public class FakeEnvResourceLoader {
-    private static final String MOCK_APP_ID = "mock-app.id";
+	private static final String MOCK_APP_ID = "mock-app.id";
 
-    public void init() {
-        Config config = new JAXBConfigImpl();
-        config.putProperty(CoreConstants.Config.APPLICATION_ID, MOCK_APP_ID);
-        ConfigContext.init(config);
-        SimpleServiceLocator serviceLocator = new SimpleServiceLocator();
+	public void init() {
+		Config config = new JAXBConfigImpl();
+		config.putProperty(CoreConstants.Config.APPLICATION_ID, MOCK_APP_ID);
+		ConfigContext.init(config);
+		SimpleServiceLocator serviceLocator = new SimpleServiceLocator();
 
-        ConfigurationService configurationService = new ConfigurationService() {
-            @Override public String getPropertyValueAsString(String key) { return "{0} message"; }
-            @Override public boolean getPropertyValueAsBoolean(String key) { return false; }
-            @Override public Map<String, String> getAllProperties() { return null; }
-        };
+		ConfigurationService configurationService = new ConfigurationService() {
+			@Override
+			public String getPropertyValueAsString(String key) {
+				return "{0} message";
+			}
 
-        serviceLocator.addService(new QName(KRADServiceLocator.KUALI_CONFIGURATION_SERVICE), configurationService);
+			@Override
+			public boolean getPropertyValueAsBoolean(String key) {
+				return false;
+			}
 
-        ResourceLoader resourceLoader =
-                new BaseResourceLoader(
-                        new QName(MOCK_APP_ID, RiceConstants.DEFAULT_ROOT_RESOURCE_LOADER_NAME), serviceLocator);
+			@Override
+			public Map<String, String> getAllProperties() {
+				return null;
+			}
+		};
 
-        try {
-            GlobalResourceLoader.stop();
-            GlobalResourceLoader.addResourceLoader(resourceLoader);
-            GlobalResourceLoader.start();
-        } catch (Exception e) {
-            throw new RuntimeException("Error initializing GRL", e);
-        }
-    }
+		// serviceLocator.addService(new
+		// QName(KRADServiceLocator.KUALI_CONFIGURATION_SERVICE),
+		// configurationService);
+
+		ResourceLoader resourceLoader = new BaseResourceLoader(new QName(
+				MOCK_APP_ID, RiceConstants.DEFAULT_ROOT_RESOURCE_LOADER_NAME),
+				serviceLocator);
+
+		try {
+			GlobalResourceLoader.stop();
+			GlobalResourceLoader.addResourceLoader(resourceLoader);
+			GlobalResourceLoader.start();
+		} catch (Exception e) {
+			throw new RuntimeException("Error initializing GRL", e);
+		}
+	}
 }
