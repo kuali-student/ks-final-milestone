@@ -146,9 +146,10 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 							long start = System.currentTimeMillis();
 							LOG.info("Executing scheduled Data Dictionary component publishing...");
 							try {
-								KRADServiceLocatorInternal
-										.getDataDictionaryComponentPublisherService()
-										.publishAllComponents();
+								// TODO: Removed in Rice 2.3.0?
+								// KRADServiceLocatorInternal
+								// .getDataDictionaryComponentPublisherService()
+								// .publishAllComponents();
 							} catch (RuntimeException e) {
 								LOG.error(
 										"Failed to publish data dictionary components.",

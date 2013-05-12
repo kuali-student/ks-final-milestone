@@ -42,6 +42,7 @@ public class ClassFinderServiceTest {
 			this.query = query;
 		}
 
+		@Override
 		public String getCriteriaKey() {
 			return criteriaKey;
 		}
