@@ -112,12 +112,7 @@
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Compares CLU and CO Rules"/>
-                    </property>
-                </bean>
+                <ref bean="KRMS-CompareCanonical-Link" />
 
             </list>
 

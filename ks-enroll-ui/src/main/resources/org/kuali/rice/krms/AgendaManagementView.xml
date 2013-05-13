@@ -127,16 +127,19 @@
         </property>
     </bean>
 
+    <bean id="KRMS-CompareCanonical-Link" parent="Uif-ActionLink" p:actionLabel="Compare to Canonical"
+          p:methodToCall="compareRules">
+        <property name="toolTip">
+            <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                  p:tooltipContent="Compare CLU and CO Requisites"/>
+        </property>
+    </bean>
+
     <bean id="KRMS-RuleEdit-Links" parent="Uif-LinkGroup" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Compares Rules"/>
-                    </property>
-                </bean>
+                <ref bean="KRMS-CompareCanonical-Link" />
                 <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"/>
             </list>
@@ -147,12 +150,7 @@
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Compares Rules"/>
-                    </property>
-                </bean>
+                <ref bean="KRMS-CompareCanonical-Link" />
             </list>
         </property>
     </bean>
