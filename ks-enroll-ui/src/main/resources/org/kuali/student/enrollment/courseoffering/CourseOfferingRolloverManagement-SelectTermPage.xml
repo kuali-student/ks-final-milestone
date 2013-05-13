@@ -36,7 +36,7 @@
         </property> <!-- End of footer -->
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="Select Source and Target Terms" p:style="font-size:135%; border-top: solid 2px #000;"/>
+                <bean parent="Uif-Message" p:messageText="&lt;br&gt;Select Source and Target Terms" p:style="font-size:135%; border-top: solid 2px #000;"/>
                 <bean parent="Uif-VerticalBoxGroup" p:style="min-width:17cm">
                     <property name="items">
                         <list>
@@ -48,7 +48,7 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
+                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1"  p:style="margin-top:20px;">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-HorizontalFieldGroup" p:label="Source Term" p:align="TOP" p:fieldLabel.renderColon="false">
