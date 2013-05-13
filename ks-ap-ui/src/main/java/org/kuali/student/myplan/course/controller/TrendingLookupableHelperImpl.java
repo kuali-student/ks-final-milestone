@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.myplan.course.dataobject.TrendingDataObject;
 import org.kuali.student.myplan.main.service.MyPlanLookupableImpl;
@@ -26,12 +25,6 @@ public class TrendingLookupableHelperImpl extends MyPlanLookupableImpl {
 			rv.add(tb.build());
 		}
 		return rv;
-	}
-
-	@Override
-	public void getMaintenanceActionLink(Link actionLink, Object model,
-			String maintenanceMethodToCall) {
-		// NOOP
 	}
 
 }
