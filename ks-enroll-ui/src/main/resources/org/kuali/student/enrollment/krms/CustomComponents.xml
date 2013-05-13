@@ -213,7 +213,9 @@
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="name"/>
-                    <property name="readOnly" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:disabled="true"/>
+                    </property>
                     <property name="label" value="Course Sets"/>
                     <!--property name="suggest">
                         <bean parent="Uif-Suggest">
@@ -264,7 +266,9 @@
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
-                    <property name="readOnly" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:disabled="true"/>
+                    </property>
                     <property name="label" value="Approved Courses"/>
                     <!--property name="suggest">
                         <bean parent="KRMS-Course-SuggestControl"/>
@@ -788,7 +792,9 @@
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:required="true" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
-                    <property name="readOnly" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:disabled="true"/>
+                    </property>
                     <property name="label" value="Approved Programs"/>
                     <!--<property name="suggest">-->
                         <!--<bean parent="Uif-Suggest">-->
