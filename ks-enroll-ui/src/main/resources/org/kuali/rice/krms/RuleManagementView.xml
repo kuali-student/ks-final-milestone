@@ -257,7 +257,7 @@
     <!--Compare Link-->
     <bean id="KS-CompareRule-parent" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true"/>
-        <property name="headerText" value="Compare CLU and CO Rules"/>
+        <property name="headerText" value="Compare CLU and CO Requisites"/>
         <property name="items">
             <list>
                 <bean parent="KS-VerticalBoxSection">
