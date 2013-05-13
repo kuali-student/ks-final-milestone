@@ -202,7 +202,7 @@ function validatePopulationForSP(field, populationsJSONString) {
     var ul = jQuery('#seatpool_validation_errorMessageUl');
 
     // validate if the input population name is valid in DB
-    if (populationsJSONString && 0!==populationsJSONString.length) {
+    if (populationsJSONString && 0 !== populationsJSONString.length && populationName && 0 !== populationName) {
         var populationsObj = jQuery.parseJSON(populationsJSONString);
         var pos = 0;
         jQuery.each(populationsObj.populations, function (key, value) {
@@ -223,58 +223,58 @@ function validatePopulationForSP(field, populationsJSONString) {
                 ul.append(li);
                 jQuery(spErrorMsgDiv).append(ul);
             }
-            li=jQuery('#' + liId);
-            li.text('Population ' +  populationName + ' is inactive or not found in the database.');
+            li = jQuery('#' + liId);
+            li.text('Population ' + populationName + ' is inactive or not found in the database.');
             jQuery(spErrorMsgDiv).show();
         } else {
-            if(jQuery('#' + liId).length > 0) {
+            if (jQuery('#' + liId).length > 0) {
                 jQuery('#' + liId).remove();
             }
         }
+
+        // validate if there is any population name duplication
+        var rows = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='control']");
+        var posPopDupCheck = 0;
+        rows.each(function () {
+            var id = jQuery(this).attr('id');
+            if ((populationName.toLowerCase() === jQuery(this).val().toLowerCase()) && (fieldId != id)) {
+                return;
+            }
+            posPopDupCheck++;
+        });
+
+        var liIdPopDupCheck = fieldId + '_errorMessageLiPopDupCheck';
+        var liPopDupCheck;
+        var liAllliPopDupCheck = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='_errorMessageLiPopDupCheck']");
+        liAllliPopDupCheck.remove();
+
+        if (posPopDupCheck >= rows.length) {
+            if (jQuery('#' + liIdPopDupCheck).length > 0) {
+            }
+        } else {
+            if (ul.length == 0) {
+                ul = jQuery("<ul id='seatpool_validation_errorMessageUl' class='uif-validationMessagesList'>");
+            }
+
+            if (jQuery('#' + liIdPopDupCheck).length == 0) {
+                liPopDupCheck = jQuery("<li id='" + liIdPopDupCheck + "' class='uif-errorMessageItem' tabindex='0'></li>");
+                ul.append(liPopDupCheck);
+                jQuery(spErrorMsgDiv).append(ul);
+            }
+            liPopDupCheck = jQuery('#' + liIdPopDupCheck);
+            liPopDupCheck.text('Population name ' + populationName + ' already in use. Please enter a different, unique population name');
+            jQuery(spErrorMsgDiv).show();
+        }
+        /*
+         if (jQuery('#seatpool_validation_errorMessageUl li').length != 0) {
+         jQuery('.uif-action.uif-primaryActionButton.uif-boxLayoutHorizontalItem').attr('disabled', true);
+         } else {
+         jQuery('.uif-action.uif-primaryActionButton.uif-boxLayoutHorizontalItem').attr('disabled', false);
+         }
+         */
+        //if there is no error messages at all, delete the ul
+        jQuery("#seatpool_validation_errorMessageUl:empty").remove();
     }
-
-    // validate if there is any population name duplication
-    var rows = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='control']");
-    var posPopDupCheck = 0;
-    rows.each(function () {
-        var id = jQuery(this).attr('id');
-        if ((populationName.toLowerCase() === jQuery(this).val().toLowerCase()) && (fieldId != id)) {
-            return;
-        }
-        posPopDupCheck++;
-    });
-
-    var liIdPopDupCheck = fieldId + '_errorMessageLiPopDupCheck';
-    var liPopDupCheck;
-    var liAllliPopDupCheck = jQuery("[id^='ao-seatpoolgroup-population-name_line'][id$='_errorMessageLiPopDupCheck']");
-    liAllliPopDupCheck.remove();
-
-    if (posPopDupCheck >= rows.length) {
-        if (jQuery('#' + liIdPopDupCheck).length > 0) {
-        }
-    } else {
-        if (ul.length == 0) {
-            ul = jQuery("<ul id='seatpool_validation_errorMessageUl' class='uif-validationMessagesList'>");
-        }
-
-        if (jQuery('#' + liIdPopDupCheck).length == 0) {
-            liPopDupCheck = jQuery("<li id='" + liIdPopDupCheck + "' class='uif-errorMessageItem' tabindex='0'></li>");
-            ul.append(liPopDupCheck);
-            jQuery(spErrorMsgDiv).append(ul);
-        }
-        liPopDupCheck = jQuery('#' + liIdPopDupCheck);
-        liPopDupCheck.text('Population name ' + populationName + ' already in use. Please enter a different, unique population name');
-        jQuery(spErrorMsgDiv).show();
-    }
-/*
-    if (jQuery('#seatpool_validation_errorMessageUl li').length != 0) {
-        jQuery('.uif-action.uif-primaryActionButton.uif-boxLayoutHorizontalItem').attr('disabled', true);
-    } else {
-        jQuery('.uif-action.uif-primaryActionButton.uif-boxLayoutHorizontalItem').attr('disabled', false);
-    }
-*/
-    //if there is no error messages at all, delete the ul
-    jQuery("#seatpool_validation_errorMessageUl:empty").remove();
 }
 
 function showSPAddlinePriority(populationsJSONString){
