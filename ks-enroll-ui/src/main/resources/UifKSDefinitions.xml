@@ -234,14 +234,6 @@
         </property>
         <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
     </bean>
-    
-    <bean id="KS-Uif-NavigationActionLink-withSeparator" parent="Uif-NavigationActionLink">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-table-uif-navigationActionLink</value>
-            </list>
-        </property>
-    </bean>
 
     <!-- try to override the default Uif-LookupView-ResultActions which contains edit, copy and delete.
          Here we only need edit -->
@@ -297,6 +289,23 @@
             </list>
         </property>
     </bean>
+
+    <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection" parent="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent"/>-->
+    <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent" parent="Uif-NavigationActionLink" class="org.kuali.student.enrollment.uif.container.KSNavigationLineActionLinkSeperatorerator" abstract="true" scope="prototype">-->
+        <!--<property name="template" value="/ks-enroll/ftl/ksNavigationActionLinkSection.ftl"/>-->
+        <!--<property name="templateName" value="ks_NavigationActionLinkSection"/>-->
+    <!--</bean>-->
+
+    <bean id="KS-Uif-TableCollectionSubSection-WithActionSeperator" parent="KS-Uif-TableCollectionSubSection-WithActionSeperator-parent"/>
+    <bean id="KS-Uif-TableCollectionSubSection-WithActionSeperator-parent" parent="Uif-TableCollectionSubSection" class="org.kuali.student.enrollment.uif.container.KSTableCollectionWithLineActionLinkSeperator" abstract="true" scope="prototype">
+        <property name="lineActionSeparator" value="&#160;&#160;|&#160;&#160;"/>
+    </bean>
+
+    <bean id="KS-Uif-TableCollectionSection-WithActionSeperator" parent="KS-Uif-TableCollectionSection-WithActionSeperator-parent"/>
+    <bean id="KS-Uif-TableCollectionSection-WithActionSeperator-parent" parent="Uif-TableCollectionSection" class="org.kuali.student.enrollment.uif.container.KSTableCollectionWithLineActionLinkSeperator" abstract="true" scope="prototype">
+        <property name="lineActionSeparator" value="&#160;&#160;|&#160;&#160;"/>
+    </bean>
+
     <!-- the following bean is not used in any place -->
     <!--<bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>-->
     <!--<bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"-->

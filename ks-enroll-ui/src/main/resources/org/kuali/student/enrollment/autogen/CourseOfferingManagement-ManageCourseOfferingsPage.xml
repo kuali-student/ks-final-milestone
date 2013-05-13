@@ -55,8 +55,7 @@
         </property>
     </bean>
 
-
-    <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="Uif-TableCollectionSection" p:renderAddLine="false"
+    <bean id="KS-CourseOfferingManagement-CourseOfferingListSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false" p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
           p:onDocumentReadyScript="removeCheckboxColumns(1, 'KS-CourseOfferingManagement-CourseOfferingListSection',&quot;handleToolbar('KS-CourseOfferingManagement-CourseOfferingListSection',['enableApproveButton', 'enableDeleteButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-CO', 'KS-CourseOfferingManagement-ToolBar-Delete-CO'] )&quot;), addActionColumn(@{#parent.readOnly}, 'KS-CourseOfferingManagement-CourseOfferingListSection');">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper" />
         <property name="propertyName" value="courseOfferingResultList" />
@@ -135,16 +134,26 @@
         </property>
         <property name="lineActions">
             <list>
-                <!-- Note by Bonnie: turn on authz on copy and edit links now -->
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy"
-                      p:render="@{#line.isEnableCopyCOActionLink() and !#line.isCrossListed()}" p:actionEvent="copyCOonManageCOsPage"/>
-                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />-->
-                <bean parent="KS-Uif-NavigationActionLink-withSeparator" p:methodToCall="edit" p:actionLabel="Edit"
-                      p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage">
-                </bean>
-                <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />-->
-                <bean parent="KS-Uif-NavigationActionLink-withSeparator" p:methodToCall="loadAOs_RGs_AOCs" p:actionLabel="Manage">
-                </bean>
+                <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
+                    <!--<property name="seperatedActions">-->
+                        <!--<list>-->
+                            <!-- Note by Bonnie: turn on authz on copy and edit links now -->
+                            <bean  parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering"
+                                  p:actionLabel="Copy"
+                                  p:render="@{#line.isEnableCopyCOActionLink() and !#line.isCrossListed()}"
+                                  p:actionEvent="copyCOonManageCOsPage"/>
+                            <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />-->
+                            <bean  parent="Uif-NavigationActionLink" p:methodToCall="edit"
+                                  p:actionLabel="Edit"
+                                  p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage">
+                            </bean>
+                            <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />-->
+                            <bean  parent="Uif-NavigationActionLink" p:methodToCall="loadAOs_RGs_AOCs"
+                                  p:actionLabel="Manage">
+                            </bean>
+                        <!--</list>-->
+                    <!--</property>-->
+                <!--</bean>-->
             </list>
         </property>
     </bean>

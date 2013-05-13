@@ -100,7 +100,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" parent="Uif-TableCollectionSubSection"
+    <bean id="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" parent="KS-Uif-TableCollectionSubSection-WithActionSeperator"  p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
           p:renderAddLine="false"  p:renderLineActions="true">
         <property name="id" value="activityOfferingsPerCluster" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
@@ -201,13 +201,17 @@
 
         <property name="lineActions">
             <list>
-                <!--p:actionLabel="@{#line.isEnableEditAOActionLink() ? 'Copy&#160;&#160;|&#160;&#160;' : 'Copy'}"-->
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"
-                      p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"
-                      p:style="padding-right:3px;"  />
-                <bean parent="KS-Uif-NavigationActionLink-withSeparator" p:methodToCall="edit" p:actionLabel="Edit"
-                      p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
-                </bean>
+                <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
+                    <!--<property name="seperatedActions">-->
+                        <!--<list>-->
+                            <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"
+                                  p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"/>
+                            <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
+                                  p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
+                            </bean>
+                        <!--</list>-->
+                    <!--</property>-->
+                <!--</bean>-->
             </list>
         </property>
     </bean>

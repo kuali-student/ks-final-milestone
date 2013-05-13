@@ -385,3 +385,8 @@ a {
     font-style: italic;
 }
 /*  End Watermark  */
+
+.ks-line-action-seperator{
+    cursor: default;
+    text-decoration: none !important;
+}
