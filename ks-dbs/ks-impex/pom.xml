@@ -23,7 +23,6 @@
         <impex.metainf.context>org.kuali.common.impex.spring.MetaInfMpxConfig</impex.metainf.context>
         <impex.data.resources>META-INF/${project.artifactId}-data.resources</impex.data.resources>
         <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.data.resources}</impex.metainf.outputFile>
-        <properties.maven.exclude>kuali.scm.url</properties.maven.exclude>
     </properties>
     <profiles>
         <profile>
