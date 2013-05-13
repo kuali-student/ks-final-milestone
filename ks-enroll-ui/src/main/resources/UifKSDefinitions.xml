@@ -327,4 +327,29 @@
     <!-- For breadcrumb customization -->
     <!--<bean id="KS-Uif-Page" parent="KS-Uif-Page-parentBean" abstract="true" />
     <bean id="KS-Uif-Page-parentBean" class="org.kuali.student.enrollment.uif.container.KSUifPage" parent="Uif-Page" abstract="true" />-->
+
+    <bean id="KS-Uif-Suggest" parent="KS-Uif-Suggest-parentBean"/>
+    <bean id="KS-Uif-Suggest-parentBean" abstract="true" scope="prototype"
+          class="org.kuali.rice.krad.uif.widget.Suggest2" parent="Uif-WidgetBase">
+        <property name="template" value="/ks-krad/ftl/suggest2.ftl"/>
+        <property name="templateName" value="uif_suggest2"/>
+        <property name="customEntryAllowed" value="true"/>
+        <property name="comboboxButtonEnabled" value="false"/>
+        <property name="loadingImageEnabled" value="true"/>
+        <property name="templateOptions">
+            <map>
+                <entry key="minLength" value="2"/>
+                <entry key="delay" value="300"/>
+            </map>
+        </property>
+        <property name="suggestQuery">
+            <bean parent="Uif-AttributeQueryConfig"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Combobox" parent="KS-Uif-Combobox-parentBean"/>
+    <bean id="KS-Uif-Combobox-parentBean" parent="KS-Uif-Suggest" abstract="true" scope="prototype">
+        <property name="comboboxButtonEnabled" value="true"/>
+    </bean>
+
 </beans>

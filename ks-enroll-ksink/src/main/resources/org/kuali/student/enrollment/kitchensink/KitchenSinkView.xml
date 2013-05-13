@@ -27,7 +27,7 @@
     <bean id="KS-KitchenSink-FormView" parent="KS-Uif-FormView" abstract="true">
         <property name="formClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkForm"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.kitchensink.KitchenSinkHelper"/>
-        <property name="header.render" value="false"/>
+        <!--<property name="header.render" value="false"/>-->
         <property name="footer.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
         <property name="additionalCssFiles">

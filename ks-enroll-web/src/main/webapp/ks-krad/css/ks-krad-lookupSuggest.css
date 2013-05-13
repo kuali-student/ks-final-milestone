@@ -1,6 +1,56 @@
-.ui-autocomplete { max-height:200px; overflow-y:auto;
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
     overflow-x: hidden; /* prevents horizontal scrollbar */
 }
 /* IE 6 doesn't support max-height so use height instead,
  * but this forces the menu to always be this tall */
 * html .ui-autocomplete { height:200px; }
+
+
+/* combobox css */
+input.ui-autocomplete-loading.ks-loading-image {
+    background: white url('../../krad/plugins/jqueryUI/images/loading.gif') right center no-repeat !important;
+}
+
+span.ks-ui-autocomplete-input {
+    position: relative;
+    display: inline-block;
+}
+span.ks-ui-autocomplete-input > input {
+    margin: 0;
+    background-image: none;
+}
+span.ks-ui-autocomplete-input > a {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin-left: -1px;
+    padding: 0;
+    border-top: solid 1px #aaa;
+    border-bottom: solid 1px #aaa;
+    border-right: solid 1px #aaa;
+    border-left: solid 1px #ccc;
+    background: url("images/ui-bg_glass_75_e6e6e6_1x400.png") repeat-x scroll 50% 50% #E6E6E6 !important;
+    width: 0.8em;
+    /* support: IE7 */
+    *height: 1.7em;
+    *top: 0.1em;
+}
+span.ks-ui-autocomplete-input > a.ui-state-hover {
+    background: url("images/ui-bg_glass_75_dadada_1x400.png") repeat-x scroll 50% 50% #DADADA !important;
+    border: solid 1px #aaa;
+}
+span.ks-ui-autocomplete-input > a > span.ui-icon {
+    background-image: url("../../krad/plugins/jqueryUI/images/ui-icons_888888_256x240.png") !important;
+}
+span.ks-ui-autocomplete-input > a.ui-state-hover > span.ui-icon {
+    background-image: url("../../krad/plugins/jqueryUI/images/ui-icons_004b2a_256x240.png") !important;
+}
+span.ks-ui-autocomplete-input > input.ks-ui-autocomplete-input-error {
+    color: red;
+    font-style: italic;
+    font-weight: bold;
+    background-color: #fee;
+    text-align: center;
+}
