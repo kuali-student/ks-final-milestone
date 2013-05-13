@@ -83,12 +83,12 @@
 			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.atp.service.impl.*.remove*(..))" method="invalidateCache" />
 		</aop:aspect>
 		<aop:aspect id="orgCacheAroundSearch" ref="orgMethodCacheAdvisor">
-			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.search*(..))" method="getFromCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.add*(..))" method="invalidateCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.update*(..))" method="invalidateCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.create*(..))" method="invalidateCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.delete*(..))" method="invalidateCache" />
-			<aop:around pointcut="execution(*  org.kuali.student.r2.core.class1.organization.service.impl.*.remove*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.organization.service.impl.*.search*(..))" method="getFromCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.organization.service.impl.*.add*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.organization.service.impl.*.update*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.organization.service.impl.*.create*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.organization.service.impl.*.delete*(..))" method="invalidateCache" />
+			<aop:around pointcut="execution(*  org.kuali.student.r2.core.organization.service.impl.*.remove*(..))" method="invalidateCache" />
 		</aop:aspect>
 		<aop:aspect id="lrcCacheAroundSearch" ref="lrcMethodCacheAdvisor">
 			<aop:around pointcut="execution(*  org.kuali.student.r2.lum.lrc.service.impl.*.search*(..))" method="getFromCache" />
