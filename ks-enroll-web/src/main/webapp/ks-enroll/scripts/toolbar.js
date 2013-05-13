@@ -135,7 +135,6 @@ function refreshAddAODropdowns(){
 function decorateToolbar(id) {
     var div = jQuery('#' + id);
     if (jQuery(div).hasClass('ks-toolbar-group-padded')) {
-        console.log("found if");
         var firstItem = true;
         jQuery(div).find(':button').each(function () {
             if (!firstItem) {
