@@ -153,10 +153,12 @@ public class KSLookupController extends LookupController {
 					props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER,
 							UifConstants.MethodToCallNames.START);
 				}
-				props.put(UifConstants.UrlParams.SHOW_HISTORY,
-						BooleanUtils.toStringTrueFalse(false));
-				props.put(UifConstants.UrlParams.SHOW_HOME,
-						BooleanUtils.toStringTrueFalse(false));
+				// TODO: KSAP-34 SHOW_HOME and SHOW_HISTORY are removed in Rice
+				// 2.3.0
+				// props.put(UifConstants.UrlParams.SHOW_HISTORY,
+				// BooleanUtils.toStringTrueFalse(false));
+				// props.put(UifConstants.UrlParams.SHOW_HOME,
+				// BooleanUtils.toStringTrueFalse(false));
 				props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE,
 						lookupForm.getDataObjectClassName());
 
@@ -166,5 +168,4 @@ public class KSLookupController extends LookupController {
 
 		return modelAndView;
 	}
-
 }
