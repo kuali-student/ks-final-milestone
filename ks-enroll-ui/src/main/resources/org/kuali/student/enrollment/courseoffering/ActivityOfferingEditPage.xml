@@ -395,7 +395,8 @@
                     <property name="propertyName" value="seatpools" />
                     <property name="layoutManager.renderSequenceField" value="false" />
                     <property name="layoutManager.separateAddLine" value="false" />
-                    <property name="layoutManager.richTable.render" value="false" />
+                    <!-- KSENROLL-6911 fix, may relate to a bug in krad -->
+                    <property name="layoutManager.richTable.render" value="true" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                     <property name="renderAddBlankLineButton" value="true" />
