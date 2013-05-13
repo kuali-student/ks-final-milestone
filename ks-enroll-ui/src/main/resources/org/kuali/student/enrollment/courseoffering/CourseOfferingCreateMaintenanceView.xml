@@ -55,7 +55,7 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
-        <property name="items">
+        <property name="page.items">
             <list>
                 <ref bean="KS-CourseOffering-MetaSection"/>
                 <ref bean="KS-CourseOffering-NewCourseOffering"/>

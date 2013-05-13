@@ -81,14 +81,6 @@
             <!-- In KS, expandall/collapseall not needed-->
             <list/>
         </property>
-        <property name="page.items">
-            <!-- In KS, we do not display the notes,route and doc overview section -->
-            <list/>
-        </property>
-        <!-- TODO: check with UX, do we need to set page.footer.items as KS-Uif-DocumentPageFooter-SubmitCancel by default? -->
-        <!--<property name="page.footer.items">-->
-            <!--<ref bean="KS-Uif-DocumentPageFooter-SubmitCancel" />-->
-        <!--</property>-->
     </bean>
 
     <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->

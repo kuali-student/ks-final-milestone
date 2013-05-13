@@ -47,40 +47,6 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEditPage" parent="Uif-Page" >
-        <property name="items">
-            <list>
-                <bean parent="Uif-HeaderFour" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.credits} Credits)"/>
-                <bean parent="Uif-HeaderThree" p:headerText="Edit @{document.newMaintainableObject.dataObject.activityCode} (@{document.newMaintainableObject.dataObject.abbreviatedCourseType})"/>
-                <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-bottom:8px;"/>
-
-                <ref bean="ActivityOfferingEdit-section1"/>
-                <ref bean="ActivityOfferingEdit-section2"/>
-                <ref bean="ActivityOfferingEdit-CoLocation"/>
-
-                <ref bean="ActivityOffering-DeliveryLogistic-Actuals"/>
-                <ref bean="ActivityOffering-DeliveryLogistic-New"/>
-                <ref bean="ActivityOffering-DeliveryLogistic-Requested"/>
-
-                <ref bean="ActivityOfferingEdit-PersonnelSection"/>
-                <ref bean="ActivityOfferingEdit-SeatPool"/>
-                <ref bean="ActivityOfferingEdit-Miscellaneous"/>
-
-                <!-- This is needed for autosuggest-->
-                <bean parent="Uif-InputField" p:propertyName="termId" p:hidden="true"/>
-                <!--<bean id="scheduling_completed" parent="Uif-DataField" p:propertyName="schedulingCompleted" p:hidden="true"/>
-                <bean id="is_rdls_changed" parent="Uif-DataField" p:propertyName="editRenderHelper.rDLsChanged" p:hidden="true"/>
-                <bean id="show_" parent="Uif-DataField" p:propertyName="editRenderHelper.rDLsChanged" p:hidden="true"/>-->
-            </list>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase"/>
-        </property>
-        <property name="footer.items">
-            <ref bean="ActivityOfferingEdit-submitSection"/>
-        </property>
-    </bean>
-
     <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>

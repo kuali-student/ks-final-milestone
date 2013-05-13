@@ -82,17 +82,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    /*@RequestMapping(params = "methodToCall=reviseSchedule")
-    public ModelAndView reviseSchedule(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
-
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
-        viewHelper.prepareForScheduleRevise(activityOfferingWrapper);
-        form.setDeliveryLogisiticsAddButtonText("Add");
-
-        return getUIFModelAndView(form,MaintenanceDocumentForm.SCHEDULE_PAGE);
-    }*/
-
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editScheduleComponent")
     public ModelAndView editScheduleComponent(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
@@ -123,7 +112,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         boolean success = viewHelper.addScheduleRequestComponent(activityOfferingWrapper);
 
         if (success){
-//            form.setDeliveryLogisiticsAddButtonText("Add");
             activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(false);
             activityOfferingWrapper.setSchedulesModified(true);
             if (activityOfferingWrapper.isColocatedAO() && !activityOfferingWrapper.getColocatedActivities().isEmpty()){
@@ -134,66 +122,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    /*@RequestMapping(params = "methodToCall=saveRevisedSchedules")
-    public ModelAndView saveRevisedSchedules(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
-
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-
-        if (form.isScheduleEditInProgress()){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Editing a schedule request in progress. Please update it first before processing");
-            return getUIFModelAndView(form,MaintenanceDocumentForm.SCHEDULE_PAGE);
-        }
-
-        activityOfferingWrapper.getRequestedScheduleComponents().clear();
-
-        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getRevisedScheduleRequestComponents()){
-            activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
-        }
-
-        activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
-        activityOfferingWrapper.getRevisedScheduleRequestComponents().clear();
-
-        return getUIFModelAndView(form,MaintenanceDocumentForm.MAIN_PAGE);
-    }
-
-    @RequestMapping(params = "methodToCall=processRevisedSchedules")
-    public ModelAndView processRevisedSchedules(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
-
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-
-        if (form.isScheduleEditInProgress()){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Editing a schedule request in progress. Please update it first before processing");
-            return getUIFModelAndView(form,MaintenanceDocumentForm.SCHEDULE_PAGE);
-        }
-
-        activityOfferingWrapper.getRequestedScheduleComponents().clear();
-
-        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getRevisedScheduleRequestComponents()){
-            activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
-        }
-
-        ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
-        viewHelper.processRevisedSchedules(activityOfferingWrapper);
-
-        activityOfferingWrapper.setNewScheduleRequest(new ScheduleWrapper());
-        activityOfferingWrapper.getRevisedScheduleRequestComponents().clear();
-        activityOfferingWrapper.setSchedulesModified(false);
-
-        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, RiceKeyConstants.ERROR_CUSTOM, "Schedule has been successfully processed");
-
-        return getUIFModelAndView(form,MaintenanceDocumentForm.MAIN_PAGE);
-    }
-
-    @RequestMapping(params = "methodToCall=cancelScheduleRevise")
-    public ModelAndView cancelScheduleRevise(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
-
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-
-        activityOfferingWrapper.getRevisedScheduleRequestComponents().clear();
-        activityOfferingWrapper.setSchedulesModified(false);
-
-        return getUIFModelAndView(form,MaintenanceDocumentForm.MAIN_PAGE);
-    }*/
     private PopulationService getPopulationService() {
         if(populationService == null) {
             populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, PopulationServiceConstants.SERVICE_NAME_LOCAL_PART));
@@ -268,54 +196,14 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return getUIFModelAndView(form);
         }
 
-        ModelAndView modelAndView = super.route(form, result, request, response);
-
         GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.modified" );
 
-//        if( form.getHistoryFlow().FormHistory().getHistoryEntries().isEmpty()){
-//            return modelAndView;
-//        }
-//
-//        //Redirect to last page (some hackery here that I'd rather not do
-//        //The url has lots of dulpicate params which prevents history from working correctly
-//        String url = form.getFormHistory().getHistoryEntries().get(form.getFormHistory().getHistoryEntries().size() - 1).getUrl();
-//        url = url.replaceAll("&methodToCall=[a-zA-Z]+","");
-//        url = url.replaceAll("&pageId=[a-zA-Z]+","");
-//        url = url.replaceAll("\\?methodToCall=[a-zA-Z]+&","?");
-//        url = url.replaceAll("\\?pageId=[a-zA-Z]+&","?");
-//        form.getFormHistory().getHistoryEntries().get(form.getFormHistory().getHistoryEntries().size() - 1).setUrl(url);
-//        modelAndView = returnToHistory(form, false);
-//        modelAndView.setViewName(modelAndView.getViewName().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.REFRESH,"methodToCall=show"));
-        return modelAndView;
+        String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
+        form.setReturnLocation(url);
+
+        return back(form,result,request,response);
+
     }
-
-    /*@RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteLine")
-    public ModelAndView deleteLine(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-
-        if (StringUtils.endsWith(selectedCollectionPath,"revisedScheduleRequestComponents")){
-            if (activityOfferingWrapper.getRequestedScheduleComponents().size() == 1){
-                String dialogName = "deleteScheduleConfirmDialog";
-
-                if (!hasDialogBeenAnswered(dialogName, form)) {
-                    return showDialog(dialogName, form, request, response);
-                }
-
-                boolean dialogAnswer = getBooleanDialogResponse(dialogName, form, request, response);
-                form.getDialogManager().resetDialogStatus(dialogName);
-
-                if (!dialogAnswer) {
-                    return getUIFModelAndView(form);
-                }
-            }
-        }
-
-        return super.deleteLine(form,result,request,response);
-
-    }*/
 
     private Object getSelectedObject(MaintenanceDocumentForm form){
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
