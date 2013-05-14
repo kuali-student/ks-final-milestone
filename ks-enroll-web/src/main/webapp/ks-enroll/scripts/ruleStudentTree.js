@@ -39,20 +39,69 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
-function ajaxCallFromToolbar(command, controllerMethod, collectionGroupId, secondaryGroupId) {
+function ajaxCallFromToolbar(command, controllerMethod, collectionGroupId) {
     var enabled = enabledCheck(command);
     if (enabled) {
         ajaxCallPropositionTree(controllerMethod, collectionGroupId);
-        if (secondaryGroupId) {
-            retrieveComponent(secondaryGroupId);
-        }
     }
 }
 
 function ajaxCallOnTabSelect(event, ui){
-    if(ui.index==0){
-        ajaxCallPropositionTree('onTabSelect', 'RuleStudentEditorView-TreeGroup');
-        retrieveComponent('KS-EditWithLogic-TreeGroup');
+    var selectedTabTracker = jq('input[id="tab_selected_control"]');
+    if (validateForm()){
+        selectedTabTracker.val(ui.index);
+        if(ui.index==0){
+            var logicArea = jq('#LogicArea_InputField_control');
+            if(logicArea.hasClass('dirty')){
+                event.preventDefault();
+            } else {
+
+                retrieveComponent('RuleStudentEditorView-TreeGroup');
+            }
+
+
+            /*if (!foundMatch) {
+                jQuery(textBox).addClass("error").removeClass("valid");
+                jQuery(textBox).attr("aria-invalid", "true");
+                jQuery(div).addClass("uif-hasError");
+                if (jQuery(div).find('img').length == 0) {
+                    jQuery(div).append('<img class="uif-validationImage" src="' + url + '/krad/images/validation/error.png" alt="Error" />');
+                }
+                // jQuery(div).attr('title', 'Allowed values are: ' + allowedValues);
+                jQuery(li).append(errorMessage);
+                jQuery(div).prepend(table);
+                var moveLeft = -20;
+                var moveDown = -60;
+                jQuery(div).hover(
+                    function (e) {
+                        jQuery('table#errorTable').show().css('top', jQuery(textBox).offset().top + moveDown).css('left', jQuery(textBox).offset().left + moveLeft);
+                    },
+                    function (e) {
+                        jQuery('table#errorTable').hide();
+                    }
+                );
+            } else {
+                if (jQuery(textBox).attr("aria-invalid") != undefined) {
+                    jQuery(textBox).attr("aria-invalid").remove();
+                }
+                jQuery(textBox).addClass("valid").removeClass("error");
+                jQuery(div).removeClass("uif-hasError");
+                jQuery(div).find('img').remove();
+                jQuery(div).unbind('mouseenter mouseleave');
+            }*/
+
+
+
+        } else {
+            var updateButton = jq('button[id="update-button"]');
+            if(updateButton.length){
+                ajaxCallPropositionTree('updateProposition', 'KS-EditWithLogic-EditGroup');
+            } else {
+                retrieveComponent('KS-EditWithLogic-EditGroup');
+            }
+        }
+    } else {
+        event.preventDefault();
     }
 }
 
@@ -97,7 +146,7 @@ function resetCutSelected(selectedItemId) {
     });
 }
 
-function ajaxPastePropositionTree(controllerMethod, collectionGroupId, secondaryGroupId) {
+function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
     var enabled = enabledCheck('paste');
     if (enabled) {
         var selectedItemInput = getSelectedPropositionInput();
@@ -113,9 +162,6 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId, secondary
             });
         };
         retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
-        if (secondaryGroupId) {
-            retrieveComponent(secondaryGroupId);
-        }
     }
 }
 

@@ -65,6 +65,8 @@
                     <property name="instructionalText" value="@{#dp.ruleEditor.ruleTypeInfo.instruction}"/>
                 </bean>
 
+                <bean id="tab_selected" parent="KS-Rules-HiddenField" p:propertyName="selectedTab"/>
+
                 <bean id="KS-RuleEdit-TabSection" parent="Uif-TabSection">
                     <property name="forceSessionPersistence" value="true"/>
                     <property name="items">
@@ -78,7 +80,7 @@
                             <property name="templateOptions">
                                 <map>
                                     <entry key="selected" value="0"/>
-                                    <!--entry key="select" value="function(event, ui) {ajaxCallOnTabSelect(event, ui);}"/-->
+                                    <entry key="select" value="function(event, ui) {ajaxCallOnTabSelect(event, ui);}"/>
                                 </map>
                             </property>
                         </bean>

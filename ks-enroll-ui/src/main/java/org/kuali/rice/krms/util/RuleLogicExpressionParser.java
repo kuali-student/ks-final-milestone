@@ -66,7 +66,7 @@ public class RuleLogicExpressionParser {
             errorMessages.add("must start with ( or condition");
             return false;
         }
-        if ((tokenList.get(1).type == ExpressionToken.StartParenthesis) == false) {
+        if ((tokenList.size()>1)&&((tokenList.get(1).type == ExpressionToken.StartParenthesis) == false)) {
             errorMessages.add("parent compound proposition cannot be changed");
             return false;
         }
