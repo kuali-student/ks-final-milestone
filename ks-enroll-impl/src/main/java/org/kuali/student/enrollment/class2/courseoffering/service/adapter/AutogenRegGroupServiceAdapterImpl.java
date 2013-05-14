@@ -429,15 +429,20 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                     rgStatusInfo.setSuccess(true);
 
                     StatusInfo statusInfo;
-                    if (_isRegistrationGroupValid (rgInfo.getId(), context)) {
-                        if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()) {
-                        } else if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
+
+                    //Canceled state handling is out of scope. We ignore the state for now
+                    // TODO: this checking will be removed when canceled state handling is available.
+                    if(!rgInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
+                        if (_isRegistrationGroupValid (rgInfo.getId(), context)) {
+                            if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()) {
+                            } else if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
+                            } else {
+                                throw new RuntimeException("State change failed for RG: " + rgInfo.getId() + "From state:" + rgInfo.getStateKey());
+                            }
                         } else {
-                            throw new RuntimeException("State change failed for RG: " + rgInfo.getId() + "From state:" + rgInfo.getStateKey());
+                            coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, context);
+                            rgStatusInfo.setSuccess(false);
                         }
-                    } else {
-                        coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, context);
-                        rgStatusInfo.setSuccess(false);
                     }
 
                     rgStatusInfos.add(rgStatusInfo);
