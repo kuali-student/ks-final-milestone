@@ -349,6 +349,11 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-seatpools</value>
+            </list>
+        </property>
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
@@ -440,8 +445,10 @@
                     </property>
 
                 </bean>
-                <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount" />
-                <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining" />
+                <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount">
+                </bean>
+                <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining">
+                </bean>
             </list>
         </property>
     </bean>

@@ -390,3 +390,19 @@ a {
     cursor: default;
     text-decoration: none !important;
 }
+
+/*div.ks-line-action-seperator a:not(:last-child):after {*/
+    /*display:inline-block;*/
+    /*pointer-events: none;*/
+    /*cursor: default;*/
+    /*color:black;*/
+    /*text-decoration: none;*/
+    /*margin-left:.5em;*/
+    /*margin-right:.5em;*/
+    /*content:attr(data-actionseperator) " ";*/
+/*}*/
+
+.ks-seatpools :not(:last-child){
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
