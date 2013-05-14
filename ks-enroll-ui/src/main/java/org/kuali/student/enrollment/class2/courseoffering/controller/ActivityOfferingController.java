@@ -196,6 +196,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return getUIFModelAndView(form);
         }
 
+        super.route(form,result,request, response);
+
         GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.modified" );
 
         String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
