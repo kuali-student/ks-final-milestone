@@ -185,6 +185,20 @@
         <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
         <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Home"/>
+                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Enrollment"/>
+                    <property name="url.viewId" value="enrollmentHomeView"/>
+                </bean>
+            </list>
+        </property>
+
         <property name="header.lowerGroup">
             <bean parent="Uif-HeaderLowerGroup">
                 <property name="style" value="margin-bottom:px;"/>
