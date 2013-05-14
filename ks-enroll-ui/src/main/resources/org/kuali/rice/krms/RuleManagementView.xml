@@ -114,10 +114,8 @@
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <ref bean="KRMS-CompareCanonical-Link" />
-
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules"/>
             </list>
-
         </property>
     </bean>
 

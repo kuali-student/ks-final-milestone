@@ -133,18 +133,11 @@
         </property>
     </bean>
 
-    <bean id="KRMS-CompareCanonical-Link" parent="Uif-ActionLink" p:actionLabel="Compare to Canonical"
-          p:methodToCall="compareRules">
-        <property name="toolTip">
-            <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Requisites"/>
-        </property>
-    </bean>
-
     <bean id="KRMS-RuleEdit-Links" parent="Uif-LinkGroup" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <ref bean="KRMS-CompareCanonical-Link" />
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"/>
             </list>
