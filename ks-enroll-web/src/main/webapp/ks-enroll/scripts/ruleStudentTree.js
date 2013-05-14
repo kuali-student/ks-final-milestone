@@ -47,60 +47,57 @@ function ajaxCallFromToolbar(command, controllerMethod, collectionGroupId) {
 }
 
 function ajaxCallOnTabSelect(event, ui){
-    var selectedTabTracker = jq('input[id="tab_selected_control"]');
+    //Do client side validation before continueing to next tab.
     if (validateForm()){
+
+        //Set the selected tab tracker.
+        var selectedTabTracker = jq('input[id="tab_selected_control"]');
         selectedTabTracker.val(ui.index);
+
         if(ui.index==0){
+
+            //Check if the logic expression has changed.
             var logicArea = jq('#LogicArea_InputField_control');
             if(logicArea.hasClass('dirty')){
+
+                //Add an error message for the user.
+                var data = jQuery("#LogicArea_InputField").data(kradVariables.VALIDATION_MESSAGES);
+                data.errors = [];
+                data.errors.push('The logical expression has changed, click Preview Change.');
+                jQuery("#LogicArea_InputField").data(kradVariables.VALIDATION_MESSAGES, data);
+
+                //Display error message
+                handleMessagesAtField('LogicArea_InputField');
+
+                //Do not continue.
                 event.preventDefault();
             } else {
 
+                //Remove previous error message if any exist.
+                var messagesDiv = jQuery("[data-messages_for='LogicArea_InputField']");
+                messagesDiv.hide();
+                handleTabStyle('LogicArea_InputField_control', false, false, false);
+
+                //Refresh the edit tree.
                 retrieveComponent('RuleStudentEditorView-TreeGroup');
             }
-
-
-            /*if (!foundMatch) {
-                jQuery(textBox).addClass("error").removeClass("valid");
-                jQuery(textBox).attr("aria-invalid", "true");
-                jQuery(div).addClass("uif-hasError");
-                if (jQuery(div).find('img').length == 0) {
-                    jQuery(div).append('<img class="uif-validationImage" src="' + url + '/krad/images/validation/error.png" alt="Error" />');
-                }
-                // jQuery(div).attr('title', 'Allowed values are: ' + allowedValues);
-                jQuery(li).append(errorMessage);
-                jQuery(div).prepend(table);
-                var moveLeft = -20;
-                var moveDown = -60;
-                jQuery(div).hover(
-                    function (e) {
-                        jQuery('table#errorTable').show().css('top', jQuery(textBox).offset().top + moveDown).css('left', jQuery(textBox).offset().left + moveLeft);
-                    },
-                    function (e) {
-                        jQuery('table#errorTable').hide();
-                    }
-                );
-            } else {
-                if (jQuery(textBox).attr("aria-invalid") != undefined) {
-                    jQuery(textBox).attr("aria-invalid").remove();
-                }
-                jQuery(textBox).addClass("valid").removeClass("error");
-                jQuery(div).removeClass("uif-hasError");
-                jQuery(div).find('img').remove();
-                jQuery(div).unbind('mouseenter mouseleave');
-            }*/
-
-
-
         } else {
+
+            //Check if any proposition is in editing mode.
             var updateButton = jq('button[id="update-button"]');
             if(updateButton.length){
+
+                //Force an updateProposition if any proposition is in edit mode.
                 ajaxCallPropositionTree('updateProposition', 'KS-EditWithLogic-EditGroup');
             } else {
+
+                //Refresh the preview tree.
                 retrieveComponent('KS-EditWithLogic-EditGroup');
             }
         }
     } else {
+
+        //Ignore the tab selection, user has to fix errors.
         event.preventDefault();
     }
 }
