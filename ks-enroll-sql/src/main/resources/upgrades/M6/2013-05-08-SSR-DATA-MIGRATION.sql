@@ -7,7 +7,7 @@ delete from KSEN_LUI_SCHEDULE
 
 /
 
-delete from KSEN_SCHED_RQST_REF_OBJ
+delete from KSEN_SCHED_REF_OBJECT
 
 /
 
@@ -30,18 +30,18 @@ Insert into KSEN_SCHED_RQST_SET (ID, OBJ_ID, SCHED_RQST_SET_TYPE, SCHED_RQST_SET
 
 /
 
--- Populate KSEN_SCHED_RQST_REF_OBJ join table  with AO ids
-insert into KSEN_SCHED_RQST_REF_OBJ (REF_OBJ_ID, SCHED_RQST_SET_ID) (select REF_OBJECT_ID, SCHED_RQST_SET_ID from KSEN_SCHED_RQST where REF_OBJECT_TYPE = 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo')
+-- Populate KSEN_SCHED_REF_OBJECT join table  with AO ids
+insert into KSEN_SCHED_REF_OBJECT (REF_OBJ_ID, SCHED_RQST_SET_ID) (select REF_OBJECT_ID, SCHED_RQST_SET_ID from KSEN_SCHED_RQST where REF_OBJECT_TYPE = 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo')
 
 /
 
--- Populate KSEN_SCHED_RQST_REF_OBJ join table with AO ids from ColoSets
-insert into KSEN_SCHED_RQST_REF_OBJ (REF_OBJ_ID, SCHED_RQST_SET_ID) (select LUI_ID, subquery.SCHED_RQST_SET_ID from KSEN_LUI_set_lui, (select REF_OBJECT_ID, SCHED_RQST_SET_ID from KSEN_SCHED_RQST where REF_OBJECT_TYPE = 'kuali.luiset.type.colocated.offering.set') subquery where subquery.REF_OBJECT_ID =  lui_set_id)
+-- Populate KSEN_SCHED_REF_OBJECT join table with AO ids from ColoSets
+insert into KSEN_SCHED_REF_OBJECT (REF_OBJ_ID, SCHED_RQST_SET_ID) (select LUI_ID, subquery.SCHED_RQST_SET_ID from KSEN_LUI_set_lui, (select REF_OBJECT_ID, SCHED_RQST_SET_ID from KSEN_SCHED_RQST where REF_OBJECT_TYPE = 'kuali.luiset.type.colocated.offering.set') subquery where subquery.REF_OBJECT_ID =  lui_set_id)
 
 /
 
 -- Populate SCHED_ID in KSEN_SCHED_RQST
-create table SSRTEMP1_T as (select SCHED_ID, SCHED_RQST_SET_ID from KSEN_LUI_SCHEDULE a inner join KSEN_SCHED_RQST_REF_OBJ b on a.LUI_ID = b.REF_OBJ_ID)
+create table SSRTEMP1_T as (select SCHED_ID, SCHED_RQST_SET_ID from KSEN_LUI_SCHEDULE a inner join KSEN_SCHED_REF_OBJECT b on a.LUI_ID = b.REF_OBJ_ID)
 
 /
 
