@@ -50,6 +50,20 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
         <property name="maintenanceUrlMapping" value="population"/>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Home"/>
+                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Enrollment"/>
+                    <property name="url.viewId" value="enrollmentHomeView"/>
+                </bean>
+            </list>
+        </property>
+
         <property name="resultsGroup">
             <bean parent="Uif-LookupResultsCollectionSection" p:id="population_lookup">
                 <property name="lineActions">
