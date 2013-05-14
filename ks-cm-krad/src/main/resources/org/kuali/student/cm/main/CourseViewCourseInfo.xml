@@ -80,7 +80,7 @@ limitations under the License.
 				<bean parent="Uif-HorizontalBoxSection">
 					<property name="items">
 						<list>
-							<bean id="KS-SubjectArea-Field" parent="Uif-InputField-LabelTop" p:label="Subject Area"
+							<bean id="KS-SubjectArea-Field" parent="Uif-InputField-LabelTop" p:label="Subject Code"
 								p:propertyName="subjectArea">
 								<property name="constraintText" value="Must be a 4 letter code"/>
 								<property name="maxLength" value="4" />
@@ -109,14 +109,21 @@ limitations under the License.
 						</list>
 					</property>
 				</bean>
-				<!-- <bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSection">
+				<bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection" p:disclosure.defaultOpen="false">
 					<property name="headerText" value="Cross List, Offer Jointly, Add Version Codes" />
 					<property name="items">
-						<list>-->
-							<bean id="KS-CrossListed-Section" parent="Uif-Disclosure-StackedCollectionSection" p:headerText="Cross Listed Courses" 
+						<list>
+							<bean id="KS-CrossListed-Section" parent="Uif-StackedCollectionSubSection" p:headerText="Cross Listed Courses" 
 								p:propertyName="crossListings" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo">
-								<property name="layoutManager.summaryTitle" value="Cross Listed Course @{#index}"/>
+								<property name="layoutManager.summaryTitle" value="Cross Listed Course"/>
+							    <property name="layoutManager.summaryFields">
+									<list>
+										<value>subjectArea</value>
+										<value>courseNumberSuffix</value>
+									</list>
+								</property>
 								<property name="renderAddBlankLineButton" value="true" />
+								<property name="addLinePlacement" value="BOTTOM" />
 								<property name="addBlankLineAction.actionLabel" value="Add Another Cross Listing" />
       							<property name="items">
 									<list>
@@ -124,16 +131,13 @@ limitations under the License.
 										<ref bean="KS-CourseNumberSuffix-Field" />
 									</list>
 								</property>
-								<!-- <property name="addLineActions">
-									<list>
-										<bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add Another Cross Listing"/>
-									</list>
-								</property> -->
 							</bean>
-							<bean id="KS-JointlyOffered-Section" parent="Uif-Disclosure-StackedCollectionSection" p:headerText="Jointly Offered Courses" 
+							<bean id="KS-JointlyOffered-Section" parent="Uif-StackedCollectionSubSection" p:headerText="Jointly Offered Courses" 
 								p:propertyName="joints" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseJointInfo">
-								<property name="layoutManager.summaryTitle" value="Jointly Offered Course @{#index}"/>
+								<property name="layoutManager.summaryTitle" value="Jointly Offered Course"/>
+    							<property name="layoutManager.summaryFields" value="courseId" />
 								<property name="renderAddBlankLineButton" value="true" />
+								<property name="addLinePlacement" value="BOTTOM" />
 								<property name="addBlankLineAction.actionLabel" value="Add Another Course" />
 								<property name="items">
 									<list>
@@ -145,21 +149,23 @@ limitations under the License.
 											</property>
 											<property name="help">
 												<bean parent="Uif-Help"
-													p:tooltipHelpContent="Can't find the course?&#10;If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator." />
+													p:tooltipHelpContent="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator." />
 											</property>
 										</bean>
 									</list>
 								</property>
-								<!-- <property name="addLineActions">
-									<list>
-										<bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add Another Course"/>
-									</list>
-								</property> -->
 							</bean>
-							<bean id="KS-VersionCodes-Section" parent="Uif-Disclosure-StackedCollectionSection" p:headerText="Version Codes"
+							<bean id="KS-VersionCodes-Section" parent="Uif-StackedCollectionSubSection" p:headerText="Version Codes"
 								p:propertyName="variations" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseVariationInfo">
-								<property name="layoutManager.summaryTitle" value="Version Code @{#index}"/>
+								<property name="layoutManager.summaryTitle" value="Version Code"/>
+								<property name="layoutManager.summaryFields">
+									<list>
+										<value>variationCode</value>
+										<value>variationTitle</value>
+									</list>
+								</property>
 								<property name="renderAddBlankLineButton" value="true" />
+								<property name="addLinePlacement" value="BOTTOM" />
 								<property name="addBlankLineAction.actionLabel" value="Add a Version Code" />
 								<property name="items">
 									<list>
@@ -181,15 +187,10 @@ limitations under the License.
 										</bean>
 									</list>
 								</property>
-								<!-- <property name="addLineActions">
-									<list>
-										<bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add a Version Code"/>
-									</list>
-								</property> -->
 							</bean>
-						<!-- </list>
+						</list>
 					</property>
-				</bean>-->
+				</bean>
 				<bean parent="Uif-TableCollectionSection" p:headerText="Instructor(s)"
 					p:collectionObjectClass="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo"
 					p:propertyName="instructors">
