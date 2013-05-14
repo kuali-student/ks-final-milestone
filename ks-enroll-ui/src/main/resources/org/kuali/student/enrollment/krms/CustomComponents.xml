@@ -171,14 +171,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionImage" p:methodToCall="deleteLine"
-                      p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
-                      p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
-                      p:onClickScript="writeCurrentPageToSession(this);"
-                      p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/ks-enroll/images/delete.png" p:altText="delete"/>
-                    </property>
+                <bean parent="Uif-DeleteLineAction">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-stackedActionItem</value>
