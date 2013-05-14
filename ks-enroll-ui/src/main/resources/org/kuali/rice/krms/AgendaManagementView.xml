@@ -70,11 +70,11 @@
 
     <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
         <property name="header.lowerGroup">
-            <bean parent="Uif-VerticalBoxGroup">
+            <bean parent="Uif-VerticalBoxGroup" p:style="margin-bottom: -1em">
                 <property name="items">
                     <list>
                         <bean parent="Uif-PageHeader" p:headerText="@{#dp.cluDescription}"/>
-                        <bean parent="Uif-HorizontalBoxGroup" p:style="margin-bottom: -1em">
+                        <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink" p:actionScript="expandDisclosures();"

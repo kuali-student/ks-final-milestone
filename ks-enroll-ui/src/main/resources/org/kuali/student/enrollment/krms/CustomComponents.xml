@@ -60,7 +60,7 @@
 
     <bean id="KRMS-CollectionGridItem" abstract="true" parent="Uif-GridGroup">
         <property name="layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout"/>
+            <bean parent="Uif-HorizontalBoxLayout" p:style="width:480px"/>
         </property>
         <property name="cssClasses">
             <list merge="true">
@@ -160,7 +160,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-StackedCollectionGroup" parent="Uif-StackedCollectionGroup" abstract="true" p:style="width: 420px; padding: 0;">
+    <bean id="KRMS-StackedCollectionGroup" parent="Uif-StackedCollectionGroup" abstract="true" p:style="width: 480px; padding: 0;">
         <property name="addItemCssClass" value="ks-collectionAddItem"/>
         <property name="header">
             <bean parent="Uif-HeaderSix">
@@ -185,7 +185,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Courses Sets">
+    <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Course Sets">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="name" />
