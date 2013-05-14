@@ -1412,7 +1412,7 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
 
         ((UifFormBase) model).getAddedCollectionItems().add(addLine);
 
-        processAfterAddLine(view, collectionGroup, model, addLine);
+        processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
     }
 
     /**
@@ -1841,7 +1841,8 @@ public class ViewHelperServiceImpl implements ViewHelperService, Serializable {
      * @param model - object instance that contain's the views data
      * @param addLine - the new line that was added
      */
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
+            boolean isValidLine) {
 
     }
 
