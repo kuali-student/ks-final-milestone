@@ -136,8 +136,7 @@
     <bean id="KRMS-CompareCanonical-Link" parent="Uif-ActionLink" p:actionLabel="Compare to Canonical"
           p:methodToCall="compareRules">
         <property name="toolTip">
-            <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                  p:tooltipContent="Compare CLU and CO Requisites"/>
+            <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Requisites"/>
         </property>
     </bean>
 
