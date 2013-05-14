@@ -266,7 +266,7 @@ public class PropositionTreeUtil {
         if (proposition.getCompoundEditors() != null) {
             while (i < proposition.getCompoundEditors().size()) {
                 PropositionEditor child = proposition.getCompoundEditors().get(i);
-                if (child.isNewProp()) {
+                if (child.isNewProp() && child.isEditMode()) {
                     proposition.getCompoundEditors().remove(child);
                     continue;
                 } else {
