@@ -157,6 +157,19 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarWrapperLookupableImpl" />
 
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Home"/>
+                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Enrollment"/>
+                    <property name="url.viewId" value="enrollmentHomeView"/>
+                </bean>
+            </list>
+        </property>
+
         <property name="criteriaFields">
             <list>
                 <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="holidayCalendarInfo.name"/>-->
