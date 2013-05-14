@@ -24,6 +24,7 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
@@ -63,6 +64,13 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
                 PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor) ;
                 if ((propositionEditor != null) && (propositionEditor instanceof EnrolPropositionEditor)){
                     gradeScale = ((EnrolPropositionEditor) propositionEditor).getGradeScale();
+                }
+            } else if( dataObject instanceof RuleManagementWrapper){
+                RuleManagementWrapper wrapper = (RuleManagementWrapper) dataObject;
+                RuleEditor ruleEditor = wrapper.getRuleEditor();
+                PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor) ;
+                if( (propositionEditor != null) && (propositionEditor instanceof EnrolPropositionEditor)){
+                    gradeScale = ( (EnrolPropositionEditor) propositionEditor).getGradeScale();
                 }
             }
         }
