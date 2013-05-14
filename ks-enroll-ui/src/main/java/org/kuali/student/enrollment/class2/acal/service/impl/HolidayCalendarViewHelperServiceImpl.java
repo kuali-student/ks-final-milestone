@@ -169,8 +169,13 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
             return null;
         }
         else {
-            //TODO - if > 1 result, find calendar with latest end date?
-            return holidayCalendarInfoList.get(holidayCalendarInfoList.size() - 1);
+            HolidayCalendarInfo newestCalendar =  holidayCalendarInfoList.get(0);
+            for(HolidayCalendarInfo calendarTemp: holidayCalendarInfoList){
+                if(calendarTemp.getMeta().getCreateTime().compareTo(newestCalendar.getMeta().getCreateTime())>0){
+                    newestCalendar = calendarTemp;
+                }
+            }
+            return newestCalendar;
         }
     }
 
