@@ -1,8 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -60,6 +62,27 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
 //        KSUifUtils.populationPreviousFormsMap(request, (KSUifMaintenanceDocumentForm) form);
 
         return getUIFModelAndView(form);
+    }
+
+    @Override
+    @RequestMapping(params = "methodToCall=route")
+    public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+
+        /*
+         * If it's Create CO Maintenace document, just stay on the same view. If it's Edit CO, navigate back to Manage CO
+         */
+        if (!(this instanceof CourseOfferingCreateController)){
+            super.route(form,result,request, response);
+
+            String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
+            form.setReturnLocation(url);
+
+            return back(form,result,request,response);
+        } else {
+            return super.route(form,result,request, response);
+        }
+
     }
 
 }
