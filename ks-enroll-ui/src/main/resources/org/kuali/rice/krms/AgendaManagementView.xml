@@ -73,7 +73,7 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HeaderFive" p:headerText="@{#dp.cluDescription}" p:headerTagStyle="font-size: 150%"/>
+                        <bean parent="Uif-PageHeader" p:headerText="@{#dp.cluDescription}"/>
                         <bean parent="Uif-HorizontalBoxGroup" p:style="margin-bottom: -1em">
                             <property name="items">
                                 <list>

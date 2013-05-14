@@ -160,7 +160,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-StackedCollectionGroup" parent="Uif-StackedCollectionGroup" abstract="true" p:style="width: 400px; padding: 0;">
+    <bean id="KRMS-StackedCollectionGroup" parent="Uif-StackedCollectionGroup" abstract="true" p:style="width: 420px; padding: 0;">
         <property name="addItemCssClass" value="ks-collectionAddItem"/>
         <property name="header">
             <bean parent="Uif-HeaderSix">
@@ -171,7 +171,14 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction">
+                <bean parent="Uif-ActionImage" p:methodToCall="deleteLine"
+                      p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
+                      p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
+                      p:onClickScript="writeCurrentPageToSession(this);"
+                      p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['application.url']}/ks-enroll/images/delete.png" p:altText="delete"/>
+                    </property>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-stackedActionItem</value>
@@ -206,7 +213,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.name}" p:style="width: 290px; margin: 0px;"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.name}" p:style="width: 380px; margin: 0px;"/>
             </list>
         </property>
         <property name="addLineItems">
@@ -259,7 +266,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.code}" p:style="width: 290px; margin: 0px;"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.code}" p:style="width: 380px; margin: 0px;"/>
             </list>
         </property>
         <property name="addLineItems">
