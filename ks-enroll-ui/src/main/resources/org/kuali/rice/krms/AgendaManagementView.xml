@@ -20,7 +20,7 @@
     -->
     <bean id="KRMS-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
         <property name="headerText" value="Course Offering Requisites"/>
-        <property name="header.style" value="border-bottom:solid 4px #000; height:26px"/>
+        <property name="header.style" value="margin-bottom: -2em"/>
         <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
         <property name="additionalScriptFiles">
             <list>
@@ -69,21 +69,27 @@
     </bean>
 
     <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
-        <property name="headerText" value="@{#dp.cluDescription}"/>
         <property name="header.lowerGroup">
-            <bean parent="Uif-HorizontalBoxGroup" p:style="margin-top:1em; margin-bottom:-1em">
+            <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-ActionLink" p:actionScript="expandDisclosures();"
-                                p:actionLabel="[+] expand all">
-                            <property name="actionImage">
-                                <null/>
-                            </property>
-                        </bean>
-                        <bean parent="Uif-ActionLink" p:actionScript="collapseDisclosures();"
-                              p:actionLabel="[-] collapse all" p:style="margin-left:1em">
-                            <property name="actionImage">
-                                <null/>
+                        <bean parent="Uif-HeaderFive" p:headerText="@{#dp.cluDescription}" p:headerTagStyle="font-size: 150%"/>
+                        <bean parent="Uif-HorizontalBoxGroup" p:style="margin-bottom: -1em">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-ActionLink" p:actionScript="expandDisclosures();"
+                                          p:actionLabel="[+] expand all">
+                                        <property name="actionImage">
+                                            <null/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-ActionLink" p:actionScript="collapseDisclosures();"
+                                          p:actionLabel="[-] collapse all" p:style="margin-left:1em">
+                                        <property name="actionImage">
+                                            <null/>
+                                        </property>
+                                    </bean>
+                                </list>
                             </property>
                         </bean>
                     </list>
