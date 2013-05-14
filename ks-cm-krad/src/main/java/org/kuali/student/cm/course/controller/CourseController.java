@@ -44,29 +44,4 @@ public class CourseController extends UifControllerBase {
     	return courseForm;
     }
 
-    @Override
-    @RequestMapping(method = RequestMethod.GET, value = "/start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
-    	CourseForm courseForm = (CourseForm)form;
-    	return getUIFModelAndView(courseForm);
-    }
-
-    @Override
-	@RequestMapping(method = RequestMethod.POST, value = "/start", params = "methodToCall=navigate")
-	public ModelAndView navigate(UifFormBase form, BindingResult result,
-			HttpServletRequest request, HttpServletResponse response) {
-		return super.navigate(form, result, request, response);
-	}
-
-
-    /*
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
-    public ModelAndView save(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) {
-        return super.save(form, result, request, response);
-    }
-    */
-    
-    
 }
