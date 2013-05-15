@@ -43,6 +43,12 @@ public class CourseForm extends UifFormBase {
 	private String transcriptCourseTitle;
 
 	private String subjectArea;
+	
+	private String startTerm;
+	
+	private boolean pilotCourse;
+	
+	private String endTerm;
 
 	private String courseNumberSuffix;
 
@@ -145,4 +151,28 @@ public class CourseForm extends UifFormBase {
 		this.proposalInfo = proposalInfo;
 	}
 
+    public String getStartTerm() {
+        return startTerm;
+    }
+
+    public void setStartTerm(String startTerm) {
+        this.startTerm = startTerm;
+    }
+
+    public String getEndTerm() {
+        return endTerm;
+    }
+
+    public void setEndTerm(String endTerm) {
+        this.endTerm = endTerm;
+    }
+
+    public boolean isPilotCourse() {
+        return this.pilotCourse;
+    }
+
+    public void setPilotCourse(boolean isPilotCourse) {
+        this.pilotCourse = isPilotCourse;
+    }
+    
 }

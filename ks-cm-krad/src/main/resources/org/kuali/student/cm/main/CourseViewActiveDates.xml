@@ -23,11 +23,11 @@
 				</property>
 			</bean>
 		</property>
-<!-- 		<property name="items"> -->
-<!-- 			<list> -->
-<!-- 				<ref bean="KS-CourseView-ActiveDatesPage-Widgets" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
+		<property name="items">
+			<list>
+				<ref bean="KS-CourseView-ActiveDatesPage-Widgets" />
+			</list>
+		</property>
 		<property name="footer">
 			<bean parent="Uif-FooterBase">
 				<property name="items">
@@ -37,6 +37,67 @@
 					</list>
 				</property>
 			</bean>
+		</property>
+	</bean>
+
+	<bean id="KS-CourseView-ActiveDatesPage-Widgets" parent="Uif-VerticalBoxSection">
+		<property name="items">
+			<list>
+
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="startTerm"
+					p:label="Start Term"
+					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder">
+					<property name="control">
+						<bean parent="Uif-DropdownControl" />
+					</property>
+					<property name="help">
+						<bean parent="Uif-Help"
+							p:tooltipHelpContent="New Courses: This course will not neccessarily be acticated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications." />
+					</property>
+				</bean>
+
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="pilotCourse"
+					p:label="Pilot Course" p:labelPlacement="LEFT">
+					<property name="instructionalText" value="Yes, this is a one-time/pilot course" />
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" />
+					</property>
+					<property name="help">
+						<bean parent="Uif-Help"
+							p:tooltipHelpContent="If this is a pilot course, you must select an End Term" />
+					</property>
+				</bean>
+
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm"
+					p:label="End Term"
+					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
+					p:refreshWhenChangedPropertyNames="pilotCourse">
+					<property name="caseConstraint">
+						<bean parent="CaseConstraint">
+							<property name="propertyName" value="pilotCourse" />
+							<property name="whenConstraint">
+								<list>
+									<bean parent="WhenConstraint">
+										<property name="value" value="false" />
+										<property name="constraint">
+											<bean parent="PrerequisiteConstraint" p:propertyName="endTerm" />
+										</property>
+									</bean>
+								</list>
+							</property>
+						</bean>
+					</property>
+					<property name="instructionalText"
+						value="Last term in which the course can be offered" />
+					<property name="control">
+						<bean parent="Uif-DropdownControl" p:disabled="@{!pilotCourse}" />
+					</property>
+					<property name="help">
+						<bean parent="Uif-Help"
+							p:tooltipHelpContent="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses" />
+					</property>
+				</bean>
+			</list>
 		</property>
 	</bean>
 </beans>
