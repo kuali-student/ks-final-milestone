@@ -44,7 +44,7 @@
         <property name="allowCustomIsolationLevels" value="true"/>
     </bean>-->
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <bean id="transactionManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="transactionManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="transactionManager" />
     </bean>
 
