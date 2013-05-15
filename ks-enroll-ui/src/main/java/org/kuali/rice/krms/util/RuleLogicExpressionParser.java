@@ -390,7 +390,7 @@ public class RuleLogicExpressionParser {
     private PropositionEditor ruleFromRPN(List<ExpressionToken> rpnList, List<PropositionEditor> rcs) {
         //if rule is empty
         if (rpnList.size() == 0) {
-            return new PropositionEditor();
+            return null;
         }
 
         Stack<PropositionEditor> conditionStack = new Stack<PropositionEditor>();

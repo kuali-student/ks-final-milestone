@@ -647,15 +647,19 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
-        PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
+        if(ruleEditor.getProposition()!=null){
+            PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
 
-        EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
-        //Reset the description
-        this.getViewHelper(form).resetDescription(proposition);
+            //Reset the description on current selected proposition
+            EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
+            if (proposition!=null){
+                this.getViewHelper(form).resetDescription(proposition);
+            }
 
-        //Remove the edit mode
-        PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        this.getViewHelper(form).refreshInitTrees(ruleEditor);
+            //Remove the edit mode
+            PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+            this.getViewHelper(form).refreshInitTrees(ruleEditor);
+        }
 
         return getUIFModelAndView(form);
     }

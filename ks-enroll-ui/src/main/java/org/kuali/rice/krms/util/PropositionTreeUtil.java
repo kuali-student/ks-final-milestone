@@ -78,10 +78,8 @@ public class PropositionTreeUtil {
 
     public static PropositionEditor findProposition(Node<RuleEditorTreeNode, String> currentNode, String selectedPropKey) {
 
-        if (selectedPropKey == null) {
+        if ((selectedPropKey == null)||(selectedPropKey.isEmpty())) {
             return null;
-        } else if (selectedPropKey.isEmpty()) {
-            return currentNode.getChildren().get(0).getData().getProposition();
         }
 
         // if it's in children, we have the parent
