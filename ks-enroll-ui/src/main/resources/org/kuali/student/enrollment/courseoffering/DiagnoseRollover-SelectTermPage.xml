@@ -51,7 +51,7 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Specify source term and course offering code"/>
+                                        <bean parent="Uif-Message" p:messageText="Enter source term and course offering code"/>
                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                             <property name="items">
                                                 <list>

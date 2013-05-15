@@ -41,7 +41,7 @@
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:messageText="Specify a target term to delete"/>
+                                        <bean parent="Uif-Message" p:messageText="Enter a target term to delete"/>
                                         <bean parent="Uif-HorizontalBoxSection">
                                             <property name="items">
                                                 <list>

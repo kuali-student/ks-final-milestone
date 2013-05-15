@@ -31,7 +31,7 @@
                     <bean parent="Uif-VerticalBoxGroup">
                         <property name="items">
                             <list>
-                                 <bean parent="Uif-Message" p:messageText="Specify a term to review the details of the associated rollover."/>
+                                 <bean parent="Uif-Message" p:messageText="Enter a term to review the details of the associated rollover."/>
                                  <bean parent="Uif-HorizontalBoxGroup">
                                       <property name="items">
                                            <list>
