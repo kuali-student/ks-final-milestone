@@ -207,6 +207,20 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
     }
 
+    @RequestMapping(params = "methodToCall=cancel")
+    @Override
+    public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
+        form.setReturnLocation(url);
+
+        DocumentFormBase documentForm = (DocumentFormBase) form;
+        performWorkflowAction(documentForm, UifConstants.WorkflowAction.CANCEL, false);
+
+        return back(form,result,request,response);
+    }
+
     private Object getSelectedObject(MaintenanceDocumentForm form){
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
