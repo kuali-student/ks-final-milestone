@@ -157,24 +157,6 @@
                 <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Description"/>
             </list>
         </property>
-        <property name="resultsGroup">
-            <bean parent="Uif-LookupResultsCollectionSection" p:id="population_lookup">
-                <property name="lineActions">
-                    <list>
-                        <bean parent="Uif-ActionLink" p:order="10">
-                            <property name="actionLabel" value="edit"/>
-                            <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
-                            <property name="finalizeMethodAdditionalArguments">
-                                <list>
-                                    <value>maintenanceEdit</value>
-                                </list>
-                            </property>
-                            <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
     </bean>
 
     <!-- UIM lookup view for PopulationInfo, with header and links -->
