@@ -44,7 +44,7 @@
 		<property name="items">
 			<list>
 
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="startTerm"
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.startTerm"
 					p:label="Start Term"
 					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder">
 					<property name="control">
@@ -56,7 +56,7 @@
 					</property>
 				</bean>
 
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="pilotCourse"
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.pilotCourse"
 					p:label="Pilot Course" p:labelPlacement="LEFT">
 					<property name="instructionalText" value="Yes, this is a one-time/pilot course" />
 					<property name="control">
@@ -68,19 +68,19 @@
 					</property>
 				</bean>
 
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm"
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.endTerm"
 					p:label="End Term"
 					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
-					p:refreshWhenChangedPropertyNames="pilotCourse">
+					p:refreshWhenChangedPropertyNames="courseInfo.pilotCourse">
 					<property name="caseConstraint">
 						<bean parent="CaseConstraint">
-							<property name="propertyName" value="pilotCourse" />
+							<property name="propertyName" value="courseInfo.pilotCourse" />
 							<property name="whenConstraint">
 								<list>
 									<bean parent="WhenConstraint">
 										<property name="value" value="false" />
 										<property name="constraint">
-											<bean parent="PrerequisiteConstraint" p:propertyName="endTerm" />
+											<bean parent="PrerequisiteConstraint" p:propertyName="courseInfo.endTerm" />
 										</property>
 									</bean>
 								</list>
@@ -90,7 +90,7 @@
 					<property name="instructionalText"
 						value="Last term in which the course can be offered" />
 					<property name="control">
-						<bean parent="Uif-DropdownControl" p:disabled="@{!pilotCourse}" />
+						<bean parent="Uif-DropdownControl" p:disabled="@{!courseInfo.pilotCourse}" />
 					</property>
 					<property name="help">
 						<bean parent="Uif-Help"
