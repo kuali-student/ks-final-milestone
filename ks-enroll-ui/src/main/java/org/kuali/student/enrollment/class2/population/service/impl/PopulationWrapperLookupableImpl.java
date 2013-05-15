@@ -108,4 +108,29 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
         return this.populationService;
     }
 
+    /**
+     * Determines if given data object has associated maintenance document that allows new or copy
+     * maintenance
+     * actions
+     *
+     * @return boolean true if the maintenance new or copy action is allowed for the data object instance, false
+     *         otherwise
+     */
+    @Override
+    public boolean allowsMaintenanceNewOrCopyAction() {
+        // maintenance new or copy action not allowed
+        return false;
+    }
+
+    /**
+     * Determines if given data object has associated maintenance document that allows delete maintenance
+     * actions.
+     *
+     * @return boolean true if the maintenance delete action is allowed for the data object instance, false otherwise
+     */
+    @Override
+    public boolean allowsMaintenanceDeleteAction(Object dataObject) {
+        // maintenance delete action not allowed
+        return false;
+    }
 }

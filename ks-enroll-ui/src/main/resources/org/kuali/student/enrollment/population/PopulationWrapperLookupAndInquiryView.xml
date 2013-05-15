@@ -63,32 +63,6 @@
                 </bean>
             </list>
         </property>
-
-        <property name="resultsGroup">
-            <bean parent="Uif-LookupResultsCollectionSection" p:id="population_lookup">
-                <property name="lineActions">
-                    <!-- override lineActions from UifLookupDefinitions.xml.
-                        Instead of edit, copy, delete and return value, here we only need edit and return value -->
-                    <list>
-                        <bean parent="Uif-ActionLink" p:order="10">
-                            <property name="actionLabel" value="edit"/>
-                            <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
-                            <property name="finalizeMethodAdditionalArguments">
-                                <list>
-                                    <value>maintenanceEdit</value>
-                                </list>
-                            </property>
-                            <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
-                        </bean>
-                        <bean parent="Uif-ActionLink">
-                          <property name="actionLabel" value="return value"/>
-                          <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
-                          <property name="render" value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" p:fieldLabel.style="width:20%;" p:style="width:auto;"/>
