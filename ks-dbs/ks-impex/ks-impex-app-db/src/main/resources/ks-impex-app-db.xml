@@ -2443,6 +2443,16 @@
             <index-column name="TM_SLOT_ID"/>
         </index>
     </table>
+    <table name="KSEN_SCHED_REF_OBJECT">
+        <column name="SCHED_RQST_SET_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <column name="REF_OBJECT_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_SCHED_RQST_SET" name="KSEN_SCHED_REF_OBJECT_FK1">
+            <reference foreign="ID" local="SCHED_RQST_SET_ID"/>
+        </foreign-key>
+        <index name="KSEN_SCHED_REF_OBJECT_IF1">
+            <index-column name="SCHED_RQST_SET_ID"/>
+        </index>
+    </table>
     <table name="KSEN_SCHED_RQST">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="255" type="VARCHAR"/>
@@ -2458,6 +2468,9 @@
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="SCHED_RQST_SET_ID" size="255" type="VARCHAR"/>
         <column name="SCHED_ID" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_SCHED_RQST_SET" name="KSEN_SCHED_RQST_FK2">
+            <reference foreign="ID" local="SCHED_RQST_SET_ID"/>
+        </foreign-key>
     </table>
     <table name="KSEN_SCHED_RQST_ATTR">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
@@ -2576,25 +2589,33 @@
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="DESCR_PLAIN" size="4000" type="VARCHAR"/>
         <column name="DESCR_FORMATTED" size="4000" type="VARCHAR"/>
-        <column name="MAX_ENROLLMENT_SHARED_IND" size="1" type="DECIMAL"/>
-        <column name="MAX_ENROLLMENT" size="10" type="DECIMAL"/>
-        <column name="REF_OBJ_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="REF_OBJECT_TYPE" required="true" size="255" type="VARCHAR"/>
+        <column name="MAX_ENRL_SHARED_IND" type="DECIMAL"/>
+        <column name="MAX_ENRL" type="DECIMAL"/>
         <column name="VER_NBR" required="true" size="19" type="DECIMAL"/>
         <column name="CREATETIME" required="true" type="TIMESTAMP"/>
         <column name="CREATEID" required="true" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
+        <index name="KSEN_SCHED_RQST_SET_I1">
+            <index-column name="SCHED_RQST_SET_TYPE"/>
+        </index>
+        <index name="KSEN_SCHED_RQST_SET_I2">
+            <index-column name="REF_OBJECT_TYPE"/>
+        </index>
     </table>
     <table name="KSEN_SCHED_RQST_SET_ATTR">
-        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
+        <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>
         <column name="OWNER_ID" size="255" type="VARCHAR"/>
-    </table>
-    <table name="KSEN_SCHED_RQST_SET_REF_OBJ">
-        <column name="REF_OBJ_ID" primaryKey="true" size="255" type="VARCHAR"/>
-        <column name="SCHED_RQST_SET_ID" primaryKey="true" size="255" type="VARCHAR"/>
+        <foreign-key foreignTable="KSEN_SCHED_RQST_SET" name="KSEN_SCHED_RQST_SET_ATTR_FK1">
+            <reference foreign="ID" local="OWNER_ID"/>
+        </foreign-key>
+        <index name="KSEN_SCHED_RQST_SET_ATTR_IF1">
+            <index-column name="OWNER_ID"/>
+        </index>
     </table>
     <table name="KSEN_SCHED_TMSLOT">
         <column name="ID" primaryKey="true" size="255" type="VARCHAR"/>

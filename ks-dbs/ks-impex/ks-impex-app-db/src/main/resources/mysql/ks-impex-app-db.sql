@@ -3808,6 +3808,26 @@ CREATE TABLE KSEN_SCHED_CMP_TMSLOT
 
 
 # -----------------------------------------------------------------------
+# KSEN_SCHED_REF_OBJECT
+# -----------------------------------------------------------------------
+drop table if exists KSEN_SCHED_REF_OBJECT
+/
+
+CREATE TABLE KSEN_SCHED_REF_OBJECT
+(
+      SCHED_RQST_SET_ID VARCHAR(255)
+        , REF_OBJECT_ID VARCHAR(255)
+    
+    , CONSTRAINT KSEN_SCHED_REF_OBJECTP1 PRIMARY KEY(SCHED_RQST_SET_ID,REF_OBJECT_ID)
+
+
+    , INDEX KSEN_SCHED_REF_OBJECT_IF1 (SCHED_RQST_SET_ID)
+
+) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
+/
+
+
+# -----------------------------------------------------------------------
 # KSEN_SCHED_RQST
 # -----------------------------------------------------------------------
 drop table if exists KSEN_SCHED_RQST
@@ -4018,9 +4038,9 @@ CREATE TABLE KSEN_SCHED_RQST_SET
         , NAME VARCHAR(255)
         , DESCR_PLAIN VARCHAR(4000)
         , DESCR_FORMATTED VARCHAR(4000)
-        , MAX_ENROLLMENT_SHARED_IND DECIMAL(1)
-        , MAX_ENROLLMENT DECIMAL(10)
-        , REF_OBJ_TYPE VARCHAR(255) NOT NULL
+        , REF_OBJECT_TYPE VARCHAR(255) NOT NULL
+        , MAX_ENRL_SHARED_IND DECIMAL
+        , MAX_ENRL DECIMAL
         , VER_NBR DECIMAL(19) NOT NULL
         , CREATETIME DATETIME NOT NULL
         , CREATEID VARCHAR(255) NOT NULL
@@ -4030,6 +4050,8 @@ CREATE TABLE KSEN_SCHED_RQST_SET
     , CONSTRAINT KSEN_SCHED_RQST_SETP1 PRIMARY KEY(ID)
 
 
+    , INDEX KSEN_SCHED_RQST_SET_I1 (SCHED_RQST_SET_TYPE)
+    , INDEX KSEN_SCHED_RQST_SET_I2 (REF_OBJECT_TYPE)
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
@@ -4043,34 +4065,16 @@ drop table if exists KSEN_SCHED_RQST_SET_ATTR
 
 CREATE TABLE KSEN_SCHED_RQST_SET_ATTR
 (
-      ID VARCHAR(255)
-        , OBJ_ID VARCHAR(36)
+      OBJ_ID VARCHAR(36)
         , ATTR_KEY VARCHAR(255)
         , ATTR_VALUE VARCHAR(4000)
+        , ID VARCHAR(255)
         , OWNER_ID VARCHAR(255)
     
     , CONSTRAINT KSEN_SCHED_RQST_SET_ATTRP1 PRIMARY KEY(ID)
 
 
-
-) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
-/
-
-
-# -----------------------------------------------------------------------
-# KSEN_SCHED_RQST_SET_REF_OBJ
-# -----------------------------------------------------------------------
-drop table if exists KSEN_SCHED_RQST_SET_REF_OBJ
-/
-
-CREATE TABLE KSEN_SCHED_RQST_SET_REF_OBJ
-(
-      REF_OBJ_ID VARCHAR(255)
-        , SCHED_RQST_SET_ID VARCHAR(255)
-    
-    , CONSTRAINT KSEN_SCHED_RQST_SET_REF_OBJP1 PRIMARY KEY(REF_OBJ_ID,SCHED_RQST_SET_ID)
-
-
+    , INDEX KSEN_SCHED_RQST_SET_ATTR_IF1 (OWNER_ID)
 
 ) ENGINE InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 /
