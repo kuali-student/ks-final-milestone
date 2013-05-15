@@ -579,11 +579,13 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             newProposition.setParameters(newParms);
             newProposition.setId(null);
             newProposition.setKey(null);
-            newProposition.getTerm().setId(null);
-            newProposition.getTerm().setVersionNumber(new Long(0));
-            for(TermParameterEditor termParam : newProposition.getTerm().getEditorParameters()) {
-                termParam.setId(null);
-                termParam.setVersionNumber(new Long(0));
+            if(!newProposition.getPropositionTypeCode().equals("C")) {
+                newProposition.getTerm().setId(null);
+                newProposition.getTerm().setVersionNumber(new Long(0));
+                for(TermParameterEditor termParam : newProposition.getTerm().getEditorParameters()) {
+                    termParam.setId(null);
+                    termParam.setVersionNumber(new Long(0));
+                }
             }
             newProposition.setVersionNumber(new Long(0));
             return newProposition;
