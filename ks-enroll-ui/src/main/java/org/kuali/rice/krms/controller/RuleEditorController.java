@@ -541,8 +541,20 @@ public class RuleEditorController extends MaintenanceDocumentController {
                         if (cutAction) {
                             workingProp = oldParent.getCompoundEditors().remove(index);
                         } else {
-                            workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
-                            this.getViewHelper(form).resetDescription(workingProp);
+                            if(oldParent.getCompoundEditors().get(index).getPropositionTypeCode().equals("C")) {
+                                workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
+                                int counter = workingProp.getCompoundEditors().size();
+                                List<PropositionEditor> props = new ArrayList<PropositionEditor>();
+                                for(int i = 0; i < counter; i++) {
+                                    PropositionEditor prop = viewHelper.copyProposition(workingProp.getCompoundEditors().get(i));
+                                    this.getViewHelper(form).resetDescription(prop);
+                                    props.add(prop);
+                                }
+                                workingProp.setCompoundEditors(props);
+                            } else {
+                                workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
+                                this.getViewHelper(form).resetDescription(workingProp);
+                            }
                         }
                         break;
                     }
@@ -647,19 +659,15 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
-        if(ruleEditor.getProposition()!=null){
-            PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
+        PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
 
-            //Reset the description on current selected proposition
-            EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
-            if (proposition!=null){
-                this.getViewHelper(form).resetDescription(proposition);
-            }
+        EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
+        //Reset the description
+        this.getViewHelper(form).resetDescription(proposition);
 
-            //Remove the edit mode
-            PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-            this.getViewHelper(form).refreshInitTrees(ruleEditor);
-        }
+        //Remove the edit mode
+        PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         return getUIFModelAndView(form);
     }
