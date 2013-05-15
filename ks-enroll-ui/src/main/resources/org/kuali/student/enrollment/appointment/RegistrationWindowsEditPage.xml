@@ -164,11 +164,11 @@
                 </bean>
 
 
-            <bean parent="Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:style="font-weight:bold;" p:required="true"
+            <bean parent="Uif-InputField" p:fieldLabel.render="false" p:label="Student Group"  p:propertyName="assignedPopulationName" p:style="font-weight:bold;white-space:nowrap;" p:required="true"
                   p:render="@{#isAddLine or (!#isAddLine and #line.appointmentWindowInfo.stateKey!='kuali.appointment.window.state.assigned')}"
                   p:readOnly="@{!#isAddLine or #lp.appointmentWindowInfo.stateKey=='kuali.appointment.window.state.assigned'}">
                 <property name="control">
-                    <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
+                    <bean parent="Uif-TextControl" p:size="30" p:ReadOnly="false" />
                 </property>
                 <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
                 <property name="quickfinder.fieldConversions">
