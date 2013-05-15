@@ -23,7 +23,7 @@ update KSEN_SCHED_RQST set SCHED_RQST_SET_ID = SYS_GUID()
 /
 
 -- Populate KSEN_SCHED_RQST_SET table
-insert into KSEN_SCHED_RQST_SET (ID, OBJ_ID, SCHED_RQST_SET_TYPE, SCHED_RQST_SET_STATE, MAX_ENROLLMENT_SHARED_IND, MAX_ENROLLMENT,
+insert into KSEN_SCHED_RQST_SET (ID, OBJ_ID, SCHED_RQST_SET_TYPE, SCHED_RQST_SET_STATE, MAX_ENRL_SHARED_IND, MAX_ENRL,
   REF_OBJECT_TYPE, VER_NBR, CREATETIME, CREATEID)  (SELECT SCHED_RQST_SET_ID, ID, 'kuali.scheduling.schedule.request.set.type.schedule.request',
   'kuali.scheduling.schedule.request.set.state.created', '0', '0', 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo', '0',
   TO_DATE( '20130503000000', 'YYYYMMDDHH24MISS' ), 'admin' from KSEN_SCHED_RQST)
@@ -72,8 +72,8 @@ drop table COLOSETS_T
 
 /
 
--- Populate MAX_ENROLLMENT in KSEN_SCHED_RQST_SET
-update KSEN_SCHED_RQST_SET a set MAX_ENROLLMENT = (select TO_NUMBER(TRIM(MAXENR)) from MAXENR_T where MAXENR_T.SRSID = a.ID)
+-- Populate MAX_ENRL in KSEN_SCHED_RQST_SET
+update KSEN_SCHED_RQST_SET a set MAX_ENRL = (select TO_NUMBER(TRIM(MAXENR)) from MAXENR_T where MAXENR_T.SRSID = a.ID)
 
 /
 
@@ -81,8 +81,8 @@ drop table MAXENR_T
 
 /
 
--- Populate MAX_ENROLLMENT_SHARED_IND in KSEN_SCHED_RQST_SET
-update KSEN_SCHED_RQST_SET a set MAX_ENROLLMENT_SHARED_IND = (select
+-- Populate MAX_ENRL_SHARED_IND in KSEN_SCHED_RQST_SET
+update KSEN_SCHED_RQST_SET a set MAX_ENRL_SHARED_IND = (select
 case
       when TRIM(MAXIND) = 'Y'  then 1
       when TRIM(MAXIND) = 'N' then 0
