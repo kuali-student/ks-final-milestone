@@ -61,8 +61,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public ModelAndView goToRuleView(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        RuleEditor ruleEditor = AgendaUtilities.retrieveSelectedRuleEditor(form);
+        //Clear the client state on new edit rule.
+        form.getClientStateForSyncing().clear();
 
+        RuleEditor ruleEditor = AgendaUtilities.retrieveSelectedRuleEditor(form);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
@@ -81,7 +83,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
         List<AgendaEditor> agendas = ruleWrapper.getAgendas();
         for (AgendaEditor agenda : agendas) {
             if (agenda.getRuleEditors().contains(ruleEditor)) {
-                agenda.getDeletedRules().add(ruleEditor);
+
+                //Only add rules to delete list that are already persisted.
+                if(ruleEditor.getId()!=null){
+                    agenda.getDeletedRules().add(ruleEditor);
+                }
                 agenda.getRuleEditors().remove(ruleEditor);
             }
         }
@@ -92,6 +98,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=addRule")
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        //Clear the client state on new edit rule.
+        form.getClientStateForSyncing().clear();
+
         RuleEditor ruleEditor = AgendaUtilities.retrieveSelectedRuleEditor(form);
         ruleEditor.setDummy(false);
 
@@ -659,11 +669,15 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
-        PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
+        if(ruleEditor.getProposition()!=null){
+            PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
+        }
 
+        //Reset the description on current selected proposition
         EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
-        //Reset the description
-        this.getViewHelper(form).resetDescription(proposition);
+        if (proposition!=null){
+            this.getViewHelper(form).resetDescription(proposition);
+        }
 
         //Remove the edit mode
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
@@ -712,20 +726,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                       HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
-        ruleEditor.setSelectedTab("1");
-
-        parseRuleExpression(ruleEditor);
-
-        this.getViewHelper(form).refreshInitTrees(ruleEditor);
-        return getUIFModelAndView(form);
-    }
-
-    @RequestMapping(params = "methodToCall=onTabSelect")
-    public ModelAndView onEditTabSelect(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        RuleEditor ruleEditor = getRuleEditor(form);
         parseRuleExpression(ruleEditor);
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
@@ -743,7 +743,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //show errors and don't change anything else
         if (!validExpression) {
-            ruleEditor.setSelectedTab("1");
             for (int i = 0; i < errorMessages.size(); i++) {
                 GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.logicArea", errorMessages.get(i));
             }

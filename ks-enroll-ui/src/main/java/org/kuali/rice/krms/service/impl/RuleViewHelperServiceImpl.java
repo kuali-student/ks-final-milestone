@@ -118,8 +118,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     protected void addCustomContainerComponents(View view, Object model, Container container) {
         if ("KS-PropositionEdit-DetailSection".equals(container.getId())) {
             customizePropositionEditSection(view, model, container);
-        } else if ("KS-RuleEdit-TabSection".equals(container.getId())) {
-            customizeRuleTabSection(view, model, container);
         } else if ("KRMS-AgendaMaintenance-Page".equals(container.getId())) {
             customizeAgendaMaintenance(view, model, container);
         }
@@ -153,19 +151,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
 
         container.setItems(components);
-    }
-
-    private void customizeRuleTabSection(View view, Object model, Container container) {
-        if (container instanceof TabGroup) {
-            RuleEditor ruleEditor = this.getRuleEditor(model);
-            TabGroup tabGroup = (TabGroup) container;
-            Map<String, String> options = tabGroup.getTabsWidget().getTemplateOptions();
-            if (ruleEditor.getSelectedTab() == null) {
-                ruleEditor.setSelectedTab("0");
-            }
-            options.put("selected", ruleEditor.getSelectedTab());
-            ruleEditor.setSelectedTab("0");
-        }
     }
 
     private void customizeAgendaMaintenance(View view, Object model, Container container) {
@@ -538,6 +523,8 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         //Also reset the logic expression. Should only be done after editTree is already built.
         if (rule.getProposition() != null) {
             rule.setLogicArea(PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition()));
+        } else {
+            rule.setLogicArea(StringUtils.EMPTY);
         }
 
     }

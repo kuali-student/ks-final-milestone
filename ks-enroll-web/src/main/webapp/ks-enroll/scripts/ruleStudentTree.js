@@ -42,10 +42,6 @@ function ajaxCallOnTabSelect(event, ui) {
     //Do client side validation before continueing to next tab.
     if (validateForm()) {
 
-        //Set the selected tab tracker.
-        var selectedTabTracker = jq('input[id="tab_selected_control"]');
-        selectedTabTracker.val(ui.index);
-
         if (ui.index == 0) {
 
             //Check if the logic expression has changed.

@@ -123,14 +123,6 @@ public class RuleManagementWrapper extends UifFormBase {
         this.getRuleEditor().setLogicArea(logicArea);
     }
 
-    public String getSelectedTab() {
-        return this.getRuleEditor().getSelectedTab();
-    }
-
-    public void setSelectedTab(String selectedTab) {
-        this.getRuleEditor().setSelectedTab(selectedTab);
-    }
-
     public String getNamePrefix() {
         return namePrefix;
     }
