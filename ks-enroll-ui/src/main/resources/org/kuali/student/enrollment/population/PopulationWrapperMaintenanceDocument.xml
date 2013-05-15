@@ -41,7 +41,22 @@
         <property name="parentLocation">
             <bean parent="Uif-ParentLocation">
                 <property name="parentViewLabel" value="Manage Populations"/>
+                <!--
                 <property name="parentViewUrl.href" value="@{#ConfigProperties['krad.url']}/lookup?viewId=KS-Population-LookupView&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&amp;returnLocation=http://localhost:8081/ks-with-rice-bundled-dev/portal.do&amp;hideReturnLink=true&amp;showMaintenanceLinks=true&amp;viewName=Manage%20Populations"/>
+                -->
+                <property name="parentViewUrl.viewId" value="KS-Population-LookupView"/>
+                <property name="parentViewUrl.controllerMapping" value="/lookup"/>
+
+                <property name="parentViewUrl.requestParameters">
+                    <map key-type="java.lang.String" merge="true">
+                        <entry key="methodToCall" value="start"/>
+                        <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                        <entry key="hideReturnLink" value="true"/>
+                        <entry key="showMaintenanceLinks" value="true"/>
+                        <entry key="viewName" value="Manage Populations"/>
+                    </map>
+                </property>
+
             </bean>
         </property>
 
