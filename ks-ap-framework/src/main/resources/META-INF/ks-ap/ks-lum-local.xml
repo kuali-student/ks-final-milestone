@@ -27,7 +27,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	<context:annotation-config />
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="transactionManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="transactionManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="transactionManager" />
     </bean>
 
@@ -52,28 +52,28 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
 
     <bean id="typeService"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="typeService"/>
     </bean>
 
     <bean id="ksLumLrcService"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="lrcServiceImpl"/>
     </bean>
 
 
     <bean id="orgServiceImpl"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="orgServiceImpl"/>
     </bean>
 
     <bean id="atpServiceImpl"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="atpServiceImpl"/>
     </bean>
 
     <bean id="statementServiceImpl"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="statementServiceImpl"/>
     </bean>
 

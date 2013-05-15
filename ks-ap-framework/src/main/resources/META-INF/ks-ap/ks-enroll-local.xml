@@ -47,23 +47,23 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 	<import resource="classpath:META-INF/ks-ap/ks-enroll-no-tx-context.xml"/>
 	
     <bean id="validator"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="validator"/>
     </bean>
 
 	<bean id="courseServiceImpl"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="courseServiceImpl"/>
     </bean>
     <alias name="courseServiceImpl" alias="courseService" />
 	
 	<bean id="cluServiceImpl"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="cluServiceImpl"/>
     </bean>
 	
 	<bean id="naturalLanguageTranslator"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="naturalLanguageTranslator"/>
     </bean>
 	

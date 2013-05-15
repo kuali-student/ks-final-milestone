@@ -27,7 +27,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<context:annotation-config />
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <bean id="transactionManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="transactionManager" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="transactionManager" />
     </bean>
 

@@ -35,7 +35,7 @@
     <import resource="classpath:META-INF/ks-ap/ks-ap-no-tx-context.xml" />
 
     <bean id="riceDictionaryValidationService"
-          class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="riceDictionaryValidationService"/>
     </bean>
 
