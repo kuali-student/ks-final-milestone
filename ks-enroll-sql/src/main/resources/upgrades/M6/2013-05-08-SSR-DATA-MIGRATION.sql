@@ -23,8 +23,8 @@ update KSEN_SCHED_RQST set SCHED_RQST_SET_ID = SYS_GUID()
 /
 
 -- Populate KSEN_SCHED_RQST_SET table
-Insert into KSEN_SCHED_RQST_SET (ID, OBJ_ID, SCHED_RQST_SET_TYPE, SCHED_RQST_SET_STATE, MAX_ENROLLMENT_SHARED_IND, MAX_ENROLLMENT,
-  REF_OBJ_TYPE, VER_NBR, CREATETIME, CREATEID)  (SELECT SCHED_RQST_SET_ID, ID, 'kuali.scheduling.schedule.request.set.type.schedule.request',
+insert into KSEN_SCHED_RQST_SET (ID, OBJ_ID, SCHED_RQST_SET_TYPE, SCHED_RQST_SET_STATE, MAX_ENROLLMENT_SHARED_IND, MAX_ENROLLMENT,
+  REF_OBJECT_TYPE, VER_NBR, CREATETIME, CREATEID)  (SELECT SCHED_RQST_SET_ID, ID, 'kuali.scheduling.schedule.request.set.type.schedule.request',
   'kuali.scheduling.schedule.request.set.state.created', '0', '0', 'http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo', '0',
   TO_DATE( '20130503000000', 'YYYYMMDDHH24MISS' ), 'admin' from KSEN_SCHED_RQST)
 
