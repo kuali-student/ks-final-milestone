@@ -546,7 +546,12 @@ function calculatePercent(jqObject){
             if(id.indexOf("_control") != -1) {
                 var num = id.substring(14, id.length - 8);
                 var elemPct = jQuery('#seatLimitPercent_line' + num);
-                var seatsNum = jQuery(this).val();
+                var seatsNum;
+                if(jQuery(this).is("span")){
+                    seatsNum = jQuery(this).text();
+                }else{
+                    seatsNum = jQuery(this).val();
+                }
                 count += 1;
                 if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
                     seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
