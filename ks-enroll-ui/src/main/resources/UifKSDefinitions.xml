@@ -227,30 +227,6 @@
         <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
     </bean>
 
-    <!-- try to override the default Uif-LookupView-ResultActions which contains edit, copy and delete.
-         Here we only need edit -->
-    <bean id="KS-Uif-LookupView-ResultActions-EditOnly" parent="Uif-LookupView-ResultActions">
-        <!--<property name="cssClasses">-->
-            <!--<list merge="true">-->
-                <!--<value>uif-lookupView-resultActions</value>-->
-            <!--</list>-->
-        <!--</property>-->
-        <property name="items">
-            <list>
-                <bean parent="Uif-Link" p:order="10">
-                    <property name="linkText" value="edit"/>
-                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
-                    <property name="finalizeMethodAdditionalArguments">
-                        <list>
-                            <value>maintenanceEdit</value>
-                        </list>
-                    </property>
-                    <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
     <!--p:onDocumentReadyScript="decorateToolbar();-->
 
     <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection-parent"/>
