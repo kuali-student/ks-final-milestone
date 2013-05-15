@@ -29,7 +29,6 @@ function getPropositionIdFromParentLi(parentLiNode) {
     return jq(parentLiNode).find('input.hiddenId').first().attr('value');
 }
 
-
 function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
@@ -39,26 +38,19 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
-function ajaxCallFromToolbar(command, controllerMethod, collectionGroupId) {
-    var enabled = enabledCheck(command);
-    if (enabled) {
-        ajaxCallPropositionTree(controllerMethod, collectionGroupId);
-    }
-}
-
-function ajaxCallOnTabSelect(event, ui){
+function ajaxCallOnTabSelect(event, ui) {
     //Do client side validation before continueing to next tab.
-    if (validateForm()){
+    if (validateForm()) {
 
         //Set the selected tab tracker.
         var selectedTabTracker = jq('input[id="tab_selected_control"]');
         selectedTabTracker.val(ui.index);
 
-        if(ui.index==0){
+        if (ui.index == 0) {
 
             //Check if the logic expression has changed.
             var logicArea = jq('#LogicArea_InputField_control');
-            if(logicArea.hasClass('dirty')){
+            if (logicArea.hasClass('dirty')) {
 
                 //Add an error message for the user.
                 var data = jQuery("#LogicArea_InputField").data(kradVariables.VALIDATION_MESSAGES);
@@ -85,7 +77,7 @@ function ajaxCallOnTabSelect(event, ui){
 
             //Check if any proposition is in editing mode.
             var updateButton = jq('button[id="update-button"]');
-            if(updateButton.length){
+            if (updateButton.length) {
 
                 //Force an updateProposition if any proposition is in edit mode.
                 ajaxCallPropositionTree('updateProposition', 'KS-EditWithLogic-EditGroup');
@@ -103,35 +95,29 @@ function ajaxCallOnTabSelect(event, ui){
 }
 
 function ajaxCutPropositionTree() {
-    var enabled = enabledCheck('cut');
-    if (enabled) {
-        var selectedItemTracker = getSelectedPropositionInput();
-        var selectedItemId = selectedItemTracker.val();
-        var cutItemTracker = getCutPropositionInput();
-        cutItemTracker.val(selectedItemId);
-        var copyItemTracker = getCopyPropositionInput();
-        copyItemTracker.val('');
+    var selectedItemTracker = getSelectedPropositionInput();
+    var selectedItemId = selectedItemTracker.val();
+    var cutItemTracker = getCutPropositionInput();
+    cutItemTracker.val(selectedItemId);
+    var copyItemTracker = getCopyPropositionInput();
+    copyItemTracker.val('');
 
-        resetCutSelected(selectedItemId);
-    }
+    resetCutSelected(selectedItemId);
 }
 
 function ajaxCopyPropositionTree() {
-    var enabled = enabledCheck('copy');
-    if (enabled) {
-        var selectedItemTracker = getSelectedPropositionInput();
-        var selectedItemId = selectedItemTracker.val();
-        var copyItemTracker = getCopyPropositionInput();
-        copyItemTracker.val(selectedItemId);
-        var cutItemTracker = getCutPropositionInput();
-        cutItemTracker.val('');
+    var selectedItemTracker = getSelectedPropositionInput();
+    var selectedItemId = selectedItemTracker.val();
+    var copyItemTracker = getCopyPropositionInput();
+    copyItemTracker.val(selectedItemId);
+    var cutItemTracker = getCutPropositionInput();
+    cutItemTracker.val('');
 
-        resetCutSelected(selectedItemId);
-    }
+    resetCutSelected(selectedItemId);
 }
 
 function resetCutSelected(selectedItemId) {
-    jq('a.ruleTreeNode').each( function() {
+    jq('a.ruleTreeNode').each(function () {
         var propositionId = getPropositionIdFromParentLi(this.parentNode);
         if (selectedItemId == propositionId) {
             // simulate click, which will mark it
@@ -144,25 +130,24 @@ function resetCutSelected(selectedItemId) {
 }
 
 function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
-    var enabled = enabledCheck('paste');
-    if (enabled) {
-        var selectedItemInput = getSelectedPropositionInput();
-        var selectedItemId = selectedItemInput.val();
-        var selectedItemInputName = selectedItemInput.attr('name');
-        var actionRevealCallBack = function (htmlContent) {
-            jq('.editModeNode').find(".actionReveal").first().hide();
+    var selectedItemInput = getSelectedPropositionInput();
+    var selectedItemId = selectedItemInput.val();
+    var actionRevealCallBack = function (htmlContent) {
+        jq('.editModeNode').find(".actionReveal").first().hide();
 
-            resetControlKeys();
+        resetControlKeys();
 
-            jq('a.ruleTreeNode').each( function() {
-                jq(this.parentNode).removeClass('ruleCutSelected');
-            });
-        };
-        retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
-    }
+        jq('a.ruleTreeNode').each(function () {
+            jq(this.parentNode).removeClass('ruleCutSelected');
+        });
+
+        disablePasteButton();
+    };
+    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+
 }
 
-function resetControlKeys(){
+function resetControlKeys() {
     var selectedItemTracker = getSelectedPropositionInput();
     selectedItemTracker.val('');
     // also remove copy key
@@ -196,7 +181,7 @@ function handlePropositionNodeClick(parentLiNode) {
     }
 
     // make li show containment of children
-    jq('li').each(function() {
+    jq('li').each(function () {
         jq(this).removeClass('ruleBlockSelected');
         // hide edit image links
         jq(this.parentNode).find(".actionReveal").hide();
@@ -218,7 +203,7 @@ function handlePropositionNodeClick(parentLiNode) {
         var parentId = jq(parentLiNode).find('input[type="hidden"]').parent().attr('id');
         var parentClass = jq(parentLiNode).find('input[type="hidden"]').parent().attr('class');
 
-        if(parentId.match(/^u\d+_node_0_parent_root$/) && parentClass.match(/.*compound.*ruleBlockSelected.*/)){
+        if (parentId.match(/^u\d+_node_0_parent_root$/) && parentClass.match(/.*compound.*ruleBlockSelected.*/)) {
             disableAddButton();
         }
     }
@@ -229,7 +214,7 @@ function handleEditNodeClick(parentLiNode) {
     var selectedItemTracker = getSelectedPropositionInput();
 
     // remove selection from other li's
-    jq('li').each(function() {
+    jq('li').each(function () {
         jq(this).removeClass('ruleBlockSelected');
     });
 
@@ -245,7 +230,7 @@ function handleEditNodeClick(parentLiNode) {
  * @return true if description is missing, false otherwise
  */
 function propositionWithoutDescription(parentLiNode) {
-    var description =  propositionAddInProgress();
+    var description = propositionAddInProgress();
     // check if edit is in progress
     if (description) {
         // check if edited proposition is the selected proposition
@@ -268,11 +253,11 @@ function propositionWithoutDescription(parentLiNode) {
  * @return description jQuery object of the proposition that is being added, null if none is currently being added
  */
 function propositionAddInProgress() {
-    var description =  jQuery(".editDescription");
+    var description = jQuery(".editDescription");
     return ((description.length > 0) && (jQuery.trim(description.val()) == "")) ? description : null;
 }
 
-function initRuleTree(componentId){
+function initRuleTree(componentId) {
 
     // binding to tree loaded event
     jq('#' + componentId).bind('loaded.jstree', function (event, data) {
@@ -283,31 +268,31 @@ function initRuleTree(componentId){
         jq(this).find(".actionReveal").hide();
 
         // selecting the description on an edit node should set it to be selected
-        jq('input.editDescription').click( function() {
+        jq('input.editDescription').click(function () {
 
             var parentLiNode = jq(this).closest('li');
             handlePropositionNodeClick(parentLiNode);
         });
 
         // rule node clicks should set the selected item
-        jq('a.ruleTreeNode').click( function() {
+        jq('a.ruleTreeNode').click(function () {
             var parentLiNode = this.parentNode;
             handlePropositionNodeClick(parentLiNode);
         });
 
         // rule node clicks should set the selected item
-        jq('li.simpleEditNode').click( function() {
+        jq('li.simpleEditNode').click(function () {
             var parentLiNode = jq(this).closest('li');
             handleEditNodeClick(parentLiNode);
         });
 
         // set type to 'logic' on logic nodes -- this prevents them from being selected
-        jq('a.compoundOpCodeNode').each( function() {
+        jq('a.compoundOpCodeNode').each(function () {
             jq('#' + componentId).jstree('set_type', 'logic', this.parentNode);
         });
 
         /* mark the selected node */
-        jq('a.ruleTreeNode').each( function() {
+        jq('a.ruleTreeNode').each(function () {
             var propositionId = getPropositionIdFromParentLi(this.parentNode);
             var selectedItemTracker = getSelectedPropositionInput();
             var selectedItemId = selectedItemTracker.val();
@@ -336,12 +321,12 @@ function initRuleTree(componentId){
         });
 
         /* update sister compound operators and update proposition summary */
-        jq("[name$='data.proposition.compoundOpCode']").change(function(){
+        jq("[name$='data.proposition.compoundOpCode']").change(function () {
             var onChangeElementId = this.id;
 
-            jq("select").filter(function() {
+            jq("select").filter(function () {
                 return this.id.match(
-                        new RegExp(onChangeElementId.replace(/^(\d+_node_)(\d+)(_.*)$/, '^$1\\d+$3$$'))
+                    new RegExp(onChangeElementId.replace(/^(\d+_node_)(\d+)(_.*)$/, '^$1\\d+$3$$'))
                 );
             }).val(jq(this).val());
 
@@ -359,41 +344,41 @@ function initRuleTree(componentId){
 
     /* create the tree */
     createTree(componentId, {
-        'plugins' : ['themes','html_data', 'ui', 'crrm', 'types' /*, 'dnd' */ ], // disabled drag and drop plugin
-        'ui' : { 'select_limit' : 1 },
-        'themes' : { 'theme':'krms','dots': true ,'icons': false },
-        'crrm' : {
+        'plugins': ['themes', 'html_data', 'ui', 'crrm', 'types' /*, 'dnd' */ ], // disabled drag and drop plugin
+        'ui': { 'select_limit': 1 },
+        'themes': { 'theme': 'krms', 'dots': true, 'icons': false },
+        'crrm': {
             /* This is where you can control what is draggable onto what within the tree: */
-            'move' : {
+            'move': {
                 /*
                  * m.o - the node being dragged
                  * m.r - the target node
                  */
-                'check_move' : function (m) {
+                'check_move': function (m) {
                     var p = this._get_parent(m.o);
-                    if(!p) return false;
+                    if (!p) return false;
                     p = p == -1 ? this.get_container() : p;
 
                     if (m.o.hasClass('logicNode')) return false;
 
-                    if(p === m.np) return true;
-                    if(p[0] && m.np[0] && p[0] === m.np[0]) return true;
+                    if (p === m.np) return true;
+                    if (p[0] && m.np[0] && p[0] === m.np[0]) return true;
                     return false;
                 }
             }
         },
-        'types' : {
-            'types' : {
+        'types': {
+            'types': {
                 /* nodes set to type 'logic' will not be selectable */
-                'logic' : { 'select_node' : false }
+                'logic': { 'select_node': false }
             }
         },
-        'dnd' : { 'drag_target' : false, 'drop_target' : false }
-    } );
+        'dnd': { 'drag_target': false, 'drop_target': false }
+    });
 
 }
 
-function initPreviewTree(componentId){
+function initPreviewTree(componentId) {
 
     // binding to tree loaded event
     jq('#' + componentId).bind('loaded.jstree', function (event, data) {
@@ -401,7 +386,7 @@ function initPreviewTree(componentId){
         jq('#' + componentId).jstree('open_all');
 
         // set type to 'logic' on logic nodes -- this prevents them from being selected
-        jq('a.compoundOpCodeNode').each( function() {
+        jq('a.compoundOpCodeNode').each(function () {
             jq('#' + componentId).jstree('set_type', 'logic', this.parentNode);
         });
 
@@ -410,37 +395,37 @@ function initPreviewTree(componentId){
 
     /* create the tree */
     createTree(componentId, {
-        'plugins' : ['themes','html_data', 'ui', 'crrm', 'types' /*, 'dnd' */ ], // disabled drag and drop plugin
-        'ui' : { 'select_limit' : 1 },
-        'themes' : { 'theme':'view','dots': true ,'icons': false },
-        'crrm' : {
+        'plugins': ['themes', 'html_data', 'ui', 'crrm', 'types' /*, 'dnd' */ ], // disabled drag and drop plugin
+        'ui': { 'select_limit': 1 },
+        'themes': { 'theme': 'view', 'dots': true, 'icons': false },
+        'crrm': {
             /* This is where you can control what is draggable onto what within the tree: */
-            'move' : {
+            'move': {
                 /*
                  * m.o - the node being dragged
                  * m.r - the target node
                  */
-                'check_move' : function (m) {
+                'check_move': function (m) {
                     var p = this._get_parent(m.o);
-                    if(!p) return false;
+                    if (!p) return false;
                     p = p == -1 ? this.get_container() : p;
 
                     if (m.o.hasClass('logicNode')) return false;
 
-                    if(p === m.np) return true;
-                    if(p[0] && m.np[0] && p[0] === m.np[0]) return true;
+                    if (p === m.np) return true;
+                    if (p[0] && m.np[0] && p[0] === m.np[0]) return true;
                     return false;
                 }
             }
         },
-        'types' : {
-            'types' : {
+        'types': {
+            'types': {
                 /* nodes set to type 'logic' will not be selectable */
-                'logic' : { 'select_node' : false }
+                'logic': { 'select_node': false }
             }
         },
-        'dnd' : { 'drag_target' : false, 'drop_target' : false }
-    } );
+        'dnd': { 'drag_target': false, 'drop_target': false }
+    });
 
 }
 
@@ -464,13 +449,13 @@ function createAutoComplete(controlId, options, queryFieldId, queryParameters, l
             }
 
             jQuery.ajax({
-                url:jQuery("form#kualiForm").attr("action"),
-                dataType:"json",
-                beforeSend:null,
-                complete:null,
-                error:null,
-                data:queryData,
-                success:function (data) {
+                url: jQuery("form#kualiForm").attr("action"),
+                dataType: "json",
+                beforeSend: null,
+                complete: null,
+                error: null,
+                data: queryData,
+                success: function (data) {
                     response(data.resultData);
                 }
             });

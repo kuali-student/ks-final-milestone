@@ -91,11 +91,11 @@ function cutPasteButtonInit() {
         });
     }
     // PASTE
-    if (jq('.kr-paste-button') != undefined && jq('.kr-paste-button') != null) {
-        jq('.kr-paste-button').click(function() {
-            disablePasteButton();
-        });
-    }
+    //if (jq('.kr-paste-button') != undefined && jq('.kr-paste-button') != null) {
+    //    jq('.kr-paste-button').click(function() {
+    //       disablePasteButton();
+    //    });
+    //}
 }
 
 
