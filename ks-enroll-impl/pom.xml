@@ -20,11 +20,11 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <!--
-                Setting forkMode to always. Multiple dao tests using Spring
+                Setting reuseForks to false. Multiple dao tests using Spring
                 junit class runner doesn't play nice with each other
                 -->
                 <configuration>
-                    <forkMode>always</forkMode>
+                    <reuseForks>false</reuseForks>
                     <argLine>-Xms256m -Xmx512m</argLine>
                 </configuration>
             </plugin>
