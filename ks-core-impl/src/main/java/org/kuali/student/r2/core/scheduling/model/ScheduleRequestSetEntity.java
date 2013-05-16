@@ -76,7 +76,7 @@ public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwn
     private String refObjectTypeKey;
 
     @ElementCollection
-    @CollectionTable(name ="KSEN_SCHED_RQST_REF_OBJ", joinColumns = @JoinColumn(name = "REF_OBJ_ID"))
+    @CollectionTable(name ="KSEN_SCHED_REF_OBJECT", joinColumns = @JoinColumn(name = "REF_OBJECT_ID"))
     @Column(name="SCHED_RQST_SET_ID")
     private List<String> refObjectIds;
 
