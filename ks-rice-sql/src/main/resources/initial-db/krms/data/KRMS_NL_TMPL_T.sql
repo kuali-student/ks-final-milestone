@@ -244,7 +244,7 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1094','KS-KRMS-NL-USAGE-1004','Must have earned a minimum cumulative GPA of <GPA>','10040',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1095','KS-KRMS-NL-USAGE-1004','Must have earned a minimum Cumulative GPA of <GPA> in <duration>','10041',0)
+  VALUES ('en', 'KS-KRMS-NL-TMPL-1095','KS-KRMS-NL-USAGE-1004','Must have earned a minimum Cumulative GPA of <GPA> in <duration><durationType>','10041',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1096','KS-KRMS-NL-USAGE-1004','Must have earned a minimum GPA of <GPA>  in <courses>','10025',0)
@@ -448,7 +448,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1246','en','KS-KRMS-NL-USAGE-1000','10040','Must have earned a minimum cumulative GPA of $intValue',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1247','en','KS-KRMS-NL-USAGE-1000','10041','Must have earned a minimum $durationType.getName().toLowerCase() GPA of $intValue',0)
+  VALUES ('KS-KRMS-NL-TMPL-1247','en','KS-KRMS-NL-USAGE-1000','10041','Must have earned a minimum Cumulative GPA of $intValue in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1248','en','KS-KRMS-NL-USAGE-1003','10018','#if($courseCluSet.getCluList().size() == 1)Must have successfully completed#{else}Must have successfully completed all courses from#end',0)
@@ -481,7 +481,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1271','en','KS-KRMS-NL-USAGE-1003','10040','Must have earned a minimum cumulative GPA of $intValue',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1272','en','KS-KRMS-NL-USAGE-1003','10041','Must have earned a minimum $durationType.getName().toLowerCase() GPA of $intValue',0)
+  VALUES ('KS-KRMS-NL-TMPL-1272','en','KS-KRMS-NL-USAGE-1003','10041','Must have earned a minimum Cumulative GPA of $intValue in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1273','en','KS-KRMS-NL-USAGE-1003','10027','Must have earned a minimum grade of #if($gradeType.getId().equals("kuali.result.scale.grade.letter") || $gradeType.getId().equals("kuali.result.scale.grade.percentage"))$gradeType.getName().toLowerCase() #{end}$grade in',0)
