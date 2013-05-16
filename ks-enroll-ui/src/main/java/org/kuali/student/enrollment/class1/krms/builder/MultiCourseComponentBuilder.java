@@ -340,6 +340,10 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             }
         }
 
+        //Set the membershipquery on the cluset
+        if(cluSetInformation.getMembershipQueryInfo()!=null){
+            cluSetInfo.setMembershipQuery(cluSetInformation.getMembershipQueryInfo());
+        }
 
         return cluSetInfo;
     }

@@ -125,46 +125,6 @@ public class KrmsComponentsForm extends KSUifForm {
         this.getRule().setSearchByCourseRange(searchByCourseRange);
     }
 
-    public String getSubjectCode() {
-        return this.getRule().getSubjectCode();
-    }
-
-    public void setSubjectCode(String subjectCode) {
-        this.getRule().setSubjectCode(subjectCode);
-    }
-
-    public String getCourseNumberRange() {
-        return this.getRule().getCourseNumberRange();
-    }
-
-    public void setCourseNumberRange(String courseNumberRange) {
-        this.setCourseNumberRange(courseNumberRange);
-    }
-
-    public String getLearningObjective() {
-        return this.getRule().getLearningObjective();
-    }
-
-    public void setLearningObjective(String learningObjective) {
-        this.getRule().setLearningObjective(learningObjective);
-    }
-
-    public Date getEffectiveFrom() {
-        return this.getRule().getEffectiveFrom();
-    }
-
-    public void setEffectiveFrom(Date effectiveFrom) {
-        this.getRule().setEffectiveFrom(effectiveFrom);
-    }
-
-    public Date getEffectiveTo() {
-        return this.getRule().getEffectiveTo();
-    }
-
-    public void setEffectiveTo(Date effectiveTo) {
-        this.getRule().setEffectiveTo(effectiveTo);
-    }
-
     /**
      * @return the tree1
      */

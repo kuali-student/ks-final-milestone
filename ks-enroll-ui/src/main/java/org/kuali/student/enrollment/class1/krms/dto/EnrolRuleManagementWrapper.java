@@ -2,8 +2,10 @@ package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,6 +17,7 @@ import java.util.Date;
 public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     private String cluDescription;
+    private List<CluInformation> clusInRange;
 
     public String getCluDescription() {
         return cluDescription;
@@ -39,59 +42,22 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
         this.getEnrolRuleEditor().setSearchByCourseRange(searchByCourseRange);
     }
 
-    public String getSubjectCode() {
+    public CluSetRangeHelper getCluSetRange() {
         if(this.getEnrolRuleEditor()==null){
-            return StringUtils.EMPTY;
+            return new CluSetRangeHelper();
         }
-        return this.getEnrolRuleEditor().getSubjectCode();
+        return this.getEnrolRuleEditor().getCluSetRange();
     }
 
-    public void setSubjectCode(String subjectCode) {
-        this.getEnrolRuleEditor().setSubjectCode(subjectCode);
+    public void setSubjectCode(CluSetRangeHelper cluSetRange) {
+        this.getEnrolRuleEditor().setCluSetRange(cluSetRange);
     }
 
-    public String getCourseNumberRange() {
-        if(this.getEnrolRuleEditor()==null){
-            return StringUtils.EMPTY;
-        }
-        return this.getEnrolRuleEditor().getCourseNumberRange();
+    public List<CluInformation> getClusInRange() {
+        return clusInRange;
     }
 
-    public void setCourseNumberRange(String courseNumberRange) {
-        this.getEnrolRuleEditor().setCourseNumberRange(courseNumberRange);
+    public void setClusInRange(List<CluInformation> clusInRange) {
+        this.clusInRange = clusInRange;
     }
-
-    public String getLearningObjective() {
-        if(this.getEnrolRuleEditor()==null){
-            return StringUtils.EMPTY;
-        }
-        return this.getEnrolRuleEditor().getLearningObjective();
-    }
-
-    public void setLearningObjective(String learningObjective) {
-        this.getEnrolRuleEditor().setLearningObjective(learningObjective);
-    }
-
-    public Date getEffectiveFrom() {
-        if(this.getEnrolRuleEditor()==null){
-            return new Date();
-        }
-        return this.getEnrolRuleEditor().getEffectiveFrom();
-    }
-
-    public void setEffectiveFrom(Date effectiveFrom) {
-        this.getEnrolRuleEditor().setEffectiveFrom(effectiveFrom);
-    }
-
-    public Date getEffectiveTo() {
-        if(this.getEnrolRuleEditor()==null){
-            return new Date();
-        }
-        return this.getEnrolRuleEditor().getEffectiveTo();
-    }
-
-    public void setEffectiveTo(Date effectiveTo) {
-        this.getEnrolRuleEditor().setEffectiveTo(effectiveTo);
-    }
-
 }

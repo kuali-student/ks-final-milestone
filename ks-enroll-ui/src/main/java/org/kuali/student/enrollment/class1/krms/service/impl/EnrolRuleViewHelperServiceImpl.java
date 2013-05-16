@@ -5,6 +5,7 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -14,6 +15,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.*;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
@@ -41,6 +43,48 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
         return EnrolPropositionEditor.class;
+    }
+
+    public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery) {
+        List<CluInformation> clusInRange = new ArrayList<CluInformation>();
+        if (membershipQuery != null) {
+            SearchRequestInfo searchRequest = new SearchRequestInfo();
+            searchRequest.setSearchKey(membershipQuery.getSearchTypeKey());
+            searchRequest.setParams(membershipQuery.getQueryParamValues());
+            SearchResultInfo searchResult = null;
+            try {
+                searchResult = this.getCluService().search(searchRequest, ContextUtils.getContextInfo());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            List<SearchResultRowInfo> rows = searchResult.getRows();
+            for (SearchResultRowInfo row : rows) {
+                List<SearchResultCellInfo> cells = row.getCells();
+                CluInformation cluInformation = new CluInformation();
+                for (SearchResultCellInfo cell : cells) {
+                    if (cell.getKey().equals("lu.resultColumn.cluId")) {
+                        cluInformation.setCluId(cell.getValue());
+                    }
+                    if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {
+                       cluInformation.setCode(cell.getValue());
+                    }
+                    if (cell.getKey().equals("lu.resultColumn.luOptionalLongName")) {
+                        cluInformation.setTitle(cell.getValue());
+                    }
+                    if (cell.getKey().equals("lu.resultColumn.luOptionalDescr")) {
+                        cluInformation.setDescription(cell.getValue());
+                    }
+                    if (cell.getKey().equals("lu.resultColumn.luOptionalState")) {
+                        cluInformation.setState(cell.getValue());
+                    }
+                    if (cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")) {
+                        cluInformation.setVerIndependentId(cell.getValue());
+                    }
+                }
+                clusInRange.add(cluInformation);
+            }
+        }
+        return clusInRange;
     }
 
     public List<KrmsSuggestDisplay> getCourseNamesForSuggest(String moduleName) {
