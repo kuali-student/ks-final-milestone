@@ -290,7 +290,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="View" p:actionScript="showLightboxComponent('courseRangeLookup');"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"/>
                 <bean parent="Uif-DeleteLineAction">
                     <property name="cssClasses">
                         <list merge="true">
@@ -307,7 +307,7 @@
             <list>
                 <bean parent="Uif-Label" p:labelText="Course Range" p:renderColon="false" />
                 <bean parent="Uif-ActionLink" p:actionLabel="Define Course Range" p:style="color: #3F7826;" p:actionScript="showLightboxComponent('courseRangeLightBox');"/>
-                <bean parent="KRMS-CourseRangeStackedCollectionGroup">
+                <bean parent="KRMS-CourseRangeStackedCollectionGroup" p:renderAddLine="false">
                     <property name="propertyName" value="proposition.cluSet.cluSetRange"/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper"/>
                     <property name="items">

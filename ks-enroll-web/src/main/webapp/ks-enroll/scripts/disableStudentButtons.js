@@ -19,6 +19,7 @@ var PASTE='.kr-paste-button';
 var DELETE='.kr-delete-button';
 var REFRESH='.kr-refresh-button';
 var TREE = '.tree-bar-button';
+var MOVE='.kr-move-button';
 
 var ENABLED = true;
 var pasting = false;
@@ -76,6 +77,10 @@ function disablePasteButton() {
 
 function disableTreeButtons() {
     disableButton(TREE);
+}
+
+function disableMoveButtons() {
+    disableButton(MOVE);
 }
 
 function cutPasteButtonInit() {

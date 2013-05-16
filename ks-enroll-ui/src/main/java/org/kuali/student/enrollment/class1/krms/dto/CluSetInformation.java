@@ -77,7 +77,7 @@ public class CluSetInformation implements Serializable {
     }
 
     public void setCluSetRange(List<CluSetRangeHelper> cluSetRange) {
-        this.cluSetRange = cluSetRange;
+        this.cluSetRange.set(0, cluSetRange.get(cluSetRange.size()-1));
     }
 
     public Map<String, CluSetInformation> getSubCluSetInformations() {

@@ -219,6 +219,7 @@
                                           p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconEdit.png"
                                           p:altText="Edit Proposition"/>
                                 </property>
+
                             </bean>
 
                             <bean parent="KS-RuleEditorView-Button"
@@ -249,6 +250,11 @@
                                           p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconLeft.png"
                                           p:altText="Left"/>
                                 </property>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>kr-move-button</value>
+                                    </list>
+                                </property>
                             </bean>
 
                             <bean parent="KS-RuleEditorView-Button"
@@ -260,6 +266,11 @@
                                     <bean parent="Uif-Image"
                                           p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconRight.png"
                                           p:altText="Right"/>
+                                </property>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>kr-move-button</value>
+                                    </list>
                                 </property>
                             </bean>
 
@@ -273,6 +284,11 @@
                                           p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconUp.png"
                                           p:altText="Up"/>
                                 </property>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>kr-move-button</value>
+                                    </list>
+                                </property>
                             </bean>
 
                             <bean parent="KS-RuleEditorView-Button"
@@ -284,6 +300,11 @@
                                     <bean parent="Uif-Image"
                                           p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconDown.png"
                                           p:altText="Down"/>
+                                </property>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>kr-move-button</value>
+                                    </list>
                                 </property>
                             </bean>
                         </list>

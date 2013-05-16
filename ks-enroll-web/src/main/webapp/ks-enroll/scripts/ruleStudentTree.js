@@ -195,6 +195,12 @@ function handlePropositionNodeClick(parentLiNode) {
     } else {
         selectedItemTracker.val(propositionId);
         markNodeAsSelected(parentLiNode);
+
+        var parentClass = jq(parentLiNode).attr('class');
+
+        if(propositionId.match(/A/) && parentClass.match(/.*simple.*ruleBlockSelected.*/)) {
+            disableMoveButtons(); // disableButtons.js
+        }
     }
 }
 

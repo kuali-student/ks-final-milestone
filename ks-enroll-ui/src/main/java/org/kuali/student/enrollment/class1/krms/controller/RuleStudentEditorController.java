@@ -103,7 +103,7 @@ public class RuleStudentEditorController extends RuleEditorController {
         MembershipQueryInfo membershipQueryInfo = new MembershipQueryInfo();
         membershipQueryInfo.setId(null);
 
-        if(ruleWrapper.getCluSetRange().getSearchByCourseRange().equals("1")) {
+        if(rule.getSearchByCourseRange().equals("1")) {
             membershipQueryInfo.setSearchTypeKey("lu.search.mostCurrent.union");
             List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
 
@@ -130,8 +130,8 @@ public class RuleStudentEditorController extends RuleEditorController {
 
             membershipQueryInfo.setQueryParamValues(queryParams);
 
-            ruleWrapper.getCluSetRange().setCluSetRangeLabel("<b>Subject Code:</b> " + ruleWrapper.getCluSetRange().getSubjectCode() + " <b>Course Number Range:</b> " +ruleWrapper.getCluSetRange().getCourseNumberRange() + " <b>State:</b> Draft");
-        } else if(ruleWrapper.getCluSetRange().getSearchByCourseRange().equals("2")) {
+            rule.getCluSetRange().setCluSetRangeLabel("<b>Subject Code:</b> " + rule.getCluSetRange().getSubjectCode() + " <b>Course Number Range:</b> " + rule.getCluSetRange().getCourseNumberRange() + " <b>State:</b> Draft");
+        } else if(rule.getSearchByCourseRange().equals("2")) {
             membershipQueryInfo.setSearchTypeKey("lu.search.loByDescCrossSearch");
             List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
 
@@ -144,8 +144,8 @@ public class RuleStudentEditorController extends RuleEditorController {
 
             membershipQueryInfo.setQueryParamValues(queryParams);
 
-            ruleWrapper.getCluSetRange().setCluSetRangeLabel("<b>Learning Objective:</b> " + ruleWrapper.getCluSetRange().getLearningObjective());
-        } else if(ruleWrapper.getCluSetRange().getSearchByCourseRange().equals("3")) {
+            rule.getCluSetRange().setCluSetRangeLabel("<b>Learning Objective:</b> " + rule.getCluSetRange().getLearningObjective());
+        } else if(rule.getSearchByCourseRange().equals("3")) {
             membershipQueryInfo.setSearchTypeKey("lu.search.generic");
             List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
 
@@ -165,7 +165,7 @@ public class RuleStudentEditorController extends RuleEditorController {
 
             membershipQueryInfo.setQueryParamValues(queryParams);
 
-            ruleWrapper.getCluSetRange().setCluSetRangeLabel("<b>Effective From:</b> " + ruleWrapper.getCluSetRange().getEffectiveFrom() + " <b>Effective To:</b> " +ruleWrapper.getCluSetRange().getEffectiveTo());
+            rule.getCluSetRange().setCluSetRangeLabel("<b>Effective From:</b> " + rule.getCluSetRange().getEffectiveFrom() + " <b>Effective To:</b> " + rule.getCluSetRange().getEffectiveTo());
         }
 
         if(prop.getCluSet() == null) {

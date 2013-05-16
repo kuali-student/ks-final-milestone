@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,6 @@ import java.util.List;
 public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     private String cluDescription;
-    private List<CluInformation> clusInRange;
 
     public String getCluDescription() {
         return cluDescription;
@@ -58,10 +58,13 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
     }
 
     public List<CluInformation> getClusInRange() {
-        return clusInRange;
+        if(this.getEnrolRuleEditor()==null){
+            return new ArrayList<CluInformation>();
+        }
+        return this.getEnrolRuleEditor().getClusInRange();
     }
 
     public void setClusInRange(List<CluInformation> clusInRange) {
-        this.clusInRange = clusInRange;
+        this.getEnrolRuleEditor().setClusInRange(clusInRange);
     }
 }

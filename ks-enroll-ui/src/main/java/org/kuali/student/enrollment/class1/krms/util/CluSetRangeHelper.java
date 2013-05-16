@@ -7,7 +7,6 @@ import java.util.Date;
 
 public class CluSetRangeHelper implements Serializable {
 
-    private String searchByCourseRange;
     private String cluSetRangeLabel;
     private String subjectCode;
     private String courseNumberRange;
@@ -16,7 +15,6 @@ public class CluSetRangeHelper implements Serializable {
     private Date effectiveTo;
 
     public CluSetRangeHelper() {
-        this.searchByCourseRange = StringUtils.EMPTY;
         this.cluSetRangeLabel = StringUtils.EMPTY;
         this.subjectCode = StringUtils.EMPTY;
         this.courseNumberRange = StringUtils.EMPTY;
@@ -71,13 +69,5 @@ public class CluSetRangeHelper implements Serializable {
 
     public void setEffectiveTo(Date effectiveTo) {
         this.effectiveTo = effectiveTo;
-    }
-
-    public String getSearchByCourseRange() {
-        return searchByCourseRange;
-    }
-
-    public void setSearchByCourseRange(String searchByCourseRange) {
-        this.searchByCourseRange = searchByCourseRange;
     }
 }

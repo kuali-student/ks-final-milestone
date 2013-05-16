@@ -7,6 +7,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +23,7 @@ public class EnrolRuleEditor extends RuleEditor {
     //Course Range Dialog.
     private String searchByCourseRange;
     private CluSetRangeHelper cluSetRange;
+    private List<CluInformation> clusInRange;
 
     public EnrolRuleEditor(){
         super();
@@ -47,9 +49,16 @@ public class EnrolRuleEditor extends RuleEditor {
         this.cluSetRange = cluSetRange;
     }
 
+    public List<CluInformation> getClusInRange() {
+        return clusInRange;
+    }
+
+    public void setClusInRange(List<CluInformation> clusInRange) {
+        this.clusInRange = clusInRange;
+    }
+
     @Override
     protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){
         return new EnrolPropositionEditor(definition);
     }
-
 }
