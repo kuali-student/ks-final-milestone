@@ -455,19 +455,17 @@
                 <value>ks-myplan/plugins/jcarousellite.js</value>
             </list>
         </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-LookupPage" p:id="planned_courses_detail_page">
-                    <property name="layoutManager">
-                        <bean parent="Uif-HorizontalBoxLayout"/>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <ref bean="planned_courses_detail"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
+        <property name="page">
+            <bean parent="Uif-LookupPage" p:id="planned_courses_detail_page">
+                <property name="layoutManager">
+                    <bean parent="Uif-HorizontalBoxLayout"/>
+                </property>
+                <property name="items">
+                    <list>
+                        <ref bean="planned_courses_detail"/>
+                    </list>
+                </property>
+            </bean>
         </property>
 
         <property name="criteriaFields">

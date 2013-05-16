@@ -104,12 +104,14 @@
         	}" />
 		<property name="onChangeScript"
 			value="
-        	if (jQuery('#text_searchQuery_control').val() != '') {
-          var sb = jQuery('button.course-search-submit');
+         var sb = jQuery('button.course-search-submit');
+            if (jQuery(this).val().length > 0) {
                 sb.attr('disabled', false);
                 sb.removeClass('disabled');
-        		sb.click();
-        	}" />
+            } else {
+                sb.attr('disabled', true);
+                sb.addClass('disabled');
+            }" />
 		<property name="onLoadScript" value="jQuery(this).blur();" />
 		<property name="onKeyUpScript"
 			value="
