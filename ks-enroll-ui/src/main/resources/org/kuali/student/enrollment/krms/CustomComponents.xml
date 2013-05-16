@@ -211,10 +211,10 @@
         </property>
         <property name="addLineItems">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
+                <bean parent="Uif-InputField-LabelTop" p:style="width: 380px;">
                     <property name="propertyName" value="name"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:disabled="true"/>
+                        <bean parent="Uif-TextControl" p:style="width:370px; margin-top:null 2px;" p:disabled="true"/>
                     </property>
                     <property name="label" value="Course Sets"/>
                     <!--property name="suggest">
