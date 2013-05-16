@@ -73,8 +73,8 @@ public class CourseOfferingSetServiceConstants {
     };
 
     // rollover  types
-    public static final String ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.rollover";
-    public static final String REVERSE_ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.result.reverse";
+    public static final String ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.results.type.rollover";
+    public static final String REVERSE_ROLLOVER_RESULT_TYPE_KEY = "kuali.soc.rollover.results.type.reverse";
 
     // states for rollover
     public static final String SUBMITTED_RESULT_STATE_KEY = "kuali.soc.rollover.state.submitted";
@@ -83,8 +83,8 @@ public class CourseOfferingSetServiceConstants {
     public static final String ABORTED_RESULT_STATE_KEY = "kuali.soc.rollover.state.aborted";
 
     // item types
-    public static final String CREATE_RESULT_ITEM_TYPE_KEY = "kuali.soc.rollover.result.item.create";
-    public static final String DELETE_RESULT_ITEM_TYPE_KEY = "kuali.soc.rollover.result.item.delete";
+    public static final String CREATE_RESULT_ITEM_TYPE_KEY = "kuali.soc.rollover.result.item.type.create";
+    public static final String DELETE_RESULT_ITEM_TYPE_KEY = "kuali.soc.rollover.result.item.type.delete";
 
     // item  states
     public static final String CREATED_RESULT_ITEM_STATE_KEY = "kuali.soc.rollover.result.item.state.processed.created";
