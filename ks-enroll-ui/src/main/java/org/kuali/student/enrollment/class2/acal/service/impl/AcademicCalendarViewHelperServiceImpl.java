@@ -55,6 +55,8 @@ import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
@@ -87,6 +89,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     private AcademicCalendarService acalService;
     private TypeService typeService;
+    private AtpService atpService;
 
     /**
      * This method builds an academic calendar for ui processing. Basically, it builds the wrappers
@@ -780,11 +783,21 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         term.setName(termWrapper.getName());
         term.setTypeKey(termWrapper.getTermType());
 
+
+
         if (termWrapper.isNew()){
             TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
             termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
             getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),createContextInfo());
         } else {
+
+            AtpInfo existingAtp = getAtpService().getAtp(term.getId(), createContextInfo());
+            if(existingAtp!=null){
+                if(existingAtp.getCode()== null){
+                    throw new Exception("Unable to find term code.");
+                }
+            }
+
             TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,createContextInfo());
             termWrapper.setTermInfo(updatedTerm);
            /* if (!isOfficial){
@@ -1066,6 +1079,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
              typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.typeService;
+    }
+
+    public AtpService getAtpService() {
+        if(atpService == null) {
+            atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.atpService;
     }
 
     protected String getAdminOrgNameById(String id){
