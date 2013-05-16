@@ -554,7 +554,7 @@ function calculatePercent(jqObject){
                 }
                 count += 1;
                 if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
-                    seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
+                    seatsTotal = parseInt(seatsTotal) + (parseInt(seatsNum) || 0);
                     var result = (seatsNum / maxEnrollValue) * 100;
                     elemPct.text(Math.round(result) + "%");
                 } else {
