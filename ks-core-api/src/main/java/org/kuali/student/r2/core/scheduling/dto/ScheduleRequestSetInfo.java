@@ -50,7 +50,6 @@ public class ScheduleRequestSetInfo extends IdEntityInfo implements ScheduleRequ
 
     @Override
     public List<String> getRefObjectIds() {
-
         if(refObjectIds == null) {
             this.refObjectIds = new ArrayList<String>();
         }
