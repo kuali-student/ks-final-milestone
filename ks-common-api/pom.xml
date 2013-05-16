@@ -13,7 +13,7 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <forkMode>always</forkMode>
+                    <reuseForks>false</reuseForks>
                     <argLine>-Xms256m -Xmx512m</argLine>
                 </configuration>
             </plugin>
