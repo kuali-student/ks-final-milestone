@@ -799,6 +799,7 @@
         <column name="OBJ_ID" required="true" size="36" type="VARCHAR"/>
         <column name="DOC_SEARCH_HELP_URL" size="4000" type="VARCHAR"/>
         <column name="DOC_HDR_ID" size="40" type="VARCHAR"/>
+        <column name="AUTHORIZER" size="255" type="VARCHAR"/>
         <unique name="KREW_DOC_TYP_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -3485,6 +3486,7 @@
         <column name="DOC_HDR_ID" required="true" size="14" type="VARCHAR"/>
         <column name="GNRT_DT" required="true" type="TIMESTAMP"/>
         <column name="PRNCPL_ID" required="true" size="40" type="VARCHAR"/>
+        <column name="SESN_ID" required="true" size="40" type="VARCHAR"/>
         <unique name="KRNS_PESSIMISTIC_LOCK_TC0">
             <unique-column name="OBJ_ID"/>
         </unique>
@@ -3742,6 +3744,9 @@
         <index name="KRSB_SVC_DEF_TI3">
             <index-column name="STAT_CD"/>
         </index>
+        <index name="KRSB_SVC_DEF_TI4">
+            <index-column name="SVC_DSCRPTR_ID"/>
+        </index>
     </table>
     <table name="KRSB_SVC_DSCRPTR_T">
         <column name="SVC_DSCRPTR_ID" primaryKey="true" size="40" type="VARCHAR"/>
@@ -3837,12 +3842,12 @@
     <sequence name="KRMS_ACTN_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_ACTN_S" nextval="10000"/>
     <sequence name="KRMS_AGENDA_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_AGENDA_ITM_S" nextval="10000"/>
-    <sequence name="KRMS_AGENDA_S" nextval="10000"/>
+    <sequence name="KRMS_AGENDA_ITM_S" nextval="10149"/>
+    <sequence name="KRMS_AGENDA_S" nextval="10143"/>
     <sequence name="KRMS_ATTR_DEFN_S" nextval="10000"/>
-    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10000"/>
+    <sequence name="KRMS_CMPND_PROP_PROPS_S" nextval="10252"/>
     <sequence name="KRMS_CNTXT_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_CNTXT_S" nextval="10000"/>
+    <sequence name="KRMS_CNTXT_S" nextval="10002"/>
     <sequence name="KRMS_CNTXT_VLD_ACTN_TYP_S" nextval="10000"/>
     <sequence name="KRMS_CNTXT_VLD_AGENDA_TYP_S" nextval="10004"/>
     <sequence name="KRMS_CNTXT_VLD_FUNC_S" nextval="10000"/>
@@ -3855,21 +3860,21 @@
     <sequence name="KRMS_NL_TMPL_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_NL_USAGE_S" nextval="10000"/>
-    <sequence name="KRMS_PROP_PARM_S" nextval="10000"/>
-    <sequence name="KRMS_PROP_S" nextval="10000"/>
-    <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10000"/>
+    <sequence name="KRMS_PROP_PARM_S" nextval="10601"/>
+    <sequence name="KRMS_PROP_S" nextval="10254"/>
+    <sequence name="KRMS_REF_OBJ_KRMS_OBJ_S" nextval="10143"/>
     <sequence name="KRMS_RULE_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_RULE_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_PARM_S" nextval="10000"/>
+    <sequence name="KRMS_RULE_S" nextval="10149"/>
+    <sequence name="KRMS_TERM_PARM_S" nextval="10214"/>
     <sequence name="KRMS_TERM_RSLVR_ATTR_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_INPUT_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_PARM_SPEC_S" nextval="10000"/>
     <sequence name="KRMS_TERM_RSLVR_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_S" nextval="10000"/>
-    <sequence name="KRMS_TERM_SPEC_S" nextval="10000"/>
+    <sequence name="KRMS_TERM_S" nextval="10201"/>
+    <sequence name="KRMS_TERM_SPEC_S" nextval="10015"/>
     <sequence name="KRMS_TYP_ATTR_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_RELN_S" nextval="10000"/>
-    <sequence name="KRMS_TYP_S" nextval="10000"/>
+    <sequence name="KRMS_TYP_RELN_S" nextval="10117"/>
+    <sequence name="KRMS_TYP_S" nextval="10077"/>
     <sequence name="KRNS_DOC_TYP_ATTR_S" nextval="1000"/>
     <sequence name="KRNS_LOCK_S" nextval="2000"/>
     <sequence name="KRNS_LOOKUP_RSLT_S" nextval="2000"/>

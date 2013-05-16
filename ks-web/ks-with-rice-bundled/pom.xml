@@ -33,13 +33,6 @@
         </resources>
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>gwt-maven-plugin</artifactId>
                 <executions>
@@ -118,7 +111,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
-                    <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,WEB-INF/krad-servlet.xml,**/sampleTravelApplication.tag</dependentWarExcludes>
+                    <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,WEB-INF/krad-servlet.xml,**/sampleTravelApplication.tag,META-INF/**</dependentWarExcludes>
                 </configuration>
             </plugin>
         </plugins>
@@ -171,7 +164,7 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-development-tools</artifactId>
+            <artifactId>rice-krad-development-tools</artifactId>
         </dependency>
         <!-- TODO: RICE-M7 UPGRADE -fix ks-admin
       <dependency>

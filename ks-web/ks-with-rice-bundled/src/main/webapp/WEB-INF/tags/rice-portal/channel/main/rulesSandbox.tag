@@ -20,7 +20,8 @@
     <strong>Student Views</strong>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="KRMS Components" url="${ConfigProperties.application.url}/kr-krad/krmsComponents?viewId=manageKrmsComponentsView&methodToCall=start"/></li>
-        <li><portal:portalLink displayTitle="true" title="Manage Course Offering Agendas" url="${ConfigProperties.application.url}/kr-krad/krmsRuleStudentEditor?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper&viewName=COAgendaManagementView&overrideKeys=refObjectId&refObjectId=0f074dc5-91ec-4a9d-9f27-decbdbb79e8e"/></li>
+        <li><portal:portalLink displayTitle="true" title="Manage Course Offering Agendas" url="${ConfigProperties.application.url}/kr-krad/krmsRuleStudentEditor?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper&viewName=COAgendaManagementView&overrideKeys=refObjectId&refObjectId=0f074dc5-91ec-4a9d-9f27-decbdbb79e8e"/></li>
+        <li><portal:portalLink displayTitle="true" title="Manage Activity Offering Agendas" url="${ConfigProperties.application.url}/kr-krad/krmsRuleStudentEditor?viewTypeName=MAINTENANCE&methodToCall=maintenanceEdit&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper&viewName=AOAgendaManagementView&overrideKeys=refObjectId&refObjectId=e8639267-ae0c-40b8-ac3e-a1cc83fddec9"/></li>
         <li><portal:portalLink displayTitle="true" title="Department Lookup" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.DepartmentInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
 </div>
