@@ -26,7 +26,7 @@
 	</bean>
 
 	<bean id="kualiConfigurationService"
-		class="org.kuali.rice.krad.service.impl.ConfigurationServiceImpl" />
+		class="org.kuali.rice.core.impl.services.ConfigurationServiceImpl" />
 
 	<bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
 
