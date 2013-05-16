@@ -8,10 +8,6 @@
     </parent>
     <artifactId>ks-core-sql</artifactId>
     <name>KS Core SQL</name>
-    <properties>
-        <!-- Baseline and upgrade scripts are written in Oracle compatible sql -->
-        <db.vendor>oracle</db.vendor>
-    </properties>
     <build>
         <plugins>
             <plugin>

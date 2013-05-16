@@ -14,6 +14,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 
 import java.util.List;
 
@@ -24,13 +25,44 @@ public class TypeServiceCacheDecorator extends TypeServiceDecorator{
     private static String cacheName = "TypeServiceCache";
     private CacheManager cacheManager;
 
+    @Override
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByRelatedTypeAndType(String relatedTypeKey, String typeTypeRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey("getTypeTypeRelationsByRelatedTypeAndType", relatedTypeKey, typeTypeRelationTypeKey);
+
+        Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
+        Object result;
+        if (cachedResult == null) {
+            result = getNextDecorator().getTypeTypeRelationsByRelatedTypeAndType(relatedTypeKey, typeTypeRelationTypeKey, contextInfo);
+            cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
+        } else {
+            result = cachedResult.getValue();
+        }
+
+        return (List<TypeTypeRelationInfo>) result;
+    }
+
+    @Override
+    public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey("getTypesByRefObjectUri", refObjectUri);
+
+        Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
+        Object result;
+        if (cachedResult == null) {
+            result = getNextDecorator().getTypesByRefObjectUri(refObjectUri, contextInfo);
+            cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
+        } else {
+            result = cachedResult.getValue();
+        }
+
+        return (List<TypeInfo>) result;
+    }
 
     @Override
     public TypeInfo getType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         MultiKey cacheKey = new MultiKey("getKey", typeKey);
 
         Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
-        Object result = null;
+        Object result;
         if (cachedResult == null) {
             result = getNextDecorator().getType(typeKey, contextInfo);
             cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
@@ -47,7 +79,7 @@ public class TypeServiceCacheDecorator extends TypeServiceDecorator{
         MultiKey cacheKey = new MultiKey("getAllowedTypesForType", ownerTypeKey);
 
         Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
-        Object result = null;
+        Object result;
         if (cachedResult == null) {
             result = getNextDecorator().getAllowedTypesForType(ownerTypeKey, contextInfo);
             cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
@@ -59,11 +91,27 @@ public class TypeServiceCacheDecorator extends TypeServiceDecorator{
     }
 
     @Override
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerAndType(String ownerTypeKey, String typeTypeRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey("getTypeTypeRelationsByOwnerAndType", ownerTypeKey, typeTypeRelationTypeKey);
+
+        Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
+        Object result;
+        if (cachedResult == null) {
+            result = getNextDecorator().getTypeTypeRelationsByOwnerAndType(ownerTypeKey, typeTypeRelationTypeKey, contextInfo);
+            cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
+        } else {
+            result = cachedResult.getValue();
+        }
+
+        return (List<TypeTypeRelationInfo>)result;
+    }
+
+    @Override
     public List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         MultiKey cacheKey = new MultiKey("getTypesForGroupType", groupTypeKey);
 
         Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
-        Object result = null;
+        Object result;
         if (cachedResult == null) {
             result = getNextDecorator().getTypesForGroupType(groupTypeKey, contextInfo);
             cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
@@ -86,13 +134,6 @@ public class TypeServiceCacheDecorator extends TypeServiceDecorator{
         StatusInfo result = getNextDecorator().deleteType(typeKey, contextInfo);
         cacheManager.getCache(cacheName).removeAll();
         return result;
-    }
-
-    public CacheManager getCacheManager() {
-        if(cacheManager == null){
-            cacheManager = CacheManager.getInstance();
-        }
-        return cacheManager;
     }
 
     public void setCacheManager(CacheManager cacheManager) {

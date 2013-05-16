@@ -25,6 +25,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
 import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Test that the KSLog4JConfigurer works to let the log4j.properties to be overridden.
@@ -62,6 +63,18 @@ public class TestConfigureLog4jOverride {
         log = KSLog4JConfigurer.getLogger(TestConfigureLog4jOverride.class);
     }
 
+    @Test
+    public void testStandardOverride() {
+        
+        LogManager.resetConfiguration();
+        
+        System.setProperty("log4j.configuration,", "src/test/resources/override-log4j-test.properties");
+        
+        log = LoggerFactory.getLogger(TestConfigureLog4jOverride.class);
+        
+        Assert.assertTrue(log.isDebugEnabled());
+    }
+    
     @Test
     public void testBasic() {
         

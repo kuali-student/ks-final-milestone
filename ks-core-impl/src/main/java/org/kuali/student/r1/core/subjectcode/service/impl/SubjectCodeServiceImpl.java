@@ -21,31 +21,36 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.beans.factory.InitializingBean;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 import javax.xml.namespace.QName;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-@WebService(endpointInterface = "org.kuali.student.r1.core.subjectcode.service.SubjectCodeService", serviceName = "SubjectCodeService", portName = "SubjectCodeService", targetNamespace = "http://student.kuali.org/wsdl/subjectCode")
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingBean{
+public class SubjectCodeServiceImpl 
+    implements SubjectCodeService, InitializingBean {
 
-	private static OrganizationService organizationService;
-	private static LookupService lookupService;
-	private SearchManager searchManager;
+    private static OrganizationService organizationService;
+    private static LookupService lookupService;
+    private SearchManager searchManager;
     private SubjectCodeDao subjectCodeDao;
     private SubjectCodeJoinOrgDao subjectCodeJoinOrgDao;
-	private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+    private static DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	
-	protected boolean cachingEnabled = false;
-	protected int searchCacheMaxSize = 20;
-	protected int searchCacheMaxAgeSeconds = 90;
-	protected Cache<String, SearchResultInfo> searchCache;
-	
+    protected boolean cachingEnabled = false;
+    protected int searchCacheMaxSize = 20;
+    protected int searchCacheMaxAgeSeconds = 90;
+    protected Cache<String, SearchResultInfo> searchCache;
+    
 	@Override
 	public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
             throws OperationFailedException, InvalidParameterException, MissingParameterException {

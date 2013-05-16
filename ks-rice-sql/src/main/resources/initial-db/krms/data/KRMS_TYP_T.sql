@@ -22,9 +22,6 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.rule.type.course.academicReadiness.coreq','KS-SYS','ruleTypeService','10006',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.rule.type.course.academicReadiness.prereq','KS-SYS','ruleTypeService','10007',0)
-/
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.rule.type.course.recommendedPreparation','KS-SYS','ruleTypeService','10008',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
@@ -110,12 +107,6 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.notadmitted.to.program','KS-SYS','simplePropositionTypeService','10036',0)
-/
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.course.test.score.max','KS-SYS','simplePropositionTypeService','10037',0)
-/
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.course.test.score.min','KS-SYS','simplePropositionTypeService','10038',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.credits.earned.min','KS-SYS','simplePropositionTypeService','10039',0)
@@ -208,16 +199,75 @@ INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.no.repeat.course.nof','KS-SYS','simplePropositionTypeService','10072',0)
 /
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.test.score.between.values','KS-SYS','simplePropositionTypeService','10074',0)
-/
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
-  VALUES ('Y','kuali.krms.proposition.type.test.score','KS-SYS','simplePropositionTypeService','10075',0)
-/
-
-INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.compound.and','KS-SYS','compoundPropositionTypeService','10076',0)
 /
-
 INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
   VALUES ('Y','kuali.krms.proposition.type.compound.or','KS-SYS','compoundPropositionTypeService','10077',0)
 /
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.agenda.type.course.offering','KS-SYS','agendaTypeService','10078',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.agenda.type.course.offering.enrollmentEligibility','KS-SYS','agendaTypeService','10079',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.agenda.type.course.offering.creditConstraints','KS-SYS','agendaTypeService','10080',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.agenda.type.activity.offering','KS-SYS','agendaTypeService','10081',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.agenda.type.activity.offering.enrollmentEligibility','KS-SYS','agendaTypeService','10082',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.agenda.type.activity.offering.creditConstraints','KS-SYS','agendaTypeService','10083',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.course.offering.academicReadiness.antireq','KS-SYS','ruleTypeService','10084',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.course.offering.academicReadiness.coreq','KS-SYS','ruleTypeService','10085',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.course.offering.academicReadiness.prereq','KS-SYS','ruleTypeService','10086',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.course.offering.recommendedPreparation','KS-SYS','ruleTypeService','10087',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.course.offering.academicReadiness.studentEligibility','KS-SYS','ruleTypeService','10088',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.course.offering.academicReadiness.studentEligibilityPrereq','KS-SYS','ruleTypeService','10089',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.course.offering.credit.repeatable','KS-SYS','ruleTypeService','10090',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.course.offering.credit.restriction','KS-SYS','ruleTypeService','10091',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.activity.offering.academicReadiness.antireq','KS-SYS','ruleTypeService','10092',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.activity.offering.academicReadiness.coreq','KS-SYS','ruleTypeService','10093',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.activity.offering.academicReadiness.prereq','KS-SYS','ruleTypeService','10094',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.activity.offering.recommendedPreparation','KS-SYS','ruleTypeService','10095',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.activity.offering.academicReadiness.studentEligibility','KS-SYS','ruleTypeService','10096',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.activity.offering.academicReadiness.studentEligibilityPrereq','KS-SYS','ruleTypeService','10097',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.activity.offering.credit.repeatable','KS-SYS','ruleTypeService','10098',0)
+/
+INSERT INTO KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
+  VALUES ('Y','kuali.krms.rule.type.activity.offering.credit.restriction','KS-SYS','ruleTypeService','10099',0)
+/
+

@@ -493,5 +493,13 @@ public class IdentityServiceMockImpl implements IdentityService, MockService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
+    public List<Principal> getPrincipalsByEmployeeId(@WebParam(name = "employeeId") String employeeId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
+    @Override
+    public List<Principal> getPrincipalsByEntityId(@WebParam(name = "entityId") String entityId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

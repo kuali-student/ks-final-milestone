@@ -4,6 +4,9 @@
  */
 package org.kuali.student.kim.permission.mock;
 
+import java.util.List;
+import javax.jws.WebParam;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -32,9 +35,6 @@ import org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences;
 import org.kuali.rice.kim.api.identity.residency.EntityResidency;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.visa.EntityVisa;
-
-import javax.jws.WebParam;
-import java.util.List;
 
 /**
  *
@@ -483,6 +483,13 @@ public class IdentityServiceDecorator implements IdentityService {
         return nextDecorator.addAddressToEntity(ea);
     }
 
+    @Override
+    public List<Principal> getPrincipalsByEmployeeId(@WebParam(name = "employeeId") String employeeId) {
+        return nextDecorator.getPrincipalsByEmployeeId(employeeId);
+    }
 
-
+    @Override
+    public List<Principal> getPrincipalsByEntityId(@WebParam(name = "entityId") String entityId) {
+        return nextDecorator.getPrincipalsByEntityId(entityId);
+    }
 }

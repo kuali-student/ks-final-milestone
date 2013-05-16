@@ -16,15 +16,12 @@
 package org.kuali.student.common.test.resourceloader;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.ServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.impl.KualiModuleServiceImpl;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 import javax.xml.namespace.QName;
 import java.util.Map;
@@ -60,7 +57,7 @@ public class SimpleSpringResourceLoader implements ServiceLocator {
 
         String qualifiedServiceName = qname.toString();
 
-        if (KRADServiceLocator.KUALI_CONFIGURATION_SERVICE.equals(qualifiedServiceName)) {
+        if (CoreApiServiceLocator.KUALI_CONFIGURATION_SERVICE.equals(qualifiedServiceName)) {
             return configurationService;
         } else if (KRADServiceLocatorWeb.KUALI_MODULE_SERVICE.equals(qualifiedServiceName)) {
             return kualiModuleService;

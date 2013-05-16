@@ -737,6 +737,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private boolean hasTermCode(String type, String code, ContextInfo context)throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
+        if(type == null) return false;
+        if(code == null) return false;
+
         QueryByCriteria qbc = buildQueryByCriteriaForTerm(type, code);
 
         List<TermInfo> terms = searchForTerms(qbc, context);
