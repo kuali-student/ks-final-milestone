@@ -551,20 +551,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                         if (cutAction) {
                             workingProp = oldParent.getCompoundEditors().remove(index);
                         } else {
-                            if(oldParent.getCompoundEditors().get(index).getPropositionTypeCode().equals("C")) {
-                                workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
-                                int counter = workingProp.getCompoundEditors().size();
-                                List<PropositionEditor> props = new ArrayList<PropositionEditor>();
-                                for(int i = 0; i < counter; i++) {
-                                    PropositionEditor prop = viewHelper.copyProposition(workingProp.getCompoundEditors().get(i));
-                                    this.getViewHelper(form).resetDescription(prop);
-                                    props.add(prop);
-                                }
-                                workingProp.setCompoundEditors(props);
-                            } else {
-                                workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
-                                this.getViewHelper(form).resetDescription(workingProp);
-                            }
+                            workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
                         }
                         break;
                     }

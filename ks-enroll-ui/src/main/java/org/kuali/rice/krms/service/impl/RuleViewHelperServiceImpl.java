@@ -6,33 +6,24 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
-import org.kuali.rice.krad.uif.container.TabGroup;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
-import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameter;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
-import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.builder.ComponentBuilder;
-import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.PropositionParameterEditor;
@@ -55,14 +46,17 @@ import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.RuleViewHelperService;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.uif.service.impl.KSViewHelperServiceImpl;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -556,29 +550,50 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     @Override
     public PropositionEditor copyProposition(PropositionEditor oldProposition) {
         try {
-            PropositionEditor newProposition = (PropositionEditor) ObjectUtils.deepCopy(oldProposition);
-            List<PropositionParameterEditor> newParms = new ArrayList<PropositionParameterEditor>();
-            for (PropositionParameterContract parm : oldProposition.getParameters()) {
-                PropositionParameterEditor p = new PropositionParameterEditor(parm.getParameterType(), parm.getSequenceNumber());
-                p.setValue(parm.getValue());
-                newParms.add(p);
-            }
-            newProposition.setParameters(newParms);
-            newProposition.setId(null);
-            newProposition.setKey(null);
-            if(!newProposition.getPropositionTypeCode().equals("C")) {
-                newProposition.getTerm().setId(null);
-                newProposition.getTerm().setVersionNumber(new Long(0));
-                for(TermParameterEditor termParam : newProposition.getTerm().getEditorParameters()) {
-                    termParam.setId(null);
-                    termParam.setVersionNumber(new Long(0));
-                }
-            }
-            newProposition.setVersionNumber(new Long(0));
+            PropositionEditor newProposition = this.copyPropositionEditor(oldProposition);
             return newProposition;
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private PropositionEditor copyPropositionEditor(PropositionEditor oldProposition) {
+        EnrolPropositionEditor newProposition = new EnrolPropositionEditor();
+        BeanUtils.copyProperties(oldProposition, newProposition, new String[]{"key","id","term","parameters"});
+
+        if(!oldProposition.getPropositionTypeCode().equals("C")) {
+            List<PropositionParameterEditor> propositionParameterEditors = new ArrayList<PropositionParameterEditor>();
+            for(PropositionParameterEditor parm : oldProposition.getParameters()) {
+                PropositionParameterEditor newParm = new PropositionParameterEditor();
+                BeanUtils.copyProperties(parm, newParm, new String[]{"termValue","id","versionNumber"});
+                propositionParameterEditors.add(newParm);
+            }
+
+            newProposition.setParameters(propositionParameterEditors);
+
+            TermEditor termEditor = new TermEditor();
+            BeanUtils.copyProperties(oldProposition.getTerm(), termEditor, new String[]{"id","versionNumber","parameters"});
+            List<TermParameterEditor> termParameterEditors = new ArrayList<TermParameterEditor>();
+            for(TermParameterEditor termParm : oldProposition.getTerm().getEditorParameters()) {
+                TermParameterEditor newTermParm = new TermParameterEditor();
+                BeanUtils.copyProperties(termParm, newTermParm, new String[]{"id","versionNumber"});
+                termParameterEditors.add(newTermParm);
+            }
+            termEditor.setParameters(termParameterEditors);
+
+            newProposition.setTerm(termEditor);
+            this.resetDescription(newProposition);
+        }
+
+        if(newProposition.getCompoundEditors().size() != 0) {
+            List<PropositionEditor> props = new ArrayList<PropositionEditor>();
+            for(PropositionEditor prop : newProposition.getCompoundEditors()) {
+                props.add(this.copyPropositionEditor(prop));
+            }
+            newProposition.setCompoundEditors(props);
+        }
+
+        return newProposition;
     }
 
     @Override

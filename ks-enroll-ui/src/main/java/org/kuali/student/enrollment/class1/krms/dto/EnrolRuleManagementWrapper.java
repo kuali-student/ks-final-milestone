@@ -49,6 +49,10 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
         return this.getEnrolRuleEditor().getCluSetRange();
     }
 
+    public void setCluSetRange(CluSetRangeHelper cluSetRange) {
+        this.getEnrolRuleEditor().setCluSetRange(cluSetRange);
+    }
+
     public void setSubjectCode(CluSetRangeHelper cluSetRange) {
         this.getEnrolRuleEditor().setCluSetRange(cluSetRange);
     }

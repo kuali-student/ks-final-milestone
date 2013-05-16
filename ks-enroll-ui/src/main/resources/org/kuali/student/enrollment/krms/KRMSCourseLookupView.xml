@@ -60,7 +60,7 @@
     <bean id="CluInformation.description-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="description"/>
         <property name="dataType" value="STRING" />
-        <property name="label" value="Phase in Description"/>
+        <property name="label" value="Phrase in Description"/>
         <property name="shortLabel" value="Description"/>
         <property name="forceUppercase" value="false"/>
         <property name="maxLength" value="10"/>
