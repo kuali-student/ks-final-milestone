@@ -380,7 +380,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
          *  2. When the user opens a cross listed AO and then user decides to change it to non cross listed AO
          *        For M6, this should not be the problem as user has to delete all the RDLs first before uncheck
          */
-        /**try{
+        try{
             if (wrapper.getScheduleRequestInfo() != null && StringUtils.isNotBlank(wrapper.getScheduleRequestInfo().getId())){
                 if (wrapper.isPartOfColoSetOnLoadAlready()){
                     if (!wrapper.isColocatedAO()){
@@ -404,7 +404,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             }
         }catch (Exception e){
             throw new RuntimeException(e);
-        }      **/
+        }
 
         buildScheduleRequestInfo(wrapper);
 

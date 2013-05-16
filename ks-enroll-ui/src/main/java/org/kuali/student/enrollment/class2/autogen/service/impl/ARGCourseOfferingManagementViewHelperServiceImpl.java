@@ -619,19 +619,19 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
 
             for (ScheduleRequestInfo schRequest : schRequests) {
-                // TODOSSR: String aoId =  schRequest.getRefObjectId();
+                // TODOSSR: This logic no longe rnecessary
                 List<String> aoIds = new ArrayList<String>();
                 //if the refid is colocated set, map back to the ao Id
-                if(ao2ColocatedSet.containsValue(schRequest.getRefObjectId())){
-                    for(Map.Entry<String,String> entry : ao2ColocatedSet.entrySet()){
-                        if(schRequest.getRefObjectId().equals(entry.getValue())){
-                            aoIds.add(entry.getKey());
-                        }
-                    }
-                }else{
-                    //Otherwise this is just a normal aoId
-                    aoIds.add(schRequest.getRefObjectId());
-                }
+                //if(ao2ColocatedSet.containsValue(schRequest.getRefObjectId())){
+                //    for(Map.Entry<String,String> entry : ao2ColocatedSet.entrySet()){
+                //        if(schRequest.getRefObjectId().equals(entry.getValue())){
+                //            aoIds.add(entry.getKey());
+                //        }
+                //    }
+                //}else{
+                //    //Otherwise this is just a normal aoId
+                //    aoIds.add(schRequest.getRefObjectId());
+                //}
 
                 for(String aoId:aoIds){
                     for (ScheduleRequestComponentInfo schRequestCom : schRequest.getScheduleRequestComponents()) {
@@ -1026,15 +1026,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 ActivityOfferingClusterWrapper aoClusterWrapper = clusterMap.get(aoWrapper.getAoClusterID());
                 if (aoClusterWrapper == null) {
                     aoClusterWrapper = new ActivityOfferingClusterWrapper();
-
-<<<<<<< .working
-                aoMap.put(aoWrapper.getAoInfo().getId(),aoWrapper);
-
-                //Check if there is a schedule id, if not add it to the list to get RDLs
-                //TODOSSR if(aoWrapper.getAoInfo().getScheduleId()==null){
-                //TODOSSR   aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
-                //TODOSSR}
-=======
                     ActivityOfferingClusterInfo activityOfferingClusterInfo = new ActivityOfferingClusterInfo();
                     activityOfferingClusterInfo.setFormatOfferingId(aoWrapper.getAoInfo().getFormatOfferingId());
                     activityOfferingClusterInfo.setId(aoWrapper.getAoClusterID());
@@ -1049,16 +1040,16 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     aoClusterWrapper.setFormatOfferingId(aoWrapper.getAoInfo().getFormatOfferingId());
                     clusterMap.put(aoWrapper.getAoClusterID(), aoClusterWrapper);
                 }
->>>>>>> .merge-right.r48223
                 if (aoWrapper.getId() != null) {
                     aoClusterWrapper.getAoWrapperList().add(aoWrapper);
 
                     aoMap.put(aoWrapper.getAoInfo().getId(), aoWrapper);
 
                     //Check if there is a schedule id, if not add it to the list to get RDLs
-                    if (aoWrapper.getAoInfo().getScheduleId() == null) {
-                        aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
-                    }
+                    //  SSRTODO: Fix this!
+                    //if (aoWrapper.getAoInfo().getScheduleId() == null) {
+                    //    aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
+                    //}
 
                     activityOfferingWrappers.add(aoWrapper);
 
@@ -2193,15 +2184,9 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     }
 
     private boolean isColocatedAo(String aoCode, List<ActivityOfferingInfo> aoList) {
-<<<<<<< .working
         for(ActivityOfferingInfo ao : aoList) {
             if(StringUtils.equals(aoCode, ao.getActivityCode())) {
                 if(ao.getIsColocated()) {
-=======
-        for (ActivityOfferingInfo ao : aoList) {
-            if (StringUtils.equals(aoCode, ao.getActivityCode())) {
-                if (ao.getIsPartOfColocatedOfferingSet()) {
->>>>>>> .merge-right.r48223
                     return true;
                 }
             }
@@ -2210,15 +2195,9 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     }
 
     private ActivityOfferingInfo getAoInfo(String aoCode, List<ActivityOfferingInfo> aoList) {
-<<<<<<< .working
         for(ActivityOfferingInfo ao : aoList) {
             if(StringUtils.equals(aoCode, ao.getActivityCode())) {
                 if(ao.getIsColocated()) {
-=======
-        for (ActivityOfferingInfo ao : aoList) {
-            if (StringUtils.equals(aoCode, ao.getActivityCode())) {
-                if (ao.getIsPartOfColocatedOfferingSet()) {
->>>>>>> .merge-right.r48223
                     return ao;
                 }
             }

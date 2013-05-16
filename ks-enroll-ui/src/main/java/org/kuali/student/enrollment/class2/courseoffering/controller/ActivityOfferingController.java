@@ -23,7 +23,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferi
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.enrollment.uif.util.GrowlIcon;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
@@ -249,21 +248,22 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=detachAOFromColocation")
      public ModelAndView detachAOFromColocation(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready()){
-            ColocatedOfferingSetInfo colocatedOfferingSetInfo = activityOfferingWrapper.getColocatedOfferingSetInfo();
-            boolean maxEnrollmentShared = colocatedOfferingSetInfo.getIsMaxEnrollmentShared();
-
-            ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
-            //viewHelper.detachAOFromColocation(form.getDocument(), activityOfferingWrapper);
-
-            if(maxEnrollmentShared){
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SHARED);
-            }else {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SEPARATED);
-            }
-
-        }
+//  SSRTODO: Fixme!
+//        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+//        if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready()){
+//            ColocatedOfferingSetInfo colocatedOfferingSetInfo = activityOfferingWrapper.getColocatedOfferingSetInfo();
+//            boolean maxEnrollmentShared = colocatedOfferingSetInfo.getIsMaxEnrollmentShared();
+//
+//            ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+//            //viewHelper.detachAOFromColocation(form.getDocument(), activityOfferingWrapper);
+//
+//            if(maxEnrollmentShared){
+//                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SHARED);
+//            }else {
+//                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SEPARATED);
+//            }
+//
+//        }
         return getUIFModelAndView(form);
       }
 }

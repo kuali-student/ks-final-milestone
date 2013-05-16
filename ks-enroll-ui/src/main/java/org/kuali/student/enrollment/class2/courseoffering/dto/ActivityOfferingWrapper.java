@@ -43,7 +43,6 @@ public class ActivityOfferingWrapper implements Serializable{
     private String courseOfferingId;
     private String populationsJSONString;
 
-    // Tanveer 06/13/2012
     private String stateName;
     private String typeName;
     private String typeKey;
@@ -54,7 +53,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private Date termRegStartDate;
 
-    // Tanveer 06/27/2012
     private String waitListLevelTypeKey;
     private String waitListTypeKey;
     private boolean hasWaitList;
