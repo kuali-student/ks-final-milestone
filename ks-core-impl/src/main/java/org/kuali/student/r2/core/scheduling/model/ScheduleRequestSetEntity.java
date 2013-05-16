@@ -66,10 +66,10 @@ public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwn
     @Column(name = "SCHED_RQST_SET_STATE")
     private String schedReqSetState;
 
-    @Column(name="MAX_ENROLLMENT_SHARED_IND")
+    @Column(name="MAX_ENRL_SHARED_IND")
     private Boolean isMaxEnrollmentShared;
 
-    @Column(name="MAX_ENROLLMENT")
+    @Column(name="MAX_ENRL")
     private Integer maximumEnrollment;
 
     @Column(name="REF_OBJ_TYPE")
