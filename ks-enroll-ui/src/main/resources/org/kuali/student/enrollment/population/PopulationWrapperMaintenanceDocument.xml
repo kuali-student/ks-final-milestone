@@ -46,7 +46,6 @@
                 -->
                 <property name="parentViewUrl.viewId" value="KS-Population-LookupView"/>
                 <property name="parentViewUrl.controllerMapping" value="/lookup"/>
-
                 <property name="parentViewUrl.requestParameters">
                     <map key-type="java.lang.String" merge="true">
                         <entry key="methodToCall" value="start"/>
