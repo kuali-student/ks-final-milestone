@@ -72,7 +72,7 @@ public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwn
     @Column(name="MAX_ENRL")
     private Integer maximumEnrollment;
 
-    @Column(name="REF_OBJ_TYPE")
+    @Column(name="REF_OBJECT_TYPE")
     private String refObjectTypeKey;
 
     @ElementCollection
