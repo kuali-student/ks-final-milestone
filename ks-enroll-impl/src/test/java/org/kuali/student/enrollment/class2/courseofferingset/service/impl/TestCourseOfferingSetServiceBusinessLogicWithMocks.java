@@ -186,7 +186,7 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo1A.setMaximumEnrollment(100);
         sourceAo1A.setMinimumEnrollment(90);
         sourceAo1A.setName("my activity offering");
-        sourceAo1A.setScheduleId(scheduleInfo1A.getId());
+//TODOSSR        sourceAo1A.setScheduleId(scheduleInfo1A.getId());
         sourceAo1A = coService.createActivityOffering(sourceAo1A.getFormatOfferingId(), sourceAo1A.getActivityId(),
                 sourceAo1A.getTypeKey(), sourceAo1A, callContext);
 
@@ -201,7 +201,7 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo1B.setMaximumEnrollment(100);
         sourceAo1B.setMinimumEnrollment(90);
         sourceAo1B.setName("my B activity offering");
-        sourceAo1B.setScheduleId(scheduleInfo1B.getId());
+// TODOSSR       sourceAo1B.setScheduleId(scheduleInfo1B.getId());
         sourceAo1B = coService.createActivityOffering(sourceAo1B.getFormatOfferingId(), sourceAo1B.getActivityId(),
                 sourceAo1B.getTypeKey(), sourceAo1B, callContext);
 
@@ -244,7 +244,7 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo2A.setMaximumEnrollment(100);
         sourceAo2A.setMinimumEnrollment(90);
         sourceAo2A.setName("my activity offering");
-        sourceAo2A.setScheduleId(scheduleInfo2A.getId());
+// TODOSSR       sourceAo2A.setScheduleId(scheduleInfo2A.getId());
         sourceAo2A = coService.createActivityOffering(sourceAo2A.getFormatOfferingId(), sourceAo2A.getActivityId(),
                 sourceAo2A.getTypeKey(), sourceAo2A, callContext);
 
@@ -258,7 +258,7 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo2B.setIsHonorsOffering(Boolean.TRUE);
         sourceAo2B.setMaximumEnrollment(100);
         sourceAo2B.setMinimumEnrollment(90);
-        sourceAo2B.setScheduleId(scheduleInfo2B.getId());
+// TODOSSR       sourceAo2B.setScheduleId(scheduleInfo2B.getId());
         sourceAo2B.setName("my B activity offering");
         sourceAo2B = coService.createActivityOffering(sourceAo2B.getFormatOfferingId(), sourceAo2B.getActivityId(),
                 sourceAo2B.getTypeKey(), sourceAo2B, callContext);

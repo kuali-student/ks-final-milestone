@@ -150,7 +150,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         // Make sure to copy the activity code
         targetAo.setActivityCode(sourceAo.getActivityCode());
         //Target AO should have no actual schedule
-        targetAo.setScheduleId(null);
+// TODOSSR       targetAo.setScheduleId(null);
 
         if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
             targetAo.getInstructors().clear();
@@ -171,11 +171,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     private void _RCO_rolloverScheduleToScheduleRequest(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
         //Copy the schedule to a schedule request
-        ScheduleInfo sourceScheduleInfo = schedulingService.getSchedule(sourceAo.getScheduleId(), context);
-
+// TODOSSR       ScheduleInfo sourceScheduleInfo = schedulingService.getSchedule(sourceAo.getScheduleId(), context);
+        ScheduleInfo sourceScheduleInfo = new ScheduleInfo();    //TODOSSR
         ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleToRequest(sourceScheduleInfo, roomService, context);
-        targetScheduleRequest.setRefObjectId(targetAo.getId());
-        targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+// TODOSSR       targetScheduleRequest.setRefObjectId(targetAo.getId());
+// TODOSSR       targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
         StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
         nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
         targetScheduleRequest.setName(nameBuilder.toString());
@@ -193,8 +193,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         if (scheduleRequestInfoList != null && !scheduleRequestInfoList.isEmpty()) {
             for (ScheduleRequestInfo sourceRequestScheduleInfo : scheduleRequestInfoList) {
                 ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleRequestToScheduleRequest(sourceRequestScheduleInfo, context);
-                targetScheduleRequest.setRefObjectId(targetAo.getId());
-                targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+//   TODOSSR             targetScheduleRequest.setRefObjectId(targetAo.getId());
+//   TODOSSR             targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
                 StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
                 nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
                 targetScheduleRequest.setName(nameBuilder.toString());
@@ -327,12 +327,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
 
                 if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
+                    /*  TODOSSR
                     if(sourceAo.getScheduleId() != null && !sourceAo.getScheduleId().isEmpty()) {
                         _RCO_rolloverScheduleToScheduleRequest(sourceAo, targetAo, context);
                     } else {
                         // KSNEROLL-6475 Copy RDLs if there are no ADLs from source to target term
                         _copyScheduleRequest(sourceAo, targetAo, context);
-                    }
+                    }*/
                 }
                 _RCO_rolloverSeatpools(sourceAo, targetAo, context);
 

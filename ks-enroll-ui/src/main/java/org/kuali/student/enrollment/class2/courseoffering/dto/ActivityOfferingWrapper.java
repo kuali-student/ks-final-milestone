@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -107,8 +106,6 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean hiddenMaxEnrollmentShared;
     private int sharedMaxEnrollment;
 
-    private ColocatedOfferingSetInfo colocatedOfferingSetInfo;
-
     private EditRenderHelper editRenderHelper;
     private boolean isPartOfColoSetOnLoadAlready;
     private boolean isSendRDLsToSchedulerAfterMSE;
@@ -135,7 +132,7 @@ public class ActivityOfferingWrapper implements Serializable{
         colocatedActivities = new ArrayList<ColocatedActivity>();
         maxEnrollmentShared = true;
         editRenderHelper = new EditRenderHelper();
-        colocatedOfferingSetInfo = new ColocatedOfferingSetInfo();
+//        colocatedOfferingSetInfo = new ColocatedOfferingSetInfo(); TODOSSR
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -861,14 +858,6 @@ public class ActivityOfferingWrapper implements Serializable{
         buffer.append(colocatedAoInfo + "<br>");
 
         return StringUtils.removeEnd(buffer.toString(),"<br>");
-    }
-
-    public ColocatedOfferingSetInfo getColocatedOfferingSetInfo() {
-        return colocatedOfferingSetInfo;
-    }
-
-    public void setColocatedOfferingSetInfo(ColocatedOfferingSetInfo colocatedOfferingSetInfo) {
-        this.colocatedOfferingSetInfo = colocatedOfferingSetInfo;
     }
 
     public boolean isPartOfColoSetOnLoadAlready() {
