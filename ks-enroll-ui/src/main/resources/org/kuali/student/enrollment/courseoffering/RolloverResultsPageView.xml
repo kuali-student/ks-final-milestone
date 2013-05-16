@@ -26,6 +26,15 @@
             <property name="header">
                 <bean parent="Uif-HeaderTwo"/>
             </property>
+
+            <property name="breadcrumbOptions.breadcrumbOverrides">
+                <list>
+                    <bean parent="Uif-BreadcrumbItem">
+                        <property name="label" value="Rollover Details@{rolloverTargetTermDesc!='' ? ': ' + rolloverTargetTermDesc: ''}"/>
+                    </bean>
+                </list>
+            </property>
+
             <property name="items">
                 <list>
                     <bean parent="Uif-VerticalBoxGroup">
