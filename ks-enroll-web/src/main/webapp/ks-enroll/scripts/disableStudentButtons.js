@@ -78,11 +78,6 @@ function disableTreeButtons() {
     disableButton(TREE);
 }
 
-function disableAddButton() {
-    disableButton(ADD);
-}
-
-
 function cutPasteButtonInit() {
     // CUT
     if (jq('.kr-cut-button') != undefined && jq('.kr-cut-button') != null) {
