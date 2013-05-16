@@ -15,7 +15,9 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -24,6 +26,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 
+import javax.xml.namespace.QName;
 import java.util.Map;
 
 
@@ -44,7 +47,13 @@ public class AtpContextImpl extends BasicContextImpl {
 	}
 
 
+//    public TypeService getTypeService() {
+//        return typeService;
+//    }
     public TypeService getTypeService() {
+        if(typeService == null){
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
         return typeService;
     }
 

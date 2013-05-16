@@ -34,6 +34,8 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private String programType;
     private String gradeScale;
     private OrgInfo orgInfo;
+    private Integer duration;
+    private String durationType;
 
     private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
@@ -109,6 +111,22 @@ public class EnrolPropositionEditor extends PropositionEditor {
 
     public void setOrgInfo(OrgInfo orgInfo) {
         this.orgInfo = orgInfo;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
+    }
+
+    public String getDurationType() {
+        return durationType;
+    }
+
+    public void setDurationType(String durationType) {
+        this.durationType = durationType;
     }
 
     @Override

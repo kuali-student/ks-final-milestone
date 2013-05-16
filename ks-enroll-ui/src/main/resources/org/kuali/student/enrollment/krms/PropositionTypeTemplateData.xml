@@ -143,6 +143,7 @@
                           p:termSpecName="GPAForCourses"
                           p:operator="&gt;=" p:value="n">
                         <property name="componentId" value="KRMS-GPAAndDuration-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.DurationComponentBuilder"/>
                     </bean>
                 </entry>
 

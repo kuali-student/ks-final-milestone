@@ -765,7 +765,7 @@
             </list>
         </property>
     </bean>
-    <bean id="KRMS-DurationCount-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:label="Duration Count"  p:maxLength="6"  p:required="true">
+    <bean id="KRMS-DurationCount-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.duration" p:label="Duration Count"  p:maxLength="6"  p:required="true">
         <property name="control">
             <bean parent="Uif-TextControl"/>
         </property>
@@ -775,7 +775,7 @@
     </bean>
     <bean id="KRMS-DurationCount-Field" parent="KRMS-DurationCount-Field-Parent" />
 
-    <bean id="KRMS-DurationType-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter"  p:label="Duration Type" p:required="true">
+    <bean id="KRMS-DurationType-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.durationType" p:label="Duration Type" p:required="true">
         <property name="control">
             <bean parent="Uif-DropdownControl"/>
         </property>
