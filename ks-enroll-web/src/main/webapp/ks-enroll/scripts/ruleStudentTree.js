@@ -164,6 +164,12 @@ function markNodeAsSelected(parentLiNode) {
         // show hidden edit image link
         jq(parentLiNode).find(".actionReveal").first().show();
     }
+
+    var parentId = jq(parentLiNode).attr('id');
+    var parentClass = jq(parentLiNode).attr('class');
+    if (parentId.match(/^u\d+_node_0_parent_root$/) && parentClass.match(/.*simple.*ruleBlockSelected.*/)) {
+        disableMoveButtons(); // disableButtons.js
+    }
 }
 
 function handlePropositionNodeClick(parentLiNode) {
@@ -196,9 +202,10 @@ function handlePropositionNodeClick(parentLiNode) {
         selectedItemTracker.val(propositionId);
         markNodeAsSelected(parentLiNode);
 
+        var parentId = jq(parentLiNode).attr('id');
         var parentClass = jq(parentLiNode).attr('class');
 
-        if(propositionId.match(/A/) && parentClass.match(/.*simple.*ruleBlockSelected.*/)) {
+        if (parentId.match(/^u\d+_node_0_parent_root$/) && (parentClass.match(/.*simple.*ruleBlockSelected.*/) || parentClass.match(/.*compound.*ruleBlockSelected.*/))) {
             disableMoveButtons(); // disableButtons.js
         }
     }
