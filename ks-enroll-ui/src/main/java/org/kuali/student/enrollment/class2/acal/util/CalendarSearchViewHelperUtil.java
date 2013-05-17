@@ -97,7 +97,7 @@ public class CalendarSearchViewHelperUtil {
 
 
                 Predicate endDatePredicate = and(greaterThanOrEqual(END_DATE, DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/" + year)),
-                        lessThanOrEqual(END_DATE, DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/" + year)));
+                        lessThanOrEqual(END_DATE, DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("12/31/" + year)));
 
 
                 pList.add(or(startDatePredicate, endDatePredicate));
