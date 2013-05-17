@@ -760,6 +760,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //Reset the editing tree.
         PropositionTreeUtil.cancelNewProp(proposition);
+
+        //Check if proposition is a single proposition and remove the compound proposition
+        if(proposition.getCompoundEditors().size() == 1) {
+            PropositionEditor singleProp = proposition.getCompoundEditors().get(0);
+            ruleEditor.setProposition(singleProp);
+        }
+
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
