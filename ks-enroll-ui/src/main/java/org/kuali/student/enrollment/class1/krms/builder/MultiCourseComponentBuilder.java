@@ -45,6 +45,8 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
     private LRCService lrcService;
 
     private static final String CLUSET_KEY = "kuali.term.parameter.type.course.cluSet.id";
+    private static final String GRADE_TYPE_KEY = "kuali.term.parameter.type.gradeType.id";
+    private static final String GRADE_KEY = "kuali.term.parameter.type.grade.id";
 
     @Override
     public List<String> getComponentIds() {
@@ -74,6 +76,10 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
                 propositionEditor.getCluSet().setCluSetInfo(this.createCourseSet(propositionEditor.getCluSet()));
             }
             termParameters.put(CLUSET_KEY, propositionEditor.getCluSet().getCluSetInfo().getId());
+        }
+        if (propositionEditor.getGradeScale() != null){
+            termParameters.put(GRADE_TYPE_KEY, propositionEditor.getGradeScale());
+            termParameters.put(GRADE_KEY, propositionEditor.getTermParameter());
         }
         return termParameters;
     }
