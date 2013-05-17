@@ -36,6 +36,9 @@ public class CalendarSearchForm extends UifFormBase {
     private List<AcademicCalendarInfo> academicCalendars;
     private List<TermInfo> terms;
 
+    private String selectedLineIndex;
+    private String selectedCollectionPath;
+
     public CalendarSearchForm(){
         super();
         holidayCalendars =  new ArrayList<HolidayCalendarInfo>();
@@ -88,5 +91,20 @@ public class CalendarSearchForm extends UifFormBase {
 
     public void setTerms(List<TermInfo> terms) {
         this.terms = terms;
+    }
+
+    public String getSelectedLineIndex() {
+        return selectedLineIndex;
+    }
+
+    public void setSelectedLineIndex(String selectedLineIndex) {
+        this.selectedLineIndex = selectedLineIndex;
+    }
+    public String getSelectedCollectionPath() {
+        return selectedCollectionPath;
+    }
+
+    public void setSelectedCollectionPath(String selectedCollectionPath) {
+        this.selectedCollectionPath = selectedCollectionPath;
     }
 }

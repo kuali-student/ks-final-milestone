@@ -33,6 +33,9 @@ public class CalendarConstants {
     public static final String HOLIDAYCALENDAR_VIEWPAGE = "holidayCalendarViewPage";
     public static final String HOLIDAYCALENDAR_FLOWVIEW = "holidayCalendarFlowView";
 
+    //Dialogs
+    public static final String SEARCH_DELETE_CONFIRMATION_DIALOG = "KS-CalendarSearch-ConfirmDelete-Dialog";
+
     //Acal
     public static final String ACAL_CONTROLLER_PATH = "academicCalendar";
     public static final String ACAL_VIEW = "academicCalendarFlowView";

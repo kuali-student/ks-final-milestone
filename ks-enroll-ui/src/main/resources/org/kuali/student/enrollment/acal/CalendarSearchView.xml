@@ -76,6 +76,12 @@
                 <value>ks-enroll/scripts/common.js</value>
             </list>
         </property>
+
+        <property name="dialogs">
+            <list>
+                <ref bean="KS-CalendarSearch-ConfirmDelete-Dialog"/>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-CalendarSearch-CriteriaSection" parent="Uif-HorizontalBoxSection">
@@ -197,7 +203,7 @@
                   <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="Uif-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="Uif-NavigationActionLink"  p:preSubmitCall="return confirm('Are you sure you want to delete the holiday calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="Uif-NavigationActionLink" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -245,7 +251,7 @@
                   <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
                   <bean parent="Uif-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
-                  <bean parent="Uif-NavigationActionLink"  p:preSubmitCall="return confirm('Are you sure you want to delete the academic calendar?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="Uif-NavigationActionLink" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -292,7 +298,7 @@
               <list>
                   <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-NavigationActionLink" p:preSubmitCall="return confirm('Are you sure you want to delete the term?')" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
+                  <bean parent="Uif-NavigationActionLink" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
 	</bean>
@@ -304,4 +310,16 @@
        <bean parent="Uif-KeyLabelPair" p:key="HolidayCalendar" p:value="Holiday Calendar"/>
        <bean parent="Uif-KeyLabelPair" p:key="AcademicTerm" p:value="Academic Term"/>
     </util:list>
+
+    <bean id="KS-CalendarSearch-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
+        <property name="renderHeader" value="false"/>
+        <property name="promptText"
+                  value="Are you sure you want to delete the @{calendarType eq 'AcademicTerm' ? 'Term' : 'Calendar'}?"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Delete"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
 </beans>

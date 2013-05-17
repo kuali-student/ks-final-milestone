@@ -230,6 +230,28 @@ public class CalendarSearchController  extends UifControllerBase {
     @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String dialog = CalendarConstants.SEARCH_DELETE_CONFIRMATION_DIALOG;
+        if (!hasDialogBeenDisplayed(dialog, searchForm)) {
+            searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue("selectedCollectionPath"));
+            searchForm.setSelectedLineIndex(searchForm.getActionParamaterValue("selectedLineIndex"));
+            //redirect back to client to display lightbox
+            return showDialog(dialog, searchForm, request, response);
+        }else{
+            if(hasDialogBeenAnswered(dialog,searchForm)){
+                boolean confirmDelete = getBooleanDialogResponse(dialog, searchForm, request, response);
+                searchForm.getDialogManager().resetDialogStatus(dialog);
+                if(!confirmDelete){
+                    return getUIFModelAndView(searchForm);
+                }
+            } else {
+                searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue("selectedCollectionPath"));
+                searchForm.setSelectedLineIndex(searchForm.getActionParamaterValue("selectedLineIndex"));
+                //redirect back to client to display lightbox
+                return showDialog(dialog, searchForm, request, response);
+            }
+        }
+        searchForm.getActionParameters().put("selectedCollectionPath",searchForm.getSelectedCollectionPath());
+        searchForm.getActionParameters().put("selectedLineIndex",searchForm.getSelectedLineIndex());
         Object atp = getSelectedAtp(searchForm, "delete");
 
          if(atp instanceof HolidayCalendarInfo){
