@@ -157,7 +157,6 @@
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper"/>
         <property name="propertyName" value="selectedCoToDeleteList"/>
         <property name="collectionLookup.quickfinderAction.render" value="false"/>
-        <property name="layoutManager.expandDetailsActionPrototype.render" value="false" />
         <property name="layoutManager.rowDetailsOpen" value="true" />
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
@@ -196,7 +195,6 @@
 
         <property name="items">
             <list>
-
                 <!-- This column is hidden unless there are 2(or more) CO's to delete; see the property-replacer above -->
                 <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
                     <property name="control">
@@ -225,7 +223,6 @@
                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.jointDefinedCodesUI}"/>
                                </property>
                            </bean>
-
                        </list>
                     </property>
                 </bean>
