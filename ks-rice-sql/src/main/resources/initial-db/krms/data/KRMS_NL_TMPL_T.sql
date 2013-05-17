@@ -568,7 +568,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1338','en','KS-KRMS-NL-USAGE-1003','10064','Must not have been admitted to the <Program> Program with a class standing of <Class Standing>',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1339','en','KS-KRMS-NL-USAGE-1003','10057','May not repeat <course> if repeated <n> times ',0)
+  VALUES ('KS-KRMS-NL-TMPL-1339','en','KS-KRMS-NL-USAGE-1003','10057','May not repeat $courseClu.getOfficialIdentifier().getCode()',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1341','en','KS-KRMS-NL-USAGE-1003','10067','Student must be in a class standing of <class standing> or greater ',0)
@@ -670,7 +670,7 @@ Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1377','en','KS-KRMS-NL-USAGE-1000','10064','Must not have been admitted to the <Program> Program with a class standing of <Class Standing>',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
- VALUES ('KS-KRMS-NL-TMPL-1378','en','KS-KRMS-NL-USAGE-1000','10057','May not repeat <course> if repeated <n> times ',0)
+ VALUES ('KS-KRMS-NL-TMPL-1378','en','KS-KRMS-NL-USAGE-1000','10057','May not repeat $courseClu.getOfficialIdentifier().getCode()',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1380','en','KS-KRMS-NL-USAGE-1000','10067','Student must be in a class standing of <class standing> or greater ',0)
