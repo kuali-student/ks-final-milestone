@@ -165,6 +165,10 @@ function markNodeAsSelected(parentLiNode) {
         jq(parentLiNode).find(".actionReveal").first().show();
     }
 
+    if(jq(parentLiNode).hasClass('simpleEditNode')) {
+        disableTreeButtons();
+    }
+
     if (jq(parentLiNode).hasClass('treeRoot')) {
         disableMoveButtons(); // disableButtons.js
         disableCutCopyButtons();
@@ -210,6 +214,7 @@ function handlePropositionNodeClick(parentLiNode) {
             if ((jq(parentLiNode).hasClass('simple'))) {
                 enableCopyButton();
             }
+
         }
     }
 }

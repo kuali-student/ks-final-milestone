@@ -83,7 +83,7 @@
                             <bean id="LogicArea_InputField" parent="Uif-InputField" p:propertyName="logicArea"
                                   p:style="margin-left: 5px; margin-top: 5px">
                                 <property name="control">
-                                    <bean parent="Uif-MediumTextAreaControl" p:width="500px"/>
+                                    <bean parent="Uif-MediumTextAreaControl" p:style="width:612px"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton-Small" p:style="margin-left: 5px"
