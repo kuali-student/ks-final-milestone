@@ -9,6 +9,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSCompoundOpCodeNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSCompoundPropositionEditNode;
@@ -35,6 +36,8 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         Tree myTree = new Tree<RuleEditorTreeNode, String>();
 
         Node<RuleEditorTreeNode, String> rootNode = new Node<RuleEditorTreeNode, String>();
+        rootNode.setNodeType(RuleEditorTreeNode.ROOT_TYPE);
+
         myTree.setRootElement(rootNode);
 
         PropositionEditor prop = (PropositionEditor) rule.getProposition();
@@ -42,6 +45,13 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         if (prop != null){
 
             addChildNode(rule, rootNode, prop);
+        }
+
+        //Underline the first node in the preview.
+        if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)){
+            for(Node<RuleEditorTreeNode, String> childNode : rootNode.getChildren()) {
+                childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.ROOT_TYPE);
+            }
         }
 
         return myTree;

@@ -20,6 +20,7 @@ var DELETE='.kr-delete-button';
 var REFRESH='.kr-refresh-button';
 var TREE = '.tree-bar-button';
 var MOVE='.kr-move-button';
+var COPY='.kr-copy-button';
 
 var ENABLED = true;
 var pasting = false;
@@ -70,6 +71,10 @@ function enableTreeButtons() {
     }
 }
 
+function enableCopyButton() {
+    enableButton(COPY);
+}
+
 function disablePasteButton() {
     pasting = false;
     disableButton(PASTE);
@@ -81,6 +86,10 @@ function disableTreeButtons() {
 
 function disableMoveButtons() {
     disableButton(MOVE);
+}
+
+function disableCutCopyButtons() {
+    disableButton(CUT);
 }
 
 function cutPasteButtonInit() {

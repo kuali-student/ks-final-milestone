@@ -83,7 +83,7 @@
                             <bean id="LogicArea_InputField" parent="Uif-InputField" p:propertyName="logicArea"
                                   p:style="margin-left: 5px; margin-top: 5px">
                                 <property name="control">
-                                    <bean parent="Uif-MediumTextAreaControl"/>
+                                    <bean parent="Uif-MediumTextAreaControl" p:width="500px"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton-Small" p:style="margin-left: 5px"
@@ -326,6 +326,7 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>kr-cut-button</value>
+                                        <value>kr-copy-button</value>
                                     </list>
                                 </property>
                             </bean>

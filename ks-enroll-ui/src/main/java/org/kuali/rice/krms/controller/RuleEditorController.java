@@ -661,7 +661,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
 
         //Reset the description on current selected proposition
-        EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
+        PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
         if (proposition!=null){
             this.getViewHelper(form).resetDescription(proposition);
         }

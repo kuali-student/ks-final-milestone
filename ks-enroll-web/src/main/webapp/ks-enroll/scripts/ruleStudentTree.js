@@ -165,10 +165,12 @@ function markNodeAsSelected(parentLiNode) {
         jq(parentLiNode).find(".actionReveal").first().show();
     }
 
-    var parentId = jq(parentLiNode).attr('id');
-    var parentClass = jq(parentLiNode).attr('class');
-    if (parentId.match(/^u\d+_node_0_parent_root$/) && parentClass.match(/.*simple.*ruleBlockSelected.*/)) {
+    if (jq(parentLiNode).hasClass('treeRoot')) {
         disableMoveButtons(); // disableButtons.js
+        disableCutCopyButtons();
+        if ((jq(parentLiNode).hasClass('simple'))) {
+            enableCopyButton();
+        }
     }
 }
 
@@ -202,11 +204,12 @@ function handlePropositionNodeClick(parentLiNode) {
         selectedItemTracker.val(propositionId);
         markNodeAsSelected(parentLiNode);
 
-        var parentId = jq(parentLiNode).attr('id');
-        var parentClass = jq(parentLiNode).attr('class');
-
-        if (parentId.match(/^u\d+_node_0_parent_root$/) && (parentClass.match(/.*simple.*ruleBlockSelected.*/) || parentClass.match(/.*compound.*ruleBlockSelected.*/))) {
+        if (jq(parentLiNode).hasClass('treeRoot')) {
             disableMoveButtons(); // disableButtons.js
+            disableCutCopyButtons();
+            if ((jq(parentLiNode).hasClass('simple'))) {
+                enableCopyButton();
+            }
         }
     }
 }
