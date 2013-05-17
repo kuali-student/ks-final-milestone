@@ -109,7 +109,7 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1041','KS-KRMS-NL-USAGE-1002','Must have earned a minimum of 6 total credits','10039',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1042','KS-KRMS-NL-USAGE-1002','May be repeater for a maximum of 8 credits','10029',0)
+  VALUES ('en', 'KS-KRMS-NL-TMPL-1042','KS-KRMS-NL-USAGE-1002','May be repeated for a maximum of 8 credits','10029',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1043','KS-KRMS-NL-USAGE-1002','Students admitted to South Campus may take no more than 3 courses at North Campus in 1 Year','10050',0)
@@ -286,7 +286,7 @@ INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1110','KS-KRMS-NL-USAGE-1004','Must have earned a minimum of <n> total credits','10039',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
-  VALUES ('en', 'KS-KRMS-NL-TMPL-1111','KS-KRMS-NL-USAGE-1004','May be repeater for a maximum of <n> credits','10029',0)
+  VALUES ('en', 'KS-KRMS-NL-TMPL-1111','KS-KRMS-NL-USAGE-1004','May be repeated for a maximum of <n> credits','10029',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR)
   VALUES ('en', 'KS-KRMS-NL-TMPL-1112','KS-KRMS-NL-USAGE-1004','Students admitted to <campus> may take no more than <n> courses at <campus> in <duration> <durationType>','10050',0)
