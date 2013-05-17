@@ -163,18 +163,8 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop">
-                    <!-- a KRAD 2.2.0 bug removes this class on refresh -->
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-boxLayoutHorizontalItem</value>
-                        </list>
-                    </property>
-                    <!-- ??? forceSessionPersistence test to defeat refresh bug after form is submitted once
-                    <property name="forceSessionPersistence" value="true"/>
-                    -->
                     <property name="propertyName" value="dropdownSelection2"/>
                     <property name="label" value="Dropdown #2"/>
-                    <!-- causes this div's uif-boxLayoutHorizontalItem class to disappear: -->
                     <property name="refreshWhenChangedPropertyNames" value="dropdownSelection"/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl"
