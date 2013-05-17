@@ -91,7 +91,9 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled and rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                            <bean parent="Uif-Link" p:linkText="Manage Course Offerings" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}"
+                                  p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start&amp;withinPortal=false"/>
+                            <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled and rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}" p:style="padding-top:15px">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release Courses"
@@ -99,7 +101,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-TableCollectionSection" p:headerText="Exceptions"
+                            <bean parent="Uif-TableCollectionSection" p:headerText="Exceptions" p:style="padding-top:30px"
                                   p:layoutManager.numberOfColumns="3" p:renderAddLine="false"
                                   p:renderLineActions="false" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
                                 <property name="header.headerTagStyle" value="font-family:Arial;font-size:15px;font-weight:bold;font-style:normal;text-decoration:none;color:#000000;background-image:url('../ks-enroll/images/exclamation_diamond_frame.png');background-repeat: no-repeat;background-position: left;padding-left:20px;"/>
