@@ -24,7 +24,7 @@
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl"/>
         <property name="page.header.render" value="false"/>
-        <property name="header.render" value="false"/>
+        <property name="header.render" value="true"/>
         <property name="footer.render" value="false"/>
         <property name="singlePageView" value="true"/>
         <property name="cssClasses">
