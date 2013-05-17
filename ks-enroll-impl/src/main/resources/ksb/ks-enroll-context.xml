@@ -386,6 +386,7 @@
          <entry key="kuali.lui.registration.group:kuali.lui.activity.offering" value-ref="rgToAoRelatedObjHelper"/>
          <entry key="kuali.lui.activity.offering:kuali.lui.activity.offering.scheduling" value-ref="aoToAoSchedRelatedObjHelper"/>
          <entry key="kuali.soc:kuali.lui.activity.offering" value-ref="socToAORelatedObjHelper"/>
+         <entry key="kuali.lui.activity.offering:kuali.soc" value-ref="aotoSOCRelatedObjHelper"/>
      </util:map>
 
     <bean id="aoStateHelper" class="org.kuali.student.enrollment.class1.state.impl.AOStateHelperImpl"/>
@@ -415,6 +416,7 @@
     <bean id="aoToAoSchedRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoAOSchedImpl"/>
 
     <bean id="socToAORelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperSOCtoAOImpl"/>
+    <bean id="aotoSOCRelatedObjHelper" class="org.kuali.student.enrollment.class1.state.impl.RelatedObjectHelperAOtoSOCImpl"/>
 
     <bean id="ks.exp.courseOfferingService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
