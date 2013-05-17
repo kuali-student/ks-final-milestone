@@ -550,6 +550,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
                     if (movePropKey.equalsIgnoreCase(children.get(index).getKey())) {
                         if (cutAction) {
                             workingProp = oldParent.getCompoundEditors().remove(index);
+                            if(oldParent.getCompoundEditors().size() == 1) {
+                                int i = ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().indexOf(oldParent);
+                                ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().set(i, oldParent.getCompoundEditors().get(0));
+                            }
                         } else {
                             workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
                         }
