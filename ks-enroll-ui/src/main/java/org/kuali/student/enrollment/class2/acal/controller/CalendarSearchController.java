@@ -257,7 +257,7 @@ public class CalendarSearchController  extends UifControllerBase {
          if(atp instanceof HolidayCalendarInfo){
              StatusInfo status = getAcademicCalendarService().deleteHolidayCalendar(((HolidayCalendarInfo)atp).getId(),getContextInfo());
              if (status.getIsSuccess()){
-                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS,((HolidayCalendarInfo) atp).getName());
+                 GlobalVariables.getMessageMap().addGrowlMessage("", "calendar.deleted", ((HolidayCalendarInfo) atp).getName());
                  searchForm.getHolidayCalendars().remove(atp);
              } else{
                  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
@@ -265,7 +265,7 @@ public class CalendarSearchController  extends UifControllerBase {
          } else if(atp instanceof AcademicCalendarInfo) {
              StatusInfo status = getAcademicCalendarService().deleteAcademicCalendar(((AcademicCalendarInfo)atp).getId(),getContextInfo());
              if (status.getIsSuccess()){
-                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS,((AcademicCalendarInfo) atp).getName());
+                 GlobalVariables.getMessageMap().addGrowlMessage("", "calendar.deleted", ((AcademicCalendarInfo) atp).getName());
                  searchForm.getAcademicCalendars().remove(atp);
              } else{
                  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
@@ -273,7 +273,7 @@ public class CalendarSearchController  extends UifControllerBase {
          } else if(atp instanceof TermInfo){
              StatusInfo status = getAcademicCalendarService().deleteTerm(((TermInfo)atp).getId(),getContextInfo());
              if (status.getIsSuccess()){
-                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS,((TermInfo) atp).getName());
+                 GlobalVariables.getMessageMap().addGrowlMessage("", "calendar.deleted", ((TermInfo) atp).getName());
                  searchForm.getTerms().remove(atp);
              } else{
                  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
