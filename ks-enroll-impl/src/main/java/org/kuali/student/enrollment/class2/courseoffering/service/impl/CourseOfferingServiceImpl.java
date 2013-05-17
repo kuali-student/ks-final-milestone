@@ -75,11 +75,13 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -1825,6 +1827,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }*/
     }
 
+    private void releaseScheduleResources(String scheduleInfoId, ContextInfo contextInfo) throws OperationFailedException,
+            InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException {
+        ScheduleInfo scheduleInfo = schedulingService.getSchedule(scheduleInfoId, contextInfo);
+        if (scheduleInfo != null && StringUtils.isNotBlank(scheduleInfo.getId()) && !scheduleInfo.getScheduleComponents().isEmpty()) {
+            scheduleInfo.getScheduleComponents().clear();
+            try {
+                schedulingService.updateSchedule(scheduleInfo.getId(), scheduleInfo, contextInfo);
+            } catch (Exception e) {
+                throw new OperationFailedException("Error clearing out the actual schedule components");
+            }
+        }
+    }
 
     /**
      * This implementation is the work-around for M5 that lacks an actual scheduler.
@@ -1851,120 +1865,97 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, contextInfo);
 
-        /* TODOSSR
-        ScheduleInfo scheduleInfo;
-        if (StringUtils.isNotBlank(aoInfo.getScheduleId())){
-            scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(),contextInfo);
-        } else {
-            scheduleInfo = new ScheduleInfo();
-        }
+        List<ScheduleRequestInfo> requests = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, contextInfo);
 
         StatusInfo result = new StatusInfo();
 
-        *//**
-         * If it's a colocated activity, look for the colocated schedule.
-         *//*
-        List<ScheduleRequestInfo> requests = new ArrayList<ScheduleRequestInfo>();
-        ColocatedOfferingSetInfo colocatedOfferingSetInfo = null;
-
-        if (aoInfo.getIsPartOfColocatedOfferingSet()){
-            List<ColocatedOfferingSetInfo> coloSet = getColocatedOfferingSetsByActivityOffering(activityOfferingId,contextInfo);
-            if (!coloSet.isEmpty()){
-                if (coloSet.size() > 1){
-                    throw new OperationFailedException("Multiple Colocated Set not supported.");
-                }
-                colocatedOfferingSetInfo = coloSet.get(0);
-                requests = schedulingService.getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, coloSet.get(0).getId(), contextInfo);
-            }
-        } else {
-            requests = schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, contextInfo);
-        }
-
         String newScheduleId = "";
+        ScheduleInfo scheduleInfo;
 
-        if(requests.isEmpty()) {
+        List<String> scheduleInfoList = aoInfo.getScheduleIds();
+
+        if (requests.isEmpty()) {
 
             result.setSuccess(true);
             result.setMessage("No scheduling requests were found");
-
-            *//**
-             * When there are no RDLs, make sure to delete the ADLs
-             *//*
-            if (StringUtils.isNotBlank(scheduleInfo.getId()) && !scheduleInfo.getScheduleComponents().isEmpty()){
-                scheduleInfo.getScheduleComponents().clear();
-                try {
-                    schedulingService.updateSchedule(scheduleInfo.getId(),scheduleInfo, contextInfo);
-                } catch (Exception e) {
-                    throw new OperationFailedException("Error clearing out the actual schedule components");
+            /**
+             * When there are no RDLs, make sure to clear the ADLs from the AO
+             */
+            if (!scheduleInfoList.isEmpty()) {
+                for (String id : scheduleInfoList) {
+                    releaseScheduleResources(id, contextInfo);
                 }
+                scheduleInfoList.clear();
+                aoInfo.getScheduleIds().clear();
             }
-
-        } else {
-
-            // Should not be more than one request, grab the first one only
-            ScheduleRequestInfo request = requests.get(0);
-            // short cut the submission to the scheduler, and just translate requested delivery logistics to actual delivery logistics
-            SchedulingServiceUtil.requestToSchedule(request,scheduleInfo);
-
-            // set the term of the new schedule to the same term of the AO
-            scheduleInfo.setAtpId(aoInfo.getTermId());
-
             try {
-                if (StringUtils.isNotBlank(scheduleInfo.getId())){
-                    schedulingService.updateSchedule(scheduleInfo.getId(),scheduleInfo, contextInfo);
-                } else {
-                    ScheduleInfo persistedSchedule = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
-                    newScheduleId = persistedSchedule.getId();
-                }
-
+                updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
             } catch (Exception e) {
-                throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
+                throw new RuntimeException(e);
+            }
+        } else {
+            // clean up the ao schedule id list to match the schedule requests
+            List<String> requestScheduleIds = new ArrayList<String>();
+
+            for (ScheduleRequestInfo request : requests) {
+                String scheduleInfoId = request.getScheduleId();
+                if(StringUtils.isNotBlank(scheduleInfoId)) {
+                    requestScheduleIds.add(scheduleInfoId);
+                }
             }
 
+            for(String scheduleId : scheduleInfoList) {
+                if(!requestScheduleIds.contains(scheduleId)) {
+                    // release this schedule
+                    releaseScheduleResources(scheduleId, contextInfo);
+                    aoInfo.getScheduleIds().remove(scheduleId);
+                }
+            }
+            try {
+                updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+            for (ScheduleRequestInfo request : requests) {
+                String scheduleInfoId = request.getScheduleId();
+                if (StringUtils.isNotBlank(scheduleInfoId)) {
+                    aoInfo.getScheduleIds().add(newScheduleId);
+                    scheduleInfo = schedulingService.getSchedule(scheduleInfoId, contextInfo);
+                } else {
+                    scheduleInfo = new ScheduleInfo();
+                }
+                // short cut the submission to the scheduler, and just translate requested delivery logistics to actual delivery logistics
+                SchedulingServiceUtil.requestToSchedule(request, scheduleInfo);
+
+                if (StringUtils.equals(request.getStateKey(), SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED) ||
+                        StringUtils.equals(request.getStateKey(), SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_MODIFIED)) {
+                    try {
+                        if (StringUtils.isNotBlank(scheduleInfo.getId())) {
+                            schedulingService.updateSchedule(scheduleInfo.getId(), scheduleInfo, contextInfo);
+                            schedulingService.updateScheduleRequest(request.getId(), request, contextInfo);
+                        } else {
+                            ScheduleInfo persistedSchedule = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
+                            newScheduleId = persistedSchedule.getId();
+                            request.setScheduleId(newScheduleId);
+                            schedulingService.updateScheduleRequest(request.getId(), request, contextInfo);
+                            aoInfo.getScheduleIds().add(newScheduleId);
+                            try {
+                                updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
+                            } catch (Exception e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    } catch (Exception e) {
+                        throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
+                    }
+                }
+            }
             result.setSuccess(true);
             result.setMessage("New Schedule Successfully created");
         }
 
-
-        *//**
-         * If we created a new ADL, update the AO with this newly created schedule id.
-         *//*
-        if (StringUtils.isNotBlank(newScheduleId)){
-
-            aoInfo.setScheduleId(newScheduleId);
-
-            try {
-                updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
-            }catch (Exception e) {
-                throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
-            }
-
-            *//**
-             * Update all the colocated activities with the same schedule id
-             *//*
-            if (colocatedOfferingSetInfo != null && !colocatedOfferingSetInfo.getActivityOfferingIds().isEmpty()){
-
-                List<String> activityOfferingIds = new ArrayList<String>(colocatedOfferingSetInfo.getActivityOfferingIds());
-                activityOfferingIds.remove(aoInfo.getId());
-
-                if (!activityOfferingIds.isEmpty()) {
-                    List<ActivityOfferingInfo> aoInfos = getActivityOfferingsByIds(activityOfferingIds,contextInfo);
-
-                    for (ActivityOfferingInfo ao : aoInfos){
-                        ao.setScheduleId(newScheduleId);
-                        try {
-                            updateActivityOffering(ao.getId(),ao,contextInfo);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                }
-            }
-        }
-
-
-        return result;*/
-        return null;
+        return result;
     }
 
     @Override
