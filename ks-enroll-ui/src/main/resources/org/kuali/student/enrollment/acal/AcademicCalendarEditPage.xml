@@ -28,7 +28,7 @@ limitations under the License.
 
         Term edit page at AcademicTermPage.xml
     -->
-    <bean id="KS-AcademicCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false" p:readOnly="@{reload}">
+    <bean id="KS-AcademicCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}">
         <property name="id" value="academicCalendarEditPage"/>
         <property name="headerText" value="@{!newCalendar ? academicCalendarInfo.name : 'New Academic Calendar'}"/>
         <property name="header">
