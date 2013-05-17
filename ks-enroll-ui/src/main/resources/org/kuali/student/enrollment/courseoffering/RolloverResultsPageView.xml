@@ -43,7 +43,7 @@
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="rolloverTargetTermCode" p:label="Term" p:required="true">
+                                        <bean parent="Uif-InputField" p:propertyName="rolloverTargetTermCode" p:label="Term" p:required="true" p:fieldLabel.renderColon="false">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
                                             </property>
@@ -55,42 +55,31 @@
                             </bean>
                             <bean parent="Uif-Message" p:messageText="&lt;b&gt;@{rolloverTargetTermDesc!=''?rolloverTargetTermDesc: 'Enter valid Term'} Rollover&lt;/b&gt;" p:style="font-size:125%; padding-top:35px"
                                   p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}"/>
-                            <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:layoutManager.numberOfColumns="3" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}" p:style="background-color:#C0C0C0;">
+                            <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}" p:style="background-color:#dadada;">
                                 <property name="items">
                                     <list>
                                         <!-- Roll over details display -->
-                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3">
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-GridSubSection" p:layoutManager.applyDefaultCellWidths="false">
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:render="@{!socReleasedToDepts}"/>
-                                                                <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt; Released to Departments" p:render="@{socReleasedToDepts}" p:colSpan="2"/>
-                                                                <bean parent="Uif-DataField" p:label="Date Initiated"
-                                                                      p:fieldLabel.renderColon="false"  p:style="text-align:LEFT;" p:fieldLabel.style="text-align:LEFT;"
-                                                                      p:propertyName="dateInitiated"/>
-                                                                <bean parent="Uif-DataField" p:label="Date Completed"
-                                                                      p:fieldLabel.renderColon="false"
-                                                                      p:propertyName="dateCompleted"/>
-                                                                <bean parent="Uif-DataField" p:label="Rollover Duration"
-                                                                      p:fieldLabel.renderColon="false"
-                                                                      p:propertyName="rolloverDuration"/>
-                                                                <bean parent="Uif-DataField" p:label="Course Offerings"
-                                                                      p:fieldLabel.renderColon="false"
-                                                                      p:propertyName="courseOfferingsAllowed"/>
-                                                                <bean parent="Uif-DataField" p:label="Activity Offerings"
-                                                                      p:fieldLabel.renderColon="false"
-                                                                      p:propertyName="activityOfferingsAllowed"/>
-                                                                <bean parent="Uif-DataField" p:label="Source Term"
-                                                                      p:fieldLabel.renderColon="false"
-                                                                      p:propertyName="rolloverSourceTermDesc"/>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
+                                         <bean parent="Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:render="@{!socReleasedToDepts}"
+                                                 p:style="color:white; background-color:#858585;" />
+                                        <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt; Released to Departments" p:render="@{socReleasedToDepts}" p:colSpan="2"/>
+                                        <bean parent="Uif-DataField" p:label="Date Initiated"
+                                              p:fieldLabel.renderColon="false"
+                                              p:propertyName="dateInitiated"/>
+                                        <bean parent="Uif-DataField" p:label="Date Completed"
+                                              p:fieldLabel.renderColon="false"
+                                              p:propertyName="dateCompleted"/>
+                                        <bean parent="Uif-DataField" p:label="Rollover Duration"
+                                              p:fieldLabel.renderColon="false"
+                                              p:propertyName="rolloverDuration"/>
+                                        <bean parent="Uif-DataField" p:label="Course Offerings"
+                                              p:fieldLabel.renderColon="false"
+                                              p:propertyName="courseOfferingsAllowed"/>
+                                        <bean parent="Uif-DataField" p:label="Activity Offerings"
+                                              p:fieldLabel.renderColon="false"
+                                              p:propertyName="activityOfferingsAllowed"/>
+                                        <bean parent="Uif-DataField" p:label="Source Term"
+                                              p:fieldLabel.renderColon="false"
+                                              p:propertyName="rolloverSourceTermDesc"/>
                                     </list>
                                 </property>
                             </bean>   <!-- grid section-->
@@ -128,7 +117,6 @@
                                 </property>
                                 <property name="items">
                                     <list>
-
                                         <bean parent="Uif-DataField" p:propertyName="course" p:label="Course"/>
                                         <bean parent="Uif-DataField" p:propertyName="stateName" p:label="Reason"/>
                                         <bean parent="Uif-DataField" p:propertyName="message" p:label="Details"/>
