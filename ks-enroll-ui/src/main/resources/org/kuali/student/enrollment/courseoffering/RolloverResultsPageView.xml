@@ -40,7 +40,6 @@
                     <bean parent="Uif-VerticalBoxGroup">
                         <property name="items">
                             <list>
-                                 <bean parent="Uif-Message" p:messageText="Enter a term to review the details of the associated rollover."/>
                                  <bean parent="Uif-HorizontalBoxGroup">
                                       <property name="items">
                                            <list>
@@ -48,7 +47,6 @@
                                                 <property name="control">
                                                    <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
                                                 </property>
-
                                              </bean>
                                              <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:actionLabel="Go" p:methodToCall="showRolloverResults" p:valign="bottom"/>
                                              <bean parent="Uif-Message" p:messageText="Enter Valid Term" p:render="@{rolloverSourceTermDesc=='' and rolloverTargetTermCode!=''}" p:style="color:red;"/>
@@ -59,45 +57,17 @@
                                        p:layoutManager.numberOfColumns="3" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
                                     <property name="items">
                                         <list>
+                                            <!-- Roll over details display -->
                                             <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:style="background-color:#C0C0C0;">
-                                                <property name="items">
-                                                    <list>
-                                                        <bean parent="Uif-DataField" p:label="Status" p:propertyName="statusField" p:render="@{!socReleasedToDepts}"/>
-                                                        <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status:&lt;/b&gt; Released to Departments" p:render="@{socReleasedToDepts}"/>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                            <!-- Displays Release to Depts button and Re-do Rollover -->
-                                            <bean parent="Uif-VerticalBoxSection" p:colSpan="3" p:width="20cm" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
-                                                <property name="items">
-                                                    <list>
-                                                        <bean parent="Uif-Message" p:render="@{!socReleasedToDepts}"
-                                                              p:messageText="Currently, only central administrators are able to make changes to course offering information in this term's course schedule. To grant departmental administrators access to copy and edit functions, you must first release the term to departments. Doing so will disable future Rollovers to this term."/>
-                                                        <bean parent="Uif-Message" p:render="@{socReleasedToDepts}"
-                                                              p:messageText="Course offerings for @{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} have been released to the departments."/>
-                                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled}">
-                                                            <property name="items">
-                                                                <list>
-                                                                    <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
-                                                                          p:methodToCall="confirmReleaseToDepts" />
-                                                                </list>
-                                                            </property>
-                                                        </bean>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                            <!-- Source term display -->
-                                            <bean parent="Uif-HorizontalBoxSubSection">
                                                 <property name="items">
                                                     <list>
                                                         <bean parent="Uif-GridSubSection" p:layoutManager.applyDefaultCellWidths="false">
                                                             <property name="items">
                                                                 <list>
-                                                                    <bean parent="Uif-DataField" p:label="Source Term"
-                                                                          p:fieldLabel.renderColon="false"
-                                                                          p:propertyName="rolloverSourceTermDesc"/>
+                                                                    <bean parent="Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:render="@{!socReleasedToDepts}"/>
+                                                                    <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt; Released to Departments" p:render="@{socReleasedToDepts}" p:colSpan="2"/>
                                                                     <bean parent="Uif-DataField" p:label="Date Initiated"
-                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:fieldLabel.renderColon="false"  p:style="text-align:LEFT;" p:fieldLabel.style="text-align:LEFT;"
                                                                           p:propertyName="dateInitiated"/>
                                                                     <bean parent="Uif-DataField" p:label="Date Completed"
                                                                           p:fieldLabel.renderColon="false"
@@ -111,9 +81,21 @@
                                                                     <bean parent="Uif-DataField" p:label="Activity Offerings"
                                                                           p:fieldLabel.renderColon="false"
                                                                           p:propertyName="activityOfferingsAllowed"/>
+                                                                    <bean parent="Uif-DataField" p:label="Source Term"
+                                                                          p:fieldLabel.renderColon="false"
+                                                                          p:propertyName="rolloverSourceTermDesc"/>
                                                                 </list>
                                                             </property>
                                                         </bean>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                            <!-- Displays Release to Depts button and Re-do Rollover -->
+                                            <bean parent="Uif-VerticalBoxSection" p:colSpan="3" p:width="20cm" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                                                <property name="items">
+                                                    <list>
+                                                        <bean parent="Uif-Message" p:render="@{socReleasedToDepts}"
+                                                              p:messageText="Course offerings for @{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} have been released to the departments."/>
                                                     </list>
                                                 </property>
                                             </bean>
@@ -148,7 +130,7 @@
                                  <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled and rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
                                      <property name="items">
                                         <list>
-                                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
+                                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release Courses"
                                                   p:methodToCall="confirmReleaseToDepts" />
                                         </list>
                                      </property>
