@@ -192,7 +192,7 @@
 		<property name="items">
 			<list>
 				<bean id="radio_campusSelect" parent="Uif-InputField"
-					p:propertyName="campusSelect" p:width="67%">
+					p:propertyName="campusSelect" p:width="50%">
 					<property name="control">
 						<bean parent="Uif-HorizontalCheckboxesControl" />
 					</property>
@@ -206,7 +206,13 @@
                     <property name="actionScript"
                               value="fnSelectAllCampuses();"/>
                 </bean>
-			</list>
+                <bean p:id="clearSearch"
+                      parent="Uif-SecondaryActionButton-Small"
+                      p:actionLabel="Clear">
+                    <property name="actionScript"
+                              value="fnClearSearch();"/>
+                </bean>
+			</list>	
 		</property>
 	</bean>
 

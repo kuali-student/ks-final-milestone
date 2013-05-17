@@ -56,6 +56,16 @@ function ksapCourseSearchColumns() {
 	} ];
 }
 
+function fnSelectAllCampuses() {
+	jQuery.each(jQuery("input[name='campusSelect']"), function() {
+		this.checked = true;
+	});
+}
+
+function fnClearSearch() {
+	window.location = "?";
+}
+
 function doCourseSearch(crit) {
 	jQuery("input#text_searchQuery_control").each(function() {
 		jQuery(this).val(crit);
