@@ -20,7 +20,7 @@
          See the License for the specific language governing permissions and
          limitations under the License.
         -->
-        <bean id="KS-RolloverResultsPage-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
+       <bean id="KS-RolloverResultsPage-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
               p:id="selectTermForRolloverDetails"
               p:headerText="Rollover Details">
             <property name="header">
@@ -53,12 +53,13 @@
                                            </list>
                                       </property>
                                  </bean>
-                                 <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:headerText="@{rolloverTargetTermDesc!=''?rolloverTargetTermDesc: 'Enter valid Term'} Rollover"
-                                       p:layoutManager.numberOfColumns="3" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                                <bean parent="Uif-Message" p:messageText="&lt;b&gt;@{rolloverTargetTermDesc!=''?rolloverTargetTermDesc: 'Enter valid Term'} Rollover&lt;/b&gt;" p:style="font-size:125%; padding-top:35px"
+                                      p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}"/>
+                                <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:layoutManager.numberOfColumns="3" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}" p:style="background-color:#C0C0C0;">
                                     <property name="items">
                                         <list>
                                             <!-- Roll over details display -->
-                                            <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:style="background-color:#C0C0C0;">
+                                            <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3">
                                                 <property name="items">
                                                     <list>
                                                         <bean parent="Uif-GridSubSection" p:layoutManager.applyDefaultCellWidths="false">
@@ -90,19 +91,26 @@
                                                     </list>
                                                 </property>
                                             </bean>
-                                            <!-- Displays Release to Depts button and Re-do Rollover -->
-                                            <bean parent="Uif-VerticalBoxSection" p:colSpan="3" p:width="20cm" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
-                                                <property name="items">
-                                                    <list>
-                                                        <bean parent="Uif-Message" p:render="@{socReleasedToDepts}"
-                                                              p:messageText="Course offerings for @{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} have been released to the departments."/>
-                                                    </list>
-                                                </property>
-                                            </bean>
                                         </list>
                                     </property>
-                                 </bean>   <!-- grid section-->
-                                 <bean parent="Uif-TableCollectionSection" p:headerText="Non-Transitioned Course Offerings"
+                                </bean>   <!-- grid section-->
+                                <bean parent="Uif-VerticalBoxSection" p:colSpan="3" p:width="20cm" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-Message" p:render="@{socReleasedToDepts}"
+                                                  p:messageText="Course offerings for @{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} have been released to the departments."/>
+                                        </list>
+                                    </property>
+                                </bean>
+                                <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled and rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                                    <property name="items">
+                                       <list>
+                                           <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release Courses"
+                                                 p:methodToCall="confirmReleaseToDepts" />
+                                       </list>
+                                    </property>
+                                </bean>
+                                <bean parent="Uif-TableCollectionSection" p:headerText="Non-Transitioned Course Offerings"
                                        p:layoutManager.numberOfColumns="3" p:renderAddLine="false"
                                        p:renderLineActions="false" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
 
@@ -127,18 +135,10 @@
                                        </list>
                                    </property>
                                  </bean>  <!-- grid section -->
-                                 <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled and rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
-                                     <property name="items">
-                                        <list>
-                                            <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release Courses"
-                                                  p:methodToCall="confirmReleaseToDepts" />
-                                        </list>
-                                     </property>
-                                 </bean>
                             </list>
                         </property>
                     </bean>
                 </list>
             </property>
        </bean>
-    </beans>
+</beans>
