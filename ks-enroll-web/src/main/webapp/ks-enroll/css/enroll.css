@@ -406,3 +406,32 @@ a {
     margin-bottom: 0px;
     padding-bottom: 0px;
 }
+
+.ks-uif-viewHeader-container {
+    background-color: #d3d3d3;
+    width: 100%
+}
+
+.ks-headerLogo-container {
+
+}
+
+.ks-logo-image {
+    width: 50px;
+    height: 25px;
+}
+
+.header-right-group{
+    float: right;
+}
+
+.ks-header-list{
+    list-style: none;
+    float: right;
+}
+
+.ks-header-list li{
+    float: left;
+    padding-right: 25px;
+    padding-top: 5px;
+}
