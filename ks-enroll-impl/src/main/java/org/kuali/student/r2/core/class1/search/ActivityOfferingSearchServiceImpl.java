@@ -310,7 +310,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "  AND aoMatchIds != aoIds";
 
         Query query = entityManager.createQuery(queryStr);
-        query.setParameter(SearchParameters.AO_IDS, aoIds);
+//        query.setParameter(SearchParameters.AO_IDS, aoIds);
         List<Object[]> results = query.getResultList();
 
         for(Object[] resultRow : results){
@@ -439,12 +439,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "    co2fo.RELATED_LUI_ID AS col_0_0_, " +
                 "    fo.NAME              AS col_1_0_, " +
                 "    fo.CLU_ID            AS col_2_0_, " +
-                "    clster.ID            AS col_2_0_, " +
-                "    clster.NAME          AS col_3_0_, " +
-                "    clster.PRIVATE_NAME  AS col_4_0_, " +
-                "    ao.ID                AS col_5_0_, " +
-                "    ao.LUI_TYPE          AS col_6_0_, " +
-                "    ao.LUI_STATE         AS col_7_0_, " +
+                "    clster.ID            AS col_3_0_, " +
+                "    clster.NAME          AS col_4_0_, " +
+                "    clster.PRIVATE_NAME  AS col_5_0_, " +
+                "    ao.ID                AS col_6_0_, " +
+                "    ao.LUI_TYPE          AS col_7_0_, " +
+                "    ao.LUI_STATE         AS col_8_0_, " +
                 "    ao.MAX_SEATS         AS col_9_0_, " +
                 "    aoIdent.LUI_CD       AS col_10_0_ " +
                 "FROM " +
