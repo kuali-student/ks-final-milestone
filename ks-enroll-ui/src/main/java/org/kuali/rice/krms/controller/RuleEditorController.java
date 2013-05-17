@@ -652,6 +652,14 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 for (int index = 0; index < children.size(); index++) {
                     if (selectedpropKey.equalsIgnoreCase(children.get(index).getKey())) {
                         parent.getCompoundComponents().remove(index);
+                        if(parent.getCompoundEditors().size() == 1) {
+                            int i = ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().indexOf(parent);
+                            if(i == -1) {
+                                ruleEditor.setProposition(parent.getCompoundEditors().get(0));
+                            } else {
+                                ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().set(i, parent.getCompoundEditors().get(0));
+                            }
+                        }
                         break;
                     }
                 }
