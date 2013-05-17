@@ -217,7 +217,6 @@
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="InstructorPermissionRequired"
                           p:value="true">
-                    <property name="componentId" value="KRMS-Program-SuggestField"/>
                     </bean>
                 </entry>
 
