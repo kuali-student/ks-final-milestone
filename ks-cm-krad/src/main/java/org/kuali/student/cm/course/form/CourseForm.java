@@ -15,6 +15,9 @@
  */
 package org.kuali.student.cm.course.form;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -32,10 +35,13 @@ public class CourseForm extends UifFormBase {
 	private CourseInfo courseInfo;
 	
 	private ProposalInfo proposalInfo;
+	
+	private List<CluInstructorInfoDisplay> instructorDisplays;
 
 	public CourseForm() {
 		this.courseInfo = new CourseInfo();
 		this.proposalInfo = new ProposalInfo();
+		this.instructorDisplays = new ArrayList<CluInstructorInfoDisplay>();
 	}
 
 	public CourseInfo getCourseInfo() {
@@ -52,6 +58,15 @@ public class CourseForm extends UifFormBase {
 
 	public void setProposalInfo(ProposalInfo proposalInfo) {
 		this.proposalInfo = proposalInfo;
+	}
+
+	public List<CluInstructorInfoDisplay> getInstructorDisplays() {
+		return instructorDisplays;
+	}
+
+	public void setInstructorDisplays(
+			List<CluInstructorInfoDisplay> instructorDisplays) {
+		this.instructorDisplays = instructorDisplays;
 	}
    
 }

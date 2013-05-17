@@ -118,15 +118,21 @@ limitations under the License.
 				<ref bean="KS-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
 
 				<bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSubSection" 
-					p:headerText="Instructor(s)" p:propertyName="courseInfo.instructors" 
-					p:collectionObjectClass="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo">
+					p:headerText="Instructor(s)" p:propertyName="instructorDisplays" 
+					p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoDisplay">
 					<property name="layoutManager.summaryTitle" value="Instructor" />
 					<property name="items">
 						<list>
-							<bean parent="Uif-InputField" p:propertyName="personId">
-								<!--<property name="suggest">
-									<bean parent="Uif-Suggest" p:sourcePropertyName="personId" p:suggestQuery.dataObjectClassName="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo" />
-								</property>-->
+							<bean parent="Uif-InputField" p:propertyName="displayName">
+								<property name="suggest">
+									<bean parent="Uif-Suggest" p:render="true">
+										<property name="sourcePropertyName" value="displayName"/>
+										<property name="templateOptions" value="minLength:1,delay:0" />
+										<property name="suggestQuery">
+											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveInstructors" />
+										</property>
+									</bean>
+								</property>
 							</bean>
 						</list>
 					</property>
