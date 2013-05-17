@@ -373,7 +373,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
     }
 
     public boolean isSimpleNode(String nodeType) {
-        if (KSSimplePropositionNode.NODE_TYPE.equalsIgnoreCase(nodeType) ||
+        if (nodeType.contains(KSSimplePropositionNode.NODE_TYPE) ||
                 KSSimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(nodeType)) {
             return true;
         }
@@ -560,6 +560,38 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
             // add to new and refresh the tree
             addProposition(selectedPropKey, newParent, workingProp);
+            viewHelper.refreshInitTrees(ruleEditor);
+        } else if(StringUtils.isNotBlank(movePropKey) && !cutAction && ((EnrolPropositionEditor) ruleEditor.getProposition()).getCompoundEditors() != null) {
+            Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
+            PropositionEditor newParent = getNewParent(viewHelper, ruleEditor, selectedPropKey, root);
+            PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(root, movePropKey).getData().getProposition();
+
+            PropositionEditor workingProp = null;
+
+            // copy from old
+            if (oldParent != null) {
+                List<PropositionEditor> children = oldParent.getCompoundEditors();
+                for (int index = 0; index < children.size(); index++) {
+                    if (movePropKey.equalsIgnoreCase(children.get(index).getKey())) {
+                        workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
+                        break;
+                    }
+                }
+            }
+
+            // add to new and refresh the tree
+            addProposition(selectedPropKey, newParent, workingProp);
+            viewHelper.refreshInitTrees(ruleEditor);
+        } else if(StringUtils.isNotBlank(movePropKey) && !cutAction && ruleEditor.getProposition().getPropositionTypeCode().equals("S")) {
+            Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
+            PropositionEditor newParent = viewHelper.createCompoundPropositionBoStub((PropositionEditor) ruleEditor.getProposition(), false);
+            newParent.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
+            newParent.setEditMode(false);
+            PropositionEditor workingProp = viewHelper.copyProposition((PropositionEditor) ruleEditor.getProposition());
+
+            // add to new and refresh the tree
+            addProposition(selectedPropKey, newParent, workingProp);
+            ruleEditor.setProposition(newParent);
             viewHelper.refreshInitTrees(ruleEditor);
         }
 
