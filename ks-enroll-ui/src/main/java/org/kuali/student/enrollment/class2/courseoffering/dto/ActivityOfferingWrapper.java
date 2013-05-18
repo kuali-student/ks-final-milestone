@@ -73,6 +73,8 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private ScheduleRequestInfo scheduleRequestInfo;
     private ScheduleInfo scheduleInfo;
+//    private List<ScheduleRequestInfo> scheduleRequestInfos;
+//    private List<ScheduleInfo> scheduleInfos;
     private SocInfo socInfo;
 
     private String startTimeDisplay = "";
@@ -131,6 +133,8 @@ public class ActivityOfferingWrapper implements Serializable{
         maxEnrollmentShared = true;
         editRenderHelper = new EditRenderHelper();
 //        colocatedOfferingSetInfo = new ColocatedOfferingSetInfo(); TODOSSR
+//        scheduleRequestInfos = new ArrayList<ScheduleRequestInfo>();
+//        scheduleInfos = new ArrayList<ScheduleInfo>();
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -710,6 +714,28 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setScheduleInfo(ScheduleInfo scheduleInfo) {
         this.scheduleInfo = scheduleInfo;
     }
+
+/*    public List<ScheduleRequestInfo> getScheduleRequestInfos() {
+        if (scheduleRequestInfos == null){
+            scheduleRequestInfos = new ArrayList<ScheduleRequestInfo>();
+        }
+        return scheduleRequestInfos;
+    }
+
+    public void setScheduleRequestInfos(List<ScheduleRequestInfo> scheduleRequestInfos) {
+        this.scheduleRequestInfos = scheduleRequestInfos;
+    }
+
+    public List<ScheduleInfo> getScheduleInfos() {
+        if (scheduleInfos == null){
+            scheduleInfos = new ArrayList<ScheduleInfo>();
+        }
+        return scheduleInfos;
+    }
+
+    public void setScheduleInfos(List<ScheduleInfo> scheduleInfos) {
+        this.scheduleInfos = scheduleInfos;
+    }      */
 
     public String getTypeKey() {
         return typeKey;
