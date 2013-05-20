@@ -1009,6 +1009,7 @@
         <property name="atpService" ref="AtpService"/>
         <property name="typeService" ref="typeService"/>
         <property name="roomService" ref="RoomService"/>
+        <property name="scheduleRequestSetDao" ref="scheduleRequestSetDao"/>
         <property name="scheduleRequestDao" ref="scheduleRequestDao"/>
         <property name="timeSlotDao" ref="timeSlotDao"/>
         <property name="scheduleDao" ref="scheduleDao"/>
