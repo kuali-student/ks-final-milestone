@@ -35,6 +35,8 @@ public class CalendarConstants {
 
     //Dialogs
     public static final String SEARCH_DELETE_CONFIRMATION_DIALOG = "KS-CalendarSearch-ConfirmDelete-Dialog";
+    public static final String ACADEMIC_DELETE_CONFIRMATION_DIALOG = "KS-AcademicCalender-ConfirmDelete-Dialog";
+    public static final String HOLIDAY_DELETE_CONFIRMATION_DIALOG = "KS-HolidayCalender-ConfirmDelete-Dialog";
 
     //Acal
     public static final String ACAL_CONTROLLER_PATH = "academicCalendar";

@@ -55,7 +55,6 @@
                               p:performClientSideValidation="true" p:render="@{!officialCalendar}"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="delete"
                               p:actionLabel="@{officialCalendar ? 'Delete Calendar' : 'Delete Draft'}"
-                              p:preSubmitCall="return confirm('Are you sure you want to delete this holiday calendar?')"
                               p:render="@{!newCalendar and !officialUI}"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
                     </list>

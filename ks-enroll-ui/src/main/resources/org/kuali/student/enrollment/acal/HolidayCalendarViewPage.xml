@@ -49,7 +49,7 @@
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;"/>
-                        <bean parent="Uif-ActionLink" p:preSubmitCall="return confirm('Are you sure you want to delete the holiday calendar?')" p:render="@{!officialUI}" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;"/>
+                        <bean parent="Uif-ActionLink" p:render="@{!officialUI}" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;"/>
                     </list>
                 </property>
             </bean>
