@@ -113,7 +113,6 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
                     //Build the ruleEditor
                     RuleEditor ruleEditor = new EnrolRuleEditor(agendaItem.getRule());
-                    ruleEditor.setAgendaItem(agendaItem);
 
                     //Initialize the Proposition tree
                     PropositionEditor rootProposition = (PropositionEditor) ruleEditor.getProposition();
