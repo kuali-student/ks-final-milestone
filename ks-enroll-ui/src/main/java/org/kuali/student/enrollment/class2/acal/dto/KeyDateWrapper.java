@@ -35,8 +35,8 @@ public class KeyDateWrapper extends TimeSetWrapper{
     private TypeInfo typeInfo;
 
     public KeyDateWrapper(){
-        setAllDay(false);
-        setDateRange(true);
+        setAllDay(true);
+        setDateRange(false);
         keyDateInfo = new KeyDateInfo();
         keyDateInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         RichTextInfo desc = new RichTextInfo();
@@ -109,6 +109,14 @@ public class KeyDateWrapper extends TimeSetWrapper{
     //This is for UI display purpose
     public String getEndDateUI(){
         return formatEndDateUI(keyDateInfo.getEndDate());
+    }
+
+    @Override
+    public boolean isAllDay(){
+        if(!super.isAllDay()&&!this.isDateRange()){
+            this.setAllDay(true);
+        }
+        return super.isAllDay();
     }
 
 }
