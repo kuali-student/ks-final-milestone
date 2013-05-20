@@ -645,19 +645,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
         Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
 
         // what if it is the root?
-        if (parentNode != null && parentNode.getData() != null && !parentNode.getNodeType().contains("treeRoot")) { // it is not the root as there is a parent w/ a prop
+        if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
             PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null) {
                 List<PropositionEditor> children = (List<PropositionEditor>) parent.getCompoundComponents();
                 for (int index = 0; index < children.size(); index++) {
                     if (selectedpropKey.equalsIgnoreCase(children.get(index).getKey())) {
                         parent.getCompoundComponents().remove(index);
-                        if(parent.getCompoundEditors().size() == 1) {
-                            int i = ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().indexOf(parent);
-                            if(i != -1) {
-                                ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().set(i, parent.getCompoundEditors().get(0));
-                            }
-                        }
                         break;
                     }
                 }
@@ -802,12 +796,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //Reset the editing tree.
         PropositionTreeUtil.cancelNewProp(proposition);
-
-        //Check if proposition is a single proposition and remove the compound proposition
-        if(proposition.getCompoundEditors().size() == 1) {
-            PropositionEditor singleProp = proposition.getCompoundEditors().get(0);
-            ruleEditor.setProposition(singleProp);
-        }
+        PropositionTreeUtil.removeNewCompoundProp(proposition);
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
