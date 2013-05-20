@@ -415,7 +415,7 @@ public class SchedulingServiceDecorator implements SchedulingService {
 
     @Override
     public List<ScheduleRequestSetInfo> getScheduleRequestSetsByRefObject(@WebParam(name = "refObjectType") String refObjectType, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return getNextDecorator().getScheduleRequestSetsByRefObject(refObjectType, refObjectId, contextInfo);
     }
 
     @Override
