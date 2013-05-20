@@ -32,7 +32,7 @@ import java.util.List;
  *
  * TODO: workaround for KULRICE-9467 (remove class and it's use in web.xml once rice issue is fixed)
  * Class was created to bypass a NullPointerException
- * in this class, when spring security invalidated a non-existent session.
+ * in {@link KualiHttpSessionListener}, when spring security invalidated a non-existent session.
  *
  * @author Kuali Student Team
  */

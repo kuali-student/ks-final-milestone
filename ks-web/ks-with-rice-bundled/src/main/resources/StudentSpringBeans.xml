@@ -246,6 +246,7 @@
                 <value>classpath:org/kuali/student/enrollment/kitchensink/Growls.xml</value>
                 <!--<value>classpath:org/kuali/student/enrollment/kitchensink/Lightbox.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LinkFields.xml</value>
+                <value>classpath:org/kuali/student/enrollment/kitchensink/LookupCombobox.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupSuggest.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupDefaultAction.xml</value>
                 <value>classpath:org/kuali/student/enrollment/kitchensink/LookupInputConfirmation.xml</value>

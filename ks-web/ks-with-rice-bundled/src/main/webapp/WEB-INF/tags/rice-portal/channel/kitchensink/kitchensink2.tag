@@ -39,6 +39,8 @@
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupQuickView-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Suggest (Auto-Complete)"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupSuggest-View&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Suggest Combobox"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-LookupCombobox-View&methodToCall=start" /></li>
     </ul>
 
     <strong>Collections</strong>
