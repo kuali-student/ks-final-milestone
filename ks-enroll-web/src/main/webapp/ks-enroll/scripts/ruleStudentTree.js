@@ -90,6 +90,16 @@ function ajaxCallOnTabSelect(event, ui) {
     }
 }
 
+/*function disableMe(element){
+    element.disable = true;
+}
+
+function disableAll(classname){
+    jq(classname).each(function () {
+        this.disable = true;
+    });
+}*/
+
 function ajaxCutPropositionTree() {
     var selectedItemTracker = getSelectedPropositionInput();
     var selectedItemId = selectedItemTracker.val();

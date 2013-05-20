@@ -91,7 +91,9 @@
     <bean id="KRMS-MultiCourse-Type-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.multipleCourseType">
         <property name="instructionalText" value="Add a course, course set, or course range" />
         <property name="control">
-            <bean parent="Uif-DropdownControl"/>
+            <bean parent="Uif-DropdownControl">
+                <!--property name="onChangeScript" value="disableAll('.disableme');"/-->
+            </bean>
         </property>
         <property name="optionsFinder">
             <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.CourseTypeValuesFinder"/>
@@ -147,6 +149,7 @@
 
     <bean id="KRMS-StackedCollectionLayout-WithBoxItems" parent="Uif-StackedCollectionLayout-WithBoxItems" p:style="width: 500px"
           class="org.kuali.student.enrollment.class1.krms.HorizontalActionsStackedLayoutManager">
+        <property name="actionsInLineGroup" value="true"/>
         <property name="lineGroupPrototype">
             <bean parent="KRMS-CollectionGridItem"/>
         </property>
@@ -180,9 +183,6 @@
                 </bean>
             </list>
         </property>
-        <property name="collectionLookup">
-            <bean parent="Uif-CollectionQuickFinder" p:render="false"/>
-        </property>
     </bean>
 
     <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Course Sets">
@@ -214,28 +214,40 @@
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 380px;">
                     <property name="propertyName" value="name"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:style="width:370px; margin-top:null 2px;" p:disabled="true"/>
+                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;" p:disabled="true">
+                            <!--this is a hack-->
+                            <!--property name="onMouseOverScript" value="disableMe(jq(this));"/>
+                            <property name="onFocusScript" value="disableMe(jq(this));"/>
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>disableme</value>
+                                </list>
+                            </property-->
+                            <!--this is a hack-->
+                        </bean>
                     </property>
                     <property name="label" value="Course Sets"/>
-                    <!--property name="suggest">
-                        <bean parent="Uif-Suggest">
-                            <property name="render" value="true"/>
-                            <property name="valuePropertyName" value="displayName"/>
-                            <property name="templateOptions" value="minLength:1,delay:0"/>
-                            <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig">
-                                    <property name="queryMethodToCall" value="getCourseSetForSuggest"/>
-                                </bean>
-                            </property>
-                        </bean>
-                    </property-->
                     <property name="quickfinder">
                         <bean parent="KRMS-CourseSet-QuickFinder"/>
                     </property>
-
                 </bean>
             </list>
         </property>
+        <!-- Replace with other bean for the multi select search-->
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="false"/>
+        </property>
+        <!--property name="collectionLookup">
+            <bean parent="KRMS-CourseSet-QuickFinder" p:multipleValuesSelect="false">
+                <property name="quickfinderAction">
+                    <bean parent="Uif-ActionLink" p:progressiveRender="#np.proposition.multipleCourseType eq '2'">
+                        <property name="methodToCall" value="performLookup"/>
+                        <property name="actionLabel" value="Search for Course Sets"/>
+                        <property name="style" value="display:block;color: #3F7826;"/>
+                    </bean>
+                </property>
+            </bean>
+        </property-->
     </bean>
 
     <bean id="KRMS-ApprovedCourseStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Approved Courses">
@@ -267,12 +279,19 @@
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:disabled="true"/>
+                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;" p:disabled="true">
+                            <!--this is a hack-->
+                            <!--property name="onMouseOverScript" value="disableMe(jq(this));"/>
+                            <property name="onFocusScript" value="disableMe(jq(this));"/>
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>disableme</value>
+                                </list>
+                            </property-->
+                            <!--this is a hack-->
+                        </bean>
                     </property>
                     <property name="label" value="Approved Courses"/>
-                    <!--property name="suggest">
-                        <bean parent="KRMS-Course-SuggestControl"/>
-                    </property-->
                     <property name="quickfinder">
                         <bean parent="KRMS-ApprovedCourses-QuickFinder"/>
                     </property>
@@ -280,6 +299,21 @@
                 </bean>
             </list>
         </property>
+        <!-- Replace with other bean for the multi select search-->
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="false"/>
+        </property>
+        <!--property name="collectionLookup">
+            <bean parent="KRMS-ApprovedCourses-QuickFinder" p:multipleValuesSelect="false">
+                <property name="quickfinderAction">
+                    <bean parent="Uif-ActionLink" p:progressiveRender="#np.proposition.multipleCourseType eq '1'">
+                        <property name="methodToCall" value="performLookup"/>
+                        <property name="actionLabel" value="Search for Approved Courses"/>
+                        <property name="style" value="display:block;color: #3F7826;"/>
+                    </bean>
+                </property>
+            </bean>
+        </property-->
     </bean>
 
     <bean id="KRMS-CourseRangeStackedCollectionGroup" parent="KRMS-StackedCollectionGroup">
