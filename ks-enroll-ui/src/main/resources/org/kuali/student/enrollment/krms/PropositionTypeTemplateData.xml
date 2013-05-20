@@ -203,7 +203,7 @@
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="NumberOfCreditsFromOrganization" p:operator="&gt;=" p:value="n">
                         <property name="componentId" value="KRMS-CreditAndDepartment-Group"/>
-                        <!--<property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.OrganizationComponentBuilder"/>-->
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.OrganizationComponentBuilder"/>
                     </bean>
                 </entry>
 

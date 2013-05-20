@@ -530,6 +530,7 @@
         <property name="quickfinder.fieldConversions">
             <map>
                 <entry key="longName" value="proposition.termParameter"/>
+                <entry key="id" value="proposition.orgInfo.id"/>
             </map>
         </property>
     </bean>

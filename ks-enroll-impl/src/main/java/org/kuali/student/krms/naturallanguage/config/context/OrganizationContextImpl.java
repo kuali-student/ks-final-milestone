@@ -15,13 +15,16 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 
+import javax.xml.namespace.QName;
 import java.util.Map;
 
 
@@ -37,6 +40,15 @@ public class OrganizationContextImpl extends BasicContextImpl {
 	public void setOrganizationService(OrganizationService organizationService) {
 		this.organizationService = organizationService;
 	}
+    private OrganizationService getOrganizationService() {
+        if (organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
+
+        }
+        return organizationService;
+
+    }
+
 
 	private OrgInfo getOrganization(String orgId, ContextInfo context) throws OperationFailedException {
 		if (orgId == null) {
@@ -44,7 +56,7 @@ public class OrganizationContextImpl extends BasicContextImpl {
 		}
 		try {
 
-			return organizationService.getOrg(orgId, context);
+			return this.getOrganizationService().getOrg(orgId, context);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
