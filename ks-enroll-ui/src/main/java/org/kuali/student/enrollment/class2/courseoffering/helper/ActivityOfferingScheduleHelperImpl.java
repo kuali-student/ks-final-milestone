@@ -79,18 +79,24 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     protected static final String TIME_FORMAT_STRING = "hh:mm a";
 
-    public void saveSchedules(ActivityOfferingWrapper wrapper){
-        if (wrapper.isSchedulingCompleted()){
-            processRevisedSchedules(wrapper);
-        } else {
-            createOrUpdateScheduleRequests(wrapper);
+    public void saveSchedules(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo){
+
+        if (defaultContextInfo == null){
+            defaultContextInfo = createContextInfo();
         }
+
+        if (wrapper.isSchedulingCompleted()){
+            processRevisedSchedules(wrapper,defaultContextInfo);
+        } else {
+            createOrUpdateScheduleRequests(wrapper,defaultContextInfo);
+        }
+
     }
 
-    public void loadSchedules(ActivityOfferingWrapper wrapper){
+    public void loadSchedules(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo){
 
         try{
-            List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(wrapper.getAoInfo().getTermId(), ContextUtils.createDefaultContextInfo());
+            List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(wrapper.getAoInfo().getTermId(), defaultContextInfo);
 
             if (socIds != null && !socIds.isEmpty()){
                 //For M5, it should have only one SOC
@@ -98,21 +104,21 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     throw new RuntimeException("More than one SOC found for a term");
                 }
 
-                SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0),ContextUtils.createDefaultContextInfo());
+                SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0),defaultContextInfo);
                 wrapper.setSocInfo(soc);
             }
         }catch (Exception e){
             throw new RuntimeException(e);
         }
 
-        loadScheduleRequests(wrapper);
-        loadScheduleActuals(wrapper);
+        loadScheduleRequests(wrapper,defaultContextInfo);
+        loadScheduleActuals(wrapper,defaultContextInfo);
 
     }
 
-    public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper){
+    public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper,ContextInfo defaultContextInfo){
 
-        createOrUpdateScheduleRequests(activityOfferingWrapper);
+        createOrUpdateScheduleRequests(activityOfferingWrapper,defaultContextInfo);
 
         if (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.isSendRDLsToSchedulerAfterMSE()){
             return;
@@ -120,20 +126,18 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         try {
 
-            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
             //Schedule AO
-            StatusInfo statusInfo = getCourseOfferingService().scheduleActivityOffering(activityOfferingWrapper.getId(), contextInfo);
+            StatusInfo statusInfo = getCourseOfferingService().scheduleActivityOffering(activityOfferingWrapper.getId(), defaultContextInfo);
 
             if (!statusInfo.getIsSuccess()){
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,statusInfo.getMessage());
                 return;
             }
 
-            ActivityOfferingInfo latestAO = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(), contextInfo);
+            ActivityOfferingInfo latestAO = getCourseOfferingService().getActivityOffering(activityOfferingWrapper.getAoInfo().getId(), defaultContextInfo);
 
             //This will change the AO/FO/CO state and gets the updated AO
-            latestAO = updateScheduledActivityOffering(latestAO, contextInfo);
+            latestAO = updateScheduledActivityOffering(latestAO, defaultContextInfo);
 
             activityOfferingWrapper.setAoInfo(latestAO);
             //Copy only certain fields to the existing DTO to avoid unnecessary overwriting to the user modifications
@@ -143,8 +147,8 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
             if (activityOfferingWrapper.isColocatedAO()){
                 for (ColocatedActivity colocatedActivity : activityOfferingWrapper.getColocatedActivities()){
-                    ActivityOfferingInfo ao = getCourseOfferingService().getActivityOffering(colocatedActivity.getActivityOfferingInfo().getId(),contextInfo);
-                    ActivityOfferingInfo updatedAO = updateScheduledActivityOffering(ao, contextInfo);
+                    ActivityOfferingInfo ao = getCourseOfferingService().getActivityOffering(colocatedActivity.getActivityOfferingInfo().getId(),defaultContextInfo);
+                    ActivityOfferingInfo updatedAO = updateScheduledActivityOffering(ao, defaultContextInfo);
                     updatedAO.setStateKey(latestAO.getStateKey());
 //    TODOSSR                updatedAO.setScheduleId(latestAO.getScheduleId());
                     updatedAO.setSchedulingStateKey(latestAO.getSchedulingStateKey());
@@ -154,7 +158,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             }
 
             //Set it in the wrapper and load all the revised schedule Actuals
-            loadScheduleActuals(activityOfferingWrapper);
+            loadScheduleActuals(activityOfferingWrapper,defaultContextInfo);
 
         }catch (Exception e){
             throw new RuntimeException(e);
@@ -276,7 +280,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                         addErrorMessage(ScheduleInput.BUILDING, "A Facility code is required if a room code is entered");
                     }
                 } else {
-                    ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+                    ContextInfo contextInfo = createContextInfo();
 
                     // if a building code exists, validate the building code and populate the building info
                     List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(), contextInfo);
@@ -322,7 +326,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
     protected boolean deleteScheduleRequest(ActivityOfferingWrapper wrapper){
         StatusInfo statusInfo;
         try{
-            statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(), ContextUtils.createDefaultContextInfo());
+            statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(), createContextInfo());
         }catch (Exception e){
             throw new RuntimeException(e);
         }
@@ -357,15 +361,13 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         wrapper.setScheduleRequestInfo(scheduleRequest);
     }
 
-    public void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper) {
+    public void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo) {
 
         //If there are no already persisted RDLs and no schedule request components exists, skip creating an empty RDL
         if ((wrapper.getScheduleRequestInfo() == null || StringUtils.isBlank(wrapper.getScheduleRequestInfo().getId())) &&
             wrapper.getRequestedScheduleComponents().isEmpty()){
             return;
         }
-
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         boolean createScheduleComponent = false;
 
@@ -382,7 +384,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     if (!wrapper.isColocatedAO()){
                         //If there are no activities associated with the colo, then delete the RDL for colo
                         /*TODOSSR if (wrapper.getColocatedOfferingSetInfo().getActivityOfferingIds().isEmpty()){
-                            StatusInfo statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(),contextInfo);
+                            StatusInfo statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(),defaultContextInfo);
                             if (!statusInfo.getIsSuccess()){
                                  throw new RuntimeException("Error deleting RDLs for the coloset");
                             }
@@ -438,7 +440,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()) {
             if (!scheduleWrapper.isRequestAlreadySaved() || createScheduleComponent){
                 try{
-                    ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper);
+                    ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper,defaultContextInfo);
                     wrapper.getScheduleRequestInfo().getScheduleRequestComponents().add(componentInfo);
                 }catch (Exception ex){
                     throw new RuntimeException("Unable to buildScheduleComponentRequest for AO[" + wrapper.getId() + "]", ex);
@@ -452,7 +454,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         if (StringUtils.isBlank(wrapper.getScheduleRequestInfo().getId())){
 
             try{
-                ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,wrapper.getScheduleRequestInfo(), contextInfo);
+                ScheduleRequestInfo createdScheduleRequestInfo = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,wrapper.getScheduleRequestInfo(), defaultContextInfo);
                 wrapper.setScheduleRequestInfo(createdScheduleRequestInfo);
             } catch (Exception e){
                 throw new RuntimeException(e);
@@ -462,7 +464,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             ScheduleRequestInfo requestInfo = wrapper.getScheduleRequestInfo();
 
             try{
-               ScheduleRequestInfo updatedScheduleRequestInfo = getSchedulingService().updateScheduleRequest(requestInfo.getId(),requestInfo, contextInfo);
+               ScheduleRequestInfo updatedScheduleRequestInfo = getSchedulingService().updateScheduleRequest(requestInfo.getId(),requestInfo, defaultContextInfo);
                wrapper.setScheduleRequestInfo(updatedScheduleRequestInfo);
             } catch (Exception e){
                 throw new RuntimeException(e);
@@ -472,7 +474,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     }
 
-    private ScheduleRequestComponentInfo buildScheduleComponentRequest(ScheduleWrapper scheduleWrapper) throws Exception{
+    private ScheduleRequestComponentInfo buildScheduleComponentRequest(ScheduleWrapper scheduleWrapper,ContextInfo defaultContextInfo) throws Exception{
 
         ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
 //        componentInfo.setId(UUIDHelper.genStringUUID());
@@ -517,7 +519,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
 
         try {
-            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING,timeSlot, ContextUtils.createDefaultContextInfo());
+            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING,timeSlot, defaultContextInfo);
             componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
         } catch (Exception e) {
             throw new Exception("Error creating timeslot: " + timeSlot, e);
@@ -624,88 +626,93 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
      *
      * @param wrapper  ActivityOfferingWrapper
      */
-    public void loadScheduleRequests(ActivityOfferingWrapper wrapper){
+    public void loadScheduleRequests(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo){
 
         try {
-            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-            List<ScheduleRequestInfo> requestInfos = getScheduleRequestsByAO(wrapper.getId(), contextInfo);
+            List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, wrapper.getId(), defaultContextInfo);
 
-            if (!requestInfos.isEmpty()){
+            for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos){
 
-                //wrapper.setScheduleRequestInfo(requestInfos.get(0));
-                //wrapper.setScheduleRequestInfos(requestInfos);
+                for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
 
-                for(ScheduleRequestInfo scheduleRequestInfo : requestInfos) {
-                    for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
+                    /**
+                     * If RDLs exists, dont allow the user to change the crosslist checkbox
+                     */
+                    wrapper.getEditRenderHelper().setPersistedRDLsExists(true);
 
-                        /**
-                         * If RDLs exists, dont allow the user to change the crosslist checkbox
-                         */
-                        wrapper.getEditRenderHelper().setPersistedRDLsExists(true);
+                    ScheduleWrapper scheduleWrapper = new ScheduleWrapper(scheduleRequestInfo,componentInfo);
+                    buildScheduleWrapper(wrapper,scheduleWrapper,componentInfo,defaultContextInfo);
 
-                        ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
-                        scheduleWrapper.setTba(componentInfo.getIsTBA());
-
-                        List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), contextInfo);
-
-                        if (!timeSlotInfos.isEmpty()){
-                            scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
-
-                            DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
-
-                            Date timeForDisplay;
-                            if(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null) {
-                                timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                                String formattedTime = df.format(timeForDisplay);
-                                //Set for read only display purpose in the format hh:mm a
-                                scheduleWrapper.setStartTimeUI(formattedTime);
-                                //Set only hh:mm for user editable purpose
-                                scheduleWrapper.setStartTime(StringUtils.substringBefore(formattedTime," "));
-                                scheduleWrapper.setStartTimeAMPM(StringUtils.substringAfter(formattedTime," "));
-                            }
-
-                            if(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null) {
-                                timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                                String formattedTime = df.format(timeForDisplay);
-                                scheduleWrapper.setEndTimeUI(df.format(timeForDisplay));
-                                //Set for read only display purpose in the format hh:mm a
-                                scheduleWrapper.setEndTimeUI(formattedTime);
-                                //Set only hh:mm for user editable purpose
-                                scheduleWrapper.setEndTime(StringUtils.substringBefore(formattedTime," "));
-                                scheduleWrapper.setEndTimeAMPM(StringUtils.substringAfter(formattedTime," "));
-                            }
-
-                            String daysUI = buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays());
-                            scheduleWrapper.setDaysUI(daysUI);
-                            scheduleWrapper.setDays(StringUtils.remove(daysUI, " "));
-                        }
-
-                        if (!componentInfo.getRoomIds().isEmpty()){
-
-                            RoomInfo room = getRoomService().getRoom(componentInfo.getRoomIds().get(0), contextInfo);
-
-                            scheduleWrapper.setRoom(room);
-                            scheduleWrapper.setRoomCode(room.getRoomCode());
-
-                            if (!room.getRoomUsages().isEmpty()){
-                                scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
-                            }
-
-                            BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(), contextInfo);
-                            scheduleWrapper.setBuilding(buildingInfo);
-                            scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
-                            scheduleWrapper.setBuildingId(room.getBuildingId());
-                        }
-
-                        loadColocatedAOs(wrapper,scheduleWrapper);
-                        wrapper.getRequestedScheduleComponents().add(scheduleWrapper);
-                    }
                 }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected void buildScheduleWrapper(ActivityOfferingWrapper wrapper,ScheduleWrapper scheduleWrapper,ScheduleRequestComponentInfo componentInfo,ContextInfo defaultContextInfo){
+
+        scheduleWrapper.setTba(componentInfo.getIsTBA());
+
+        try {
+            List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), defaultContextInfo);
+
+            if (!timeSlotInfos.isEmpty()){
+                scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
+
+                DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
+
+                Date timeForDisplay;
+                if(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null) {
+                    timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
+                    String formattedTime = df.format(timeForDisplay);
+                    //Set for read only display purpose in the format hh:mm a
+                    scheduleWrapper.setStartTimeUI(formattedTime);
+                    //Set only hh:mm for user editable purpose
+                    scheduleWrapper.setStartTime(StringUtils.substringBefore(formattedTime," "));
+                    scheduleWrapper.setStartTimeAMPM(StringUtils.substringAfter(formattedTime," "));
+                }
+
+                if(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null) {
+                    timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
+                    String formattedTime = df.format(timeForDisplay);
+                    scheduleWrapper.setEndTimeUI(df.format(timeForDisplay));
+                    //Set for read only display purpose in the format hh:mm a
+                    scheduleWrapper.setEndTimeUI(formattedTime);
+                    //Set only hh:mm for user editable purpose
+                    scheduleWrapper.setEndTime(StringUtils.substringBefore(formattedTime," "));
+                    scheduleWrapper.setEndTimeAMPM(StringUtils.substringAfter(formattedTime," "));
+                }
+
+                String daysUI = buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays());
+                scheduleWrapper.setDaysUI(daysUI);
+                scheduleWrapper.setDays(StringUtils.remove(daysUI, " "));
+            }
+
+            if (!componentInfo.getRoomIds().isEmpty()){
+
+                RoomInfo room = getRoomService().getRoom(componentInfo.getRoomIds().get(0), defaultContextInfo);
+
+                scheduleWrapper.setRoom(room);
+                scheduleWrapper.setRoomCode(room.getRoomCode());
+
+                if (!room.getRoomUsages().isEmpty()){
+                    scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
+                }
+
+                BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(), defaultContextInfo);
+                scheduleWrapper.setBuilding(buildingInfo);
+                scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
+                scheduleWrapper.setBuildingId(room.getBuildingId());
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        loadColocatedAOs(wrapper,scheduleWrapper);
+        wrapper.getRequestedScheduleComponents().add(scheduleWrapper);
     }
 
     protected void loadColocatedAOs(ActivityOfferingWrapper wrapper,ScheduleWrapper scheduleWrapper){
@@ -716,15 +723,14 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
     }
 
-    public void loadScheduleActuals(ActivityOfferingWrapper wrapper){
+    public void loadScheduleActuals(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo){
 
         if (wrapper.getAoInfo().getScheduleIds() != null && !wrapper.getAoInfo().getScheduleIds().isEmpty()) {
 
             try {
 
-                ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
                 for(String scheduleId : wrapper.getAoInfo().getScheduleIds()) {
-                    ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, contextInfo);
+                    ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, defaultContextInfo);
                     //wrapper.setScheduleInfo(scheduleInfo);
 
                     //Clear Actuals first (it may be having old ones before schedules revised)
@@ -734,7 +740,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                         ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
                         scheduleWrapper.setTba(componentInfo.getIsTBA());
 
-                        List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), contextInfo);
+                        List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), defaultContextInfo);
 
                         if (!timeSlotInfos.isEmpty()){
                             scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
@@ -758,7 +764,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
                         if (StringUtils.isNotBlank(componentInfo.getRoomId())){
 
-                            RoomInfo room = getRoomService().getRoom(componentInfo.getRoomId(), contextInfo);
+                            RoomInfo room = getRoomService().getRoom(componentInfo.getRoomId(), defaultContextInfo);
 
                             scheduleWrapper.setRoom(room);
                             scheduleWrapper.setRoomCode(room.getRoomCode());
@@ -767,7 +773,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                                 scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(0).getHardCapacity());
                             }
 
-                            BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(), contextInfo);
+                            BuildingInfo buildingInfo = getRoomService().getBuilding(room.getBuildingId(), defaultContextInfo);
                             scheduleWrapper.setBuilding(buildingInfo);
                             scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
                         }
@@ -884,9 +890,9 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     public void deleteRequestedAndActualSchedules(ActivityOfferingInfo activity){
         try {
-            List<ScheduleRequestInfo> rdls = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,activity.getId(),ContextUtils.createDefaultContextInfo());
+            List<ScheduleRequestInfo> rdls = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,activity.getId(),createContextInfo());
             for (ScheduleRequestInfo rdl : rdls) {
-                StatusInfo status = getSchedulingService().deleteScheduleRequest(rdl.getId(),ContextUtils.createDefaultContextInfo());
+                StatusInfo status = getSchedulingService().deleteScheduleRequest(rdl.getId(),createContextInfo());
                 if (!status.getIsSuccess()){
                      throw new RuntimeException("Cant delete RDL");
                 }
@@ -903,5 +909,8 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
     }
 
+    protected ContextInfo createContextInfo(){
+        return ContextUtils.createDefaultContextInfo();
+    }
 
 }

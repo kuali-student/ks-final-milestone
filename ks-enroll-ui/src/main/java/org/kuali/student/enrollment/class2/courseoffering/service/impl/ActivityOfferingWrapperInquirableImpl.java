@@ -130,7 +130,7 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
             }
             wrapper.setSeatpools(seatPoolWrapperList);
 
-            getScheduleHelper().loadSchedules(wrapper);
+            getScheduleHelper().loadSchedules(wrapper,contextInfo);
 
             return wrapper;
         } catch (Exception e) {

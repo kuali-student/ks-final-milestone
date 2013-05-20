@@ -153,7 +153,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 if (activityOfferingWrapper.isSchedulesModified() ||
                         (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
                         (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
-                    getScheduleHelper().saveSchedules(activityOfferingWrapper);
+                    getScheduleHelper().saveSchedules(activityOfferingWrapper,contextInfo);
                 }
             }
 
@@ -495,7 +495,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             loadColocatedAOs(wrapper);
 
-            getScheduleHelper().loadSchedules(wrapper);
+            getScheduleHelper().loadSchedules(wrapper,contextInfo);
 
             return wrapper;
 
