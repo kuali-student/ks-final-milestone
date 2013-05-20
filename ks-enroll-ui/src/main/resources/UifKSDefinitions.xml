@@ -47,9 +47,6 @@
         <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
     </bean>
 
-    <!--Note: might not need CustomizedBreadCrumb bean after rice 2.2.3 release -->
-    <bean id="KS-Uif-FormView-CustomizedBreadCrumb" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="KS-Uif-FormView" abstract="true"/>
-
     <bean id="KS-Uif-LookupView" abstract="true"
           class="org.kuali.student.enrollment.uif.view.KSLookupView" parent="Uif-LookupView">
         <property name="theme">

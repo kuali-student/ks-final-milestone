@@ -20,22 +20,10 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ManageRegistrationGroups-View" parent="KS-Uif-FormView-CustomizedBreadCrumb" p:applyDirtyCheck="true"
+    <bean id="KS-ManageRegistrationGroups-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="manageRegistrationGroupsView"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.RegistrationGroupManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm">
-
-        <!--<property name="breadCrumbConfigMap">-->
-            <!--<map>-->
-                <!--<entry key="manageRegistrationGroupsPage">-->
-                    <!--<map key-type="java.lang.String">-->
-                        <!--<entry key="Home" value=""/>-->
-                        <!--<entry key="Manage Course Offerings" value="courseOfferingManagementView:manageCourseOfferingsPage"/>-->
-                        <!--<entry key="@{theCourseOffering.courseOfferingCode}" value=""/>-->
-                    <!--</map>-->
-                <!--</entry>-->
-            <!--</map>-->
-        <!--</property>-->
 
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
@@ -48,7 +36,7 @@
         </property>
         <property name="singlePageView" value="true"/>
         <property name="page">
-            <bean parent="Uif-Page" p:id="manageRegistrationGroupsPage" p:onDocumentReadyScript="replaceBreadCrumbs('@{breadCrumbJSON}');"/>
+            <bean parent="Uif-Page" p:id="manageRegistrationGroupsPage" />
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">

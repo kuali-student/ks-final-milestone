@@ -39,8 +39,4 @@ import java.util.Map;
  */
 public class KSUifFormView extends FormView {
 
-    public KSUifFormView() {
-        super();
-    }
-
 }

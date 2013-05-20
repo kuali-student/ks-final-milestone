@@ -28,29 +28,11 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class KSUifForm extends UifFormBase {
-    private String breadCrumbJSON; //JSON string of customized breadcrumb of a page
-    private Map<String,Map<String,String>> breadCrumbItemsMap; //Map that storing breadcrumb maps for all the pages that have it configured in the current view
     private String homeUrl;
     private Map<String, Map<String, String>> previousFormsMap;
 
     public KSUifForm() {
-        //breadCrumbJSON = "";
-    }
-
-    public String getBreadCrumbJSON() {
-        return breadCrumbJSON;
-    }
-
-    public void setBreadCrumbJSON(String breadCrumbJSON) {
-        this.breadCrumbJSON = breadCrumbJSON;
-    }
-
-    public Map<String,Map<String,String>> getBreadCrumbItemsMap() {
-        return breadCrumbItemsMap;
-    }
-
-    public void setBreadCrumbItemsMap(Map<String,Map<String,String>> breadCrumbItemsMap) {
-        this.breadCrumbItemsMap = breadCrumbItemsMap;
+        super();
     }
 
     public String getHomeUrl() {

@@ -129,7 +129,6 @@ public class KSUifUtils {
             if (request.getParameter(CourseOfferingConstants.BREADCRUMB_PREVIOUS_HOME_URL_KEY)!=null &&
                     !request.getParameter(CourseOfferingConstants.BREADCRUMB_PREVIOUS_HOME_URL_KEY).isEmpty()) {
                 tempFormMap.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_HOME_URL_KEY, request.getParameter(CourseOfferingConstants.BREADCRUMB_PREVIOUS_HOME_URL_KEY));
-                form.setHomeUrl(request.getParameter(CourseOfferingConstants.BREADCRUMB_PREVIOUS_HOME_URL_KEY));
             }
             if (request.getParameter(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORM_HISTORY_KEY)!=null &&
                     !request.getParameter(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORM_HISTORY_KEY).isEmpty()) {
@@ -140,8 +139,6 @@ public class KSUifUtils {
                 tempFormMap.put(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORMKEY_KEY, request.getParameter(CourseOfferingConstants.BREADCRUMB_PREVIOUS_FORMKEY_KEY));
             }
             previousFormsMap.put(request.getParameter(CourseOfferingConstants.BREADCRUMB_PREVIOUS_VIEW_ID_KEY), tempFormMap);
-            form.setPreviousFormsMap(previousFormsMap);
-
         }
 
     }
