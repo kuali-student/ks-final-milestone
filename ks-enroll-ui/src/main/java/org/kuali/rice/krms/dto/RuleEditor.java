@@ -79,7 +79,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         this.typeId = definition.getTypeId();
         this.propId = definition.getPropId();
         this.active = definition.isActive();
-        this.proposition = createPropositionEditor(definition.getProposition());
+        if(definition.getProposition()!=null){
+            this.proposition = createPropositionEditor(definition.getProposition());
+        }
         this.versionNumber = definition.getVersionNumber();
 
         //TODO: Actions

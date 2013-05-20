@@ -321,6 +321,10 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     }
 
     protected void initPropositionEditor(PropositionEditor propositionEditor) {
+        if(propositionEditor==null){
+            return;
+        }
+
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
 
             if (propositionEditor.getType() == null) {
