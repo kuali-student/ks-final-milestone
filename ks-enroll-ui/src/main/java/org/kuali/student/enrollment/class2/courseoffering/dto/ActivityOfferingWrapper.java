@@ -11,6 +11,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
@@ -106,8 +107,11 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean hiddenMaxEnrollmentShared;
     private int sharedMaxEnrollment;
 
+    private ScheduleRequestSetInfo scheduleRequestSetInfo;
+
     private EditRenderHelper editRenderHelper;
     private boolean isPartOfColoSetOnLoadAlready;
+    private boolean isColocatedOnLoadAlready;
     private boolean isSendRDLsToSchedulerAfterMSE;
 
     //This is needed to display the cross listed courses
@@ -869,6 +873,14 @@ public class ActivityOfferingWrapper implements Serializable{
         this.sharedMaxEnrollment = sharedMaxEnrollment;
     }
 
+    public ScheduleRequestSetInfo getScheduleRequestSetInfo() {
+        return scheduleRequestSetInfo;
+    }
+
+    public void setScheduleRequestSetInfo(ScheduleRequestSetInfo scheduleRequestSetInfo) {
+        this.scheduleRequestSetInfo = scheduleRequestSetInfo;
+    }
+
     /**
      * This method return a colocated AO code for current course. This will
      * be displayed as the tooltip (if colocated AO exists) at manage and delete AO screen.
@@ -890,6 +902,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setPartOfColoSetOnLoadAlready(boolean isPartOfColoSetOnLoadAlready) {
         this.isPartOfColoSetOnLoadAlready = isPartOfColoSetOnLoadAlready;
+    }
+
+    public boolean isColocatedOnLoadAlready() {
+        return isColocatedOnLoadAlready;
+    }
+
+    public void setColocatedOnLoadAlready(boolean colocatedOnLoadAlready) {
+        isColocatedOnLoadAlready = colocatedOnLoadAlready;
     }
 
     public boolean isSchedulingCompleted(){

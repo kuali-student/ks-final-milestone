@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
@@ -107,7 +108,7 @@ public class ActivityOfferingTransformer {
         Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = buildLuiToScheduleRequestsMap(luiIds, schedulingService, context);
 
         for (LuiInfo luiInfo : luiInfos) {
-            aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap, luiService, context));
+            aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap, schedulingService, context));
         }
 
 
@@ -129,7 +130,7 @@ public class ActivityOfferingTransformer {
                                                     Map<String, List<OfferingInstructorInfo>> luiToInstructorsMap,
                                                     Map<String, ScheduleInfo> scheduleIdToScheduleMap,
                                                     Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap,
-                                                    LuiService luiService,
+                                                    SchedulingService schedulingService,
                                                     ContextInfo contextInfo ) throws PermissionDeniedException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ao.setId(lui.getId());
@@ -144,7 +145,7 @@ public class ActivityOfferingTransformer {
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
         ao.setScheduleIds(new ArrayList<String>(lui.getScheduleIds()));
         ao.setActivityOfferingURL(lui.getReferenceURL());
-        ao.setIsColocated(isColocated(lui, luiService, contextInfo));
+        ao.setIsColocated(isColocated(lui, schedulingService, contextInfo));
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -202,7 +203,7 @@ public class ActivityOfferingTransformer {
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
         ao.setScheduleIds(new ArrayList<String>(lui.getScheduleIds()));
         ao.setActivityOfferingURL(lui.getReferenceURL());
-        ao.setIsColocated(isColocated(lui, luiService, context));
+        ao.setIsColocated(isColocated(lui, schedulingService, context));
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -329,21 +330,27 @@ public class ActivityOfferingTransformer {
         return info;
     }
 
-    private static boolean isColocated(LuiInfo lui, LuiService luiService, ContextInfo context)
+    private static boolean isColocated(LuiInfo lui, SchedulingService schedulingService, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
     {
         if( lui == null ) {
             throw new NullPointerException( "lui cannot be null" );
         }
-        if( luiService == null ) {
-            throw new NullPointerException( "luiService cannot be null" );
+        if( schedulingService == null ) {
+            throw new NullPointerException( "schedulingService cannot be null" );
         }
         if( context == null ) {
             throw new NullPointerException( "context cannot be null" );
         }
 
-        List<LuiSetInfo> result = luiService.getLuiSetsByLui( lui.getId(), context );
-        if( result != null && !result.isEmpty() ) return true;
+        List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, lui.getId(), context);
+        if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){
+            for(ScheduleRequestSetInfo srs : scheduleRequestSets){
+                if(srs.getRefObjectIds() != null && srs.getRefObjectIds().size() > 1) {
+                    return true;
+                }
+            }
+        }
 
         return false;
     }

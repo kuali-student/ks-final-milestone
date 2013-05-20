@@ -65,7 +65,9 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -507,26 +509,25 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     protected void loadColocatedAOs(ActivityOfferingWrapper wrapper) throws Exception {
 
-        /* TODOSSR
         ActivityOfferingInfo info = wrapper.getAoInfo();
-        wrapper.setPartOfColoSetOnLoadAlready(info.getIsPartOfColocatedOfferingSet());
+        wrapper.setColocatedOnLoadAlready(info.getIsColocated());
 
-        if (info.getIsPartOfColocatedOfferingSet()){
+        if (info.getIsColocated()){
 
             wrapper.setColocatedAO(true);
-            List<ColocatedOfferingSetInfo> coloSet = getCourseOfferingService().getColocatedOfferingSetsByActivityOffering(info.getId(), createContextInfo());
 
-            if (!coloSet.isEmpty()){
+            List<ScheduleRequestSetInfo> scheduleRequestSets = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, info.getId(), createContextInfo());
+            if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){
+                ScheduleRequestSetInfo scheduleRequestSetInfo = scheduleRequestSets.get(0);
 
-                ColocatedOfferingSetInfo colocatedOfferingSetInfo = coloSet.get(0);
-                wrapper.setColocatedOfferingSetInfo(colocatedOfferingSetInfo);
-
-                wrapper.setMaxEnrollmentShared(colocatedOfferingSetInfo.getIsMaxEnrollmentShared());
-                if (colocatedOfferingSetInfo.getIsMaxEnrollmentShared()) {
-                    wrapper.setSharedMaxEnrollment(colocatedOfferingSetInfo.getMaximumEnrollment());
+                //Each AO has only one ScheduleRequestSet for M7-SP2(support full co-location only)
+                wrapper.setScheduleRequestSetInfo(scheduleRequestSetInfo);
+                wrapper.setMaxEnrollmentShared(scheduleRequestSetInfo.getIsMaxEnrollmentShared());
+                if(scheduleRequestSetInfo.getIsMaxEnrollmentShared()) {
+                    wrapper.setSharedMaxEnrollment(scheduleRequestSetInfo.getMaximumEnrollment());
                 }
 
-                List<String> activityOfferingIds = new ArrayList<String>(colocatedOfferingSetInfo.getActivityOfferingIds());
+                List<String> activityOfferingIds = new ArrayList<String>(scheduleRequestSetInfo.getRefObjectIds());
                 activityOfferingIds.remove(info.getId());
                 List<ActivityOfferingInfo> aoInfos = getCourseOfferingService().getActivityOfferingsByIds(activityOfferingIds,createContextInfo());
 
@@ -539,7 +540,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     coloAO.setCoId(dto.getCourseOfferingId());
                     coloAO.setActivityOfferingCode(dto.getActivityCode());
                     coloAO.setCourseOfferingCode(dto.getCourseOfferingCode());
-                    coloAO.setColoSetInfo(colocatedOfferingSetInfo);
                     coloAO.setAlreadyPersisted(true);
                     coloAO.setActivityOfferingInfo(dto);
                     wrapper.getColocatedActivities().add(coloAO);
@@ -560,7 +560,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
         a.getEditRenderHelper().setAllowEnrollmentEdit(true);
 
-        wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(a);*/
+        wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(a);
 
     }
 
