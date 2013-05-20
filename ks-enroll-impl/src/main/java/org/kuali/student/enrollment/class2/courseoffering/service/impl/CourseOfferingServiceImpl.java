@@ -75,7 +75,6 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
@@ -1516,7 +1515,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingInfo targetAO = new ActivityOfferingInfo(sourceAO);
         targetAO.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         targetAO.setId(null);
-// TODOSSR       targetAO.setScheduleId(null);
+        targetAO.setScheduleIds(null);
         if (targetAO.getInstructors() != null && !targetAO.getInstructors().isEmpty()) {
             for (OfferingInstructorInfo inst : targetAO.getInstructors()) {
                 inst.setId(null);
@@ -1534,13 +1533,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleToRequest(sourceScheduleInfo, getRoomService(), context);
             targetScheduleRequest.setRefObjectId(targetAO.getId());
             targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-            StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
-            nameBuilder.append(targetAO.getCourseOfferingCode()).append(" - ").append(targetAO.getActivityCode());
+                StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
+                nameBuilder.append(targetAO.getCourseOfferingCode()).append(" - ").append(targetAO.getActivityCode());
             targetScheduleRequest.setName(nameBuilder.toString());
             targetScheduleRequest.setDescr(sourceScheduleInfo.getDescr());
 
             this.getSchedulingService().createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
-        }  else {
+        } else {
             // copy the source RDL to target RDL
             List<ScheduleRequestInfo> scheduleRequestInfoList =
                     getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAO.getId(), context);
@@ -1894,71 +1893,42 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 throw new RuntimeException(e);
             }
         } else {
-            // clean up the ao schedule id list to match the schedule requests
+            // clean up the ao schedules
             List<String> requestScheduleIds = new ArrayList<String>();
 
-            for (ScheduleRequestInfo request : requests) {
-                String scheduleInfoId = request.getScheduleId();
-                if(StringUtils.isNotBlank(scheduleInfoId)) {
-                    requestScheduleIds.add(scheduleInfoId);
-                }
+            for (String scheduleId : scheduleInfoList) {
+                 // release this schedule
+                 releaseScheduleResources(scheduleId, contextInfo);
             }
-
-            for(String scheduleId : scheduleInfoList) {
-                if(!requestScheduleIds.contains(scheduleId)) {
-                    // release this schedule
-                    releaseScheduleResources(scheduleId, contextInfo);
-                    aoInfo.getScheduleIds().remove(scheduleId);
-                }
-            }
-            try {
-                updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            aoInfo.getScheduleIds().clear();
 
             for (ScheduleRequestInfo request : requests) {
-                String scheduleInfoId = request.getScheduleId();
-                if (StringUtils.isNotBlank(scheduleInfoId)) {
-                    aoInfo.getScheduleIds().add(newScheduleId);
-                    scheduleInfo = schedulingService.getSchedule(scheduleInfoId, contextInfo);
-                } else {
-                    scheduleInfo = new ScheduleInfo();
-                }
+                scheduleInfo = new ScheduleInfo();
+
                 // short cut the submission to the scheduler, and just translate requested delivery logistics to actual delivery logistics
                 SchedulingServiceUtil.requestToSchedule(request, scheduleInfo);
-
-                if (StringUtils.equals(request.getStateKey(), SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED) ||
-                        StringUtils.equals(request.getStateKey(), SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_MODIFIED)) {
-                    try {
-                        if (StringUtils.isNotBlank(scheduleInfo.getId())) {
-                            schedulingService.updateSchedule(scheduleInfo.getId(), scheduleInfo, contextInfo);
-                            schedulingService.updateScheduleRequest(request.getId(), request, contextInfo);
-                        } else {
-                            ScheduleInfo persistedSchedule = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
-                            newScheduleId = persistedSchedule.getId();
-                            request.setScheduleId(newScheduleId);
-                            schedulingService.updateScheduleRequest(request.getId(), request, contextInfo);
-                            aoInfo.getScheduleIds().add(newScheduleId);
-                            try {
-                                updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
-                            } catch (Exception e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                    } catch (Exception e) {
-                        throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
-                    }
+                try {
+                    ScheduleInfo persistedSchedule = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
+                    newScheduleId = persistedSchedule.getId();
+                    request.setScheduleId(newScheduleId);
+                    schedulingService.updateScheduleRequest(request.getId(), request, contextInfo);
+                    aoInfo.getScheduleIds().add(newScheduleId);
+                } catch (Exception e) {
+                    throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
                 }
+                try {
+                    updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                result.setSuccess(true);
+                result.setMessage("New Schedule Successfully created");
             }
-            result.setSuccess(true);
-            result.setMessage("New Schedule Successfully created");
         }
-
         return result;
     }
 
-    @Override
+        @Override
     public List<ValidationResultInfo> validateActivityOffering(String validationType,
                                                                ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws DoesNotExistException,
