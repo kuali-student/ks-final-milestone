@@ -391,8 +391,9 @@
 
                 <entry key="kuali.krms.proposition.type.admitted.to.program.org">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
+                          p:termSpecName="AdminOrganizationPermissionRequired" p:value="true">
                         <property name="componentId" value="KRMS-Department-Field"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.OrganizationComponentBuilder"/>
                     </bean>
                 </entry>
 
