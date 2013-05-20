@@ -373,7 +373,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
     }
 
     public boolean isSimpleNode(String nodeType) {
-        if (KSSimplePropositionNode.NODE_TYPE.equalsIgnoreCase(nodeType) ||
+        if (nodeType.contains(KSSimplePropositionNode.NODE_TYPE) ||
                 KSSimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(nodeType)) {
             return true;
         }
@@ -550,6 +550,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
                     if (movePropKey.equalsIgnoreCase(children.get(index).getKey())) {
                         if (cutAction) {
                             workingProp = oldParent.getCompoundEditors().remove(index);
+                            if(oldParent.getCompoundEditors().size() == 1) {
+                                int i = ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().indexOf(oldParent);
+                                ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().set(i, oldParent.getCompoundEditors().get(0));
+                            }
                         } else {
                             workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
                         }
@@ -560,6 +564,38 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
             // add to new and refresh the tree
             addProposition(selectedPropKey, newParent, workingProp);
+            viewHelper.refreshInitTrees(ruleEditor);
+        } else if(StringUtils.isNotBlank(movePropKey) && !cutAction && ((EnrolPropositionEditor) ruleEditor.getProposition()).getCompoundEditors() != null) {
+            Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
+            PropositionEditor newParent = getNewParent(viewHelper, ruleEditor, selectedPropKey, root);
+            PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(root, movePropKey).getData().getProposition();
+
+            PropositionEditor workingProp = null;
+
+            // copy from old
+            if (oldParent != null) {
+                List<PropositionEditor> children = oldParent.getCompoundEditors();
+                for (int index = 0; index < children.size(); index++) {
+                    if (movePropKey.equalsIgnoreCase(children.get(index).getKey())) {
+                        workingProp = viewHelper.copyProposition(oldParent.getCompoundEditors().get(index));
+                        break;
+                    }
+                }
+            }
+
+            // add to new and refresh the tree
+            addProposition(selectedPropKey, newParent, workingProp);
+            viewHelper.refreshInitTrees(ruleEditor);
+        } else if(StringUtils.isNotBlank(movePropKey) && !cutAction && ruleEditor.getProposition().getPropositionTypeCode().equals("S")) {
+            Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
+            PropositionEditor newParent = viewHelper.createCompoundPropositionBoStub((PropositionEditor) ruleEditor.getProposition(), false);
+            newParent.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
+            newParent.setEditMode(false);
+            PropositionEditor workingProp = viewHelper.copyProposition((PropositionEditor) ruleEditor.getProposition());
+
+            // add to new and refresh the tree
+            addProposition(selectedPropKey, newParent, workingProp);
+            ruleEditor.setProposition(newParent);
             viewHelper.refreshInitTrees(ruleEditor);
         }
 
@@ -609,13 +645,19 @@ public class RuleEditorController extends MaintenanceDocumentController {
         Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
 
         // what if it is the root?
-        if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
+        if (parentNode != null && parentNode.getData() != null && !parentNode.getNodeType().contains("treeRoot")) { // it is not the root as there is a parent w/ a prop
             PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null) {
                 List<PropositionEditor> children = (List<PropositionEditor>) parent.getCompoundComponents();
                 for (int index = 0; index < children.size(); index++) {
                     if (selectedpropKey.equalsIgnoreCase(children.get(index).getKey())) {
                         parent.getCompoundComponents().remove(index);
+                        if(parent.getCompoundEditors().size() == 1) {
+                            int i = ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().indexOf(parent);
+                            if(i != -1) {
+                                ((PropositionEditor) ruleEditor.getProposition()).getCompoundEditors().set(i, parent.getCompoundEditors().get(0));
+                            }
+                        }
                         break;
                     }
                 }
@@ -661,7 +703,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
 
         //Reset the description on current selected proposition
-        EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleEditor);
+        PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
         if (proposition!=null){
             this.getViewHelper(form).resetDescription(proposition);
         }
@@ -760,6 +802,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //Reset the editing tree.
         PropositionTreeUtil.cancelNewProp(proposition);
+
+        //Check if proposition is a single proposition and remove the compound proposition
+        if(proposition.getCompoundEditors().size() == 1) {
+            PropositionEditor singleProp = proposition.getCompoundEditors().get(0);
+            ruleEditor.setProposition(singleProp);
+        }
+
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 

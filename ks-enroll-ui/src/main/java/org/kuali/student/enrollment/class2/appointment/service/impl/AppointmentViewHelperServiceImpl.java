@@ -239,18 +239,21 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             String periodId = apptWindow.getPeriodKey();
             try {
                 KeyDateInfo period = getAcalService().getKeyDate(periodId, getContextInfo());
+                Date periodStartDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(DateFormatters.DEFAULT_DATE_FORMATTER.format(period.getStartDate()));
+                Date periodEndDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(DateFormatters.DEFAULT_DATE_FORMATTER.format(period.getEndDate()));
+
                 if (apptWindow.getEndDate() != null && apptWindow.getEndDate().before(apptWindow.getStartDate())) {
                     GlobalVariables.getMessageMap().putError("appointmentWindows['appointmentWindows'].endDate",
                             AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_IS_BEFORE_START_DATE);
                     isValid = false;
                 }
-                if (period.getStartDate().after(apptWindow.getStartDate()) || period.getEndDate().before(apptWindow.getStartDate())) {
+                if (periodStartDate.after(apptWindow.getStartDate()) || periodEndDate.before(apptWindow.getStartDate())) {
                     GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].startDate",
                             AppointmentConstants.APPOINTMENT_MSG_ERROR_START_DATE_OUT_OF_RANGE);
                     isValid = false;
                 }
                 if (apptWindow.getEndDate() != null && !apptWindow.getEndDate().toString().isEmpty()) {
-                    if (period.getStartDate().after(apptWindow.getEndDate()) || period.getEndDate().before(apptWindow.getEndDate())) {
+                    if (periodStartDate.after(apptWindow.getEndDate()) || periodEndDate.before(apptWindow.getEndDate())) {
                         GlobalVariables.getMessageMap().putError("newCollectionLines['appointmentWindows'].endDate",
                                 AppointmentConstants.APPOINTMENT_MSG_ERROR_END_DATE_OUT_OF_RANGE);
                         isValid = false;

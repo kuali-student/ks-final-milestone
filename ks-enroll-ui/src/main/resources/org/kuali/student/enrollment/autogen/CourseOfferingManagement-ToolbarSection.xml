@@ -171,12 +171,6 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:id="activityOfferingTypeDropDown" p:propertyName="activityIdForNewAO" p:label="Activity Type" p:labelPlacement="TOP" p:required="true" p:forceSessionPersistence="true">
-                    <!-- KRAD 2.2.0 Bug: class uif-boxLayoutHorizontalItem is removed on refresh: -->
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-boxLayoutHorizontalItem</value>
-                        </list>
-                    </property>
                     <property name="readOnly" value="false"/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>

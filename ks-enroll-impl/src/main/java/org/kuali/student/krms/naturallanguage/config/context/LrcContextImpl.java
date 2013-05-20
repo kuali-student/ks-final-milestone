@@ -15,9 +15,11 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.rice.krms.impl.repository.TermBo;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
@@ -28,7 +30,9 @@ import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,9 +55,17 @@ public class LrcContextImpl extends BasicContextImpl {
     }
 
     public TypeService getTypeService() {
+        if(typeService == null){
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
         return typeService;
     }
-
+    public LRCService getLrcService() {
+        if(lrcService == null){
+            lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return lrcService;
+    }
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
     }
@@ -63,7 +75,7 @@ public class LrcContextImpl extends BasicContextImpl {
             return null;
         }
         try {
-            return lrcService.getResultScale(resultScaleId, contextInfo);
+            return this.getLrcService().getResultScale(resultScaleId, contextInfo);
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
@@ -73,7 +85,7 @@ public class LrcContextImpl extends BasicContextImpl {
             return null;
         }
         try {
-            return lrcService.getResultValuesGroup(resultValueGroupId,contextInfo);
+            return this.getLrcService().getResultValuesGroup(resultValueGroupId,contextInfo);
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
@@ -81,7 +93,7 @@ public class LrcContextImpl extends BasicContextImpl {
 
     private ResultValueInfo getResultValue(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
         try {
-            return lrcService.getResultValue(resultValueId,contextInfo);
+            return this.getLrcService().getResultValue(resultValueId,contextInfo);
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }

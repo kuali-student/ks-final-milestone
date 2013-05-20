@@ -230,12 +230,34 @@ public class CalendarSearchController  extends UifControllerBase {
     @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String dialog = CalendarConstants.SEARCH_DELETE_CONFIRMATION_DIALOG;
+        if (!hasDialogBeenDisplayed(dialog, searchForm)) {
+            searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue("selectedCollectionPath"));
+            searchForm.setSelectedLineIndex(searchForm.getActionParamaterValue("selectedLineIndex"));
+            //redirect back to client to display lightbox
+            return showDialog(dialog, searchForm, request, response);
+        }else{
+            if(hasDialogBeenAnswered(dialog,searchForm)){
+                boolean confirmDelete = getBooleanDialogResponse(dialog, searchForm, request, response);
+                searchForm.getDialogManager().resetDialogStatus(dialog);
+                if(!confirmDelete){
+                    return getUIFModelAndView(searchForm);
+                }
+            } else {
+                searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue("selectedCollectionPath"));
+                searchForm.setSelectedLineIndex(searchForm.getActionParamaterValue("selectedLineIndex"));
+                //redirect back to client to display lightbox
+                return showDialog(dialog, searchForm, request, response);
+            }
+        }
+        searchForm.getActionParameters().put("selectedCollectionPath",searchForm.getSelectedCollectionPath());
+        searchForm.getActionParameters().put("selectedLineIndex",searchForm.getSelectedLineIndex());
         Object atp = getSelectedAtp(searchForm, "delete");
 
          if(atp instanceof HolidayCalendarInfo){
              StatusInfo status = getAcademicCalendarService().deleteHolidayCalendar(((HolidayCalendarInfo)atp).getId(),getContextInfo());
              if (status.getIsSuccess()){
-                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS,((HolidayCalendarInfo) atp).getName());
+                 GlobalVariables.getMessageMap().addGrowlMessage("", "info.enroll.search.delete.success", ((HolidayCalendarInfo) atp).getName());
                  searchForm.getHolidayCalendars().remove(atp);
              } else{
                  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
@@ -243,7 +265,7 @@ public class CalendarSearchController  extends UifControllerBase {
          } else if(atp instanceof AcademicCalendarInfo) {
              StatusInfo status = getAcademicCalendarService().deleteAcademicCalendar(((AcademicCalendarInfo)atp).getId(),getContextInfo());
              if (status.getIsSuccess()){
-                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS,((AcademicCalendarInfo) atp).getName());
+                 GlobalVariables.getMessageMap().addGrowlMessage("", "info.enroll.search.delete.success", ((AcademicCalendarInfo) atp).getName());
                  searchForm.getAcademicCalendars().remove(atp);
              } else{
                  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
@@ -251,7 +273,7 @@ public class CalendarSearchController  extends UifControllerBase {
          } else if(atp instanceof TermInfo){
              StatusInfo status = getAcademicCalendarService().deleteTerm(((TermInfo)atp).getId(),getContextInfo());
              if (status.getIsSuccess()){
-                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS,((TermInfo) atp).getName());
+                 GlobalVariables.getMessageMap().addGrowlMessage("", "info.enroll.search.delete.success", ((TermInfo) atp).getName());
                  searchForm.getTerms().remove(atp);
              } else{
                  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());

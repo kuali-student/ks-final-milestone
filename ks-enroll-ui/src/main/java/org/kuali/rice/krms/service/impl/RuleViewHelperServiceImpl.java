@@ -9,6 +9,7 @@ import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
@@ -551,14 +552,19 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     public PropositionEditor copyProposition(PropositionEditor oldProposition) {
         try {
             PropositionEditor newProposition = this.copyPropositionEditor(oldProposition);
-            return newProposition;
+            return (PropositionEditor) ObjectUtils.deepCopy(newProposition);
         } catch (Exception e) {
             return null;
         }
     }
 
     private PropositionEditor copyPropositionEditor(PropositionEditor oldProposition) {
-        EnrolPropositionEditor newProposition = new EnrolPropositionEditor();
+        PropositionEditor newProposition;
+        try {
+            newProposition = this.getPropositionEditorClass().newInstance();
+        } catch (Exception e) {
+            newProposition = new PropositionEditor();
+        }
         BeanUtils.copyProperties(oldProposition, newProposition, new String[]{"key","id","term","parameters"});
 
         if(!oldProposition.getPropositionTypeCode().equals("C")) {
@@ -585,13 +591,14 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             this.resetDescription(newProposition);
         }
 
-        if(newProposition.getCompoundEditors().size() != 0) {
+        if(newProposition.getCompoundEditors() != null) {
             List<PropositionEditor> props = new ArrayList<PropositionEditor>();
             for(PropositionEditor prop : newProposition.getCompoundEditors()) {
                 props.add(this.copyPropositionEditor(prop));
             }
             newProposition.setCompoundEditors(props);
         }
+
 
         return newProposition;
     }
