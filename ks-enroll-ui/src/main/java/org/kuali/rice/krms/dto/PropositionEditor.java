@@ -251,6 +251,15 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
 
         return description;
     }
+
+    public boolean checkIfCompoundAndEmpty(){
+        if ("C".equals(this.getPropositionTypeCode())){
+            if((this.getCompoundEditors()==null)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 
