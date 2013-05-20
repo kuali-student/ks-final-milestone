@@ -20,6 +20,10 @@ var DELETE='.kr-delete-button';
 var REFRESH='.kr-refresh-button';
 var TREE = '.tree-bar-button';
 var MOVE='.kr-move-button';
+var UP='.kr-up-button';
+var DOWN='.kr-down-button';
+var LEFT='.kr-left-button';
+var RIGHT='.kr-right-button';
 var COPY='.kr-copy-button';
 
 var ENABLED = true;
@@ -86,6 +90,22 @@ function disableTreeButtons() {
 
 function disableMoveButtons() {
     disableButton(MOVE);
+}
+
+function disableUpButton() {
+    disableButton(UP);
+}
+
+function disableDownButton() {
+    disableButton(DOWN);
+}
+
+function disableLeftButton() {
+    disableButton(LEFT);
+}
+
+function disableRightButton() {
+    disableButton(RIGHT);
 }
 
 function disableCutCopyButtons() {

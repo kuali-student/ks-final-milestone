@@ -186,7 +186,16 @@ function markNodeAsSelected(parentLiNode) {
             enableCopyButton();
         }
     }
+
+    if (jq(parentLiNode).hasClass('firstInGroup')) {
+        disableUpButton();
+    }
+
+    if (jq(parentLiNode).hasClass('lastInGroup')) {
+        disableDownButton();
+    }
 }
+
 
 function handlePropositionNodeClick(parentLiNode) {
     var propositionId = getPropositionIdFromParentLi(parentLiNode);
