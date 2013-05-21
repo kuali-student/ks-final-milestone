@@ -14,7 +14,7 @@
  *
  * Created by Charles on 5/7/13
  */
-package org.kuali.student.enrollment.class2.courseoffering.service;
+package org.kuali.student.enrollment.class2.courseoffering.service.exception;
 
 /**
  * This class //TODO ...

@@ -3621,7 +3621,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     }
                 }
             } else{
-                return scStatus;
+                throw new OperationFailedException("No state change from [" + thisStateKey + "] to [" + nextStateKey + "]");
             }
         }
         return new StatusInfo();

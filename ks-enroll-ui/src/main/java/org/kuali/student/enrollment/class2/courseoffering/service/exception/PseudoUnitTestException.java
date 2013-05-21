@@ -12,18 +12,17 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Charles on 5/6/13
+ * Created by Charles on 5/10/13
  */
-package org.kuali.student.enrollment.class2.courseoffering.service;
-
-import java.util.Map;
+package org.kuali.student.enrollment.class2.courseoffering.service.exception;
 
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public interface TestStatePropagationViewHelperService {
-    public String[] runTests() throws Exception;
-    public Map<String, Object> rolloverCourseOfferingFromSourceTermToTargetTerm(String courseOfferingCode, String sourceTermId, String targetTermId) throws Exception;
+public class PseudoUnitTestException extends Exception {
+    public PseudoUnitTestException(String message) {
+        super(message);
+    }
 }
