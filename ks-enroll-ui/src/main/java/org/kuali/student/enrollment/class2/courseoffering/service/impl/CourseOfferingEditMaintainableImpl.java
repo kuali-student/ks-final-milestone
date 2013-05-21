@@ -543,10 +543,10 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 }
                 return formObject;
             }
-        } catch (Exception e) {
-            if(e instanceof AuthorizationException){
-                throw new AuthorizationException(null,null,null,null);
-            }
+        }catch (AuthorizationException ae){
+            throw new AuthorizationException(ae.getUserId(), "open", null,
+                    "User '" + ae.getUserId() + "' is not authorized to open view", null);
+        }catch (Exception e) {
             throw new RuntimeException(e);
         }
         return null;
