@@ -103,6 +103,15 @@ limitations under the License.
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
+                <!-- Hidden field to set focus to instead of one with client side validation -->
+                <bean parent="Uif-InputField" p:propertyName="defaultTabToShow">
+                    <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl">
+                            <property name="tabIndex" value="1"/>
+                        </bean>
+                    </property>
+                </bean>
                 <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.name"
                       p:label="Academic Calendar Name" p:labelPlacement="TOP" p:required="true">
                     <property name="control">

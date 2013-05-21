@@ -110,7 +110,7 @@
         <property name="items">
             <list>
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
-                      p:label="Key Date Group Type" p:required="true" p:finalizeMethodToCall="populateKeyDateGroupTypes" >
+                      p:label="Key Date Group Type" p:finalizeMethodToCall="populateKeyDateGroupTypes" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
