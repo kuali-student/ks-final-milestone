@@ -32,6 +32,10 @@
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
     <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml" />
 
+    <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
+        <constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
+    </bean>
+
     <bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
         <property name="messageFiles">
             <list>
