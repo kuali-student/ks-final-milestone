@@ -1147,9 +1147,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
      * @param contextInfo
      * @return returns the scheduleId for a particular Activity Offering
      */
-    protected String retrieveScheduleId(String activityOfferingId, ContextInfo contextInfo){
+    protected List<String> retrieveScheduleIds(String activityOfferingId, ContextInfo contextInfo){
 
-        String sRet = null;
+        List<String> sRet = new ArrayList<String>();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.SCH_IDS_BY_AO_SEARCH_TYPE.getKey());
         searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_ID, activityOfferingId);
@@ -1164,7 +1164,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         for (SearchResultRowInfo row : searchResult.getRows()) {
             for(SearchResultCellInfo cellInfo : row.getCells()){
                 if(ActivityOfferingSearchServiceImpl.SearchResultColumns.SCHEDULE_ID.equals(cellInfo.getKey())){
-                    sRet = cellInfo.getValue();
+                    sRet.add(cellInfo.getValue());
                 }
 
             }
@@ -2387,35 +2387,37 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
 
     private List<String> _getTimeSlotIdsbyActivityOffering(String activityOfferingId, String deliveryLogisticsType, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        String scheduleId = retrieveScheduleId(activityOfferingId,context);  // we just want the schedule ID at this point. Code was previously pulling the entire AO to just get an id.
+        List<String> scheduleIds = retrieveScheduleIds(activityOfferingId, context);
         List<String> timeSlotIds = new ArrayList<String>();
 
-        if (deliveryLogisticsType.equals("actual")) {
-            if (scheduleId != null && !scheduleId.isEmpty()) {
-                // Only do this if there's an schedule ID with length greater than 0.
-                ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, context);
-                if (scheduleInfo != null) {
-                    List<ScheduleComponentInfo> scheduleComponentInfos = scheduleInfo.getScheduleComponents();
-                    if (scheduleComponentInfos != null) {
-                        for (ScheduleComponentInfo scheduleComponentInfo : scheduleComponentInfos) {
-                            if (scheduleComponentInfo.getTimeSlotIds() != null) {
-                                // Only add time slots if component is not null
-                                timeSlotIds.addAll(scheduleComponentInfo.getTimeSlotIds());
+        for (String scheduleId : scheduleIds) {
+            if (deliveryLogisticsType.equals("actual")) {
+                if (scheduleId != null && !scheduleId.isEmpty()) {
+                    // Only do this if there's an schedule ID with length greater than 0.
+                    ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, context);
+                    if (scheduleInfo != null) {
+                        List<ScheduleComponentInfo> scheduleComponentInfos = scheduleInfo.getScheduleComponents();
+                        if (scheduleComponentInfos != null) {
+                            for (ScheduleComponentInfo scheduleComponentInfo : scheduleComponentInfos) {
+                                if (scheduleComponentInfo.getTimeSlotIds() != null) {
+                                    // Only add time slots if component is not null
+                                    timeSlotIds.addAll(scheduleComponentInfo.getTimeSlotIds());
+                                }
                             }
                         }
                     }
                 }
-            }
-        } else if (deliveryLogisticsType.equals("requested")) {
-            List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,activityOfferingId,context);
-            if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
-                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-                    List<ScheduleRequestComponentInfo> scheduleRequestComponentInfos = scheduleRequestInfo.getScheduleRequestComponents();
-                    if (scheduleRequestComponentInfos != null) {
-                        for (ScheduleRequestComponentInfo scheduleRequestComponentInfo : scheduleRequestComponentInfos) {
-                            if (scheduleRequestComponentInfo.getTimeSlotIds() != null) {
-                                // Only add time slots if component is not null
-                                timeSlotIds.addAll(scheduleRequestComponentInfo.getTimeSlotIds());
+            } else if (deliveryLogisticsType.equals("requested")) {
+                List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, context);
+                if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
+                    for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                        List<ScheduleRequestComponentInfo> scheduleRequestComponentInfos = scheduleRequestInfo.getScheduleRequestComponents();
+                        if (scheduleRequestComponentInfos != null) {
+                            for (ScheduleRequestComponentInfo scheduleRequestComponentInfo : scheduleRequestComponentInfos) {
+                                if (scheduleRequestComponentInfo.getTimeSlotIds() != null) {
+                                    // Only add time slots if component is not null
+                                    timeSlotIds.addAll(scheduleRequestComponentInfo.getTimeSlotIds());
+                                }
                             }
                         }
                     }
