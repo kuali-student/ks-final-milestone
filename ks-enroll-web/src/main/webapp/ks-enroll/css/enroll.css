@@ -362,9 +362,9 @@ a {
 /* The background area which extends the full width of the table where the toolbar buttons sit on top of */
 .ks-toolbar {
     padding-left: 6px;
-    padding-top: 1px;
+    padding-top: 6px;
     background-color: #f1f1f1;
-    height: 60px;
+    height: 54px;
 }
 
 /* Individual Buttons */
