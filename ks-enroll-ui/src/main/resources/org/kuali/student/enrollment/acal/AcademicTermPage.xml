@@ -40,6 +40,16 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
                         <list>
+                            <!-- Hidden field to set focus to instead of one with client side validation -->
+                            <bean parent="Uif-InputField" p:propertyName="termNameForUI">
+                                <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl">
+                                        <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
+                                        <property name="tabIndex" value="1"/>
+                                    </bean>
+                                </property>
+                            </bean>
                             <bean id="term_type" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
                                   p:label="Term Type" p:required="true">
                                 <property name="control">
@@ -109,8 +119,17 @@
         </property>
         <property name="items">
             <list>
+                <!-- Hidden field to set focus to instead of one with client side validation -->
+                <bean parent="Uif-InputField" p:propertyName="keyDateGroupNameUI">
+                    <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl">
+                            <property name="tabIndex" value="1"/>
+                        </bean>
+                    </property>
+                </bean>
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
-                      p:label="Key Date Group Type" p:finalizeMethodToCall="populateKeyDateGroupTypes" >
+                      p:label="Key Date Group Type" p:required="true" p:finalizeMethodToCall="populateKeyDateGroupTypes" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -150,6 +169,16 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
+                <!-- Hidden field to set focus to instead of one with client side validation -->
+                <bean parent="Uif-InputField" p:propertyName="keyDateNameUI">
+                    <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
+                            <property name="tabIndex" value="1"/>
+                        </bean>
+                    </property>
+                </bean>
                 <bean id="key_date_type" parent="Uif-InputField" p:propertyName="keyDateType" p:required="true"
                       p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
                       p:label="Key Date Type"
