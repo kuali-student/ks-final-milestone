@@ -79,5 +79,12 @@ public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> 
                 .setParameter("schedReqType", scheduleRequestTypeKey)
                 .getResultList();
     }
+
+    public List<ScheduleRequestEntity> getScheduleRequestsByScheduleRequestSet(String scheduleRequestSetId ){
+        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByScheduleRequestSet")
+                .setParameter("scheduleRequestSetId", scheduleRequestSetId)
+                .getResultList();
+        return results;
+    }
 }
 

@@ -354,7 +354,8 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
+        List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByScheduleRequestSet(scheduleRequestSetId);
+        return getScheduleRequestInfoList(entityList);
     }
 
     @Override

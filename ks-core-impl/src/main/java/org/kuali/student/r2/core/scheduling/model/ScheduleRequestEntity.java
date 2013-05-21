@@ -33,6 +33,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefObjectAndRefObjectType",
                 query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId in (SELECT reqSet.id FROM ScheduleRequestSetEntity reqSet WHERE reqSet.refObjectTypeKey = :refObjectTypeKey and :refObjectId in elements(reqSet.refObjectIds))"),
+        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByScheduleRequestSet", query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId = :scheduleRequestSetId")
 })
 public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<ScheduleRequestAttributeEntity> {
 
