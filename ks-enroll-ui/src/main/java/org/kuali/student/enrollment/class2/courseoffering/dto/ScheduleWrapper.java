@@ -18,6 +18,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -43,6 +44,7 @@ public class ScheduleWrapper implements Serializable{
     private ScheduleRequestComponentInfo scheduleRequestComponentInfo;
     private ScheduleComponentInfo scheduleComponentInfo;
     private ScheduleRequestInfo scheduleRequestInfo;
+    private ScheduleInfo scheduleInfo;
 
     //Properties
     private String days;
@@ -123,9 +125,10 @@ public class ScheduleWrapper implements Serializable{
         this.scheduleRequestInfo = scheduleRequestInfo;
     }
 
-    public ScheduleWrapper(ScheduleComponentInfo scheduleComponentInfo){
+    public ScheduleWrapper(ScheduleInfo scheduleInfo, ScheduleComponentInfo scheduleComponentInfo){
         this();
         this.scheduleComponentInfo = scheduleComponentInfo;
+        this.scheduleInfo = scheduleInfo;
     }
 
     public TimeSlotInfo getTimeSlot() {
@@ -302,6 +305,14 @@ public class ScheduleWrapper implements Serializable{
 
     public ScheduleComponentInfo getScheduleComponentInfo() {
         return scheduleComponentInfo;
+    }
+
+    public ScheduleInfo getScheduleInfo() {
+        return scheduleInfo;
+    }
+
+    public void setScheduleInfo(ScheduleInfo scheduleInfo) {
+        this.scheduleInfo = scheduleInfo;
     }
 
     public String getBuildingId() {

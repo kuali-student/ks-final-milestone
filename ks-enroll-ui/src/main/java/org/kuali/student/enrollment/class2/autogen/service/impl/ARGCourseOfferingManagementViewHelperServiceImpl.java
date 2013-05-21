@@ -719,7 +719,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 List<ScheduleCalcContainer> schedList = ao2sch.get(aoId);
                 boolean newRow = false;
                 for (ScheduleCalcContainer sched : schedList) {
-                    aoWrapper.setScheduleInfo(new ScheduleInfo());
+//                    aoWrapper.setScheduleInfo(new ScheduleInfo());
                     aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty() ? sched.getStart() : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getStart()))), newRow);
                     aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty() ? sched.getEnd() : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow);
                     aoWrapper.setBuildingName(sched.getBldgName(), newRow);
@@ -760,6 +760,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     private void processSchData(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> sch2aoMap, List<String> aoIdsWithoutSch, Map<String, ActivityOfferingWrapper> aoMap, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
         //Process the search results
 
+        boolean newRow = false;
         for (SearchResultRowInfo row : searchResults.getRows()) {
             String schId = null;
             String startTime = null;
@@ -788,11 +789,11 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             ActivityOfferingWrapper aoWrapper = sch2aoMap.get(schId);
 
             //Use ScheduleInfo as a flag for if this AO has had schedule info added to it
-            boolean newRow = true;
-            if (aoWrapper.getScheduleInfo() == null) {
-                aoWrapper.setScheduleInfo(new ScheduleInfo());
-                newRow = false;
-            }
+
+//            if (aoWrapper.getScheduleInfo() == null) {
+//                aoWrapper.setScheduleInfo(new ScheduleInfo());
+//                newRow = false;
+//            }
 
             aoWrapper.setStartTimeDisplay(startTime.isEmpty() ? startTime : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(startTime))), newRow);
             aoWrapper.setEndTimeDisplay(endTime.isEmpty() ? endTime : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(endTime))), newRow);
@@ -800,6 +801,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             aoWrapper.setRoomName(roomCode, newRow);
             aoWrapper.setDaysDisplayName(weekdays, newRow);
             aoWrapper.setTbaDisplayName(tbaInd, newRow);
+            newRow = true;
 
         }
 

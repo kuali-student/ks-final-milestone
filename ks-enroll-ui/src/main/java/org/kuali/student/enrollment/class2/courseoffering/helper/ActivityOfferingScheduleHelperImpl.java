@@ -822,19 +822,20 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     public void loadScheduleActuals(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo){
 
-        if (wrapper.getAoInfo().getScheduleIds() != null && !wrapper.getAoInfo().getScheduleIds().isEmpty()) {
+        if (wrapper.getAoInfo().getScheduleIds() != null) {
 
             try {
 
-                for(String scheduleId : wrapper.getAoInfo().getScheduleIds()) {
-                    ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, defaultContextInfo);
-                    //wrapper.setScheduleInfo(scheduleInfo);
+                List<ScheduleInfo> scheduleInfos = getSchedulingService().getSchedulesByIds(wrapper.getAoInfo().getScheduleIds(), defaultContextInfo);
 
-                    //Clear Actuals first (it may be having old ones before schedules revised)
-                    wrapper.getActualScheduleComponents().clear();
+                for (ScheduleInfo scheduleInfo : scheduleInfos) {
 
+                    /**
+                     * Until we implement external scheduler, there is going to be only one Schedule component for every scheduleinfo
+                     * and the UI doesnt allow us to add multiple compoents to a schedulerequest.
+                     */
                     for (ScheduleComponentInfo componentInfo : scheduleInfo.getScheduleComponents()) {
-                        ScheduleWrapper scheduleWrapper = new ScheduleWrapper(componentInfo);
+                        ScheduleWrapper scheduleWrapper = new ScheduleWrapper(scheduleInfo,componentInfo);
                         scheduleWrapper.setTba(componentInfo.getIsTBA());
 
                         List<TimeSlotInfo> timeSlotInfos = getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), defaultContextInfo);

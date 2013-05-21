@@ -74,7 +74,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private ScheduleWrapper newScheduleRequest;
 
 //    private ScheduleRequestInfo scheduleRequestInfo;
-    private ScheduleInfo scheduleInfo;
+//    private ScheduleInfo scheduleInfo;
 //    private List<ScheduleRequestInfo> scheduleRequestInfos;
 //    private List<ScheduleInfo> scheduleInfos;
     private SocInfo socInfo;
@@ -703,14 +703,6 @@ public class ActivityOfferingWrapper implements Serializable{
         }else{
             this.roomName = "<span " + cssClass + " >" + roomName + "</span>";
         }
-    }
-
-    public ScheduleInfo getScheduleInfo() {
-        return scheduleInfo;
-    }
-
-    public void setScheduleInfo(ScheduleInfo scheduleInfo) {
-        this.scheduleInfo = scheduleInfo;
     }
 
     public List<ScheduleWrapper> getDeletedScheduleComponents() {
