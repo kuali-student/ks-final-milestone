@@ -1686,26 +1686,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteActivityOffering(String activityOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+                OperationFailedException, PermissionDeniedException {
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
 
         if (!_checkTypeForActivityOfferingType(lui.getTypeKey(), context)) {
             throw new InvalidParameterException("Given lui id ( " + activityOfferingId + " ) is not an Activity Offering");
         }
 
-        // SSRTODO ... Clean up ScheduleRequestSets
-        _dAOC_cleanUpScheduleRequestSets(activityOfferingId, context);
-        // Remove from colocated sets
-        //try {
-            // Wow, this throws a lot of exceptions
-            //_dAOC_removeAOIdFromColocatedSet(activityOfferingId, context);
-       // } catch (VersionMismatchException e) {
-       //     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-       // } catch (ReadOnlyException e) {
-       //     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-       // } catch (DataValidationErrorException e) {
-       //     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-       // }
+        //  Clean up ScheduleRequestSets
+        try {
+            _dAOC_cleanUpScheduleRequestSets(activityOfferingId, context);
+        } catch (Exception e) {
+            throw new OperationFailedException("Unable to clean up schedule request sets", e);
+        }
 
         try {
             // delete offering instructor lprs for the Activity Offering
@@ -1717,8 +1710,32 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
     }
 
-    private void _dAOC_cleanUpScheduleRequestSets(String activityOfferingId, ContextInfo context) {
-        //  SSRTODO
+    /**
+     * Cleans up ScheduleRequestSets when deleting an ActivityOffering.
+     * If the AO being deleted is the last member of the ScheduleRequestSet then the set should be deleted.
+     * Otherwise, the AO id should be removed from the set. (This situation would exist for colocated AOs)
+     *
+     * @param activityOfferingId
+     * @param context
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    private void _dAOC_cleanUpScheduleRequestSets(String activityOfferingId, ContextInfo context)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException,
+                VersionMismatchException, ReadOnlyException, DataValidationErrorException, DoesNotExistException {
+        List<ScheduleRequestSetInfo> scheduleRequestSets = getSchedulingService()
+                .getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, context);
+        for (ScheduleRequestSetInfo srs : scheduleRequestSets) {
+            //  If there is more than one AO id associated with the SRS then remove this AO's id. Otherwise, delete the set.
+            if (srs.getRefObjectIds().size() > 1) {
+                srs.getRefObjectIds().remove(activityOfferingId);
+                getSchedulingService().updateScheduleRequestSet(srs.getId(), srs, context);
+            } else {
+                getSchedulingService().deleteScheduleRequestSet(srs.getId(), context);
+            }
+        }
     }
 
     private void _dAOC_removeActivityOfferingIdFromAoCluster(String activityOfferingId,
@@ -1799,34 +1816,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return deleteActivityOffering(activityOfferingId, context);
 
     }
-/* TODOSSR
-    private void _dAOC_removeAOIdFromColocatedSet(String activityOfferingId, ContextInfo context)
-            throws MissingParameterException, InvalidParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException, ReadOnlyException, DataValidationErrorException,
-            DoesNotExistException {
 
-        List<ColocatedOfferingSetInfo> coloSets = getColocatedOfferingSetsByActivityOffering(activityOfferingId, context);
-
-        for (ColocatedOfferingSetInfo colo: coloSets) {
-            colo.getActivityOfferingIds().remove(activityOfferingId);
-            //If there is only one AO in the colo set, delete the Coloset and point the colo RLDs to the last AO.
-            if (colo.getActivityOfferingIds().size() == 1){
-                //For performance reasons, just get the lui instead of AO.
-                LuiInfo luiInfo = getLuiService().getLui(colo.getActivityOfferingIds().get(0), context);
-                List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,colo.getId(),context);
-                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-                    scheduleRequestInfo.setRefObjectId(luiInfo.getId());
-                    scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                    scheduleRequestInfo.setName("Schedule request for activity offering");
-                    getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,context);
-                }
-                deleteColocatedOfferingSet(colo.getId(), context);
-            } else {
-                updateColocatedOfferingSet(colo.getId(),colo,context);
-            }
-        }
-    }
-*/
     private void releaseScheduleResources(String scheduleInfoId, ContextInfo contextInfo) throws OperationFailedException,
             InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException {
         ScheduleInfo scheduleInfo = schedulingService.getSchedule(scheduleInfoId, contextInfo);
