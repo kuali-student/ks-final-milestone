@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -11,7 +10,6 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -23,7 +21,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
@@ -415,8 +412,18 @@ public class ActivityOfferingTransformer {
     private static Map<String, List<ScheduleRequestInfo>> buildLuiToScheduleRequestsMap(List<String> luiIds, SchedulingService schedulingService, ContextInfo context)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         Set<String> luiIdSet = new HashSet<String>(luiIds);
-
-        List<ScheduleRequestInfo> requests = schedulingService.getScheduleRequestsByRefObjects(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, luiIds, context);
+        List<ScheduleRequestInfo> requests = new ArrayList<ScheduleRequestInfo>();
+        for(String luiId : luiIds)  {
+            List<ScheduleRequestInfo> aoRequests = schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, luiId, context);
+            if(!aoRequests.isEmpty()) {
+                for(ScheduleRequestInfo requestInfo : aoRequests) {
+                    // remove duplicates
+                    if(!requests.contains(requestInfo))  {
+                        requests.add(requestInfo);
+                    }
+                }
+            }
+        }
 
         List<String> requestSetIds = new ArrayList<String>();
         for(ScheduleRequestInfo request : requests) {

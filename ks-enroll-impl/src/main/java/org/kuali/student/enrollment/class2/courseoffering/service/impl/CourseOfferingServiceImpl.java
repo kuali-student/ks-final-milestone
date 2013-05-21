@@ -1892,12 +1892,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                  releaseScheduleResources(scheduleId, contextInfo);
             }
             aoInfo.getScheduleIds().clear();
+            // get it
+            LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
 
             for (ScheduleRequestInfo request : requests) {
                 scheduleInfo = new ScheduleInfo();
 
                 // short cut the submission to the scheduler, and just translate requested delivery logistics to actual delivery logistics
                 SchedulingServiceUtil.requestToSchedule(request, scheduleInfo);
+
+                scheduleInfo.setAtpId(lui.getAtpId());
                 try {
                     ScheduleInfo persistedSchedule = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
                     newScheduleId = persistedSchedule.getId();
