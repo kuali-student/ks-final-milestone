@@ -20,16 +20,23 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -672,6 +679,32 @@ public interface SchedulingService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+
+
+    /**
+     * Retrieves a list of ScheduleRequest objects by ScheduleRequestSet.
+     *
+     * @param scheduleRequestSetId   a unique id of the ScheduleRequestSet
+     * @param contextInfo   Context information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return a list of ScheduleRequest objects matching
+     *         scheduleRequestSetId or an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleRequestSetId or contextInfo
+     *                                   is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+
+    public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
 
     /**
      * Searches for ScheduleRequests based on the criteria and returns a list of
