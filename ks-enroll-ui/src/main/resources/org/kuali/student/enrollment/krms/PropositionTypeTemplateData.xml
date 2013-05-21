@@ -442,8 +442,9 @@
 
                 <entry key="kuali.krms.proposition.type.no.repeat.course.nof">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="n">
+                          p:termSpecName="NumberOfEnrollmentsForCourse" p:value="n">
                         <property name="componentId" value="KRMS-CourseAndRepeat-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
