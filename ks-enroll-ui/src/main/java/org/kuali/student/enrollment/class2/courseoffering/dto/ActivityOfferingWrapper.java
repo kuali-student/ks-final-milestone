@@ -69,10 +69,11 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private List<ScheduleWrapper> actualScheduleComponents;
     private List<ScheduleWrapper> requestedScheduleComponents;
+    private List<ScheduleWrapper> deletedScheduleComponents;
 //    private List<ScheduleWrapper> revisedScheduleRequestComponents;
     private ScheduleWrapper newScheduleRequest;
 
-    private ScheduleRequestInfo scheduleRequestInfo;
+//    private ScheduleRequestInfo scheduleRequestInfo;
     private ScheduleInfo scheduleInfo;
 //    private List<ScheduleRequestInfo> scheduleRequestInfos;
 //    private List<ScheduleInfo> scheduleInfos;
@@ -119,34 +120,35 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
-        instructors = new ArrayList<OfferingInstructorWrapper>();
-        seatpools = new ArrayList<SeatPoolWrapper>();
-        populationsForSPValidation = new ArrayList<PopulationInfo>();
+        instructors = new ArrayList<>();
+        seatpools = new ArrayList<>();
+        populationsForSPValidation = new ArrayList<>();
         aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         aoInfo.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
         formatOffering = new FormatOfferingInfo();
         term = new TermInfo();
-        scheduleComponentWrappers = new ArrayList<ScheduleComponentWrapper>();
+        scheduleComponentWrappers = new ArrayList<>();
         this.setReadOnlyView(false);
         this.setIsChecked(false);
-        actualScheduleComponents = new ArrayList<ScheduleWrapper>();
-        requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
-//        revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
+        actualScheduleComponents = new ArrayList<>();
+        requestedScheduleComponents = new ArrayList<>();
+//        revisedScheduleRequestComponents = new ArrayList<>();
         newScheduleRequest = new ScheduleWrapper();
-        colocatedActivities = new ArrayList<ColocatedActivity>();
+        colocatedActivities = new ArrayList<>();
         maxEnrollmentShared = true;
         editRenderHelper = new EditRenderHelper();
 //        colocatedOfferingSetInfo = new ColocatedOfferingSetInfo(); TODOSSR
-//        scheduleRequestInfos = new ArrayList<ScheduleRequestInfo>();
-//        scheduleInfos = new ArrayList<ScheduleInfo>();
+//        scheduleRequestInfos = new ArrayList<>();
+//        scheduleInfos = new ArrayList<>();
+        deletedScheduleComponents = new ArrayList<>();
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
         this();
         aoInfo = info;
-        instructors = new ArrayList<OfferingInstructorWrapper>();
-        seatpools = new ArrayList<SeatPoolWrapper>();
-        populationsForSPValidation = new ArrayList<PopulationInfo>();
+        instructors = new ArrayList<>();
+        seatpools = new ArrayList<>();
+        populationsForSPValidation = new ArrayList<>();
     }
 
     public String getAoClusterName() {
@@ -703,14 +705,6 @@ public class ActivityOfferingWrapper implements Serializable{
         }
     }
 
-    public ScheduleRequestInfo getScheduleRequestInfo() {
-        return scheduleRequestInfo;
-    }
-
-    public void setScheduleRequestInfo(ScheduleRequestInfo scheduleRequestInfo) {
-        this.scheduleRequestInfo = scheduleRequestInfo;
-    }
-
     public ScheduleInfo getScheduleInfo() {
         return scheduleInfo;
     }
@@ -719,27 +713,13 @@ public class ActivityOfferingWrapper implements Serializable{
         this.scheduleInfo = scheduleInfo;
     }
 
-/*    public List<ScheduleRequestInfo> getScheduleRequestInfos() {
-        if (scheduleRequestInfos == null){
-            scheduleRequestInfos = new ArrayList<ScheduleRequestInfo>();
-        }
-        return scheduleRequestInfos;
+    public List<ScheduleWrapper> getDeletedScheduleComponents() {
+        return deletedScheduleComponents;
     }
 
-    public void setScheduleRequestInfos(List<ScheduleRequestInfo> scheduleRequestInfos) {
-        this.scheduleRequestInfos = scheduleRequestInfos;
+    public void setDeletedScheduleComponents(List<ScheduleWrapper> deletedScheduleComponents) {
+        this.deletedScheduleComponents = deletedScheduleComponents;
     }
-
-    public List<ScheduleInfo> getScheduleInfos() {
-        if (scheduleInfos == null){
-            scheduleInfos = new ArrayList<ScheduleInfo>();
-        }
-        return scheduleInfos;
-    }
-
-    public void setScheduleInfos(List<ScheduleInfo> scheduleInfos) {
-        this.scheduleInfos = scheduleInfos;
-    }      */
 
     public String getTypeKey() {
         return typeKey;

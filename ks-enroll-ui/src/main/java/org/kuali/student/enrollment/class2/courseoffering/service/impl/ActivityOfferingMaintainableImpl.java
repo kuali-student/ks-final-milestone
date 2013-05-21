@@ -985,7 +985,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         if (StringUtils.endsWith(collectionPath, "requestedScheduleComponents")) {
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             wrapper.setSchedulesModified(true);
-            wrapper.getRequestedScheduleComponents().remove(lineIndex);
+            ScheduleWrapper scheduleWrapper = wrapper.getRequestedScheduleComponents().remove(lineIndex);
+            /*
+                If the schedule request already exists in the DB, mark it to delete from DB.
+             */
+            if (scheduleWrapper.isRequestAlreadySaved()){
+                wrapper.getDeletedScheduleComponents().add(scheduleWrapper);
+            }
         } else if (StringUtils.endsWith(collectionPath, "colocatedActivities")) {
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             ColocatedActivity deleteCOLO = wrapper.getColocatedActivities().remove(lineIndex);

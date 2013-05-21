@@ -51,6 +51,7 @@ import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants
 import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -79,6 +80,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     protected static final String TIME_FORMAT_STRING = "hh:mm a";
 
+    @Transactional // If it's already a part of transaction, it's ok.. Otherwise, create a new transaction boundary for all the changes.
     public void saveSchedules(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo){
 
         if (defaultContextInfo == null){
@@ -323,7 +325,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         GlobalVariables.getMessageMap().putError(input.getBeanId(), RiceKeyConstants.ERROR_CUSTOM, message);
     }
 
-    protected boolean deleteScheduleRequest(ActivityOfferingWrapper wrapper){
+    /*protected boolean deleteScheduleRequest(ActivityOfferingWrapper wrapper){
         StatusInfo statusInfo;
         try{
             statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(), createContextInfo());
@@ -336,9 +338,9 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         } else {
             return statusInfo.getIsSuccess();
         }
-    }
+    }*/
 
-    protected void buildScheduleRequestInfo(ActivityOfferingWrapper wrapper){
+    /*protected void buildScheduleRequestInfo(ActivityOfferingWrapper wrapper){
 
         ScheduleRequestInfo scheduleRequest = wrapper.getScheduleRequestInfo();
 
@@ -346,7 +348,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             scheduleRequest = new ScheduleRequestInfo();
         }
 
-        /*TODOSSR if (wrapper.isColocatedAO()){
+        *//*TODOSSR if (wrapper.isColocatedAO()){
             scheduleRequest.setRefObjectId(wrapper.getColocatedOfferingSetInfo().getId());
             scheduleRequest.setRefObjectTypeKey(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY);
             scheduleRequest.setName("Schedule request for the Coloset " + wrapper.getColocatedOfferingSetInfo().getId());
@@ -354,41 +356,130 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             scheduleRequest.setRefObjectId(wrapper.getAoInfo().getId());
             scheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
             scheduleRequest.setName("Schedule request for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
-        }*/
+        }*//*
 
         scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
         scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
         wrapper.setScheduleRequestInfo(scheduleRequest);
-    }
+    }*/
 
     public void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo) {
 
+        /*
+         1. Handle all the deleted RDLs first
+         */
+        for (ScheduleWrapper scheduleWrapperDeleted : wrapper.getDeletedScheduleComponents()){
+            try {
+                getSchedulingService().deleteScheduleRequest(scheduleWrapperDeleted.getScheduleRequestInfo().getId(),defaultContextInfo);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        ScheduleRequestSetInfo set = wrapper.getScheduleRequestSetInfo();
+
+        /**
+         * If there are no Schedule requests available for an AO, just delete the Schedule Request Set
+         */
+        if (wrapper.getRequestedScheduleComponents().isEmpty()){
+            if (set != null && StringUtils.isNotBlank(set.getId())){
+                try {
+                    StatusInfo statusInfo = getSchedulingService().deleteScheduleRequestSet(set.getId(),defaultContextInfo);
+                    if (!statusInfo.getIsSuccess()){
+                        throw new OperationFailedException("Cant delete the schedule request set " + statusInfo.getMessage());
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
+        for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()){
+            if (!scheduleWrapper.isRequestAlreadySaved()){
+
+
+                if (set == null){
+                    set = new ScheduleRequestSetInfo();
+                    set.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                    set.setName("Schedule request set for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
+                    set.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
+                    set.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+                    set.getRefObjectIds().add(wrapper.getId());
+                    try {
+                        set = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,set,defaultContextInfo);
+                        wrapper.setScheduleRequestSetInfo(set);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+
+                ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
+                scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+                scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+                scheduleRequest.setScheduleRequestSetId(set.getId());
+
+                try {
+                    ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper,defaultContextInfo);
+                    scheduleRequest.getScheduleRequestComponents().add(componentInfo);
+
+                    ScheduleRequestInfo newScheduleRequest = getSchedulingService().createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST,scheduleRequest,defaultContextInfo);
+                    scheduleWrapper.setScheduleRequestInfo(newScheduleRequest);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+            /*if (scheduleWrapper.getScheduleRequestInfo() != null && StringUtils.isNotBlank(scheduleWrapper.getScheduleRequestInfo().getId())){
+                if (wrapper.isPartOfColoSetOnLoadAlready()){
+                    if (!wrapper.isColocatedAO()){
+                        //If there are no activities associated with the colo, then delete the RDL for colo
+                        if (wrapper.getColocatedOfferingSetInfo().getActivityOfferingIds().isEmpty()){
+                            StatusInfo statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(),defaultContextInfo);
+                            if (!statusInfo.getIsSuccess()){
+                                 throw new RuntimeException("Error deleting RDLs for the coloset");
+                            }
+                        }
+                        //create new RDL for this AO and copy Colo RDL data to create new RDL for this AO
+                        wrapper.setScheduleRequestInfo(new ScheduleRequestInfo());
+                        createScheduleComponent = true;
+                    }
+                } else {
+                    if (wrapper.isColocatedAO()){
+                        //Should not be the problem. We just need to change the RDLs to point to Colo instead of AO, which is
+                        // already happening at buildScheduleRequestInfo(wrapper)
+                    }
+                }*/
+
+
+        }
+
         //If there are no already persisted RDLs and no schedule request components exists, skip creating an empty RDL
-        if ((wrapper.getScheduleRequestInfo() == null || StringUtils.isBlank(wrapper.getScheduleRequestInfo().getId())) &&
+        /*if ((wrapper.getScheduleRequestInfo() == null || StringUtils.isBlank(wrapper.getScheduleRequestInfo().getId())) &&
             wrapper.getRequestedScheduleComponents().isEmpty()){
             return;
         }
 
         boolean createScheduleComponent = false;
 
-       /**
+       *//**
          * This block should cover these scenarios.
          * 1. When the user opens an AO and it was not colocated on load and then user decides to change the AO to colocated
          *        In this case, If there are RDLs already exists, change those to be a crosslisted RDLs
          *  2. When the user opens a cross listed AO and then user decides to change it to non cross listed AO
          *        For M6, this should not be the problem as user has to delete all the RDLs first before uncheck
-         */
+         *//*
         try{
             if (wrapper.getScheduleRequestInfo() != null && StringUtils.isNotBlank(wrapper.getScheduleRequestInfo().getId())){
                 if (wrapper.isPartOfColoSetOnLoadAlready()){
                     if (!wrapper.isColocatedAO()){
                         //If there are no activities associated with the colo, then delete the RDL for colo
-                        /*TODOSSR if (wrapper.getColocatedOfferingSetInfo().getActivityOfferingIds().isEmpty()){
+                        *//*TODOSSR if (wrapper.getColocatedOfferingSetInfo().getActivityOfferingIds().isEmpty()){
                             StatusInfo statusInfo = getSchedulingService().deleteScheduleRequest(wrapper.getScheduleRequestInfo().getId(),defaultContextInfo);
                             if (!statusInfo.getIsSuccess()){
                                  throw new RuntimeException("Error deleting RDLs for the coloset");
                             }
-                        }*/
+                        }*//*
                         //create new RDL for this AO and copy Colo RDL data to create new RDL for this AO
                         wrapper.setScheduleRequestInfo(new ScheduleRequestInfo());
                         createScheduleComponent = true;
@@ -406,14 +497,14 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         buildScheduleRequestInfo(wrapper);
 
-        /**
+        *//**
          * After MSE, user can add RDLs but not needed to convert those RLDs to ADLs immediately.
          * We have a check box at the ui. If user selects that, we can convert to ADL.
          * Otherwise, we should just store the RDL and dont send it to scheduler.
          *
          * NOT FOR M6. NEEDED WHEN WORKING ON PARTIAL COLO
-         */
-        /*if (wrapper.isSchedulingCompleted()){
+         *//*
+        *//*if (wrapper.isSchedulingCompleted()){
             if (wrapper.getEditRenderHelper().isRDLsChanged()){
                 AttributeInfo scheduleAttr = null;
                 for (AttributeInfo attr : wrapper.getScheduleRequestInfo().getAttributes()){
@@ -433,7 +524,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     scheduleAttr.setValue(Boolean.TRUE.toString());
                 }
             }
-        }*/
+        }*//*
 
         wrapper.getScheduleRequestInfo().getScheduleRequestComponents().clear();
 
@@ -470,7 +561,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 throw new RuntimeException(e);
             }
 
-        }
+        }*/
 
     }
 
@@ -481,7 +572,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         componentInfo.setIsTBA(scheduleWrapper.isTba());
 
         if(scheduleWrapper.getRoom() != null) {
-            List<String> room = new ArrayList<String>();
+            List<String> room = new ArrayList<>();
             room.add(scheduleWrapper.getRoom().getId());
             componentInfo.setRoomIds(room);
         }
@@ -530,7 +621,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     private List<Integer> buildDaysForDTO(String days){
 
-        List<Integer> weekdays  = new ArrayList<Integer>();
+        List<Integer> weekdays  = new ArrayList<>();
 
         if(days != null) {
 
@@ -601,7 +692,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
     }
 
     private List<ScheduleRequestInfo> getScheduleRequestsByAO(String aoId, ContextInfo contextInfo){
-        List<ScheduleRequestInfo> scheduleRequests = new ArrayList<ScheduleRequestInfo>();
+        List<ScheduleRequestInfo> scheduleRequests = new ArrayList<>();
         try{
             List<ScheduleRequestSetInfo> scheduleRequestSets = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoId, contextInfo);
             if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){
@@ -631,6 +722,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         try {
 
             List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, wrapper.getId(), defaultContextInfo);
+
+            //For Full colo, there must be only one ScheduleRequestSet.
+            if (!scheduleRequestInfos.isEmpty()){
+                ScheduleRequestSetInfo set = getSchedulingService().getScheduleRequestSet(scheduleRequestInfos.get(0).getScheduleRequestSetId(),defaultContextInfo);
+                wrapper.setScheduleRequestSetInfo(set);
+            }
 
             for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos){
 

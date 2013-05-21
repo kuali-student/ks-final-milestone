@@ -70,8 +70,8 @@ public class ScheduleWrapper implements Serializable{
     private EditRenderHelper editRenderHelper;
 
     public ScheduleWrapper(){
-        features = new ArrayList<String>();
-        this.colocatedAOs = new ArrayList<String>();
+        features = new ArrayList<>();
+        this.colocatedAOs = new ArrayList<>();
         this.editRenderHelper = new EditRenderHelper();
     }
 
@@ -94,7 +94,7 @@ public class ScheduleWrapper implements Serializable{
         this.endTimeUI = wrapper.getEndTimeUI();
         this.room = wrapper.getRoom();
         this.building = wrapper.getBuilding();
-        this.colocatedAOs = new ArrayList<String>();
+        this.colocatedAOs = new ArrayList<>();
         this.editRenderHelper = new EditRenderHelper();
     }
 
@@ -113,7 +113,7 @@ public class ScheduleWrapper implements Serializable{
         this.roomCapacity = wrapper.getRoomCapacity();
         this.room = wrapper.getRoom();
         this.building = wrapper.getBuilding();
-        this.colocatedAOs = new ArrayList<String>();
+        this.colocatedAOs = new ArrayList<>();
         this.editRenderHelper = new EditRenderHelper();
     }
 
