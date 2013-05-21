@@ -175,10 +175,6 @@
         </property>
     </bean>
 
-    <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
-        <constructor-arg index="0" type="java.net.URL" value="${ks.cache.config.file}" />
-    </bean>
-
     <bean id="typeService" class="org.kuali.student.r2.common.class1.type.service.TypeServiceImpl">
         <property name="typeDao" ref="typeDao" />
         <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
