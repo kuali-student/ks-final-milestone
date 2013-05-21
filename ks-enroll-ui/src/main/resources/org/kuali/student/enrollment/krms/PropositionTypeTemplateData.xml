@@ -262,7 +262,7 @@
 
                 <entry key="kuali.krms.proposition.type.no.repeat.course">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="CompletedCourses" p:value="0">
+                          p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.CourseComponentBuilder"/>
                     </bean>
@@ -270,8 +270,9 @@
 
                 <entry key="kuali.krms.proposition.type.no.repeat.courses">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="0">
-                        <property name="componentId" value="KRMS-MultiCourse-Tree-Section"/>
+                          p:termSpecName="CompletedCourses" p:value="true">
+                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
