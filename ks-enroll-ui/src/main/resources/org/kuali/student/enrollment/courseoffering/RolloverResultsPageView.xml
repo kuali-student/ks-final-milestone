@@ -59,8 +59,14 @@
                                 <property name="items">
                                     <list>
                                         <!-- Roll over details display -->
-                                         <bean parent="Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:render="@{!socReleasedToDepts}"
-                                                 p:style="color:white; background-color:#858585;" />
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:render="@{!socReleasedToDepts}" p:style="padding-left:132px; margin-bottom:-13px;">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:style="color:white; background-color:#858585;"/>
+                                                    <bean parent="Uif-ActionLink" p:performClientSideValidation="true" p:actionLabel="Refresh" p:methodToCall="showRolloverResults" p:valign="bottom"/>
+                                                </list>
+                                            </property>
+                                        </bean>
                                         <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt; Released to Departments" p:render="@{socReleasedToDepts}" p:colSpan="2"/>
                                         <bean parent="Uif-DataField" p:label="Date Initiated"
                                               p:fieldLabel.renderColon="false"
