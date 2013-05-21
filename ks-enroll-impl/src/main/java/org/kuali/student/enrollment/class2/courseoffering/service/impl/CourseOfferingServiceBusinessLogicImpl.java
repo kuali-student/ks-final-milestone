@@ -31,6 +31,7 @@ import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -169,19 +170,31 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return targetAo;
     }
 
-    private void _RCO_rolloverScheduleToScheduleRequest(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
-        //Copy the schedule to a schedule request
-// TODOSSR       ScheduleInfo sourceScheduleInfo = schedulingService.getSchedule(sourceAo.getScheduleId(), context);
-        ScheduleInfo sourceScheduleInfo = new ScheduleInfo();    //TODOSSR
-        ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleToRequest(sourceScheduleInfo, roomService, context);
-// TODOSSR       targetScheduleRequest.setRefObjectId(targetAo.getId());
-// TODOSSR       targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-        StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
-        nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
-        targetScheduleRequest.setName(nameBuilder.toString());
-        targetScheduleRequest.setDescr(sourceScheduleInfo.getDescr());
+    private void _RCO_rolloverScheduleToScheduleRequest(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context ) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
 
-        schedulingService.createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
+        // create the SRS
+        ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo();
+        requestSetToSchedule = schedulingService.createScheduleRequestSet( requestSetToSchedule.getTypeKey(), sourceAo.getTypeKey(), requestSetToSchedule, context );
+
+        // create the SRs/SRCs
+        List<ScheduleRequestInfo> targetScheduleRequests = new ArrayList<>();
+        for( String sourceSchedId : sourceAo.getScheduleIds() ) {
+
+            // copy source SRCs to target
+            ScheduleInfo sourceScheduleInfo = schedulingService.getSchedule( sourceSchedId, context );
+            ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleToRequest( sourceScheduleInfo, roomService, context );
+
+            // set name & descr on target
+            StringBuilder nameBuilder = new StringBuilder("Schedule request for ");
+            nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
+            targetScheduleRequest.setName(nameBuilder.toString());
+            targetScheduleRequest.setDescr(sourceScheduleInfo.getDescr());
+
+            // create the target SR
+            targetScheduleRequest.setScheduleRequestSetId( requestSetToSchedule.getId() );
+            schedulingService.createScheduleRequest( targetScheduleRequest.getTypeKey(), targetScheduleRequest, context );
+        }
+
     }
 
     private void _copyScheduleRequest(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context)
@@ -327,13 +340,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
 
                 if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-                    /*  TODOSSR
-                    if(sourceAo.getScheduleId() != null && !sourceAo.getScheduleId().isEmpty()) {
-                        _RCO_rolloverScheduleToScheduleRequest(sourceAo, targetAo, context);
+                    if( hasAtLeastOneValidScheduleId(sourceAo) ) {
+                        _RCO_rolloverScheduleToScheduleRequest( sourceAo, targetAo, context );
                     } else {
                         // KSNEROLL-6475 Copy RDLs if there are no ADLs from source to target term
-                        _copyScheduleRequest(sourceAo, targetAo, context);
-                    }*/
+                        // TODOSSR _copyScheduleRequest(sourceAo, targetAo, context);
+                    }
                 }
                 _RCO_rolloverSeatpools(sourceAo, targetAo, context);
 
@@ -355,6 +367,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         aoCountAttr.setKey(CourseOfferingSetServiceConstants.ACTIVITY_OFFERINGS_CREATED_SOC_ITEM_DYNAMIC_ATTRIBUTE);
         aoCountAttr.setValue("" + aoCount);
         return item;
+    }
+
+    private boolean hasAtLeastOneValidScheduleId( ActivityOfferingInfo ao ) {
+        if( ao.getScheduleIds() == null || ao.getScheduleIds().isEmpty() ) return false;
+        String firstId = ao.getScheduleIds().get(0);
+        if( firstId == null || firstId.trim().isEmpty() ) return false;
+        return true;
     }
 
     private CourseOfferingInfo _RCO_createTargetCourseOffering(CourseOfferingInfo sourceCo, String targetTermId, CourseInfo targetCourse, List<String> optionKeys, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
