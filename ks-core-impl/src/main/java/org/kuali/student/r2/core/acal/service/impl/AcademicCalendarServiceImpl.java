@@ -2136,11 +2136,32 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return null;
     }
 
-    @Override
+    /**
+     * Calculates the number of instructional days for a Term. The number of
+     * instructional days is the number of class days in a Term minus the
+     * non-instructional holidays on the related holiday calendar.
+     *
+     * Instructional Days for a term are calculated as follows:
+     * 1. Find the start and end dates for the term.
+     * 2. Count all instructional days for the term. (Ignore Saturday & Sunday by default)
+     * 3. Subtract all non-instructional days, like holidays, from the previous count.
+     *
+     * @param termId      an identifier for a Term
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     public Integer getInstructionalDaysForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         KeyDateInfo instructionalPeriodKeyDate = null;
 
+        // this section will find all key date for the term. Then do a for loop to find the keydate of type
+        // MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY. that KeyDate give the start and end dates for the term.
         List<KeyDateInfo> keyDates = getKeyDatesForTerm(termId, contextInfo);
         for (KeyDateInfo keyDate : keyDates) {
             if (keyDate.getTypeKey().equals(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)) {
