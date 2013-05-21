@@ -38,8 +38,4 @@ import java.util.Map;
  */
 public class KSUifMaintenanceView extends MaintenanceDocumentView {
 
-    public KSUifMaintenanceView() {
-        super();
-    }
-
 }

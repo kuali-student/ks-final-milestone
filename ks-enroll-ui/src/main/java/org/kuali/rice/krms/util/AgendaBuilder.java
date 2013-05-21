@@ -153,8 +153,7 @@ public class AgendaBuilder {
 
     protected Group buildEditRuleSection(RuleEditor rule, RuleTypeInfo ruleTypeInfo){
         Group editSection = (Group) ComponentFactory.getNewComponentInstance("KRMS-RuleEdit-Section");
-        LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) editSection.getItems(), "KRSM-RuleEdit-ActionLinks");
-        List<Action> actionLinks = (List<Action>) links.getItems();
+        List<Action> actionLinks = (List<Action>) ComponentUtils.getComponentsOfTypeDeep(editSection, Action.class);
         for (Action actionLink : actionLinks) {
             actionLink.getActionParameters().put("ruleKey", rule.getKey());
         }
@@ -178,8 +177,7 @@ public class AgendaBuilder {
      */
     protected Group buildAddRuleSection(RuleEditor ruleEditor, RuleTypeInfo ruleTypeInfo) {
         Group addSection = (Group) ComponentFactory.getNewComponentInstance("KRMS-RuleAdd-Section");
-        LinkGroup links = (LinkGroup) ComponentUtils.findComponentInList((List<Component>) addSection.getItems(), "KRMS-RuleAdd-ActionLink");
-        List<Action> actionLinks = (List<Action>) links.getItems();
+        List<Action> actionLinks = (List<Action>) ComponentUtils.getComponentsOfTypeDeep(addSection, Action.class);
         for (Action actionLink : actionLinks) {
             actionLink.getActionParameters().put("ruleType", ruleTypeInfo.getId());
         }

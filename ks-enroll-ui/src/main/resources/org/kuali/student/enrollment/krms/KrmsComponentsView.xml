@@ -30,7 +30,7 @@
         </property>
         <property name="dialogs">
             <list>
-                <bean id="courseRangeLightBox" parent="KRMS-CourseRangeLightBox"/>
+                <!--bean id="courseRangeLightBox" parent="KRMS-CourseRangeLightBox"/-->
                 <bean id="myDropdownLightBox" parent="KRMS-DropDownLightBox"/>
             </list>
         </property>
@@ -64,6 +64,7 @@
                 <ref bean="KRMS-Grade-Section"/>
                 <ref bean="KRMS-FreeForm-InputField"/>
                 <ref bean="KRMS-Duration-section"/>
+                <ref bean="Disable-Test"/>
             </list>
         </property>
     </bean>
@@ -151,5 +152,63 @@
             </list>
         </property>
     </bean>
+
+    <bean id="Disable-Test" parent="Uif-VerticalBoxSection" p:headerText="Courses">
+        <property name="items">
+            <list>
+                <bean parent="Disable-Types" />
+                <bean parent="Disable-Control" id="control1"/>
+                <bean parent="Disable-Control" id="control2" p:progressiveRender="field3 eq '2'"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="Disable-Types" parent="Uif-InputField-LabelTop" p:propertyName="field3">
+        <property name="control">
+            <bean parent="Uif-DropdownControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Number 1"/>
+                        <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Number 2"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="Disable-Control" parent="Uif-InputField-LabelTop" p:propertyName="field4" p:label="My Text Field" p:required="true">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:disabled="true"/>
+        </property>
+    </bean>
+
+    <!--!DOCTYPE html>
+    <html>
+        <head>
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js">
+            </script>
+            <script>
+                $(document).ready(function(){
+                $("#hide").click(function(){
+                $("#pwd").hide();
+                });
+                $("#show").click(function(){
+                $("#pwd").show();
+                });
+                });
+            </script>
+        </head>
+        <body>
+            <form>
+                Email: <input type="text" id="email"><br>
+                Password: <input type="password" id="pwd" disabled="disabled"><br>
+                <input type="checkbox" id="check1">Do you like summer?
+            </form>
+
+            <p>If you click on the "Hide" button, Password will disappear.</p>
+            <button id="hide">Hide</button>
+            <button id="show">Show</button>
+        </body>
+    </html-->
 
 </beans>

@@ -19,6 +19,10 @@ public class RuleEditorTreeNode implements Serializable {
 
     public static final String NODE_TYPE = "ruleTreeNode";
 
+    public static final String FIRST_IN_GROUP = "firstInGroup";
+
+    public static final String LAST_IN_GROUP = "lastInGroup";
+
     public static final String COMPOUND_NODE_TYPE = RuleEditorTreeNode.NODE_TYPE + " compound";
 
     public static final String COMPOUND_OP_NODE_TYPE = RuleEditorTreeNode.NODE_TYPE + " compoundOpCodeNode";

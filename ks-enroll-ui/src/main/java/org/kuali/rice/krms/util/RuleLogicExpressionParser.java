@@ -1,12 +1,11 @@
 package org.kuali.rice.krms.util;
 
+import org.jacorb.idl.runtime.token;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class RuleLogicExpressionParser {
 
@@ -339,7 +338,7 @@ public class RuleLogicExpressionParser {
         PropositionEditor oldEditor = (PropositionEditor) ruleEditor.getProposition();
         List<PropositionEditor> rcs = this.getPropositions(new ArrayList<PropositionEditor>(), oldEditor);
 
-        List<ExpressionToken> rpnList = getRPN(tokenList);
+        Queue<ExpressionToken> rpnList = getRPN(tokenList);
         return ruleFromRPN(rpnList, rcs);
     }
 
@@ -350,6 +349,7 @@ public class RuleLogicExpressionParser {
                 this.getPropositions(propositions, child);
             }
         }
+        propositionEditor.setCompoundEditors(null);
         return propositions;
     }
 
@@ -359,8 +359,8 @@ public class RuleLogicExpressionParser {
      * <p/>
      * http://en.wikipedia.org/wiki/Reverse_Polish_notation
      */
-    private List<ExpressionToken> getRPN(List<ExpressionToken> nodeList) {
-        List<ExpressionToken> rpnList = new ArrayList<ExpressionToken>();
+    public Queue<ExpressionToken> getRPN(List<ExpressionToken> nodeList) {
+        Queue<ExpressionToken> rpnList = new LinkedList<ExpressionToken>();
         Stack<ExpressionToken> operatorStack = new Stack<ExpressionToken>();
 
         for (ExpressionToken token : nodeList) {
@@ -387,33 +387,31 @@ public class RuleLogicExpressionParser {
     /**
      * Build the binary tree from list of tokens
      */
-    private PropositionEditor ruleFromRPN(List<ExpressionToken> rpnList, List<PropositionEditor> rcs) {
+    public PropositionEditor ruleFromRPN(Queue<ExpressionToken> rpnQueue, List<PropositionEditor> rcs) {
         //if rule is empty
-        if (rpnList.size() == 0) {
+        if (rpnQueue.size() == 0) {
             return null;
         }
 
         Stack<PropositionEditor> conditionStack = new Stack<PropositionEditor>();
         Stack<PropositionEditor> simpleProps = new Stack<PropositionEditor>();
-        for (ExpressionToken token : rpnList) {
+        while(rpnQueue.peek()!=null) {
+            ExpressionToken token = rpnQueue.remove();
             if (token.type == ExpressionToken.Condition) {
-                PropositionEditor rc = lookupPropositionEditor(rcs, token.value);
-                if (rc.getPropositionTypeCode().equals("C")){
-                    rc.setCompoundEditors(new ArrayList<PropositionEditor>());
-                }
-                conditionStack.push(rc);
+                conditionStack.push(lookupPropositionEditor(rcs, token.value));
             } else {
                 if(simpleProps.empty()){
                     simpleProps.push(conditionStack.pop());
                 }
                 simpleProps.push(conditionStack.pop());
-                if(conditionStack.peek().getPropositionTypeCode().equals("C")) {
+                if(conditionStack.peek().checkIfCompoundAndEmpty()) {
                     PropositionEditor compound = conditionStack.pop();
                     if (token.type == ExpressionToken.And){
                         PropositionTreeUtil.setTypeForCompoundOpCode(compound, LogicalOperator.AND.getCode());
                     } else if (token.type == ExpressionToken.Or) {
                         PropositionTreeUtil.setTypeForCompoundOpCode(compound, LogicalOperator.OR.getCode());
                     }
+                    compound.setCompoundEditors(new ArrayList<PropositionEditor>());
                     while (!simpleProps.empty()) {
                         compound.getCompoundEditors().add(simpleProps.pop());
                     }

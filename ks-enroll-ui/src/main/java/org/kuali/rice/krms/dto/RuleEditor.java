@@ -40,7 +40,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private Long versionNumber;
 
     private PropositionEditor proposition;
-    private AgendaItemDefinition agendaItem;
 
     private String ruleType;
     private String copyKey;
@@ -80,7 +79,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         this.typeId = definition.getTypeId();
         this.propId = definition.getPropId();
         this.active = definition.isActive();
-        this.proposition = createPropositionEditor(definition.getProposition());
+        if(definition.getProposition()!=null){
+            this.proposition = createPropositionEditor(definition.getProposition());
+        }
         this.versionNumber = definition.getVersionNumber();
 
         //TODO: Actions
@@ -214,14 +215,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setLogicArea(String logicArea) {
         this.logicArea = logicArea;
-    }
-
-    public AgendaItemDefinition getAgendaItem() {
-        return agendaItem;
-    }
-
-    public void setAgendaItem(AgendaItemDefinition agendaItem) {
-        this.agendaItem = agendaItem;
     }
 
     @Override

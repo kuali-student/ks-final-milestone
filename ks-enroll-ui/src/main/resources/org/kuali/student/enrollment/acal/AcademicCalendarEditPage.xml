@@ -40,7 +40,7 @@ limitations under the License.
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
-                        <bean parent="Uif-ActionLink" p:preSubmitCall="return confirm('Are you sure you want to delete this academic calendar?')" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;" p:render="@{#view.readOnly and !officialUI}"/>
+                        <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;" p:render="@{#view.readOnly and !officialUI}"/>
                     </list>
                 </property>
             </bean>
@@ -76,7 +76,6 @@ limitations under the License.
                               p:performClientSideValidation="true" p:render="@{reload}"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="delete"
                               p:actionLabel="Delete Draft"
-                              p:preSubmitCall="return confirm('Are you sure you want to delete this academic calendar?')"
                               p:render="@{!reload and !newCalendar and !#view.readOnly and !officialUI}"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()" p:render="@{!#view.readOnly}"/>
                     </list>

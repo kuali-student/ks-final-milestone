@@ -13,14 +13,15 @@ import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.util.AlphaIterator;
+import org.kuali.rice.krms.util.ExpressionToken;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Test that the authorization decorator works against CourseOfferingService
@@ -108,6 +109,64 @@ public class TestRuleLogicExpressionParser {
 
         String returnExp = PropositionTreeUtil.configureLogicExpression(propositionEditor);
         assertEquals("A(C AND B(E OR D) AND F)", returnExp);
+    }
+
+    @Test
+    public void testRPN(){
+
+        String exp = "A(E(F AND H) AND I AND J(K AND L))";
+        PropositionEditor prop = parseExpression(exp);
+        assertNotNull(prop);
+        assertEquals(exp,PropositionTreeUtil.configureLogicExpression(prop));
+
+        String exp2 = "A(B AND E(F AND H) AND I AND J(K AND L))";
+        PropositionEditor prop2 = parseExpression(exp2);
+        assertNotNull(prop2);
+        assertEquals(exp2,PropositionTreeUtil.configureLogicExpression(prop2));
+
+        String exp3 = "A(B AND E(F AND G AND H) AND I AND J(K AND L))";
+        PropositionEditor prop3 = parseExpression(exp3);
+        assertNotNull(prop3);
+        assertEquals(exp3,PropositionTreeUtil.configureLogicExpression(prop3));
+
+        String exp4 = "A(B AND E(F AND G AND H) AND I AND J(K AND L AND O))";
+        PropositionEditor prop4 = parseExpression(exp4);
+        assertNotNull(prop4);
+        assertEquals(exp4,PropositionTreeUtil.configureLogicExpression(prop4));
+
+        String exp5 = "A(B AND C AND D AND E(F AND G AND H) AND I AND J(K OR L OR O))";
+        PropositionEditor prop5 = parseExpression(exp5);
+        assertNotNull(prop5);
+        assertEquals(exp5,PropositionTreeUtil.configureLogicExpression(prop5));
+
+        String exp6 = "A(B AND C AND D AND E(F AND G AND H) AND I AND J(K OR L OR M(N AND O)))";
+        PropositionEditor prop6 = parseExpression(exp6);
+        assertNotNull(prop6);
+        assertEquals(exp6,PropositionTreeUtil.configureLogicExpression(prop6));
+
+    }
+
+    private PropositionEditor parseExpression(String expression){
+
+        RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
+
+        parser.setExpression(expression);
+        Queue<ExpressionToken> rpnList = parser.getRPN(parser.getTokenList());
+
+        AlphaIterator it = new AlphaIterator();
+        List<PropositionEditor> rcs = new ArrayList<PropositionEditor>();
+        for(int i = 0; i<15; i++){
+            PropositionEditor prop = new PropositionEditor();
+            prop.setKey((String)it.next());
+            if("A".equals(prop.getKey())||"E".equals(prop.getKey())||"J".equals(prop.getKey())||"M".equals(prop.getKey())){
+                prop.setPropositionTypeCode("C");
+            } else {
+                prop.setPropositionTypeCode("S");
+            }
+            rcs.add(prop);
+        }
+        return parser.ruleFromRPN(rpnList, rcs);
+
     }
 
     private RuleEditor getFirstRuleEditor(){

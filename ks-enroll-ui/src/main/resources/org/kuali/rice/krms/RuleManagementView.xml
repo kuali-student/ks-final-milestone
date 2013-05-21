@@ -253,7 +253,7 @@
     <bean id="KS-CompareTree-Section" parent="KS-CompareTree-Section-parent"/>
 
     <!--Compare Link-->
-    <bean id="KS-CompareRule-parent" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CompareRule-parent" parent="Uif-VerticalBoxSection" p:style="width: 850px;">
         <property name="hidden" value="true"/>
         <property name="headerText" value="Compare CLU and CO Requisites"/>
         <property name="items">
@@ -262,9 +262,7 @@
                     <property name="headerText" value="@{#dp.compareLightBoxHeader}"/>
                     <property name="items">
                         <list>
-
                             <ref bean="KS-CompareTree-Section"/>
-
                         </list>
                     </property>
 

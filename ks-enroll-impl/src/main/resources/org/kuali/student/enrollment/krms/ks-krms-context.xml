@@ -116,6 +116,7 @@
                 <entry key="kuali.krms.proposition.type.success.credits.courseset.completed.nof.org">
                     <list>
                         <ref bean="luContext"/>
+                        <ref bean="orgContext"/>
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.course.courseset.credits.completed.none">
@@ -293,6 +294,7 @@
                 <entry key="kuali.krms.proposition.type.success.credits.courseset.completed.nof.org">
                     <list>
                         <ref bean="luContext"/>
+                        <ref bean="orgContext"/>
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.permission.adnin.org">

@@ -41,16 +41,21 @@
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
-    </bean>
 
-    <!--Note: might not need CustomizedBreadCrumb bean after rice 2.2.3 release -->
-    <bean id="KS-Uif-FormView-CustomizedBreadCrumb" class="org.kuali.student.enrollment.uif.view.KSUifFormView" parent="KS-Uif-FormView" abstract="true"/>
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+    </bean>
 
     <bean id="KS-Uif-LookupView" abstract="true"
           class="org.kuali.student.enrollment.uif.view.KSLookupView" parent="Uif-LookupView">
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
+
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
     </bean>
 
     <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
@@ -61,6 +66,10 @@
         <!--<property name="page.header">-->
             <!--<ref bean="KS-Uif-HeaderOne-Empty" />-->
         <!--</property>-->
+
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
     </bean>
 
     <bean id="KS-Uif-HeaderOne-Empty" parent="Uif-HeaderOne">
@@ -81,6 +90,10 @@
             <!-- In KS, expandall/collapseall not needed-->
             <list/>
         </property>
+
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
     </bean>
 
     <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->

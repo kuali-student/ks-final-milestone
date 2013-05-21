@@ -330,9 +330,27 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param response
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=delete")
+    @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                    HttpServletRequest request, HttpServletResponse response) {
+        String dialog = CalendarConstants.ACADEMIC_DELETE_CONFIRMATION_DIALOG;
+        if (!hasDialogBeenDisplayed(dialog, acalForm)) {
+
+            //redirect back to client to display lightbox
+            return showDialog(dialog, acalForm, request, response);
+        }else{
+            if(hasDialogBeenAnswered(dialog,acalForm)){
+                boolean confirmDelete = getBooleanDialogResponse(dialog, acalForm, request, response);
+                acalForm.getDialogManager().resetDialogStatus(dialog);
+                if(!confirmDelete){
+                    return getUIFModelAndView(acalForm);
+                }
+            } else {
+
+                //redirect back to client to display lightbox
+                return showDialog(dialog, acalForm, request, response);
+            }
+        }
 
         StatusInfo statusInfo = null;
         try {

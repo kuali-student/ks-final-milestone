@@ -203,7 +203,7 @@
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="NumberOfCreditsFromOrganization" p:operator="&gt;=" p:value="n">
                         <property name="componentId" value="KRMS-CreditAndDepartment-Group"/>
-                        <!--<property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.OrganizationComponentBuilder"/>-->
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.OrganizationComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -391,8 +391,9 @@
 
                 <entry key="kuali.krms.proposition.type.admitted.to.program.org">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
+                          p:termSpecName="AdminOrganizationPermissionRequired" p:value="true">
                         <property name="componentId" value="KRMS-Department-Field"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.OrganizationComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -447,7 +448,7 @@
 
                 <entry key="kuali.krms.proposition.type.permission.admin.org">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="AdminOrganizationPermissionRequired " p:value="true">
+                          p:termSpecName="AdminOrganizationPermissionRequired" p:value="true">
                         <property name="componentId" value="KRMS-Administering-Org-Field"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.AdministeringOrgComponentBuilder"/>
                     </bean>

@@ -42,6 +42,12 @@ public class KrmsComponentsForm extends KSUifForm {
 
     private String field2;
 
+    private String field3;
+
+    private String field4;
+
+    private String field5;
+
     private Tree<TreeNode, String> tree1;
 
     private List<TermParameter> list6 = new ArrayList<TermParameter>();
@@ -173,5 +179,29 @@ public class KrmsComponentsForm extends KSUifForm {
 
     public EnrolRuleEditor getRule() {
         return rule;
+    }
+
+    public String getField3() {
+        return field3;
+    }
+
+    public void setField3(String field3) {
+        this.field3 = field3;
+    }
+
+    public String getField4() {
+        return field4;
+    }
+
+    public void setField4(String field4) {
+        this.field4 = field4;
+    }
+
+    public String getField5() {
+        return field5;
+    }
+
+    public void setField5(String field5) {
+        this.field5 = field5;
     }
 }

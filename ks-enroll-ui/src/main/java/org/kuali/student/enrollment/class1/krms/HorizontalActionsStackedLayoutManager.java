@@ -65,12 +65,12 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
         return null;
     }
 
-    @Override
+    /*@Override
     public List<Component> getComponentsForLifecycle() {
         return super.getComponentsForLifecycle();
-    }
+    } */
 
-    @Override
+    /*@Override
     public void performFinalize(View view, Object model, Container container) {
         super.performFinalize(view, model, container);
 
@@ -84,5 +84,5 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
                 line.setItems(lineItems);
             }
         }
-    }
+    }    */
 }

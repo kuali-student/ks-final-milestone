@@ -275,6 +275,25 @@ public class PropositionTreeUtil {
         }
     }
 
+    public static void removeNewCompoundProp(PropositionEditor proposition) {
+        int i = 0;
+        if (proposition.getCompoundEditors() != null) {
+            while (i < proposition.getCompoundEditors().size()) {
+                PropositionEditor child = proposition.getCompoundEditors().get(i);
+                if(child.getCompoundEditors() == null) {
+                    i++;
+                    continue;
+                } else if(child.getCompoundEditors().size() == 1 && child.isNewProp()) {
+                    proposition.getCompoundEditors().set(i, child.getCompoundEditors().get(0));
+                    continue;
+                } else {
+                    removeNewCompoundProp(child);
+                }
+                i++;
+            }
+        }
+    }
+
     public static void resetNewProp(PropositionEditor proposition) {
         if (proposition.getCompoundEditors() != null) {
             for (PropositionEditor child : proposition.getCompoundEditors()) {

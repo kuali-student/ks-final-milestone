@@ -82,6 +82,10 @@ public class NaturalLanguageHelper {
      * @param usageName
      */
     public void setNaturalLanguageTreeForUsage(PropositionEditor proposition, String usageName){
+        if(proposition==null){
+            return;
+        }
+
         PropositionDefinition.Builder propBuilder = PropositionDefinition.Builder.create(proposition);
         TreeIterator nlTree = this.buildNaturalLanguageTree(propBuilder, this.getNaturalLanguageUsageId(usageName));
         this.setTranslatedNaturalLanguage(proposition, usageName, nlTree);
