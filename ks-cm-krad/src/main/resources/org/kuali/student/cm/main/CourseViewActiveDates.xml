@@ -69,24 +69,9 @@
 				</bean>
 
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.endTerm"
-					p:label="End Term"
-					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
+					p:label="End Term" p:required="@{courseInfo.pilotCourse}"
+					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.LogisticSchedulingKeyValuesFinder"
 					p:refreshWhenChangedPropertyNames="courseInfo.pilotCourse">
-					<property name="caseConstraint">
-						<bean parent="CaseConstraint">
-							<property name="propertyName" value="courseInfo.pilotCourse" />
-							<property name="whenConstraint">
-								<list>
-									<bean parent="WhenConstraint">
-										<property name="value" value="false" />
-										<property name="constraint">
-											<bean parent="PrerequisiteConstraint" p:propertyName="courseInfo.endTerm" />
-										</property>
-									</bean>
-								</list>
-							</property>
-						</bean>
-					</property>
 					<property name="instructionalText"
 						value="Last term in which the course can be offered" />
 					<property name="control">
