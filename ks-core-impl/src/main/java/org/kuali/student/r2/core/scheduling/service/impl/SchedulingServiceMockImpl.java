@@ -45,6 +45,7 @@ import org.kuali.student.r2.core.scheduling.util.CriteriaMatcherInMemory;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import javax.annotation.Resource;
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -512,6 +513,12 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         
         return requests;
         
+    }
+
+    @Override
+    public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     @Override

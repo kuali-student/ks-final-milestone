@@ -443,6 +443,10 @@ public class SchedulingServiceDecorator implements SchedulingService {
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getScheduleRequestsByRefObjects(refObjectType, refObjectIds, contextInfo);
     }
-    
-    
+
+    @Override
+    public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetId, contextInfo);
+    }
 }

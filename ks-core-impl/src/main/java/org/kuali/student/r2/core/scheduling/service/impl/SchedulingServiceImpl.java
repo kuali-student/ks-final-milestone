@@ -63,6 +63,7 @@ import org.kuali.student.r2.core.scheduling.service.transformer.ScheduleDisplayT
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -349,6 +350,11 @@ public class SchedulingServiceImpl implements SchedulingService {
             OperationFailedException, PermissionDeniedException {
         List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByRefObjects(refObjectType, refObjectIds);
         return getScheduleRequestInfoList(entityList);
+    }
+
+    @Override
+    public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     @Override
