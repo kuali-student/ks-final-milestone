@@ -47,6 +47,7 @@ import javax.xml.namespace.QName;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 @Controller
@@ -200,11 +201,12 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.modified" );
 
-        String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
-        form.setReturnLocation(url);
+        String url = form.getReturnLocation().replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
 
-        return back(form,result,request,response);
+        // clear current form from session
+        GlobalVariables.getUifFormManager().removeSessionForm(form);
 
+        return performRedirect(form, url, new Properties());
     }
 
     @RequestMapping(params = "methodToCall=cancel")
