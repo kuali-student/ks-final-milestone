@@ -498,6 +498,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             for(String scheduleId : searchForScheduleIdsByAOId(aoId)) {
                 row.addCell(SearchResultColumns.SCHEDULE_ID, scheduleId);
             }
+
             row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i].toString());
             i++;
             row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
@@ -509,10 +510,13 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
 
     private List<String> searchForScheduleIdsByAOId(String aoId) {
-        LuiEntity entity = entityManager.find(LuiEntity.class, aoId);
+        if( aoId == null || aoId.trim().isEmpty() ) return Collections.EMPTY_LIST;
+
+        LuiEntity entity = entityManager.find(LuiEntity.class, aoId.trim());
         if(entity != null && entity.getScheduleIds() != null) {
             return entity.getScheduleIds();
         }
+
         return Collections.EMPTY_LIST;
     }
 
