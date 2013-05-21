@@ -9,7 +9,7 @@
 
 <div class="ks-uif-viewHeader-container">
     <img class="ks-logo-image" title="Kuali Student" src="../ks-enroll/images/header/logo_kuali.png">
-    <span style="color:white">Student</span>
+    <span class="ks-header-student">Student</span>
 
     <div class="header-right-group">
         <ul class="ks-header-list">
@@ -17,11 +17,12 @@
             </li>
 
             <li class="ks-header-admin">
+                <img src="../ks-enroll/images/header/user.png" class="ks-header-user">
                 <span>${UserSession.loggedInUserPrincipalName!"You are not logged in."}</span>
             </li>
             <li class="ks-header-logout">
                 <#--<span><a href="#" onclick="logout();">Logout</a></span>-->
-                <span><button type="button" onclick="logout();">Logout</button></span>
+                <span><button type="button" onclick="logout();" class="btn">Logout</button></span>
             </li>
         </ul>
     </div>

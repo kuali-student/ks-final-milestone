@@ -502,6 +502,13 @@ a {
     padding: 12px 0 0 13px;
 }
 
+.ks-header-student {
+    color: white;
+    font-size: 17px;
+    vertical-align: bottom;
+    padding-left: 2px;
+}
+
 .header-right-group{
     float: right;
 }
@@ -541,3 +548,13 @@ a {
     padding-top: 10px;
 }
 /* End of Header  */
+
+/* Breadcrumb */
+#Uif-BreadcrumbWrapper {
+    background-image: url('../images/breadcrumb/bg_breadcrumb.png');
+}
+
+.uif-breadcrumbs > li {
+    background-image: url(../images/breadcrumb/divider-breadcrumb.png);
+}
+/* End of Breadcrumb */
