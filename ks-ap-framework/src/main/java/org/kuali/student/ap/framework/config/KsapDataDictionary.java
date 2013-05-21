@@ -1,5 +1,6 @@
 package org.kuali.student.ap.framework.config;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -41,7 +42,7 @@ public class KsapDataDictionary extends DataDictionary implements
 
 	private static final Logger LOG = Logger
 			.getLogger(KsapDataDictionary.class);
-	
+
 	static final Object DD_MUTEX = new Object();
 
 	private ConfigurableListableBeanFactory ddBeans;
@@ -211,6 +212,16 @@ public class KsapDataDictionary extends DataDictionary implements
 					}
 				}
 		}
+	}
+
+	@Override
+	public void addConfigFileLocation(String namespaceCode, String location)
+			throws IOException {
+		List<String> cf = moduleDictionaryFiles.get(namespaceCode);
+		if (cf != null && cf.contains(location))
+			return;
+		else
+			super.addConfigFileLocation(namespaceCode, location);
 	}
 
 	private ConfigurableListableBeanFactory getDataDictionaryBeans() {

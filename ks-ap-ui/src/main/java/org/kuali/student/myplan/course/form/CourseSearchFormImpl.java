@@ -48,10 +48,6 @@ public class CourseSearchFormImpl extends UifFormBase implements
 	private String sort;
 	private boolean reverse;
 
-	public void setCampusSelect(List<String> campusSelect) {
-		this.campusSelect = campusSelect;
-	}
-
 	@Override
 	public String getSearchQuery() {
 		return searchQuery;
@@ -167,6 +163,19 @@ public class CourseSearchFormImpl extends UifFormBase implements
 
 	public List<String> getCampusSelect() {
 		return campusSelect;
+	}
+
+	public void setCampusSelect(List<String> campusSelect) {
+		this.campusSelect = campusSelect;
+	}
+
+	public String getCampus() {
+		return campusSelect == null || campusSelect.isEmpty() ? null : campusSelect.get(0);
+	}
+
+	public void setCampus(String campusSelect) {
+		this.campusSelect = new java.util.ArrayList<String>();
+		this.campusSelect.add(campusSelect);
 	}
 
 	@Override

@@ -15,7 +15,7 @@
 	<bean id="CourseSearch-FormView" parent="CourseSearch-FormView-parent">
 		<property name="id" value="CourseSearch-FormView" />
 	</bean>
-	<bean id="CourseSearch-FormView-parent" parent="MyPlanFormView">
+	<bean abstract="true" id="CourseSearch-FormView-parent" parent="MyPlanFormView">
 		<property name="headerText" value="Find Courses" />
 		<property name="entryPageId" value="course_search" />
 		<property name="cssClasses">
@@ -33,20 +33,7 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-Page" p:id="course_search">
-					<property name="instructionalText"
-						value="Enter a course code, title, or a keyword to search the Course Catalog and Time Schedule if applicable." />
-					<property name="layoutManager">
-						<bean parent="Uif-HorizontalBoxLayout" />
-					</property>
-					<property name="items">
-						<list>
-							<ref bean="myplan_dialog_anchor" />
-							<ref bean="course_search_result_section" />
-							<ref bean="myplan_section" />
-						</list>
-					</property>
-				</bean>
+				<ref bean="course_search_page" />
 			</list>
 		</property>
 		<property name="footer.render" value="false" />
@@ -54,6 +41,21 @@
 			value="org.kuali.student.myplan.course.form.CourseSearchFormImpl" />
 	</bean>
 
+	<bean id="course_search_page" parent="course_search_page-parent" />
+	<bean abstract="true" id="course_search_page-parent" parent="Uif-Page" p:id="course_search">
+		<property name="instructionalText"
+			value="Enter a course code, title, or a keyword to search the Course Catalog and Time Schedule if applicable." />
+		<property name="layoutManager">
+			<bean parent="Uif-HorizontalBoxLayout" />
+		</property>
+		<property name="items">
+			<list>
+				<ref bean="myplan_dialog_anchor" />
+				<ref bean="course_search_result_section" />
+				<ref bean="myplan_section" />
+			</list>
+		</property>
+	</bean>
 
 	<!-- Layout for Empty Course Search Form Page -->
 	<bean id="course_search_section" parent="Uif-VerticalBoxSubSection"
@@ -133,39 +135,43 @@
         " />
 	</bean>
 
+	<bean id="text_searchQuery" parent="Uif-InputField"
+		p:propertyName="searchQuery" p:label="Search for"
+		p:fieldLabel.renderColon="false">
+		<property name="control">
+			<ref bean="course_search_criteria_input" />
+		</property>
+	</bean>
+
+	<bean id="select_searchTerm" parent="Uif-InputField"
+		p:propertyName="searchTerm" p:label="in" p:fieldLabel.renderColon="false"
+		p:validationMessages.render="false">
+		<!--<property name="fieldLabel.cssClasses"> <list merge="true"> <value>myplan-text-normal</value> 
+			</list> </property> -->
+		<property name="control">
+			<bean parent="Uif-DropdownControl" />
+		</property>
+		<property name="optionsFinder">
+			<bean class="org.kuali.student.myplan.utils.PublishedTermsListBuilder">
+				<property name="suffix" value=" only" />
+				<property name="additionalListItemsTop">
+					<map>
+						<entry key="any" value="Any term" />
+						<entry key="projected" value="Projected terms only" />
+						<entry key="scheduled" value="Scheduled terms only" />
+					</map>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
 	<!-- Group for Search Input Fields -->
 	<bean id="course_search_fields" parent="Uif-HorizontalFieldGroup"
 		p:style="margin:0 0 20px 0;" p:group.validationMessages.render="false">
 		<property name="items">
 			<list>
-				<bean id="text_searchQuery" parent="Uif-InputField"
-					p:propertyName="searchQuery" p:label="Search for"
-					p:fieldLabel.renderColon="false">
-					<property name="control">
-						<ref bean="course_search_criteria_input" />
-					</property>
-				</bean>
-				<bean id="select_searchTerm" parent="Uif-InputField"
-					p:propertyName="searchTerm" p:label="in" p:fieldLabel.renderColon="false"
-					p:validationMessages.render="false">
-					<!--<property name="fieldLabel.cssClasses"> <list merge="true"> <value>myplan-text-normal</value> 
-						</list> </property> -->
-					<property name="control">
-						<bean parent="Uif-DropdownControl" />
-					</property>
-					<property name="optionsFinder">
-						<bean class="org.kuali.student.myplan.utils.PublishedTermsListBuilder">
-							<property name="suffix" value=" only" />
-							<property name="additionalListItemsTop">
-								<map>
-									<entry key="any" value="Any term" />
-									<entry key="projected" value="Projected terms only" />
-									<entry key="scheduled" value="Scheduled terms only" />
-								</map>
-							</property>
-						</bean>
-					</property>
-				</bean>
+				<ref bean="text_searchQuery" />
+				<ref bean="select_searchTerm" />
 				<bean p:id="searchForCourses" parent="Uif-PrimaryActionButton"
 					p:actionLabel="Search" p:disabled="true">
 					<property name="actionScript"
