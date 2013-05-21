@@ -177,44 +177,50 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         requestSetToSchedule = schedulingService.createScheduleRequestSet( requestSetToSchedule.getTypeKey(), sourceAo.getTypeKey(), requestSetToSchedule, context );
 
         // create the SRs/SRCs
-        List<ScheduleRequestInfo> targetScheduleRequests = new ArrayList<>();
         for( String sourceSchedId : sourceAo.getScheduleIds() ) {
 
             // copy source SRCs to target
-            ScheduleInfo sourceScheduleInfo = schedulingService.getSchedule( sourceSchedId, context );
-            ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleToRequest( sourceScheduleInfo, roomService, context );
+            ScheduleInfo sourceSchedule = schedulingService.getSchedule( sourceSchedId, context );
+            ScheduleRequestInfo targetSchedRequest = SchedulingServiceUtil.scheduleToRequest( sourceSchedule, roomService, context );
 
             // set name & descr on target
             StringBuilder nameBuilder = new StringBuilder("Schedule request for ");
             nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
-            targetScheduleRequest.setName(nameBuilder.toString());
-            targetScheduleRequest.setDescr(sourceScheduleInfo.getDescr());
+            targetSchedRequest.setName(nameBuilder.toString());
+            targetSchedRequest.setDescr(sourceSchedule.getDescr());
 
             // create the target SR
-            targetScheduleRequest.setScheduleRequestSetId( requestSetToSchedule.getId() );
-            schedulingService.createScheduleRequest( targetScheduleRequest.getTypeKey(), targetScheduleRequest, context );
+            targetSchedRequest.setScheduleRequestSetId( requestSetToSchedule.getId() );
+            schedulingService.createScheduleRequest( targetSchedRequest.getTypeKey(), targetSchedRequest, context );
         }
 
     }
 
-    private void _copyScheduleRequest(ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, ReadOnlyException {
-        //Copy the source schedule request to a schedule request
-        List<ScheduleRequestInfo> scheduleRequestInfoList =
-                schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAo.getId(), context);
-        if (scheduleRequestInfoList != null && !scheduleRequestInfoList.isEmpty()) {
-            for (ScheduleRequestInfo sourceRequestScheduleInfo : scheduleRequestInfoList) {
-                ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleRequestToScheduleRequest(sourceRequestScheduleInfo, context);
-//   TODOSSR             targetScheduleRequest.setRefObjectId(targetAo.getId());
-//   TODOSSR             targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
-                nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
-                targetScheduleRequest.setName(nameBuilder.toString());
-                targetScheduleRequest.setDescr(sourceRequestScheduleInfo.getDescr());
+    private void _copyScheduleRequest( ActivityOfferingInfo sourceAo, ActivityOfferingInfo targetAo, ContextInfo context ) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
 
-                schedulingService.createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
-            }
+        // create the SRS
+        ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo();
+        requestSetToSchedule = schedulingService.createScheduleRequestSet( requestSetToSchedule.getTypeKey(), sourceAo.getTypeKey(), requestSetToSchedule, context );
+
+        // get the source sched-requests
+        List<ScheduleRequestInfo> sourceSchedRequests = schedulingService.getScheduleRequestsByRefObject( CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAo.getId(), context );
+        if( sourceSchedRequests == null || sourceSchedRequests.isEmpty() ) return;
+
+        // create the target SRs/SRCs
+        for( ScheduleRequestInfo sourceSchedRequest : sourceSchedRequests ) {
+
+            // copy source SRCs to target
+            ScheduleRequestInfo targetSchedRequest = SchedulingServiceUtil.scheduleRequestToScheduleRequest( sourceSchedRequest, context );
+
+            // set name & descr on target
+            StringBuilder nameBuilder = new StringBuilder("Schedule request for ");
+            nameBuilder.append(targetAo.getCourseOfferingCode()).append(" - ").append(targetAo.getActivityCode());
+            targetSchedRequest.setName(nameBuilder.toString());
+            targetSchedRequest.setDescr(sourceSchedRequest.getDescr());
+
+            // create the target SR
+            targetSchedRequest.setScheduleRequestSetId( requestSetToSchedule.getId() );
+            schedulingService.createScheduleRequest( targetSchedRequest.getTypeKey(), targetSchedRequest, context );
         }
     }
 
@@ -344,7 +350,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         _RCO_rolloverScheduleToScheduleRequest( sourceAo, targetAo, context );
                     } else {
                         // KSNEROLL-6475 Copy RDLs if there are no ADLs from source to target term
-                        // TODOSSR _copyScheduleRequest(sourceAo, targetAo, context);
+                        _copyScheduleRequest(sourceAo, targetAo, context);
                     }
                 }
                 _RCO_rolloverSeatpools(sourceAo, targetAo, context);
