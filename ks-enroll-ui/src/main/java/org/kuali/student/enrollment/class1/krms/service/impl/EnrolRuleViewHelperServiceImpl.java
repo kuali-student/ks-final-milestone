@@ -1,10 +1,17 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
 import org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
@@ -15,12 +22,15 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.*;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -43,6 +53,67 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
         return EnrolPropositionEditor.class;
+    }
+
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
+                                               Object addLine) {
+        if("proposition.cluSet.clus".equals(collectionGroup.getPropertyName())){
+            //Check if this is a valid clu.
+            CluInformation clu = (CluInformation) addLine;
+            if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
+                return false;
+            }
+
+            //Check if this clu is not already in the collection
+            RuleEditor ruleEditor = this.getRuleEditor(model);
+            EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
+            for(CluInformation cluInformation : propEditor.getCluSet().getClus()){
+                if(cluInformation.getCluId().equals(clu.getCluId())){
+                    return false;
+                }
+            }
+        } else if ("proposition.cluSet.cluSets".equals(collectionGroup.getPropertyName())){
+            //Check if this is a valid clu.
+            CluSetInfo cluSet = (CluSetInfo) addLine;
+            if((cluSet.getId() == null)||(cluSet.getId().isEmpty())){
+                return false;
+            }
+
+            //Check if this clu is not already in the collection
+            RuleEditor ruleEditor = this.getRuleEditor(model);
+            EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
+            for(CluSetInfo cluSetInfo : propEditor.getCluSet().getCluSets()){
+                if(cluSetInfo.getId().equals(cluSet.getId())){
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
+                                       boolean isValidLine) {
+
+        if("proposition.cluSet.clus".equals(collectionGroup.getPropertyName())){
+            //Sort the clus.
+            RuleEditor ruleEditor = this.getRuleEditor(model);
+            EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
+
+            Collections.sort(propEditor.getCluSet().getClus());
+        } else if ("proposition.cluSet.cluSets".equals(collectionGroup.getPropertyName())){
+            //Sort the clus.
+            RuleEditor ruleEditor = this.getRuleEditor(model);
+            EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
+
+            Collections.sort(propEditor.getCluSet().getCluSets(), new Comparator<CluSetInfo>(){
+
+                @Override
+                public int compare(CluSetInfo o1, CluSetInfo o2) {
+                    return o1.getName().compareTo(o2.getName());
+                }
+            });
+        }
     }
 
     public List<CluInformation> getCoursesInRange(MembershipQueryInfo membershipQuery) {
