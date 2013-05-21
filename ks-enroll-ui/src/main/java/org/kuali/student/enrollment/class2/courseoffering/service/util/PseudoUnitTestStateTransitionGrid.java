@@ -17,7 +17,9 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Creates a matrix to determine whether going from a fromState to a toState is valid.
@@ -28,6 +30,7 @@ import java.util.List;
 public class PseudoUnitTestStateTransitionGrid {
     List<String> stateKeys;
     List<List<Integer>> transitionAllowed;
+    String socStateKey;
 
     public PseudoUnitTestStateTransitionGrid(List<String> stateNames) {
         this.stateKeys = new ArrayList<String>();
@@ -42,6 +45,14 @@ public class PseudoUnitTestStateTransitionGrid {
             }
             transitionAllowed.add(row);
         }
+    }
+
+    public void setSocStateKey(String socStateKey) {
+        this.socStateKey = socStateKey;
+    }
+
+    public String getSocStateKey() {
+        return socStateKey;
     }
 
     public void setTransition(String fromState, String toState, int value) {
@@ -87,20 +98,51 @@ public class PseudoUnitTestStateTransitionGrid {
         return transitionAllowed.get(row).set(col, val);
     }
 
-    public static List<String> compareGrid(PseudoUnitTestStateTransitionGrid expected, PseudoUnitTestStateTransitionGrid actual) {
-        List<String> results = new ArrayList<String>();
+    // Keys
+    public static final String SOC_STATE = "socState";
+    public static final String AO_STATE_FROM = "aoStateFrom";
+    public static final String AO_STATE_TO = "aoStateTo";
+    public static final String EXPECTED = "expected";
+    public static final String ACTUAL = "actual";
+    public static final String PASS_FAIL = "passFail";
+    // Values
+    public static final String YES_VAL = "yes";
+    public static final String NO_VAL = "no";
+    public static final String PASS_VAL = "pass";
+    public static final String FAIL_VAL = "fail";
+    public static final String INVALID_VAL = "invalid";
+
+    private static String convertValToString(int val) {
+        if (val == 1) {
+            return YES_VAL;
+        } else if (val == 0) {
+            return NO_VAL;
+        } else if (val == -1) {
+            return INVALID_VAL;
+        }
+        throw new IndexOutOfBoundsException();
+    }
+
+    public static List<Map<String, String>> compareGrid(PseudoUnitTestStateTransitionGrid expected, PseudoUnitTestStateTransitionGrid actual) {
+        List<Map<String, String>> results = new ArrayList<>();
         int size = expected.size();
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
                 int expectedVal = expected.getTransition(row, col);
                 int actualVal = actual.getTransition(row, col);
-                if (expectedVal != actualVal) {
-                    // Mismatch
-                    String fromState = expected.getStateKeyAt(row);
-                    String toState = expected.getStateKeyAt(col);
-                    String message = "[" + fromState + " => " + toState + "] expected: " + expectedVal + " actual: " + actualVal;
-                    results.add(message);
+                Map<String, String> keyValue = new HashMap<>();
+                String fromState = expected.getStateKeyAt(row);
+                String toState = expected.getStateKeyAt(col);
+                keyValue.put(AO_STATE_FROM, fromState);
+                keyValue.put(AO_STATE_TO, toState);
+                keyValue.put(EXPECTED, convertValToString(expectedVal));
+                keyValue.put(ACTUAL, convertValToString(actualVal));
+                keyValue.put(SOC_STATE, actual.getSocStateKey());
+                keyValue.put(PASS_FAIL, expectedVal == actualVal ? PASS_VAL : FAIL_VAL);
+                if (expectedVal == -1) {
+                    keyValue.put(PASS_FAIL, INVALID_VAL);
                 }
+                results.add(keyValue);
             }
         }
         return results;

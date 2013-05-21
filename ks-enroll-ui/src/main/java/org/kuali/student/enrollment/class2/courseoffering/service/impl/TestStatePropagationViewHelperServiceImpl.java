@@ -163,20 +163,31 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                     testAoStateTransitionsInSocState(aoId, socInfo.getId(), socState);
             PseudoUnitTestStateTransitionGrid expected =
                     AoStateTransitionRefSolution.getReferenceGridForState(socState);
-            _compareGrids(expected, result, socState);
+            _compareGrids(expected, result);
             _resetSocOnly(); // Make sure to reset the SOC
         }
         return null;
     }
 
-    private void _compareGrids(PseudoUnitTestStateTransitionGrid expected, PseudoUnitTestStateTransitionGrid actual, String socState) {
-        List<String> results = PseudoUnitTestStateTransitionGrid.compareGrid(expected, actual);
+    private void _compareGrids(PseudoUnitTestStateTransitionGrid expected, PseudoUnitTestStateTransitionGrid actual) {
+        List<Map<String, String>> results = PseudoUnitTestStateTransitionGrid.compareGrid(expected, actual);
         for (int i = 0; i < results.size(); i++) {
             // Put socState in front
-            results.set(i, "(" + socState + ") " + results.get(i));
-            System.err.println(results.get(i));
+            Map<String, String> resultMap = results.get(i);
+            String socState = resultMap.get(PseudoUnitTestStateTransitionGrid.SOC_STATE);
+            String aoFromState = resultMap.get(PseudoUnitTestStateTransitionGrid.AO_STATE_FROM);
+            String aoToState = resultMap.get(PseudoUnitTestStateTransitionGrid.AO_STATE_TO);
+            String expectedVal = resultMap.get(PseudoUnitTestStateTransitionGrid.EXPECTED);
+            String actualVal = resultMap.get(PseudoUnitTestStateTransitionGrid.ACTUAL);
+            String passFail = resultMap.get(PseudoUnitTestStateTransitionGrid.PASS_FAIL);
+            String color = passFail.equals(PseudoUnitTestStateTransitionGrid.PASS_VAL) ? "((( GREEN )))" :
+                    (passFail.equals(PseudoUnitTestStateTransitionGrid.FAIL_VAL) ?
+                            "*** red ***" : "... White ...");
+            String message = "(" + socState + ") " + "[" + aoFromState + " => " + aoToState + "]" +
+                    " expected/actual = " + expectedVal + "/" + actualVal + " " + color;
+            System.err.println(message);
         }
-        System.err.println("----------------------");
+        System.err.println("---------------------- end");
     }
 
     public void testSocStateHappy() throws Exception {
@@ -216,6 +227,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         }
         PseudoUnitTestStateTransitionGrid expected = AoStateTransitionRefSolution.getReferenceGridForState(socState);
         PseudoUnitTestStateTransitionGrid actualGrid = new PseudoUnitTestStateTransitionGrid(AoStateTransitionRefSolution.AO_STATES_ORDERED);
+        actualGrid.setSocStateKey(socState);
         for (int i = 0; i < actualGrid.size(); i++) {
             String fromState = actualGrid.getStateKeyAt(i);
             for (int j = 0; j < actualGrid.size(); j++) {

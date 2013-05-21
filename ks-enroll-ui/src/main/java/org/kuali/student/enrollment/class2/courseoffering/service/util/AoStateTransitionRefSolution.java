@@ -76,6 +76,7 @@ public class AoStateTransitionRefSolution {
                 grid.setTransition(from, to, stateTransition[from][to]);
             }
         }
+        grid.setSocStateKey(socState);
         return grid;
     }
 }
