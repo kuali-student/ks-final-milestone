@@ -21,7 +21,6 @@
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-web-framework</artifactId>
-            <version>${kuali.rice.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
