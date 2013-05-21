@@ -42,7 +42,7 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     }
     @Override
     public String getViewTypeName() {
-        return "kuali.krms.agenda.type.course.offering";
+        return "kuali.krms.agenda.type.course";
     }
 
     @Override
