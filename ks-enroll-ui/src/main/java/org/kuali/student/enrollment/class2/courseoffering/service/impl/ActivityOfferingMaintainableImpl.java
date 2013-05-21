@@ -293,6 +293,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
         } catch (AuthorizationException ae){
+            // Work around, should be fixed with KULRICE-8049
             throw new AuthorizationException(ae.getUserId(), "open", null,
                     "User '" + ae.getUserId() + "' is not authorized to open view", null);
         }catch (Exception e) {
@@ -481,6 +482,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             Person user = GlobalVariables.getUserSession().getPerson();
 
             boolean canOpenView = this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,user);
+
+            // Work around, should be fixed with KULRICE-8049
             if (!canOpenView) {
                 throw new AuthorizationException(user.getPrincipalName(), "open", null,
                         "User '" + user.getPrincipalName() + "' is not authorized to open view", null);

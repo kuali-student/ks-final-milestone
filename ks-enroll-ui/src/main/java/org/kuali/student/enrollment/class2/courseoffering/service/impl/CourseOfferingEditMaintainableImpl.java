@@ -530,6 +530,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 Person user = GlobalVariables.getUserSession().getPerson();
 
                 boolean canOpenView = this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,user);
+
+                // Work around, should be fixed with KULRICE-8049
                 if (!canOpenView) {
                     throw new AuthorizationException(user.getPrincipalName(), "open", null,
                             "User '" + user.getPrincipalName() + "' is not authorized to open view", null);
