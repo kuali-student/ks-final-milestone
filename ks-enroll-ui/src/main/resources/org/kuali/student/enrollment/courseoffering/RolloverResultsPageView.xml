@@ -67,7 +67,7 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt; Released to Departments" p:render="@{socReleasedToDepts}" p:colSpan="2"/>
+                                        <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt; &#160; &#160;Released to Departments" p:render="@{socReleasedToDepts}" p:colSpan="2" p:style="padding-left:140px;"/>
                                         <bean parent="Uif-DataField" p:label="Date Initiated"
                                               p:fieldLabel.renderColon="false"
                                               p:propertyName="dateInitiated"/>
