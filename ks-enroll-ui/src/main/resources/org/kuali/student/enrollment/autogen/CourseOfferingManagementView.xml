@@ -25,14 +25,6 @@
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm">
 
-        <property name="stickyBreadcrumbs" value="true"/>
-        <property name="stickyApplicationHeader" value="true"/>
-        <property name="applicationHeader">
-            <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-enroll/ftl/ksApplicationHeader.ftl" p:render="true"
-                  p:templateName="ks_applicationHeader"/>
-        </property>
-
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <bean parent="Uif-BreadcrumbItem">
@@ -50,9 +42,9 @@
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
 
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:style="padding-left:15px;"/>
-        </property>
+        <!--<property name="header">-->
+            <!--<bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:style="padding-left:15px;"/>-->
+        <!--</property>-->
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
