@@ -61,6 +61,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -79,6 +80,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -1524,39 +1526,32 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         targetAO.setActivityCode(null);
         targetAO = createActivityOffering(sourceAO.getFormatOfferingId(), sourceAO.getActivityId(), sourceAO.getTypeKey(), targetAO, context);
 
-        // copy ADL from source AO to RDL in target AO
-        /*    TODOSSR
-        if(sourceAO.getScheduleId() != null && !sourceAO.getScheduleId().isEmpty()) {
-            // _RCO_rolloverScheduleToScheduleRequest(sourceAo, targetAo, context);
-            ScheduleInfo sourceScheduleInfo = this.getSchedulingService().getSchedule(sourceAO.getScheduleId(), context);
-
-            ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleToRequest(sourceScheduleInfo, getRoomService(), context);
-            targetScheduleRequest.setRefObjectId(targetAO.getId());
-            targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
-                nameBuilder.append(targetAO.getCourseOfferingCode()).append(" - ").append(targetAO.getActivityCode());
-            targetScheduleRequest.setName(nameBuilder.toString());
-            targetScheduleRequest.setDescr(sourceScheduleInfo.getDescr());
-
-            this.getSchedulingService().createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
-        } else {
-            // copy the source RDL to target RDL
-            List<ScheduleRequestInfo> scheduleRequestInfoList =
-                    getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAO.getId(), context);
-            if (scheduleRequestInfoList != null && !scheduleRequestInfoList.isEmpty()) {
-                for (ScheduleRequestInfo sourceRequestScheduleInfo : scheduleRequestInfoList) {
-                    ScheduleRequestInfo targetScheduleRequest = SchedulingServiceUtil.scheduleRequestToScheduleRequest(sourceRequestScheduleInfo, context);
-                    targetScheduleRequest.setRefObjectId(targetAO.getId());
-                    targetScheduleRequest.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                    StringBuilder nameBuilder = new StringBuilder("Schedule reqeust for ");
-                    nameBuilder.append(targetAO.getCourseOfferingCode()).append(" - ").append(targetAO.getActivityCode());
-                    targetScheduleRequest.setName(nameBuilder.toString());
-                    targetScheduleRequest.setDescr(sourceRequestScheduleInfo.getDescr());
-
-                    this.getSchedulingService().createScheduleRequest(targetScheduleRequest.getTypeKey(), targetScheduleRequest, context);
-                }
+        /**
+         * Create ScheduleRequests on the target AO. Use ScheduleComponents (ADL) to create the RDLs if any exist.
+         * Otherwise, copy the requests from the source AO.
+         */
+        List<ScheduleRequestInfo> scheduleRequestInfos = new ArrayList<ScheduleRequestInfo>();
+        if (sourceAO.getScheduleIds() != null && ! sourceAO.getScheduleIds().isEmpty()) {
+            List<ScheduleInfo> sourceScheduleInfos = getSchedulingService().getSchedulesByIds(sourceAO.getScheduleIds(), context);
+            for (ScheduleInfo schedule : sourceScheduleInfos) {
+                scheduleRequestInfos.add(SchedulingServiceUtil.scheduleToRequest(schedule, getRoomService(), context));
             }
-        }*/
+        } else {
+            List<ScheduleRequestInfo> requests = getSchedulingService()
+                .getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAO.getId(), context);
+            for (ScheduleRequestInfo sr : requests) {
+                scheduleRequestInfos.add(SchedulingServiceUtil.scheduleRequestToScheduleRequest(sr, context));
+            }
+        }
+
+        //  Create RDLs if any were identified.
+        if ( ! scheduleRequestInfos.isEmpty()) {
+            for (ScheduleRequestInfo sr : scheduleRequestInfos) {
+                sr.setName(String.format("Schedule request for %s-%s", targetAO.getCourseOfferingCode(), targetAO.getActivityCode()));
+                sr.setDescr(RichTextHelper.buildRichTextInfo(sr.getName(), sr.getName()));
+                getSchedulingService().createScheduleRequest(sr.getTypeKey(), sr, context);
+            }
+        }
 
         try {
             List<SeatPoolDefinitionInfo> sourceSPList = getSeatPoolDefinitionsForActivityOffering(activityOfferingId, context);
@@ -1698,17 +1693,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new InvalidParameterException("Given lui id ( " + activityOfferingId + " ) is not an Activity Offering");
         }
 
+        // SSRTODO ... Clean up ScheduleRequestSets
+        _dAOC_cleanUpScheduleRequestSets(activityOfferingId, context);
         // Remove from colocated sets
-        try {
+        //try {
             // Wow, this throws a lot of exceptions
-            _dAOC_removeAOIdFromColocatedSet(activityOfferingId, context);
-        } catch (VersionMismatchException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ReadOnlyException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (DataValidationErrorException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+            //_dAOC_removeAOIdFromColocatedSet(activityOfferingId, context);
+       // } catch (VersionMismatchException e) {
+       //     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+       // } catch (ReadOnlyException e) {
+       //     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+       // } catch (DataValidationErrorException e) {
+       //     e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+       // }
 
         try {
             // delete offering instructor lprs for the Activity Offering
@@ -1718,6 +1715,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (DependentObjectsExistException e) {
             throw new OperationFailedException("Error deleting dependent objects", e);
         }
+    }
+
+    private void _dAOC_cleanUpScheduleRequestSets(String activityOfferingId, ContextInfo context) {
+        //  SSRTODO
     }
 
     private void _dAOC_removeActivityOfferingIdFromAoCluster(String activityOfferingId,
@@ -1798,12 +1799,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return deleteActivityOffering(activityOfferingId, context);
 
     }
-
+/* TODOSSR
     private void _dAOC_removeAOIdFromColocatedSet(String activityOfferingId, ContextInfo context)
             throws MissingParameterException, InvalidParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException, ReadOnlyException, DataValidationErrorException,
             DoesNotExistException {
-        /* TODOSSR
+
         List<ColocatedOfferingSetInfo> coloSets = getColocatedOfferingSetsByActivityOffering(activityOfferingId, context);
 
         for (ColocatedOfferingSetInfo colo: coloSets) {
@@ -1823,9 +1824,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             } else {
                 updateColocatedOfferingSet(colo.getId(),colo,context);
             }
-        }*/
+        }
     }
-
+*/
     private void releaseScheduleResources(String scheduleInfoId, ContextInfo contextInfo) throws OperationFailedException,
             InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException {
         ScheduleInfo scheduleInfo = schedulingService.getSchedule(scheduleInfoId, contextInfo);
