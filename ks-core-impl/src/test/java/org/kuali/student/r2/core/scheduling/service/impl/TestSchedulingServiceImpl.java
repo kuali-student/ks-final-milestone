@@ -428,6 +428,8 @@ public class TestSchedulingServiceImpl {
 
     @Test
     public void testCreateScheduleRequest () throws Exception {
+        String scheduleRequestSetId = "srsId";
+        String scheduleId = "schId";
         String scheduleRequestInfoId = "createScheduleRequest-infoId";
         String scheduleRequestComponentInfoId = "scheduleRequest-ComponentInfoId";
         String scheduleRequestInfoName = "testCreateScheduleRequest";
@@ -453,9 +455,9 @@ public class TestSchedulingServiceImpl {
 
         // returnInfo should not be null
         assertNotNull(returnInfo);
-        //TODOSSR assertTrue(returnInfo.getRefObjectId().equals(scheduleRequestInfoRefObjectId));
+        assertTrue(returnInfo.getScheduleId().equals(scheduleId));
+        assertTrue(returnInfo.getScheduleRequestSetId().equals(scheduleRequestSetId));
         assertTrue(returnInfo.getId().equals(scheduleRequestInfoId));
-// TODOSSR       assertTrue(returnInfo.getRefObjectTypeKey().equals(SchedulingServiceDataLoader.REF_OBJECT_TYPE_KEY_ACTIVITY_OFFERING));
         assertTrue(returnInfo.getName().equals(scheduleRequestInfoName));
 
         List<ScheduleRequestComponentInfo> componentInfoList = returnInfo.getScheduleRequestComponents();

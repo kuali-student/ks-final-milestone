@@ -22,6 +22,7 @@ package org.kuali.student.r2.core.scheduling.service.impl;
  * @author Mezba Mahtab
  */
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
@@ -37,6 +38,7 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestSet;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.service.transformer.ScheduleDisplayTransformer;
 import org.kuali.student.r2.core.scheduling.util.CriteriaMatcherInMemory;
@@ -466,16 +468,14 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             throws InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
-            ,PermissionDeniedException
-    {
+            ,PermissionDeniedException {
         List<String> list = new ArrayList<String> ();
-        // go through the list of schedule requests and add those to list that
-        // have the specified refObjectType and refObjectId
-        for (ScheduleRequestInfo info: scheduleRequestMap.values()) {
-// TODOSSR           if (refObjectType.equals(info.getRefObjectTypeKey())
-//                && refObjectId.equals(info.getRefObjectId())) {
-//                list.add(info.getId());
-//            }
+
+        //  Find the ScheduleRequests associated with the given refObjectId via the ScheduleRequestSet
+        for (ScheduleRequestSet srs : scheduleRequestSetMap.values()) {
+            if (srs.getRefObjectTypeKey().equals(refObjectType) && srs.getRefObjectIds().contains(refObjectId)) {
+                list.addAll(scheduleRequestMap.keySet());
+            }
         }
         return list;
     }
@@ -912,16 +912,24 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        List<String> list = new ArrayList<String> ();
-        // go through the list of schedule transactions and add those to list that
-        // have the specified refObjectType and refObjectId
-        for (ScheduleTransactionInfo info: scheduleTransactionMap.values()) {
-// TODOSSR           if (refObjectType.equals(info.getRefObjectTypeKey())
-//                    && refObjectId.equals(info.getRefObjectId())) {
-//                list.add(info.getId());
-//            }
+        List<String> scheduleIds = new ArrayList<String> ();
+
+        //  First find the schedule Ids associated with the given refObjectId via the ScheduleRequestSet
+        for (ScheduleRequestSet srs : scheduleRequestSetMap.values()) {
+            if (srs.getRefObjectTypeKey().equals(refObjectType) && srs.getRefObjectIds().contains(refObjectId)) {
+                for (ScheduleRequestInfo sr: scheduleRequestMap.values()) {
+                    scheduleIds.add(sr.getScheduleId());
+                }
+            }
         }
-        return list;
+        //  Now get the transactions for the list of scheduleIds.
+        List<String> transactionIds = new ArrayList<String> ();
+        for (ScheduleTransactionInfo st: scheduleTransactionMap.values()) {
+            if (scheduleIds.contains(st.getScheduleId())) {
+                transactionIds.add(st.getId());
+            }
+        }
+        return transactionIds;
     }
 
     @Override
@@ -1236,8 +1244,6 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
                 list.add(new ScheduleRequestSetInfo(info));
             }
         }
-
-
         return list;
     }
 
@@ -1269,26 +1275,6 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             timeSlotInfos.add(getTimeSlot(timeSlotId, contextInfo));
         }
         scheduleComponentDisplayInfo.setTimeSlots(timeSlotInfos);
-    }
-
-    /*
-    private void copyScheduleRequestIntoScheduleRequestInfo (ScheduleRequestInfo scheduleRequestInfo, ScheduleRequestDisplayInfo scheduleRequestDisplayInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        scheduleRequestDisplayInfo.setId(scheduleRequestInfo.getId());
-        scheduleRequestDisplayInfo.setDescr(scheduleRequestInfo.getDescr());
-        scheduleRequestDisplayInfo.setAttributes(scheduleRequestInfo.getAttributes());
-        scheduleRequestDisplayInfo.setMeta(scheduleRequestInfo.getMeta());
-        scheduleRequestDisplayInfo.setName(scheduleRequestInfo.getName());
-        scheduleRequestDisplayInfo.setStateKey(scheduleRequestInfo.getStateKey());
-        scheduleRequestDisplayInfo.setTypeKey(scheduleRequestInfo.getTypeKey());
-// TODOSSR       scheduleRequestDisplayInfo.setRefObjectId(scheduleRequestInfo.getRefObjectId());
-//        scheduleRequestDisplayInfo.setRefObjectTypeKey(scheduleRequestInfo.getRefObjectTypeKey());
-        List<ScheduleRequestComponentDisplayInfo> scheduleRequestComponentDisplayInfos = new ArrayList<ScheduleRequestComponentDisplayInfo>();
-        for (ScheduleRequestComponentInfo scheduleRequestComponentInfo: scheduleRequestInfo.getScheduleRequestComponents()) {
-            ScheduleRequestComponentDisplayInfo scheduleRequestComponentDisplayInfo = new ScheduleRequestComponentDisplayInfo();
-            copyScheduleRequestComponentInfoIntoScheduleRequestComponentDisplayInfo(scheduleRequestComponentInfo, scheduleRequestComponentDisplayInfo, contextInfo);
-            scheduleRequestComponentDisplayInfos.add(scheduleRequestComponentDisplayInfo);
-        }
-        scheduleRequestDisplayInfo.setScheduleRequestComponentDisplays(scheduleRequestComponentDisplayInfos);
     }
 
     private void copyScheduleRequestComponentInfoIntoScheduleRequestComponentDisplayInfo(ScheduleRequestComponentInfo scheduleRequestComponentInfo, ScheduleRequestComponentDisplayInfo scheduleRequestComponentDisplayInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -1326,7 +1312,6 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         }
         scheduleRequestComponentDisplayInfo.setOrgs(orgs);
     }
-    */
 
     protected StatusInfo newStatus() {
         StatusInfo status = new StatusInfo();
