@@ -148,10 +148,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         TermInfo termInfo = acalService.getTerm(targetTermId, context);
         targetAo.setTermCode(termInfo.getCode());
         targetAo.setMeta(null);
-        // Make sure to copy the activity code
         targetAo.setActivityCode(sourceAo.getActivityCode());
-        //Target AO should have no actual schedule
-// TODOSSR       targetAo.setScheduleId(null);
+        targetAo.setScheduleIds( Collections.EMPTY_LIST );  // target should have no ADLs
 
         if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
             targetAo.getInstructors().clear();
@@ -176,6 +174,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo();
         requestSetToSchedule.setTypeKey( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET );
         requestSetToSchedule.setRefObjectTypeKey(sourceAo.getTypeKey());
+        List<String> targetAoIds = new ArrayList<>();
+        targetAoIds.add( targetAo.getId() );
+        requestSetToSchedule.setRefObjectIds( targetAoIds );
         requestSetToSchedule = schedulingService.createScheduleRequestSet( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, sourceAo.getTypeKey(), requestSetToSchedule, context );
 
         // create the SRs/SRCs
