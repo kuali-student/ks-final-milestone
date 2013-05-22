@@ -752,12 +752,25 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             throw new DoesNotExistException(socId);
         }
         String thisStateKey = entity.getSocState();
-        _todoHandleInvalidSocState(nextStateKey); // May want to get rid of this
 
-        if (!StringUtils.isEmpty(nextStateKey) && !thisStateKey.equals(nextStateKey)) {
+        if(!StringUtils.isEmpty(nextStateKey) && !thisStateKey.equals(nextStateKey)){
+            //propagation
+            Map<String, StatusInfo> spStatusMap = stateTransitionsHelper.processStatePropagations(socId, thisStateKey + ":" + nextStateKey, contextInfo);
+            for (StatusInfo statusInfo : spStatusMap.values()) {
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException(statusInfo.getMessage());
+                }
+            }
+
             StatusInfo scStatus = stateTransitionsHelper.processStateConstraints(socId, nextStateKey, contextInfo);
             if(scStatus.getIsSuccess()) {
-                entity.setSocState(nextStateKey);
+                // determine if the state key given is a SOC lifecycle state or a scheduling state
+                boolean isSchedulingState = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_SCHEDULING_STATES).contains(nextStateKey);
+
+                if(!isSchedulingState) {
+                    entity.setSocState(nextStateKey);
+                }
+
                 // Log the state change
                 logStateChange(entity, nextStateKey, contextInfo);
                 LOG.warn(String.format("Updated SOC [%s] state to [%s].", socId, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY));
@@ -765,13 +778,6 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
                 entity.setEntityUpdated(contextInfo);
                 socDao.merge(entity);
                 //socDao.getEm().flush(); // need to flush to get the version ind to update
-                //propagation
-                Map<String, StatusInfo> spStatusMap = stateTransitionsHelper.processStatePropagations(socId, thisStateKey + ":" + nextStateKey, contextInfo);
-                for (StatusInfo statusInfo : spStatusMap.values()) {
-                    if (!statusInfo.getIsSuccess()){
-                        throw new OperationFailedException(statusInfo.getMessage());
-                    }
-                }
             }
             else{
                 throw new OperationFailedException(scStatus.getMessage());
@@ -782,7 +788,6 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         status.setSuccess(Boolean.TRUE);
         return status;
     }
-
 
     private void logStateChange(SocEntity entity, String stateKey, ContextInfo contextInfo) {
         // add the state change to the log

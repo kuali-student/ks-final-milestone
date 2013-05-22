@@ -23,7 +23,6 @@ import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagat
 import org.kuali.student.enrollment.class2.courseoffering.service.TestServiceCallViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -81,7 +80,7 @@ public class TestStatePropagationController extends UifControllerBase {
         return getUIFModelAndView(theForm);
     }
 
-    @Transactional(propagation = Propagation.NEVER)
+    @Transactional
     @RequestMapping(params = "methodToCall=testStatePropagation")
     public ModelAndView testStatePropagation(@ModelAttribute("KualiForm") TestStatePropagationForm form, @SuppressWarnings("unused") BindingResult result,
                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
