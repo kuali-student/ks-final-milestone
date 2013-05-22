@@ -58,6 +58,7 @@ public class CourseOfferingRolloverManagementForm extends KSUifForm {
     private List<SocRolloverResultItemWrapper> socRolloverResultItems;
     private boolean isConfigurationOptionsDisabled = true;
     private boolean acceptIndicator = false;
+    private boolean renderExceptionsSection = false; //whether or not to render the exceptions section in rollover details page
 
     // release to depts fields
     private boolean releaseToDeptsDisabled = false;
@@ -365,6 +366,14 @@ public class CourseOfferingRolloverManagementForm extends KSUifForm {
 
     public void setSourceTermInfoDisplay(String sourceTermInfoDisplay) {
         this.sourceTermInfoDisplay = sourceTermInfoDisplay;
+    }
+
+    public boolean isRenderExceptionsSection() {
+        return renderExceptionsSection;
+    }
+
+    public void setRenderExceptionsSection(boolean renderExceptionsSection) {
+        this.renderExceptionsSection = renderExceptionsSection;
     }
 
     public void resetForm(){
