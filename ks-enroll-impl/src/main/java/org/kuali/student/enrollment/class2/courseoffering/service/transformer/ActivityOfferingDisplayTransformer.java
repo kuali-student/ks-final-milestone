@@ -106,23 +106,22 @@ public class ActivityOfferingDisplayTransformer {
         if(destScheduleDisplayInfo == null) {
             destScheduleDisplayInfo = new  ScheduleDisplayInfo();
         }
-        List<ScheduleComponentDisplayInfo> tempScheduleDisplays = scheduleComponents2scheduleDisplayComponents(aoInfo.getScheduleIds(), schedulingService, contextInfo);
-        destScheduleDisplayInfo.setScheduleComponentDisplays(tempScheduleDisplays);
-
-        displayInfo.setScheduleDisplay(destScheduleDisplayInfo);
-
-        return displayInfo;
-    }
-
-    private static List<ScheduleComponentDisplayInfo> scheduleComponents2scheduleDisplayComponents(List<String> aoScheduleIdList,
-                                                                                            SchedulingService schedulingService,
-                                                                                            ContextInfo contextInfo)
-            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         List<ScheduleComponentDisplayInfo> tempScheduleDisplays = new ArrayList<ScheduleComponentDisplayInfo>();
-        if (!aoScheduleIdList.isEmpty()) {
-            for (String scheduleId : aoScheduleIdList) {
-                ScheduleDisplayInfo scheduleDisplayInfo = schedulingService.getScheduleDisplay(scheduleId, contextInfo);
-                // add all the components into one ScheduleComponentDisplayInfo
+        if (aoInfo.getScheduleIds() != null && !aoInfo.getScheduleIds().isEmpty()) {
+            List<ScheduleDisplayInfo> scheduleDisplayInfoList = schedulingService.getScheduleDisplaysByIds(aoInfo.getScheduleIds(), contextInfo);
+            if(scheduleDisplayInfoList != null && !scheduleDisplayInfoList.isEmpty())  {
+                ScheduleDisplayInfo sdInfo = scheduleDisplayInfoList.get(0);
+                destScheduleDisplayInfo.setAtp(sdInfo.getAtp());
+                destScheduleDisplayInfo.setAttributes(sdInfo.getAttributes());
+                destScheduleDisplayInfo.setDescr(sdInfo.getDescr());
+                destScheduleDisplayInfo.setName(sdInfo.getName());
+                destScheduleDisplayInfo.setStateKey(sdInfo.getStateKey());
+                destScheduleDisplayInfo.setTypeKey(sdInfo.getTypeKey());
+                destScheduleDisplayInfo.setMeta(sdInfo.getMeta());
+                destScheduleDisplayInfo.setId(sdInfo.getId());
+            }
+            // add all the components into one ScheduleComponentDisplayInfo
+            for (ScheduleDisplayInfo scheduleDisplayInfo : scheduleDisplayInfoList) {
                 List<ScheduleComponentDisplayInfo> componentDisplays = (List<ScheduleComponentDisplayInfo>) scheduleDisplayInfo.getScheduleComponentDisplays();
                 if (!componentDisplays.isEmpty()) {
                     for (ScheduleComponentDisplayInfo componentDisplay : componentDisplays) {
@@ -133,7 +132,12 @@ public class ActivityOfferingDisplayTransformer {
                 }
             }
         }
-        return tempScheduleDisplays;
+
+        destScheduleDisplayInfo.setScheduleComponentDisplays(tempScheduleDisplays);
+
+        displayInfo.setScheduleDisplay(destScheduleDisplayInfo);
+
+        return displayInfo;
     }
 
     /**
