@@ -411,42 +411,21 @@ public class ActivityOfferingTransformer {
     /*Bulk load a list a ScheduleRequestInfo objects and return the results set in a Map of ActivityOffering ids to a list of ScheduleRequestInfo objects.*/
     private static Map<String, List<ScheduleRequestInfo>> buildLuiToScheduleRequestsMap(List<String> luiIds, SchedulingService schedulingService, ContextInfo context)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        Set<String> luiIdSet = new HashSet<String>(luiIds);
-        List<ScheduleRequestInfo> requests = new ArrayList<ScheduleRequestInfo>();
-        for(String luiId : luiIds)  {
-            List<ScheduleRequestInfo> aoRequests = schedulingService.getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, luiId, context);
-            if(!aoRequests.isEmpty()) {
-                for(ScheduleRequestInfo requestInfo : aoRequests) {
-                    // remove duplicates
-                    if(!requests.contains(requestInfo))  {
-                        requests.add(requestInfo);
-                    }
-                }
-            }
-        }
-
-        List<String> requestSetIds = new ArrayList<String>();
-        for(ScheduleRequestInfo request : requests) {
-            requestSetIds.add(request.getScheduleRequestSetId());
-        }
-
-        List<ScheduleRequestSetInfo> requestSets = schedulingService.getScheduleRequestSetsByIds(requestSetIds, context);
-        Map<String, ScheduleRequestSetInfo> requestSetMap = new HashMap<String, ScheduleRequestSetInfo>();
-        for(ScheduleRequestSetInfo requestSet : requestSets) {
-            requestSetMap.put(requestSet.getId(), requestSet);
-        }
-
         Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = new HashMap<String, List<ScheduleRequestInfo>>();
-        for (ScheduleRequestInfo scheduleRequestInfo : requests) {
-            ScheduleRequestSetInfo requestSet = requestSetMap.get(scheduleRequestInfo.getScheduleRequestSetId());
-            for(String refObject : requestSet.getRefObjectIds()) {
-                if(luiIdSet.contains(refObject)) {
-                    List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(refObject);
-                    if (scheduleRequestInfoList == null) {
-                        scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
-                        luiToScheduleRequestsMap.put(refObject, scheduleRequestInfoList);
+
+        if(luiIds != null && !luiIds.isEmpty()){
+            for(String luiId: luiIds){
+                List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, luiId, context);
+                for(ScheduleRequestSetInfo srs : scheduleRequestSets){
+                    List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByScheduleRequestSet(srs.getId(), context);
+                    if(scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()){
+                        List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(luiId);
+                        if (scheduleRequestInfoList == null) {
+                            scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
+                            luiToScheduleRequestsMap.put(luiId, scheduleRequestInfoList);
+                        }
+                        scheduleRequestInfoList.addAll(scheduleRequestInfos);
                     }
-                    scheduleRequestInfoList.add(scheduleRequestInfo);
                 }
             }
         }
