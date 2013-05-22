@@ -586,7 +586,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1345','en','KS-KRMS-NL-USAGE-1003','10069','Must not be in a class standing of <class standing>',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1347','en','KS-KRMS-NL-USAGE-1003','10058','May not repeat any of  <courses>',0)
+  VALUES ('KS-KRMS-NL-TMPL-1347','en','KS-KRMS-NL-USAGE-1003','10058','#if($courseCluSet.getCluList().size() == 1)May not repeat #{else}May not repeat any of #end',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1348','en','KS-KRMS-NL-USAGE-1003','10044','Course has more than <n> minutes overlap with already enrolled course',0)
@@ -610,7 +610,7 @@ INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1354','en','KS-KRMS-NL-USAGE-1003','10043','If student is <attribute> AND upon drop total credit hours would be less than <min credit hours>, prevent drop ',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
-  VALUES ('KS-KRMS-NL-TMPL-1356','en','KS-KRMS-NL-USAGE-1003','10072','May not repeat <course> if repeated <n> times ',0)
+  VALUES ('KS-KRMS-NL-TMPL-1356','en','KS-KRMS-NL-USAGE-1003','10072','May not repeat $courseClu.getOfficialIdentifier().getCode() if repeated $intValue times ',0)
 /
 INSERT INTO KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
   VALUES ('KS-KRMS-NL-TMPL-1357','en','KS-KRMS-NL-USAGE-1003','10061','Must have successfully completed <course> prior to <term>',0)
@@ -688,7 +688,7 @@ Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1384','en','KS-KRMS-NL-USAGE-1000','10069','Must not be in a class standing of <class standing>',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
- VALUES ('KS-KRMS-NL-TMPL-1386','en','KS-KRMS-NL-USAGE-1000','10058','May not repeat any of  <courses>',0)
+ VALUES ('KS-KRMS-NL-TMPL-1386','en','KS-KRMS-NL-USAGE-1000','10058','#if($courseCluSet.getCluList().size() == 1)May not repeat $courseCluSet.getCluSetAsCode()#{else}May not repeat any of $courseCluSet.getCluSetAsCode()#end',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1387','en','KS-KRMS-NL-USAGE-1000','10044','Course has more than <n> minutes overlap with already enrolled course',0)
@@ -712,7 +712,7 @@ Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1393','en','KS-KRMS-NL-USAGE-1000','10043','If student is <attribute> AND upon drop total credit hours would be less than <min credit hours>, prevent drop ',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
- VALUES ('KS-KRMS-NL-TMPL-1395','en','KS-KRMS-NL-USAGE-1000','10072','May not repeat <course> if repeated <n> times ',0)
+ VALUES ('KS-KRMS-NL-TMPL-1395','en','KS-KRMS-NL-USAGE-1000','10072','May not repeat $courseClu.getOfficialIdentifier().getCode() if repeated $intValue times ',0)
 /
 Insert into KRMS_NL_TMPL_T (NL_TMPL_ID,LANG_CD,NL_USAGE_ID,TYP_ID,TMPL,VER_NBR)
  VALUES ('KS-KRMS-NL-TMPL-1396','en','KS-KRMS-NL-USAGE-1000','10061','Must have successfully completed <course> prior to <term>',0)
