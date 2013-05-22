@@ -76,6 +76,8 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -1691,8 +1693,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     public ActivityOfferingDisplayInfo getActivityOfferingDisplay(
             String activityOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
         ActivityOfferingInfo ao = this.getActivityOffering(activityOfferingId, contextInfo);
         ActivityOfferingDisplayInfo info = new ActivityOfferingDisplayInfo();
         info.setId(ao.getId());
@@ -1715,9 +1717,17 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
         info.setIsHonorsOffering(ao.getIsHonorsOffering());
         info.setMaximumEnrollment(ao.getMaximumEnrollment());
-// TODOSSR       if (ao.getScheduleId() != null) {
-//            info.setScheduleDisplay(schedulingService.getScheduleDisplay(ao.getScheduleId(), contextInfo));
-//        }
+        //  Get the schedule components from all schedules and put them in a single ScheduleDisplayInfo.
+        if (ao.getScheduleIds() != null && ! ao.getScheduleIds().isEmpty()) {
+            List<ScheduleDisplayInfo> scheduleDisplays = schedulingService.getScheduleDisplaysByIds(ao.getScheduleIds(), contextInfo);
+            List<ScheduleComponentDisplayInfo> scheduleComponentDisplayInfos = new ArrayList<>();
+            for (ScheduleDisplayInfo sdi : scheduleDisplays) {
+                scheduleComponentDisplayInfos.addAll((List<ScheduleComponentDisplayInfo>) sdi.getScheduleComponentDisplays());
+            }
+            ScheduleDisplayInfo sdiAggregate = new ScheduleDisplayInfo();
+            sdiAggregate.setScheduleComponentDisplays(scheduleComponentDisplayInfos);
+            info.setScheduleDisplay(sdiAggregate);
+        }
         info.setMeta(ao.getMeta());
         info.setAttributes(ao.getAttributes());
         return info;
