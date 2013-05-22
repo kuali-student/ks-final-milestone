@@ -273,43 +273,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     public boolean addScheduleRequestComponent(ActivityOfferingWrapper activityOfferingWrapper) {
         return getScheduleHelper().addScheduleRequestComponent(activityOfferingWrapper);
     }
-// SSRTODO: Coloset cleanup no longer necessary.
-//    private void detachAOFromColocatedSet(String activityOfferingId, ColocatedOfferingSetInfo  coloSet){
-//
-//        try{
-//            coloSet.getActivityOfferingIds().remove(activityOfferingId);
-//            //If there is only one AO in the colo set, delete the Coloset and point the colo RLDs to the last AO.
-//            if (coloSet.getActivityOfferingIds().size() == 1){
-//                //For performance reasons, just get the lui instead of AO.
-//                LuiInfo luiInfo = getLuiService().getLui(coloSet.getActivityOfferingIds().get(0), createContextInfo());
-//                List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,coloSet.getId(),createContextInfo());
-//                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-//                    scheduleRequestInfo.setRefObjectId(luiInfo.getId());
-//                    scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-//                    scheduleRequestInfo.setName("Schedule request for activity offering");
-//                    getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,createContextInfo());
-//                }
-//                getCourseOfferingService().deleteColocatedOfferingSet(coloSet.getId(), createContextInfo());
-//            } else {
-//                getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
-//            }
-//
-//        } catch (Exception e) {
-//            if(e instanceof AuthorizationException){
-//                throw new AuthorizationException(null,null,null,null);
-//            }
-//            throw new RuntimeException(e);
-//        }
-//    }
-    /*@Override
-    public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper) {
-        getScheduleHelper().prepareForScheduleRevise(wrapper);
-    }*/
-
-    /* @Override
-    public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper) {
-        getScheduleHelper().processRevisedSchedules(activityOfferingWrapper);
-    }*/
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
