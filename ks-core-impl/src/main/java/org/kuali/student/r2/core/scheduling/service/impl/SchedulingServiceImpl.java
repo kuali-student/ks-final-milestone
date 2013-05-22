@@ -930,6 +930,12 @@ public class SchedulingServiceImpl implements SchedulingService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteScheduleRequestSet(String scheduleRequestSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        List<ScheduleRequestEntity> scheduleRequests = scheduleRequestDao.getScheduleRequestsByScheduleRequestSet(scheduleRequestSetId);
+        for (ScheduleRequestEntity scheduleRequest : scheduleRequests) {
+            scheduleRequestDao.remove(scheduleRequest);
+        }
+
         ScheduleRequestSetEntity entity = scheduleRequestSetDao.find(scheduleRequestSetId);
         if (null == entity) {
             throw new DoesNotExistException(scheduleRequestSetId);
