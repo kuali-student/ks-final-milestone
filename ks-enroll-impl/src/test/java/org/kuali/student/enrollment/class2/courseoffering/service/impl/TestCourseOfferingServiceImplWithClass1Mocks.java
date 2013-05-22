@@ -36,6 +36,8 @@ import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -44,10 +46,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -70,6 +77,10 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
     protected AtpService atpService;
     @Resource(name = "LrcService")
     protected LRCService lrcService;
+    @Resource(name = "schedulingService")
+    protected SchedulingService schedulingService;
+    @Resource(name = "schedulingServiceDataLoader")
+    private SchedulingServiceDataLoader schedulingServiceDataLoader;
 
     @Before
     public void setUp() {
@@ -86,10 +97,15 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
             new MockLrcTestDataLoader(this.lrcService).loadData();
 
             createStateTestData();
+            createSchedulingServiceData();
         } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
 
+    }
+
+    protected void createSchedulingServiceData() throws Exception {
+        schedulingServiceDataLoader.loadData();
     }
 
     protected void createStateTestData() throws Exception {
@@ -404,6 +420,9 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         orig.setIsEvaluated(true);
         orig.setIsMaxEnrollmentEstimate(false);
         orig.setIsHonorsOffering(true);
+        orig.setScheduleIds(generateScheduleIdList("testScheduleId1", "testScheduleId2", "testScheduleId3"));
+
+
         ActivityOfferingInfo info = courseOfferingService.createActivityOffering(orig.getFormatOfferingId(), orig.getActivityId(), orig.getTypeKey(), orig, callContext);
         assertNotNull(info);
         assertNotNull(info.getId());
@@ -416,6 +435,7 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         assertEquals(orig.getIsEvaluated(), info.getIsEvaluated());
         assertEquals(orig.getIsMaxEnrollmentEstimate(), info.getIsMaxEnrollmentEstimate());
         assertEquals(orig.getIsHonorsOffering(), info.getIsHonorsOffering());
+        compareList(orig.getScheduleIds(), 3, info.getScheduleIds());
 
         orig = info;
         info = courseOfferingService.getActivityOffering(orig.getId(), callContext);
@@ -427,18 +447,37 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         assertEquals(orig.getActivityId(), info.getActivityId());
         assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
         assertEquals(orig.getMaximumEnrollment(), info.getMaximumEnrollment());
+        compareList(orig.getScheduleIds(), 3, info.getScheduleIds());
 
         orig = info;
         orig.setMinimumEnrollment(100);
+        orig.getScheduleIds().add("testScheduleId4");
+
         info = courseOfferingService.updateActivityOffering(orig.getId(), orig, callContext);
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());
         assertEquals(orig.getStateKey(), info.getStateKey());
-        assertEquals(orig.getTypeKey(), info.getTypeKey());;
+        assertEquals(orig.getTypeKey(), info.getTypeKey());
         assertEquals(orig.getFormatOfferingId(), info.getFormatOfferingId());
         assertEquals(orig.getActivityId(), info.getActivityId());
         assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
         assertEquals(orig.getMaximumEnrollment(), info.getMaximumEnrollment());
+        compareList(orig.getScheduleIds(), 4, info.getScheduleIds());
         return info;
+    }
+
+    private void compareList(List<String> expectedList, int expectedSize, List<String> actualList) {
+        assertEquals(expectedSize, actualList.size());
+        for(String expected : expectedList) {
+            assertTrue(actualList.contains(expected));
+        }
+    }
+
+    private List<String> generateScheduleIdList(String... ids) {
+        List<String> scheduleIds = new ArrayList<String>();
+        for(String id : ids) {
+            scheduleIds.add(id);
+        }
+        return scheduleIds;
     }
 }

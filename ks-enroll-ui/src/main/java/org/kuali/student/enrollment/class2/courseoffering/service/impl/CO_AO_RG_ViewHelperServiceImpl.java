@@ -6,7 +6,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CO_AO_RG_ViewH
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -57,6 +56,7 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         TypeInfo typeInfo = getTypeInfo(aoInfo.getTypeKey());
         aoWrapper.setTypeName(typeInfo.getName());
 
+        /*   TODOSSR
         ColocatedOfferingSetInfo colocatedOfferingSetInfo = null;
 
         if(aoInfo.getIsPartOfColocatedOfferingSet()) {
@@ -100,12 +100,12 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         //This section is to display either schedule request or actuals. If actuals available, display that instead of request
         if (StringUtils.isNotBlank(aoInfo.getScheduleId())){
             //FIXME: Use display object once we get the TBA with ScheduleComponentDisplay
-            /*ScheduleDisplayInfo displayInfo = getSchedulingService().getScheduleDisplay(aoInfo.getScheduleId(),contextInfo);
+            *//*ScheduleDisplayInfo displayInfo = getSchedulingService().getScheduleDisplay(aoInfo.getScheduleId(),contextInfo);
             if (!displayInfo.getScheduleComponentDisplays().isEmpty()){
                 ScheduleComponentDisplay componentDisplay = displayInfo.getScheduleComponentDisplays().get(0);
                 updateScheduleToAOWrapperForDisplay(aoWrapper,Boolean.FALSE,componentDisplay.getRoom(),componentDisplay.getTimeSlots().get(0));
 
-            }*/
+            }*//*
 
             ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(),contextInfo);
 
@@ -153,7 +153,7 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 }
             }
 
-        }
+        }*/
 
         return aoWrapper;
     }

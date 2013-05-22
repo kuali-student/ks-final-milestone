@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -11,7 +10,6 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -27,13 +25,16 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * The structure of this class should be re-evaluated after partial-colocation redesign is completed.  Compare design to
@@ -67,15 +68,12 @@ public class ActivityOfferingTransformer {
         Map<String, List<LprInfo>> luiToLprsMap = new HashMap<String, List<LprInfo>>();
         Map<String, OfferingInstructorInfo> lprToInstructorMap = new HashMap<String, OfferingInstructorInfo>();
         Map<String, ScheduleInfo> scheduleIdToScheduleMap = new HashMap<String, ScheduleInfo>();
-        Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = new HashMap<String, List<ScheduleRequestInfo>>();
 
         List<String> luiIds = new ArrayList<String>();
         List<String> scheduleIds = new ArrayList<String>();
         for (LuiInfo luiInfo : luiInfos) {
             luiIds.add(luiInfo.getId());
-            if (luiInfo.getScheduleId() != null) {
-                scheduleIds.add(luiInfo.getScheduleId());
-            }
+            scheduleIds.addAll(luiInfo.getScheduleIds());
         }
 
         //Bulk load a list a lprs by a list of lui ids. Cache the results set in a map.
@@ -104,21 +102,10 @@ public class ActivityOfferingTransformer {
             }
         }
 
-        //Bulk load a list a ScheduleRequestInfos by a list of luiIds. Cache the results set in a map.
-        List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByRefObjects(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, luiIds, context);
-        if (scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()) {
-            for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-                List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(scheduleRequestInfo.getRefObjectId());
-                if (scheduleRequestInfoList == null) {
-                    scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
-                    luiToScheduleRequestsMap.put(scheduleRequestInfo.getRefObjectId(), scheduleRequestInfoList);
-                }
-                scheduleRequestInfoList.add(scheduleRequestInfo);
-            }
-        }
+        Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = buildLuiToScheduleRequestsMap(luiIds, schedulingService, context);
 
         for (LuiInfo luiInfo : luiInfos) {
-            aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap, luiService, context));
+            aoInfos.add(lui2Activity(luiInfo, luiToInstructorsMap, scheduleIdToScheduleMap, luiToScheduleRequestsMap, schedulingService, context));
         }
 
 
@@ -140,7 +127,7 @@ public class ActivityOfferingTransformer {
                                                     Map<String, List<OfferingInstructorInfo>> luiToInstructorsMap,
                                                     Map<String, ScheduleInfo> scheduleIdToScheduleMap,
                                                     Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap,
-                                                    LuiService luiService,
+                                                    SchedulingService schedulingService,
                                                     ContextInfo contextInfo ) throws PermissionDeniedException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ao.setId(lui.getId());
@@ -153,9 +140,9 @@ public class ActivityOfferingTransformer {
         ao.setTermId(lui.getAtpId());
         ao.setMinimumEnrollment(lui.getMinimumEnrollment());
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
-        ao.setScheduleId(lui.getScheduleId());
+        ao.setScheduleIds(new ArrayList<String>(lui.getScheduleIds()));
         ao.setActivityOfferingURL(lui.getReferenceURL());
-        ao.setIsPartOfColocatedOfferingSet( isPartOfColocatedOfferingSet( lui, luiService, contextInfo ) );
+        ao.setIsColocated(isColocated(lui, schedulingService, contextInfo));
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -190,55 +177,11 @@ public class ActivityOfferingTransformer {
         // derive the scheduling state
 
         // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
-        if(ao.getScheduleId() != null) {
-
-            ScheduleInfo schedule = scheduleIdToScheduleMap.get(ao.getScheduleId());
-
-            boolean atLeastOneNonTBA = false;
-            for (ScheduleComponentInfo componentInfo : schedule.getScheduleComponents()) {
-                if (!componentInfo.getIsTBA()) {
-                    atLeastOneNonTBA = true;
-                    break;
-                }
-            }
-
-            // if all the schedule components are set as TBA, the AO scheduling state is Scheduled
-            // otherwise, it's Unscheduled
-            if (atLeastOneNonTBA) {
-                ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY);
-            } else {
-                ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY);
-            }
+        if(!ao.getScheduleIds().isEmpty()) {
+            ao.setSchedulingStateKey(getSchedulingState(ao, scheduleIdToScheduleMap));
         }
         else {
-            // get the schedule request for this AO
-            List<ScheduleRequestInfo> requests = luiToScheduleRequestsMap.get(ao.getId());
-
-            if(requests == null || requests.isEmpty()) {
-                // if there are no requests, the AO scheduling state is Unscheduled
-                ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY);
-            }
-            else {
-                // Should not be more than one request, grab the first one only
-                ScheduleRequestInfo request = requests.get(0);
-
-                // if all the schedule request components are set as TBA, the AO scheduling state is Exempt
-                // otherwise, it's Unscheduled
-                boolean atLeastOneNonTBA = false;
-                for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
-                    if(!reqComp.getIsTBA()) {
-                        atLeastOneNonTBA = true;
-                        break;
-                    }
-                }
-
-                if(atLeastOneNonTBA) {
-                    ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY);
-                }
-                else {
-                    ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY);
-                }
-            }
+            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, luiToScheduleRequestsMap.get(ao.getId())));
         }
 
         return ao;
@@ -255,9 +198,9 @@ public class ActivityOfferingTransformer {
         ao.setTermId(lui.getAtpId());
         ao.setMinimumEnrollment(lui.getMinimumEnrollment());
         ao.setMaximumEnrollment(lui.getMaximumEnrollment());
-        ao.setScheduleId(lui.getScheduleId());
+        ao.setScheduleIds(new ArrayList<String>(lui.getScheduleIds()));
         ao.setActivityOfferingURL(lui.getReferenceURL());
-        ao.setIsPartOfColocatedOfferingSet( isPartOfColocatedOfferingSet( lui, luiService, context ) );
+        ao.setIsColocated(isColocated(lui, schedulingService, context));
 
         if (lui.getOfficialIdentifier() != null){
             ao.setActivityCode(lui.getOfficialIdentifier().getCode());
@@ -292,55 +235,11 @@ public class ActivityOfferingTransformer {
         // derive the scheduling state
 
         // if there is an actual schedule tied to the AO, and at least one of the components is not marked TBA, then the AO scheduling state is Scheduled
-        if(StringUtils.isNotBlank(ao.getScheduleId())) {
-
-            ScheduleInfo schedule = schedulingService.getSchedule(ao.getScheduleId(), context);
-
-            boolean atLeastOneNonTBA = false;
-            for (ScheduleComponentInfo componentInfo : schedule.getScheduleComponents()) {
-                if (!componentInfo.getIsTBA()) {
-                    atLeastOneNonTBA = true;
-                    break;
-                }
-            }
-
-            // if all the schedule components are set as TBA, the AO scheduling state is Scheduled
-            // otherwise, it's Unscheduled
-            if (atLeastOneNonTBA) {
-                ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY);
-            } else {
-                ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY);
-            }
+        if(!ao.getScheduleIds().isEmpty()) {
+            ao.setSchedulingStateKey(getSchedulingState(ao, schedulingService, context));
         }
         else {
-            // get the schedule request for this AO
-            List<ScheduleRequestInfo> requests = schedulingService.getScheduleRequestsByRefObject(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, ao.getId(), context);
-
-            if(requests.isEmpty()) {
-                // if there are no requests, the AO scheduling state is Unscheduled
-                ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY);
-            }
-            else {
-                // Should not be more than one request, grab the first one only
-                ScheduleRequestInfo request = requests.get(0);
-
-                // if all the schedule request components are set as TBA, the AO scheduling state is Exempt
-                // otherwise, it's Unscheduled
-                boolean atLeastOneNonTBA = false;
-                for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
-                    if(!reqComp.getIsTBA()) {
-                        atLeastOneNonTBA = true;
-                        break;
-                    }
-                }
-
-                if(atLeastOneNonTBA) {
-                    ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY);
-                }
-                else {
-                    ao.setSchedulingStateKey(LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY);
-                }
-            }
+            ao.setSchedulingStateKey(getSchedulingStateByScheduleRequest(ao, schedulingService, context));
         }
     }
 
@@ -363,7 +262,7 @@ public class ActivityOfferingTransformer {
         lui.setAtpId(ao.getTermId());
         lui.setMinimumEnrollment(ao.getMinimumEnrollment());
         lui.setMaximumEnrollment(ao.getMaximumEnrollment());
-        lui.setScheduleId(ao.getScheduleId());
+        lui.setScheduleIds(new ArrayList<String>(ao.getScheduleIds()));
         lui.setReferenceURL(ao.getActivityOfferingURL());
 
         //Lui Official Identifier
@@ -428,23 +327,110 @@ public class ActivityOfferingTransformer {
         return info;
     }
 
-    private static boolean isPartOfColocatedOfferingSet( LuiInfo lui, LuiService luiService, ContextInfo context )
+    private static boolean isColocated(LuiInfo lui, SchedulingService schedulingService, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
     {
         if( lui == null ) {
             throw new NullPointerException( "lui cannot be null" );
         }
-        if( luiService == null ) {
-            throw new NullPointerException( "luiService cannot be null" );
+        if( schedulingService == null ) {
+            throw new NullPointerException( "schedulingService cannot be null" );
         }
         if( context == null ) {
             throw new NullPointerException( "context cannot be null" );
         }
 
-        List<LuiSetInfo> result = luiService.getLuiSetsByLui( lui.getId(), context );
-        if( result != null && !result.isEmpty() ) return true;
+        List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, lui.getId(), context);
+        if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){
+            for(ScheduleRequestSetInfo srs : scheduleRequestSets){
+                if(srs.getRefObjectIds() != null && srs.getRefObjectIds().size() > 1) {
+                    return true;
+                }
+            }
+        }
 
         return false;
+    }
+
+    private static String getSchedulingState(ActivityOfferingInfo ao, SchedulingService schedulingService, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        for(String scheduleId : ao.getScheduleIds()) {
+            ScheduleInfo schedule = schedulingService.getSchedule(scheduleId, context);
+
+            for (ScheduleComponentInfo componentInfo : schedule.getScheduleComponents()) {
+                if (!componentInfo.getIsTBA()) {
+                    return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY;
+                }
+            }
+        }
+
+        return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY;
+    }
+
+    private static String getSchedulingState(ActivityOfferingInfo ao, Map<String, ScheduleInfo> scheduleIdToScheduleMap) {
+        for(String scheduleId : ao.getScheduleIds()) {
+            ScheduleInfo schedule = scheduleIdToScheduleMap.get(scheduleId);
+
+            for (ScheduleComponentInfo componentInfo : schedule.getScheduleComponents()) {
+                if (!componentInfo.getIsTBA()) {
+                    return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY;
+                }
+            }
+        }
+
+        return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY;
+    }
+
+    private static String getSchedulingStateByScheduleRequest(ActivityOfferingInfo ao, SchedulingService schedulingService, ContextInfo context)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        // get the schedule request for this AO
+        List<ScheduleRequestInfo> requests = schedulingService.getScheduleRequestsByRefObject(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, ao.getId(), context);
+
+        return getSchedulingStateByScheduleRequest(ao, requests);
+    }
+
+    private static String getSchedulingStateByScheduleRequest(ActivityOfferingInfo ao, List<ScheduleRequestInfo> requests) {
+        if(requests == null || requests.isEmpty()) {
+            // if there are no requests, the AO scheduling state is Unscheduled
+            return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY;
+        }
+
+        for(ScheduleRequestInfo request : requests) {
+            // if all the schedule request components are set as TBA, the AO scheduling state is Exempt
+            // otherwise, it's Unscheduled
+            for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
+                if(!reqComp.getIsTBA()) {
+                    return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_UNSCHEDULED_KEY;
+                }
+            }
+        }
+
+        return LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY;
+    }
+
+    /*Bulk load a list a ScheduleRequestInfo objects and return the results set in a Map of ActivityOffering ids to a list of ScheduleRequestInfo objects.*/
+    private static Map<String, List<ScheduleRequestInfo>> buildLuiToScheduleRequestsMap(List<String> luiIds, SchedulingService schedulingService, ContextInfo context)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        Map<String, List<ScheduleRequestInfo>> luiToScheduleRequestsMap = new HashMap<String, List<ScheduleRequestInfo>>();
+
+        if(luiIds != null && !luiIds.isEmpty()){
+            for(String luiId: luiIds){
+                List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, luiId, context);
+                for(ScheduleRequestSetInfo srs : scheduleRequestSets){
+                    List<ScheduleRequestInfo> scheduleRequestInfos = schedulingService.getScheduleRequestsByScheduleRequestSet(srs.getId(), context);
+                    if(scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()){
+                        List<ScheduleRequestInfo> scheduleRequestInfoList = luiToScheduleRequestsMap.get(luiId);
+                        if (scheduleRequestInfoList == null) {
+                            scheduleRequestInfoList = new ArrayList<ScheduleRequestInfo>();
+                            luiToScheduleRequestsMap.put(luiId, scheduleRequestInfoList);
+                        }
+                        scheduleRequestInfoList.addAll(scheduleRequestInfos);
+                    }
+                }
+            }
+        }
+
+        return luiToScheduleRequestsMap;
     }
 
 }

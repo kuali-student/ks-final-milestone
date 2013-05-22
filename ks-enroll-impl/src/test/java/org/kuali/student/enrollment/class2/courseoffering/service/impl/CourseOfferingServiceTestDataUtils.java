@@ -172,7 +172,7 @@ public final class CourseOfferingServiceTestDataUtils {
 
         orig.setActivityCode(activityCode);
 
-        orig.setScheduleId(scheduleId);
+//TODOSSR        orig.setScheduleId(scheduleId);
         orig.setActivityOfferingURL("http://activity.com");
 
         orig.setDescr(new RichTextInfo(activityName, "<b>" + activityName
@@ -192,7 +192,7 @@ public final class CourseOfferingServiceTestDataUtils {
 
         orig.setCourseOfferingCode(courseOffering.getCourseOfferingCode());
         orig.setCourseOfferingTitle(courseOffering.getCourseOfferingTitle());
-        orig.setIsPartOfColocatedOfferingSet(false);
+        orig.setIsColocated(false);
 
         return orig;
     }

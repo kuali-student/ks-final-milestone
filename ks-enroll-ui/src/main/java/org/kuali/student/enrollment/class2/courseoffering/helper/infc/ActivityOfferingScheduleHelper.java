@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.helper.infc;
 
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
  * This class //TODO ...
@@ -25,8 +26,8 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWr
  */
 public interface ActivityOfferingScheduleHelper {
 
-    public void loadSchedules(ActivityOfferingWrapper wrapper);
+    public void loadSchedules(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo);
 
-    public void saveSchedules(ActivityOfferingWrapper wrapper);
+    public void saveSchedules(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo);
 
 }
