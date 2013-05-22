@@ -1048,13 +1048,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     aoMap.put(aoWrapper.getAoInfo().getId(), aoWrapper);
 
                     //Check if there is a schedule id, if not add it to the list to get RDLs
-                    //  SSRTODO: Fix this!
-                    //if (aoWrapper.getAoInfo().getScheduleId() == null) {
-                    //    aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
-                    //}
+
+                    if (aoWrapper.getAoInfo().getScheduleIds() == null || aoWrapper.getAoInfo().getScheduleIds().isEmpty()) {
+                        aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
+                    }
 
                     activityOfferingWrappers.add(aoWrapper);
-
                 }
             }
 
