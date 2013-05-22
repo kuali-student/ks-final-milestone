@@ -697,7 +697,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             List<ScheduleRequestSetInfo> scheduleRequestSets = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoId, contextInfo);
             if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){
                 for(ScheduleRequestSetInfo srs : scheduleRequestSets){
-                    List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_REQUEST_SET, srs.getId(), contextInfo);
+                    List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByScheduleRequestSet(srs.getId(), contextInfo);
                     if(scheduleRequestInfos != null && !scheduleRequestInfos.isEmpty()){
                         scheduleRequests.addAll(scheduleRequestInfos);
                     }
