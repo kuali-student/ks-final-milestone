@@ -28,7 +28,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Rollover Course Offerings"
-                              p:methodToCall="performRollover" p:disabled="@{isRolloverButtonDisabled}"/>
+                              p:methodToCall="performRollover"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
                     </list>
                 </property>
@@ -37,10 +37,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="&lt;br&gt;Select Source and Target Terms" p:style="font-size:135%; border-top: solid 2px #000;"/>
+                <bean parent="Uif-Message" p:messageText="Both fields are required. Enter terms as codes, eg 201201." p:style="font-size:110%;"/>
                 <bean parent="Uif-VerticalBoxGroup" p:style="min-width:17cm">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxSubSection" p:headerText="Both fields are required. Enter terms as codes, eg 201201.">
+                            <bean parent="Uif-VerticalBoxSubSection">
                                 <property name="validationMessages">
                                     <bean parent="Uif-GroupValidationMessages">
                                         <property name="displayFieldLabelWithMessages" value="false"/>
@@ -51,7 +52,7 @@
                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1"  p:style="margin-top:20px;">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-HorizontalFieldGroup" p:label="Source Term" p:align="TOP" p:fieldLabel.renderColon="false">
+                                                    <bean parent="Uif-VerticalFieldGroup" p:label="Source Term" p:align="TOP" p:fieldLabel.renderColon="false">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:required="true">
@@ -59,7 +60,7 @@
                                                                         <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201201" p:minLength="5" p:maxLength="6"/>
                                                                     </property>
                                                                 </bean>
-                                                                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goSourceTerm" p:valign="middle"/>
+                                                                <bean parent="Uif-Message" p:messageText="@{sourceTermInfoDisplay}" p:render="@{sourceTermInfoDisplay!=''}"/>
                                                             </list>
                                                         </property>
                                                     </bean>
@@ -67,16 +68,6 @@
                                                           p:source="@{#ConfigProperties['ks.externalizable.images.url']}/help_gray_14px.png">
                                                         <property name="toolTip">
                                                             <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Select the term you want to copy from \- the older term."/>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedSourceTermCode!=''}">
-                                                        <property name="items">
-                                                            <list>
-                                                                <!-- More stuff on right side here -->
-                                                                <bean parent="Uif-DataField" p:propertyName="displayedSourceTermCode" p:label="Term Code"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="sourceTermStartDate" p:label="Term Start Date"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="sourceTermEndDate" p:label="Term End Date"/>
-                                                            </list>
                                                         </property>
                                                     </bean>
                                                 </list>
@@ -96,7 +87,7 @@
                                         <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-HorizontalFieldGroup"  p:label="Target Term" p:align="TOP" p:fieldLabel.renderColon="false">
+                                                    <bean parent="Uif-VerticalFieldGroup"  p:label="Target Term" p:align="TOP" p:fieldLabel.renderColon="false">
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-InputField" p:propertyName="targetTermCode"
@@ -105,7 +96,7 @@
                                                                         <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
                                                                     </property>
                                                                 </bean>
-                                                                <bean parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="goTargetTerm" p:disabled="@{isGoSourceButtonDisabled}" p:valign="bottom"/>
+                                                                <bean parent="Uif-Message" p:messageText="@{targetTermInfoDisplay}" p:render="@{targetTermInfoDisplay!=''}"/>
                                                             </list>
                                                         </property>
                                                     </bean>
@@ -113,16 +104,6 @@
                                                           p:source="@{#ConfigProperties['ks.externalizable.images.url']}/help_gray_14px.png">
                                                         <property name="toolTip">
                                                             <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Select the term you want to copy to \- the new term."/>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-VerticalBoxSubSection" p:render="@{displayedTargetTermCode!=''}">
-                                                        <property name="items">
-                                                            <list>
-                                                                <!-- More stuff on left side here -->
-                                                                <bean parent="Uif-DataField" p:propertyName="displayedTargetTermCode" p:label="Term Code"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="targetTermStartDate" p:label="Term Start Date"/>
-                                                                <bean parent="Uif-DataField" p:propertyName="targetTermEndDate" p:label="Term End Date"/>
-                                                            </list>
                                                         </property>
                                                     </bean>
                                                 </list>

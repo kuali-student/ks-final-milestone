@@ -65,6 +65,10 @@ public class CourseOfferingRolloverManagementForm extends KSUifForm {
     private boolean socReleasedToDepts = false;
     private boolean rolloverCompleted = false; // Only true if finished or aborted
 
+    // display term information below source/target term input box
+    private String sourceTermInfoDisplay;
+    private String targetTermInfoDisplay;
+
 
     public CourseOfferingRolloverManagementForm(){
         targetTermCode = "";
@@ -347,6 +351,22 @@ public class CourseOfferingRolloverManagementForm extends KSUifForm {
         this.configurationOptions = configurationOptions;
     }
 
+    public String getTargetTermInfoDisplay() {
+        return targetTermInfoDisplay;
+    }
+
+    public void setTargetTermInfoDisplay(String targetTermInfoDisplay) {
+        this.targetTermInfoDisplay = targetTermInfoDisplay;
+    }
+
+    public String getSourceTermInfoDisplay() {
+        return sourceTermInfoDisplay;
+    }
+
+    public void setSourceTermInfoDisplay(String sourceTermInfoDisplay) {
+        this.sourceTermInfoDisplay = sourceTermInfoDisplay;
+    }
+
     public void resetForm(){
         displayedTargetTermCode = "";
         targetTermStartDate = "";
@@ -356,6 +376,8 @@ public class CourseOfferingRolloverManagementForm extends KSUifForm {
         sourceTermStartDate = "";
         sourceTermEndDate = "";
         statusField = "";
+        sourceTermInfoDisplay = "";
+        targetTermInfoDisplay = "";
         //rollover details fields
         rolloverSourceTermDesc = "";
         rolloverTargetTermCode = "";

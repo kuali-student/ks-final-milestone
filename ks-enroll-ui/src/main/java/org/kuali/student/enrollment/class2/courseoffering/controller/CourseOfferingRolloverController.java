@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultI
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -46,6 +47,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
@@ -60,7 +62,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -258,10 +262,95 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    private boolean validateSourceTargetTerms(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form) throws Exception {
+        String targetTermCd = form.getTargetTermCode();
+        String sourceTermCd = form.getSourceTermCode();
+
+        if (sourceTermCd==null || sourceTermCd.isEmpty()) {
+            GlobalVariables.getMessageMap().putError("sourceTermCode", "error.courseoffering.sourceTerm.inValid");
+            return false;
+        }
+        if (targetTermCd==null || targetTermCd.isEmpty()) {
+            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.sourceTerm.inValid");
+            return false;
+        }
+
+        CourseOfferingViewHelperService helper = getViewHelperService(form);
+        List<TermInfo> targetTermsByCode = helper.findTermByTermCode(targetTermCd);
+        List<TermInfo> sourceTermsByCode = helper.findTermByTermCode(sourceTermCd);
+
+        boolean sourceTermValid = (sourceTermsByCode != null && sourceTermsByCode.size() == 1);
+        boolean targetTermValid = (targetTermsByCode != null && targetTermsByCode.size() == 1);
+
+        if (sourceTermValid && targetTermValid) {
+            TermInfo targetTerm = targetTermsByCode.get(0);
+            TermInfo sourceTerm = sourceTermsByCode.get(0);
+
+            //Check source term SOC
+            boolean sourceTermHasSoc = helper.termHasSoc(sourceTerm.getId(), form);
+            if (!sourceTermHasSoc) {
+                GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
+                form.setSourceTermInfoDisplay(getTermDisplayString(sourceTerm.getId(), sourceTerm));
+                form.setTargetTermInfoDisplay(getTermDisplayString(targetTerm.getId(), targetTerm));
+                return false;
+            }
+            form.setSourceTerm(sourceTerm);
+
+            //Check target term
+            boolean likeTerms = sourceTerm.getTypeKey().equals(targetTerm.getTypeKey());
+            boolean sourcePrecedesTarget = sourceTerm.getStartDate().before(targetTerm.getStartDate());
+            if (!likeTerms) {
+                GlobalVariables.getMessageMap().putError("targetTermCode", "error.likeTerms.validation");
+                form.setSourceTermInfoDisplay(getTermDisplayString(sourceTerm.getId(), sourceTerm));
+                form.setTargetTermInfoDisplay(getTermDisplayString(targetTerm.getId(), targetTerm));
+                return false;
+            } else if (!sourcePrecedesTarget) {
+                GlobalVariables.getMessageMap().putError("targetTermCode", "error.years.validation");
+                form.setSourceTermInfoDisplay(getTermDisplayString(sourceTerm.getId(), sourceTerm));
+                form.setTargetTermInfoDisplay(getTermDisplayString(targetTerm.getId(), targetTerm));
+                return false;
+            }
+
+            //validation to check if already rollover target term exists..
+            List<String> coIds = this._getCourseOfferingService().getCourseOfferingIdsByTerm(targetTermsByCode.get(0).getId(), true, new ContextInfo());
+            if (!coIds.isEmpty()) {
+                // Print error message if there are course offerings in the target term
+                GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
+                form.setSourceTermInfoDisplay(getTermDisplayString(sourceTerm.getId(), sourceTerm));
+                form.setTargetTermInfoDisplay(getTermDisplayString(targetTerm.getId(), targetTerm));
+                return false;
+            }
+            form.setTargetTerm(targetTerm);
+        } else {
+            form.setTargetTerm(null);
+            form.setSourceTerm(null);
+            form.resetForm();
+
+            if (!sourceTermValid && !targetTermValid) {
+                GlobalVariables.getMessageMap().putError("sourceTermCode", "error.courseoffering.sourceTerm.inValid");
+                GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
+            } else if (sourceTermValid && !targetTermValid) {
+                TermInfo sourceTerm = sourceTermsByCode.get(0);
+                GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
+                form.setSourceTermInfoDisplay(getTermDisplayString(sourceTerm.getId(), sourceTerm));
+            } else if (!sourceTermValid && targetTermValid) {
+                TermInfo targetTerm = targetTermsByCode.get(0);
+                GlobalVariables.getMessageMap().putError("sourceTermCode", "error.courseoffering.sourceTerm.inValid");
+                form.setTargetTermInfoDisplay(getTermDisplayString(targetTerm.getId(), targetTerm));
+            }
+        }
+
+        return true;
+
+    }
     @RequestMapping(params = "methodToCall=performRollover")
     public ModelAndView performRollover(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
                                         @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        CourseOfferingViewHelperService helper = getViewHelperService(form);
+        if (!validateSourceTargetTerms(form)) {
+            return getUIFModelAndView(form);
+        }
+
+        CourseOfferingViewHelperService helper = getViewHelperService   (form);
 
         if (form.getSourceTerm() == null || form.getTargetTerm() == null) {
             form.setStatusField("(setUp) Source/target term objects appear to be missing");
@@ -569,6 +658,21 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("confirmReleaseToDepts ");
         return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
+    }
+
+    private String getTermDisplayString(String termId, TermInfo term) {
+        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
+        StringBuilder stringBuilder = new StringBuilder();
+        Formatter formatter = new Formatter(stringBuilder, Locale.US);
+        String displayString = termId; // use termId as a default.
+        if (term != null) {
+            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
+            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
+            String termType = term.getName();
+            formatter.format("%s (%s to %s)", termType, startDate, endDate);
+            displayString = stringBuilder.toString();
+        }
+        return displayString;
     }
 
     private CourseOfferingSetService _getSocService() {
