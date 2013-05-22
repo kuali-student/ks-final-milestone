@@ -59,11 +59,11 @@
 		<!-- <value>ks-enroll/css/acal.css</value> -->
 		<!-- </list> -->
 		<!-- </property> -->
-		<!-- <property name="additionalScriptFiles"> -->
-		<!-- <list merge="true"> -->
-		<!-- <value>ks-enroll/scripts/common.js</value> -->
-		<!-- </list> -->
-		<!-- </property> -->
+		<property name="additionalScriptFiles">
+			<list merge="true">
+				<value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup">
