@@ -139,7 +139,7 @@ public final class CourseOfferingServiceTestDataUtils {
      *
      * @param formatOfferingId
      * @param activityId
-     * @param scheduleId
+     * @param scheduleIds
      * @param activityName
      * @param instructors
      * @return
@@ -148,7 +148,7 @@ public final class CourseOfferingServiceTestDataUtils {
     // and flushed out using the ActivityOfferingTransformer
     public static ActivityOfferingInfo createActivityOffering(String termId,
                                                               CourseOfferingInfo courseOffering, String formatOfferingId,
-                                                              String scheduleId, String activityId, String activityName,
+                                                              List<String> scheduleIds, String activityId, String activityName,
                                                               String activityCode, String activityOfferingTypeKey,
                                                               List<OfferingInstructorInfo> instructors) {
 
@@ -172,7 +172,8 @@ public final class CourseOfferingServiceTestDataUtils {
 
         orig.setActivityCode(activityCode);
 
-//TODOSSR        orig.setScheduleId(scheduleId);
+        orig.setScheduleIds(scheduleIds);
+
         orig.setActivityOfferingURL("http://activity.com");
 
         orig.setDescr(new RichTextInfo(activityName, "<b>" + activityName

@@ -15,14 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
 import org.joda.time.DateTime;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
@@ -73,6 +65,13 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -617,7 +616,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
         String canonicalActivityId = CourseOfferingServiceTestDataUtils.createCanonicalActivityId(targetFormat.getId(), LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY);
 
-        ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceTestDataUtils.createActivityOffering(co.getTermId(), co, "CO-1:LEC-AND-LAB", labCode, canonicalActivityId, labCode, "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
+        ActivityOfferingInfo lectureAndLabFormatLabC = CourseOfferingServiceTestDataUtils.createActivityOffering(co.getTermId(), co, "CO-1:LEC-AND-LAB", null, canonicalActivityId, labCode, "A", LuiServiceConstants.LAB_ACTIVITY_OFFERING_TYPE_KEY, instructors);
 
         lectureAndLabFormatLabC.setId("CO-1:LEC-AND-LAB:" + labCode);
 
