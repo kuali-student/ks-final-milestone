@@ -1550,14 +1550,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             ScheduleRequestSetInfo srsInfo = new ScheduleRequestSetInfo();
             srsInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
             srsInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-            srsInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+            srsInfo.setRefObjectTypeKey(sourceAO.getTypeKey());
             List<String> aoIds = new ArrayList<String>();
             aoIds.add(targetAO.getId());
             srsInfo.setRefObjectIds(aoIds);
 
             srsInfo = getSchedulingService()
                     .createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
-                            CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, srsInfo, context);
+                        sourceAO.getTypeKey(), srsInfo, context);
 
             for (ScheduleRequestInfo sr : scheduleRequestInfos) {
                 sr.setScheduleRequestSetId(srsInfo.getId());
@@ -2460,21 +2460,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<String> aoIds = registrationGroupInfo.getActivityOfferingIds();
         for (String aoId: aoIds) {
             ActivityOfferingInfo aoInfo = getActivityOffering(aoId, context);
-//  TODOSSR          String scheduleId = aoInfo.getScheduleId();
-            String scheduleId = null;     // TODOSSR
+            List<String> scheduleIds = aoInfo.getScheduleIds();
             boolean needToCheckScheduleRequest = true;
-            if (scheduleId != null) {
-                // Check if there's a schedule with this ID (might not be)
-                ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(scheduleId, context);
-                if (scheduleInfo != null) {
-                    List<ScheduleComponentInfo> scInfos = scheduleInfo.getScheduleComponents();
-                    List<String> timeSlotIds = new ArrayList<String>();
-                    for (ScheduleComponentInfo compInfo: scInfos) {
-                        timeSlotIds.addAll(compInfo.getTimeSlotIds());
+            if (scheduleIds != null && ! scheduleIds.isEmpty()) {
+                // Check if there are schedules with these IDs (might not be)
+                List<ScheduleInfo> scheduleInfos = getSchedulingService().getSchedulesByIds(scheduleIds, context);
+                if (scheduleInfos != null && ! scheduleInfos.isEmpty()) {
+                    for (ScheduleInfo scheduleInfo : scheduleInfos) {
+                        List<ScheduleComponentInfo> scInfos = scheduleInfo.getScheduleComponents();
+                        List<String> timeSlotIds = new ArrayList<String>();
+                        for (ScheduleComponentInfo compInfo: scInfos) {
+                            timeSlotIds.addAll(compInfo.getTimeSlotIds());
+                        }
+                        listOfTimeSlotIds.add(timeSlotIds);
+                        needToCheckScheduleRequest = false;
+                        usedActualScheduleList.add(Boolean.TRUE);  // Use schedule
                     }
-                    listOfTimeSlotIds.add(timeSlotIds);
-                    needToCheckScheduleRequest = false;
-                    usedActualScheduleList.add(Boolean.TRUE);  // Use schedule
                 }
             }
             if (needToCheckScheduleRequest) {  // Couldn't find a schedule for this AO
@@ -2511,7 +2512,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                                                               String aoIdFirst, String aoIdSecond,
                                                               ContextInfo context)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
-            OperationFailedException, PermissionDeniedException {
+                OperationFailedException, PermissionDeniedException {
         if (_checkTimeSlotsOverlap(timeSlotIdsFirst, timeSlotIdsSecond, context)) {
             ValidationResultInfo validationResultInfo = new ValidationResultInfo();
             validationResultInfo.setLevel(ValidationResult.ErrorLevel.WARN);
