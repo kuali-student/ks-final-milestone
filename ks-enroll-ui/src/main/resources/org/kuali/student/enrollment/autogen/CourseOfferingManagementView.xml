@@ -42,9 +42,9 @@
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
 
-        <!--<property name="header">-->
-            <!--<bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:style="padding-left:15px;"/>-->
-        <!--</property>-->
+        <property name="header">
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:style="padding-left:15px;"/>
+        </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
