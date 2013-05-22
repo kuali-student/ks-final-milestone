@@ -76,6 +76,7 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
@@ -1546,7 +1547,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         //  Create RDLs if any were identified.
         if ( ! scheduleRequestInfos.isEmpty()) {
+            ScheduleRequestSetInfo srsInfo = new ScheduleRequestSetInfo();
+            srsInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+            srsInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+            srsInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+            List<String> aoIds = new ArrayList<String>();
+            aoIds.add(targetAO.getId());
+            srsInfo.setRefObjectIds(aoIds);
+
+            srsInfo = getSchedulingService()
+                    .createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                            CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, srsInfo, context);
+
             for (ScheduleRequestInfo sr : scheduleRequestInfos) {
+                sr.setScheduleRequestSetId(srsInfo.getId());
                 sr.setName(String.format("Schedule request for %s-%s", targetAO.getCourseOfferingCode(), targetAO.getActivityCode()));
                 sr.setDescr(RichTextHelper.buildRichTextInfo(sr.getName(), sr.getName()));
                 getSchedulingService().createScheduleRequest(sr.getTypeKey(), sr, context);
