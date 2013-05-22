@@ -59,7 +59,12 @@
                                 <property name="items">
                                     <list>
                                         <!-- Roll over details display -->
-                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:render="@{!socReleasedToDepts and statusField!='Finished'}" p:style="padding-left:113px; margin-bottom:-13px;">
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:render="@{!socReleasedToDepts and statusField!='Finished'}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ks-rolloverResultsInfoSection-gridSubsection</value>
+                                                </list>
+                                            </property>
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:style="color:white; background-color:#858585;"/>

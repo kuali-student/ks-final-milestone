@@ -558,3 +558,10 @@ a {
     background-image: url(../images/breadcrumb/divider-breadcrumb.png);
 }
 /* End of Breadcrumb */
+
+/* GridSubsection with status/Refresh link on Rollover Details */
+.ks-rolloverResultsInfoSection-gridSubsection table {
+    margin-bottom: -3px;
+    margin-left: 113px;
+}
+/* end GridSubsection */
