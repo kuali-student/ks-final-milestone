@@ -445,8 +445,11 @@ public class SchedulingServiceDecorator implements SchedulingService {
     }
 
     @Override
-    public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
-                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(String scheduleRequestSetId,
+                                                                             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetId, contextInfo);
     }
+
+
 }

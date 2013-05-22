@@ -66,7 +66,6 @@ public class SchedulingServiceDataLoader {
     public final static String ATP_ID = "TestATP";
     public final static String ROOM_ID = "Room1";
 
-    public static final String REF_OBJECT_TYPE_KEY_ACTIVITY_OFFERING = "kuali.type.refobject.activity.offering";
 
     private ContextInfo contextInfo;
 
@@ -188,12 +187,13 @@ public class SchedulingServiceDataLoader {
      * @return
      */
     public static ScheduleRequestSetInfo setupScheduleRequestSetInfo(String scheduleRequestSetId, List<String> refObjectIds,
+                                                                     String refObjectType,
                                                                      Boolean maxEnrollmentShared, Integer maxEnrollment) {
         ScheduleRequestSetInfo srsInfo = new ScheduleRequestSetInfo();
         srsInfo.setId(scheduleRequestSetId);
         srsInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
         srsInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        srsInfo.setRefObjectTypeKey(REF_OBJECT_TYPE_KEY_ACTIVITY_OFFERING);
+        srsInfo.setRefObjectTypeKey(refObjectType);
         srsInfo.setRefObjectIds(refObjectIds);
         srsInfo.setMaxEnrollmentShared(maxEnrollmentShared);
         srsInfo.setMaximumEnrollment(maxEnrollment);
@@ -248,6 +248,8 @@ public class SchedulingServiceDataLoader {
 
         return scheduleRequestInfo;
     }
+
+
 
     public static ScheduleInfo setupScheduleInfo(String id,String atpId,boolean isTBA,String roomId) {
 
