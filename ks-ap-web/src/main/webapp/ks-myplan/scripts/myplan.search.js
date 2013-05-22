@@ -56,6 +56,22 @@ function ksapCourseSearchColumns() {
 	} ];
 }
 
+function ksapGetCampusSelect() {
+	var aCampus = new Array();
+	jQuery.each(jQuery("input[name='campusSelect']:checked"), function() {
+		aCampus.push(jQuery(this).val());
+	});
+	return aCampus;
+}
+
+function ksapSearchComplete() {
+	// Override at institution level
+}
+
+function ksapSearchReset() {
+	// Override at institution level
+}
+
 function fnSelectAllCampuses() {
 	jQuery.each(jQuery("input[name='campusSelect']"), function() {
 		this.checked = true;
@@ -88,10 +104,7 @@ function searchForCourses(id, parentId) {
 	showLoading("Searching. Please wait...");
 	var sQuery = jQuery("input[name='searchQuery']").val();
 	var sTerm = jQuery("select[name='searchTerm'] option:selected").val();
-	var aCampus = new Array();
-	jQuery.each(jQuery("input[name='campusSelect']:checked"), function() {
-		aCampus.push(jQuery(this).val());
-	});
+	var aCampus = ksapGetCampusSelect();
 	fnLoadFacets(sQuery, sTerm, aCampus);
 	oTable = jQuery("#" + id)
 			.dataTable(
@@ -136,6 +149,7 @@ function searchForCourses(id, parentId) {
 							results.fadeIn("fast");
 							results.find("table#" + id).width(
 									ksapCourseSearchTableWidth());
+							ksapSearchComplete();
 							jQuery("#trending_summary").each(function() {
 					            myplanRetrieveComponent('trending_summary','trending_summary','search','lookup',{viewId:'Trending-LookupView'});
 							});
