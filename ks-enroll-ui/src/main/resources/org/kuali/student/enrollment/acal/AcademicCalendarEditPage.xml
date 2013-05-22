@@ -69,9 +69,11 @@ limitations under the License.
                         <bean parent="Uif-PrimaryActionButton" p:render="@{!#view.readOnly and !reload}"
                               p:methodToCall="@{officialCalendar ? 'save' : 'makeAcalOfficial'}"
                               p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
-                              p:disabled="@{newCalendar}" p:performClientSideValidation="true"/>
+                              p:disabled="@{newCalendar}" p:performClientSideValidation="true"
+                              p:jumpToIdAfterSubmit="TOP"/>
                         <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
-                              p:performClientSideValidation="true" p:render="@{!officialCalendar and !#view.readOnly and !reload}" p:disabled="@{reload}"/>
+                              p:performClientSideValidation="true" p:render="@{!officialCalendar and !#view.readOnly and !reload}" p:disabled="@{reload}"
+                              p:jumpToIdAfterSubmit="TOP"/>
                         <bean parent="Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
                               p:performClientSideValidation="true" p:render="@{reload}"/>
                         <bean parent="Uif-ActionLink" p:methodToCall="delete"
