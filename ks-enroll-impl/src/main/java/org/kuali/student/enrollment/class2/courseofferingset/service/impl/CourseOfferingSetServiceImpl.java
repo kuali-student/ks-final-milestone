@@ -730,7 +730,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
         // determine if the state key given is a SOC lifecycle state or a scheduling state
         boolean isSchedulingState = Arrays.asList(CourseOfferingSetServiceConstants.ALL_SOC_SCHEDULING_STATES).contains(nextStateKey);
 
-        if (isSchedulingState) {  // Should not need to test this--let decorator do the work
+        if (!isSchedulingState) {  // Should not need to test this--let decorator do the work
             throw new InvalidParameterException(nextStateKey + " is an invalid SOC state");
         }
     }
