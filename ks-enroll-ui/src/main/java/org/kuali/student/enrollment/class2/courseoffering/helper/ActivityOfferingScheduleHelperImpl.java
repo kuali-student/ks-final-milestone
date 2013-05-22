@@ -394,24 +394,49 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             }
         }
 
+        if (wrapper.getScheduleRequestSetInfo() == null){
+            set = new ScheduleRequestSetInfo();
+            set.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+            set.setName("Schedule request set for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
+            set.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
+            set.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+            set.getRefObjectIds().add(wrapper.getId());
+        }
+
+        if (StringUtils.isBlank(set.getId())){
+            if (!set.getRefObjectIds().contains(wrapper.getId())){
+                 set.getRefObjectIds().add(wrapper.getId());
+            }
+            try {
+                set = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,set,defaultContextInfo);
+                wrapper.setScheduleRequestSetInfo(set);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            //If it's not a new one, make sure to create a new one it's not a part of colo set
+            if (wrapper.isPartOfColoSetOnLoadAlready() && !wrapper.isColocatedAO()){
+                // If it's not a part of colo set anymore, simply delete
+                set.getRefObjectIds().remove(wrapper.getId());
+                // After delete, if the sch set is empty, then we can use the same sch set for this ao
+                if (set.getRefObjectIds().isEmpty()){
+                    set.getRefObjectIds().add(wrapper.getId());
+                }
+            } else if (!wrapper.isPartOfColoSetOnLoadAlready() && wrapper.isColocatedAO()){
+                if (!set.getRefObjectIds().contains(wrapper.getId())){
+                     set.getRefObjectIds().add(wrapper.getId());
+                }
+            }
+            try {
+                set = getSchedulingService().updateScheduleRequestSet(set.getId(),set,defaultContextInfo);
+                wrapper.setScheduleRequestSetInfo(set);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()){
             if (!scheduleWrapper.isRequestAlreadySaved()){
-
-
-                if (set == null){
-                    set = new ScheduleRequestSetInfo();
-                    set.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                    set.setName("Schedule request set for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
-                    set.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
-                    set.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
-                    set.getRefObjectIds().add(wrapper.getId());
-                    try {
-                        set = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,set,defaultContextInfo);
-                        wrapper.setScheduleRequestSetInfo(set);
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
 
                 ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
                 scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
@@ -429,6 +454,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 }
 
             }
+        }
 
             /*if (scheduleWrapper.getScheduleRequestInfo() != null && StringUtils.isNotBlank(scheduleWrapper.getScheduleRequestInfo().getId())){
                 if (wrapper.isPartOfColoSetOnLoadAlready()){
@@ -449,7 +475,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                         //Should not be the problem. We just need to change the RDLs to point to Colo instead of AO, which is
                         // already happening at buildScheduleRequestInfo(wrapper)
                     }
-                }*/
+                }
 
 
         }

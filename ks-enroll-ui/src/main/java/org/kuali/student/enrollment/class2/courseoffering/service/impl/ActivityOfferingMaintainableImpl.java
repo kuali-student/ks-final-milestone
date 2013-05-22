@@ -12,13 +12,10 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
@@ -42,7 +39,6 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -66,7 +62,6 @@ import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -80,7 +75,6 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -118,7 +112,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), contextInfo);
 
-//       TODOSSR     saveColocatedAOs(activityOfferingWrapper);
+            saveColocatedAOs(activityOfferingWrapper);
 
             /**
              * Detach the AO from colo schedule if it's not a part of colo anymore
@@ -212,30 +206,36 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
      *
      * @param wrapper
      */
-    //TODOSSR
-    /*protected void saveColocatedAOs(ActivityOfferingWrapper wrapper){
+    protected void saveColocatedAOs(ActivityOfferingWrapper wrapper){
 
-        ColocatedOfferingSetInfo coloSet = wrapper.getColocatedOfferingSetInfo();
+        /*ColocatedOfferingSetInfo coloSet = wrapper.getColocatedOfferingSetInfo();
         *//**
          * Set the effective date and expiration date if it's not already there
          *//*
         if (coloSet.getEffectiveDate() == null){
             coloSet.setEffectiveDate(new Date());
             coloSet.setExpirationDate(DateUtils.addYears(new Date(),1));
+        }*/
+
+        if (wrapper.getScheduleRequestSetInfo() == null){
+            ScheduleRequestSetInfo set = new ScheduleRequestSetInfo();
+            wrapper.setScheduleRequestSetInfo(set);
+            set.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+            set.setName("Schedule request set for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
+            set.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
+            set.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
         }
 
-
         if (wrapper.isColocatedAO()){
-            coloSet.getActivityOfferingIds().clear();
+            wrapper.getScheduleRequestSetInfo().getRefObjectIds().clear();
 
             for (ColocatedActivity activity : wrapper.getColocatedActivities()){
-                coloSet.getActivityOfferingIds().add(activity.getAoId());
+                wrapper.getScheduleRequestSetInfo().getRefObjectIds().add(activity.getAoId());
             }
-            coloSet.getActivityOfferingIds().add(wrapper.getAoInfo().getId());
+            wrapper.getScheduleRequestSetInfo().getRefObjectIds().add(wrapper.getAoInfo().getId());
 
-            coloSet.setIsMaxEnrollmentShared(wrapper.isMaxEnrollmentShared());
+            wrapper.getScheduleRequestSetInfo().setMaxEnrollmentShared(wrapper.isMaxEnrollmentShared());
             if (wrapper.isMaxEnrollmentShared()){
-                coloSet.setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
                 wrapper.getAoInfo().setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
             } else {
                 int totalSeats = 0;
@@ -245,9 +245,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
                     totalSeats = totalSeats + activity.getMaxEnrollmentCount();
                 }
-                coloSet.setMaximumEnrollment(totalSeats);
+                wrapper.getScheduleRequestSetInfo().setMaximumEnrollment(totalSeats);
             }
-            try{
+            /*try{
                 if (StringUtils.isNotBlank(coloSet.getId())){
                     ColocatedOfferingSetInfo updatedColoSet = getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
                     wrapper.setColocatedOfferingSetInfo(updatedColoSet);
@@ -260,14 +260,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
             } catch (Exception e){
                 throw convertServiceExceptionsToUI(e);
-            }
+            }*/
         } else {
             //detach AO from colocation
-            if(wrapper.isPartOfColoSetOnLoadAlready()){
+            /*if(wrapper.isPartOfColoSetOnLoadAlready()){
                 detachAOFromColocatedSet(wrapper.getAoInfo().getId(), wrapper.getColocatedOfferingSetInfo());
-            }
+            }*/
         }
-    }*/
+    }
 
     @Override
     public boolean addScheduleRequestComponent(ActivityOfferingWrapper activityOfferingWrapper) {
