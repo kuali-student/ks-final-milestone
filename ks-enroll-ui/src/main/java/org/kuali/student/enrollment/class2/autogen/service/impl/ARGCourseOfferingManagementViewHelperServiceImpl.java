@@ -392,14 +392,16 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             processInstructors(aoMap, ContextUtils.createDefaultContextInfo());
 
             //Search for schedule information
-            sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY);
-            sr.addParam(CoreSearchServiceImpl.SearchParameters.SCHEDULE_IDS, new ArrayList<String>(sch2aoMap.keySet()));
-            results = searchService.search(sr, null);
+            if (!sch2aoMap.isEmpty()){
+                sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY);
+                sr.addParam(CoreSearchServiceImpl.SearchParameters.SCHEDULE_IDS, new ArrayList<String>(sch2aoMap.keySet()));
+                results = searchService.search(sr, null);
 
-            //processSchData(results, sch2aoMap, aoIdsWithoutSch, aoMap, ContextUtils.createDefaultContextInfo());
+                //processSchData(results, sch2aoMap, aoIdsWithoutSch, aoMap, ContextUtils.createDefaultContextInfo());
 
-            // the next two methods pull scheduling data from the DB and put them into the ao2sch map
-            processScheduleInfo(results, sch2aoMap, ao2sch, contextInfo);
+                // the next two methods pull scheduling data from the DB and put them into the ao2sch map
+                processScheduleInfo(results, sch2aoMap, ao2sch, contextInfo);
+            }
             processScheduleRequestsForAos(aoIdsWithoutSch, ao2schReq, ao2ColocatedSet, contextInfo);
 
             // this takes the scheduling data and puts it into the screen form

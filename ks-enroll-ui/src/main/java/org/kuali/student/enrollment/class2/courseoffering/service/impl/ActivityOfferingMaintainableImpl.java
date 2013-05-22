@@ -105,19 +105,22 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     public void saveDataObject() {
         if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
 
-            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            ContextInfo contextInfo = createContextInfo();
 
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), contextInfo);
 
-            saveColocatedAOs(activityOfferingWrapper);
+            processEnrollmentDetail(activityOfferingWrapper);
 
             /**
              * Detach the AO from colo schedule if it's not a part of colo anymore
              */
             if (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
+
+                // clean the ADL - todo
+
 //   TODOSSR             activityOfferingWrapper.getAoInfo().setScheduleId(null);
 //                activityOfferingWrapper.getAoInfo().setIsPartOfColocatedOfferingSet(false);
             }
@@ -172,16 +175,18 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
 
                     boolean deleteSchedule = false;
+                    List<String> deleteScheduleIds = new ArrayList<>();
                     if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
-                        // SSRTODO: ScheduleId is now a collection
-                        //activity.getActivityOfferingInfo().setScheduleId("");
+                        deleteScheduleIds.addAll(activity.getActivityOfferingInfo().getScheduleIds());
+                        activity.getActivityOfferingInfo().getScheduleIds().clear();
+                        deleteSchedule = true;
                     }
 
-                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(), activity.getActivityOfferingInfo(), createContextInfo());
+                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(), activity.getActivityOfferingInfo(), contextInfo);
                     activity.setActivityOfferingInfo(updatedAO);
 
                     if (deleteSchedule){
-                        getScheduleHelper().deleteRequestedAndActualSchedules(activity.getActivityOfferingInfo());
+                        getScheduleHelper().deleteRequestedAndActualSchedules(activityOfferingWrapper.getScheduleRequestSetInfo(),updatedAO.getId(),deleteScheduleIds,contextInfo);
                     }
                 }
             } catch (Exception e) {
@@ -206,7 +211,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
      *
      * @param wrapper
      */
-    protected void saveColocatedAOs(ActivityOfferingWrapper wrapper){
+    protected void processEnrollmentDetail(ActivityOfferingWrapper wrapper){
 
         /*ColocatedOfferingSetInfo coloSet = wrapper.getColocatedOfferingSetInfo();
         *//**
@@ -237,6 +242,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             wrapper.getScheduleRequestSetInfo().setMaxEnrollmentShared(wrapper.isMaxEnrollmentShared());
             if (wrapper.isMaxEnrollmentShared()){
                 wrapper.getAoInfo().setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
+                wrapper.getScheduleRequestSetInfo().setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
             } else {
                 int totalSeats = 0;
                 for (ColocatedActivity activity : wrapper.getEditRenderHelper().getManageSeperateEnrollmentList()){
@@ -262,6 +268,24 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw convertServiceExceptionsToUI(e);
             }*/
         } else {
+            /**
+             * If the current AO is part of the colo set before but now user removed it from the set, then
+             * recalculate the enrollment seats if it's managed seperately
+             */
+            if (wrapper.isPartOfColoSetOnLoadAlready() && !wrapper.getScheduleRequestSetInfo().getIsMaxEnrollmentShared()){
+                int totalSeats = 0;
+                /**
+                 * This is not the best way to do the calculation based on the wrapper as there may be chances user changed
+                 * the details at screen before deleting the AO from the coloset.
+                 */
+                for (ColocatedActivity activity : wrapper.getEditRenderHelper().getManageSeperateEnrollmentList()){
+                    if (activity.getEditRenderHelper().isAllowEnrollmentEdit()){
+                        wrapper.getAoInfo().setMaximumEnrollment(activity.getMaxEnrollmentCount());
+                    }
+                    totalSeats = totalSeats + activity.getMaxEnrollmentCount();
+                }
+                wrapper.getScheduleRequestSetInfo().setMaximumEnrollment(totalSeats);
+            }
             //detach AO from colocation
             /*if(wrapper.isPartOfColoSetOnLoadAlready()){
                 detachAOFromColocatedSet(wrapper.getAoInfo().getId(), wrapper.getColocatedOfferingSetInfo());

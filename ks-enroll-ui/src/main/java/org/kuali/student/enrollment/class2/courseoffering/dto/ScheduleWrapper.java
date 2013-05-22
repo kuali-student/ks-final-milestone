@@ -131,6 +131,19 @@ public class ScheduleWrapper implements Serializable{
         this.scheduleInfo = scheduleInfo;
     }
 
+    /**
+     * This method resets the schedule request and component info object sothat the same data can be used to recreate
+     * the request and component.
+     *
+     * Use case: When the user deletes the AO from the colo set, then we need to create all the request and components
+     * for the AO with all the schdule information from the coloset
+     *
+     */
+    public void resetForNewRDL(){
+        this.scheduleRequestInfo = new ScheduleRequestInfo();
+        this.scheduleRequestComponentInfo = new ScheduleRequestComponentInfo();
+    }
+
     public TimeSlotInfo getTimeSlot() {
         return timeSlot;
     }

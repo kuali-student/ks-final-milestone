@@ -379,7 +379,10 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         ScheduleRequestSetInfo set = wrapper.getScheduleRequestSetInfo();
 
         /**
-         * If there are no Schedule requests available for an AO, just delete the Schedule Request Set
+         * If there are no Schedule requests available for an AO, just delete the Schedule Request Set.
+         * (This still misses when the AO is part of a colo set (with multiple AOs) on load) but user
+         * deleted all the RDLs and unchecked the colo checkbox. In this case, we should not be deleting the set,
+         * just remove the AO from the coloset and save.)
          */
         if (wrapper.getRequestedScheduleComponents().isEmpty()){
             if (set != null && StringUtils.isNotBlank(set.getId())){
@@ -388,6 +391,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     if (!statusInfo.getIsSuccess()){
                         throw new OperationFailedException("Cant delete the schedule request set " + statusInfo.getMessage());
                     }
+                    return;
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -414,25 +418,93 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 throw new RuntimeException(e);
             }
         } else {
-            //If it's not a new one, make sure to create a new one it's not a part of colo set
+
+            //If it's not a new one, make sure to create a new one if it's not a part of colo set anymore
             if (wrapper.isPartOfColoSetOnLoadAlready() && !wrapper.isColocatedAO()){
+
                 // If it's not a part of colo set anymore, simply delete
                 set.getRefObjectIds().remove(wrapper.getId());
+
                 // After delete, if the sch set is empty, then we can use the same sch set for this ao
                 if (set.getRefObjectIds().isEmpty()){
+
                     set.getRefObjectIds().add(wrapper.getId());
+
+                    try {
+                        set = getSchedulingService().updateScheduleRequestSet(set.getId(),set,defaultContextInfo);
+                        wrapper.setScheduleRequestSetInfo(set);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+
+                    //Save the existing set with the current AO removed from it and create a new sch set for this ao.
+                    try {
+                        getSchedulingService().updateScheduleRequestSet(set.getId(), set, defaultContextInfo);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    //Create new sch set for this ao.
+                    ScheduleRequestSetInfo newSet = new ScheduleRequestSetInfo();
+                    newSet.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+                    newSet.setName("Schedule request set for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
+                    newSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
+                    newSet.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+                    newSet.getRefObjectIds().add(wrapper.getId());
+                    try {
+                        set = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,set,defaultContextInfo);
+                        wrapper.setScheduleRequestSetInfo(set);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    //As we're creating new sch set for this ao, we've do the same with sch request and component. So,
+                    //we're iterating through all the RDLs and pull out the sch request and component.
+                    for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()){
+                        scheduleWrapper.resetForNewRDL();
+                    }
                 }
             } else if (!wrapper.isPartOfColoSetOnLoadAlready() && wrapper.isColocatedAO()){
+
+                //Just make sure the current ao is added to the sch set.
                 if (!set.getRefObjectIds().contains(wrapper.getId())){
                      set.getRefObjectIds().add(wrapper.getId());
                 }
+
+                /**
+                 * Until we implement partial colo, delete all the ADLs/RDLs from the AOs which are now part of a colo set
+                 */
+                /*for (String aoId : set.getRefObjectIds()){
+                    if (!StringUtils.equals(aoId,wrapper.getId())){
+                        try {
+                            List<ScheduleRequestInfo> scheduleRequests = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoId, defaultContextInfo);
+                            //Delete Sch Request
+                            for (ScheduleRequestInfo schInfo : scheduleRequests){
+                                StatusInfo statusInfo = getSchedulingService().deleteScheduleRequest(schInfo.getId(),defaultContextInfo);
+                                if (!statusInfo.getIsSuccess()){
+                                    throw new RuntimeException(statusInfo.getMessage());
+                                }
+                            }
+                            //Delete Schedule
+                            ActivityOfferingInfo ao = getCourseOfferingService().getActivityOffering(aoId,defaultContextInfo);
+                            for (String schId : ao.getScheduleIds()){
+                                StatusInfo statusInfo = getSchedulingService().deleteSchedule(schId,defaultContextInfo);
+                                if (!statusInfo.getIsSuccess()){
+                                    throw new RuntimeException(statusInfo.getMessage());
+                                }
+                            }
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                    }
+                }*/
+                try {
+                    set = getSchedulingService().updateScheduleRequestSet(set.getId(),set,defaultContextInfo);
+                    wrapper.setScheduleRequestSetInfo(set);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
-            try {
-                set = getSchedulingService().updateScheduleRequestSet(set.getId(),set,defaultContextInfo);
-                wrapper.setScheduleRequestSetInfo(set);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+
         }
 
         for (ScheduleWrapper scheduleWrapper : wrapper.getRequestedScheduleComponents()){
@@ -441,7 +513,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
                 scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
                 scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-                scheduleRequest.setScheduleRequestSetId(set.getId());
+                scheduleRequest.setScheduleRequestSetId(wrapper.getScheduleRequestSetInfo().getId());
 
                 try {
                     ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper,defaultContextInfo);
@@ -1012,22 +1084,25 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
     }
 
-    public void deleteRequestedAndActualSchedules(ActivityOfferingInfo activity){
+    public void deleteRequestedAndActualSchedules(ScheduleRequestSetInfo schSet,String activityId,List<String> deleteScheduleIds,ContextInfo defaultContextInfo){
         try {
-            List<ScheduleRequestInfo> rdls = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,activity.getId(),createContextInfo());
+            List<ScheduleRequestInfo> rdls = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,activityId,createContextInfo());
             for (ScheduleRequestInfo rdl : rdls) {
-                StatusInfo status = getSchedulingService().deleteScheduleRequest(rdl.getId(),createContextInfo());
-                if (!status.getIsSuccess()){
-                     throw new RuntimeException("Cant delete RDL");
+                if (!StringUtils.equals(rdl.getScheduleRequestSetId(),schSet.getId())){
+                    //Util we implement partial colo, there is going to be only one sch set
+                    StatusInfo status = getSchedulingService().deleteScheduleRequestSet(rdl.getScheduleRequestSetId(),defaultContextInfo);
+                    if (!status.getIsSuccess()){
+                         throw new RuntimeException("Cant delete RDL");
+                    }
+                    break;
                 }
             }
-            /* TODOSSR if (StringUtils.isNotBlank(activity.getScheduleId())){
-                 StatusInfo status = getSchedulingService().deleteSchedule(activity.getScheduleId(),ContextUtils.createDefaultContextInfo());
+            for (String schId : deleteScheduleIds){
+                 StatusInfo status = getSchedulingService().deleteSchedule(schId,ContextUtils.createDefaultContextInfo());
                  if (!status.getIsSuccess()){
-                     throw new RuntimeException("Cant delete RDL");
+                     throw new RuntimeException("Cant delete RDL" + status.getMessage());
                  }
-                activity.setScheduleId("");
-            }*/
+            }
         }catch (Exception e){
             throw new RuntimeException(e);
         }
