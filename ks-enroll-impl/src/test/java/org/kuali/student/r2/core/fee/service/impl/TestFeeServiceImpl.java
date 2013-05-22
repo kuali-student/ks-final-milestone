@@ -137,7 +137,6 @@ public class TestFeeServiceImpl {
             try {
                 feeService.getFee(id, contextInfo);
             } catch (DoesNotExistException e) {
-                System.err.println("DoesNotExistException");
                 assert(true);
                 return;
             }
