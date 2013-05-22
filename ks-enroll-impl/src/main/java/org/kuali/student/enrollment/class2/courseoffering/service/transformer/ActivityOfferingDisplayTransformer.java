@@ -36,12 +36,9 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * This class //TODO ...
  *
  * @author Kuali Student Team
  */
@@ -105,66 +102,38 @@ public class ActivityOfferingDisplayTransformer {
         // isHonorsOffering, maximumEnrollment
         displayInfo.setIsHonorsOffering(aoInfo.getIsHonorsOffering());
         displayInfo.setMaximumEnrollment(aoInfo.getMaximumEnrollment());
+        ScheduleDisplayInfo destScheduleDisplayInfo = displayInfo.getScheduleDisplay();
+        if(destScheduleDisplayInfo == null) {
+            destScheduleDisplayInfo = new  ScheduleDisplayInfo();
+        }
+        List<ScheduleComponentDisplayInfo> tempScheduleDisplays = scheduleComponents2scheduleDisplayComponents(aoInfo.getScheduleIds(), schedulingService, contextInfo);
+        destScheduleDisplayInfo.setScheduleComponentDisplays(tempScheduleDisplays);
 
-        // TODOSSR scheduleDisplay
-        /*if(aoInfo.getScheduleId()!=null){
-            displayInfo.setScheduleDisplay(schedulingService.getScheduleDisplay(aoInfo.getScheduleId(), contextInfo));
-        }*/
+        displayInfo.setScheduleDisplay(destScheduleDisplayInfo);
 
         return displayInfo;
     }
 
-    /**
-     * Transform a ActivityOfferingInfo into an ActivityOfferingDisplayInfo. It takes cached maps of keyToTypeInfoMap,
-     * keyToStateInfoMap and scheduleIdToScheduleDisplayInfoMap as the params instead of doing
-     * service calls inside to retrieve TypeInfo, StateInfo and ScheduleDisplayInfo
-     *
-     * @param aoInfo                            the ActivityOfferingInfo
-     * @param keyToTypeInfoMap                  the cached map of typeKey to TypeInfo
-     * @param keyToStateInfoMap                 the cached map of stateKey to StateInfo
-     * @param scheduleIdToScheduleDisplayInfoMap      the cached map of scheduleId to ScheduleDisplayInfos
-     * @return an ActivityOfferingDisplayInfo
-     */
-    public static ActivityOfferingDisplayInfo ao2aoDisplay(ActivityOfferingInfo aoInfo,
-                                                           Map<String, TypeInfo> keyToTypeInfoMap,
-                                                           Map<String, StateInfo> keyToStateInfoMap,
-                                                           Map<String, ScheduleDisplayInfo> scheduleIdToScheduleDisplayInfoMap) {
-        ActivityOfferingDisplayInfo displayInfo = new ActivityOfferingDisplayInfo();
-        // Fields in ActivityOfferingDisplayInfo
-        // typeName, stateName, courseOfferingTitle;
-        TypeInfo aoType = keyToTypeInfoMap.get(aoInfo.getTypeKey());
-        displayInfo.setTypeName(aoType.getName());
-        displayInfo.setTypeKey(aoType.getKey());
-        StateInfo aoState = keyToStateInfoMap.get(aoInfo.getStateKey());
-        displayInfo.setStateName(aoState.getName());
-        displayInfo.setStateKey(aoState.getKey());
-        displayInfo.setCourseOfferingTitle(aoInfo.getCourseOfferingTitle());
-        // courseOfferingCode, formatOfferingId, formatOfferingName;
-        displayInfo.setCourseOfferingCode(aoInfo.getCourseOfferingCode());
-        displayInfo.setFormatOfferingId(aoInfo.getFormatOfferingId());
-        displayInfo.setFormatOfferingName(aoInfo.getFormatOfferingName());
-        // activityOfferingCode, instructorId, instructorName;
-        displayInfo.setActivityOfferingCode(aoInfo.getActivityCode());
-        List<OfferingInstructorInfo> instructorInfos = aoInfo.getInstructors();
-        if (instructorInfos != null && !instructorInfos.isEmpty()) {
-            // Find instructor with largest percentage effort
-            displayInfo.setInstructorId(instructorInfos.get(0).getPersonId());
-            displayInfo.setInstructorName(instructorInfos.get(0).getPersonName());
+    private static List<ScheduleComponentDisplayInfo> scheduleComponents2scheduleDisplayComponents(List<String> aoScheduleIdList,
+                                                                                            SchedulingService schedulingService,
+                                                                                            ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        List<ScheduleComponentDisplayInfo> tempScheduleDisplays = new ArrayList<ScheduleComponentDisplayInfo>();
+        if (!aoScheduleIdList.isEmpty()) {
+            for (String scheduleId : aoScheduleIdList) {
+                ScheduleDisplayInfo scheduleDisplayInfo = schedulingService.getScheduleDisplay(scheduleId, contextInfo);
+                // add all the components into one ScheduleComponentDisplayInfo
+                List<ScheduleComponentDisplayInfo> componentDisplays = (List<ScheduleComponentDisplayInfo>) scheduleDisplayInfo.getScheduleComponentDisplays();
+                if (!componentDisplays.isEmpty()) {
+                    for (ScheduleComponentDisplayInfo componentDisplay : componentDisplays) {
+                        if (!tempScheduleDisplays.contains(componentDisplay)) {
+                            tempScheduleDisplays.add(componentDisplay);
+                        }
+                    }
+                }
+            }
         }
-        else  {
-            displayInfo.setInstructorId(null);
-            displayInfo.setInstructorName(null);
-        }
-        // isHonorsOffering, maximumEnrollment
-        displayInfo.setIsHonorsOffering(aoInfo.getIsHonorsOffering());
-        displayInfo.setMaximumEnrollment(aoInfo.getMaximumEnrollment());
-
-        //TODOSSR scheduleDisplay
-        /*if(aoInfo.getScheduleId()!=null){
-            displayInfo.setScheduleDisplay(scheduleIdToScheduleDisplayInfoMap.get(aoInfo.getScheduleId()));
-        }*/
-
-        return displayInfo;
+        return tempScheduleDisplays;
     }
 
     /**
@@ -195,41 +164,10 @@ public class ActivityOfferingDisplayTransformer {
         List<ActivityOfferingDisplayInfo> displayInfos = new ArrayList<ActivityOfferingDisplayInfo>(aoInfos.size());
 
         if (aoInfos != null && !aoInfos.isEmpty()) {
-            Map<String, TypeInfo> keyToTypeInfoMap = new HashMap<String, TypeInfo>();
-            Map<String, StateInfo> keyToStateInfoMap = new HashMap<String, StateInfo>();
-            Map<String, ScheduleDisplayInfo> scheduleIdToScheduleDisplayInfoMap = new HashMap<String, ScheduleDisplayInfo>();
+            for(ActivityOfferingInfo aoInfo : aoInfos)  {
+                ActivityOfferingDisplayInfo aoDisplayInfo = ao2aoDisplay(aoInfo, schedulingService, stateService, typeService, contextInfo);
 
-            List<String> aoTypeKeys = new ArrayList<String>(aoInfos.size());
-            List<String> aoStateKeys = new ArrayList<String>(aoInfos.size());
-            List<String> aoScheduleIds = new ArrayList<String>();   /// not setting the size because the dao id search uses the size for the  ids passed in.
-
-            for (ActivityOfferingInfo aoInfo : aoInfos) {
-                aoTypeKeys.add(aoInfo.getTypeKey());
-                aoStateKeys.add(aoInfo.getStateKey());
-//  TODOSSR              if(aoInfo.getScheduleId() != null)     {
-                    // we can't have any nulls passed into the dao search or it will break.
-                    // are the schedule Ids required?
-// TODOSSR                   aoScheduleIds.add(aoInfo.getScheduleId());
-// TODOSSR                }
-            }
-
-            List<TypeInfo> typeInfos = typeService.getTypesByKeys(aoTypeKeys, contextInfo);
-            for (TypeInfo typeInfo : typeInfos) {
-                keyToTypeInfoMap.put(typeInfo.getKey(), typeInfo);
-            }
-
-            List<StateInfo> stateInfos = stateService.getStatesByKeys(aoStateKeys, contextInfo);
-            for (StateInfo stateInfo : stateInfos) {
-                keyToStateInfoMap.put(stateInfo.getKey(), stateInfo);
-            }
-
-            List<ScheduleDisplayInfo> scheduleDisplayInfos = schedulingService.getScheduleDisplaysByIds(aoScheduleIds, contextInfo);
-            for (ScheduleDisplayInfo scheduleDisplayInfo : scheduleDisplayInfos) {
-                scheduleIdToScheduleDisplayInfoMap.put(scheduleDisplayInfo.getId(), scheduleDisplayInfo);
-            }
-
-            for (ActivityOfferingInfo aoInfo : aoInfos) {
-                displayInfos.add(ao2aoDisplay(aoInfo, keyToTypeInfoMap, keyToStateInfoMap, scheduleIdToScheduleDisplayInfoMap));
+                 displayInfos.add(aoDisplayInfo);
             }
         }
 
