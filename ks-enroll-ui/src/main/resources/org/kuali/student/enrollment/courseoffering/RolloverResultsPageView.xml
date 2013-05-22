@@ -67,7 +67,7 @@
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:style="color:white; background-color:#858585;"/>
+                                                    <bean parent="Uif-DataField" p:id="rollover-status" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:style="color:white; background-color:#858585;"/>
                                                     <bean parent="Uif-ActionLink" p:performClientSideValidation="true" p:actionLabel="Refresh" p:methodToCall="showRolloverResults" p:valign="bottom" p:onClickScript="writeHiddenToForm(&quot;rolloverTargetTermCode&quot;, &quot;@{rolloverTargetTermCode}&quot;);"/>
                                                 </list>
                                             </property>
@@ -98,7 +98,7 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="3" p:width="20cm" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:render="@{socReleasedToDepts}"
+                                        <bean parent="Uif-Message" p:render="@{socReleasedToDepts}" p:id="KS-RolloverResultsInfoSectionMsg"
                                               p:messageText="Course offerings for @{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} have been released to the departments."/>
                                     </list>
                                 </property>
