@@ -166,7 +166,8 @@
 	</bean>
 
 	<!-- Group for Search Input Fields -->
-	<bean id="course_search_fields" parent="Uif-HorizontalFieldGroup"
+	<bean id="course_search_fields" parent="course_search_fields-parent" />
+	<bean id="course_search_fields-parent" parent="Uif-HorizontalFieldGroup"
 		p:style="margin:0 0 20px 0;" p:group.validationMessages.render="false">
 		<property name="items">
 			<list>
