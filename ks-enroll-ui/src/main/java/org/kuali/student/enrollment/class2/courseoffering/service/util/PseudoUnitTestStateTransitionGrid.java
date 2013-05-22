@@ -124,13 +124,13 @@ public class PseudoUnitTestStateTransitionGrid {
     }
 
     public static List<Map<String, String>> compareGrid(PseudoUnitTestStateTransitionGrid expected, PseudoUnitTestStateTransitionGrid actual) {
-        List<Map<String, String>> results = new ArrayList<>();
+        List<Map<String, String>> results = new ArrayList<Map<String, String>>();
         int size = expected.size();
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
                 int expectedVal = expected.getTransition(row, col);
                 int actualVal = actual.getTransition(row, col);
-                Map<String, String> keyValue = new HashMap<>();
+                Map<String, String> keyValue = new HashMap<String, String>();
                 String fromState = expected.getStateKeyAt(row);
                 String toState = expected.getStateKeyAt(col);
                 keyValue.put(AO_STATE_FROM, fromState);
