@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.UnhandledException;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -50,6 +51,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -296,7 +298,15 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             }
             form.setSourceTerm(sourceTerm);
 
-            //Check target term
+            //target term needs to be in official state
+            if(!StringUtils.equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, targetTerm.getStateKey())) {
+                GlobalVariables.getMessageMap().putError("targetTermCode", "error.rollover.targetTerm.notOfficial");
+                form.setSourceTermInfoDisplay(getTermDisplayString(sourceTerm.getId(), sourceTerm));
+                form.setTargetTermInfoDisplay(getTermDisplayString(targetTerm.getId(), targetTerm));
+                return false;
+            }
+
+            //source and target term need to be alike terms and source term need to precede target term
             boolean likeTerms = sourceTerm.getTypeKey().equals(targetTerm.getTypeKey());
             boolean sourcePrecedesTarget = sourceTerm.getStartDate().before(targetTerm.getStartDate());
             if (!likeTerms) {
