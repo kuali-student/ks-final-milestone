@@ -129,7 +129,7 @@ limitations under the License.
                 <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.startDate"
                       p:label="Start Date" p:labelPlacement="TOP" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy" />
+                        <bean parent="Uif-KS-Default-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="BasicDatePatternConstraint" />
@@ -138,7 +138,7 @@ limitations under the License.
                 <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.endDate"
                       p:label="End Date" p:labelPlacement="TOP" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                        <bean parent="Uif-KS-Default-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="BasicDatePatternConstraint" />
@@ -187,7 +187,7 @@ limitations under the License.
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true"
                       p:style="font-weight:normal;" p:readOnlyDisplayReplacementPropertyName="startDateUI">
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                     </property>
                      <property name="validCharactersConstraint">
                          <bean parent="BasicDatePatternConstraint" />
@@ -217,7 +217,7 @@ limitations under the License.
                       p:label="End Date" p:required="@{#lp.dateRange and !#isAddLine}"
                       p:refreshWhenChangedPropertyNames="#lp.dateRange">
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy">
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy">
                             <property name="disabled" value="@{!#lp.dateRange}"/>
                         </bean>
                     </property>

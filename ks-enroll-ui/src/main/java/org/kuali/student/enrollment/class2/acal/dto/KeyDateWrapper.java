@@ -110,13 +110,4 @@ public class KeyDateWrapper extends TimeSetWrapper{
     public String getEndDateUI(){
         return formatEndDateUI(keyDateInfo.getEndDate());
     }
-
-    @Override
-    public boolean isAllDay(){
-        if(!super.isAllDay()&&!this.isDateRange()){
-            this.setAllDay(true);
-        }
-        return super.isAllDay();
-    }
-
 }

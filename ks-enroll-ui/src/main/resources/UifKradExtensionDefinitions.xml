@@ -34,4 +34,14 @@
         </property>
     </bean>
 
+    <bean id="Uif-KS-Default-DateControl" parent="Uif-DateControl" p:size="9" p:minLength="8" p:maxLength="10" p:watermarkText="mm/dd/yyyy">
+        <property name="datePicker.templateOptions">
+            <map merge="true">
+                <entry key="showOn" value="button"/>
+                <entry key="buttonImageOnly" value="true"/>
+                <entry key="constrainInput" value="false"/>
+            </map>
+        </property>
+    </bean>
+
 </beans>

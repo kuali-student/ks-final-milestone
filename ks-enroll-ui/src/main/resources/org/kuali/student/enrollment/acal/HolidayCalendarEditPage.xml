@@ -88,7 +88,7 @@
 						<bean parent="BasicDatePatternConstraint" />
 					</property>
 					<property name="control">
-						<bean parent="Uif-DateControl" />
+						<bean parent="Uif-KS-Default-DateControl" />
 					</property>
 				</bean>
                 <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:required="true"
@@ -98,7 +98,7 @@
 						<bean parent="BasicDatePatternConstraint" />
 					</property>
 					<property name="control">
-						<bean parent="Uif-DateControl" />
+						<bean parent="Uif-KS-Default-DateControl" />
 					</property>
 				</bean>
                 <!-- NOTE:
@@ -142,7 +142,7 @@
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="BasicDatePatternConstraint" />
@@ -172,7 +172,7 @@
                     <property name="required" value="@{#lp.dateRange}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.dateRange"/>
                     <property name="control">
-                        <bean parent="Uif-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy">
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy">
                             <property name="disabled" value="@{!#lp.dateRange}"/>
                         </bean>
                     </property>

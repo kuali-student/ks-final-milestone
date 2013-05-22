@@ -82,7 +82,7 @@
         <property name="required" value="true"/>
         <property name="minLength" value="8" />
         <property name="controlField">
-            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            <bean parent="Uif-KS-Default-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="summary"  value="Official start date of the Academic Calendar" />
@@ -93,7 +93,7 @@
         <property name="required" value="true"/>
         <property name="minLength" value="8" />
         <property name="controlField">
-            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            <bean parent="Uif-KS-Default-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="summary"  value="Official end date of the Academic Calendar" />
