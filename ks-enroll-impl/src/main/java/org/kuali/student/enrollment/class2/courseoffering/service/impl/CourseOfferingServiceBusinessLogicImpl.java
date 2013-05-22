@@ -175,7 +175,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         // create the SRS
         ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo();
         requestSetToSchedule.setTypeKey( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET );
-        requestSetToSchedule.setRefObjectTypeKey( sourceAo.getTypeKey() );
+        requestSetToSchedule.setRefObjectTypeKey(sourceAo.getTypeKey());
         requestSetToSchedule = schedulingService.createScheduleRequestSet( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, sourceAo.getTypeKey(), requestSetToSchedule, context );
 
         // create the SRs/SRCs
@@ -204,6 +204,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo();
         requestSetToSchedule.setTypeKey( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET );
         requestSetToSchedule.setRefObjectTypeKey( sourceAo.getTypeKey() );
+        List<String> targetRefObjIds = new ArrayList<>();
+        targetRefObjIds.add( targetAo.getId() );
+        requestSetToSchedule.setRefObjectIds( targetRefObjIds );
         requestSetToSchedule = schedulingService.createScheduleRequestSet( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, sourceAo.getTypeKey(), requestSetToSchedule, context );
 
         // get the source sched-requests
