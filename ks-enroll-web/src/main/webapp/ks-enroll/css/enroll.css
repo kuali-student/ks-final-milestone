@@ -624,3 +624,26 @@ a {
 }
 /* End of GridSubsection */
 /************************************** END ROLLOVER **************************************/
+
+/************************************** Text with Rounded Background **********************/
+/* This is designed to work with the Uif-DataField. We will need to make it more default later */
+.text-lozenge-orange > span:first-child {
+    color: white;
+    background-color: darkorange;
+    font-size: .85em;
+    padding: 0.2em 0.6em;
+    border-radius: 6px;
+    margin-left: 1em;
+    text-transform: uppercase;
+}
+
+.text-lozenge-grey > span:first-child {
+    color: white;
+    background-color: #a9a9a9;
+    font-size: .85em;
+    padding: 0.2em 0.6em;
+    border-radius: 6px;
+    margin-left: 1em;
+    text-transform: uppercase;
+}
+/************************************** END Text with Rounded Background **********************/
