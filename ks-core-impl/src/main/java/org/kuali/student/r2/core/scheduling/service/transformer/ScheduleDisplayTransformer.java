@@ -27,6 +27,7 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
@@ -135,8 +136,10 @@ public class ScheduleDisplayTransformer {
         displayInfo.setStateKey(scheduleInfo.getStateKey());
         displayInfo.setTypeKey(scheduleInfo.getTypeKey());
         displayInfo.setMeta(scheduleInfo.getMeta());
-// TODOSSR       displayInfo.setRefObjectId(scheduleInfo.getRefObjectId());
-//        displayInfo.setRefObjectTypeKey(scheduleInfo.getRefObjectTypeKey());
+        ScheduleRequestSetInfo setInfo = schedulingService.getScheduleRequestSet(scheduleInfo.getScheduleRequestSetId(), contextInfo);
+
+        displayInfo.setRefObjectId(setInfo.getId());
+        displayInfo.setRefObjectTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
 
         return displayInfo;
     }
