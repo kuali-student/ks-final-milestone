@@ -78,6 +78,7 @@ public class CalendarConstants {
     public static class MessageKeys{
         public static final String INFO_ACADEMIC_CALENDAR_OFFICIAL = "info.enroll.academiccalendar.official";
         public static final String INFO_ACADEMIC_CALENDAR_SAVED = "info.enroll.academiccalendar.saved";
+        public static final String INFO_ACADEMIC_CALENDAR_DELETED = "info.enroll.academiccalendar.deleted";
         public static final String INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
         public static final String INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
         public static final String INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";
@@ -97,5 +98,9 @@ public class CalendarConstants {
         public static final String ERROR_INVALID_DATERANGE_KEYDATE = "error.enroll.keydate.dateNotInTerm";
         public static final String ERROR_CALCULATING_INSTRUCTIONAL_DAYS = "error.enroll.acal.instructionaldays.calculation";
     }
+
+    public static final String GROWL_TITLE="growl.title";
+    public static final String GROWL_MESSAGE="growl.message";
+    public static final String GROWL_MESSAGE_PARAMS="growl.message.params";
 
 }

@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
+import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.uif.util.KSControllerHelper;
@@ -318,7 +319,15 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
-        return saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
+        ModelAndView page = saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
+
+        if(page!=null)return page;
+
+        Properties urlParameters = new Properties();
+        urlParameters.put(CalendarConstants.GROWL_TITLE,"");
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED);
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,academicCalendarForm.getAcademicCalendarInfo().getName());
+        return redirectToSearch(academicCalendarForm,request,urlParameters);
     }
 
     /**
@@ -366,12 +375,11 @@ public class AcademicCalendarController extends UifControllerBase {
             return getUIFModelAndView(acalForm);
         }
 
-        Properties urlParameters = new  Properties();
-        urlParameters.put("viewId", CalendarConstants.ENROLLMENT_HOME_VIEW);
-        urlParameters.put("methodToCall", KRADConstants.START_METHOD);
-        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
-
-        return performRedirect(acalForm, request.getRequestURL().toString(), urlParameters);
+        Properties urlParameters = new Properties();
+        urlParameters.put(CalendarConstants.GROWL_TITLE,"");
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_DELETED);
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,acalForm.getAcademicCalendarInfo().getName());
+        return redirectToSearch(acalForm,request,urlParameters);
     }
 
     /**
@@ -588,7 +596,15 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeAcalOfficial")
     public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
-        return saveAcademicCalendar(acalForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_OFFICIAL, true);
+        ModelAndView page = saveAcademicCalendar(acalForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_OFFICIAL, true);
+
+        if(page!=null)return page;
+
+        Properties urlParameters = new Properties();
+        urlParameters.put(CalendarConstants.GROWL_TITLE,"");
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_OFFICIAL);
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,acalForm.getAcademicCalendarInfo().getName());
+        return redirectToSearch(acalForm,request,urlParameters);
     }
 
 
@@ -715,7 +731,12 @@ public class AcademicCalendarController extends UifControllerBase {
 
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, keyToDisplayOnSave, academicCalendarForm.getAcademicCalendarInfo().getName());
 
-        return getUIFModelAndView(academicCalendarForm);
+        if(GlobalVariables.getMessageMap().getErrorCount()>0 ||GlobalVariables.getMessageMap().getWarningCount()>0){
+            return getUIFModelAndView(academicCalendarForm);
+        }
+
+
+        return null;
     }
 
     private void createEvents(String acalId, AcademicCalendarForm acalForm) throws Exception {
@@ -791,6 +812,14 @@ public class AcademicCalendarController extends UifControllerBase {
     protected AcademicCalendarViewHelperService getAcalViewHelperService(AcademicCalendarForm acalForm){
         AcademicCalendarViewHelperService viewHelperService = (AcademicCalendarViewHelperService) KSControllerHelper.getViewHelperService(acalForm);
         return viewHelperService;
+    }
+
+    ModelAndView redirectToSearch(AcademicCalendarForm academicCalendarForm,HttpServletRequest request, Properties urlParameters){
+        urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
+        urlParameters.put("methodToCall", KRADConstants.START_METHOD);
+        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+        String uri = request.getRequestURL().toString().replace("academicCalendar","calendarSearch");
+        return performRedirect(academicCalendarForm, uri, urlParameters);
     }
 
 }

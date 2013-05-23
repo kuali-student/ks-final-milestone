@@ -84,6 +84,23 @@ public class CalendarSearchController  extends UifControllerBase {
             calendarSearchForm.setCalendarType(calendarSearchType);
         }
 
+
+        String growlMessageKey = request.getParameter(CalendarConstants.GROWL_MESSAGE);
+
+
+        if(growlMessageKey!=null){
+            String growlTitle = request.getParameter(CalendarConstants.GROWL_TITLE);
+            String temp = request.getParameter(CalendarConstants.GROWL_MESSAGE_PARAMS);
+            String[] growlMessageParams;
+            if(temp!=null){
+                growlMessageParams = temp.split(",");
+            }
+            else{
+                growlMessageParams=new String[0];
+            }
+            GlobalVariables.getMessageMap().addGrowlMessage(growlTitle, growlMessageKey,growlMessageParams);
+        }
+
         return super.start(form, result, request, response);
     }
 
