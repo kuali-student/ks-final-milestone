@@ -151,10 +151,13 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 for (ColocatedActivity colocatedActivity : activityOfferingWrapper.getColocatedActivities()){
                     ActivityOfferingInfo ao = getCourseOfferingService().getActivityOffering(colocatedActivity.getActivityOfferingInfo().getId(),defaultContextInfo);
                     ActivityOfferingInfo updatedAO = updateScheduledActivityOffering(ao, defaultContextInfo);
-                    updatedAO.setStateKey(latestAO.getStateKey());
-//    TODOSSR                updatedAO.setScheduleId(latestAO.getScheduleId());
-                    updatedAO.setSchedulingStateKey(latestAO.getSchedulingStateKey());
                     colocatedActivity.setActivityOfferingInfo(updatedAO);
+                    updatedAO.getScheduleIds().clear();
+                    updatedAO.getScheduleIds().addAll(latestAO.getScheduleIds());
+//                    updatedAO.setStateKey(latestAO.getStateKey());
+//    TODOSSR                updatedAO.setScheduleId(latestAO.getScheduleId());
+//                    updatedAO.setSchedulingStateKey(latestAO.getSchedulingStateKey());
+//                    colocatedActivity.setActivityOfferingInfo(updatedAO);
                     colocatedActivity.setAoId(updatedAO.getId());
                 }
             }
@@ -453,7 +456,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     newSet.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
                     newSet.getRefObjectIds().add(wrapper.getId());
                     try {
-                        set = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,set,defaultContextInfo);
+                        set = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,newSet,defaultContextInfo);
                         wrapper.setScheduleRequestSetInfo(set);
                     } catch (Exception e) {
                         throw new RuntimeException(e);

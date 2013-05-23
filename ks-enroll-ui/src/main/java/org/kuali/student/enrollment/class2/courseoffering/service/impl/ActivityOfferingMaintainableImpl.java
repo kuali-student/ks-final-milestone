@@ -138,9 +138,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw convertServiceExceptionsToUI(e);
             }
 
-            if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
-                //if change co-located to un-coloated, no schedules
-            } else {
+//            if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
+//                //if change co-located to un-coloated, no schedules
+//            } else {
                 /**
                  * Even if the user doesnt change any RDL data, here are the scenarios whether we need to process schedules
                  * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
@@ -149,10 +149,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                  */
                 if (activityOfferingWrapper.isSchedulesModified() ||
                         (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
+                        (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()) ||
                         (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
                     getScheduleHelper().saveSchedules(activityOfferingWrapper,contextInfo);
                 }
-            }
+//            }
 
             /**
              * Now that the Ao & the schedule has been updated, we need to update the registration groups
@@ -177,8 +178,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     boolean deleteSchedule = false;
                     List<String> deleteScheduleIds = new ArrayList<>();
                     if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
-                        deleteScheduleIds.addAll(activity.getActivityOfferingInfo().getScheduleIds());
-                        activity.getActivityOfferingInfo().getScheduleIds().clear();
+                        if (!activityOfferingWrapper.isSchedulingCompleted()){
+                            deleteScheduleIds.addAll(activity.getActivityOfferingInfo().getScheduleIds());
+                            activity.getActivityOfferingInfo().getScheduleIds().clear();
+                        }
                         deleteSchedule = true;
                     }
 
@@ -504,6 +507,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         if (info.getIsColocated()){
 
             wrapper.setColocatedAO(true);
+            wrapper.setPartOfColoSetOnLoadAlready(true);
 
             List<ScheduleRequestSetInfo> scheduleRequestSets = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, info.getId(), createContextInfo());
             if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){

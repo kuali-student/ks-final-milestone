@@ -1867,24 +1867,64 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
+        /**
+         * This method essentially has to do the following until we implement external scheduler
+         * 1. Know the list of current schedule Ids for an AO
+         * 2. Get Schedule Requests for an AO.
+         * 3. Convert all the Schedule Requests to Schedule
+         * 4. Update AO with the latest schedule Ids
+         * 5. Once updated, delete all the old schedules.
+         */
         ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, contextInfo);
 
         List<ScheduleRequestInfo> requests = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOfferingId, contextInfo);
 
         StatusInfo result = new StatusInfo();
 
-        String newScheduleId = "";
-        ScheduleInfo scheduleInfo;
+        List<String> scheduleInfoList = new ArrayList<>(aoInfo.getScheduleIds());
 
-        List<String> scheduleInfoList = aoInfo.getScheduleIds();
+        aoInfo.getScheduleIds().clear();
 
-        if (requests.isEmpty()) {
+        for (ScheduleRequestInfo request : requests) {
+            ScheduleInfo scheduleInfo = new ScheduleInfo();
+
+            // short cut the submission to the scheduler, and just translate requested delivery logistics to actual delivery logistics
+            SchedulingServiceUtil.requestToSchedule(request, scheduleInfo);
+
+            scheduleInfo.setAtpId(aoInfo.getTermId());
+            try {
+                ScheduleInfo persistedSchedule = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
+                request.setScheduleId(persistedSchedule.getId());
+                schedulingService.updateScheduleRequest(request.getId(), request, contextInfo);
+                aoInfo.getScheduleIds().add(persistedSchedule.getId());
+            } catch (Exception e) {
+                throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
+            }
+        }
+
+        try {
+            updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        result.setSuccess(true);
+        result.setMessage("New Schedule Successfully created");
+
+        for(String scheduleId : scheduleInfoList){
+            StatusInfo statusInfo = getSchedulingService().deleteSchedule(scheduleId,contextInfo);
+            if (!statusInfo.getIsSuccess()){
+                 throw new OperationFailedException("Error deleting schedule" + scheduleId);
+            }
+        }
+
+
+        /*if (requests.isEmpty()) {
 
             result.setSuccess(true);
             result.setMessage("No scheduling requests were found");
-            /**
+            *//**
              * When there are no RDLs, make sure to clear the ADLs from the AO
-             */
+             *//*
             if (!scheduleInfoList.isEmpty()) {
                 for (String id : scheduleInfoList) {
                     releaseScheduleResources(id, contextInfo);
@@ -1933,7 +1973,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                 result.setSuccess(true);
                 result.setMessage("New Schedule Successfully created");
             }
-        }
+        }*/
         return result;
     }
 
