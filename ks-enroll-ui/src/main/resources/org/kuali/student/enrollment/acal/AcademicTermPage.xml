@@ -162,18 +162,15 @@
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
         <property name="layoutManager.richTable.render" value="false" />
+        <property name="addLineActions">
+            <list>
+                <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
+                since the first field is a validated dropdown -->
+                <bean parent="Uif-AddLineAction" p:focusOnIdAfterSubmit="SELF"/>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <!-- Hidden field to set focus to instead of one with client side validation -->
-                <bean parent="Uif-InputField" p:propertyName="keyDateNameUI">
-                    <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
-                    <property name="control">
-                        <bean parent="Uif-TextControl">
-                            <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
-                            <property name="tabIndex" value="1"/>
-                        </bean>
-                    </property>
-                </bean>
                 <bean id="key_date_type" parent="Uif-InputField" p:propertyName="keyDateType" p:required="true"
                       p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
                       p:label="Key Date Type"
