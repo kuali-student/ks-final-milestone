@@ -635,6 +635,7 @@ a {
     border-radius: 6px;
     margin-left: 1em;
     text-transform: uppercase;
+    white-space: nowrap
 }
 
 .text-lozenge-grey > span:first-child {
@@ -645,5 +646,6 @@ a {
     border-radius: 6px;
     margin-left: 1em;
     text-transform: uppercase;
+    white-space: nowrap
 }
 /************************************** END Text with Rounded Background **********************/

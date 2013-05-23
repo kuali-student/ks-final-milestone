@@ -67,18 +67,12 @@
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-DataField" p:id="rollover-status" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:style="color:white; background-color:#858585;"/>
+                                                    <bean parent="KS-Lozenge-Grey-Uif-DataField" p:id="rollover-status" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" />
                                                     <bean parent="Uif-ActionLink" p:performClientSideValidation="true" p:actionLabel="Refresh" p:methodToCall="showRolloverResults" p:valign="bottom" p:onClickScript="writeHiddenToForm(&quot;rolloverTargetTermCode&quot;, &quot;@{rolloverTargetTermCode}&quot;);"/>
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:render="@{!socReleasedToDepts and statusField=='Finished'}">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>text-lozenge-grey</value>
-                                                </list>
-                                            </property>
-                                        </bean>
+                                        <bean parent="KS-Lozenge-Grey-Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:render="@{!socReleasedToDepts and statusField=='Finished'}"/>
                                         <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt; &#160; &#160;Released to Departments" p:render="@{socReleasedToDepts}" p:colSpan="2" p:style="padding-left:140px;"/>
                                         <bean parent="Uif-DataField" p:label="Date Initiated"
                                               p:fieldLabel.renderColon="false"

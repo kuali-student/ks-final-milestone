@@ -339,4 +339,13 @@
         <property name="comboboxButtonEnabled" value="true"/>
     </bean>
 
+    <bean id="KS-Lozenge-Grey-Uif-DataField" parent="Uif-DataField">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>text-lozenge-grey</value>
+            </list>
+        </property>
+    </bean>
+
+
 </beans>
