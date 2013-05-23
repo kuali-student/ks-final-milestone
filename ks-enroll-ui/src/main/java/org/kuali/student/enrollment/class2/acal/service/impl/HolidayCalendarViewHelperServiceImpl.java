@@ -156,25 +156,41 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
         return retrievedHc;
     }
 
+    /**
+     * Returns the most recently created calendar of the current year or past year.
+     *
+     * @return The found holiday calendar or null if no calendars found for the last 2 years.
+     * @throws Exception
+     */
     public HolidayCalendarInfo getNewestHolidayCalendar() throws Exception {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+
+        // Get the list of holiday calendars for the current year
         List<HolidayCalendarInfo> holidayCalendarInfoList =
                 getAcalService().getHolidayCalendarsByStartYear(currentYear, createContextInfo());
+
+        // Check if calendars were found for this year. If not found search for calenders in the previous year
         if ((null == holidayCalendarInfoList) || holidayCalendarInfoList.isEmpty()) {
             holidayCalendarInfoList =
                     getAcalService().getHolidayCalendarsByStartYear((currentYear - 1), createContextInfo());
         }
 
         if ((null == holidayCalendarInfoList) || (holidayCalendarInfoList.size() == 0)) {
+
+            // If no calendars are found for current or previous year return null.
             return null;
         }
         else {
+            // If Calendars are found search through them to find the most recently created.
+            // The number of calendars should be small so naive search possible.
             HolidayCalendarInfo newestCalendar =  holidayCalendarInfoList.get(0);
             for(HolidayCalendarInfo calendarTemp: holidayCalendarInfoList){
+                // Compare the time when the calendars are created and pick the higher one (most recent).
                 if(calendarTemp.getMeta().getCreateTime().compareTo(newestCalendar.getMeta().getCreateTime())>0){
                     newestCalendar = calendarTemp;
                 }
             }
+
             return newestCalendar;
         }
     }
