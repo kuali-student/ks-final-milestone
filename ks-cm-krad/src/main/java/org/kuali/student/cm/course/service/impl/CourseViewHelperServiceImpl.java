@@ -18,14 +18,14 @@ package org.kuali.student.cm.course.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.PredicateUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants.EntityTypes;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
@@ -36,6 +36,14 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
+import org.kuali.student.cm.course.form.SubjectCodeDisplay;
+import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 
 /**
@@ -48,6 +56,8 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 	private static final long serialVersionUID = 1338662637708570500L;
 
 	private IdentityService identityService;
+
+	private SubjectCodeService subjectCodeService;
 
 	private List<Person> findPeople(String principalName) {
 		List<Person> people = new ArrayList<Person>();
@@ -127,12 +137,61 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 
 		return instructors;
 	}
+	
+	public List<SubjectCodeDisplay> getSubjectCodes(String subjectCode) {
+        List<SubjectCodeDisplay> retrievedCodes = new ArrayList<SubjectCodeDisplay>();
 
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        
+        SearchParamInfo codeParam = new SearchParamInfo();
+        codeParam.setKey("subjectCode.queryParam.code");
+        List<String> codeValues = new ArrayList<String>();
+        codeValues.add(subjectCode);
+        codeParam.setValues(codeValues);
+        
+        queryParamValueList.add(codeParam);
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("subjectCode.search.subjectCodeGeneric");
+        searchRequest.setParams(queryParamValueList);
+        
+        SearchResultInfo searchResult = null;
+        try {
+        	searchResult = getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo());
+            for (SearchResultRowInfo result : searchResult.getRows()) {
+                List<SearchResultCellInfo> cells = result.getCells();
+                String id = "";
+                String code = "";
+                for (SearchResultCellInfo cell : cells) {
+                	if ("subjectCode.resultColumn.id".equals(cell.getKey())) {
+                		id = cell.getValue();
+                	}
+                	if ("subjectCode.resultColumn.code".equals(cell.getKey())) {
+                		code = cell.getValue();
+                	}
+                }
+                retrievedCodes.add(new SubjectCodeDisplay(id, code));
+            }
+        } catch (Exception e) {
+            //do nothing
+        }
+
+        return retrievedCodes;
+    }
+	
 	private IdentityService getIdentityService() {
 		if (identityService == null) {
 			identityService = KimApiServiceLocator.getIdentityService();
 		}
 		return identityService;
 	}
+	
+	private SubjectCodeService getSubjectCodeService() {
+		if (subjectCodeService == null) {
+			subjectCodeService = GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/subjectCode", SubjectCodeService.class.getSimpleName()));
+		}
+		return subjectCodeService;
+	}	
+	
 
 }

@@ -55,7 +55,7 @@ limitations under the License.
 					p:propertyName="proposalInfo.name" p:required="true">
 					<property name="instructionalText" value="This title is used for identifying the proposal through the appproval process. It is highly recommended that you use the same name for the course and proposal title."/>
 					<property name="control">
-						<bean parent="Uif-LargeTextControl" />
+						<bean parent="Uif-TextControl" p:size="70" p:maxLength="150" />
 					</property>
 					<property name="help">
 						<bean parent="Uif-Help"
@@ -68,7 +68,7 @@ limitations under the License.
 					<property name="instructionalText"
 						value="It is highly recommended that you use the same name for the course and proposal title." />
 					<property name="control">
-						<bean parent="Uif-LargeTextControl" />
+						<bean parent="Uif-TextControl" p:size="70" p:maxLength="150" />
 					</property>
 				</bean>
 
@@ -76,9 +76,8 @@ limitations under the License.
 					p:propertyName="courseInfo.transcriptTitle">
 					<property name="instructionalText"
 						value="This is the truncated title that will appear on the printed transcript." />
-					<property name="maxLength" value="24" />
 					<property name="control">
-						<bean parent="Uif-TextControl" p:size="24"
+						<bean parent="Uif-TextControl" p:size="24" p:maxLength="24" 
 							p:onDocumentReadyScript="jQuery('#KS-TranscriptTitle_control').jqEasyCounter({'maxChars': 24, 'maxCharsWarning': 14, 'msgTextAlign': 'left'});" />
 					</property>
 				</bean>
@@ -89,23 +88,30 @@ limitations under the License.
 							<bean id="KS-SubjectArea-Field" parent="Uif-InputField-LabelTop"
 								p:label="Subject Code" p:propertyName="courseInfo.subjectArea">
 								<property name="constraintText" value="Must be a 4 letter code" />
-								<property name="maxLength" value="4" />
 								<property name="validCharactersConstraint">
 									<bean parent="AlphaPatternConstraint" />
 								</property>
 								<property name="control">
-									<bean parent="Uif-TextControl" p:size="4" p:watermarkText="AAAA" />
+									<bean parent="Uif-TextControl" p:size="6" p:maxLength="4" p:watermarkText="AAAA" />
+								</property>
+								<property name="suggest">
+									<bean parent="Uif-Suggest" p:render="true">
+										<property name="sourcePropertyName" value="code"/>
+										<property name="templateOptions" value="minLength:1,delay:0" />
+										<property name="suggestQuery">
+											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getSubjectCodes" />
+										</property>
+									</bean>
 								</property>
 							</bean>
 							<bean id="KS-CourseNumberSuffix-Field" parent="Uif-InputField-LabelTop"
 								p:label="Course Number" p:propertyName="courseInfo.courseNumberSuffix">
 								<property name="constraintText" value="Must be a 3 digit number" />
-								<property name="maxLength" value="3" />
 								<property name="validCharactersConstraint">
 									<bean parent="NumericPatternConstraint" />
 								</property>
 								<property name="control">
-									<bean parent="Uif-TextControl" p:size="3" p:watermarkText="111" />
+									<bean parent="Uif-TextControl" p:size="3" p:maxLength="3" p:watermarkText="111" />
 								</property>
 								<property name="help">
 									<bean parent="Uif-Help"
@@ -163,16 +169,15 @@ limitations under the License.
 								<property name="instructionalText"
 									value="This description will appear in the catalog." />
 								<property name="control">
-									<bean parent="Uif-TextAreaControl" />
+									<bean parent="Uif-LargeTextAreaControl" />
 								</property>
 							</bean>
 							<bean id="KS-ProposalRationale" parent="Uif-InputField-LabelTop" p:label="Proposal Rationale"
 								p:propertyName="proposalInfo.rationale.plain">
 								<property name="instructionalText"
 									value="This will be used in evaluating the proposal. It will not be published in the catalog." />
-								<property name="maxLength" value="255" />
 								<property name="control">
-									<bean parent="Uif-LargeTextAreaControl"
+									<bean parent="Uif-LargeTextAreaControl" p:maxLength="255"
 										p:onDocumentReadyScript="jQuery('#KS-ProposalRationale_control').jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});" />
 								</property>
 							</bean>
