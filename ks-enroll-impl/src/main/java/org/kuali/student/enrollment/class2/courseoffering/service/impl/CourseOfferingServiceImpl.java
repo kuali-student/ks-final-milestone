@@ -1914,13 +1914,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (aoInfo.getIsColocated() && !requests.isEmpty()){
             ScheduleRequestSetInfo schSet = getSchedulingService().getScheduleRequestSet(requests.get(0).getScheduleRequestSetId(),contextInfo);
             for (String aoId : schSet.getRefObjectIds()){
-                ActivityOfferingInfo ao = getActivityOffering(aoId,contextInfo);
-                ao.getScheduleIds().clear();
-                ao.getScheduleIds().addAll(aoInfo.getScheduleIds());
-                try {
-                    updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
-                } catch (Exception e) {
-                    throw new OperationFailedException("Error updating schedule id for the colo activity offering - " + e.getMessage(),e);
+                if (!StringUtils.equals(aoId,aoInfo.getId())) {
+                    ActivityOfferingInfo colo = getActivityOffering(aoId,contextInfo);
+                    colo.getScheduleIds().clear();
+                    colo.getScheduleIds().addAll(aoInfo.getScheduleIds());
+                    try {
+                        updateActivityOffering(colo.getId(), colo, contextInfo);
+                    } catch (Exception e) {
+                        throw new OperationFailedException("Error updating schedule id for the colo activity offering - " + e.getMessage(),e);
+                    }
                 }
             }
         }
