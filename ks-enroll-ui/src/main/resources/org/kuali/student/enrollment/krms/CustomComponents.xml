@@ -394,8 +394,7 @@
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-
-                <bean parent="Uif-InputField-LabelTop" p:label="Progressive Disclose"
+                <bean parent="Uif-InputField-LabelTop" p:label="Select Course Range Type"
                       p:width="auto" p:propertyName="searchByCourseRange">
                     <property name="instructionalText" value="Search By" />
                     <property name="control">
@@ -421,7 +420,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Add Course Range" p:methodToCall="addRange"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel"  p:actionScript="jQuery.fancybox.close();" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="jQuery.fancybox.close();"/>
                     </list>
                 </property>
             </bean>
@@ -430,11 +429,9 @@
     <bean id="KRMS-CourseRangeLightBox" parent="KRMS-CourseRangeLightBox-parent">
         <property name="items">
             <list merge="true">
-
                 <ref bean="KRMS-CourseNumber-RangeSection" />
                 <ref bean="KRMS-LearningObjective-RangeSection" />
                 <ref bean="KRMS-EffectiveDate-RangeSection" />
-
             </list>
         </property>
     </bean>

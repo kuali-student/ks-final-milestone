@@ -391,7 +391,7 @@
     </bean>
 
     <bean id="KS-RulerEditor-TreeSection-parent" parent="Uif-TreeSection" p:disclosure.render="false"
-          p:header.render="false"
+          p:header.render="false" p:id="editWithObjectTree"
           p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
         <property name="propertyName" value="editTree"/>
         <property name="validationMessages.displayMessages" value="true"/>

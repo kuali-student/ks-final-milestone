@@ -87,6 +87,8 @@ public class RuleStudentEditorController extends RuleEditorController {
         EnrolPropositionEditor prop = (EnrolPropositionEditor) rule.getProposition();
 
         ruleWrapper.setClusInRange(this.getViewHelper(form).getCoursesInRange(prop.getCluSet().getMembershipQueryInfo()));
+        rule.setClusInRange(ruleWrapper.getClusInRange());
+        prop.getCluSet().setClusInRange(ruleWrapper.getClusInRange());
 
         form.setLightboxScript("showLightboxComponent('" + dialog + "');");
         return getUIFModelAndView(form);
@@ -131,6 +133,7 @@ public class RuleStudentEditorController extends RuleEditorController {
             membershipQueryInfo.setQueryParamValues(queryParams);
 
             rule.getCluSetRange().setCluSetRangeLabel("<b>Subject Code:</b> " + rule.getCluSetRange().getSubjectCode() + " <b>Course Number Range:</b> " + rule.getCluSetRange().getCourseNumberRange() + " <b>State:</b> Draft");
+            ruleWrapper.setClusInRange(this.getViewHelper(form).getCoursesInRange(prop.getCluSet().getMembershipQueryInfo()));
         } else if(rule.getSearchByCourseRange().equals("2")) {
             membershipQueryInfo.setSearchTypeKey("lu.search.loByDescCrossSearch");
             List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
@@ -179,8 +182,6 @@ public class RuleStudentEditorController extends RuleEditorController {
         }
 
         form.setLightboxScript("jQuery.fancybox.close();");
-
-        // reload page1
         return getUIFModelAndView(form);
     }
 

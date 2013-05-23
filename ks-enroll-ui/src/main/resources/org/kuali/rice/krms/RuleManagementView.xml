@@ -40,6 +40,7 @@
         <property name="dialogs">
             <list>
                 <bean id="courseRangeLightBox" parent="KRMS-CourseRangeLightBox"/>
+                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="compareRuleLightBox" parent="KS-CompareRule"/>
             </list>
         </property>

@@ -660,7 +660,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                         if(parent.getCompoundEditors().isEmpty()) {
                             PropositionTreeUtil.removeCompoundProp((PropositionEditor) ruleEditor.getProposition());
                         } else if(parent.getCompoundEditors().size() == 1) {
-                            GlobalVariables.getMessageMap().putWarning("editTree", "Single proposition remains in compound proposition");
+                            GlobalVariables.getMessageMap().putWarning("editWithObjectTree", "warning.krms.tree.compound.single.simple", parent.getKey());
                         }
                         break;
                     }
