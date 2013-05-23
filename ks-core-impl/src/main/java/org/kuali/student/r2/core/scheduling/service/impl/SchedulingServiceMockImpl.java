@@ -22,12 +22,22 @@ package org.kuali.student.r2.core.scheduling.service.impl;
  * @author Mezba Mahtab
  */
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -37,7 +47,19 @@ import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestSet;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.service.transformer.ScheduleDisplayTransformer;
@@ -467,17 +489,20 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     @Override
     public List<String> getScheduleRequestIdsByRefObject(String refObjectType, String refObjectId, ContextInfo contextInfo)
             throws InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException {
-        List<String> list = new ArrayList<String> ();
+            , MissingParameterException
+            , OperationFailedException
+            , PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
 
         //  Find the ScheduleRequests associated with the given refObjectId via the ScheduleRequestSet
-        for (ScheduleRequestSet srs : scheduleRequestSetMap.values()) {
+
+        for (ScheduleRequest sr : scheduleRequestMap.values()) {
+            ScheduleRequestSetInfo srs = scheduleRequestSetMap.get(sr.getScheduleRequestSetId());
             if (srs.getRefObjectTypeKey().equals(refObjectType) && srs.getRefObjectIds().contains(refObjectId)) {
-                list.addAll(scheduleRequestMap.keySet());
+                list.add(sr.getId());
             }
         }
+
         return list;
     }
 
