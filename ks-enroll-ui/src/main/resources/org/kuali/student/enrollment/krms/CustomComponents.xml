@@ -50,7 +50,7 @@
             <bean parent="KRMS-Course-SuggestControl"/>
         </property-->
         <property name="control">
-            <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:disabled="true"/>
+            <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;" p:readOnly="true"/>
         </property>
         <property name="quickfinder">
             <bean parent="KRMS-Course-QuickFinder"/>
@@ -214,7 +214,7 @@
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 380px;">
                     <property name="propertyName" value="name"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;" p:disabled="true">
+                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;" p:readOnly="true">
                             <!--this is a hack-->
                             <!--property name="onMouseOverScript" value="disableMe(jq(this));"/>
                             <property name="onFocusScript" value="disableMe(jq(this));"/>
@@ -279,7 +279,7 @@
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;" p:disabled="true">
+                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;" p:readOnly="true">
                             <!--this is a hack-->
                             <!--property name="onMouseOverScript" value="disableMe(jq(this));"/>
                             <property name="onFocusScript" value="disableMe(jq(this));"/>
