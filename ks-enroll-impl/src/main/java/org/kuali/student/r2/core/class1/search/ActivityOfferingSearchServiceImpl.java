@@ -289,16 +289,16 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "SELECT aoMatchIds," +
                 "       co_ident.code," +
                 "       ao_ident.code," +
-                "       lset.id " +
-                "FROM LuiSetEntity lset," +
-                "     IN(lset.luiIds) aoMatchIds," +
-                "     IN(lset.luiIds) aoIds," +
+                "       srs.id " +
+                "FROM ScheduleRequestSetEntity srs," +
+                "     IN(srs.refObjectIds) aoMatchIds," +
+                "     IN(srs.refObjectIds) aoIds," +
                 "     LuiIdentifierEntity co_ident," +
                 "     LuiIdentifierEntity ao_ident," +
                 "     LuiLuiRelationEntity co2fo," +
                 "     LuiLuiRelationEntity fo2ao " +
-                "WHERE lset.luiSetType = 'kuali.luiset.type.colocated.offering.set' " +
-                "  AND aoMatchIds IN(" + aoIdStr + ") " +
+                "WHERE " +
+                "  aoMatchIds IN(" + aoIdStr + ") " +
                 "  AND co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
                 "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
                 "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
