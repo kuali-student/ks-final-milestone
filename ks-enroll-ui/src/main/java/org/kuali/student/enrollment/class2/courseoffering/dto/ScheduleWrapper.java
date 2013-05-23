@@ -70,6 +70,7 @@ public class ScheduleWrapper implements Serializable{
     private List<String> colocatedAOs;
 
     private EditRenderHelper editRenderHelper;
+    private boolean modified;
 
     public ScheduleWrapper(){
         features = new ArrayList<>();
@@ -365,6 +366,14 @@ public class ScheduleWrapper implements Serializable{
 
     public void setColocatedAOs(List<String> colocatedAOs) {
         this.colocatedAOs = colocatedAOs;
+    }
+
+    public boolean isModified() {
+        return modified;
+    }
+
+    public void setModified(boolean modified) {
+        this.modified = modified;
     }
 
     public EditRenderHelper getEditRenderHelper() {

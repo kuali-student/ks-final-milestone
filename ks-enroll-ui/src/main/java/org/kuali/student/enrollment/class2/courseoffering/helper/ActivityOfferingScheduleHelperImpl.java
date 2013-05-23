@@ -88,9 +88,9 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
 
         if (wrapper.isSchedulingCompleted()){
-            processRevisedSchedules(wrapper,defaultContextInfo);
+            savePostMSE(wrapper, defaultContextInfo);
         } else {
-            createOrUpdateScheduleRequests(wrapper,defaultContextInfo);
+            savePreMSE(wrapper, defaultContextInfo);
         }
 
     }
@@ -118,9 +118,9 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     }
 
-    public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper,ContextInfo defaultContextInfo){
+    public void savePostMSE(ActivityOfferingWrapper activityOfferingWrapper,ContextInfo defaultContextInfo){
 
-        createOrUpdateScheduleRequests(activityOfferingWrapper,defaultContextInfo);
+        savePreMSE(activityOfferingWrapper, defaultContextInfo);
 
         if (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.isSendRDLsToSchedulerAfterMSE()){
             return;
@@ -364,14 +364,17 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         wrapper.setScheduleRequestInfo(scheduleRequest);
     }*/
 
-    public void createOrUpdateScheduleRequests(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo) {
+    public void savePreMSE(ActivityOfferingWrapper wrapper, ContextInfo defaultContextInfo) {
 
         /*
          1. Handle all the deleted RDLs first
          */
         for (ScheduleWrapper scheduleWrapperDeleted : wrapper.getDeletedScheduleComponents()){
             try {
-                getSchedulingService().deleteScheduleRequest(scheduleWrapperDeleted.getScheduleRequestInfo().getId(),defaultContextInfo);
+                StatusInfo statusInfo = getSchedulingService().deleteScheduleRequest(scheduleWrapperDeleted.getScheduleRequestInfo().getId(),defaultContextInfo);
+                if (!statusInfo.getIsSuccess()){
+                    throw new OperationFailedException("Cant delete the schedule request " + statusInfo.getMessage());
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -526,6 +529,18 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     throw new RuntimeException(e);
                 }
 
+            } else if (scheduleWrapper.isModified()){
+                try {
+                    ScheduleRequestInfo scheduleRequest = scheduleWrapper.getScheduleRequestInfo();
+                    ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(scheduleWrapper,defaultContextInfo);
+                    scheduleRequest.getScheduleRequestComponents().clear();
+                    scheduleRequest.getScheduleRequestComponents().add(componentInfo);
+
+                    ScheduleRequestInfo newScheduleRequest = getSchedulingService().updateScheduleRequest(scheduleRequest.getId(),scheduleRequest,defaultContextInfo);
+                    scheduleWrapper.setScheduleRequestInfo(newScheduleRequest);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
 
@@ -1087,11 +1102,11 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     public void deleteRequestedAndActualSchedules(ScheduleRequestSetInfo schSet,String activityId,List<String> deleteScheduleIds,ContextInfo defaultContextInfo){
         try {
-            List<ScheduleRequestInfo> rdls = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,activityId,createContextInfo());
+            List<ScheduleRequestInfo> rdls = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityId, createContextInfo());
             for (ScheduleRequestInfo rdl : rdls) {
                 if (!StringUtils.equals(rdl.getScheduleRequestSetId(),schSet.getId())){
                     //Util we implement partial colo, there is going to be only one sch set
-                    StatusInfo status = getSchedulingService().deleteScheduleRequestSet(rdl.getScheduleRequestSetId(),defaultContextInfo);
+                    StatusInfo status = getSchedulingService().deleteScheduleRequestSet(rdl.getScheduleRequestSetId(), defaultContextInfo);
                     if (!status.getIsSuccess()){
                          throw new RuntimeException("Cant delete RDL");
                     }
