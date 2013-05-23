@@ -495,8 +495,16 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_STATE, (String)resultRow[i++]);
 
-            for(String scheduleId : searchForScheduleIdsByAOId(aoId)) {
-                row.addCell(SearchResultColumns.SCHEDULE_ID, scheduleId);
+            String strSchedules = "";
+            List<String> scheduleIds = searchForScheduleIdsByAOId(aoId);
+            if(scheduleIds != null && !scheduleIds.isEmpty()) {
+                for(String scheduleId : scheduleIds) {
+                    strSchedules = scheduleId + ",";
+                }
+
+                row.addCell(SearchResultColumns.SCHEDULE_ID, strSchedules.substring(0, strSchedules.lastIndexOf(",")));
+            } else {
+                row.addCell(SearchResultColumns.SCHEDULE_ID,null);
             }
 
             row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i].toString());

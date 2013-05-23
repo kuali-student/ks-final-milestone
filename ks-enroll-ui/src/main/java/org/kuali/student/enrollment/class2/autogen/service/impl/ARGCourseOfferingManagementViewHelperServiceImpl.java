@@ -1002,13 +1002,19 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         aoWrapper.setTypeName(typeInfo.getName());
                     }
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.SCHEDULE_ID.equals(cell.getKey())) {
-                    //TODOSSR: aoWrapper.getAoInfo().setScheduleId(cell.getValue());
-                    List<ActivityOfferingWrapper> list = sch2aoMap.get(cell.getValue());
-                    if(list == null){
-                        list = new ArrayList<ActivityOfferingWrapper>();
-                        sch2aoMap.put(cell.getValue(), list);
+                    if(cell.getValue()!=null){
+                        List<String> scheduleIds = Arrays.asList(cell.getValue().split(","));
+                        aoWrapper.getAoInfo().setScheduleIds(scheduleIds);
+
+                        for(String scheduleId : scheduleIds){
+                            List<ActivityOfferingWrapper> list = sch2aoMap.get(scheduleId);
+                            if(list == null){
+                                list = new ArrayList<ActivityOfferingWrapper>();
+                                sch2aoMap.put(scheduleId, list);
+                            }
+                            list.add(aoWrapper);//Add to schedule map
+                        }
                     }
-                    list.add(aoWrapper);//Add to schedule map
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())) {
                     aoWrapper.getAoInfo().setFormatOfferingId(cell.getValue());
                     foId = cell.getValue();
