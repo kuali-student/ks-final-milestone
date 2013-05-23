@@ -645,7 +645,12 @@ public class RuleEditorController extends MaintenanceDocumentController {
         Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
 
         // what if it is the root?
-        if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
+        if(parentNode.getNodeType().contains("treeRoot") && parentNode.getChildren().size() == 1) {
+            parentNode.getChildren().clear();
+            ruleEditor.getEditTree().setRootElement(null);
+            ruleEditor.setPropId(null);
+            ruleEditor.setProposition(null);
+        } else if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
             PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null) {
                 List<PropositionEditor> children = (List<PropositionEditor>) parent.getCompoundComponents();
@@ -654,6 +659,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
                         parent.getCompoundComponents().remove(index);
                         if(parent.getCompoundEditors().isEmpty()) {
                             PropositionTreeUtil.removeCompoundProp((PropositionEditor) ruleEditor.getProposition());
+                        } else if(parent.getCompoundEditors().size() == 1) {
+                            GlobalVariables.getMessageMap().putWarning("editTree", "Single proposition remains in compound proposition");
                         }
                         break;
                     }

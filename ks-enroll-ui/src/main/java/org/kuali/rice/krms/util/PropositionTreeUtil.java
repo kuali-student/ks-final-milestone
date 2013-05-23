@@ -286,7 +286,7 @@ public class PropositionTreeUtil {
                 } else if(child.getCompoundEditors().size() == 1 && child.isNewProp()) {
                     proposition.getCompoundEditors().set(i, child.getCompoundEditors().get(0));
                     continue;
-                } else if(child.getCompoundEditors().isEmpty()) {
+                } else if(child.getCompoundEditors().isEmpty() && child.getPropositionTypeCode().equals("C")) {
                     proposition.getCompoundEditors().remove(i);
                     continue;
                 } else {
