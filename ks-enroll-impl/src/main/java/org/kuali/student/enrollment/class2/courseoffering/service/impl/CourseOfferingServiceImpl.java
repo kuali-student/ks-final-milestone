@@ -1873,7 +1873,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
          * 2. Get Schedule Requests for an AO.
          * 3. Convert all the Schedule Requests to Schedule
          * 4. Update AO with the latest schedule Ids
-         * 5. Once updated, delete all the old schedules.
+         * 5. If it's a colo, update all the AOs in that set with new sch ids
+         * 6. Once updated, delete all the old schedules.
          */
         ActivityOfferingInfo aoInfo = getActivityOffering(activityOfferingId, contextInfo);
 
@@ -1909,6 +1910,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         result.setSuccess(true);
         result.setMessage("New Schedule Successfully created");
+
+        if (aoInfo.getIsColocated() && !requests.isEmpty()){
+            ScheduleRequestSetInfo schSet = getSchedulingService().getScheduleRequestSet(requests.get(0).getScheduleRequestSetId(),contextInfo);
+            for (String aoId : schSet.getRefObjectIds()){
+                ActivityOfferingInfo ao = getActivityOffering(aoId,contextInfo);
+                ao.getScheduleIds().clear();
+                ao.getScheduleIds().addAll(aoInfo.getScheduleIds());
+                try {
+                    updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
+                } catch (Exception e) {
+                    throw new OperationFailedException("Error updating schedule id for the colo activity offering - " + e.getMessage(),e);
+                }
+            }
+        }
 
         for(String scheduleId : scheduleInfoList){
             StatusInfo statusInfo = getSchedulingService().deleteSchedule(scheduleId,contextInfo);

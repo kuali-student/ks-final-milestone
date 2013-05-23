@@ -152,8 +152,6 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     ActivityOfferingInfo ao = getCourseOfferingService().getActivityOffering(colocatedActivity.getActivityOfferingInfo().getId(),defaultContextInfo);
                     ActivityOfferingInfo updatedAO = updateScheduledActivityOffering(ao, defaultContextInfo);
                     colocatedActivity.setActivityOfferingInfo(updatedAO);
-                    updatedAO.getScheduleIds().clear();
-                    updatedAO.getScheduleIds().addAll(latestAO.getScheduleIds());
 //                    updatedAO.setStateKey(latestAO.getStateKey());
 //    TODOSSR                updatedAO.setScheduleId(latestAO.getScheduleId());
 //                    updatedAO.setSchedulingStateKey(latestAO.getSchedulingStateKey());
