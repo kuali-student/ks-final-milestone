@@ -1928,69 +1928,35 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         for(String scheduleId : scheduleInfoList){
-            StatusInfo statusInfo = getSchedulingService().deleteSchedule(scheduleId,contextInfo);
-            if (!statusInfo.getIsSuccess()){
-                 throw new OperationFailedException("Error deleting schedule" + scheduleId);
+
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.equal("scheduleId", scheduleId));
+
+            QueryByCriteria criteria = qbcBuilder.build();
+
+            List<ScheduleRequestInfo> schInfos = getSchedulingService().searchForScheduleRequests(criteria,contextInfo);
+            /**
+             * This SRS check is to make sure the AO is part of the set. If it's not, we should not delete the schedule
+             * as it may contain other AOs (This happens when user decides to decolcate from a set)
+             */
+            boolean deleteSchedule = true;
+            if (!schInfos.isEmpty()){
+                ScheduleRequestSetInfo setInfo = getSchedulingService().getScheduleRequestSet(schInfos.get(0).getScheduleRequestSetId(),contextInfo);
+                if (!setInfo.getRefObjectIds().contains(aoInfo.getId())){
+                    deleteSchedule = false;
+                }
             }
+
+            if (deleteSchedule){
+                StatusInfo statusInfo = getSchedulingService().deleteSchedule(scheduleId,contextInfo);
+                if (!statusInfo.getIsSuccess()){
+                     throw new OperationFailedException("Error deleting schedule" + scheduleId);
+                }
+            }
+
+
         }
 
-
-        /*if (requests.isEmpty()) {
-
-            result.setSuccess(true);
-            result.setMessage("No scheduling requests were found");
-            *//**
-             * When there are no RDLs, make sure to clear the ADLs from the AO
-             *//*
-            if (!scheduleInfoList.isEmpty()) {
-                for (String id : scheduleInfoList) {
-                    releaseScheduleResources(id, contextInfo);
-                }
-                scheduleInfoList.clear();
-                aoInfo.getScheduleIds().clear();
-            }
-            try {
-                updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            // clean up the ao schedules
-            List<String> requestScheduleIds = new ArrayList<String>();
-
-            for (String scheduleId : scheduleInfoList) {
-                 // release this schedule
-                 releaseScheduleResources(scheduleId, contextInfo);
-            }
-            aoInfo.getScheduleIds().clear();
-            // get it
-            LuiInfo lui = luiService.getLui(activityOfferingId, contextInfo);
-
-            for (ScheduleRequestInfo request : requests) {
-                scheduleInfo = new ScheduleInfo();
-
-                // short cut the submission to the scheduler, and just translate requested delivery logistics to actual delivery logistics
-                SchedulingServiceUtil.requestToSchedule(request, scheduleInfo);
-
-                scheduleInfo.setAtpId(lui.getAtpId());
-                try {
-                    ScheduleInfo persistedSchedule = schedulingService.createSchedule(scheduleInfo.getTypeKey(), scheduleInfo, contextInfo);
-                    newScheduleId = persistedSchedule.getId();
-                    request.setScheduleId(newScheduleId);
-                    schedulingService.updateScheduleRequest(request.getId(), request, contextInfo);
-                    aoInfo.getScheduleIds().add(newScheduleId);
-                } catch (Exception e) {
-                    throw new OperationFailedException("createSchedule failed due to the following uncaught exception: " + e.getClass().getSimpleName() + " " + e.getMessage(), e);
-                }
-                try {
-                    updateActivityOffering(aoInfo.getId(), aoInfo, contextInfo);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-                result.setSuccess(true);
-                result.setMessage("New Schedule Successfully created");
-            }
-        }*/
         return result;
     }
 

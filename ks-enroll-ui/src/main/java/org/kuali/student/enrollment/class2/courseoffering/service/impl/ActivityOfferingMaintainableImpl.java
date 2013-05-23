@@ -92,7 +92,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient StateService stateService;
     private transient AcademicCalendarService academicCalendarService;
     private transient SchedulingService schedulingService;
-    private transient RoomService roomService;
     private transient PopulationService populationService;
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
     private transient CourseService courseService;
@@ -114,17 +113,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             processEnrollmentDetail(activityOfferingWrapper);
 
-            /**
-             * Detach the AO from colo schedule if it's not a part of colo anymore
-             */
-            if (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
-
-                // clean the ADL - todo
-
-//   TODOSSR             activityOfferingWrapper.getAoInfo().setScheduleId(null);
-//                activityOfferingWrapper.getAoInfo().setIsPartOfColocatedOfferingSet(false);
-            }
-
             ActivityOfferingInfo activityOfferingInfo = null;
 
             /**
@@ -138,22 +126,20 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw convertServiceExceptionsToUI(e);
             }
 
-//            if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
-//                //if change co-located to un-coloated, no schedules
-//            } else {
-                /**
-                 * Even if the user doesnt change any RDL data, here are the scenarios whether we need to process schedules
-                 * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
-                 * 2. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
-                 * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
-                 */
-                if (activityOfferingWrapper.isSchedulesModified() ||
-                        (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
-                        (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()) ||
-                        (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
-                    getScheduleHelper().saveSchedules(activityOfferingWrapper,contextInfo);
-                }
-//            }
+            /**
+             * Even if the user doesnt change any RDL data, here are the scenarios whether we need to process schedules
+             * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
+             * 2. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
+             * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
+             */
+            if (activityOfferingWrapper.isSchedulesModified() ||
+                (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
+                (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()) ||
+                (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
+
+                getScheduleHelper().saveSchedules(activityOfferingWrapper,contextInfo);
+            }
+
 
             /**
              * Now that the Ao & the schedule has been updated, we need to update the registration groups
@@ -216,15 +202,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
      */
     protected void processEnrollmentDetail(ActivityOfferingWrapper wrapper){
 
-        /*ColocatedOfferingSetInfo coloSet = wrapper.getColocatedOfferingSetInfo();
-        *//**
-         * Set the effective date and expiration date if it's not already there
-         *//*
-        if (coloSet.getEffectiveDate() == null){
-            coloSet.setEffectiveDate(new Date());
-            coloSet.setExpirationDate(DateUtils.addYears(new Date(),1));
-        }*/
-
         if (wrapper.getScheduleRequestSetInfo() == null){
             ScheduleRequestSetInfo set = new ScheduleRequestSetInfo();
             wrapper.setScheduleRequestSetInfo(set);
@@ -256,20 +233,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
                 wrapper.getScheduleRequestSetInfo().setMaximumEnrollment(totalSeats);
             }
-            /*try{
-                if (StringUtils.isNotBlank(coloSet.getId())){
-                    ColocatedOfferingSetInfo updatedColoSet = getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
-                    wrapper.setColocatedOfferingSetInfo(updatedColoSet);
-                } else {
-                    coloSet.setTypeKey(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY);
-                    coloSet.setStateKey(LuiServiceConstants.LUI_SET_ACTIVE_STATE_KEY);
-                    coloSet.setName("Colo set");
-                    ColocatedOfferingSetInfo createdColoSet = getCourseOfferingService().createColocatedOfferingSet(coloSet.getTypeKey(), coloSet, createContextInfo());
-                    wrapper.setColocatedOfferingSetInfo(createdColoSet);
-                }
-            } catch (Exception e){
-                throw convertServiceExceptionsToUI(e);
-            }*/
         } else {
             /**
              * If the current AO is part of the colo set before but now user removed it from the set, then
@@ -289,10 +252,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
                 wrapper.getScheduleRequestSetInfo().setMaximumEnrollment(totalSeats);
             }
-            //detach AO from colocation
-            /*if(wrapper.isPartOfColoSetOnLoadAlready()){
-                detachAOFromColocatedSet(wrapper.getAoInfo().getId(), wrapper.getColocatedOfferingSetInfo());
-            }*/
         }
     }
 

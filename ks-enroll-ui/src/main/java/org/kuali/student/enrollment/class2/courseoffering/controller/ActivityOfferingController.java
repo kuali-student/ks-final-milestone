@@ -88,8 +88,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         ScheduleWrapper scheduleWrapper = (ScheduleWrapper)getSelectedObject(form);
 
-//        ScheduleWrapper newSchedule = new ScheduleWrapper();
-//        newSchedule.copyForEditing(scheduleWrapper);
         activityOfferingWrapper.setNewScheduleRequest(scheduleWrapper);
         activityOfferingWrapper.getRequestedScheduleComponents().remove(scheduleWrapper);
         activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(true);
