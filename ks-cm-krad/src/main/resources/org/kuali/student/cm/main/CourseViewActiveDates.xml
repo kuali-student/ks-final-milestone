@@ -45,11 +45,13 @@
 			<list>
 
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.startTerm"
-					p:label="Start Term"
-					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder">
+					p:label="Start Term">
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
+					<property name="optionsFinder">
+    					<bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:blankOption="true"/>
+  					</property>
 					<property name="help">
 						<bean parent="Uif-Help"
 							p:tooltipHelpContent="New Courses: This course will not neccessarily be acticated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications." />
@@ -57,10 +59,9 @@
 				</bean>
 
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.pilotCourse"
-					p:label="Pilot Course" p:labelPlacement="LEFT">
-					<property name="instructionalText" value="Yes, this is a one-time/pilot course" />
+					p:label="Pilot Course">
 					<property name="control">
-						<bean parent="Uif-CheckboxControl" />
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course"/>
 					</property>
 					<property name="help">
 						<bean parent="Uif-Help"
@@ -70,13 +71,15 @@
 
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.endTerm"
 					p:label="End Term" p:required="@{courseInfo.pilotCourse}"
-					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.LogisticSchedulingKeyValuesFinder"
 					p:refreshWhenChangedPropertyNames="courseInfo.pilotCourse">
 					<property name="instructionalText"
 						value="Last term in which the course can be offered" />
 					<property name="control">
 						<bean parent="Uif-DropdownControl" p:disabled="@{!courseInfo.pilotCourse}" />
 					</property>
+					<property name="optionsFinder">
+    					<bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:blankOption="true"/>
+  					</property>
 					<property name="help">
 						<bean parent="Uif-Help"
 							p:tooltipHelpContent="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses" />
