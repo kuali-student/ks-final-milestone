@@ -275,7 +275,7 @@ public class PropositionTreeUtil {
         }
     }
 
-    public static void removeNewCompoundProp(PropositionEditor proposition) {
+    public static void removeCompoundProp(PropositionEditor proposition) {
         int i = 0;
         if (proposition.getCompoundEditors() != null) {
             while (i < proposition.getCompoundEditors().size()) {
@@ -286,8 +286,11 @@ public class PropositionTreeUtil {
                 } else if(child.getCompoundEditors().size() == 1 && child.isNewProp()) {
                     proposition.getCompoundEditors().set(i, child.getCompoundEditors().get(0));
                     continue;
+                } else if(child.getCompoundEditors().isEmpty()) {
+                    proposition.getCompoundEditors().remove(i);
+                    continue;
                 } else {
-                    removeNewCompoundProp(child);
+                    removeCompoundProp(child);
                 }
                 i++;
             }

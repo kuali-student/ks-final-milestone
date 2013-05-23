@@ -652,6 +652,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 for (int index = 0; index < children.size(); index++) {
                     if (selectedpropKey.equalsIgnoreCase(children.get(index).getKey())) {
                         parent.getCompoundComponents().remove(index);
+                        if(parent.getCompoundEditors().isEmpty()) {
+                            PropositionTreeUtil.removeCompoundProp((PropositionEditor) ruleEditor.getProposition());
+                        }
                         break;
                     }
                 }
@@ -796,7 +799,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //Reset the editing tree.
         PropositionTreeUtil.cancelNewProp(proposition);
-        PropositionTreeUtil.removeNewCompoundProp(proposition);
+        PropositionTreeUtil.removeCompoundProp(proposition);
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
