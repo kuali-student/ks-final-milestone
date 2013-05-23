@@ -359,8 +359,9 @@
             <list>
                 <bean id="ActivityOffering-SeatpoolsSection" parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="6"
-                      p:id="ao-seatpoolgroup"
-                      p:layoutManager.style="width: 100%; display:block;">
+                      p:id="ao-seatpoolgroupZ"
+                      p:layoutManager.style="width: 100%; display:block;"
+                      p:layoutManager.id="ao-seatpoolgroup-table">
                     <property name="headerText" value="Seat Pools"/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
                     <property name="propertyName" value="seatpools" />
