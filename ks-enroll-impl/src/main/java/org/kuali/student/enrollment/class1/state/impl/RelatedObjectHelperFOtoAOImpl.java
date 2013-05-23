@@ -44,6 +44,7 @@ public class RelatedObjectHelperFOtoAOImpl implements RelatedObjectHelper {
 
     @Override
     public Map<String, String> getRelatedObjectsIdAndState(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        //TODO - FIXME - these are expensive calls to get ids and states (should be done with one DB call using search)
         List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByFormatOffering(formatOfferingId, contextInfo);
         Map<String,String> idsAndState = new HashMap<String, String>();
 

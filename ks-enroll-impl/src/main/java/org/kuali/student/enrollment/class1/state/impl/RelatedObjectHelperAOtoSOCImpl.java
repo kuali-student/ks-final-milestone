@@ -42,6 +42,7 @@ public class RelatedObjectHelperAOtoSOCImpl implements RelatedObjectHelper {
 
     @Override
     public Map<String, String> getRelatedObjectsIdAndState(String aoId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        //TODO - FIXME - these are expensive calls to get ids and states (should be done with one DB call using search)
         Map<String,String> idsAndState = new HashMap<String, String>();
         ActivityOfferingInfo aoInfo = getCourseOfferingService().getActivityOffering(aoId,contextInfo);
         List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(aoInfo.getTermId(),contextInfo);

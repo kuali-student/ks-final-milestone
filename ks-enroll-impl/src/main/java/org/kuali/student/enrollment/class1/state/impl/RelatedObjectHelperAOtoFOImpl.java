@@ -32,7 +32,7 @@ public class RelatedObjectHelperAOtoFOImpl implements RelatedObjectHelper {
     @Override
     public Map<String, String> getRelatedObjectsIdAndState(String activityOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
+        //TODO - FIXME - these are expensive calls to get ids and states (should be done with one DB call using search)
         Map<String, String> idsAndStatesMap = new HashMap<String, String>();
 
         FormatOfferingInfo formatOfferingInfo = getFormatOfferingInfoByActivityOfferingId(activityOfferingId, contextInfo);

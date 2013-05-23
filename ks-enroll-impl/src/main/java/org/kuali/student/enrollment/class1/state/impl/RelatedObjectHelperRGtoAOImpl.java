@@ -47,7 +47,7 @@ public class RelatedObjectHelperRGtoAOImpl implements RelatedObjectHelper {
     public Map<String, String> getRelatedObjectsIdAndState(String registrationGroupId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         Map<String,String> idsAndState = new HashMap<String, String>();
-
+        //TODO - FIXME - these are expensive calls to get ids and states (should be done with one DB call using search)
         RegistrationGroupInfo registrationGroupInfo  = getCourseOfferingService().getRegistrationGroup(registrationGroupId, contextInfo);
         List<ActivityOfferingInfo> aoInfoList = getCourseOfferingService().getActivityOfferingsByIds(registrationGroupInfo.getActivityOfferingIds(),contextInfo);
 

@@ -45,6 +45,7 @@ public class RelatedObjectHelperAOtoRGImpl implements RelatedObjectHelper {
 
     @Override
     public Map<String, String> getRelatedObjectsIdAndState(String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        //TODO - FIXME - these are expensive calls to get ids and states (should be done with one DB call using search)
         Map<String,String> idsAndStates = new HashMap<String,String>();
 
         List<RegistrationGroupInfo> registrationGroupInfos = getRegistrationGroupInfosByActivityOfferingId(activityOfferingId, contextInfo);
