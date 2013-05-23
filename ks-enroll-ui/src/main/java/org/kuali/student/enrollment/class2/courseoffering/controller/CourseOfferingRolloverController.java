@@ -552,7 +552,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     socRolloverResultItemWrapper.setStateName(socRolloverResultItemInfo.getStateKey());
                 }
                 form.getSocRolloverResultItems().add(socRolloverResultItemWrapper);
-                form.setRenderExceptionsSection(true);
             }
         }
     }
