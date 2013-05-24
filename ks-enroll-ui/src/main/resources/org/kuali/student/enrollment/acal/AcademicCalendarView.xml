@@ -74,12 +74,13 @@ limitations under the License.
 
         <property name="dialogs">
             <list>
-                <ref bean="KS-AcademicCalender-ConfirmDelete-Dialog"/>
+                <ref bean="KS-AcademicCalendar-ConfirmDelete-Dialog"/>
+                <ref bean="KS-AcademicTerm-ConfirmDelete-Dialog"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalender-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
+    <bean id="KS-AcademicCalendar-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
         <property name="renderHeader" value="false"/>
         <property name="promptText"
                   value="Are you sure you want to delete the Academic Calendar?"/>
@@ -90,4 +91,17 @@ limitations under the License.
             </list>
         </property>
     </bean>
+
+    <bean id="KS-AcademicTerm-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
+        <property name="renderHeader" value="false"/>
+        <property name="promptText"
+                  value="Are you sure you want to delete the Academic Term?"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Delete"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>
