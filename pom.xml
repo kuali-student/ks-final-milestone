@@ -81,6 +81,13 @@
         </profile>
         <profile>
             <id>jdk7-with-jdk6-bytecode</id>
+            <modules>
+                <module>ks-deployments</module>
+                <module>ks-core</module>
+                <module>ks-lum</module>
+                <module>ks-enroll</module>
+                <module>ks-api</module>
+            </modules>
             <build>
                 <plugins>
                     <plugin>
