@@ -584,16 +584,11 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             Map<String, TimeSlotInfo> timeslotIdMap = new HashMap<String, TimeSlotInfo>();
 
             //Filter out ref ids that are colocated sets
-            List<String> aoRefIds = ListUtils.removeAll(aoIdsWithoutSch, ao2ColocatedSet.keySet());
+            //List<String> aoRefIds = ListUtils.removeAll(aoIdsWithoutSch, ao2ColocatedSet.keySet());
             List<ScheduleRequestInfo> schRequests = new ArrayList<ScheduleRequestInfo>();
-            //Lookup AO related schedules
-            if(!aoRefIds.isEmpty()){
-                schRequests.addAll(getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoRefIds, contextInfo));
-            }
-            //Lookup colocated set schedules
-            if(!ao2ColocatedSet.isEmpty()){
-                schRequests.addAll(getSchedulingService().getScheduleRequestsByRefObjects("kuali.luiset.type.colocated.offering.set", new ArrayList<String>(ao2ColocatedSet.values()), contextInfo));
-            }
+            //Lookup AO related scheduleRequests
+
+            schRequests.addAll(getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, new ArrayList<String>(aoIdsWithoutSch), contextInfo));
 
             //Store the ids for bulk lookup
             for (ScheduleRequestInfo schRequest : schRequests) {
@@ -620,7 +615,42 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 buildingIdMap.put(buildingInfo.getId(), buildingInfo);
             }
 
-            for (ScheduleRequestInfo schRequest : schRequests) {
+            List<String> aoIds = new ArrayList<String>(aoIdsWithoutSch);
+            for(String aoId : aoIds){
+                List<ScheduleRequestInfo> ao2schRequests = new ArrayList<ScheduleRequestInfo>();
+                List<String> tempLst = new ArrayList<String>();
+                tempLst.add(aoId);
+                ao2schRequests.addAll(getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, tempLst, contextInfo));
+                for (ScheduleRequestInfo schRequest : ao2schRequests) {
+                    for (ScheduleRequestComponentInfo schRequestCom : schRequest.getScheduleRequestComponents()) {
+                        List<RoomInfo> rooms = new ArrayList<RoomInfo>();
+                        List<BuildingInfo> bldgs = new ArrayList<BuildingInfo>();
+                        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
+                        for (String roomId : schRequestCom.getRoomIds()) {
+                            rooms.add(roomIdMap.get(roomId));
+                            bldgs.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
+                        }
+                        for (String timeSlotId : schRequestCom.getTimeSlotIds()) {
+                            TimeSlotInfo timeSlotInfo = timeslotIdMap.get(timeSlotId);
+                            timeSlots.add(timeSlotInfo);
+
+                        }
+                        ScheduleRequestCalcContainer src = new ScheduleRequestCalcContainer(aoId, schRequest.getId(), CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, timeSlots, rooms, bldgs, schRequestCom.getIsTBA());
+
+                        if (ao2sch.containsKey(aoId)) {
+
+                            ao2sch.get(aoId).add(src);
+
+                        } else {
+                            List<ScheduleRequestCalcContainer> schList = new ArrayList<ScheduleRequestCalcContainer>();
+                            schList.add(src);
+                            ao2sch.put(aoId, schList);
+                        }
+                    }
+                }
+
+            }
+   /*         for (ScheduleRequestInfo schRequest : schRequests) {
                 // TODOSSR: This logic no longe rnecessary
                 List<String> aoIds = new ArrayList<String>();
                 //if the refid is colocated set, map back to the ao Id
@@ -662,7 +692,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         }
                     }
                 }
-            }
+            } */
         }
 
 
