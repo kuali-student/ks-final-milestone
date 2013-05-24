@@ -74,6 +74,37 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
     public void setUp() {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
+    }
+
+    @Test
+    public void testRollover() throws Exception {
+
+        try {
+
+                setupDataloadersForRolloverTest();
+
+                TermInfo sourceTerm = acalService.getTerm( "2012FA", callContext );
+                CourseOfferingInfo sourceCo = createSourceCo( sourceTerm );
+                FormatOfferingInfo sourceFo = createSourceFo( sourceCo );
+                ActivityOfferingInfo sourceAo = createSourceAo( sourceCo, sourceFo );
+
+                // rollover using AO that has ADLs
+                TermInfo targetTerm = acalService.getTerm("2013SP", callContext);
+                String idOfNewCo_1 = performRollover_withADLs( sourceCo, targetTerm );
+                CourseOfferingInfo newCo_1 = validateData( sourceCo, sourceFo, sourceAo, targetTerm, idOfNewCo_1 );
+
+                // rollover using AO that does NOT have ADLs
+                targetTerm = acalService.getTerm( "2013FA", callContext );
+                String idOfNewCo_2 = performRollover_withoutADLs( newCo_1, targetTerm );
+                validateData( sourceCo, sourceFo, sourceAo, targetTerm, idOfNewCo_2 );
+
+        } catch( Exception e ) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void setupDataloadersForRolloverTest() {
 
         try {
 
@@ -107,32 +138,6 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
             atpService.createAtp(atp.getTypeKey(),atp,callContext);
 
             course = courseService.getCourse("COURSE1", ContextUtils.getContextInfo());
-        } catch( Exception e ) {
-            throw new RuntimeException(e);
-        }
-
-    }
-
-    @Test
-    public void testRollover() throws Exception {
-
-        try {
-
-                TermInfo sourceTerm = acalService.getTerm( "2012FA", callContext );
-                CourseOfferingInfo sourceCo = createSourceCo( sourceTerm );
-                FormatOfferingInfo sourceFo = createSourceFo( sourceCo );
-                ActivityOfferingInfo sourceAo = createSourceAo( sourceCo, sourceFo );
-
-                // rollover using AO that has ADLs
-                TermInfo targetTerm = acalService.getTerm("2013SP", callContext);
-                String idOfNewCo_1 = performRollover_withADLs( sourceCo, targetTerm );
-                CourseOfferingInfo newCo_1 = validateData( sourceCo, sourceFo, sourceAo, targetTerm, idOfNewCo_1 );
-
-                // rollover using AO that does NOT have ADLs
-                targetTerm = acalService.getTerm( "2013FA", callContext );
-                String idOfNewCo_2 = performRollover_withoutADLs( newCo_1, targetTerm );
-                validateData( sourceCo, sourceFo, sourceAo, targetTerm, idOfNewCo_2 );
-
         } catch( Exception e ) {
             throw new RuntimeException(e);
         }
