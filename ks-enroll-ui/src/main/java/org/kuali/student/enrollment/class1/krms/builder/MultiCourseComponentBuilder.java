@@ -6,6 +6,7 @@ import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -362,9 +363,9 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
 
         try {
             if (wrapperCluSet.getId() == null) {
-                wrapperCluSet = cluService.createCluSet(wrapperCluSet.getTypeKey(), wrapperCluSet, ContextUtils.getContextInfo());
+                wrapperCluSet = this.getCluService().createCluSet(wrapperCluSet.getTypeKey(), wrapperCluSet, ContextUtils.getContextInfo());
             } else {
-                cluService.updateCluSet(wrapperCluSet.getId(), wrapperCluSet, ContextUtils.getContextInfo());
+                this.getCluService().updateCluSet(wrapperCluSet.getId(), wrapperCluSet, ContextUtils.getContextInfo());
             }
         } catch (Exception e) {
             throw new IllegalArgumentException(e);
@@ -375,7 +376,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
 
     protected CluService getCluService() {
         if (cluService == null) {
-            cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+            cluService = CourseOfferingResourceLoader.loadCluService();
         }
         return cluService;
     }

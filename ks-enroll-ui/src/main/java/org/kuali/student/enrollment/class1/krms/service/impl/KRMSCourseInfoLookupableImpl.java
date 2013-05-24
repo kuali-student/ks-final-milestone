@@ -4,6 +4,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -116,18 +117,17 @@ public class KRMSCourseInfoLookupableImpl extends LookupableImpl {
         }
     }
 
-    //Note: here I am using r1 CluService implementation!!!
-    protected CluService getCluService() {
-        if(cluService == null) {
-            cluService = (CluService)GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE,CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+    protected CourseService getCourseService() {
+        if (courseService == null) {
+            courseService = CourseOfferingResourceLoader.loadCourseService();
         }
-        return this.cluService;
+        return courseService;
     }
 
-    protected CourseService getCourseService() {
-        if(courseService == null) {
-            courseService = (CourseService)GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE,"CourseService"));
+    protected CluService getCluService() {
+        if (cluService == null) {
+            cluService = CourseOfferingResourceLoader.loadCluService();
         }
-        return this.courseService;
+        return cluService;
     }
 }

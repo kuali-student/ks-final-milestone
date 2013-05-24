@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.krms.builder;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -57,14 +58,14 @@ public class DurationComponentBuilder implements ComponentBuilder<EnrolPropositi
 
     protected CourseService getCourseService() {
         if (courseService == null) {
-            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
+            courseService = CourseOfferingResourceLoader.loadCourseService();
         }
         return courseService;
     }
 
     protected CluService getCluService() {
         if (cluService == null) {
-            cluService = (CluService) GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+            cluService = CourseOfferingResourceLoader.loadCluService();
         }
         return cluService;
     }
