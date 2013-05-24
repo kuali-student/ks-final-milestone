@@ -872,8 +872,21 @@ public class TestSchedulingServiceImpl {
         String scheduleRequestInfoId = "ScheduleRequestsByRefObject-Id1";
         String scheduleRequestComponentInfoId = "scheduleRequest-ComponentInfoId1";
         String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
+
+        String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
+        List<String> refObjectIds = new ArrayList();
+        refObjectIds.add("Ao1");
+        refObjectIds.add("Ao2");
+        ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,
+                "REF_OBJECT_URI_GLOBAL_PREFIX",
+                false, 168);
+
+        ScheduleRequestSetInfo returnSetInfo = schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                "REF_OBJECT_URI_GLOBAL_PREFIX", setInfo, contextInfo );
+
+
         ScheduleRequestInfo scheduleRequestInfo = SchedulingServiceDataLoader.setupScheduleRequestInfo(scheduleRequestInfoId,
-                scheduleRequestComponentInfoId, null, null, scheduleRequestInfoName);
+                scheduleRequestComponentInfoId, null, returnSetInfo.getId(), scheduleRequestInfoName);
 
         ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(requestType,
                 scheduleRequestInfo,  contextInfo);
@@ -901,8 +914,21 @@ public class TestSchedulingServiceImpl {
         String scheduleRequestInfoId = "ScheduleRequestsByRefObject-Id1";
         String scheduleRequestComponentInfoId = "scheduleRequest-ComponentInfoId1";
         String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
+
+        String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
+        List<String> refObjectIds = new ArrayList();
+        refObjectIds.add("Ao1");
+        refObjectIds.add("Ao2");
+        ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,
+                "REF_OBJECT_URI_GLOBAL_PREFIX",
+                false, 168);
+
+        ScheduleRequestSetInfo returnSetInfo = schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                "REF_OBJECT_URI_GLOBAL_PREFIX", setInfo, contextInfo );
+
+
         ScheduleRequestInfo scheduleRequestInfo = SchedulingServiceDataLoader.setupScheduleRequestInfo(scheduleRequestInfoId,
-                scheduleRequestComponentInfoId, null, null, scheduleRequestInfoName);
+                scheduleRequestComponentInfoId, null, returnSetInfo.getId(), scheduleRequestInfoName);
 
         ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(requestType,
                 scheduleRequestInfo,  contextInfo);
@@ -939,8 +965,19 @@ public class TestSchedulingServiceImpl {
         String scheduleRequestInfoRefObjectId = "getRequestsByRefObject-RefObjectId";
         String scheduleRequestComponentInfoId = "scheduleRequest-ComponentInfoId1";
         String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
+        String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
+        List<String> refObjectIds = new ArrayList();
+        refObjectIds.add("Ao1");
+        refObjectIds.add("Ao2");
+        ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,
+                "REF_OBJECT_URI_GLOBAL_PREFIX",
+                false, 168);
+
+        ScheduleRequestSetInfo returnSetInfo = schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                "REF_OBJECT_URI_GLOBAL_PREFIX", setInfo, contextInfo );
+
         ScheduleRequestInfo scheduleRequestInfo = SchedulingServiceDataLoader.setupScheduleRequestInfo(scheduleRequestInfoId,
-                scheduleRequestComponentInfoId, null, null, scheduleRequestInfoName);
+                scheduleRequestComponentInfoId, null, returnSetInfo.getId(), scheduleRequestInfoName);
 
         ScheduleRequestInfo returnInfo  = schedulingService.createScheduleRequest(requestType,
                 scheduleRequestInfo,  contextInfo);
