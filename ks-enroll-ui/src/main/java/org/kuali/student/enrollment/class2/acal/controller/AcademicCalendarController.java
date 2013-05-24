@@ -327,7 +327,7 @@ public class AcademicCalendarController extends UifControllerBase {
         urlParameters.put(CalendarConstants.GROWL_TITLE,"");
         urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED);
         urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,academicCalendarForm.getAcademicCalendarInfo().getName());
-        return redirectToSearch(academicCalendarForm,request,urlParameters);
+        return redirectToSearch(academicCalendarForm, request, urlParameters);
     }
 
     /**
@@ -508,9 +508,37 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param response
      * @return
      */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteTerm")
+    @RequestMapping(params = "methodToCall=deleteTerm")
     public ModelAndView deleteTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
+
+        String dialog = CalendarConstants.TERM_DELETE_CONFIRMATION_DIALOG;
+        if (!hasDialogBeenDisplayed(dialog, academicCalendarForm)) {
+            //redirect back to client to display lightbox
+            academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+            academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+            return showDialog(dialog, academicCalendarForm, request, response);
+        }else{
+            if(hasDialogBeenAnswered(dialog,academicCalendarForm)){
+                boolean confirmDelete = getBooleanDialogResponse(dialog, academicCalendarForm, request, response);
+                academicCalendarForm.getDialogManager().resetDialogStatus(dialog);
+                if(!confirmDelete){
+                    return getUIFModelAndView(academicCalendarForm);
+                }
+            } else {
+                //redirect back to client to display lightbox
+                academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+                academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+                return showDialog(dialog, academicCalendarForm, request, response);
+            }
+        }
+
+        academicCalendarForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
+        if (academicCalendarForm.getSelectedLineIndex() != null && academicCalendarForm.getSelectedLineIndex().indexOf(",") > -1) {
+            academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, academicCalendarForm.getSelectedLineIndex().substring(0,academicCalendarForm.getSelectedLineIndex().indexOf(",")));
+        } else {
+            academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, academicCalendarForm.getSelectedLineIndex());
+        }
 
         int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
@@ -523,7 +551,6 @@ public class AcademicCalendarController extends UifControllerBase {
         academicCalendarForm.getTermWrapperList().remove(selectedLineIndex);
 
         return getUIFModelAndView(academicCalendarForm);
-
     }
 
     /**
