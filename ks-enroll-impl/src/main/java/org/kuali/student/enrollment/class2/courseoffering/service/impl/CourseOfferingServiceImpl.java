@@ -1518,7 +1518,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ActivityOfferingInfo targetAO = new ActivityOfferingInfo(sourceAO);
         targetAO.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
         targetAO.setId(null);
-        targetAO.setScheduleIds(null);
+        targetAO.getScheduleIds().clear();
         if (targetAO.getInstructors() != null && !targetAO.getInstructors().isEmpty()) {
             for (OfferingInstructorInfo inst : targetAO.getInstructors()) {
                 inst.setId(null);
@@ -1548,16 +1548,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         //  Create RDLs if any were identified.
         if ( ! scheduleRequestInfos.isEmpty()) {
             ScheduleRequestSetInfo srsInfo = new ScheduleRequestSetInfo();
+            srsInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+            srsInfo.setName("Schedule request set for " + targetAO.getCourseOfferingCode() + " - " + targetAO.getActivityCode());
+            srsInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
             srsInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
-            srsInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-            srsInfo.setRefObjectTypeKey(sourceAO.getTypeKey());
             List<String> aoIds = new ArrayList<String>();
             aoIds.add(targetAO.getId());
-            srsInfo.setRefObjectIds(aoIds);
+            srsInfo.getRefObjectIds().clear();
+            srsInfo.getRefObjectIds().add(targetAO.getId());
 
-            srsInfo = getSchedulingService()
-                    .createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
-                        sourceAO.getTypeKey(), srsInfo, context);
+            srsInfo = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                                                                      CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                                                                      srsInfo, context);
 
             for (ScheduleRequestInfo sr : scheduleRequestInfos) {
                 sr.setScheduleRequestSetId(srsInfo.getId());
