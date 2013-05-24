@@ -28,6 +28,7 @@ import org.kuali.rice.krms.dto.*;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.util.AgendaUtilities;
+import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
@@ -651,6 +652,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
             ruleEditor.getEditTree().setRootElement(null);
             ruleEditor.setPropId(null);
             ruleEditor.setProposition(null);
+            ruleEditor.setAlpha(new AlphaIterator());
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
         } else if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
             PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null) {
@@ -672,6 +675,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
             ruleEditor.getEditTree().setRootElement(null);
             ruleEditor.setPropId(null);
             ruleEditor.setProposition(null);
+            ruleEditor.setAlpha(new AlphaIterator());
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
         }
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
@@ -795,9 +800,16 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleEditor ruleEditor = getRuleEditor(form);
         PropositionEditor proposition = (PropositionEditor) ruleEditor.getProposition();
 
-        //Reset the editing tree.
-        PropositionTreeUtil.cancelNewProp(proposition);
-        PropositionTreeUtil.removeCompoundProp(proposition);
+        if(proposition.getPropositionTypeCode().equals("S") && proposition.getCompoundEditors() == null) {
+            ruleEditor.setProposition(null);
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
+            ruleEditor.setAlpha(new AlphaIterator());
+            form.getView().setOnDocumentReadyScript("loadControlsInit();");
+        } else {
+            //Reset the editing tree.
+            PropositionTreeUtil.cancelNewProp(proposition);
+            PropositionTreeUtil.removeCompoundProp(proposition);
+        }
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
