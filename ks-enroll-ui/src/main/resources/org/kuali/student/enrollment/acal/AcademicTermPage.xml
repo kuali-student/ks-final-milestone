@@ -94,7 +94,8 @@
         </property>
     </bean>
 
-    <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure">
+    <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
+          p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid});">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
         <property name="propertyName" value="keyDatesGroupWrappers" />
@@ -124,7 +125,8 @@
         <property name="items">
             <list>
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
-                      p:label="* Key Date Group Type"  p:finalizeMethodToCall="populateKeyDateGroupTypes" > <!--p:required="true"-->
+                      p:label="* Key Date Group Type"
+                      p:finalizeMethodToCall="populateKeyDateGroupTypes" > <!--p:required="true"-->
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>

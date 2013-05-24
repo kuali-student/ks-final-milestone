@@ -453,29 +453,49 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 }
             }
         } else if (addLine instanceof KeyDatesGroupWrapper) {
+            AcademicCalendarForm form = (AcademicCalendarForm) model;
+            form.setAddLineValid(true);
+            form.setValidationJSONString("");
             KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
             if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
                 //putErrorForSectionId seems not working
                 GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
                 GlobalVariables.getMessageMap().addGrowlMessage("Error", CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
+                StringBuilder sb = new StringBuilder();
+                sb.append("\"key_date_group_type\":\"Required\"");
+                form.setValidationJSONString("{"+sb.toString()+"}");
+                form.setAddLineValid(false);
                 return false;
             }
         }
         else if (addLine instanceof KeyDateWrapper) {
+            AcademicCalendarForm form = (AcademicCalendarForm) model;
+            form.setAddLineValid(true);
+            form.setValidationJSONString("");
+            StringBuilder sb = new StringBuilder();
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             boolean isValid = true;
             if(StringUtils.isEmpty(keydate.getKeyDateType())) {
                 //putErrorForSectionId seems not working
                 GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
                 GlobalVariables.getMessageMap().addGrowlMessage("Error", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
+                sb.append("\"key_date_type\":\"Required\"");
                 isValid = false;
             }
             if(keydate.getStartDate() == null || StringUtils.isEmpty(keydate.getStartDate().toString())){
                 GlobalVariables.getMessageMap().addGrowlMessage("Error", CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED);
+                //{"key1" : "value1", "key1" : "value1", ... }
+                if(!StringUtils.isEmpty(sb.toString())){
+                   sb.append(",");
+                }
+                sb.append("\"key_date_start_date\":\"Required\"");
                 isValid = false;
             }
-            if(!isValid)
+            if(!isValid){
+                form.setValidationJSONString("{"+sb.toString()+"}");
+                form.setAddLineValid(false);
                 return false;
+            }
             if (!isValidTimeSetWrapper(keydate, keydate.getKeyDateNameUI(), collectionGroup.getAddLineBindingInfo().getBindingPath())) {
                 return false;
             }

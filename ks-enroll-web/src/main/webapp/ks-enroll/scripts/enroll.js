@@ -824,3 +824,8 @@ function removeZebraColoring(id){
 
 }
 
+function highlightElements(validationJSONString, isValid){
+
+}
+
+
