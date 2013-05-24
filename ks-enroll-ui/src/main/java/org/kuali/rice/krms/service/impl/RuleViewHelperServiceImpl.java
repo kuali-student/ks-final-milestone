@@ -82,7 +82,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     private NaturalLanguageHelper naturalLanguageHelper;
 
     private static TemplateRegistry templateRegistry;
-    private Map<String, AgendaTypeInfo> typeRelationsMap;
 
     protected RuleEditor getRuleEditor(Object model) {
         if (model instanceof MaintenanceDocumentForm) {
@@ -100,11 +99,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public String getViewTypeName() {
-        return "kuali.krms.agenda.type.course";
-    }
-
-    @Override
     public TemplateInfo getTemplateForType(String type) {
         return this.getTemplateRegistry().getTemplateForType(type);
     }
@@ -113,8 +107,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     protected void addCustomContainerComponents(View view, Object model, Container container) {
         if ("KS-PropositionEdit-DetailSection".equals(container.getId())) {
             customizePropositionEditSection(view, model, container);
-        } else if ("KRMS-AgendaMaintenance-Page".equals(container.getId())) {
-            customizeAgendaMaintenance(view, model, container);
         }
     }
 
@@ -146,78 +138,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
 
         container.setItems(components);
-    }
-
-    private void customizeAgendaMaintenance(View view, Object model, Container container) {
-        AgendaBuilder builder = new AgendaBuilder(view);
-        builder.setTypeRelationsMap(this.getTypeRelationsMap());
-
-        //Retrieve the current editing proposition if exists.
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) model;
-        RuleManagementWrapper form = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-
-        container.setItems(builder.build(form));
-    }
-
-    /**
-     * Setup a map with all the type information required to build an agenda management page.
-     *
-     * @return
-     */
-    private Map<String, AgendaTypeInfo> getTypeRelationsMap() {
-        if (typeRelationsMap == null) {
-            typeRelationsMap = new LinkedHashMap<String, AgendaTypeInfo>();
-
-            // Get Instruction Usage Id
-            String instructionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_INSTRUCTION,
-                    PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
-
-            // Get Description Usage Id
-            String descriptionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION,
-                    PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
-
-            // Get the super type.
-            KrmsTypeDefinition requisitesType = this.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, this.getViewTypeName());
-
-            // Get all agenda types linked to super type.
-            List<TypeTypeRelation> agendaRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(requisitesType.getId());
-            for (TypeTypeRelation agendaRelationship : agendaRelationships) {
-                AgendaTypeInfo agendaTypeInfo = new AgendaTypeInfo();
-                agendaTypeInfo.setId(agendaRelationship.getToTypeId());
-                agendaTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(agendaRelationship.getToTypeId(), descriptionUsageId));
-
-                // Get all rule types for each agenda type
-                List<TypeTypeRelation> ruleRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaRelationship.getToTypeId());
-                List<RuleTypeInfo> ruleTypes = new ArrayList<RuleTypeInfo>();
-                for (TypeTypeRelation ruleRelationship : ruleRelationships) {
-                    RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
-                    ruleTypeInfo.setId(ruleRelationship.getToTypeId());
-                    ruleTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), descriptionUsageId));
-                    if (ruleTypeInfo.getDescription().isEmpty()) {
-                        ruleTypeInfo.setDescription("Description is unset rule type");
-                    }
-                    ruleTypeInfo.setInstruction(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), instructionUsageId));
-                    if (ruleTypeInfo.getInstruction().isEmpty()) {
-                        ruleTypeInfo.setInstruction("Instruction is unset for rule type");
-                    }
-                    // Add rule types to list.
-                    ruleTypes.add(ruleTypeInfo);
-                }
-                agendaTypeInfo.setRuleTypes(ruleTypes);
-                typeRelationsMap.put(agendaRelationship.getToTypeId(), agendaTypeInfo);
-            }
-        }
-        return typeRelationsMap;
-    }
-
-    private String getDescriptionForTypeAndUsage(String typeId, String usageId) {
-        NaturalLanguageTemplate template = null;
-        try {
-            template = getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usageId);
-            return template.getTemplate();
-        } catch (Exception e) {
-            return StringUtils.EMPTY;
-        }
     }
 
     /**

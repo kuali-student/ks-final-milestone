@@ -24,8 +24,6 @@ public interface RuleViewHelperService {
 
     public TemplateInfo getTemplateForType(String type);
 
-    public String getViewTypeName();
-
     public boolean validateProposition(PropositionEditor proposition, String namespace);
 
     public void refreshInitTrees(RuleEditor rule);

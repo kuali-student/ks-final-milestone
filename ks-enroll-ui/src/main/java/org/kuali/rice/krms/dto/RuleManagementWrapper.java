@@ -19,7 +19,6 @@ import java.util.List;
 public class RuleManagementWrapper extends UifFormBase {
 
     private String refObjectId;
-    private String selectedRuleId;
     private String namePrefix;
     private String namespace;
     private String refDiscriminatorType;
@@ -37,14 +36,6 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setRefObjectId(String refObjectId) {
         this.refObjectId = refObjectId;
-    }
-
-    public String getSelectedRuleId() {
-        return selectedRuleId;
-    }
-
-    public void setSelectedRuleId(String selectedRuleId) {
-        this.selectedRuleId = selectedRuleId;
     }
 
     public List<AgendaEditor> getAgendas() {

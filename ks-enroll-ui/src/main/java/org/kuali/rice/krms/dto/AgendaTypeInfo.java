@@ -1,5 +1,6 @@
 package org.kuali.rice.krms.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * Time: 10:17 AM
  * To change this template use File | Settings | File Templates.
  */
-public class AgendaTypeInfo {
+public class AgendaTypeInfo implements Serializable {
 
     private String id;
     private String description;

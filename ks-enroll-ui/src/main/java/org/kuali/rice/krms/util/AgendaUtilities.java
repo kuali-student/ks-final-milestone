@@ -2,13 +2,11 @@ package org.kuali.rice.krms.util;
 
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
-import org.kuali.rice.krms.impl.repository.AgendaItemBo;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -19,45 +17,50 @@ import java.util.List;
  */
 public class AgendaUtilities {
 
-    public static RuleEditor retrieveSelectedRuleEditor(UifFormBase form) {
+    public static RuleEditor retrieveSelectedRuleEditor(MaintenanceDocumentForm document) {
 
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-        String ruleKey = document.getActionParamaterValue("ruleKey");
-
-        RuleEditor ruleEditor = getSelectedRuleEditor(ruleWrapper, ruleKey);
-
-        if(ruleEditor != null){
-            ruleWrapper.setRuleEditor((RuleEditor) ObjectUtils.deepCopy(ruleEditor));
-        }else {
-            ruleWrapper.setRuleEditor(new RuleEditor());
-        }
-        ruleWrapper.setSelectedRuleId(ruleWrapper.getRuleEditor().getId());
+        RuleManagementWrapper ruleWrapper = getRuleWrapper(document);
+        RuleEditor ruleEditor = getSelectedRuleEditor(ruleWrapper, getRuleKey(document));
+        ruleWrapper.setRuleEditor((RuleEditor) ObjectUtils.deepCopy(ruleEditor));
 
         return ruleWrapper.getRuleEditor();
     }
 
+    public static RuleEditor getSelectedRuleEditor(MaintenanceDocumentForm document) {
+        return AgendaUtilities.getSelectedRuleEditor(getRuleWrapper(document), getRuleKey(document));
+    }
+
     public static RuleEditor getSelectedRuleEditor(RuleManagementWrapper wrapper, String ruleKey) {
 
+        AgendaEditor agendaEditor = getSelectedAgendaEditor(wrapper, ruleKey);
+        if (agendaEditor != null) {
+            return agendaEditor.getRuleEditors().get(ruleKey);
+        }
+
+        return null;
+    }
+
+    public static AgendaEditor getSelectedAgendaEditor(MaintenanceDocumentForm document) {
+        return AgendaUtilities.getSelectedAgendaEditor(getRuleWrapper(document), getRuleKey(document));
+    }
+
+    public static AgendaEditor getSelectedAgendaEditor(RuleManagementWrapper wrapper, String ruleKey) {
+
         for (AgendaEditor agendaEditor : wrapper.getAgendas()) {
-            for (RuleEditor ruleEditor : agendaEditor.getRuleEditors()) {
-                if ((ruleEditor.getKey() != null) && (ruleEditor.getKey().equals(ruleKey))) {
-                    return ruleEditor;
-                }
+            if (agendaEditor.getRuleEditors().containsKey(ruleKey)) {
+                return agendaEditor;
             }
         }
 
         return null;
     }
 
-    public static RuleEditor getSelectedRuleEditorByType(List<RuleEditor> ruleEditors, String ruleTypeId) {
-
-        for (RuleEditor ruleEditor : ruleEditors) {
-            if ((ruleEditor.getTypeId().equals(ruleTypeId))) {
-                return ruleEditor;
-            }
-        }
-
-        return null;
+    public static String getRuleKey(MaintenanceDocumentForm document) {
+        return document.getActionParamaterValue("ruleKey");
     }
+
+    public static RuleManagementWrapper getRuleWrapper(MaintenanceDocumentForm document) {
+        return (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+    }
+
 }

@@ -21,7 +21,10 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -34,6 +37,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
@@ -41,24 +45,21 @@ import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.dto.PropositionParameterEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
-import org.kuali.rice.krms.dto.TemplateInfo;
-import org.kuali.rice.krms.dto.TermEditor;
-import org.kuali.rice.krms.dto.TermParameterEditor;
+import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
+import org.kuali.rice.krms.dto.*;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.service.TemplateRegistry;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.service.RuleEditorMaintainable;
+import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.rice.krms.util.ExpressionToken;
+import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
+import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;
@@ -79,8 +80,13 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     private transient ContextInfo contextInfo;
     private transient TemplateRegistry templateRegistry;
+    private AlphaIterator alphaIterator = new AlphaIterator();
 
     public static final String NEW_AGENDA_EDITOR_DOCUMENT_TEXT = "New Agenda Editor Document";
+
+    public String getViewTypeName() {
+        return "kuali.krms.agenda.type";
+    }
 
     /**
      * Get the AgendaEditor out of the MaintenanceDocumentForm's newMaintainableObject
@@ -97,31 +103,99 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
         EnrolRuleManagementWrapper dataObject = new EnrolRuleManagementWrapper();
 
-        List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
-        dataObject.setAgendas(agendas);
+        String refObjectId = dataObjectKeys.get("refObjectId");
+        dataObject.setRefObjectId(refObjectId);
 
-        String coId = dataObjectKeys.get("refObjectId");
-        dataObject.setRefObjectId(coId);
+        dataObject.setAgendas(this.getAgendasForRef("", refObjectId));
 
         dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
 
         return dataObject;
     }
 
+    protected List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId){
+        // Initialize new array lists.
+        List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
+        List<AgendaEditor> sortedAgendas = new ArrayList<AgendaEditor>();
+
+        // Get the list of existing agendas
+        List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(discriminatorType, refObjectId);
+        for(ReferenceObjectBinding referenceObjectBinding : refObjectsBindings){
+            agendas.add(this.getAgendaEditor(referenceObjectBinding.getKrmsObjectId()));
+        }
+
+        // Lookup existing agenda by type
+        for (AgendaTypeInfo agendaTypeInfo : this.getTypeRelationships()) {
+            AgendaEditor agenda = null;
+            for (AgendaEditor existingAgenda : agendas) {
+                if (existingAgenda.getTypeId().equals(agendaTypeInfo.getId())) {
+                    agenda=existingAgenda;
+                    break;
+                }
+            }
+            if (agenda==null) {
+                agenda = new AgendaEditor();
+                agenda.setTypeId(agendaTypeInfo.getId());
+            }
+            agenda.setAgendaTypeInfo(agendaTypeInfo);
+            agenda.setRuleEditors(this.getRulesForAgendas(agenda));
+            sortedAgendas.add(agenda);
+        }
+
+        return sortedAgendas;
+    }
+
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
         AgendaEditor agendaEditor = new AgendaEditor(agenda);
 
-        AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(agendaId);
-        agendaEditor.setRuleEditors(getRuleEditorsFromTree(agendaTree.getEntries()));
-
         return agendaEditor;
+    }
+
+    public Map<String, RuleEditor> getRulesForAgendas(AgendaEditor agenda) {
+
+        //Get all existing rules.
+        List<RuleEditor> existingRules = null;
+        if(agenda.getId()!=null){
+            AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(agenda.getId());
+            existingRules = getRuleEditorsFromTree(agendaTree.getEntries());
+        }
+
+        //Add dummy RuleEditors for empty rule types.
+        Map<String, RuleEditor> ruleEditors = new LinkedHashMap<String, RuleEditor>();
+        for (RuleTypeInfo ruleType : agenda.getAgendaTypeInfo().getRuleTypes()) {
+
+            // Add all existing rules of this type.
+            boolean exist = false;
+            if (existingRules != null) {
+                for (RuleEditor rule : existingRules) {
+                    if (rule.getTypeId().equals(ruleType.getId()) && (!rule.isDummy())) {
+                        rule.setKey((String)alphaIterator.next());
+                        rule.setRuleTypeInfo(ruleType);
+                        exist = true;
+
+                        ruleEditors.put(rule.getKey(), rule);
+                    }
+                }
+            }
+
+            // If the ruletype does not exist, add an empty rule section
+            if (!exist) {
+                RuleEditor ruleEditor = new RuleEditor();
+                ruleEditor.setKey((String)alphaIterator.next());
+                ruleEditor.setDummy(true);
+                ruleEditor.setTypeId(ruleType.getId());
+                ruleEditor.setRuleTypeInfo(ruleType);
+                ruleEditors.put(ruleEditor.getKey(), ruleEditor);
+            }
+
+        }
+
+        return ruleEditors;
     }
 
     protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries) {
 
-        RuleViewTreeBuilder viewTreeBuilder = new RuleViewTreeBuilder();
-        viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         List<RuleEditor> rules = new ArrayList<RuleEditor>();
         for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
             if (treeEntry instanceof AgendaTreeRuleEntry) {
@@ -131,7 +205,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 if (agendaItem.getRule() != null) {
                     RuleEditor ruleEditor = new RuleEditor(agendaItem.getRule());
                     this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
-                    ruleEditor.setViewTree(viewTreeBuilder.buildTree(ruleEditor));
+                    ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
                     rules.add(ruleEditor);
                 }
 
@@ -141,6 +215,72 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
         }
         return rules;
+    }
+
+    protected RuleViewTreeBuilder getViewTreeBuilder(){
+        RuleViewTreeBuilder viewTreeBuilder = new RuleViewTreeBuilder();
+        viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        return viewTreeBuilder;
+    }
+
+    /**
+     * Setup a map with all the type information required to build an agenda management page.
+     *
+     * @return
+     */
+    protected List<AgendaTypeInfo> getTypeRelationships() {
+        List<AgendaTypeInfo> agendaTypeInfos = new ArrayList<AgendaTypeInfo>();
+
+        // Get Instruction Usage Id
+        String instructionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_INSTRUCTION,
+                PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+
+        // Get Description Usage Id
+        String descriptionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION,
+                PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+
+        // Get the super type.
+        KrmsTypeDefinition requisitesType = this.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, this.getViewTypeName());
+
+        // Get all agenda types linked to super type.
+        List<TypeTypeRelation> agendaRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(requisitesType.getId());
+        for (TypeTypeRelation agendaRelationship : agendaRelationships) {
+            AgendaTypeInfo agendaTypeInfo = new AgendaTypeInfo();
+            agendaTypeInfo.setId(agendaRelationship.getToTypeId());
+            agendaTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(agendaRelationship.getToTypeId(), descriptionUsageId));
+
+            // Get all rule types for each agenda type
+            List<TypeTypeRelation> ruleRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaRelationship.getToTypeId());
+            List<RuleTypeInfo> ruleTypes = new ArrayList<RuleTypeInfo>();
+            for (TypeTypeRelation ruleRelationship : ruleRelationships) {
+                RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
+                ruleTypeInfo.setId(ruleRelationship.getToTypeId());
+                ruleTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), descriptionUsageId));
+                if (ruleTypeInfo.getDescription().isEmpty()) {
+                    ruleTypeInfo.setDescription("Description is unset rule type");
+                }
+                ruleTypeInfo.setInstruction(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), instructionUsageId));
+                if (ruleTypeInfo.getInstruction().isEmpty()) {
+                    ruleTypeInfo.setInstruction("Instruction is unset for rule type");
+                }
+                // Add rule types to list.
+                ruleTypes.add(ruleTypeInfo);
+            }
+            agendaTypeInfo.setRuleTypes(ruleTypes);
+            agendaTypeInfos.add(agendaTypeInfo);
+        }
+
+        return agendaTypeInfos;
+    }
+
+    private String getDescriptionForTypeAndUsage(String typeId, String usageId) {
+        NaturalLanguageTemplate template = null;
+        try {
+            template = getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usageId);
+            return template.getTemplate();
+        } catch (Exception e) {
+            return StringUtils.EMPTY;
+        }
     }
 
     /**
@@ -221,7 +361,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     protected AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
 
         Stack<RuleEditor> rules = new Stack<RuleEditor>();
-        for (RuleEditor rule : agenda.getRuleEditors()) {
+        for (RuleEditor rule : agenda.getRuleEditors().values()) {
             if (!rule.isDummy()) {
                 rules.push(rule);
             }
@@ -321,7 +461,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     }
 
     protected void initPropositionEditor(PropositionEditor propositionEditor) {
-        if(propositionEditor==null){
+        if (propositionEditor == null) {
             return;
         }
 

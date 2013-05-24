@@ -16,12 +16,14 @@
 package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
@@ -56,22 +58,15 @@ public class RuleStudentEditorController extends RuleEditorController {
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
+        //Clear the client state on new edit rule.
+        form.getClientStateForSyncing().clear();
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-        String typeId = document.getActionParamaterValue("ruleType");
 
-        EnrolRuleEditor ruleEditor = new EnrolRuleEditor();
-        ruleEditor.setTypeId(typeId);
-        for( AgendaEditor agenda : ruleWrapper.getAgendas()){
-            for( RuleEditor rule : agenda.getRuleEditors()){
-                if( (rule.getTypeId() != null) && (rule.getTypeId().equals(typeId))){
-                    ruleEditor.setRuleTypeInfo(rule.getRuleTypeInfo());
-                }
-            }
-        }
-        ruleWrapper.setRuleEditor(ruleEditor);
+        RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(document);
+        EnrolRuleEditor enrolRuleEditor = new EnrolRuleEditor(ruleEditor.getKey(), false, ruleEditor.getRuleTypeInfo());
+        AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
 
-        this.getViewHelper(form).refreshInitTrees(ruleEditor);
+        this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
         return super.navigate(form, result, request, response);

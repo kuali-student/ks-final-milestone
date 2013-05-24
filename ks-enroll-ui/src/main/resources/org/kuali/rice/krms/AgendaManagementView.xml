@@ -96,6 +96,11 @@
                 </property>
             </bean>
         </property>
+        <property name="items">
+            <list>
+                <bean parent="KRMS-AgendaManage-Section"/>
+            </list>
+        </property>
         <property name="footer">
             <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
         </property>
@@ -127,9 +132,59 @@
         </property>
     </bean>
 
-    <bean id="KRMS-AgendaSection-Template" parent="Uif-VerticalBoxSection">
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:style="border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px;"/>
+    <bean id="KRMS-AgendaManage-Section" parent="Uif-VerticalBoxSection"
+            class="org.kuali.rice.krms.util.AgendaSection">
+        <property name="bindingInfo">
+            <ref bean="Uif-BindingInfo"/>
+        </property>
+        <property name="propertyName" value="agendas" />
+        <property name="agendaPrototype">
+            <bean parent="Uif-VerticalBoxSection">
+                <property name="header">
+                    <bean parent="Uif-HeaderThree" p:style="border-bottom:solid 2px #000; margin-bottom:5px; margin-top:15px;"/>
+                </property>
+            </bean>
+        </property>
+        <property name="rulePrototype">
+            <bean parent="Uif-Disclosure-VerticalBoxSection">
+                <property name="disclosure.defaultOpen" value="false"/>
+                <property name="header">
+                    <bean parent="Uif-HeaderThree"/>
+                </property>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalBoxSection" p:width="500px"
+                              p:style="margin-left:1em" p:render="@{!#line.dummy}">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KRMS-RuleEdit-Links" p:id="KRSM-RuleEdit-ActionLinks" p:align="right"/>
+                                    <bean parent="KRMS-RuleView-Links" p:id="KRSM-RuleView-ActionLinks" p:align="right"/>
+                                    <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
+                                    <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode"
+                                          p:style="border: 1px solid #999999">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="KS-ViewTree-Section">
+                                                    <property name="propertyName" value="viewTree"/>
+                                                </bean>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-VerticalBoxSection" p:width="500px"
+                              p:style="margin-left:1em" p:render="@{#line.dummy}">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KRMS-RuleAdd-Links" p:id="KRMS-RuleAdd-ActionLink" p:align="right"/>
+                                    <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
@@ -158,42 +213,6 @@
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KRMS-Rule-Template" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="header">
-            <bean parent="Uif-HeaderThree"/>
-        </property>
-    </bean>
-
-    <bean id="KRMS-RuleEdit-Section" parent="Uif-VerticalBoxSection" p:width="500px"
-          p:style="margin-left:1em">
-        <property name="items">
-            <list>
-                <bean parent="KRMS-RuleEdit-Links" p:id="KRSM-RuleEdit-ActionLinks" p:align="right"/>
-                <bean parent="KRMS-RuleView-Links" p:id="KRSM-RuleView-ActionLinks" p:align="right"/>
-                <bean id="KRMS-Instruction-EditMessage" parent="Uif-MessageField"/>
-                <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode"
-                      p:style="border: 1px solid #999999">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-ViewTree-Section"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KRMS-RuleAdd-Section" parent="Uif-VerticalBoxSection" p:width="500px"
-          p:style="margin-left:1em">
-        <property name="items">
-            <list>
-                <bean parent="KRMS-RuleAdd-Links" p:id="KRMS-RuleAdd-ActionLink" p:align="right"/>
-                <bean id="KRMS-Instruction-AddMessage" parent="Uif-MessageField"/>
             </list>
         </property>
     </bean>

@@ -41,7 +41,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     private PropositionEditor proposition;
 
-    private String ruleType;
     private String copyKey;
     private String selectedKey;
     private String cutKey;
@@ -63,12 +62,17 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private Tree<CompareTreeNode, String> compareTree;
 
     //Rule Instruction
-    private String ruleInstruction;
-
     private RuleTypeInfo ruleTypeInfo;
 
     public RuleEditor() {
         super();
+    }
+
+    public RuleEditor(String key, boolean dummy, RuleTypeInfo ruleTypeInfo) {
+        this.setKey(key);
+        this.setDummy(dummy);
+        this.setTypeId(ruleTypeInfo.getId());
+        this.setRuleTypeInfo(ruleTypeInfo);
     }
 
     public RuleEditor(RuleDefinitionContract definition) {
@@ -133,14 +137,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setNamespace(String namespace) {
         this.namespace = namespace;
-    }
-
-    public String getRuleType() {
-        return ruleType;
-    }
-
-    public void setRuleType(String ruleType) {
-        this.ruleType = ruleType;
     }
 
     public List<String> getActiveSelections() {
@@ -308,14 +304,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     @Override
     public Long getVersionNumber() {
         return versionNumber;
-    }
-
-    public String getRuleInstruction() {
-        return ruleInstruction;
-    }
-
-    public void setRuleInstruction(String ruleInstruction) {
-        this.ruleInstruction = ruleInstruction;
     }
 
     protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){

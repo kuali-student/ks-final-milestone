@@ -4,6 +4,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContr
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 
 import java.util.Date;
@@ -31,6 +32,10 @@ public class EnrolRuleEditor extends RuleEditor {
 
     public EnrolRuleEditor(RuleDefinitionContract definition){
         super(definition);
+    }
+
+    public EnrolRuleEditor(String key, boolean dummy, RuleTypeInfo ruleTypeInfo) {
+        super(key, dummy, ruleTypeInfo);
     }
 
     public String getSearchByCourseRange() {

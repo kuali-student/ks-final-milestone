@@ -44,11 +44,6 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     }
 
     @Override
-    public String getViewTypeName() {
-        return "kuali.krms.agenda.type.course";
-    }
-
-    @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
 
         //Set the original nl if not already exists.

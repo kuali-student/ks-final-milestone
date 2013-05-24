@@ -77,7 +77,7 @@ public class CluSetInformation implements Serializable {
     }
 
     public void setCluSetRange(List<CluSetRangeHelper> cluSetRange) {
-        this.cluSetRange.set(0, cluSetRange.get(cluSetRange.size()-1));
+        this.cluSetRange.set(0, cluSetRange.get(cluSetRange.size() - 1));
     }
 
     public Map<String, CluSetInformation> getSubCluSetInformations() {
@@ -123,6 +123,29 @@ public class CluSetInformation implements Serializable {
         }
 
         return sb.toString();
+    }
+
+    public boolean hasClus() {
+        if ((this.getClus() != null) && (!this.getClus().isEmpty())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean hasMembershipQuery() {
+        MembershipQueryInfo mqInfo = this.getMembershipQueryInfo();
+        if (mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public List<String> getCluIds(){
+        List<String> cluIds = new ArrayList<String>();
+        for(CluInformation clu : this.getClus()){
+            cluIds.add(clu.getVerIndependentId());
+        }
+        return cluIds;
     }
 
 }

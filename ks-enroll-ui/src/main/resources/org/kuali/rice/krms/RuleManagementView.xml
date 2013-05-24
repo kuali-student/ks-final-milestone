@@ -147,7 +147,7 @@
     </bean>
 
     <!-- View only Tree -->
-    <bean id="KS-View-Tree-parent" parent="Uif-Tree">
+    <bean id="KRMS-Tree-parent" parent="Uif-Tree">
         <property name="template" value="/ks-enroll/ftl/rulePreviewTree.ftl"/>
         <property name="templateName" value="uif_rulePreviewTree"/>
         <property name="templateOptions">
@@ -157,18 +157,18 @@
             </map>
         </property>
     </bean>
-    <bean id="KS-View-Tree" parent="KS-View-Tree-parent"/>
+    <bean id="KRMS-Tree" parent="KRMS-Tree-parent"/>
 
     <bean id="KS-Tree-Section-parent" parent="Uif-TreeSection">
         <property name="template" value="/ks-enroll/ftl/ruleTreeGroup.ftl"/>
         <property name="templateName" value="uif_ruleTreeGroup"/>
         <property name="tree">
-            <bean parent="KS-View-Tree"/>
+            <bean parent="KRMS-Tree"/>
         </property>
     </bean>
     <bean id="KS-Tree-Section" parent="KS-Tree-Section-parent"/>
 
-    <bean id="KS-ViewTree-Section-parent" parent="KS-Tree-Section">
+    <bean id="KS-ViewTree-Section-parent" parent="KS-Tree-Section" class="org.kuali.rice.krms.util.ViewTreeGroup">
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
                 <property name="labelPrototype">
@@ -212,6 +212,9 @@
                     </bean>
                 </property>
             </bean>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-GridLayoutBase"/>
         </property>
         <property name="cssClasses">
             <list merge="true">

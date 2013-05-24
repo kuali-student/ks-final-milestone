@@ -29,7 +29,7 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
     private String courseName;
 
     private AgendaTypeInfo agendaTypeInfo;
-    private List<RuleEditor> ruleEditors;
+    private Map<String, RuleEditor> ruleEditors;
     private List<RuleEditor> deletedRules;
 
     public AgendaEditor() {
@@ -111,11 +111,11 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
         this.versionNumber = versionNumber;
     }
 
-    public List<RuleEditor> getRuleEditors() {
+    public Map<String, RuleEditor> getRuleEditors() {
         return ruleEditors;
     }
 
-    public void setRuleEditors(List<RuleEditor> ruleEditors) {
+    public void setRuleEditors(Map<String, RuleEditor> ruleEditors) {
         this.ruleEditors = ruleEditors;
     }
 
@@ -148,7 +148,7 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
 
     public boolean isDummyAgenda(){
         if(this.getId()==null){
-            for(RuleEditor rule : this.getRuleEditors()){
+            for(RuleEditor rule : this.getRuleEditors().values()){
                 if(rule.isDummy()==false){
                     return false;
                 }
