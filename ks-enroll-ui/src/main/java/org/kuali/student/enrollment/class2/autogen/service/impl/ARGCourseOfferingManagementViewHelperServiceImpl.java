@@ -580,8 +580,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
 
             List<ScheduleRequestInfo> schRequests = new ArrayList<ScheduleRequestInfo>();
-            //Lookup AO related scheduleRequests
 
+            //Lookup all AOs related scheduleRequests for building up buildingIdMap, roomIdMap and timeslotIdMap
             schRequests.addAll(getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, new ArrayList<String>(aoIdsWithoutSch), contextInfo));
 
             //Store the ids for bulk lookup
