@@ -94,13 +94,13 @@
                                 <phase>${ks.enforcer.phase}</phase>
                                 <configuration>
                                     <rules>
-                                        <requireJavaVersion>
-                                            <version>1.7</version>
-                                        </requireJavaVersion>
-                                        <requireProperty>
-                                            <property>jdk6.rt.jar.path</property>
-                                            <message>You must specify a jdk6.rt.jar.path property e.g., /var/lib/jenkins/tools/jdk6/jre/lib/rt.jar (use -D flag or define within POM itself)</message>
-                                        </requireProperty>
+                                    <requireJavaVersion>
+                                    <version>1.7</version>
+                                    </requireJavaVersion>
+                                    <requireProperty>
+                                    <property>jdk6.rt.jar.path</property>
+                                    <message>You must specify a jdk6.rt.jar.path property e.g., /var/lib/jenkins/tools/jdk6/jre/lib/rt.jar (use -D flag or define within POM itself)</message>
+                                    </requireProperty>
                                     </rules>
                                 </configuration>
                             </execution>
@@ -114,7 +114,7 @@
                             <fork>true</fork>
                             <compilerArguments>
                                 <bootclasspath>${jdk6.rt.jar.path}</bootclasspath>
-                                <extdirs></extdirs>
+                                <extdirs/>
                             </compilerArguments>
                         </configuration>
                     </plugin>
