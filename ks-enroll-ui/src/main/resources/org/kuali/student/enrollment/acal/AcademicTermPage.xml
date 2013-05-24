@@ -124,7 +124,7 @@
         <property name="items">
             <list>
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
-                      p:label="Key Date Group Type" p:required="true" p:finalizeMethodToCall="populateKeyDateGroupTypes" >
+                      p:label="* Key Date Group Type"  p:finalizeMethodToCall="populateKeyDateGroupTypes" > <!--p:required="true"-->
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -171,10 +171,10 @@
         </property>
         <property name="items">
             <list>
-                <bean id="key_date_type" parent="Uif-InputField" p:propertyName="keyDateType" p:required="true"
+                <bean id="key_date_type" parent="Uif-InputField" p:propertyName="keyDateType"
                       p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
-                      p:label="Key Date Type"
-                      p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;">
+                      p:label="* Key Date Type"
+                      p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;"> <!--p:required="true"-->
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -183,7 +183,7 @@
                     </property>
                 </bean>
                 <bean id="key_date_start_date" parent="Uif-InputField" p:propertyName="startDate" p:readOnlyDisplayReplacementPropertyName="startDateUI"
-                      p:label="Start Date" p:required="true">
+                      p:label="* Start Date" >   <!--p:required="true"-->
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                     </property>
