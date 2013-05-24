@@ -88,6 +88,9 @@
                 <module>ks-enroll</module>
                 <module>ks-api</module>
             </modules>
+            <properties>
+                <jdk6.rt.jar.path>/var/lib/jenkins/tools/jdk6/jre/lib/rt.ja</jdk6.rt.jar.path>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -104,10 +107,6 @@
                                     <requireJavaVersion>
                                     <version>1.7</version>
                                     </requireJavaVersion>
-                                    <requireProperty>
-                                    <property>jdk6.rt.jar.path</property>
-                                    <message>You must specify a jdk6.rt.jar.path property e.g., /var/lib/jenkins/tools/jdk6/jre/lib/rt.jar (use -D flag or define within POM itself)</message>
-                                    </requireProperty>
                                     </rules>
                                 </configuration>
                             </execution>
