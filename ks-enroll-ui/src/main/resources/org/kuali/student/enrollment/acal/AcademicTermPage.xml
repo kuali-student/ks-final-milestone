@@ -38,7 +38,8 @@
         <property name="lineActions">
             <list>
                 <bean id="term_official_button" parent="Uif-PrimaryActionButton" p:actionLabel="@{!#line.official ? 'Make Official' : 'Update Official'}"  p:disabled="@{#line.new}" p:methodToCall="makeTermOfficial" p:render="@{!#view.readOnly}"/>
-                <bean id="term_delete_button" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Draft" p:render="@{!#view.readOnly and !#line.new and !#line.official}"/>
+                <bean id="term_delete_button" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Draft" p:render="@{!#view.readOnly and !#line.new and !#line.official}"
+                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                 <bean id="term_cancel_button" parent="Uif-ActionLink" p:methodToCall="cancelTerm" p:actionLabel="Cancel"/>
             </list>
         </property>
