@@ -1278,11 +1278,11 @@ public class TestAcademicCalendarServiceImpl {
         String hCalStart = "2013-01-01";
         String hCalEnd = "2013-12-31";
 
-        // month of march
+        // Span two months Feb->March
         String aCalStart = "2013-02-01";
         String aCalEnd = "2013-03-31";
 
-        // term is 2 wks
+        // term is 2 wks, across two months
         String termStart = "2013-02-25";
         String termEnd = "2013-03-08";
 
