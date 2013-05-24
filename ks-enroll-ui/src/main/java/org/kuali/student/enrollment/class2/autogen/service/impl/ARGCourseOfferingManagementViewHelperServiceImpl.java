@@ -135,7 +135,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class //TODOSSR : Fix refObjId to Ids
+ * This class
  *
  * @author Kuali Student Team
  */
@@ -506,7 +506,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             String aoId = null;
             String aoCode = null;
             String coCode = null;
-            String luiSetId = null;
+
             for (SearchResultCellInfo cell : row.getCells()) {
                 if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID.equals(cell.getKey())) {
                     aoId = cell.getValue();
@@ -523,7 +523,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             } else {
                 aoWrapper.setColocatedAoInfo(aoWrapper.getColocatedAoInfo() + "<br/>" + coCode + " " + aoCode);
             }
-            //ao2ColocatedSet.put(aoId,luiSetId);
 
         }
     }
@@ -566,7 +565,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      *
      * @param aoIdsWithoutSch
      * @param ao2sch
-     * @param ao2ColocatedSet
      *@param contextInfo  @throws Exception
      */
     protected void processScheduleRequestsForAos(Collection<String> aoIdsWithoutSch, Map<String, List<ScheduleRequestCalcContainer>> ao2sch, ContextInfo contextInfo) throws Exception {
@@ -580,8 +578,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             Map<String, RoomInfo> roomIdMap = new HashMap<String, RoomInfo>();
             Map<String, TimeSlotInfo> timeslotIdMap = new HashMap<String, TimeSlotInfo>();
 
-            //Filter out ref ids that are colocated sets
-            //List<String> aoRefIds = ListUtils.removeAll(aoIdsWithoutSch, ao2ColocatedSet.keySet());
+
             List<ScheduleRequestInfo> schRequests = new ArrayList<ScheduleRequestInfo>();
             //Lookup AO related scheduleRequests
 
@@ -647,49 +644,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 }
 
             }
-   /*         for (ScheduleRequestInfo schRequest : schRequests) {
-                // TODOSSR: This logic no longe rnecessary
-                List<String> aoIds = new ArrayList<String>();
-                //if the refid is colocated set, map back to the ao Id
-                //if(ao2ColocatedSet.containsValue(schRequest.getRefObjectId())){
-                //    for(Map.Entry<String,String> entry : ao2ColocatedSet.entrySet()){
-                //        if(schRequest.getRefObjectId().equals(entry.getValue())){
-                //            aoIds.add(entry.getKey());
-                //        }
-                //    }
-                //}else{
-                //    //Otherwise this is just a normal aoId
-                //    aoIds.add(schRequest.getRefObjectId());
-                //}
-
-                for(String aoId:aoIds){
-                    for (ScheduleRequestComponentInfo schRequestCom : schRequest.getScheduleRequestComponents()) {
-                        List<RoomInfo> rooms = new ArrayList<RoomInfo>();
-                        List<BuildingInfo> bldgs = new ArrayList<BuildingInfo>();
-                        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
-                        for (String roomId : schRequestCom.getRoomIds()) {
-                            rooms.add(roomIdMap.get(roomId));
-                            bldgs.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
-                        }
-                        for (String timeSlotId : schRequestCom.getTimeSlotIds()) {
-                            TimeSlotInfo timeSlotInfo = timeslotIdMap.get(timeSlotId);
-                            timeSlots.add(timeSlotInfo);
-
-                        }
-                        ScheduleRequestCalcContainer src = new ScheduleRequestCalcContainer(aoId, schRequest.getId(), CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, timeSlots, rooms, bldgs, schRequestCom.getIsTBA());
-
-                        if (ao2sch.containsKey(aoId)) {
-
-                            ao2sch.get(aoId).add(src);
-
-                        } else {
-                            List<ScheduleRequestCalcContainer> schList = new ArrayList<ScheduleRequestCalcContainer>();
-                            schList.add(src);
-                            ao2sch.put(aoId, schList);
-                        }
-                    }
-                }
-            } */
         }
 
 
@@ -870,7 +824,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
 
             for (ScheduleRequestInfo schRequest : schRequests) {
-                //TODOSSR: ActivityOfferingWrapper aoWrapper = aoMap.get(schRequest.getRefObjectId());
+                // ActivityOfferingWrapper aoWrapper = aoMap.get(schRequest.getRefObjectId());
                 ActivityOfferingWrapper aoWrapper = aoMap.get(null);
                 for (ScheduleRequestComponentInfo schRequestCom : schRequest.getScheduleRequestComponents()) {
                     boolean newLine = aoWrapper.getTbaDisplayName() != null && !aoWrapper.getTbaDisplayName().isEmpty();
@@ -1412,7 +1366,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     }
 
 
-    private List<RegistrationGroupWrapper> _getRGsForSelectedFO(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingWrapper> filteredAOs) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+   private List<RegistrationGroupWrapper> _getRGsForSelectedFO(List<RegistrationGroupInfo> rgInfos, List<ActivityOfferingWrapper> filteredAOs) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         _fixAoIdOrderingInRegGroups(rgInfos);
         List<RegistrationGroupWrapper> filterdRGList = new ArrayList<RegistrationGroupWrapper>();
 
@@ -1426,7 +1380,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             rgWrapper.setRgInfo(rgInfo);
             String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "";
             for (String aoID : rgInfo.getActivityOfferingIds()) {
-                /*  TODOSSR
+                /*
                 String cssClass = (filteredAOsHM.get(aoID).getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
                 if (filteredAOsHM.get(aoID).getAoInfo().getActivityCode() != null && !filteredAOsHM.get(aoID).getAoInfo().getActivityCode().equalsIgnoreCase("")) {
                     aoActivityCodeText = aoActivityCodeText + filteredAOsHM.get(aoID).getAoInfo().getActivityCode() + "<br/>";
