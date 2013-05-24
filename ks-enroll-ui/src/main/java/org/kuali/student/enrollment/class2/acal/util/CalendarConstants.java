@@ -35,8 +35,9 @@ public class CalendarConstants {
 
     //Dialogs
     public static final String SEARCH_DELETE_CONFIRMATION_DIALOG = "KS-CalendarSearch-ConfirmDelete-Dialog";
-    public static final String ACADEMIC_DELETE_CONFIRMATION_DIALOG = "KS-AcademicCalender-ConfirmDelete-Dialog";
-    public static final String HOLIDAY_DELETE_CONFIRMATION_DIALOG = "KS-HolidayCalender-ConfirmDelete-Dialog";
+    public static final String ACADEMIC_DELETE_CONFIRMATION_DIALOG = "KS-AcademicCalendar-ConfirmDelete-Dialog";
+    public static final String HOLIDAY_DELETE_CONFIRMATION_DIALOG = "KS-HolidayCalendar-ConfirmDelete-Dialog";
+    public static final String TERM_DELETE_CONFIRMATION_DIALOG = "KS-AcademicTerm-ConfirmDelete-Dialog";
 
     //Acal
     public static final String ACAL_CONTROLLER_PATH = "academicCalendar";
@@ -84,15 +85,12 @@ public class CalendarConstants {
         public static final String INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";
         public static final String ERROR_DELETING = "error.enroll.search.delete.failed";
         public static final String ERROR_DATE_END_REQUIRED = "error.enroll.date.end.required";
-
         public static final String ERROR_TIME_START_AMPM_REQUIRED = "error.enroll.time.start.ampm.required";
         public static final String ERROR_TIME_END_AMPM_REQUIRED = "error.enroll.time.end.ampm.required";
         public static final String ERROR_ACAL_SAVE_FAILED = "error.enroll.acal.save.failed";
         public static final String ERROR_ACAL_SAVE_TERM_SAVE_FAILED = "error.enroll.acal.term.save.failed";
         public static final String ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
         public static final String ERROR_KEY_DATE_TYPE_REQUIRED = "error.enroll.keydate.type.empty";
-        public static final String ERROR_KEY_DATE_GROUP_TYPE_REQUIRED = "error.enroll.keydategroup.type.empty";
-        public static final String ERROR_KEY_DATE_START_DATE_REQUIRED = "error.enroll.keydate.startDate.empty";
         public static final String ERROR_DUPLICATE_NAME  = "error.enroll.calendar.duplicateName";
         public static final String ERROR_DATE_NOT_IN_ACAL_RANGE = "error.enroll.event.dateNotInAcal";
         public static final String ERROR_INVALID_DATE_RANGE = "error.enroll.daterange.invalid";
