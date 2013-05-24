@@ -2258,6 +2258,42 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return academicCalendars;
     }
 
+    /**
+     *
+     * Date Compare Logic. We need to do two things here.
+     * 1. Make sure a single date is within the time period
+     * 2. Make sure SOME PART of a Date Rance is within the time period.
+     *
+     * For example, you have a week and T -> S is your time period: M | T W H F S | U
+     * You have two holidays in this calendar. The first is on H, the second spans M->T
+     *
+     * So, in order to cover all cases, you need to have some "interesting logic".
+     * First set up your holiday start and end dates for each holiday you want to evaluate.
+     * holiday start date is easy, it's the holiday start date.
+     * Holiday end date depends on if the holiday is a range or a day. If it's a range then
+     * holidayEndDate = holidayEndDate. If it's a day then holidayEndDate = holidayStartDate.
+     *
+     * Now that you have holiday startDate and endDate configured you need use a comparator
+     * that returns -1,0,1 (<,=,>).
+     *
+     * 1. compare holidayStartDate to the periodEndDate; call this compStart
+     * 2. compare holidayEndDate to the periodStartDate; call this compEnd
+     *
+     * The holiday is "in the period" if compStart <= 0 && compEnd >= 0.
+     *
+     * @param academicCalendarId an identifier for an Academic Calendar
+     * @param startDate                  the start of period date range
+     * @param endDate                    the end of period date range
+     * @param contextInfo                information containing the principalId and
+     *                                   locale information about the caller of service
+     *                                   operation
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Override
     public List<HolidayInfo> getHolidaysByDateForAcademicCalendar(String academicCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -2269,18 +2305,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
             for (HolidayInfo holiday : holidays) {
                 int compStart = holiday.getStartDate().compareTo(endDate);
-                if (compStart <= 0) {
-                    if (holiday.getIsDateRange()) {
-                        int compEnd = holiday.getEndDate().compareTo(startDate);
-                        if (compEnd >= 0) {
-                           holidaysForAcal.add(holiday);
-                        }
-                    }else{
-                        holidaysForAcal.add(holiday);
-                    }
+                int compEnd = (holiday.getIsDateRange()? holiday.getEndDate().compareTo(startDate) : holiday.getStartDate().compareTo(startDate) );
+                if (compStart <= 0 && compEnd >= 0) {
+                    holidaysForAcal.add(holiday);
                 }
             }
-
         }
 
         return holidaysForAcal;

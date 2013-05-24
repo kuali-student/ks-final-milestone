@@ -1343,29 +1343,39 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(kdInfo.getId());
         assertEquals(kd.getName(), kdInfo.getName());
 
-        // No Holidays
+        // Holiday before period... shouldn't be counted
+        HolidayInfo holidayInfoSingle = _createHoliday(hCal.getId(), "2013-02-08");
         Integer days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
-        assertEquals(days.intValue(), 10);
+        assertEquals(10,days.intValue());
+
+        // Holiday after period... shouldn't be counted
+        holidayInfoSingle = _createHoliday(hCal.getId(), "2013-05-08");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(10,days.intValue());
+
+        // No Holidays
+         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(10,days.intValue());
 
         // Place Date Range Holiday inside period
         HolidayInfo holidayInfo = _createHoliday(hCal.getId(), "2013-03-04","2013-03-05");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
-        assertEquals(days.intValue(), 8);
+        assertEquals(8,days.intValue());
 
         // Overlap period start dates
         holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-02-24","2013-02-25");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
-        assertEquals(days.intValue(), 9);
+        assertEquals(9,days.intValue());
 
         // Overlap period end dates
         holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-03-08","2013-03-09");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
-        assertEquals(days.intValue(), 9);
+        assertEquals(9,days.intValue());
 
         // Overlaping holidays. Make sure we don't count the same day twice
-        HolidayInfo holidayInfoSingle = _createHoliday(hCal.getId(), "2013-03-08");
+        holidayInfoSingle = _createHoliday(hCal.getId(), "2013-03-08");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
-        assertEquals(days.intValue(), 9);
+        assertEquals(9,days.intValue());
 
 
 
