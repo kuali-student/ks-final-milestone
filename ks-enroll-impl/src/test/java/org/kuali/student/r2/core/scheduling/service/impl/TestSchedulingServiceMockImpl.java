@@ -22,7 +22,6 @@ import org.junit.runner.RunWith;
 import org.kuali.student.common.test.util.CrudInfoTester;
 import org.kuali.student.common.test.util.ListOfObjectTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -34,7 +33,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -45,8 +43,18 @@ import org.kuali.student.r2.core.room.dto.RoomFixedResourceInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomUsageInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.springframework.test.context.ContextConfiguration;
@@ -1314,15 +1322,6 @@ public class TestSchedulingServiceMockImpl {
         assertEquals(scheduleDisplayInfo.getAtp().getId(), SCHEDULE.getAtpId());
 
         // create a Schedule Request
-        ScheduleRequestSetInfo srs = new ScheduleRequestSetInfo();
-        srs.setTypeKey( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET );
-        srs.setStateKey( SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED );
-        srs.setRefObjectTypeKey( CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY );
-        List<String> refObjIds = new ArrayList<String>();
-        refObjIds.add( "1" );
-        srs.setRefObjectIds( refObjIds );
-        srs = schedulingService.createScheduleRequestSet( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY, srs, callContext );
-
         ScheduleRequestComponentInfo SCHEDULE_REQUEST_CMP = new ScheduleRequestComponentInfo();
         SCHEDULE_REQUEST_CMP.setIsTBA(false);
         SCHEDULE_REQUEST_CMP.setBuildingIds(BLD_IDS);
@@ -1331,17 +1330,30 @@ public class TestSchedulingServiceMockImpl {
         List<ScheduleRequestComponentInfo> SCHEDULE_REQUEST_CMPS = new ArrayList<ScheduleRequestComponentInfo>();
         SCHEDULE_REQUEST_CMPS.add(SCHEDULE_REQUEST_CMP);
 
+        String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
+        List<String> refObjectIds = new ArrayList();
+        refObjectIds.add("Ao1");
+        refObjectIds.add("Ao2");
+        ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,
+                "REF_OBJECT_URI_GLOBAL_PREFIX",
+                false, 168);
+
+        ScheduleRequestSetInfo returnSetInfo = schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                "REF_OBJECT_URI_GLOBAL_PREFIX", setInfo, callContext );
+
         ScheduleRequestInfo SCHEDULE_REQUEST = new ScheduleRequestInfo();
         SCHEDULE_REQUEST.setScheduleRequestComponents(SCHEDULE_REQUEST_CMPS);
-        SCHEDULE_REQUEST.setScheduleRequestSetId( srs.getId() );
+        SCHEDULE_REQUEST.setScheduleRequestSetId(setInfo.getId());
 
         crudInfoTester.initializeInfoForTestCreate(SCHEDULE_REQUEST, SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
         SCHEDULE_REQUEST = schedulingService.createScheduleRequest(SCHEDULE_REQUEST.getTypeKey(), SCHEDULE_REQUEST, callContext);
 
         // test the request display
         ScheduleRequestDisplayInfo SR_DISPL_INF = schedulingService.getScheduleRequestDisplay(SCHEDULE_REQUEST.getId(), callContext);
-        assertEquals( SR_DISPL_INF.getRefObjectId(), srs.getId() );
-        assertEquals( SR_DISPL_INF.getRefObjectTypeKey(), srs.getTypeKey() );
+        assertEquals(SR_DISPL_INF.getScheduleRequestComponentDisplays().size(), 1);
+        assertTrue(SR_DISPL_INF.getTypeKey().equalsIgnoreCase(SCHEDULE_REQUEST.getTypeKey()));
+
+
     }
 
 }
