@@ -298,8 +298,8 @@
 
 
 
-/************************************** MANAGE REGISTRATION GROUP ***************************************/
-/* Commenting this out as this does not appear to be used anymore
+/************************************** MANAGE REGISTRATION GROUP ***************************************
+   Commenting this out as this does not appear to be used anymore
 .aoc_links {
     float: right;
     padding: 8px;
@@ -339,8 +339,8 @@ a {
 
 
 
-/************************************** ACAL **************************************/
-/* Create Academic Calendar > Information tab
+/************************************** ACAL **************************************
+   Create Academic Calendar > Information tab
    This causes the Organization, Start Date & End Date sections to start on a new line
 
    Create Academic Calendar > Terms tab
@@ -599,8 +599,8 @@ a {
 
 
 
-/************************************** BREADCRUMBS **************************************/
-/* The background where breadcrumbs reside on */
+/************************************** BREADCRUMBS **************************************
+   The background where breadcrumbs reside on */
 #Uif-BreadcrumbWrapper {
     background-image: url('../images/breadcrumb/bg_breadcrumb.png');
 }
@@ -614,8 +614,8 @@ a {
 
 
 
-/************************************** ROLLOVER **************************************/
-/* GridSubsection with Status/Refresh link on Rollover Details
+/************************************** ROLLOVER **************************************
+   GridSubsection with Status/Refresh link on Rollover Details
    Go to Rollover > 201208 > 201308
 */
 .ks-rolloverResultsInfoSection-gridSubsection table {
@@ -625,8 +625,11 @@ a {
 /* End of GridSubsection */
 /************************************** END ROLLOVER **************************************/
 
-/************************************** Text with Rounded Background **********************/
-/* This is designed to work with the Uif-DataField. We will need to make it more default later */
+
+
+
+/************************************** LOZENGES **********************
+   This is designed to work with the Uif-DataField. We will need to make it more default later */
 .text-lozenge-orange > span:first-child {
     color: white;
     background-color: darkorange;
@@ -648,11 +651,15 @@ a {
     text-transform: uppercase;
     white-space: nowrap
 }
-/************************************** END Text with Rounded Background **********************/
+/************************************** END LOZENGES **********************/
 
-/* Edit Academic Calendar > Sticky Footer
-   Right align action buttons.
+
+
+
+/************************************** EDIT ACADEMIC CALENDAR STICKY FOOTER **********************
+   Alignment of action buttons.
  */
 .ac_stickyfooter {
     float: right;
 }
+/************************************** END EDIT ACADEMIC CALENDAR STICKY FOOTER **********************
