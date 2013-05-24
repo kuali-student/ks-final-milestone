@@ -327,7 +327,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         Map<String, FormatOfferingInfo> foIds = new HashMap<String, FormatOfferingInfo>();
         Map<String, List<ScheduleCalcContainer>> ao2sch = new HashMap<String, List<ScheduleCalcContainer>>();
         Map<String, List<ScheduleRequestCalcContainer>> ao2schReq = new HashMap<String, List<ScheduleRequestCalcContainer>>();
-        Map<String, String> ao2ColocatedSet = new HashMap<String, String>();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         //Parse the search results
@@ -385,7 +384,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_IDS, new ArrayList<String>(aoMap.keySet()));
             results = searchService.search(sr, null);
 
-            processColocated(results, aoMap, ao2ColocatedSet);
+            processColocated(results, aoMap);
 
 
             //Addin LPR data
@@ -402,7 +401,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 // the next two methods pull scheduling data from the DB and put them into the ao2sch map
                 processScheduleInfo(results, sch2aoMap, ao2sch, contextInfo);
             }
-            processScheduleRequestsForAos(aoIdsWithoutSch, ao2schReq, ao2ColocatedSet, contextInfo);
+            processScheduleRequestsForAos(aoIdsWithoutSch, ao2schReq, contextInfo);
 
             // this takes the scheduling data and puts it into the screen form
             processScheduleData(aoMap, ao2sch, ao2schReq, contextInfo);
@@ -501,7 +500,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return lRet;
     }
 
-    private void processColocated(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> aoMap, Map<String, String> ao2ColocatedSet) {
+    private void processColocated(SearchResultInfo searchResults, Map<String, ActivityOfferingWrapper> aoMap) {
 
         for (SearchResultRowInfo row : searchResults.getRows()) {
             String aoId = null;
@@ -515,8 +514,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     aoCode = cell.getValue();
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.CO_CODE.equals(cell.getKey())) {
                     coCode = cell.getValue();
-                } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.LUI_SET_ID.equals(cell.getKey())) {
-                    luiSetId = cell.getValue();
                 }
             }
             ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
@@ -526,7 +523,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             } else {
                 aoWrapper.setColocatedAoInfo(aoWrapper.getColocatedAoInfo() + "<br/>" + coCode + " " + aoCode);
             }
-            ao2ColocatedSet.put(aoId,luiSetId);
+            //ao2ColocatedSet.put(aoId,luiSetId);
 
         }
     }
@@ -572,7 +569,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
      * @param ao2ColocatedSet
      *@param contextInfo  @throws Exception
      */
-    protected void processScheduleRequestsForAos(Collection<String> aoIdsWithoutSch, Map<String, List<ScheduleRequestCalcContainer>> ao2sch, Map<String, String> ao2ColocatedSet, ContextInfo contextInfo) throws Exception {
+    protected void processScheduleRequestsForAos(Collection<String> aoIdsWithoutSch, Map<String, List<ScheduleRequestCalcContainer>> ao2sch, ContextInfo contextInfo) throws Exception {
 
         if (!aoIdsWithoutSch.isEmpty()) {
             Set<String> buildingIds = new HashSet<String>();

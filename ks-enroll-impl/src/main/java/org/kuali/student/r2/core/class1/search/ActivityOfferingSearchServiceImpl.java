@@ -288,8 +288,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         String queryStr =
                 "SELECT aoMatchIds," +
                 "       co_ident.code," +
-                "       ao_ident.code," +
-                "       srs.id " +
+                "       ao_ident.code " +
                 "FROM ScheduleRequestSetEntity srs," +
                 "     IN(srs.refObjectIds) aoMatchIds," +
                 "     IN(srs.refObjectIds) aoIds," +
@@ -319,7 +318,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.CO_CODE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.LUI_SET_ID, (String)resultRow[i++]);
             resultInfo.getRows().add(row);
         }
 
