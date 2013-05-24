@@ -455,16 +455,27 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         } else if (addLine instanceof KeyDatesGroupWrapper) {
             KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
             if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
+                //putErrorForSectionId seems not working
+                GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
+                GlobalVariables.getMessageMap().addGrowlMessage("Error", CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
                 return false;
             }
         }
         else if (addLine instanceof KeyDateWrapper) {
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
+            boolean isValid = true;
             if(StringUtils.isEmpty(keydate.getKeyDateType())) {
+                //putErrorForSectionId seems not working
                 GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
-                return false;
+                GlobalVariables.getMessageMap().addGrowlMessage("Error", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
+                isValid = false;
             }
+            if(keydate.getStartDate() == null || StringUtils.isEmpty(keydate.getStartDate().toString())){
+                GlobalVariables.getMessageMap().addGrowlMessage("Error", CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED);
+                isValid = false;
+            }
+            if(!isValid)
+                return false;
             if (!isValidTimeSetWrapper(keydate, keydate.getKeyDateNameUI(), collectionGroup.getAddLineBindingInfo().getBindingPath())) {
                 return false;
             }
