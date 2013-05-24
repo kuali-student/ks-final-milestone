@@ -516,7 +516,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
 
     private List<String> searchForScheduleIdsByAOId(String aoId) {
-        if( aoId == null || aoId.trim().isEmpty() ) return Collections.EMPTY_LIST;
+        if( StringUtils.isBlank(aoId) ) return Collections.EMPTY_LIST;
 
         LuiEntity entity = entityManager.find(LuiEntity.class, aoId.trim());
         if(entity != null && entity.getScheduleIds() != null) {
