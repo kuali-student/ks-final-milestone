@@ -1279,12 +1279,12 @@ public class TestAcademicCalendarServiceImpl {
         String hCalEnd = "2013-12-31";
 
         // month of march
-        String aCalStart = "2013-03-01";
+        String aCalStart = "2013-02-01";
         String aCalEnd = "2013-03-31";
 
         // term is 2 wks
-        String termStart = "2013-03-04";
-        String termEnd = "2013-03-15";
+        String termStart = "2013-02-25";
+        String termEnd = "2013-03-08";
 
         Date  aCalStartDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(aCalStart);  // Start date
         Date  aCalEndDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(aCalEnd);  // end date
@@ -1353,17 +1353,17 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals(days.intValue(), 8);
 
         // Overlap period start dates
-        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-03-03","2013-03-04");
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-02-24","2013-02-25");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
         assertEquals(days.intValue(), 9);
 
         // Overlap period end dates
-        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-03-15","2013-03-16");
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-03-08","2013-03-09");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
         assertEquals(days.intValue(), 9);
 
         // Overlaping holidays. Make sure we don't count the same day twice
-        HolidayInfo holidayInfoSingle = _createHoliday(hCal.getId(), "2013-03-15");
+        HolidayInfo holidayInfoSingle = _createHoliday(hCal.getId(), "2013-03-08");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
         assertEquals(days.intValue(), 9);
 
