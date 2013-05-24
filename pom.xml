@@ -79,6 +79,48 @@
                 <module>ks-enroll</module>
             </modules>
         </profile>
+        <profile>
+            <id>jdk7-with-jdk6-bytecode</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-rules-for-cross-compilation</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <phase>${ks.enforcer.phase}</phase>
+                                <configuration>
+                                    <rules>
+                                        <requireJavaVersion>
+                                            <version>1.7</version>
+                                        </requireJavaVersion>
+                                        <requireProperty>
+                                            <property>jdk6.rt.jar.path</property>
+                                            <message>You must specify a jdk6.rt.jar.path property e.g., /var/lib/jenkins/tools/jdk6/jre/lib/rt.jar (use -D flag or define within POM itself)</message>
+                                        </requireProperty>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <source>${project.java.version}</source>
+                            <target>${project.java.version}</target>
+                            <fork>true</fork>
+                            <compilerArguments>
+                                <bootclasspath>${jdk6.rt.jar.path}</bootclasspath>
+                                <extdirs></extdirs>
+                            </compilerArguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
     <scm>
         <connection>scm:svn:https://svn.kuali.org/repos/student/enrollment/aggregate/trunk</connection>
@@ -146,8 +188,6 @@
         <oracle.artifactId>ojdbc14</oracle.artifactId>
         -->
         <plugin.enforcer.version>1.2</plugin.enforcer.version>
-        <!-- following property controls source and target directives for maven-compiler-plugin -->
-        <project.java.version>1.7</project.java.version>
         <project.jdk.min.version>1.7</project.jdk.min.version>
         <selenium.version>2.7.0</selenium.version>
         <servlet.api.version>2.5</servlet.api.version>
