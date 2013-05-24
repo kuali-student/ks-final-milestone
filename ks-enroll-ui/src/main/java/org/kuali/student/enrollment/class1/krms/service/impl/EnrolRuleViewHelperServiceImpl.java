@@ -61,6 +61,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             //Check if this is a valid clu.
             CluInformation clu = (CluInformation) addLine;
             if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
+                collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                 return false;
             }
 
@@ -69,6 +70,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
             for(CluInformation cluInformation : propEditor.getCluSet().getClus()){
                 if(cluInformation.getCluId().equals(clu.getCluId())){
+                    collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                     return false;
                 }
             }
@@ -76,6 +78,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             //Check if this is a valid clu.
             CluSetInfo cluSet = (CluSetInfo) addLine;
             if((cluSet.getId() == null)||(cluSet.getId().isEmpty())){
+                collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                 return false;
             }
 
@@ -84,6 +87,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
             for(CluSetInfo cluSetInfo : propEditor.getCluSet().getCluSets()){
                 if(cluSetInfo.getId().equals(cluSet.getId())){
+                    collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                     return false;
                 }
             }

@@ -71,7 +71,7 @@
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kew/ActionList.do</param>
 
-    <param name="resourceBundleNames" override="true">${rice.struts.message.resources},org.kuali.student.enrollment.KSEnroll-ApplicationResources</param>
+    <param name="resourceBundleNames" override="true">${rice.struts.message.resources},org.kuali.student.enrollment.KSEnroll-ApplicationResources,org.kuali.rice.krms.KRMS-ApplicationResources</param>
     <param name="ks.externalizable.images.url">../ks-enroll/images</param>
 
     <!-- default automatic user for /kitchensink urls -->
