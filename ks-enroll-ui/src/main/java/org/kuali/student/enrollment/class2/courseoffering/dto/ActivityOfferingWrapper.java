@@ -70,13 +70,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private List<ScheduleWrapper> actualScheduleComponents;
     private List<ScheduleWrapper> requestedScheduleComponents;
     private List<ScheduleWrapper> deletedScheduleComponents;
-//    private List<ScheduleWrapper> revisedScheduleRequestComponents;
     private ScheduleWrapper newScheduleRequest;
 
-//    private ScheduleRequestInfo scheduleRequestInfo;
-//    private ScheduleInfo scheduleInfo;
-//    private List<ScheduleRequestInfo> scheduleRequestInfos;
-//    private List<ScheduleInfo> scheduleInfos;
     private SocInfo socInfo;
 
     private String startTimeDisplay = "";
@@ -132,14 +127,10 @@ public class ActivityOfferingWrapper implements Serializable{
         this.setIsChecked(false);
         actualScheduleComponents = new ArrayList<>();
         requestedScheduleComponents = new ArrayList<>();
-//        revisedScheduleRequestComponents = new ArrayList<>();
         newScheduleRequest = new ScheduleWrapper();
         colocatedActivities = new ArrayList<>();
         maxEnrollmentShared = true;
         editRenderHelper = new EditRenderHelper();
-//        colocatedOfferingSetInfo = new ColocatedOfferingSetInfo(); TODOSSR
-//        scheduleRequestInfos = new ArrayList<>();
-//        scheduleInfos = new ArrayList<>();
         deletedScheduleComponents = new ArrayList<>();
     }
 
