@@ -15,7 +15,7 @@
  */
 package org.kuali.rice.krms.service;
 
-import org.kuali.student.enrollment.uif.service.KSMaintainable;
+import org.kuali.student.common.uif.service.KSMaintainable;
 
 /**
  * {@link org.kuali.rice.krad.maintenance.Maintainable} for the {@link org.kuali.rice.krms.impl.ui.AgendaEditor}

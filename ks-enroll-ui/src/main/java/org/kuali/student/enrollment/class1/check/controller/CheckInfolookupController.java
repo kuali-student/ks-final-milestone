@@ -24,7 +24,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.LookupController;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.enrollment.uif.view.KSLookupView;
+import org.kuali.student.common.uif.view.KSLookupView;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;

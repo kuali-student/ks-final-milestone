@@ -58,7 +58,7 @@ import org.kuali.rice.krms.service.RuleEditorMaintainable;
 import org.kuali.rice.krms.util.ExpressionToken;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.enrollment.uif.service.impl.KSMaintainableImpl;
+import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;

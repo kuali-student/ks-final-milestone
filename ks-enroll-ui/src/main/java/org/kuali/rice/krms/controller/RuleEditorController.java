@@ -34,7 +34,7 @@ import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNod
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
-import org.kuali.student.enrollment.uif.util.KSControllerHelper;
+import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.krms.KRMSConstants;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;

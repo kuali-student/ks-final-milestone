@@ -21,7 +21,7 @@ import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
-import org.kuali.student.enrollment.uif.service.KSViewHelperService;
+import org.kuali.student.common.uif.service.KSViewHelperService;
 
 import java.util.List;
 

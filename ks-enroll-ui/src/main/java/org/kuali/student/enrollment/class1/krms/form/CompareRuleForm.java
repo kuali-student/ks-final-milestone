@@ -20,7 +20,7 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
-import org.kuali.student.enrollment.uif.form.KSUifForm;
+import org.kuali.student.common.uif.form.KSUifForm;
 
 
 /**

@@ -22,7 +22,7 @@ import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
-import org.kuali.student.enrollment.uif.service.KSViewHelperService;
+import org.kuali.student.common.uif.service.KSViewHelperService;
 
 import java.util.List;
 

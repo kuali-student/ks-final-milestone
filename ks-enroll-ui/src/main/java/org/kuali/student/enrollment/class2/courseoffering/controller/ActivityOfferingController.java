@@ -24,10 +24,10 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
-import org.kuali.student.enrollment.uif.form.KSUifMaintenanceDocumentForm;
-import org.kuali.student.enrollment.uif.util.GrowlIcon;
-import org.kuali.student.enrollment.uif.util.KSControllerHelper;
-import org.kuali.student.enrollment.uif.util.KSUifUtils;
+import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;

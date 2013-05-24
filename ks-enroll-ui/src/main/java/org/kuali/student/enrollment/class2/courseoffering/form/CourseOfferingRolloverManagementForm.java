@@ -17,7 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.uif.form.KSUifForm;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper;
 

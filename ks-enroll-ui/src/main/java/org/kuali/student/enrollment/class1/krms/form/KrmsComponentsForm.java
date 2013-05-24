@@ -22,7 +22,7 @@ import org.kuali.rice.krms.impl.ui.TermParameter;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
-import org.kuali.student.enrollment.uif.form.KSUifForm;
+import org.kuali.student.common.uif.form.KSUifForm;
 
 import java.util.ArrayList;
 import java.util.Date;
