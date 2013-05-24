@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.Serializable;
 
 public class CluInformation implements Serializable, Comparable<CluInformation> {
@@ -91,6 +93,18 @@ public class CluInformation implements Serializable, Comparable<CluInformation> 
 
     public int compareTo(CluInformation clu) {
         return this.code.compareTo(clu.getCode());
+    }
+
+    public void clear() {
+        this.cluId = null;
+        this.verIndependentId = null;
+        this.code = null;
+        this.title = null;
+        this.description = null;
+        this.credits = null;
+        this.type = null;
+        this.state = null;
+        this.parentCluId = null;
     }
 
     @Override
