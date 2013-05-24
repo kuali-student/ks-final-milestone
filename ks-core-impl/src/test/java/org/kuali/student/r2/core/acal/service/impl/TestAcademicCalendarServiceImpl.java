@@ -10,7 +10,11 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -24,6 +28,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -1261,4 +1266,189 @@ public class TestAcademicCalendarServiceImpl {
         richTextInfo.setPlain("");
         term.setDescr(richTextInfo);
     }
+
+    /**
+     * This method tests that instructional days are calculated properly.
+     * It tests standard, overlapping, and edge cases.
+     * @throws Exception
+     */
+    @Test
+    public void testGetInstructionalDaysForTerm() throws Exception{
+        // whole year
+        String hCalStart = "2013-01-01";
+        String hCalEnd = "2013-12-31";
+
+        // month of march
+        String aCalStart = "2013-03-01";
+        String aCalEnd = "2013-03-31";
+
+        // term is 2 wks
+        String termStart = "2013-03-04";
+        String termEnd = "2013-03-15";
+
+        Date  aCalStartDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(aCalStart);  // Start date
+        Date  aCalEndDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(aCalEnd);  // end date
+
+        Date  termStartDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(termStart);  // Start date
+        Date  termEndDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(termEnd);  // end date
+
+        // create hCal
+        HolidayCalendarInfo hCal = _createHcal(hCalStart,hCalEnd);
+
+
+        AcademicCalendarInfo acal = new AcademicCalendarInfo();
+        acal.setName("KSENROLL-923testGetInstructionalDaysForTerm name");
+        acal.setDescr(new RichTextHelper().toRichTextInfo("description plain KSENROLL-923testGetInstructionalDaysForTerm", "description formatted KSENROLL-923testGetInstructionalDaysForTerm"));
+        acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        acal.setStartDate(aCalStartDate);
+        acal.setEndDate(aCalEndDate);
+        acal.setAdminOrgId("testOrgId1");
+        acal.getHolidayCalendarIds().add(hCal.getId()); // add the holiday calendar to the aCal
+
+        AcademicCalendarInfo acalInfo = acalService.createAcademicCalendar(acal.getTypeKey(), acal, callContext);
+        assertNotNull(acalInfo);
+        assertNotNull(acalInfo.getId());
+        assertEquals(acal.getName(), acalInfo.getName());
+
+        //Term
+        TermInfo term = new TermInfo();
+        term.setName("KSENROLL-923testGetInstructionalDaysForTerm term");
+        term.setDescr(new RichTextHelper().toRichTextInfo("description plain KSENROLL-923testGetInstructionalDaysForTerm term", "description formatted KSENROLL-923testGetInstructionalDaysForTerm term"));
+        term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        term.setStartDate(termStartDate);
+        term.setEndDate(termEndDate);
+        term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        TermInfo termInfo = acalService.createTerm(term.getTypeKey(), term, callContext);
+        assertNotNull(termInfo);
+        assertNotNull(termInfo.getId());
+        assertEquals(term.getName(), termInfo.getName());
+
+        // add term to acal
+
+        acalService.addTermToAcademicCalendar(acalInfo.getId(), termInfo.getId(), callContext);
+
+        //Keydate
+        KeyDateInfo kd = new KeyDateInfo();
+        kd.setName("Jira3470TestKeydate name");
+        kd.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestKeydate", "description formatted Jira3470TestKeydate"));
+        kd.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        kd.setStartDate(termStartDate);
+        kd.setEndDate(termEndDate);
+        kd.setIsAllDay(Boolean.TRUE);
+        kd.setIsDateRange(Boolean.TRUE);
+        kd.setTypeKey(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY);
+        KeyDateInfo kdInfo = acalService.createKeyDate(termInfo.getId(), kd.getTypeKey(), kd, callContext);
+        assertNotNull(kdInfo);
+        assertNotNull(kdInfo.getId());
+        assertEquals(kd.getName(), kdInfo.getName());
+
+        // No Holidays
+        Integer days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(days.intValue(), 10);
+
+        // Place Date Range Holiday inside period
+        HolidayInfo holidayInfo = _createHoliday(hCal.getId(), "2013-03-04","2013-03-05");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(days.intValue(), 8);
+
+        // Overlap period start dates
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-03-03","2013-03-04");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(days.intValue(), 9);
+
+        // Overlap period end dates
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-03-15","2013-03-16");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(days.intValue(), 9);
+
+        // Overlaping holidays. Make sure we don't count the same day twice
+        HolidayInfo holidayInfoSingle = _createHoliday(hCal.getId(), "2013-03-15");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(days.intValue(), 9);
+
+
+
+
+    }
+    public HolidayInfo _updateHcalDatesDates(HolidayInfo hDate, String start, String end) throws Exception{
+        Date  startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(start);  // Start date
+        Date  endDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(end);  // end date
+
+        hDate.setStartDate(startDate);
+        hDate.setEndDate(endDate);
+
+       return acalService.updateHoliday(hDate.getId(), hDate, callContext);
+
+    }
+
+    public HolidayInfo _createHoliday(String holidayCalendarId, String start, String end) throws Exception{
+        Date  startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(start);  // Start date
+        Date  endDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(end);  // end date
+
+        //Holiday
+        HolidayInfo holiday = new HolidayInfo();
+        holiday.setName("Jira3470TestHoliday name");
+        holiday.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestHoliday", "description formatted Jira3470TestHoliday"));
+        holiday.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        holiday.setStartDate(startDate);
+
+        holiday.setEndDate(endDate);
+        holiday.setIsAllDay(Boolean.TRUE);
+        holiday.setIsDateRange(Boolean.TRUE);
+        holiday.setIsInstructionalDay(Boolean.FALSE);
+
+        holiday.setTypeKey(AtpServiceConstants.MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY);
+        HolidayInfo holidayInfo = acalService.createHoliday(holidayCalendarId, holiday.getTypeKey(), holiday, callContext);
+
+        return holidayInfo;
+
+    }
+
+    public HolidayInfo _createHoliday(String holidayCalendarId, String start) throws Exception{
+        Date  startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(start);  // Start date
+
+
+        //Holiday
+        HolidayInfo holiday = new HolidayInfo();
+        holiday.setName("Jira3470TestHoliday name");
+        holiday.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestHoliday", "description formatted Jira3470TestHoliday"));
+        holiday.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        holiday.setStartDate(startDate);
+
+
+        holiday.setIsAllDay(Boolean.TRUE);
+        holiday.setIsDateRange(Boolean.FALSE);
+        holiday.setIsInstructionalDay(Boolean.FALSE);
+
+        holiday.setTypeKey(AtpServiceConstants.MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY);
+        HolidayInfo holidayInfo = acalService.createHoliday(holidayCalendarId, holiday.getTypeKey(), holiday, callContext);
+
+        return holidayInfo;
+
+    }
+
+    public HolidayCalendarInfo _createHcal(String start, String end) throws Exception{
+        Date  startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(start);  // Start date
+        Date  endDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(end);  // end date
+
+        //Hcal
+        HolidayCalendarInfo hcal = new HolidayCalendarInfo();
+        hcal.setName("Jira3470TestHcal name");
+        hcal.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestHcal", "description formatted Jira3470TestHcal"));
+        hcal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        hcal.setStartDate(startDate);
+        hcal.setEndDate(endDate);
+        hcal.setAdminOrgId("testOrgId1");
+
+        hcal.setTypeKey(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
+        HolidayCalendarInfo info = acalService.createHolidayCalendar(hcal.getTypeKey(), hcal, callContext);
+        assertNotNull(info);
+        assertNotNull(info.getId());
+        assertEquals(hcal.getName(), info.getName());
+
+        return info;
+    }
+
+
 }

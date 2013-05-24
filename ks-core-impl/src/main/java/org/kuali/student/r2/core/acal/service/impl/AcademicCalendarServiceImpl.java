@@ -2268,9 +2268,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(holidayCalendarId, contextInfo);
 
             for (HolidayInfo holiday : holidays) {
-                if (holiday.getStartDate().after(startDate)) {
+                int compStart = holiday.getStartDate().compareTo(endDate);
+                if (compStart <= 0) {
                     if (holiday.getIsDateRange()) {
-                        if (holiday.getEndDate().before(endDate)) {
+                        int compEnd = holiday.getEndDate().compareTo(startDate);
+                        if (compEnd >= 0) {
                            holidaysForAcal.add(holiday);
                         }
                     }else{
