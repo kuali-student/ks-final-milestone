@@ -153,12 +153,12 @@ public class PseudoUnitTestStateTransitionGrid {
     }
 
     public List<Map<String, String>> compare() {
-        List<Map<String, String>> results = new ArrayList<>();
+        List<Map<String, String>> results = new ArrayList<Map<String, String>>();
         for (int row = 0; row < size(); row++) {
             for (int col = 0; col < size(); col++) {
                 int expectedVal = getTransition(TransitionGridEnum.EXPECTED, row, col);
                 int actualVal = getTransition(TransitionGridEnum.ACTUAL, row, col);
-                Map<String, String> keyValue = new HashMap<>();
+                Map<String, String> keyValue = new HashMap<String, String>();
                 String fromState = getStateKeyAt(row);
                 String toState = getStateKeyAt(col);
                 keyValue.put(AO_STATE_FROM, fromState);

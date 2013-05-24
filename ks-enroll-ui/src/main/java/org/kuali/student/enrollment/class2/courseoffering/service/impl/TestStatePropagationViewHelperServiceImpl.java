@@ -193,7 +193,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
 
     private String _computeFoState(String foId) throws Exception {
         List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByFormatOffering(foId, CONTEXT);
-        List<String> aoStates = new ArrayList<>();
+        List<String> aoStates = new ArrayList<String>();
         for (ActivityOfferingInfo ao: aoInfos) {
             aoStates.add(ao.getStateKey());
         }
@@ -209,7 +209,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private String _computeCoState() throws Exception {
         // Use actual AOs to compute CO state, not FOs (which may not be accurate)
         List<FormatOfferingInfo> foInfos = coService.getFormatOfferingsByCourseOffering(courseOfferingInfo.getId(), CONTEXT);
-        List<String> foStates = new ArrayList<>();
+        List<String> foStates = new ArrayList<String>();
         for (FormatOfferingInfo fo: foInfos) {
             foStates.add(_computeFoState(fo.getId()));
         }
