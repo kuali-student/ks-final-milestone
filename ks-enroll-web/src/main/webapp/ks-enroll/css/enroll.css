@@ -649,3 +649,10 @@ a {
     white-space: nowrap
 }
 /************************************** END Text with Rounded Background **********************/
+
+/* Edit Academic Calendar > Sticky Footer
+   Right align action buttons.
+ */
+.ac_stickyfooter {
+    float: right;
+}
