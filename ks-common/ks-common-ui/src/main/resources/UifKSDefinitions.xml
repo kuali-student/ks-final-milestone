@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+        >
+    <!--
+    Copyright 2007-2009 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    -->
+
+    <bean id="KSTheme" abstract="true" parent="KSTheme-parentBean"/>
+    <bean id="KSTheme-parentBean" parent="Uif-KradTheme">
+        <property name="cssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/enroll.css</value>
+                <value>ks-enroll/css/ks-jquery.css</value>
+                <value>ks-enroll/css/link-tabs.css</value>
+            </list>
+        </property>
+        <property name="scriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/enroll.js</value>
+                <value>krad/scripts/ks.krad.widget.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-FormView" abstract="true" parent="Uif-FormView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <property name="stickyBreadcrumbs" value="true"/>
+        <property name="stickyApplicationHeader" value="true"/>
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-enroll/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+    </bean>
+
+    <bean id="KS-Uif-LookupView" abstract="true"
+          class="org.kuali.student.common.uif.view.KSLookupView" parent="Uif-LookupView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+    </bean>
+
+    <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <!--TODO: check with UX, do we need to set page.header as KS-Uif-HeaderOne-Empty by default? -->
+        <!--<property name="page.header">-->
+            <!--<ref bean="KS-Uif-HeaderOne-Empty" />-->
+        <!--</property>-->
+
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+    </bean>
+
+    <bean id="KS-Uif-HeaderOne-Empty" parent="Uif-HeaderOne">
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-MaintenanceView" abstract="true" parent="Uif-MaintenanceView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <property name="header.rightGroup.items">
+            <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
+            <list/>
+        </property>
+        <property name="page.header.lowerGroup.items">
+            <!-- In KS, expandall/collapseall not needed-->
+            <list/>
+        </property>
+
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+    </bean>
+
+    <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
+    <bean id="KS-Uif-DocumentPageFooter-SubmitCancel"  parent="KS-Uif-DocumentPageFooter-SubmitCancel-parent"/>
+    <bean id="KS-Uif-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Disclosure" abstract="true" parent="Uif-Disclosure">
+        <property name="collapseImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
+        <property name="expandImageSrc" value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-VerticalBoxSection-Disclosure" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="disclosure">
+            <bean parent="KS-Uif-Disclosure"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroupWithDisclosure" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup">
+        <property name="disclosure.render" value="true"/>
+        <!-- TODO: check with UX, do we need to set disclosure as KS-Uif-Disclosure by default? -->
+        <!--<property name="disclosure">-->
+            <!--<bean parent="KS-Uif-Disclosure"/>-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup" parent="Uif-StackedCollectionSubSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup">
+        <property name="disclosure.render" value="true"/>
+        <!-- TODO: check with UX, do we need to set disclosure as KS-Uif-Disclosure by default? -->
+        <!--<property name="disclosure">-->
+        <!--<bean parent="KS-Uif-Disclosure"/>-->
+        <!--</property>-->
+    </bean>
+
+    <!--Note: This is a tab group with link based look and feel. It is not used in any code so far. -->
+    <bean id="KS-Uif-TabGroup-LinkTab" parent="Uif-TabGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-uif-tabSection</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-InputField"  parent="KS-Uif-InputField-parent" />
+    <bean id="KS-Uif-InputField-parent" abstract="true" parent="Uif-InputField"
+          p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
+          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
+          p:instructionalMessage.render="false" >
+        <property name="instructionalMessage">
+            <bean parent="Uif-InstructionalMessage"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-InputField-Simple" parent="KS-Uif-InputField-Simple-parent"/>
+    <bean id="KS-Uif-InputField-Simple-parent" abstract="true" parent="Uif-InputField" scope="prototype">
+        <property name="template" value="/ks-enroll/ftl/ksSimpleDataField.ftl"/>
+        <property name="templateName" value="ks_SimpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+        <property name="quickfinder">
+            <null/>
+        </property>
+        <property name="validationMessages">
+            <null/>
+        </property>
+        <property name="constraintMessage">
+            <null/>
+        </property>
+        <property name="instructionalMessage">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-DataField-Simple" parent="KS-Uif-DataField-Simple-parentBean"/>
+    <bean id="KS-Uif-DataField-Simple-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
+        <property name="template" value="/ks-enroll/ftl/ksSimpleDataField.ftl"/>
+        <property name="templateName" value="ks_SimpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-Link-DisplayInLightBox" parent="Uif-Link">
+        <property name="lightBox">
+            <bean parent="Uif-LightBox"/>
+        </property>
+        <property name="target" value="_blank"/>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-Link-Edit" parent="KS-Uif-Link-DisplayInLightBox" p:order="10">
+        <property name="linkText" value="Edit"/>
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>maintenanceEdit</value>
+            </list>
+        </property>
+        <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
+    </bean>
+
+    <!--p:onDocumentReadyScript="decorateToolbar();-->
+
+    <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection-parent"/>
+    <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection-parent" abstract="true" parent="Uif-HorizontalBoxSection" scope="prototype">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-toolbar</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup" parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent"/>
+    <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent" parent="Uif-HorizontalBoxGroup" class="org.kuali.student.common.uif.container.KSToolbarGroup" abstract="true" scope="prototype">
+        <property name="template" value="/ks-enroll/ftl/ksToolbarGroup.ftl"/>
+        <property name="templateName" value="ks_ToolbarGroup"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-toolbar-group-padded</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-ToolBar-Button" parent="Uif-SecondaryActionButton" p:disabled="true" abstract="true">
+        <property name="actionImagePlacement" value="TOP"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>tree-bar-button</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection" parent="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent"/>-->
+    <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent" parent="Uif-NavigationActionLink" class="org.kuali.student.common.uif.container.KSNavigationLineActionLinkSeperatorerator" abstract="true" scope="prototype">-->
+        <!--<property name="template" value="/ks-enroll/ftl/ksNavigationActionLinkSection.ftl"/>-->
+        <!--<property name="templateName" value="ks_NavigationActionLinkSection"/>-->
+    <!--</bean>-->
+
+    <bean id="KS-Uif-TableCollectionSubSection-WithActionSeperator" parent="KS-Uif-TableCollectionSubSection-WithActionSeperator-parent"/>
+    <bean id="KS-Uif-TableCollectionSubSection-WithActionSeperator-parent" parent="Uif-TableCollectionSubSection" class="org.kuali.student.common.uif.container.KSTableCollectionWithLineActionLinkSeperator" abstract="true" scope="prototype">
+        <property name="lineActionSeparator" value="&#160;&#160;|&#160;&#160;"/>
+    </bean>
+
+    <bean id="KS-Uif-TableCollectionSection-WithActionSeperator" parent="KS-Uif-TableCollectionSection-WithActionSeperator-parent"/>
+    <bean id="KS-Uif-TableCollectionSection-WithActionSeperator-parent" parent="Uif-TableCollectionSection" class="org.kuali.student.common.uif.container.KSTableCollectionWithLineActionLinkSeperator" abstract="true" scope="prototype">
+        <property name="lineActionSeparator" value="&#160;&#160;|&#160;&#160;"/>
+    </bean>
+
+    <!-- the following bean is not used in any place -->
+    <!--<bean id="ActionField_SmallSecondary_Override" parent="ActionField_SmallSecondary_Override-parentBean"/>-->
+    <!--<bean id="ActionField_SmallSecondary_Override-parentBean" abstract="true"-->
+          <!--class="org.kuali.student.common.uif.field.ActionFieldJsOverride">-->
+        <!--<property name="template" value="/krad/WEB-INF/jsp/templates/field/actionField.jsp"/>-->
+        <!--<property name="cssClasses" value="ui-priority-secondary-sm"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="KS-TableCollectionSection" parent="KS-TableCollectionSection-parentBean"/>
+      <bean id="KS-TableCollectionSection-parentBean" parent="Uif-TableCollectionSection" class="org.kuali.student.common.uif.container.KSCollectionGroup">
+          <property name="template" value="/ks-enroll/ftl/ksCollectionGroup.ftl"/>
+          <property name="templateName" value="ks_collectionGroup"/>
+          &lt;!&ndash;<property name="collectionLookup">
+            <null/>
+          </property>&ndash;&gt;
+      </bean>-->
+
+    <!-- Added by David Yin -->
+    <!-- For breadcrumb customization -->
+    <!--<bean id="KS-Uif-Page" parent="KS-Uif-Page-parentBean" abstract="true" />
+    <bean id="KS-Uif-Page-parentBean" class="org.kuali.student.common.uif.container.KSUifPage" parent="Uif-Page" abstract="true" />-->
+
+    <bean id="KS-Uif-Suggest" parent="KS-Uif-Suggest-parentBean"/>
+    <bean id="KS-Uif-Suggest-parentBean" abstract="true" scope="prototype"
+          class="org.kuali.rice.krad.uif.widget.Suggest2" parent="Uif-WidgetBase">
+        <property name="template" value="/ks-krad/ftl/suggest2.ftl"/>
+        <property name="templateName" value="uif_suggest2"/>
+        <property name="customEntryAllowed" value="true"/>
+        <property name="comboboxButtonEnabled" value="false"/>
+        <property name="loadingImageEnabled" value="true"/>
+        <property name="templateOptions">
+            <map>
+                <entry key="minLength" value="2"/>
+                <entry key="delay" value="300"/>
+            </map>
+        </property>
+        <property name="suggestQuery">
+            <bean parent="Uif-AttributeQueryConfig"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Combobox" parent="KS-Uif-Combobox-parentBean"/>
+    <bean id="KS-Uif-Combobox-parentBean" parent="KS-Uif-Suggest" abstract="true" scope="prototype">
+        <property name="comboboxButtonEnabled" value="true"/>
+    </bean>
+
+    <bean id="KS-Lozenge-Grey-Uif-DataField" parent="Uif-DataField">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>text-lozenge-grey</value>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>
