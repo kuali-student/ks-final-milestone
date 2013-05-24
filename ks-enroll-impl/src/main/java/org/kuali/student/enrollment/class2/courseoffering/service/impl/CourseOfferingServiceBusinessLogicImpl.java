@@ -388,7 +388,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     private boolean hasAtLeastOneValidScheduleId( ActivityOfferingInfo ao ) {
         if( ao.getScheduleIds() == null || ao.getScheduleIds().isEmpty() ) return false;
         String firstId = ao.getScheduleIds().get(0);
-        if( firstId == null || firstId.trim().isEmpty() ) return false;
+        if( StringUtils.isBlank( firstId ) ) return false;
         return true;
     }
 
