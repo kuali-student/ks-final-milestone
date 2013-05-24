@@ -480,7 +480,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         componentInfo.setIsTBA(scheduleWrapper.isTba());
 
         if(scheduleWrapper.getRoom() != null) {
-            List<String> room = new ArrayList<>();
+            List<String> room = new ArrayList<String>();
             room.add(scheduleWrapper.getRoom().getId());
             componentInfo.setRoomIds(room);
         }
@@ -529,7 +529,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     private List<Integer> buildDaysForDTO(String days){
 
-        List<Integer> weekdays  = new ArrayList<>();
+        List<Integer> weekdays  = new ArrayList<Integer>();
 
         if(days != null) {
 

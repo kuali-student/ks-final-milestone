@@ -1882,7 +1882,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         StatusInfo result = new StatusInfo();
 
-        List<String> scheduleInfoList = new ArrayList<>(aoInfo.getScheduleIds());
+        List<String> scheduleInfoList = new ArrayList<String>(aoInfo.getScheduleIds());
 
         aoInfo.getScheduleIds().clear();
 

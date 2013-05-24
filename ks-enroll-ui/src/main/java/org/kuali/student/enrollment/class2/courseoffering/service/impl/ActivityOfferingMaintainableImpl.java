@@ -162,7 +162,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
 
                     boolean deleteSchedule = false;
-                    List<String> deleteScheduleIds = new ArrayList<>();
+                    List<String> deleteScheduleIds = new ArrayList<String>();
                     if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
                         if (!activityOfferingWrapper.isSchedulingCompleted()){
                             deleteScheduleIds.addAll(activity.getActivityOfferingInfo().getScheduleIds());
