@@ -89,7 +89,7 @@
                 <module>ks-api</module>
             </modules>
             <properties>
-                <jdk6.rt.jar.path>/var/lib/jenkins/tools/jdk6/jre/lib/rt.ja</jdk6.rt.jar.path>
+                <jdk6.rt.jar.path>/var/lib/jenkins/tools/jdk6/jre/lib/rt.jar</jdk6.rt.jar.path>
             </properties>
             <build>
                 <plugins>
