@@ -993,7 +993,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throw new DoesNotExistException(termId);
         }
 
-        List<MilestoneInfo> milestones = atpService.getMilestonesForAtp(termId, context);
+        return _getKeyDatesForTerm(termAtp, context);
+    }
+
+    protected  List<KeyDateInfo> _getKeyDatesForTerm(AtpInfo termAtp, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException {
+
+
+        List<MilestoneInfo> milestones = atpService.getMilestonesForAtp(termAtp.getId(), context);
 
         if (milestones == null || milestones.isEmpty()) {
             return Collections.emptyList();
@@ -2143,8 +2149,13 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
      *
      * Instructional Days for a term are calculated as follows:
      * 1. Find the start and end dates for the term.
-     * 2. Count all instructional days for the term. (Ignore Saturday & Sunday by default)
+     * 2. Count all instructional days for the term. Instructional days of the week is configured via the term's type attribute*
      * 3. Subtract all non-instructional days, like holidays, from the previous count.
+     *
+     * * By default, KS has it's term types configured so instructional days are only Monday -> Friday. This is configured
+     * by the term's type attribute:  kuali.attribute.type.atp.term.instructional.days
+     * For every term type we have configured a default value of: 'MTWHF', which translates to Monday -> Friday.
+     * Update the Type Attribute table if you want to configure different instructional days.
      *
      * @param termId      an identifier for a Term
      * @param contextInfo information containing the principalId and locale
@@ -2160,9 +2171,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             PermissionDeniedException {
         KeyDateInfo instructionalPeriodKeyDate = null;
 
+        AtpInfo termAtp = atpService.getAtp(termId, contextInfo);
+
         // this section will find all key date for the term. Then do a for loop to find the keydate of type
         // MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY. that KeyDate give the start and end dates for the term.
-        List<KeyDateInfo> keyDates = getKeyDatesForTerm(termId, contextInfo);
+        List<KeyDateInfo> keyDates = _getKeyDatesForTerm(termAtp, contextInfo);
         for (KeyDateInfo keyDate : keyDates) {
             if (keyDate.getTypeKey().equals(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)) {
                 instructionalPeriodKeyDate = new KeyDateInfo(keyDate);
@@ -2176,7 +2189,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         // go from start to end and count instructional days
         while (currentDate.compareTo(endDate) <= 0) {
-            if (_dateIsInstructional(currentDate)) {
+            if (_dateIsInstructional(typeService.getType(termAtp.getTypeKey(),contextInfo),currentDate)) {
                 ++instructionalDaysForTerm;
             }
             currentDate = currentDate.plusDays(1);
@@ -2184,18 +2197,18 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         // subtract non-instructional holidays which fall on instructional days
         instructionalDaysForTerm -=
-                _getNumberOfNonInstructionalHolidaysForTerm(termId, instructionalPeriodKeyDate, contextInfo);
+                _getNumberOfNonInstructionalHolidaysForTerm(termAtp, instructionalPeriodKeyDate, contextInfo);
         
         return instructionalDaysForTerm;
     }
 
-    private int _getNumberOfNonInstructionalHolidaysForTerm(String termId, KeyDateInfo instructionalPeriodKeyDate, ContextInfo contextInfo)
+    private int _getNumberOfNonInstructionalHolidaysForTerm(AtpInfo termAtp, KeyDateInfo instructionalPeriodKeyDate, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         DateMidnight currentDate, stopDate;
         List<DateMidnight> nonInstructionalHolidayDates = new ArrayList<DateMidnight>();
-        List<AcademicCalendarInfo> acalsForTerm = getAcademicCalendarsForTerm(termId, contextInfo);
+        List<AcademicCalendarInfo> acalsForTerm = getAcademicCalendarsForTerm(termAtp.getId(), contextInfo);
         
         for (AcademicCalendarInfo acal : acalsForTerm) {
             List<HolidayInfo> holidaysForTerm =
@@ -2212,7 +2225,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                         stopDate = currentDate;
                     }
                     while (currentDate.compareTo(stopDate) <= 0) {
-                        if ((_dateIsInstructional(currentDate))
+                        if ((_dateIsInstructional(typeService.getType(termAtp.getTypeKey(), contextInfo), currentDate))
                                 &&  ( ! nonInstructionalHolidayDates.contains(currentDate))) {
                             nonInstructionalHolidayDates.add(currentDate);
                         }
@@ -2225,13 +2238,42 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return nonInstructionalHolidayDates.size();
     }
 
-    private boolean _dateIsInstructional(DateMidnight date) {
-        //TODO - instructional days should be configurable
-        if ((date.getDayOfWeek() != DateTimeConstants.SATURDAY)
-                &&  (date.getDayOfWeek() != DateTimeConstants.SUNDAY)) {
-            return true;
+    /**
+     * Instructional Days are configurable via the type attribute TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR.
+     *
+     * By default, every term atp has  this field configured to Monday -> Friday, MTWHF. But you can easly configure
+     * this for your own term types by updating the type attribute in the database.
+     *
+     * @param atpType
+     * @param date
+     * @return
+     */
+    private boolean _dateIsInstructional(TypeInfo atpType, DateMidnight date) {
+
+        boolean bRet = false;
+        String instrDaysConfig = atpType.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR);
+
+        if(instrDaysConfig != null && !instrDaysConfig.isEmpty()){
+            if(date.getDayOfWeek() == DateTimeConstants.MONDAY){
+                bRet = instrDaysConfig.contains("M");
+            } else if(date.getDayOfWeek() == DateTimeConstants.TUESDAY){
+                bRet = instrDaysConfig.contains("T");
+            }else if(date.getDayOfWeek() == DateTimeConstants.WEDNESDAY){
+                bRet = instrDaysConfig.contains("W");
+            }else if(date.getDayOfWeek() == DateTimeConstants.THURSDAY){
+                bRet = instrDaysConfig.contains("H");
+            }else if(date.getDayOfWeek() == DateTimeConstants.FRIDAY){
+                bRet = instrDaysConfig.contains("F");
+            }else if(date.getDayOfWeek() == DateTimeConstants.SATURDAY){
+                bRet = instrDaysConfig.contains("S");
+            }else if(date.getDayOfWeek() == DateTimeConstants.SUNDAY){
+                bRet = instrDaysConfig.contains("U");
+            }
+        }else {
+            bRet = true;
         }
-        return false;
+
+        return bRet;
     }
 
     @Override

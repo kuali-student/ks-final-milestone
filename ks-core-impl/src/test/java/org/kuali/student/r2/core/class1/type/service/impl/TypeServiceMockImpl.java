@@ -15,9 +15,11 @@
 
 package org.kuali.student.r2.core.class1.type.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -39,11 +41,8 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.util.Log4jConfigurer;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -630,6 +629,29 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         for (TypeInfo type : populationCategoryGroup) {
             createTypeTypeRelationInfo(populationCategoryGroupType, type);
         }
+
+        // Add type attributes for instructional days
+        addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_FALL_TYPE_KEY), AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_SPRING_TYPE_KEY), AtpServiceConstants.ATP_SPRING_TYPE_KEY);
+        addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_SUMMER_TYPE_KEY), AtpServiceConstants.ATP_SUMMER_TYPE_KEY);
+        addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_SUMMER1_TYPE_KEY), AtpServiceConstants.ATP_SUMMER1_TYPE_KEY);
+        addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_SUMMER2_TYPE_KEY), AtpServiceConstants.ATP_SUMMER2_TYPE_KEY);
+        addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_WINTER_TYPE_KEY), AtpServiceConstants.ATP_WINTER_TYPE_KEY);
+    }
+
+    private void addInstructionalDayAttribute(TypeInfo typeInfo, String parentAtp){
+        if(typeInfo != null){
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        AttributeInfo attrInfo = new AttributeInfo();
+        attrInfo.setId("instr_day_for_" + parentAtp);
+        attrInfo.setKey(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR);
+        attrInfo.setValue("MTWHF");
+        attributes.add(attrInfo);
+
+        typeInfo.setAttributes(attributes);
+        }
+
+
     }
 
     private TypeInfo createTypeInfo(String typeKey, String typeName, String descr, String refObjectUri) {
