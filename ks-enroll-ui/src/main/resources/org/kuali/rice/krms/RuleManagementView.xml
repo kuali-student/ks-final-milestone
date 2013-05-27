@@ -4,48 +4,6 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-    <bean id="Agenda-Student-MaintenanceView" parent="KS-Uif-MaintenanceView">
-        <property name="headerText" value="Manage Enrollment Eligibility"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home</value>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list>
-                <value>krms/scripts/agendaTree.js</value>
-                <value>ks-enroll/scripts/ruleStudentTree.js</value>
-                <value>krms/scripts/requiredAlerts.js</value>
-                <value>ks-enroll/scripts/disableStudentButtons.js</value>
-                <value>krms/scripts/countdownInputs.js</value>
-            </list>
-        </property>
-        <property name="additionalCssFiles">
-            <list>
-                <value>ks-enroll/css/krms.css</value>
-            </list>
-        </property>
-        <property name="viewName" value="AgendaWithRuleView"/>
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor"/>
-        <property name="viewHelperServiceClass"
-                  value="org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl"/>
-        <property name="page.items">
-            <list>
-                <ref bean="KRMS-Rules-ManageSection"/>
-            </list>
-        </property>
-        <property name="page.footer.items">
-            <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
-        </property>
-        <property name="dialogs">
-            <list>
-                <bean id="courseRangeLightBox" parent="KRMS-CourseRangeLightBox"/>
-                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
-                <bean id="compareRuleLightBox" parent="KRMS-CompareRule"/>
-            </list>
-        </property>
-    </bean>
-
     <bean id="KRMS-Rules-ManageSection" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>

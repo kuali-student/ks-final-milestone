@@ -100,4 +100,45 @@
         </property>
     </bean>
 
+    <bean id="KRMS-EditRule-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
+        <property name="onDocumentReadyScript" value="loadControlsInit();"/>
+        <property name="items">
+            <list>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <ref bean="KRMS-RuleEditorView-AddButton"/>
+                            <ref bean="KRMS-RuleEditorView-EditButton"/>
+                            <ref bean="KRMS-RuleEditorView-GroupButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <ref bean="KRMS-RuleEditorView-LeftButton"/>
+                            <ref bean="KRMS-RuleEditorView-RightButton"/>
+                            <ref bean="KRMS-RuleEditorView-UpButton"/>
+                            <ref bean="KRMS-RuleEditorView-DownButton"/>
+                            <ref bean="KRMS-RuleEditorView-CopyButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <ref bean="KRMS-RuleEditorView-CutButton"/>
+                            <ref bean="KRMS-RuleEditorView-PasteButton"/>
+                            <ref bean="KRMS-RuleEditorView-DeleteButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
 </beans>

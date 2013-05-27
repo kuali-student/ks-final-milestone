@@ -33,7 +33,6 @@
         </property>
         <property name="additionalCssFiles">
             <list>
-                <value>ks-enroll/css/enroll.css</value>
                 <value>ks-enroll/css/krms.css</value>
             </list>
         </property>

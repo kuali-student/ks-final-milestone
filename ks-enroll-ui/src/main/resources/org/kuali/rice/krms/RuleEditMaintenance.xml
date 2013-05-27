@@ -111,15 +111,16 @@
         <property name="items">
             <list>
 
-                <bean parent="RuleStudentEditorView-TreeExpandCollapse"/>
-
                 <bean parent="Uif-GridGroup" p:style="margin-bottom: 5pt; margin-top:null 0em;">
                     <property name="items">
                         <list>
-                            <bean parent="RuleStudentEditorView-RuleTreeEditControls"/>
+                            <bean parent="KRMS-EditRule-ToolbarSection"/>
                         </list>
                     </property>
                 </bean>
+
+                <bean parent="KRMS-RuleEditor-TreeExpandCollapse"/>
+
                 <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                 <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
                     is needed for the javascript hack that is refreshing -->
@@ -134,7 +135,8 @@
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                             <bean id="RuleStudentEditorView-Tree" parent="KRMS-RulerEditor-TreeSection-parent"
                                   p:forceSessionPersistence="true"/>
-                            <bean id="proposition_selected" parent="KRMS-Rules-HiddenField" p:propertyName="selectedKey"/>
+                            <bean id="proposition_selected" parent="KRMS-Rules-HiddenField"
+                                  p:propertyName="selectedKey"/>
                             <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>
                             <bean id="proposition_cut" parent="KRMS-Rules-HiddenField" p:propertyName="cutKey"/>
                         </list>
@@ -157,7 +159,7 @@
         </property>
     </bean>
 
-    <bean id="RuleStudentEditorView-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+    <bean id="KRMS-RuleEditor-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('open_all');"
@@ -176,8 +178,29 @@
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-Button" parent="Uif-Action" p:actionImagePlacement="TOP" p:style="font-size: 10px"
-          abstract="true">
+    <bean id="KRMS-EditRule-ToolbarSection" parent="Uif-HorizontalBoxSection">
+        <property name="onDocumentReadyScript" value="loadControlsInit();"/>
+        <property name="items">
+            <list>
+                <ref bean="KRMS-RuleEditorView-AddButton"/>
+                <ref bean="KRMS-RuleEditorView-EditButton"/>
+                <ref bean="KRMS-RuleEditorView-GroupButton"/>
+                <ref bean="KRMS-RuleEditorView-LeftButton"/>
+                <ref bean="KRMS-RuleEditorView-RightButton"/>
+                <ref bean="KRMS-RuleEditorView-UpButton"/>
+                <ref bean="KRMS-RuleEditorView-DownButton"/>
+                <ref bean="KRMS-RuleEditorView-CopyButton"/>
+                <ref bean="KRMS-RuleEditorView-CutButton"/>
+                <ref bean="KRMS-RuleEditorView-PasteButton"/>
+                <ref bean="KRMS-RuleEditorView-DeleteButton"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-Button" parent="Uif-SecondaryActionButton" abstract="true">
+        <property name="onMouseDownScript" value="jq(this).addClass('tree-bar-button-selected');"/>
+        <property name="onMouseUpScript" value="jq(this).removeClass('tree-bar-button-selected');"/>
+        <property name="actionImagePlacement" value="TOP"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>tree-bar-button</value>
@@ -185,207 +208,162 @@
         </property>
     </bean>
 
-    <bean id="RuleStudentEditorView-RuleTreeEditControls" parent="Uif-HorizontalBoxSection">
+    <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCallPropositionTree('addProposition','RuleStudentEditorView-TreeGroup');"
+          p:actionLabel="Add Rule Statement">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconAdd.png"
+                  p:altText="Add"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>kr-add-button</value>
+            </list>
+        </property>
+    </bean>
 
-        <property name="onDocumentReadyScript" value="loadControlsInit();"/>
+    <bean id="KRMS-RuleEditorView-EditButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');"
+          p:actionLabel="Edit">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconEdit.png"
+                  p:altText="Edit Proposition"/>
+        </property>
+    </bean>
 
-        <property name="items">
-            <list>
-                <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px; padding-left:20px">
-                    <property name="items">
-                        <list>
-                            <bean parent="KRMS-RuleEditorView-Button" p:actionScript="ajaxCallPropositionTree('addProposition','RuleStudentEditorView-TreeGroup');"
-                                  p:actionLabel="Add Rule Statement"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconAdd.png"
-                                          p:altText="Add"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>kr-add-button</value>
-                                    </list>
-                                </property>
-                            </bean>
+    <bean id="KRMS-RuleEditorView-GroupButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','RuleStudentEditorView-TreeGroup');"
+          p:actionLabel="Add Parent">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconGroup.png"
+                  p:altText="Add Parent"/>
+        </property>
+    </bean>
 
-                            <bean parent="KRMS-RuleEditorView-Button" p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'RuleStudentEditorView-TreeGroup');"
-                                  p:actionLabel="Edit"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconEdit.png"
-                                          p:altText="Edit Proposition"/>
-                                </property>
+    <bean id="KRMS-RuleEditorView-LeftButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCallPropositionTree('movePropositionLeft','RuleStudentEditorView-TreeGroup');"
+          p:actionLabel="Move Left">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconLeft.png"
+                  p:altText="Left"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>kr-move-button</value>
+                <value>kr-left-button</value>
+            </list>
+        </property>
+    </bean>
 
-                            </bean>
+    <bean id="KRMS-RuleEditorView-RightButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCallPropositionTree('movePropositionRight','RuleStudentEditorView-TreeGroup');"
+          p:actionLabel="Move Right">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconRight.png"
+                  p:altText="Right"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>kr-move-button</value>
+                <value>kr-right-button</value>
+            </list>
+        </property>
+    </bean>
 
-                            <bean parent="KRMS-RuleEditorView-Button"
-                                  p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','RuleStudentEditorView-TreeGroup');"
-                                  p:actionLabel="Add Parent"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconGroup.png"
-                                          p:altText="Add Parent"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+    <bean id="KRMS-RuleEditorView-UpButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCallPropositionTree('movePropositionUp','RuleStudentEditorView-TreeGroup');"
+          p:actionLabel="Move Up">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconUp.png"
+                  p:altText="Up"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>kr-move-button</value>
+                <value>kr-up-button</value>
+            </list>
+        </property>
+    </bean>
 
-                <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
-                    <property name="items">
-                        <list>
-                            <bean parent="KRMS-RuleEditorView-Button"
-                                  p:actionScript="ajaxCallPropositionTree('movePropositionLeft','RuleStudentEditorView-TreeGroup');"
-                                  p:actionLabel="Move Left"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconLeft.png"
-                                          p:altText="Left"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>kr-move-button</value>
-                                        <value>kr-left-button</value>
-                                    </list>
-                                </property>
-                            </bean>
+    <bean id="KRMS-RuleEditorView-DownButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCallPropositionTree('movePropositionDown','RuleStudentEditorView-TreeGroup');"
+          p:actionLabel="Move Down">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconDown.png"
+                  p:altText="Down"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>kr-move-button</value>
+                <value>kr-down-button</value>
+            </list>
+        </property>
+    </bean>
 
-                            <bean parent="KRMS-RuleEditorView-Button"
-                                  p:actionScript="ajaxCallPropositionTree('movePropositionRight','RuleStudentEditorView-TreeGroup');"
-                                  p:actionLabel="Move Right"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconRight.png"
-                                          p:altText="Right"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>kr-move-button</value>
-                                        <value>kr-right-button</value>
-                                    </list>
-                                </property>
-                            </bean>
+    <bean id="KRMS-RuleEditorView-CopyButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCopyPropositionTree();"
+          p:actionLabel="Copy">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconCopy.png"
+                  p:altText="Copy"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>kr-cut-button</value>
+                <value>kr-copy-button</value>
+            </list>
+        </property>
+    </bean>
 
-                            <bean parent="KRMS-RuleEditorView-Button"
-                                  p:actionScript="ajaxCallPropositionTree('movePropositionUp','RuleStudentEditorView-TreeGroup');"
-                                  p:actionLabel="Move Up"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconUp.png"
-                                          p:altText="Up"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>kr-move-button</value>
-                                        <value>kr-up-button</value>
-                                    </list>
-                                </property>
-                            </bean>
+    <bean id="KRMS-RuleEditorView-CutButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCutPropositionTree();"
+          p:actionLabel="Cut">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconCut.png"
+                  p:altText="Cut"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>kr-cut-button</value>
+            </list>
+        </property>
+    </bean>
 
-                            <bean parent="KRMS-RuleEditorView-Button"
-                                  p:actionScript="ajaxCallPropositionTree('movePropositionDown','RuleStudentEditorView-TreeGroup');"
-                                  p:actionLabel="Move Down"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconDown.png"
-                                          p:altText="Down"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>kr-move-button</value>
-                                        <value>kr-down-button</value>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+    <bean id="KRMS-RuleEditorView-PasteButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxPastePropositionTree('pasteProposition', 'RuleStudentEditorView-TreeGroup');"
+          p:actionLabel="Paste">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconPaste.png"
+                  p:altText="Paste"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>kr-paste-button</value>
+            </list>
+        </property>
+    </bean>
 
-                <bean parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px">
-                    <property name="items">
-                        <list>
-                            <bean parent="KRMS-RuleEditorView-Button" p:actionScript="ajaxCopyPropositionTree();"
-                                  p:actionLabel="Copy"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconCopy.png"
-                                          p:altText="Copy"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>kr-cut-button</value>
-                                        <value>kr-copy-button</value>
-                                    </list>
-                                </property>
-                            </bean>
-
-                            <bean parent="KRMS-RuleEditorView-Button" p:actionScript="ajaxCutPropositionTree();"
-                                  p:actionLabel="Cut"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconCut.png"
-                                          p:altText="Cut"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>kr-cut-button</value>
-                                    </list>
-                                </property>
-                            </bean>
-
-                            <bean parent="KRMS-RuleEditorView-Button" p:actionScript="ajaxPastePropositionTree('pasteProposition', 'RuleStudentEditorView-TreeGroup');"
-                                  p:actionLabel="Paste"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconPaste.png"
-                                          p:altText="Paste"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>kr-paste-button</value>
-                                    </list>
-                                </property>
-                            </bean>
-
-                            <bean parent="KRMS-RuleEditorView-Button"
-                                  p:actionScript="ajaxCallPropositionTree('deleteProposition','RuleStudentEditorView-TreeGroup');"
-                                  p:actionLabel="Delete"
-                                  p:onMouseDownScript="jq(this).addClass('tree-bar-button-selected');"
-                                  p:onMouseUpScript="jq(this).removeClass('tree-bar-button-selected');"> <!-- Horiz whitespace -->
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image"
-                                          p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconDelete.png"
-                                          p:altText="Delete"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>kr-delete-button</value>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
+    <bean id="KRMS-RuleEditorView-DeleteButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxCallPropositionTree('deleteProposition','RuleStudentEditorView-TreeGroup');"
+          p:actionLabel="Delete">
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconDelete.png"
+                  p:altText="Delete"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>kr-delete-button</value>
             </list>
         </property>
     </bean>
@@ -446,7 +424,6 @@
             </bean>
         </property>
     </bean>
-
     <bean id="KRMS-SimplePropositionNodePrototype" parent="KRMS-RuleTreeNodePrototype"/>
 
     <bean id="KRMS-SimplePropositionEditNodePrototype" parent="KRMS-SimplePropositionNodePrototype">
