@@ -23,6 +23,7 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.program.service.ProgramService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -30,6 +31,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +50,10 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
 
     private LRCService lrcService;
 
+    private ProgramService programService;
+
     private static final String PROGRAM_CLUSET_KEY = "kuali.term.parameter.type.program.cluSet.id";
+    private static final String PROGRAM_CLU_KEY = "kuali.term.parameter.type.program.clu.id";
 
     @Override
     public List<String> getComponentIds() {
@@ -57,7 +62,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
 
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
-        String cluSetId = termParameters.get(PROGRAM_CLUSET_KEY);
+        String cluSetId = termParameters.get(PROGRAM_CLU_KEY);
         if (cluSetId != null) {
             try {
                 propositionEditor.setCluSet(this.getCluSetInformation(cluSetId));
@@ -70,7 +75,15 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
 
     @Override
     public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
-        return null;
+        Map<String, String> termParameters = new HashMap<String, String>();
+        if (propositionEditor.getCluSet() != null) {
+            if(propositionEditor.getCluSet().getCluSetInfo() == null){
+                propositionEditor.getCluSet().setCluSetInfo(this.createCourseSet(propositionEditor.getCluSet()));
+            }
+            termParameters.put(PROGRAM_CLU_KEY, propositionEditor.getCluSet().getCluSetInfo().getId());
+        }
+
+        return termParameters;
     }
 
     @Override
@@ -253,7 +266,36 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
         }
         return cluSetInfo;
     }
+    public CluSetInfo createCourseSet(CluSetInformation cluSetInformation) {
+        CluSetInfo cluSetInfo = new CluSetInfo();
+        cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_PROGRAM);
+        cluSetInfo.setStateKey("Active");
+        cluSetInfo.setName("adhoc");
+        cluSetInfo.setEffectiveDate(new Date());
+        cluSetInfo.setIsReferenceable(Boolean.TRUE);
+        cluSetInfo.setIsReusable(Boolean.FALSE);
 
+        //Set the clu ids on the cluset
+        if(cluSetInformation.getClus()!=null){
+            for(CluInformation clu : cluSetInformation.getClus()){
+                cluSetInfo.getCluIds().add(clu.getVerIndependentId());
+            }
+        }
+
+        //Set the cluset ids on the cluset
+        if(cluSetInformation.getCluSets()!=null){
+            for(CluSetInfo cluset : cluSetInformation.getCluSets()){
+                cluSetInfo.getCluSetIds().add(cluset.getId());
+            }
+        }
+
+        //Set the membershipquery on the cluset
+        if(cluSetInformation.getMembershipQueryInfo()!=null){
+            cluSetInfo.setMembershipQuery(cluSetInformation.getMembershipQueryInfo());
+        }
+
+        return cluSetInfo;
+    }
     protected CluService getCluService() {
         if (cluService == null) {
             cluService = CourseOfferingResourceLoader.loadCluService();

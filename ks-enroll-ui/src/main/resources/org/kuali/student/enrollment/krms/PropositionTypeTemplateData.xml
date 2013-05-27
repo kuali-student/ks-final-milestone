@@ -209,7 +209,7 @@
 
                 <entry key="kuali.krms.proposition.type.admitted.to.program.campus">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null"
+                          p:termSpecName="HasProgramCourseCampus"
                           p:value="true"/>
                 </entry>
 
@@ -237,11 +237,12 @@
                     </bean>
                 </entry>
 
-                <entry key="kuali.krms.proposition.type.not.admitted.to.program">
+                <entry key="kuali.krms.proposition.type.notadmitted.to.program">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="AdmittedToProgram"
                           p:value="false">
                         <property name="componentId" value="KRMS-Program-SuggestField"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
