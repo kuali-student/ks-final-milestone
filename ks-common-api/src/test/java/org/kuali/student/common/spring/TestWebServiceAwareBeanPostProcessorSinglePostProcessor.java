@@ -60,6 +60,8 @@ public class TestWebServiceAwareBeanPostProcessorSinglePostProcessor  {
 		
 	}
 
+	
+	
 
 	@Test
 	public void testDirectDictionaryServiceWithMessageServiceProxy() {

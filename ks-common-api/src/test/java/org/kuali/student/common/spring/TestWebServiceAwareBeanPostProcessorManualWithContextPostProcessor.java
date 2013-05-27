@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.BlockJUnit4ClassRunner;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,12 +82,17 @@ public class TestWebServiceAwareBeanPostProcessorManualWithContextPostProcessor 
 
 		String dataDictionaryClassName = bean.getDictionaryService().getClass().getName();
 		
-		Assert.assertTrue(dataDictionaryClassName.equals("org.kuali.student.common.spring.FakeDictionaryServiceDecoratorImpl"));
+		
+		Assert.assertTrue(dataDictionaryClassName.equals(FakeDictionaryServiceDecoratorImpl.class.getName()));
 
 		String messageServiceClassName = bean.getMessageService().getClass()
 		        .getName();
 
 		Assert.assertTrue("class name must contain $Proxy", messageServiceClassName.contains("$Proxy"));
+		
+		// TODO: requires https://jira.springsource.org/browse/SPR-10019 to be accepted upstream to work
+//		Assert.assertNotNull(bean.getNotAService());
+//		Assert.assertEquals(NotAService.class.getName(), bean.getNotAService().getClass().getName());
 
 	}
 	
@@ -102,35 +108,12 @@ public class TestWebServiceAwareBeanPostProcessorManualWithContextPostProcessor 
 		MessageService messageService = bean.getMessageService();
 	
 		// check that the serializable proxy takes only 394 bytes to serialize
-		testBeanSerialization(messageService, "org.kuali.student.common.spring.SerializableProxyInvokationHandler (serviceName={http://student.kuali.org/wsdl/message}MessageService)", 408);
+		SpringProxyTestUtils.testBeanSerialization(messageService, "org.kuali.student.common.spring.SerializableProxyInvokationHandler (serviceName={http://student.kuali.org/wsdl/message}MessageService)", 408);
 		
 		// check that the non serializable service impl would take 2,018,492 bytes to save
-		testBeanSerialization(new FakeMessageServiceImpl(), FakeMessageServiceImpl.class.getName(), 2018492);
+		SpringProxyTestUtils.testBeanSerialization(new FakeMessageServiceImpl(), FakeMessageServiceImpl.class.getName(), 2018492);
 		
 	}
 	
-	private void testBeanSerialization(Object bean, String expectedToStringValue, long expectedSize) throws IOException, ClassNotFoundException {
-		
-		File tempFile = File.createTempFile("proxy", "dat");
-
-		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(tempFile));
-		
-		oos.writeObject(bean);
-		oos.flush();
-		oos.close();
-		
-		// check the size of that file
-		
-		long serializedSizeInBytes = FileUtils.sizeOf(tempFile);
-		
-		Assert.assertEquals(expectedSize, serializedSizeInBytes);
-		
-		ObjectInputStream iis = new ObjectInputStream(new FileInputStream(tempFile));
-		
-		MessageService generated = (MessageService) iis.readObject();
-		
-		iis.close();
-		
-		Assert.assertEquals(expectedToStringValue, generated.toString());
-	}
+	
 }

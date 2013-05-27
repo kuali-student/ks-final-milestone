@@ -55,5 +55,6 @@ public class TypeServiceConstants {
     public static final String PRIORITY_ATTR = "kuali.attribute.type.priority";
     public static final String LUI_ACTIVITY_DISPLAY_PRIORITY_ATTR  = "kuali.attribute.type.lui.activity.display.priority";
     public static final String ACTIVITY_SELECTION_PRIORITY_ATTR  = "kuali.attribute.type.activity.selection.priority";
+    public static final String ATP_TERM_INSTRUCTIONAL_DAYS_ATTR  = "kuali.attribute.type.atp.term.instructional.days";
 }
 

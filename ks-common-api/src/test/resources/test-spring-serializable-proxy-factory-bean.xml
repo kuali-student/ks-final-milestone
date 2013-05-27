@@ -14,29 +14,20 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
 
 
-	<context:annotation-config/>
+	<bean id="serializableList" class="org.kuali.student.common.spring.SerializableProxyFactoryBean">
 	
-	<!-- 
-		Test the WebServiceAwareSpringBeanPostProcessor
-		
-		This bean should appear in test bean.
-	 -->
-	<bean id="DictionaryServiceImpl"
-		class="org.kuali.student.common.spring.FakeDictionaryServiceImpl">
+		<constructor-arg index="0"><value>list</value></constructor-arg>
+		<constructor-arg index="1"><value>java.util.List</value></constructor-arg>
 	</bean>
 	
-	<bean id="DictionaryService"
-		class="org.kuali.student.common.spring.FakeDictionaryServiceDecoratorImpl">
-		<!--  this should be the @Autowired bean -->
+	<bean id="list" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<value>Test</value>
+				<value>Proxy</value>
+			</list>
+		</constructor-arg>
 	</bean>
-	
-	<bean id="NotAService" class="org.kuali.student.common.spring.NotAService"/>
-	
-	<!-- The course offering service should be the proxy. -->
-	<bean id="TestBean" class="org.kuali.student.common.spring.TestBean" />
-	
-	<bean class="org.kuali.student.common.spring.WebServiceAwareSpringBeanPostProcessor" />
-	
-		
+
 </beans>
 
