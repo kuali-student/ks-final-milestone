@@ -25,8 +25,20 @@ package org.kuali.student.r2.core.scheduling.service.impl;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -35,14 +47,34 @@ import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestSet;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.service.transformer.ScheduleDisplayTransformer;
+import org.kuali.student.r2.core.scheduling.util.CriteriaMatcherInMemory;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
 
 public class SchedulingServiceMockImpl implements SchedulingService, MockService {
 
@@ -54,6 +86,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     // The Maps to hold the mock impl data
     private Map<String, ScheduleInfo> scheduleMap = new LinkedHashMap<String, ScheduleInfo>();
     private Map<String, ScheduleBatchInfo> scheduleBatchMap = new LinkedHashMap<String, ScheduleBatchInfo>();
+    private Map<String, ScheduleRequestSetInfo> scheduleRequestSetMap = new LinkedHashMap<String, ScheduleRequestSetInfo>();
     private Map<String, ScheduleRequestInfo> scheduleRequestMap = new LinkedHashMap<String, ScheduleRequestInfo>();
     private Map<String, TimeSlotInfo> timeSlotMap = new LinkedHashMap<String, TimeSlotInfo>();
     private Map<String, ScheduleTransactionInfo> scheduleTransactionMap = new LinkedHashMap<String, ScheduleTransactionInfo>();
@@ -65,7 +98,6 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     private RoomService roomService;
     @Resource
     private TypeService typeService;
-    @Resource
     private OrganizationService organizationService;
 
     ////////////////////////////////
@@ -112,6 +144,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     public void clear() {
         this.scheduleBatchMap.clear();
         this.scheduleMap.clear();
+        this.scheduleRequestSetMap.clear();
         this.scheduleRequestMap.clear();
         this.scheduleTransactionMap.clear();
         this.timeSlotMap.clear();
@@ -139,7 +172,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        List<ScheduleInfo> list = new ArrayList<ScheduleInfo> ();
+        List<ScheduleInfo> list = new ArrayList<ScheduleInfo>();
         for (String id: scheduleIds) {
             list.add (this.getSchedule(id, contextInfo));
         }
@@ -169,7 +202,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForScheduleIds has not been implemented");
+        return searchForInfoIds(criteria, scheduleMap.values());
     }
 
     @Override
@@ -179,7 +212,14 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForSchedules has not been implemented");
+        Collection<ScheduleInfo> matches = searchForInfoObjects(criteria, scheduleMap.values());
+
+        List<ScheduleInfo> matchList = new ArrayList<ScheduleInfo>();
+        for(ScheduleInfo info : matches) {
+            matchList.add(new ScheduleInfo(info));
+        }
+
+        return matchList;
     }
 
     @Override
@@ -308,7 +348,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForScheduleBatchIds has not been implemented");
+        return searchForInfoIds(criteria, scheduleBatchMap.values());
     }
 
     @Override
@@ -316,9 +356,15 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             throws InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
-            ,PermissionDeniedException
-    {
-        throw new OperationFailedException ("searchForScheduleBatches has not been implemented");
+            ,PermissionDeniedException {
+        Collection<ScheduleBatchInfo> matches = searchForInfoObjects(criteria, scheduleBatchMap.values());
+
+        List<ScheduleBatchInfo> matchList = new ArrayList<ScheduleBatchInfo>();
+        for(ScheduleBatchInfo info : matches) {
+            matchList.add(new ScheduleBatchInfo(info));
+        }
+
+        return matchList;
     }
 
     @Override
@@ -443,19 +489,20 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     @Override
     public List<String> getScheduleRequestIdsByRefObject(String refObjectType, String refObjectId, ContextInfo contextInfo)
             throws InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
-        List<String> list = new ArrayList<String> ();
-        // go through the list of schedule requests and add those to list that
-        // have the specified refObjectType and refObjectId
-        for (ScheduleRequestInfo info: scheduleRequestMap.values()) {
-            if (refObjectType.equals(info.getRefObjectTypeKey())
-                && refObjectId.equals(info.getRefObjectId())) {
-                list.add(info.getId());
+            , MissingParameterException
+            , OperationFailedException
+            , PermissionDeniedException {
+        List<String> list = new ArrayList<String>();
+
+        //  Find the ScheduleRequests associated with the given refObjectId via the ScheduleRequestSet
+
+        for (ScheduleRequest sr : scheduleRequestMap.values()) {
+            ScheduleRequestSetInfo srs = scheduleRequestSetMap.get(sr.getScheduleRequestSetId());
+            if (srs.getRefObjectTypeKey().equals(refObjectType) && srs.getRefObjectIds().contains(refObjectId)) {
+                list.add(sr.getId());
             }
         }
+
         return list;
     }
 
@@ -471,8 +518,6 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             return new ArrayList<ScheduleRequestInfo> ();
         }
     }
-    
-    
 
     @Override
     public List<ScheduleRequestInfo> getScheduleRequestsByRefObjects(
@@ -494,13 +539,19 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
     }
 
     @Override
+    public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
+
+    @Override
     public List<String> searchForScheduleRequestIds(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForScheduleRequestIds has not been implemented");
+        return searchForInfoIds(criteria, scheduleRequestMap.values());
     }
 
     @Override
@@ -508,9 +559,15 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             throws InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
-            ,PermissionDeniedException
-    {
-        throw new OperationFailedException ("searchForScheduleRequests has not been implemented");
+            ,PermissionDeniedException {
+        Collection<ScheduleRequestInfo> matches = searchForInfoObjects(criteria, scheduleRequestMap.values());
+
+        List<ScheduleRequestInfo> matchList = new ArrayList<ScheduleRequestInfo>();
+        for(ScheduleRequestInfo info : matches) {
+            matchList.add(new ScheduleRequestInfo(info));
+        }
+
+        return matchList;
     }
 
     @Override
@@ -538,6 +595,9 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         // create
         if (!scheduleRequestTypeKey.equals (scheduleRequestInfo.getTypeKey())) {
             throw new InvalidParameterException ("The type parameter does not match the type on the info object");
+        }
+        if(scheduleRequestInfo.getScheduleRequestSetId() == null || !scheduleRequestSetMap.containsKey(scheduleRequestInfo.getScheduleRequestSetId())) {
+            throw new InvalidParameterException ("The schedule request set id given is not valid");
         }
         ScheduleRequestInfo copy = new ScheduleRequestInfo(scheduleRequestInfo);
         if (copy.getId() == null) {
@@ -681,7 +741,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForTimeSlotIds has not been implemented");
+        return searchForInfoIds(criteria, timeSlotMap.values());
     }
 
     @Override
@@ -691,7 +751,14 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForTimeSlots has not been implemented");
+        Collection<TimeSlotInfo> matches = searchForInfoObjects(criteria, timeSlotMap.values());
+
+        List<TimeSlotInfo> matchList = new ArrayList<TimeSlotInfo>();
+        for(TimeSlotInfo info : matches) {
+            matchList.add(new TimeSlotInfo(info));
+        }
+
+        return matchList;
     }
 
     @Override
@@ -875,16 +942,24 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        List<String> list = new ArrayList<String> ();
-        // go through the list of schedule transactions and add those to list that
-        // have the specified refObjectType and refObjectId
-        for (ScheduleTransactionInfo info: scheduleTransactionMap.values()) {
-            if (refObjectType.equals(info.getRefObjectTypeKey())
-                    && refObjectId.equals(info.getRefObjectId())) {
-                list.add(info.getId());
+        List<String> scheduleIds = new ArrayList<String> ();
+
+        //  First find the schedule Ids associated with the given refObjectId via the ScheduleRequestSet
+        for (ScheduleRequestSet srs : scheduleRequestSetMap.values()) {
+            if (srs.getRefObjectTypeKey().equals(refObjectType) && srs.getRefObjectIds().contains(refObjectId)) {
+                for (ScheduleRequestInfo sr: scheduleRequestMap.values()) {
+                    scheduleIds.add(sr.getScheduleId());
+                }
             }
         }
-        return list;
+        //  Now get the transactions for the list of scheduleIds.
+        List<String> transactionIds = new ArrayList<String> ();
+        for (ScheduleTransactionInfo st: scheduleTransactionMap.values()) {
+            if (scheduleIds.contains(st.getScheduleId())) {
+                transactionIds.add(st.getId());
+            }
+        }
+        return transactionIds;
     }
 
     @Override
@@ -917,7 +992,7 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForScheduleTransactionIds has not been implemented");
+        return searchForInfoIds(criteria, scheduleTransactionMap.values());
     }
 
     @Override
@@ -927,7 +1002,14 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("searchForScheduleTransactions has not been implemented");
+        Collection<ScheduleTransactionInfo> matches = searchForInfoObjects(criteria, scheduleTransactionMap.values());
+
+        List<ScheduleTransactionInfo> matchList = new ArrayList<ScheduleTransactionInfo>();
+        for(ScheduleTransactionInfo info : matches) {
+            matchList.add(new ScheduleTransactionInfo(info));
+        }
+
+        return matchList;
     }
 
     @Override
@@ -1033,32 +1115,166 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
 
     @Override
     public List<ScheduleDisplayInfo> searchForScheduleDisplays(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<String> ids = searchForInfoIds(criteria, scheduleMap.values());
+        try {
+            return getScheduleDisplaysByIds(ids, contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Failed to search for schedule displays", e);
+        }
     }
 
     @Override
     public ScheduleRequestDisplayInfo getScheduleRequestDisplay(String scheduleRequestId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ScheduleRequestInfo scheduleRequestInfo = getScheduleRequest(scheduleRequestId, contextInfo);
-        ScheduleRequestDisplayInfo scheduleRequestDisplayInfo = new ScheduleRequestDisplayInfo();
-        copyScheduleRequestIntoScheduleRequestInfo(scheduleRequestInfo, scheduleRequestDisplayInfo, contextInfo);
-        return scheduleRequestDisplayInfo;
+        ScheduleRequestInfo scheduleInfo = getScheduleRequest(scheduleRequestId, contextInfo);
+        ScheduleRequestDisplayInfo scheduleDisplayInfo =
+                ScheduleDisplayTransformer.scheduleRequestInfo2SceduleRequestDisplayInfo(scheduleInfo, getTypeService(), getRoomService(), this, contextInfo);
+        return scheduleDisplayInfo;
     }
 
     @Override
     public List<ScheduleRequestDisplayInfo> getScheduleRequestDisplaysByIds(List<String> scheduleRequestIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ScheduleRequestInfo> scheduleRequestInfos = getScheduleRequestsByIds(scheduleRequestIds, contextInfo);
-        List<ScheduleRequestDisplayInfo> scheduleRequestDisplayInfos = new ArrayList<ScheduleRequestDisplayInfo>();
-        for (ScheduleRequestInfo scheduleRequestInfo: scheduleRequestInfos) {
-            ScheduleRequestDisplayInfo scheduleRequestDisplayInfo = new ScheduleRequestDisplayInfo();
-            copyScheduleRequestIntoScheduleRequestInfo(scheduleRequestInfo, scheduleRequestDisplayInfo, contextInfo);
-            scheduleRequestDisplayInfos.add(scheduleRequestDisplayInfo);
+        List<ScheduleRequestInfo> scheduleInfoList = getScheduleRequestsByIds(scheduleRequestIds, contextInfo);
+        List<ScheduleRequestDisplayInfo> displayInfoList = new ArrayList<ScheduleRequestDisplayInfo>();
+        if (scheduleInfoList != null) {
+            for (ScheduleRequestInfo info: scheduleInfoList) {
+                ScheduleRequestDisplayInfo scheduleDisplayInfo =
+                        ScheduleDisplayTransformer.scheduleRequestInfo2SceduleRequestDisplayInfo(info, getTypeService(), getRoomService(), this, contextInfo);
+                displayInfoList.add(scheduleDisplayInfo);
+            }
         }
-        return scheduleRequestDisplayInfos;
+        return displayInfoList;
     }
 
     @Override
     public List<ScheduleRequestDisplayInfo> searchForScheduleRequestDisplays(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<String> ids = searchForInfoIds(criteria, scheduleRequestMap.values());
+        try {
+            return getScheduleRequestDisplaysByIds(ids, contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Failed to search for schedule request displays", e);
+        }
+    }
+
+    @Override
+    public ScheduleRequestSetInfo getScheduleRequestSet(String scheduleRequestSetId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (!scheduleRequestSetMap.containsKey(scheduleRequestSetId)) {
+            throw new DoesNotExistException(scheduleRequestSetId);
+        }
+        return new ScheduleRequestSetInfo(scheduleRequestSetMap.get(scheduleRequestSetId));
+    }
+
+    @Override
+    public List<ScheduleRequestSetInfo> getScheduleRequestSetsByIds(List<String> scheduleRequestSetIds, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ScheduleRequestSetInfo> list = new ArrayList<ScheduleRequestSetInfo>();
+        for(String id : scheduleRequestSetIds) {
+            list.add(getScheduleRequestSet(id, contextInfo));
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> getScheduleRequestSetIdsByType(String scheduleRequestSetTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String> ();
+        for (ScheduleRequestSetInfo info: scheduleRequestSetMap.values ()) {
+            if (scheduleRequestSetTypeKey.equals(info.getTypeKey())) {
+                list.add (info.getId());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> getScheduleRequestSetIdsByRefObjType(String refObjectTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> list = new ArrayList<String> ();
+        for (ScheduleRequestSetInfo info: scheduleRequestSetMap.values ()) {
+            if (refObjectTypeKey.equals(info.getRefObjectTypeKey())) {
+                list.add (info.getId());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> searchForScheduleRequestSetIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return searchForInfoIds(criteria, scheduleRequestSetMap.values());
+    }
+
+    @Override
+    public List<ScheduleRequestSetInfo> searchForScheduleRequestSets(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Collection<ScheduleRequestSetInfo> matches = searchForInfoObjects(criteria, scheduleRequestSetMap.values());
+
+        List<ScheduleRequestSetInfo> matchList = new ArrayList<ScheduleRequestSetInfo>();
+        for(ScheduleRequestSetInfo info : matches) {
+            matchList.add(new ScheduleRequestSetInfo(info));
+        }
+
+        return matchList;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateScheduleRequestSet(String validationTypeKey, String scheduleRequestSetTypeKey, String refObjectTypeKey, ScheduleRequestSetInfo scheduleRequestSetInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<ValidationResultInfo>();
+    }
+
+    @Override
+    public ScheduleRequestSetInfo createScheduleRequestSet(String scheduleRequestSetTypeKey, 
+                                                           String refObjectTypeKey, ScheduleRequestSetInfo scheduleRequestSetInfo, ContextInfo contextInfo) 
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException {
+        if (!scheduleRequestSetTypeKey.equals(scheduleRequestSetInfo.getTypeKey())) {
+            throw new InvalidParameterException ("The type parameter does not match the type on the info object");
+        }
+        if (!refObjectTypeKey.equals(scheduleRequestSetInfo.getRefObjectTypeKey())) {
+            throw new InvalidParameterException ("The ref object type parameter does not match the ref object type on the info object");
+        }
+        ScheduleRequestSetInfo copy = new ScheduleRequestSetInfo(scheduleRequestSetInfo);
+        if (copy.getId() == null) {
+            copy.setId(UUIDHelper.genStringUUID());
+        }
+        copy.setMeta(newMeta(contextInfo));
+        scheduleRequestSetMap.put(copy.getId(), copy);
+        return new ScheduleRequestSetInfo(copy);
+    }
+
+    @Override
+    public ScheduleRequestSetInfo updateScheduleRequestSet(String scheduleRequestSetId, ScheduleRequestSetInfo scheduleRequestSetInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        if (!scheduleRequestSetId.equals (scheduleRequestSetInfo.getId())) {
+            throw new InvalidParameterException ("The id parameter does not match the id on the info object");
+        }
+        ScheduleRequestSetInfo copy = new ScheduleRequestSetInfo(scheduleRequestSetInfo);
+        ScheduleRequestSetInfo old = getScheduleRequestSet(scheduleRequestSetInfo.getId(), contextInfo);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
+        }
+        copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
+        this.scheduleRequestSetMap.put(scheduleRequestSetInfo.getId(), copy);
+        return new ScheduleRequestSetInfo(copy);
+    }
+
+    @Override
+    public StatusInfo deleteScheduleRequestSet(String scheduleRequestSetId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (this.scheduleRequestSetMap.remove(scheduleRequestSetId) == null) {
+            throw new DoesNotExistException(scheduleRequestSetId);
+        }
+        return newStatus();
+    }
+
+    @Override
+    public List<ScheduleRequestSetInfo> getScheduleRequestSetsByRefObject(String refObjectType, String refObjectId, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ScheduleRequestSetInfo> list = new ArrayList<ScheduleRequestSetInfo>();
+
+        for(ScheduleRequestSetInfo info : scheduleRequestSetMap.values()) {
+            if(info.getRefObjectTypeKey().equals(refObjectType) && info.getRefObjectIds().contains(refObjectId)) {
+                list.add(new ScheduleRequestSetInfo(info));
+            }
+        }
+        return list;
     }
 
     private void copyScheduleInfoIntoScheduleDisplayInfo (ScheduleInfo scheduleInfo, ScheduleDisplayInfo scheduleDisplayInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -1089,25 +1305,6 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
             timeSlotInfos.add(getTimeSlot(timeSlotId, contextInfo));
         }
         scheduleComponentDisplayInfo.setTimeSlots(timeSlotInfos);
-    }
-
-    private void copyScheduleRequestIntoScheduleRequestInfo (ScheduleRequestInfo scheduleRequestInfo, ScheduleRequestDisplayInfo scheduleRequestDisplayInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        scheduleRequestDisplayInfo.setId(scheduleRequestInfo.getId());
-        scheduleRequestDisplayInfo.setDescr(scheduleRequestInfo.getDescr());
-        scheduleRequestDisplayInfo.setAttributes(scheduleRequestInfo.getAttributes());
-        scheduleRequestDisplayInfo.setMeta(scheduleRequestInfo.getMeta());
-        scheduleRequestDisplayInfo.setName(scheduleRequestInfo.getName());
-        scheduleRequestDisplayInfo.setStateKey(scheduleRequestInfo.getStateKey());
-        scheduleRequestDisplayInfo.setTypeKey(scheduleRequestInfo.getTypeKey());
-        scheduleRequestDisplayInfo.setRefObjectId(scheduleRequestInfo.getRefObjectId());
-        scheduleRequestDisplayInfo.setRefObjectTypeKey(scheduleRequestInfo.getRefObjectTypeKey());
-        List<ScheduleRequestComponentDisplayInfo> scheduleRequestComponentDisplayInfos = new ArrayList<ScheduleRequestComponentDisplayInfo>();
-        for (ScheduleRequestComponentInfo scheduleRequestComponentInfo: scheduleRequestInfo.getScheduleRequestComponents()) {
-            ScheduleRequestComponentDisplayInfo scheduleRequestComponentDisplayInfo = new ScheduleRequestComponentDisplayInfo();
-            copyScheduleRequestComponentInfoIntoScheduleRequestComponentDisplayInfo(scheduleRequestComponentInfo, scheduleRequestComponentDisplayInfo, contextInfo);
-            scheduleRequestComponentDisplayInfos.add(scheduleRequestComponentDisplayInfo);
-        }
-        scheduleRequestDisplayInfo.setScheduleRequestComponentDisplays(scheduleRequestComponentDisplayInfos);
     }
 
     private void copyScheduleRequestComponentInfoIntoScheduleRequestComponentDisplayInfo(ScheduleRequestComponentInfo scheduleRequestComponentInfo, ScheduleRequestComponentDisplayInfo scheduleRequestComponentDisplayInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -1168,6 +1365,30 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         meta.setUpdateTime(new Date());
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
+    }
+
+    private <T extends HasId> List<String> searchForInfoIds(QueryByCriteria criteria, Collection<T> collection)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException {
+        Collection<T> matches = searchForInfoObjects(criteria, collection);
+        List<String> matchingIds = new ArrayList<String>();
+
+        for(T info : matches) {
+            matchingIds.add(info.getId());
+        }
+        return matchingIds;
+    }
+
+    public <T> Collection<T> searchForInfoObjects(QueryByCriteria criteria, Collection<T> collection)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException {
+        CriteriaMatcherInMemory<T> matcher = new CriteriaMatcherInMemory<T>();
+        matcher.setCriteria(criteria);
+        return matcher.findMatching(collection);
     }
 
 }

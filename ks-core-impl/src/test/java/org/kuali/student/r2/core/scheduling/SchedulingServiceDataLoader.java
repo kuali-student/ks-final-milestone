@@ -66,8 +66,8 @@ public class SchedulingServiceDataLoader {
     public final static String ATP_ID = "TestATP";
     public final static String ROOM_ID = "Room1";
 
+
     private ContextInfo contextInfo;
-    public static final String REF_OBJECT_TYPE_KEY_ACTIVITY_OFFERING = "kuali.type.refobject.activity.offering";
 
     private AtpService atpService;
     private RoomService roomService;
@@ -152,6 +152,14 @@ public class SchedulingServiceDataLoader {
         CommonServiceConstants.setIsIdAllowedOnCreate(contextInfo, false);
 
         setupAtpAndRoomForDisplay(ATP_ID,ROOM_ID);
+
+        ScheduleInfo testSchedule1 = setupScheduleInfo("testScheduleId1", ATP_ID,false,ROOM_ID);
+        ScheduleInfo testSchedule2 = setupScheduleInfo("testScheduleId2", ATP_ID,false,ROOM_ID);
+        ScheduleInfo testSchedule3 = setupScheduleInfo("testScheduleId3", ATP_ID,false,ROOM_ID);
+        schedulingService.createSchedule(testSchedule1.getTypeKey(), testSchedule1, contextInfo);
+        schedulingService.createSchedule(testSchedule2.getTypeKey(), testSchedule2, contextInfo);
+        schedulingService.createSchedule(testSchedule3.getTypeKey(), testSchedule3, contextInfo);
+
     }
 
     private void loadTimeSlotInfo (String ts_id, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
@@ -170,19 +178,47 @@ public class SchedulingServiceDataLoader {
         schedulingService.createTimeSlot(typeKey, ts, contextInfo);
     }
 
-    public static ScheduleRequestInfo setupScheduleRequestInfo(String scheduleRequestInfoId, String scheduleRequestInfoRefObjectId,
-                                                               String ScheduleRequestComponentInfoId, String scheduleRequestInfoName) {
+    /**
+     * Creates a ScheduleRequestSetInfo from given args.
+     * @param scheduleRequestSetId
+     * @param refObjectIds
+     * @param maxEnrollmentShared
+     * @param maxEnrollment
+     * @return
+     */
+    public static ScheduleRequestSetInfo setupScheduleRequestSetInfo(String scheduleRequestSetId, List<String> refObjectIds,
+                                                                     String refObjectType,
+                                                                     Boolean maxEnrollmentShared, Integer maxEnrollment) {
+        ScheduleRequestSetInfo srsInfo = new ScheduleRequestSetInfo();
+        srsInfo.setId(scheduleRequestSetId);
+        srsInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+        srsInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+        srsInfo.setRefObjectTypeKey(refObjectType);
+        srsInfo.setRefObjectIds(refObjectIds);
+        srsInfo.setMaxEnrollmentShared(maxEnrollmentShared);
+        srsInfo.setMaximumEnrollment(maxEnrollment);
+
+        return srsInfo;
+    }
+
+    public static ScheduleRequestInfo setupScheduleRequestInfo(String scheduleRequestInfoId,
+                                                               String scheduleRequestComponentInfoId,
+                                                               String scheduleId,
+                                                               String scheduleRequestSetId,
+                                                               String scheduleRequestInfoName) {
         ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
         scheduleRequestInfo.setId(scheduleRequestInfoId);
-        scheduleRequestInfo.setRefObjectId(scheduleRequestInfoRefObjectId);
-        scheduleRequestInfo.setRefObjectTypeKey(REF_OBJECT_TYPE_KEY_ACTIVITY_OFFERING);
+
+        scheduleRequestInfo.setScheduleId(scheduleId);
+        scheduleRequestInfo.setScheduleRequestSetId(scheduleRequestSetId);
+
         scheduleRequestInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
         scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
         scheduleRequestInfo.setName(scheduleRequestInfoName);
 
         List<ScheduleRequestComponentInfo> componentInfoList = new ArrayList<ScheduleRequestComponentInfo>();
         ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
-        componentInfo.setId(ScheduleRequestComponentInfoId);
+        componentInfo.setId(scheduleRequestComponentInfoId);
         List<String> buildingIds = new ArrayList<String>();
         buildingIds.add("097");
         buildingIds.add("039");
@@ -213,6 +249,8 @@ public class SchedulingServiceDataLoader {
         return scheduleRequestInfo;
     }
 
+
+
     public static ScheduleInfo setupScheduleInfo(String id,String atpId,boolean isTBA,String roomId) {
 
         ScheduleInfo info = new ScheduleInfo();
@@ -225,7 +263,7 @@ public class SchedulingServiceDataLoader {
         List<ScheduleComponentInfo> scheduleComponents = new ArrayList<ScheduleComponentInfo>();
 
         ScheduleComponentInfo scheduleComponentInfo = new ScheduleComponentInfo();
-        scheduleComponentInfo.setId("ScheduleComponent1");
+        scheduleComponentInfo.setId(id + "-ScheduleComponent1");
         scheduleComponentInfo.setIsTBA(Boolean.valueOf(isTBA));
 
         List<String> timeSlotIds = new ArrayList();

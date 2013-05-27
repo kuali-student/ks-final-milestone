@@ -364,6 +364,77 @@ public class SchedulingServiceDecorator implements SchedulingService {
     }
 
     @Override
+    public ScheduleRequestSetInfo getScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestSet(scheduleRequestSetId, contextInfo);
+    }
+
+    @Override
+    public List<ScheduleRequestSetInfo> getScheduleRequestSetsByIds(@WebParam(name = "scheduleRequestSetIds") List<String> scheduleRequestSetIds,
+                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestSetsByIds(scheduleRequestSetIds, contextInfo);
+    }
+
+    @Override
+    public List<String> getScheduleRequestSetIdsByType(@WebParam(name = "scheduleRequestSetTypeKey") String scheduleRequestSetTypeKey,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestSetIdsByType(scheduleRequestSetTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> getScheduleRequestSetIdsByRefObjType(@WebParam(name = "refObjectTypeKey") String refObjectTypeKey,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestSetIdsByRefObjType(refObjectTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForScheduleRequestSetIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForScheduleRequestSetIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<ScheduleRequestSetInfo> searchForScheduleRequestSets(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForScheduleRequestSets(criteria, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateScheduleRequestSet(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                 @WebParam(name = "scheduleRequestSetTypeKey") String scheduleRequestSetTypeKey,
+                                                                 @WebParam(name = "refObjectTypeKey") String refObjectTypeKey,
+                                                                 @WebParam(name = "scheduleRequestSetInfo") ScheduleRequestSetInfo scheduleRequestSetInfo,
+                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateScheduleRequestSet(validationTypeKey, scheduleRequestSetTypeKey, refObjectTypeKey, scheduleRequestSetInfo, contextInfo);
+    }
+
+    @Override
+    public ScheduleRequestSetInfo createScheduleRequestSet(@WebParam(name = "scheduleRequestSetTypeKey") String scheduleRequestSetTypeKey,
+                                                           @WebParam(name = "refObjectTypeKey") String refObjectTypeKey,
+                                                           @WebParam(name = "scheduleRequestSetInfo") ScheduleRequestSetInfo scheduleRequestSetInfo,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createScheduleRequestSet(scheduleRequestSetTypeKey, refObjectTypeKey, scheduleRequestSetInfo, contextInfo);
+    }
+
+    @Override
+    public ScheduleRequestSetInfo updateScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                           @WebParam(name = "scheduleRequestSetInfo") ScheduleRequestSetInfo scheduleRequestSetInfo,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updateScheduleRequestSet(scheduleRequestSetId, scheduleRequestSetInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteScheduleRequestSet(scheduleRequestSetId, contextInfo);
+    }
+
+    @Override
+    public List<ScheduleRequestSetInfo> getScheduleRequestSetsByRefObject(@WebParam(name = "refObjectType") String refObjectType, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestSetsByRefObject(refObjectType, refObjectId, contextInfo);
+    }
+
+    @Override
     public List<ScheduleRequestInfo> getScheduleRequestsByRefObjects(
             @WebParam(name = "refObjectType") String refObjectType,
             @WebParam(name = "refObjectId") List<String> refObjectIds,
@@ -372,6 +443,13 @@ public class SchedulingServiceDecorator implements SchedulingService {
             OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getScheduleRequestsByRefObjects(refObjectType, refObjectIds, contextInfo);
     }
-    
-    
+
+    @Override
+    public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(String scheduleRequestSetId,
+                                                                             ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetId, contextInfo);
+    }
+
+
 }

@@ -14,6 +14,7 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -30,15 +31,11 @@ import java.util.Set;
 @Entity
 @Table(name = "KSEN_SCHED_RQST")
 @NamedQueries({
-        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefObjects", query="Select sr from ScheduleRequestEntity sr where sr.refObjectTypeKey=:refObjectTypeKey and sr.refObjectId in (:refObjectIds)")
+        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefObjectAndRefObjectType",
+                query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId in (SELECT reqSet.id FROM ScheduleRequestSetEntity reqSet WHERE reqSet.refObjectTypeKey = :refObjectTypeKey and :refObjectId in elements(reqSet.refObjectIds))"),
+        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByScheduleRequestSet", query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId = :scheduleRequestSetId")
 })
 public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<ScheduleRequestAttributeEntity> {
-
-    @Column(name = "REF_OBJECT_ID")
-    private String refObjectId;
-
-    @Column(name = "REF_OBJECT_TYPE")
-    private String refObjectTypeKey;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "scheduleRequest", orphanRemoval=true)
     private List<ScheduleRequestComponentEntity> scheduleRequestComponents;
@@ -59,6 +56,13 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
     @Column(name = "SCHED_RQST_STATE")
     private String schedReqState;
 
+    @Column(name = "SCHED_RQST_SET_ID")
+    private String scheduleRequestSetId;
+
+    @Column(name = "SCHED_ID")
+    private String scheduleId;
+
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", orphanRemoval=true)
     private Set<ScheduleRequestAttributeEntity> attributes = new HashSet<ScheduleRequestAttributeEntity>();
 
@@ -68,8 +72,6 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
     public ScheduleRequestEntity(ScheduleRequest scheduleRequest) {
         super(scheduleRequest);
         this.setId(scheduleRequest.getId());
-        this.setRefObjectId(scheduleRequest.getRefObjectId());
-        this.setRefObjectTypeKey(scheduleRequest.getRefObjectTypeKey());
         this.setSchedReqType(scheduleRequest.getTypeKey());
 
         this.fromDto(scheduleRequest);
@@ -78,8 +80,8 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
     public void fromDto(ScheduleRequest scheduleRequest) {
         this.setSchedReqState(scheduleRequest.getStateKey());
         this.setName(scheduleRequest.getName());
-        this.setRefObjectId(scheduleRequest.getRefObjectId());
-        this.setRefObjectTypeKey(scheduleRequest.getRefObjectTypeKey());
+        this.setScheduleRequestSetId(scheduleRequest.getScheduleRequestSetId());
+        this.setScheduleId(scheduleRequest.getScheduleId());
         if (scheduleRequest.getDescr() != null) {
             this.setFormatted(scheduleRequest.getDescr().getFormatted());
             this.setPlain(scheduleRequest.getDescr().getPlain());
@@ -119,8 +121,8 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
 
     public ScheduleRequestInfo toDto() {
         ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
-        scheduleRequestInfo.setRefObjectId(this.getRefObjectId());
-        scheduleRequestInfo.setRefObjectTypeKey(this.getRefObjectTypeKey());
+        scheduleRequestInfo.setScheduleRequestSetId(this.getScheduleRequestSetId());
+        scheduleRequestInfo.setScheduleId(this.getScheduleId());
         scheduleRequestInfo.setDescr(new RichTextHelper().toRichTextInfo(this.getPlain(), this.getFormatted()));
         scheduleRequestInfo.setName(this.getName());
         scheduleRequestInfo.setId(this.getId()); // id is assumed not null
@@ -139,22 +141,6 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
         scheduleRequestInfo.setScheduleRequestComponents(srComps);
 
         return scheduleRequestInfo;
-    }
-
-    public String getRefObjectId() {
-        return refObjectId;
-    }
-
-    public void setRefObjectId(String refObjectId) {
-        this.refObjectId = refObjectId;
-    }
-
-    public String getRefObjectTypeKey() {
-        return refObjectTypeKey;
-    }
-
-    public void setRefObjectTypeKey(String refObjectTypeKey) {
-        this.refObjectTypeKey = refObjectTypeKey;
     }
 
     public List<ScheduleRequestComponentEntity> getScheduleRequestComponents() {
@@ -203,6 +189,22 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
 
     public void setSchedReqState(String schedReqState) {
         this.schedReqState = schedReqState;
+    }
+
+    public String getScheduleRequestSetId() {
+        return scheduleRequestSetId;
+    }
+
+    public void setScheduleRequestSetId(String scheduleRequestSetId) {
+        this.scheduleRequestSetId = scheduleRequestSetId;
+    }
+
+    public String getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     public Set<ScheduleRequestAttributeEntity> getAttributes() {

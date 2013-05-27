@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.core</groupId>
         <artifactId>ks-security</artifactId>
-        <version>2.0.0-M7-SNAPSHOT</version>
+        <version>2.0.0-SSR1-SNAPSHOT</version>
     </parent>
     <artifactId>ks-standard-sec</artifactId>
     <name>KS Standard Security</name>
