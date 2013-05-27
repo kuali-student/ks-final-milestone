@@ -24,13 +24,21 @@
     <bean id="KSTheme-parentBean" parent="Uif-KradTheme">
         <property name="cssFiles">
             <list merge="true">
+                <value>ks-enroll/bootstrap/css/bootstrap.css</value>
+                <value>krad/min/css/krad_@{#ConfigProperties['rice.version']}.min.css</value>
+                <value>krad/css/ks/theme-krad.css</value>
+                <value>krad/css/ks/fss-theme-krad.css</value>
                 <value>ks-enroll/css/enroll.css</value>
                 <value>ks-enroll/css/ks-jquery.css</value>
                 <value>ks-enroll/css/link-tabs.css</value>
+                <!--
+                <value>ks-enroll/css/new_kualistudent.css</value>
+                -->
             </list>
         </property>
         <property name="scriptFiles">
             <list merge="true">
+                <value>ks-enroll/bootstrap/js/bootstrap.js</value>
                 <value>ks-enroll/scripts/enroll.js</value>
                 <value>krad/scripts/ks.krad.widget.js</value>
             </list>
