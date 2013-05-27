@@ -16,25 +16,26 @@
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
 /**
  * This is the helper class for CourseView
@@ -42,53 +43,38 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 
-public class DatesKeyValuesFinder extends KeyValuesBase {
+public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DatesKeyValuesFinder.class);
-    
+    private transient AtpService atpService;
+
     private boolean blankOption;
 
-    private AtpService atpService;
-
     @Override
-    public List<KeyValue> getKeyValues() {
+    public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.in("typeKey", AtpServiceConstants.ATP_SPRING_TYPE_KEY,
+                AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY,
+                AtpServiceConstants.ATP_MINI_MESTER_1_A_TYPE_KEY, AtpServiceConstants.ATP_MINI_MESTER_1_B_TYPE_KEY,
+                AtpServiceConstants.ATP_SESSION_1_TYPE_KEY, AtpServiceConstants.ATP_SESSION_2_TYPE_KEY));
+        
+        QueryByCriteria qbc = qbcBuilder.build();
         try {
-            SearchRequestInfo searchRequest = new SearchRequestInfo();
-            searchRequest.setSearchKey("atp.search.advancedAtpSearch");
-            List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-            SearchParamInfo param = new SearchParamInfo();
-            param.setKey("atp.advancedAtpSearchParam.atpType"); //"atp.advancedAtpSearchParam.optionalAtpIds
+            List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc, getContextInfo());
 
-            List<String> typeValues = new ArrayList<String>();
-            typeValues.add(AtpServiceConstants.ATP_SPRING_TYPE_KEY);
-            typeValues.add(AtpServiceConstants.ATP_FALL_TYPE_KEY);
-            typeValues.add(AtpServiceConstants.ATP_SUMMER_TYPE_KEY);
-            typeValues.add(AtpServiceConstants.ATP_SESSION_1_TYPE_KEY);
-            typeValues.add(AtpServiceConstants.ATP_SESSION_2_TYPE_KEY);
-            typeValues.add(AtpServiceConstants.ATP_MINI_MESTER_1_A_TYPE_KEY);
-            typeValues.add(AtpServiceConstants.ATP_MINI_MESTER_1_B_TYPE_KEY);
-            param.setValues(typeValues);
-            queryParamValueList.add(param);
-            searchRequest.setParams(queryParamValueList);
-            SearchResultInfo searchResult = this.getAtpService().search(searchRequest, getContextInfo());
-
-            if(blankOption){
+            if (blankOption) {
                 keyValues.add(new ConcreteKeyValue("", ""));
             }
-            
-            for (SearchResultRowInfo result : searchResult.getRows()) {
-                List<SearchResultCellInfo> cells = result.getCells();
-                String id = "";
-                String descrip = "";
-                for (SearchResultCellInfo cell : cells) {
-                    if (cell.getKey().contains("atp.resultColumn.atpId")) {
-                        id = cell.getKey().toString();
-                    }
-                    if (cell.getKey().contains("atp.resultColumn.atpShortName")) {
-                        descrip = cell.getValue().toString();
-                    }
+
+            Collections.sort(searchResult, new Comparator<AtpInfo>() {
+                public int compare(AtpInfo m1, AtpInfo m2) {
+                    return m1.getCode().compareTo(m2.getCode());
                 }
-                keyValues.add(new ConcreteKeyValue(id, descrip));
+            });
+
+            for (AtpInfo result : searchResult) {
+                keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
             }
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -116,7 +102,7 @@ public class DatesKeyValuesFinder extends KeyValuesBase {
 
         return contextInfo;
     }
-    
+
     /**
      * @return the blankOption
      */
@@ -130,5 +116,4 @@ public class DatesKeyValuesFinder extends KeyValuesBase {
     public void setBlankOption(boolean blankOption) {
         this.blankOption = blankOption;
     }
-
 }
