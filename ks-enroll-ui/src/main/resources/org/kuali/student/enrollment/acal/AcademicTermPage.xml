@@ -38,7 +38,8 @@
         <property name="lineActions">
             <list>
                 <bean id="term_official_button" parent="Uif-PrimaryActionButton" p:actionLabel="@{!#line.official ? 'Make Official' : 'Update Official'}"  p:disabled="@{#line.new}" p:methodToCall="makeTermOfficial" p:render="@{!#view.readOnly}"/>
-                <bean id="term_delete_button" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Draft" p:render="@{!#view.readOnly and !#line.new and !#line.official}"/>
+                <bean id="term_delete_button" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Draft" p:render="@{!#view.readOnly and !#line.new and !#line.official}"
+                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                 <bean id="term_cancel_button" parent="Uif-ActionLink" p:methodToCall="cancelTerm" p:actionLabel="Cancel"/>
             </list>
         </property>
@@ -94,7 +95,8 @@
         </property>
     </bean>
 
-    <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure">
+    <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
+          p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid});">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
         <property name="propertyName" value="keyDatesGroupWrappers" />
@@ -124,7 +126,8 @@
         <property name="items">
             <list>
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
-                      p:label="Key Date Group Type" p:required="true" p:finalizeMethodToCall="populateKeyDateGroupTypes" >
+                      p:label="* Key Date Group Type"
+                      p:finalizeMethodToCall="populateKeyDateGroupTypes" > <!--p:required="true"-->
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -171,10 +174,10 @@
         </property>
         <property name="items">
             <list>
-                <bean id="key_date_type" parent="Uif-InputField" p:propertyName="keyDateType" p:required="true"
+                <bean id="key_date_type" parent="Uif-InputField" p:propertyName="keyDateType"
                       p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
-                      p:label="Key Date Type"
-                      p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;">
+                      p:label="* Key Date Type"
+                      p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;"> <!--p:required="true"-->
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -183,7 +186,7 @@
                     </property>
                 </bean>
                 <bean id="key_date_start_date" parent="Uif-InputField" p:propertyName="startDate" p:readOnlyDisplayReplacementPropertyName="startDateUI"
-                      p:label="Start Date" p:required="true">
+                      p:label="* Start Date" >   <!--p:required="true"-->
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                     </property>

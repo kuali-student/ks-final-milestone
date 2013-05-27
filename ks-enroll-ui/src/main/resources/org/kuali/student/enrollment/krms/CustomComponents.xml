@@ -66,7 +66,7 @@
             <list merge="true">
                 <value>uif-collectionItem</value>
                 <value>uif-gridCollectionItem</value>
-                <value>ks-stackedCollectionItem</value>
+                <value>krms-stackedCollectionItem</value>
             </list>
         </property>
         <property name="footer">
@@ -158,7 +158,7 @@
         </property>
         <property name="cssClasses">
             <list merge="true">
-                <value>ks-stackedCollectionLayout</value>
+                <value>krms-stackedCollectionLayout</value>
             </list>
         </property>
     </bean>
@@ -177,7 +177,7 @@
                 <bean parent="Uif-DeleteLineAction">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ks-stackedActionItem</value>
+                            <value>krms-stackedActionItem</value>
                         </list>
                     </property>
                 </bean>
@@ -328,7 +328,7 @@
                 <bean parent="Uif-DeleteLineAction">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ks-stackedActionItem</value>
+                            <value>krms-stackedActionItem</value>
                         </list>
                     </property>
                 </bean>

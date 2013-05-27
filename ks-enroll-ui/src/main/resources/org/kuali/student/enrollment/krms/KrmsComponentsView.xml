@@ -24,7 +24,7 @@
             <list>
                 <ref bean="KRMS-Clu-Components-Section" />
                 <ref bean="KRMS-Org-Components-Section" />
-                <ref bean="KRMS-Tree-Section"/>
+                <ref bean="KRMS-TestTree-Section"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Progressive Disclosure with dropdown on LightBox" p:actionScript="showLightboxComponent('myDropdownLightBox');"/>
             </list>
         </property>
@@ -79,7 +79,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-Tree-Section" parent="Uif-TreeSection">
+    <bean id="KRMS-TestTree-Section" parent="Uif-TreeSection">
         <property name="headerText" value="Basic String Data tree"/>
         <property name="instructionalText" value="Data Tree"/>
         <property name="propertyName" value="tree1"/>

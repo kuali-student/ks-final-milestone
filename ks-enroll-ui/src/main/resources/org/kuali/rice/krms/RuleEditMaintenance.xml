@@ -66,7 +66,7 @@
         </property>
     </bean>
 
-    <bean id="KS-EditWithLogic-EditGroup" parent="Uif-VerticalBoxGroup"
+    <bean id="KRMS-EditWithLogic-EditGroup" parent="Uif-VerticalBoxGroup"
           p:style="padding: 5px; margin: 5px; background: white; margin-top:null" p:forceSessionPersistence="true">
         <property name="items">
             <list>
@@ -74,7 +74,7 @@
                 <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                 <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
                     is needed for the javascript hack that is refreshing -->
-                <bean id="KS-EditWithLogic-TreeGroup" parent="Uif-VerticalBoxGroup"
+                <bean id="KRMS-EditWithLogic-TreeGroup" parent="Uif-VerticalBoxGroup"
                       p:style="margin-bottom: 5pt; margin-top: 0em;" p:refreshWhenChangedPropertyNames="this.is.a.hack">
                     <property name="layoutManager.orientation" value="VERTICAL"/>
                     <property name="items">
@@ -90,11 +90,11 @@
                                   p:methodToCall="updatePreview">
                                 <property name="actionLabel" value="Preview Change"/>
                             </bean>
-                            <bean id="LogicPreview-Tree" parent="Uif-VerticalBoxGroup" p:cssClasses="editModeNode"
+                            <bean id="LogicPreview-Tree" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode"
                                   p:width="50%" p:style="border: 1px solid #999999">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-PreviewTree-Section"/>
+                                        <bean parent="KRMS-PreviewTree-Section"/>
                                     </list>
                                 </property>
                             </bean>
@@ -105,7 +105,7 @@
         </property>
     </bean>
 
-    <bean id="KS-EditWithObject-EditGroup" parent="Uif-VerticalBoxGroup"
+    <bean id="KRMS-EditWithObject-EditGroup" parent="Uif-VerticalBoxGroup"
           p:style="padding: 5px; margin: 5px; background: white; margin-top:null ">
         <property name="headerText" value="Proposition Tree"/>
         <property name="items">
@@ -132,11 +132,11 @@
                             <bean parent="Uif-Message" p:messageText="Click on rule statement to edit"
                                   p:style="font-weight:bold;margin-left: 2em;"/>
                             <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-                            <bean id="RuleStudentEditorView-Tree" parent="KS-RulerEditor-TreeSection-parent"
+                            <bean id="RuleStudentEditorView-Tree" parent="KRMS-RulerEditor-TreeSection-parent"
                                   p:forceSessionPersistence="true"/>
-                            <bean id="proposition_selected" parent="KS-Rules-HiddenField" p:propertyName="selectedKey"/>
-                            <bean id="proposition_copy" parent="KS-Rules-HiddenField" p:propertyName="copyKey"/>
-                            <bean id="proposition_cut" parent="KS-Rules-HiddenField" p:propertyName="cutKey"/>
+                            <bean id="proposition_selected" parent="KRMS-Rules-HiddenField" p:propertyName="selectedKey"/>
+                            <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>
+                            <bean id="proposition_cut" parent="KRMS-Rules-HiddenField" p:propertyName="cutKey"/>
                         </list>
                     </property>
                 </bean>
@@ -144,13 +144,13 @@
         </property>
     </bean>
 
-    <bean id="KS-Rules-HiddenField" parent="Uif-InputField" p:showLabel="false">
+    <bean id="KRMS-Rules-HiddenField" parent="Uif-InputField" p:showLabel="false">
         <property name="control">
             <bean parent="Uif-HiddenControl"/>
         </property>
     </bean>
 
-    <bean id="KS-PropKey-HiddenField" parent="KS-Rules-HiddenField" p:propertyName="proposition.key"
+    <bean id="KRMS-PropKey-HiddenField" parent="KRMS-Rules-HiddenField" p:propertyName="proposition.key"
           p:showLabel="false" p:label="id" p:maxLength="255">
         <property name="control">
             <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
@@ -390,22 +390,22 @@
         </property>
     </bean>
 
-    <bean id="KS-RulerEditor-TreeSection-parent" parent="Uif-TreeSection" p:disclosure.render="false"
+    <bean id="KRMS-RulerEditor-TreeSection-parent" parent="Uif-TreeSection" p:disclosure.render="false"
           p:header.render="false" p:id="editWithObjectTree"
           p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
+        <property name="template" value="/ks-enroll/ftl/ruleTreeGroup.ftl"/>
+        <property name="templateName" value="uif_ruleTreeGroup"/>
         <property name="propertyName" value="editTree"/>
         <property name="validationMessages.displayMessages" value="true"/>
         <property name="validationMessages.displayFieldLabelWithMessages" value="false"/>
         <property name="tree">
             <bean parent="RuleTreeWidget">
-                <!--property name="template" value="/ks-enroll/ftl/rulePreviewTree.ftl"/>
-                <property name="templateName" value="uif_rulePreviewTree"/-->
                 <property name="templateOptions">
                     <map>
                         <entry key="'plugins'"
                                value="['themes','html_data', 'ui', 'crrm', 'dnd']"/>
                         <entry key="'themes'"
-                               value="{'theme':'default','dots':'false','icons':'false'}"/>
+                               value="{'theme':'editrule','dots':'false','icons':'false'}"/>
                         <entry key="'ui'" value="{ 'select_limit' : 1 }"/>
                         <entry key="'dnd'" value="{ 'drag_target' : false, 'drop_target' : false }"/>
                     </map>
@@ -415,25 +415,22 @@
         <property name="nodePrototypeMap">
             <map key-type="java.lang.Class">
                 <entry key="#{ T(org.kuali.rice.krms.tree.node.RuleEditorTreeNode) }">
-                    <bean parent="KS-RuleTreeNodePrototype"/>
+                    <bean parent="KRMS-RuleTreeNodePrototype"/>
                 </entry>
                 <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode) }">
-                    <bean parent="KS-SimplePropositionNodePrototype"/>
+                    <bean parent="KRMS-SimplePropositionNodePrototype"/>
                 </entry>
                 <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode) }">
-                    <bean parent="KS-SimplePropositionEditNodePrototype"/>
+                    <bean parent="KRMS-SimplePropositionEditNodePrototype"/>
                 </entry>
                 <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSCompoundOpCodeNode) }">
-                    <bean parent="KS-CompoundOpCodeNodePrototype"/>
-                </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSCompoundPropositionEditNode) }">
-                    <bean parent="KS-CompoundPropositionEditNodePrototype"/>
+                    <bean parent="KRMS-CompoundOpCodeNodePrototype"/>
                 </entry>
             </map>
         </property>
     </bean>
 
-    <bean id="KS-RuleTreeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+    <bean id="KRMS-RuleTreeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
         <property name="labelPrototype">
             <bean parent="Uif-Message"/>
         </property>
@@ -442,7 +439,7 @@
                 <property name="items">
                     <list>
 
-                        <bean parent="KS-PropKey-HiddenField"/>
+                        <bean parent="KRMS-PropKey-HiddenField"/>
 
                     </list>
                 </property>
@@ -450,9 +447,9 @@
         </property>
     </bean>
 
-    <bean id="KS-SimplePropositionNodePrototype" parent="KS-RuleTreeNodePrototype"/>
+    <bean id="KRMS-SimplePropositionNodePrototype" parent="KRMS-RuleTreeNodePrototype"/>
 
-    <bean id="KS-SimplePropositionEditNodePrototype" parent="KS-SimplePropositionNodePrototype">
+    <bean id="KRMS-SimplePropositionEditNodePrototype" parent="KRMS-SimplePropositionNodePrototype">
         <property name="labelPrototype">
             <bean id="RuleMessage" parent="Uif-Message">
                 <property name="cssClasses">
@@ -462,22 +459,21 @@
                 </property>
             </bean>
         </property>
-        <property name="dataGroupPrototype">
 
+        <property name="dataGroupPrototype">
             <bean parent="PropositionBo-MaintenanceView-Custom-parentBean" p:cssClasses="editModeNode">
                 <property name="layoutManager.orientation" value="VERTICAL"/>
             </bean>
-
         </property>
     </bean>
 
-    <bean id="KS-CompoundOpCodeNodePrototype" parent="KS-RuleTreeNodePrototype">
+    <bean id="KRMS-CompoundOpCodeNodePrototype" parent="KRMS-RuleTreeNodePrototype">
         <property name="dataGroupPrototype">
-            <bean parent="Uif-HorizontalBoxGroup"> <!--p:style="padding-bottom: 10pt;">-->
+            <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
 
-                        <bean parent="KS-PropKey-HiddenField"/>
+                        <bean parent="KRMS-PropKey-HiddenField"/>
 
                         <bean parent="Uif-InputField" p:propertyName="proposition.compoundOpCode"
                               p:style="margin-left: 12pt;" p:showLabel="false" p:label="operator" p:maxLength="20">
@@ -488,30 +484,6 @@
                                 <bean class="org.kuali.rice.krms.impl.ui.CompoundOpCodeValuesFinder"/>
                             </property>
                         </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
-    </bean>
-
-    <bean id="KS-CompoundPropositionEditNodePrototype" parent="KS-CompoundOpCodeNodePrototype">
-        <property name="dataGroupPrototype">
-            <bean parent="Uif-HorizontalBoxGroup">
-                <property name="items">
-                    <list>
-
-                        <bean parent="KS-PropKey-HiddenField"/>
-
-                        <bean parent="Uif-InputField" p:propertyName="proposition.description"
-                              p:constraintText="size 100"
-                              p:showLabel="false" p:label="description" p:maxLength="255" p:style="margin-left: 12pt">
-                            <property name="control">
-                                <bean parent="Uif-TextControl" p:size="100" p:maxLength="100"
-                                      p:watermarkText="Enter a Compound Proposition Description"
-                                      p:cssClasses="editDescription"/>
-                            </property>
-                        </bean>
-
                     </list>
                 </property>
             </bean>

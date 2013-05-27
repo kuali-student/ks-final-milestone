@@ -47,18 +47,6 @@
     margin-right: 0px;
 }
 
-#RuleStudentEditorView-Tree .editModeNode {
-    border: 1px solid;
-    margin-bottom: 5px;
-    margin-left: 18px;
-    margin-right: 5px;
-    padding: 10px;
-}
-
-#RuleStudentEditorView-Tree .compoundNode {
-    font-size: 1.6em;
-}
-
 .rootNode {
     border-bottom: #000000 solid 2px;
 }
@@ -90,14 +78,14 @@
 
 }
 
-.ks-rulesection {
+.krms-rulesection {
     border-bottom:solid 2px #000;
     margin-bottom:5px;
     margin-top:15px;
     font-weight: bold;
 }
 
-.ks-rulesubsection {
+.krms-rulesubsection {
     border-bottom:solid 1px #000;
     margin-bottom:5px;
     margin-top:5px;
@@ -105,29 +93,39 @@
     max-width: 54em;
 }
 
-.ks-ruleViewSection {
+.krms-ruleViewTreeSection {
     margin: 10px;
 }
 
-.ks-stackedCollectionLayout {
+.krms-ruleViewSection {
+    margin: 10px;
+}
+
+.krms-agendaHeader {
+    border-bottom: solid 2px #000;
+    margin-bottom: 5px;
+    margin-top:15px;
+}
+
+.krms-stackedCollectionLayout {
     padding: 0px;
     background-image: none;
 }
 
-.ks-stackedCollectionItem {
+.krms-stackedCollectionItem {
     border: 1px solid #B2B2B2;
     margin-bottom: 5px !important;
     padding: 5px !important;
     background-color: transparent !important;
 }
 
-.ks-stackedPreviewItem {
+.krms-stackedPreviewItem {
     margin-bottom: 0px !important;
     margin-left: 20px;
     background-color: transparent !important;
 }
 
-.ks-stackedActionItem {
+.krms-stackedActionItem {
     margin: 0px !important;
 }
 
@@ -138,11 +136,11 @@
 .ruleCopySelected {
     background-color:#F4E271 !important; border: 1px dashed goldenrod;
 }
-.ks-edit-link {
+.krms-edit-link {
     color:#00aa00 !important;
 }
 
-.ks-editVerticalBox {
+.krms-editVerticalBox {
     padding: 0px !important;
     line-height:16px !important;
     margin-bottom: 0px!important;

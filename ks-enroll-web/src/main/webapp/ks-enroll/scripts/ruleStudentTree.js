@@ -76,11 +76,11 @@ function ajaxCallOnTabSelect(event, ui) {
             if (updateButton.length) {
 
                 //Force an updateProposition if any proposition is in edit mode.
-                ajaxCallPropositionTree('updateProposition', 'KS-EditWithLogic-EditGroup');
+                ajaxCallPropositionTree('updateProposition', 'KRMS-EditWithLogic-EditGroup');
             } else {
 
                 //Refresh the preview tree.
-                retrieveComponent('KS-EditWithLogic-EditGroup');
+                retrieveComponent('KRMS-EditWithLogic-EditGroup');
             }
         }
     } else {
@@ -365,7 +365,7 @@ function initRuleTree(componentId) {
             var selectedItemTracker = getSelectedPropositionInput();
             selectedItemTracker.val(propositionId);
 
-            ajaxCallPropositionTree('updateCompoundOperator', 'KS-RuleEdit-TabSection');
+            ajaxCallPropositionTree('updateCompoundOperator', 'KRMS-RuleEdit-TabSection');
         })
 
     });
@@ -375,7 +375,7 @@ function initRuleTree(componentId) {
     createTree(componentId, {
         'plugins': ['themes', 'html_data', 'ui', 'crrm', 'types' /*, 'dnd' */ ], // disabled drag and drop plugin
         'ui': { 'select_limit': 1 },
-        'themes': { 'theme': 'krms', 'dots': true, 'icons': false },
+        'themes': { 'theme': 'editrule', 'dots': true, 'icons': false },
         'crrm': {
             /* This is where you can control what is draggable onto what within the tree: */
             'move': {
@@ -426,7 +426,7 @@ function initPreviewTree(componentId) {
     createTree(componentId, {
         'plugins': ['themes', 'html_data', 'ui', 'crrm', 'types' /*, 'dnd' */ ], // disabled drag and drop plugin
         'ui': { 'select_limit': 1 },
-        'themes': { 'theme': 'view', 'dots': true, 'icons': false },
+        'themes': { 'theme': 'viewrule', 'dots': true, 'icons': false },
         'crrm': {
             /* This is where you can control what is draggable onto what within the tree: */
             'move': {

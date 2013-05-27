@@ -31,7 +31,7 @@
                   value="org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl"/>
         <property name="page.items">
             <list>
-                <ref bean="KS-Rules-ManageSection"/>
+                <ref bean="KRMS-Rules-ManageSection"/>
             </list>
         </property>
         <property name="page.footer.items">
@@ -41,24 +41,24 @@
             <list>
                 <bean id="courseRangeLightBox" parent="KRMS-CourseRangeLightBox"/>
                 <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
-                <bean id="compareRuleLightBox" parent="KS-CompareRule"/>
+                <bean id="compareRuleLightBox" parent="KRMS-CompareRule"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-Rules-ManageSection" parent="Uif-VerticalBoxSection">
+    <bean id="KRMS-Rules-ManageSection" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
 
                 <bean parent="Uif-PageHeader" p:headerText="@{#dp.cluDescription}"/>
 
-                <bean id="KS-RuleView-Section" parent="KS-VerticalBoxSection" p:style="max-width: 54em;">
+                <bean id="KRMS-RuleView-Section" parent="KRMS-VerticalBoxSection" p:style="max-width: 54em;">
                     <property name="headerText" value="@{#dp.ruleEditor.ruleTypeInfo.description}"/>
                     <property name="header.rightGroup">
                         <bean parent="Uif-HeaderRightGroup">
                             <property name="items">
                                 <list>
-                                    <ref bean="KS-RulePreview-Links"/>
+                                    <ref bean="KRMS-RulePreview-Links"/>
                                 </list>
                             </property>
                         </bean>
@@ -66,12 +66,12 @@
                     <property name="instructionalText" value="@{#dp.ruleEditor.ruleTypeInfo.instruction}"/>
                 </bean>
 
-                <bean id="KS-RuleEdit-TabSection" parent="Uif-TabSection">
+                <bean id="KRMS-RuleEdit-TabSection" parent="Uif-TabSection">
                     <property name="forceSessionPersistence" value="true"/>
                     <property name="items">
                         <list>
-                            <bean parent="KS-EditWithObject-EditSection"/>
-                            <bean parent="KS-EditWithLogic-EditSection"/>
+                            <bean parent="KRMS-EditWithObject-EditSection"/>
+                            <bean parent="KRMS-EditWithLogic-EditSection"/>
                         </list>
                     </property>
                     <property name="tabsWidget">
@@ -90,26 +90,26 @@
 
     </bean>
 
-    <bean id="KS-EditWithObject-EditSection" parent="Uif-VerticalBoxSection"
+    <bean id="KRMS-EditWithObject-EditSection" parent="Uif-VerticalBoxSection"
           p:headerText="Edit Rule" p:header.render="false">
         <property name="items">
             <list>
-                <bean parent="KS-EditWithObject-EditGroup"/>
+                <bean parent="KRMS-EditWithObject-EditGroup"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-EditWithLogic-EditSection" parent="Uif-VerticalBoxSection"
+    <bean id="KRMS-EditWithLogic-EditSection" parent="Uif-VerticalBoxSection"
           p:headerText="Edit Rule Logic" p:header.render="false">
         <property name="validationMessages.displayMessages" value="true"/>
         <property name="items">
             <list>
-                <ref bean="KS-EditWithLogic-EditGroup"/>
+                <ref bean="KRMS-EditWithLogic-EditGroup"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-RulePreview-Links" parent="Uif-LinkGroup">
+    <bean id="KRMS-RulePreview-Links" parent="Uif-LinkGroup">
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
@@ -122,24 +122,24 @@
         <property name="headerText" value="Rule"/>
     </bean>
 
-    <bean id="KS-VerticalBoxSubSection" parent="Uif-VerticalBoxSubSection">
+    <bean id="KRMS-VerticalBoxSubSection" parent="Uif-VerticalBoxSubSection">
         <property name="header">
             <bean parent="Uif-SubSectionHeader">
                 <property name="cssClasses">
                     <list merge="true">
-                        <value>ks-rulesubsection</value>
+                        <value>krms-rulesubsection</value>
                     </list>
                 </property>
             </bean>
         </property>
     </bean>
 
-    <bean id="KS-VerticalBoxSection" parent="Uif-VerticalBoxSection">
+    <bean id="KRMS-VerticalBoxSection" parent="Uif-VerticalBoxSection">
         <property name="header">
             <bean parent="Uif-SectionHeader">
                 <property name="cssClasses">
                     <list merge="true">
-                        <value>ks-rulesection</value>
+                        <value>krms-rulesection</value>
                     </list>
                 </property>
             </bean>
@@ -152,23 +152,23 @@
         <property name="templateName" value="uif_rulePreviewTree"/>
         <property name="templateOptions">
             <map>
-                <entry key="themes" value="{'theme' : 'view', 'dots' : 'true', 'icons' : 'false'}"/>
+                <entry key="themes" value="{'theme' : 'viewrule', 'dots' : 'true', 'icons' : 'false'}"/>
                 <entry key="plugins" value="[ 'themes','html_data' ]"/>
             </map>
         </property>
     </bean>
     <bean id="KRMS-Tree" parent="KRMS-Tree-parent"/>
 
-    <bean id="KS-Tree-Section-parent" parent="Uif-TreeSection">
+    <bean id="KRMS-Tree-Section-parent" parent="Uif-TreeSection">
         <property name="template" value="/ks-enroll/ftl/ruleTreeGroup.ftl"/>
         <property name="templateName" value="uif_ruleTreeGroup"/>
         <property name="tree">
             <bean parent="KRMS-Tree"/>
         </property>
     </bean>
-    <bean id="KS-Tree-Section" parent="KS-Tree-Section-parent"/>
+    <bean id="KRMS-Tree-Section" parent="KRMS-Tree-Section-parent"/>
 
-    <bean id="KS-ViewTree-Section-parent" parent="KS-Tree-Section" class="org.kuali.rice.krms.util.ViewTreeGroup">
+    <bean id="KRMS-ViewTree-Section-parent" parent="KRMS-Tree-Section" class="org.kuali.rice.krms.util.ViewTreeGroup">
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
                 <property name="labelPrototype">
@@ -183,7 +183,7 @@
                                     <bean parent="Uif-CollectionHorizontalBoxItem">
                                         <property name="cssClasses">
                                             <list merge="true">
-                                                <value>ks-stackedPreviewItem</value>
+                                                <value>krms-stackedPreviewItem</value>
                                             </list>
                                         </property>
                                         <property name="renderFooter" value="false"/>
@@ -191,7 +191,7 @@
                                 </property>
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>ks-stackedCollectionLayout</value>
+                                        <value>krms-stackedCollectionLayout</value>
                                     </list>
                                 </property>
                             </bean>
@@ -218,18 +218,18 @@
         </property>
         <property name="cssClasses">
             <list merge="true">
-                <value>ks-ruleViewSection</value>
+                <value>krms-ruleViewTreeSection</value>
             </list>
         </property>
     </bean>
-    <bean id="KS-ViewTree-Section" parent="KS-ViewTree-Section-parent"/>
+    <bean id="KRMS-ViewTree-Section" parent="KRMS-ViewTree-Section-parent"/>
 
-    <bean id="KS-View-Section-parent" parent="KS-ViewTree-Section">
+    <bean id="KRMS-View-Section-parent" parent="KRMS-ViewTree-Section">
         <property name="propertyName" value="viewTree"/>
     </bean>
-    <bean id="KS-View-Section" parent="KS-View-Section-parent"/>
+    <bean id="KRMS-View-Section" parent="KRMS-View-Section-parent"/>
 
-    <bean id="KS-CompareTree-Section-parent" parent="KS-Tree-Section" p:style="width: 800px;">
+    <bean id="KRMS-CompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 800px;">
         <property name="propertyName" value="compareTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
@@ -254,19 +254,19 @@
             </bean>
         </property>
     </bean>
-    <bean id="KS-CompareTree-Section" parent="KS-CompareTree-Section-parent"/>
+    <bean id="KRMS-CompareTree-Section" parent="KRMS-CompareTree-Section-parent"/>
 
     <!--Compare Link-->
-    <bean id="KS-CompareRule-parent" parent="Uif-VerticalBoxSection" p:style="width: 850px;">
+    <bean id="KRMS-CompareRule-parent" parent="Uif-VerticalBoxSection" p:style="width: 850px;">
         <property name="hidden" value="true"/>
         <property name="headerText" value="Compare CLU and CO Requisites"/>
         <property name="items">
             <list>
-                <bean parent="KS-VerticalBoxSection">
+                <bean parent="KRMS-VerticalBoxSection">
                     <property name="headerText" value="@{#dp.compareLightBoxHeader}"/>
                     <property name="items">
                         <list>
-                            <ref bean="KS-CompareTree-Section"/>
+                            <ref bean="KRMS-CompareTree-Section"/>
                         </list>
                     </property>
 
@@ -284,9 +284,9 @@
             </list>
         </property>
     </bean>
-    <bean id="KS-CompareRule" parent="KS-CompareRule-parent"/>
+    <bean id="KRMS-CompareRule" parent="KRMS-CompareRule-parent"/>
 
-    <bean id="KS-Preview-Section-parent" parent="KS-Tree-Section">
+    <bean id="KRMS-Preview-Section-parent" parent="KRMS-Tree-Section">
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
                 <property name="labelPrototype">
@@ -309,7 +309,7 @@
                                                 </property>
                                                 <property name="cssClasses">
                                                     <list merge="true">
-                                                        <value>ks-edit-link</value>
+                                                        <value>krms-edit-link</value>
                                                     </list>
                                                 </property>
                                             </bean>
@@ -317,7 +317,7 @@
                                     </property>
                                     <property name="cssClasses">
                                         <list merge="true">
-                                            <value>ks-editVerticalBox</value>
+                                            <value>krms-editVerticalBox</value>
                                         </list>
                                     </property>
 
@@ -329,7 +329,7 @@
                                                 <bean parent="Uif-CollectionHorizontalBoxItem">
                                                     <property name="cssClasses">
                                                         <list merge="true">
-                                                            <value>ks-stackedPreviewItem</value>
+                                                            <value>krms-stackedPreviewItem</value>
                                                         </list>
                                                     </property>
                                                     <property name="renderFooter" value="false"/>
@@ -337,7 +337,7 @@
                                             </property>
                                             <property name="cssClasses">
                                                 <list merge="true">
-                                                    <value>ks-stackedCollectionLayout</value>
+                                                    <value>krms-stackedCollectionLayout</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -363,15 +363,15 @@
         </property>
         <property name="cssClasses">
             <list merge="true">
-                <value>ks-ruleViewSection</value>
+                <value>krms-ruleViewTreeSection</value>
             </list>
         </property>
     </bean>
-    <bean id="KS-Preview-Section" parent="KS-Preview-Section-parent"/>
+    <bean id="KRMS-Preview-Section" parent="KRMS-Preview-Section-parent"/>
 
-    <bean id="KS-PreviewTree-Section-parent" parent="KS-Preview-Section">
+    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Preview-Section">
         <property name="propertyName" value="previewTree"/>
     </bean>
-    <bean id="KS-PreviewTree-Section" parent="KS-PreviewTree-Section-parent"/>
+    <bean id="KRMS-PreviewTree-Section" parent="KRMS-PreviewTree-Section-parent"/>
 
 </beans>

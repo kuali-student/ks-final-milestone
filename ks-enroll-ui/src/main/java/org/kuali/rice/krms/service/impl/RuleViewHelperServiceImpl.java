@@ -105,7 +105,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
-        if ("KS-PropositionEdit-DetailSection".equals(container.getId())) {
+        if ("KRMS-PropositionEdit-DetailSection".equals(container.getId())) {
             customizePropositionEditSection(view, model, container);
         }
     }
@@ -135,6 +135,14 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                 //Add Proposition Type FieldGroup to Tree Node
                 components.add(component);
             }
+        }
+
+        //Do not display if there are no components.
+        if(components.size()==0){
+            container.setRender(false);
+        }
+        else {
+            container.setRender(true);
         }
 
         container.setItems(components);

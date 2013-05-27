@@ -54,6 +54,30 @@ public class AcademicCalendarForm extends UifFormBase {
     private List<AcademicTermWrapper> termsToDeleteOnSave;
     private boolean reload;
 
+    // needed to delete term
+    private String selectedCollectionPath;
+    private String selectedLineIndex;
+
+    //Temporarily add the following two fields to overcome DD validation on addLine problem
+    private boolean addLineValid;
+    private String validationJSONString;
+
+    public String getValidationJSONString() {
+        return validationJSONString;
+    }
+
+    public void setValidationJSONString(String validationJSONString) {
+        this.validationJSONString = validationJSONString;
+    }
+
+    public boolean isAddLineValid() {
+        return addLineValid;
+    }
+
+    public void setAddLineValid(boolean addLineValid) {
+        this.addLineValid = addLineValid;
+    }
+
     public AcademicCalendarForm() {
         super();
         academicCalendarInfo = new AcademicCalendarInfo();
@@ -65,6 +89,8 @@ public class AcademicCalendarForm extends UifFormBase {
         defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
         eventsToDeleteOnSave = new ArrayList<AcalEventWrapper>();
         termsToDeleteOnSave = new ArrayList<AcademicTermWrapper>();
+        addLineValid = true;
+        validationJSONString = new String();
     }
 
     /**
@@ -321,6 +347,22 @@ public class AcademicCalendarForm extends UifFormBase {
         setTermsToDeleteOnSave(new ArrayList<AcademicTermWrapper>());
         setTermWrapperList(new ArrayList<AcademicTermWrapper>());
         setNewCalendar(false);
+    }
+
+    public String getSelectedLineIndex() {
+        return selectedLineIndex;
+    }
+
+    public void setSelectedLineIndex(String selectedLineIndex) {
+        this.selectedLineIndex = selectedLineIndex;
+    }
+
+    public String getSelectedCollectionPath() {
+        return selectedCollectionPath;
+    }
+
+    public void setSelectedCollectionPath(String selectedCollectionPath) {
+        this.selectedCollectionPath = selectedCollectionPath;
     }
 
 }

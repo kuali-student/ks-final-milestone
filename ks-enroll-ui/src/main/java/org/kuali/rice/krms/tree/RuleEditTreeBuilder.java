@@ -79,17 +79,10 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                 sprout.getChildren().add(leaf);
             } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
                 // Compound Proposition: editMode has description as an editable field
-                if (prop.isEditMode()) {
-                    leaf.setNodeLabel("");
-                    leaf.setNodeType(KSCompoundPropositionEditNode.NODE_TYPE);
-                    KSCompoundPropositionEditNode pNode = new KSCompoundPropositionEditNode(prop);
-                    leaf.setData(pNode);
-                } else {
-                    leaf.setNodeLabel(this.buildNodeLabel(rule, prop));
-                    leaf.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
-                    RuleEditorTreeNode pNode = new RuleEditorTreeNode(prop);
-                    leaf.setData(pNode);
-                }
+                leaf.setNodeLabel(this.buildNodeLabel(rule, prop));
+                leaf.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
+                RuleEditorTreeNode pNode = new RuleEditorTreeNode(prop);
+                leaf.setData(pNode);
                 sprout.getChildren().add(leaf);
 
                 int counter = 0;
@@ -130,7 +123,6 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
     private void addOpCodeNode(Node currentNode, PropositionEditor prop, int counter) {
         //Create the node.
         Node<KSCompoundOpCodeNode, String> aNode = new Node<KSCompoundOpCodeNode, String>();
-        aNode.setNodeLabel("");
         aNode.setNodeType("ruleTreeNode compoundOpCodeNode");
 
         //Add a dummy editor.

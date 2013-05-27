@@ -75,12 +75,12 @@
 
         <property name="dialogs">
             <list>
-                <ref bean="KS-HolidayCalender-ConfirmDelete-Dialog"/>
+                <ref bean="KS-HolidayCalendar-ConfirmDelete-Dialog"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-HolidayCalender-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
+    <bean id="KS-HolidayCalendar-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
         <property name="renderHeader" value="false"/>
         <property name="promptText"
                   value="Are you sure you want to delete the Holiday Calendar?"/>
