@@ -100,7 +100,6 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/TestStatePropagation-Page1.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CreateSocPageView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CreateSocPage-SelectTermPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/KSPersonMaintenance.xml</value>
@@ -109,7 +108,6 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeInfoMaintenanceDocument.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/RolloverResultsPageView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ManageRegistrationGroupsView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementView.xml</value>
@@ -127,8 +125,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingCreateMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/OrganizationInfoLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DeleteTargetTermView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-SelectTermPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverManagement-ReleaseToDeptsPage.xml</value>
+
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingWrapperLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ManageSOCView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingEditPage.xml</value>
@@ -136,6 +133,12 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/BuildingLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RoomLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
+
+                <!-- Course Offering Rollover Pages -->
+                <value>classpath:org/kuali/student/enrollment/courseoffering/rollover/CourseOfferingRolloverManagement-SelectTermPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/rollover/CourseOfferingRolloverManagement-ReleaseToDeptsPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/rollover/CourseOfferingRolloverManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/rollover/RolloverResultsPageView.xml</value>
 
                 <!-- Auto Gen Registratoin Groups -->
                 <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewActivityOfferingsSection.xml</value>
