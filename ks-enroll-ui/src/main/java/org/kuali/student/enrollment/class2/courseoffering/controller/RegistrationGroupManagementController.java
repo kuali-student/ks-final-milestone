@@ -95,12 +95,12 @@ public class RegistrationGroupManagementController extends UifControllerBase {
             List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(formatOfferingList.get(0).getId(), theForm);
     
             for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
-                String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-                aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
-                aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
-                aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
-                aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
-                aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+//  TODOSSR              String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+//                aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
+//                aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+//                aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+//                aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+//                aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
             }
             theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
     
@@ -143,12 +143,12 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         //get unassgined AOs (didn't belong to any cluster)
         filteredAOs = getAOsWithoutClusterForSelectedFO(theForm.getFormatOfferingIdForViewRG(), theForm);
         for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
-            String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
-            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
-            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
-            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
-            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+//TODOSSR            String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+//            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
+//            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+//            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+//            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+//            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
         }
         theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
 
@@ -636,12 +636,12 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         List<ActivityOfferingWrapper> filteredAOs = getAOsWithoutClusterForSelectedFO(updatedSelectedAOCInfo.getFormatOfferingId(), theForm);
 
         for (ActivityOfferingWrapper aoWrapper : filteredAOs) {
-            String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
-            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
-            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
-            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
-            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+//  TODOSSR          String cssClass = (aoWrapper.getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+//            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
+//            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+//            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+//            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+//            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
         }
 
         theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
@@ -654,12 +654,12 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         List<ActivityOfferingInfo> aosInCluster = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfo.getId(), ContextUtils.createDefaultContextInfo());
         for (ActivityOfferingInfo aoInfo : aosInCluster) {
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
-            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
-            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
-            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
-            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
-            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+//TODOSSR            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+//            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
+//            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+//            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+//            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+//            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
 
             filteredClusteredAOs.add(aoWrapper);
 
@@ -798,12 +798,12 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         List<ActivityOfferingInfo> aosInClusterFrom = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfoFrom.getId(), ContextUtils.createDefaultContextInfo());
         for ( ActivityOfferingInfo aoInfo : aosInClusterFrom) {
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
-            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
-            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
-            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
-            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
-            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+// TODOSSR           String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+//            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
+//            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+//            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+//            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+//            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
 
             filteredClusteredAOsFrom.add(aoWrapper);
         }
@@ -812,12 +812,12 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         List<ActivityOfferingInfo> aosInClusterTo = getCourseOfferingService().getActivityOfferingsByCluster(updatedSelectedAOCInfoTo.getId(), ContextUtils.createDefaultContextInfo());
         for (ActivityOfferingInfo aoInfo : aosInClusterTo) {
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
-            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
-            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
-            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
-            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
-            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+// TODOSSR           String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+//            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
+//            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+//            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+//            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+//            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
 
             filteredClusteredAOsTo.add(aoWrapper);
 
@@ -960,12 +960,12 @@ public class RegistrationGroupManagementController extends UifControllerBase {
         for(ActivityOfferingInfo aoInfo: aoInfoList){
             ActivityOfferingWrapper aoWrapper = getViewHelperService(theForm).convertAOInfoToWrapper(aoInfo);
 
-            String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
-            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
-            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
-            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
-            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
+// TODOSSR           String cssClass = (aoInfo.getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+//            aoWrapper.setDaysDisplayName(aoWrapper.getDaysDisplayName(), false, cssClass);
+//            aoWrapper.setStartTimeDisplay(aoWrapper.getStartTimeDisplay(), false, cssClass);
+//            aoWrapper.setEndTimeDisplay(aoWrapper.getEndTimeDisplay(), false, cssClass);
+//            aoWrapper.setBuildingName(aoWrapper.getBuildingName(), false, cssClass);
+//            aoWrapper.setRoomName(aoWrapper.getRoomName(), false, cssClass);
 
             aoWrapperListPerCluster.add(aoWrapper);
         }
@@ -1151,42 +1151,42 @@ public class RegistrationGroupManagementController extends UifControllerBase {
             rgWrapper.setRgInfo(rgInfo);
             String aoActivityCodeText = "", aoStateNameText = "", aoTypeNameText = "", aoInstructorText = "", aoMaxEnrText = "";
             for (String aoID : rgInfo.getActivityOfferingIds()) {
-                String cssClass = (filteredAOsHM.get(aoID).getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
-                if (filteredAOsHM.get(aoID).getAoInfo().getActivityCode() != null && !filteredAOsHM.get(aoID).getAoInfo().getActivityCode().equalsIgnoreCase("")) {
-                    aoActivityCodeText = aoActivityCodeText + filteredAOsHM.get(aoID).getAoInfo().getActivityCode() + "<br/>";
-                }
-                if (filteredAOsHM.get(aoID).getStateName() != null && !filteredAOsHM.get(aoID).getStateName().equalsIgnoreCase("")) {
-                    aoStateNameText = aoStateNameText + filteredAOsHM.get(aoID).getStateName() + "<br/>";
-                }
-                if (filteredAOsHM.get(aoID).getTypeName() != null && !filteredAOsHM.get(aoID).getTypeName().equalsIgnoreCase("")) {
-                    aoTypeNameText = aoTypeNameText + filteredAOsHM.get(aoID).getTypeName() + "<br/>";
-                }
-                if (filteredAOsHM.get(aoID).getFirstInstructorDisplayName() != null && !filteredAOsHM.get(aoID).getFirstInstructorDisplayName().equalsIgnoreCase("")) {
-                    aoInstructorText = aoInstructorText + filteredAOsHM.get(aoID).getFirstInstructorDisplayName() + "<br/>";
-                }
-                if (filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment() != null) {
-                    aoMaxEnrText = aoMaxEnrText + Integer.toString(filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment()) + "<br/>";
-                }
-
-                if(filteredAOsHM.get(aoID).getStartTimeDisplay() != null){
-                    rgWrapper.setStartTimeDisplay(filteredAOsHM.get(aoID).getStartTimeDisplay(), true, cssClass);
-                }
-
-                if(filteredAOsHM.get(aoID).getEndTimeDisplay() != null){
-                    rgWrapper.setEndTimeDisplay(filteredAOsHM.get(aoID).getEndTimeDisplay(), true, cssClass);
-                }
-
-                if(filteredAOsHM.get(aoID).getBuildingName() != null){
-                    rgWrapper.setBuildingName(filteredAOsHM.get(aoID).getBuildingName(), true, cssClass);
-                }
-
-                if(filteredAOsHM.get(aoID).getRoomName() != null){
-                    rgWrapper.setRoomName(filteredAOsHM.get(aoID).getRoomName(), true, cssClass);
-                }
-
-                if(filteredAOsHM.get(aoID).getDaysDisplayName() != null){
-                    rgWrapper.setDaysDisplayName(filteredAOsHM.get(aoID).getDaysDisplayName(), true, cssClass);
-                }
+// TODOSSR               String cssClass = (filteredAOsHM.get(aoID).getAoInfo().getScheduleId() == null ? "uif-scheduled-dl" : "uif-actual-dl");
+//                if (filteredAOsHM.get(aoID).getAoInfo().getActivityCode() != null && !filteredAOsHM.get(aoID).getAoInfo().getActivityCode().equalsIgnoreCase("")) {
+//                    aoActivityCodeText = aoActivityCodeText + filteredAOsHM.get(aoID).getAoInfo().getActivityCode() + "<br/>";
+//                }
+//                if (filteredAOsHM.get(aoID).getStateName() != null && !filteredAOsHM.get(aoID).getStateName().equalsIgnoreCase("")) {
+//                    aoStateNameText = aoStateNameText + filteredAOsHM.get(aoID).getStateName() + "<br/>";
+//                }
+//                if (filteredAOsHM.get(aoID).getTypeName() != null && !filteredAOsHM.get(aoID).getTypeName().equalsIgnoreCase("")) {
+//                    aoTypeNameText = aoTypeNameText + filteredAOsHM.get(aoID).getTypeName() + "<br/>";
+//                }
+//                if (filteredAOsHM.get(aoID).getFirstInstructorDisplayName() != null && !filteredAOsHM.get(aoID).getFirstInstructorDisplayName().equalsIgnoreCase("")) {
+//                    aoInstructorText = aoInstructorText + filteredAOsHM.get(aoID).getFirstInstructorDisplayName() + "<br/>";
+//                }
+//                if (filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment() != null) {
+//                    aoMaxEnrText = aoMaxEnrText + Integer.toString(filteredAOsHM.get(aoID).getAoInfo().getMaximumEnrollment()) + "<br/>";
+//                }
+//
+//                if(filteredAOsHM.get(aoID).getStartTimeDisplay() != null){
+//                    rgWrapper.setStartTimeDisplay(filteredAOsHM.get(aoID).getStartTimeDisplay(), true, cssClass);
+//                }
+//
+//                if(filteredAOsHM.get(aoID).getEndTimeDisplay() != null){
+//                    rgWrapper.setEndTimeDisplay(filteredAOsHM.get(aoID).getEndTimeDisplay(), true, cssClass);
+//                }
+//
+//                if(filteredAOsHM.get(aoID).getBuildingName() != null){
+//                    rgWrapper.setBuildingName(filteredAOsHM.get(aoID).getBuildingName(), true, cssClass);
+//                }
+//
+//                if(filteredAOsHM.get(aoID).getRoomName() != null){
+//                    rgWrapper.setRoomName(filteredAOsHM.get(aoID).getRoomName(), true, cssClass);
+//                }
+//
+//                if(filteredAOsHM.get(aoID).getDaysDisplayName() != null){
+//                    rgWrapper.setDaysDisplayName(filteredAOsHM.get(aoID).getDaysDisplayName(), true, cssClass);
+//                }
             }
             if (aoActivityCodeText.length() > 0) {
                 aoActivityCodeText = aoActivityCodeText.substring(0, aoActivityCodeText.lastIndexOf("<br/>"));

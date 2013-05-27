@@ -42,7 +42,6 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterIn
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -77,6 +76,8 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -1692,8 +1693,8 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     public ActivityOfferingDisplayInfo getActivityOfferingDisplay(
             String activityOfferingId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+                MissingParameterException, OperationFailedException,
+                PermissionDeniedException {
         ActivityOfferingInfo ao = this.getActivityOffering(activityOfferingId, contextInfo);
         ActivityOfferingDisplayInfo info = new ActivityOfferingDisplayInfo();
         info.setId(ao.getId());
@@ -1716,8 +1717,16 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
         info.setIsHonorsOffering(ao.getIsHonorsOffering());
         info.setMaximumEnrollment(ao.getMaximumEnrollment());
-        if (ao.getScheduleId() != null) {
-            info.setScheduleDisplay(schedulingService.getScheduleDisplay(ao.getScheduleId(), contextInfo));
+        //  Get the schedule components from all schedules and put them in a single ScheduleDisplayInfo.
+        if (ao.getScheduleIds() != null && ! ao.getScheduleIds().isEmpty()) {
+            List<ScheduleDisplayInfo> scheduleDisplays = schedulingService.getScheduleDisplaysByIds(ao.getScheduleIds(), contextInfo);
+            List<ScheduleComponentDisplayInfo> scheduleComponentDisplayInfos = new ArrayList<ScheduleComponentDisplayInfo>();
+            for (ScheduleDisplayInfo sdi : scheduleDisplays) {
+                scheduleComponentDisplayInfos.addAll((List<ScheduleComponentDisplayInfo>) sdi.getScheduleComponentDisplays());
+            }
+            ScheduleDisplayInfo sdiAggregate = new ScheduleDisplayInfo();
+            sdiAggregate.setScheduleComponentDisplays(scheduleComponentDisplayInfos);
+            info.setScheduleDisplay(sdiAggregate);
         }
         info.setMeta(ao.getMeta());
         info.setAttributes(ao.getAttributes());
@@ -1871,122 +1880,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         else
             throw new DoesNotExistException("no seatpool association for spId=" + seatPoolDefinitionId + " and activityOfferingId = " + activityOfferingId);
 
-    }
-
-    private Map<String, ColocatedOfferingSetInfo> colocatedOfferingSetMap = new LinkedHashMap<String, ColocatedOfferingSetInfo>();
-
-    @Override
-    public ColocatedOfferingSetInfo getColocatedOfferingSet(String colocatedOfferingSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (!colocatedOfferingSetMap.containsKey(colocatedOfferingSetId)) {
-            throw new DoesNotExistException(colocatedOfferingSetId);
-        }
-        return colocatedOfferingSetMap.get(colocatedOfferingSetId);
-    }
-
-    @Override
-    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByIds(List<String> colocatedOfferingSetIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ColocatedOfferingSetInfo> list = new ArrayList<ColocatedOfferingSetInfo>();
-        for(String id : colocatedOfferingSetIds) {
-            list.add(getColocatedOfferingSet(id, contextInfo));
-        }
-        return list;
-    }
-
-    @Override
-    public List<String> getColocatedOfferingSetIdsByType(String colocatedOfferingSetTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> list = new ArrayList<String>();
-        for (ColocatedOfferingSetInfo info : colocatedOfferingSetMap.values()) {
-            if (colocatedOfferingSetTypeKey.equals(info.getTypeKey())) {
-                list.add(info.getId());
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<String> searchForColocatedOfferingSetIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<ColocatedOfferingSetInfo> searchForColocatedOfferingSets(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateColocatedOfferingSet( String validationTypeKey,  String colocatedOfferingSetTypeKey,  ColocatedOfferingSetInfo colocatedOfferingSetInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return new ArrayList<ValidationResultInfo>();
-    }
-
-    @Override
-    public ColocatedOfferingSetInfo createColocatedOfferingSet(String colocatedOfferingSetTypeKey, ColocatedOfferingSetInfo colocatedOfferingSetInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        //an exception will be thrown if any of the activity offerings do not exist
-        getActivityOfferingsByIds(colocatedOfferingSetInfo.getActivityOfferingIds(), contextInfo);
-        if(!colocatedOfferingSetTypeKey.equals(colocatedOfferingSetInfo.getTypeKey())) {
-            throw new InvalidParameterException(
-                    "The type parameter does not match the type on the info object");
-        }
-
-        ColocatedOfferingSetInfo copy = new ColocatedOfferingSetInfo(colocatedOfferingSetInfo);
-        if(copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
-        }
-        copy.setMeta(newMeta(contextInfo));
-
-        log.debug("CourseOfferingMockImpl: created colocatedOfferingSet: " + copy.getId());
-
-        colocatedOfferingSetMap.put(copy.getId(), copy);
-        return new ColocatedOfferingSetInfo(copy);
-    }
-
-    @Override
-    public ColocatedOfferingSetInfo updateColocatedOfferingSet( String colocatedOfferingSetId,  ColocatedOfferingSetInfo colocatedOfferingSetInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        if (!colocatedOfferingSetId.equals(colocatedOfferingSetInfo.getId())) {
-            throw new InvalidParameterException(
-                    "The id parameter does not match the id on the info object");
-        }
-        ColocatedOfferingSetInfo copy = new ColocatedOfferingSetInfo(colocatedOfferingSetInfo);
-        ColocatedOfferingSetInfo old = getColocatedOfferingSet(colocatedOfferingSetInfo.getId(), contextInfo);
-        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
-            throw new VersionMismatchException(old.getMeta().getVersionInd());
-        }
-        copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
-        colocatedOfferingSetMap.put(copy.getId(), copy);
-        return new ColocatedOfferingSetInfo(copy);
-    }
-
-    @Override
-    public StatusInfo changeColocatedOfferingSetState(String colocatedOfferingSetId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ColocatedOfferingSetInfo colocatedOfferingSetInfo = colocatedOfferingSetMap.get(colocatedOfferingSetId);
-        if (colocatedOfferingSetInfo == null) {
-            throw new DoesNotExistException(colocatedOfferingSetId);
-        }
-
-        colocatedOfferingSetInfo.setStateKey(nextStateKey);
-
-        return successStatus();
-    }
-
-    @Override
-    public StatusInfo deleteColocatedOfferingSet(String colocatedOfferingSetId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (colocatedOfferingSetMap.remove(colocatedOfferingSetId) == null) {
-            throw new DoesNotExistException(colocatedOfferingSetId);
-        }
-        return successStatus();
-    }
-
-    @Override
-    public List<ColocatedOfferingSetInfo> getColocatedOfferingSetsByActivityOffering(String activityOfferingId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ColocatedOfferingSetInfo> list = new ArrayList<ColocatedOfferingSetInfo>();
-
-        for(ColocatedOfferingSetInfo colocatedOfferingSetInfo : colocatedOfferingSetMap.values()) {
-            for(String aoId : colocatedOfferingSetInfo.getActivityOfferingIds()) {
-                if(aoId.equals(activityOfferingId))
-                    list.add(colocatedOfferingSetInfo);
-            }
-        }
-
-        return list;
     }
 
     @Override

@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -12,6 +11,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
@@ -44,7 +44,6 @@ public class ActivityOfferingWrapper implements Serializable{
     private String courseOfferingId;
     private String populationsJSONString;
 
-    // Tanveer 06/13/2012
     private String stateName;
     private String typeName;
     private String typeKey;
@@ -55,7 +54,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private Date termRegStartDate;
 
-    // Tanveer 06/27/2012
     private String waitListLevelTypeKey;
     private String waitListTypeKey;
     private boolean hasWaitList;
@@ -71,11 +69,9 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private List<ScheduleWrapper> actualScheduleComponents;
     private List<ScheduleWrapper> requestedScheduleComponents;
-//    private List<ScheduleWrapper> revisedScheduleRequestComponents;
+    private List<ScheduleWrapper> deletedScheduleComponents;
     private ScheduleWrapper newScheduleRequest;
 
-    private ScheduleRequestInfo scheduleRequestInfo;
-    private ScheduleInfo scheduleInfo;
     private SocInfo socInfo;
 
     private String startTimeDisplay = "";
@@ -107,10 +103,11 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean hiddenMaxEnrollmentShared;
     private int sharedMaxEnrollment;
 
-    private ColocatedOfferingSetInfo colocatedOfferingSetInfo;
+    private ScheduleRequestSetInfo scheduleRequestSetInfo;
 
     private EditRenderHelper editRenderHelper;
     private boolean isPartOfColoSetOnLoadAlready;
+    private boolean isColocatedOnLoadAlready;
     private boolean isSendRDLsToSchedulerAfterMSE;
 
     //This is needed to display the cross listed courses
@@ -130,12 +127,11 @@ public class ActivityOfferingWrapper implements Serializable{
         this.setIsChecked(false);
         actualScheduleComponents = new ArrayList<ScheduleWrapper>();
         requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
-//        revisedScheduleRequestComponents = new ArrayList<ScheduleWrapper>();
         newScheduleRequest = new ScheduleWrapper();
         colocatedActivities = new ArrayList<ColocatedActivity>();
         maxEnrollmentShared = true;
         editRenderHelper = new EditRenderHelper();
-        colocatedOfferingSetInfo = new ColocatedOfferingSetInfo();
+        deletedScheduleComponents = new ArrayList<ScheduleWrapper>();
     }
 
     public ActivityOfferingWrapper(ActivityOfferingInfo info){
@@ -700,20 +696,12 @@ public class ActivityOfferingWrapper implements Serializable{
         }
     }
 
-    public ScheduleRequestInfo getScheduleRequestInfo() {
-        return scheduleRequestInfo;
+    public List<ScheduleWrapper> getDeletedScheduleComponents() {
+        return deletedScheduleComponents;
     }
 
-    public void setScheduleRequestInfo(ScheduleRequestInfo scheduleRequestInfo) {
-        this.scheduleRequestInfo = scheduleRequestInfo;
-    }
-
-    public ScheduleInfo getScheduleInfo() {
-        return scheduleInfo;
-    }
-
-    public void setScheduleInfo(ScheduleInfo scheduleInfo) {
-        this.scheduleInfo = scheduleInfo;
+    public void setDeletedScheduleComponents(List<ScheduleWrapper> deletedScheduleComponents) {
+        this.deletedScheduleComponents = deletedScheduleComponents;
     }
 
     public String getTypeKey() {
@@ -848,6 +836,14 @@ public class ActivityOfferingWrapper implements Serializable{
         this.sharedMaxEnrollment = sharedMaxEnrollment;
     }
 
+    public ScheduleRequestSetInfo getScheduleRequestSetInfo() {
+        return scheduleRequestSetInfo;
+    }
+
+    public void setScheduleRequestSetInfo(ScheduleRequestSetInfo scheduleRequestSetInfo) {
+        this.scheduleRequestSetInfo = scheduleRequestSetInfo;
+    }
+
     /**
      * This method return a colocated AO code for current course. This will
      * be displayed as the tooltip (if colocated AO exists) at manage and delete AO screen.
@@ -863,20 +859,20 @@ public class ActivityOfferingWrapper implements Serializable{
         return StringUtils.removeEnd(buffer.toString(),"<br>");
     }
 
-    public ColocatedOfferingSetInfo getColocatedOfferingSetInfo() {
-        return colocatedOfferingSetInfo;
-    }
-
-    public void setColocatedOfferingSetInfo(ColocatedOfferingSetInfo colocatedOfferingSetInfo) {
-        this.colocatedOfferingSetInfo = colocatedOfferingSetInfo;
-    }
-
     public boolean isPartOfColoSetOnLoadAlready() {
         return isPartOfColoSetOnLoadAlready;
     }
 
     public void setPartOfColoSetOnLoadAlready(boolean isPartOfColoSetOnLoadAlready) {
         this.isPartOfColoSetOnLoadAlready = isPartOfColoSetOnLoadAlready;
+    }
+
+    public boolean isColocatedOnLoadAlready() {
+        return isColocatedOnLoadAlready;
+    }
+
+    public void setColocatedOnLoadAlready(boolean colocatedOnLoadAlready) {
+        isColocatedOnLoadAlready = colocatedOnLoadAlready;
     }
 
     public boolean isSchedulingCompleted(){

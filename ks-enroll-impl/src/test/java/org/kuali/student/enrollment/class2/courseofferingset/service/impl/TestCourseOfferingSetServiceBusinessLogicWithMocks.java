@@ -186,7 +186,11 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo1A.setMaximumEnrollment(100);
         sourceAo1A.setMinimumEnrollment(90);
         sourceAo1A.setName("my activity offering");
-        sourceAo1A.setScheduleId(scheduleInfo1A.getId());
+
+        List<String> schedInfo1A_ids = new ArrayList<String>();
+        schedInfo1A_ids.add( scheduleInfo1A.getId() );
+        sourceAo1A.setScheduleIds( schedInfo1A_ids );
+
         sourceAo1A = coService.createActivityOffering(sourceAo1A.getFormatOfferingId(), sourceAo1A.getActivityId(),
                 sourceAo1A.getTypeKey(), sourceAo1A, callContext);
 
@@ -201,7 +205,11 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo1B.setMaximumEnrollment(100);
         sourceAo1B.setMinimumEnrollment(90);
         sourceAo1B.setName("my B activity offering");
-        sourceAo1B.setScheduleId(scheduleInfo1B.getId());
+
+        List<String> schedInfo1B_ids = new ArrayList<String>();
+        schedInfo1B_ids.add( scheduleInfo1B.getId() );
+        sourceAo1B.setScheduleIds( schedInfo1B_ids );
+
         sourceAo1B = coService.createActivityOffering(sourceAo1B.getFormatOfferingId(), sourceAo1B.getActivityId(),
                 sourceAo1B.getTypeKey(), sourceAo1B, callContext);
 
@@ -244,7 +252,11 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo2A.setMaximumEnrollment(100);
         sourceAo2A.setMinimumEnrollment(90);
         sourceAo2A.setName("my activity offering");
-        sourceAo2A.setScheduleId(scheduleInfo2A.getId());
+
+        List<String> schedInfo2A_ids = new ArrayList<String>();
+        schedInfo2A_ids.add( scheduleInfo2A.getId() );
+        sourceAo2A.setScheduleIds( schedInfo2A_ids );
+
         sourceAo2A = coService.createActivityOffering(sourceAo2A.getFormatOfferingId(), sourceAo2A.getActivityId(),
                 sourceAo2A.getTypeKey(), sourceAo2A, callContext);
 
@@ -258,7 +270,11 @@ public class TestCourseOfferingSetServiceBusinessLogicWithMocks {
         sourceAo2B.setIsHonorsOffering(Boolean.TRUE);
         sourceAo2B.setMaximumEnrollment(100);
         sourceAo2B.setMinimumEnrollment(90);
-        sourceAo2B.setScheduleId(scheduleInfo2B.getId());
+
+        List<String> schedInfo2B_ids = new ArrayList<String>();
+        schedInfo2B_ids.add( sourceAo2B.getId() );
+        sourceAo2B.setScheduleIds( schedInfo2B_ids );
+
         sourceAo2B.setName("my B activity offering");
         sourceAo2B = coService.createActivityOffering(sourceAo2B.getFormatOfferingId(), sourceAo2B.getActivityId(),
                 sourceAo2B.getTypeKey(), sourceAo2B, callContext);

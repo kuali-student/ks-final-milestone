@@ -15,18 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -75,6 +63,18 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.slf4j.Logger;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * @author ocleirig
@@ -905,7 +905,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         ActivityOfferingInfo ao = CourseOfferingServiceTestDataUtils
                 .createActivityOffering("2012FA", courseOffering, "CO-1:LEC-ONLY",
-                        "SCHED-ID", activityId, "Lecture", "A",
+                        new ArrayList<String>(Collections.singletonList("SCHED-ID")), activityId, "Lecture", "A",
                         LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
                         instructors);
 

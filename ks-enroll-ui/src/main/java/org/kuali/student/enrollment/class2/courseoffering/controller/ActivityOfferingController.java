@@ -23,7 +23,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferi
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSControllerHelper;
@@ -89,9 +88,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         ScheduleWrapper scheduleWrapper = (ScheduleWrapper)getSelectedObject(form);
 
-        ScheduleWrapper newSchedule = new ScheduleWrapper();
-        newSchedule.copyForEditing(scheduleWrapper);
-        activityOfferingWrapper.setNewScheduleRequest(newSchedule);
+        activityOfferingWrapper.setNewScheduleRequest(scheduleWrapper);
         activityOfferingWrapper.getRequestedScheduleComponents().remove(scheduleWrapper);
         activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(true);
 
@@ -115,6 +112,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         if (success){
             activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(false);
             activityOfferingWrapper.setSchedulesModified(true);
+            scheduleWrapper.setModified(true);
             if (activityOfferingWrapper.isColocatedAO() && !activityOfferingWrapper.getColocatedActivities().isEmpty()){
                 GlobalVariables.getMessageMap().putWarning("ActivityOffering-DeliveryLogistic-Requested", RiceKeyConstants.ERROR_CUSTOM,activityOfferingWrapper.getEditRenderHelper().getColocatedActivitiesAsString());
             }
@@ -247,25 +245,4 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return false;
         }
     }
-
-    @RequestMapping(params = "methodToCall=detachAOFromColocation")
-     public ModelAndView detachAOFromColocation(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-        if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready()){
-            ColocatedOfferingSetInfo colocatedOfferingSetInfo = activityOfferingWrapper.getColocatedOfferingSetInfo();
-            boolean maxEnrollmentShared = colocatedOfferingSetInfo.getIsMaxEnrollmentShared();
-
-            ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
-            //viewHelper.detachAOFromColocation(form.getDocument(), activityOfferingWrapper);
-
-            if(maxEnrollmentShared){
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SHARED);
-            }else {
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COLOCATION_MAX_ENR_SEPARATED);
-            }
-
-        }
-        return getUIFModelAndView(form);
-      }
 }

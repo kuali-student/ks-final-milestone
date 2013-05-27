@@ -146,7 +146,6 @@
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
         <property name="schedulingService" ref="schedulingService"/>
-        <property name="colocatedOfferingSetTransformer" ref="colocatedOfferingSetTransformer"/>
     </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
@@ -167,8 +166,6 @@
         <property name="lprService" ref="lprPersistenceService" />
         <property name="personService" ref="personService" />
     </bean>
-
-    <bean id="colocatedOfferingSetTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ColocatedOfferingSetTransformer"/>
 
     <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
 
