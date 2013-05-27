@@ -627,7 +627,6 @@ a {
     margin-bottom: -3px;
     margin-left: 113px;
 }
-/* End of GridSubsection */
 /************************************** END ROLLOVER **************************************/
 
 
@@ -667,4 +666,42 @@ a {
 .ac_stickyfooter {
     float: right;
 }
-/************************************** END EDIT ACADEMIC CALENDAR STICKY FOOTER **********************
+/************************************** END EDIT ACADEMIC CALENDAR STICKY FOOTER **********************/
+
+
+
+
+/************************************** BOOTSTRAP OVERRIDES **********************/
+/* Overriding the 14px font size */
+body {
+    font-size: 13px;
+}
+
+/* Overriding from bottom as this was affecting headers items - Student text & user image */
+img {
+    vertical-align: baseline;
+}
+
+/* Overriding from block as required fields were dropping to another line */
+label:not(.uif-labelBlock) {
+    display: inline-block;
+}
+
+/* Overriding from margin-left 20px as this was indenting titles */
+[class*="span"] {
+    margin-left: 0px;
+    float: none;
+}
+
+button {
+    line-height: normal;
+}
+
+/* Overriding the fixed widths applied to drop down menus & input text fields as this was causing tables to extend beyond the width of the screen */
+input,
+textarea,
+.uneditable-input, select {
+    width: auto;
+}
+
+/************************************** END BOOTSTRAP OVERRIDES **********************/
