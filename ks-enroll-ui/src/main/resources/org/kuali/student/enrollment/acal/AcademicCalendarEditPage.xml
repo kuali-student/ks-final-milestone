@@ -79,7 +79,7 @@ limitations under the License.
                                           p:performClientSideValidation="true" p:render="@{!officialCalendar and !#view.readOnly and !reload}" p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP"/>
                                     <bean parent="Uif-SecondaryActionButton" p:render="@{!#view.readOnly and !reload}"
-                                          p:methodToCall="@{officialCalendar ? 'save' : 'makeAcalOfficial'}"
+                                          p:methodToCall="@{officialCalendar ? 'updateOfficial' : 'makeAcalOfficial'}"
                                           p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
                                           p:disabled="@{newCalendar}" p:performClientSideValidation="true"
                                           p:jumpToIdAfterSubmit="TOP" />
