@@ -434,15 +434,11 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             for (int j = 0; j < aoGrid.size(); j++) {
                 String toState = aoGrid.getStateKeyAt(j);
                 boolean invalidTransition = aoGrid.getTransition(TransitionGridTypeEnum.EXPECTED, fromState, toState).equals(TransitionGridYesNoEnum.INVALID.getName());
-                if (j == i || invalidTransition) {
-                    if (invalidTransition) {
-                        aoGrid.setTransition(TransitionGridTypeEnum.ACTUAL, fromState, toState, TransitionGridYesNoEnum.INVALID.getName());
-                    } else {
-                        // Self loop
-                        aoGrid.setTransition(TransitionGridTypeEnum.ACTUAL, fromState, toState, TransitionGridYesNoEnum.YES.getName());
-                    }
+                if (invalidTransition) {
+                    aoGrid.setTransition(TransitionGridTypeEnum.ACTUAL, fromState, toState, TransitionGridYesNoEnum.INVALID.getName());
                     continue;
                 }
+
                 // Force the original AO to be in fromState
                 _forceChangeAoState(aoId, fromState);
                 // Adjust FO/CO states
@@ -480,22 +476,6 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         gridTypeToGrid.put("fo", foGrid);
         gridTypeToGrid.put("co", coGrid);
         return gridTypeToGrid;
-    }
-    public void testDraftAoStateToNewAoState(String aoId, String toState, PseudoUnitTestStateTransitionGrid grid) throws AssertException, PseudoUnitTestException {
-        ActivityOfferingInfo aoInfo = null;
-        try {
-            aoInfo = coService.getActivityOffering(aoId, CONTEXT);
-        } catch (Exception e) {
-            throw new PseudoUnitTestException("Unable to retrieve AO: " + aoId);
-        }
-        assertEquals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, aoInfo.getStateKey(), "");
-        try {
-            boolean change = _tryChangingAoState(aoInfo.getId(), toState);
-            grid.setTransition(TransitionGridTypeEnum.ACTUAL, aoInfo.getStateKey(), toState,
-                    change ? TransitionGridYesNoEnum.YES.getName() : TransitionGridYesNoEnum.NO.getName());
-        } catch (PseudoUnitTestException e) {
-            // do nothing
-        }
     }
 
     private void _advanceSocState(String socId, String socState) throws Exception {
