@@ -15,14 +15,11 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.student.r2.core.krms.naturallanguage.AbstractContext;
-import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLHelper;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.Map;
+import org.kuali.rice.krms.impl.repository.language.AbstractContext;
 
 public class BasicContextImpl extends AbstractContext {
 	/**
@@ -48,8 +45,9 @@ public class BasicContextImpl extends AbstractContext {
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
-    	Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
+    @Override
+    public Map<String, Object> createContextMap(Map<String, Object> parameters) {
+    	Map<String, Object> contextMap = super.createContextMap(parameters);
         contextMap.put(NL_HELPER_TOKEN, NLHelper.class);
 
         String key = "kuali.term.parameter.type.free.text";

@@ -2,26 +2,18 @@ package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
-import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Daos( { @Dao(value = "org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql") })
@@ -56,7 +48,7 @@ public class OrganizationContextImplTest extends AbstractServiceTest {
 
 	@Test
     public void testCreateContextMap_Org() throws OperationFailedException {
-		Map<String, Object> contextMap = orgContext.createContextMap(term, ContextUtils.getContextInfo());
+		Map<String, Object> contextMap = orgContext.createContextMap(term);
         OrgInfo org = (OrgInfo) contextMap.get(OrganizationContextImpl.ORG_TOKEN);
 
 		Assert.assertNotNull(contextMap);
@@ -67,8 +59,8 @@ public class OrganizationContextImplTest extends AbstractServiceTest {
 	}
 	
 	@Test
-    public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
-        Map<String, Object> contextMap = orgContext.createContextMap(term2, ContextUtils.getContextInfo());
+    public void testCreateContextMap_NullTokenValues() {
+        Map<String, Object> contextMap = orgContext.createContextMap(term2);
         OrgInfo org = (OrgInfo) contextMap.get(OrganizationContextImpl.ORG_TOKEN);
 
         Assert.assertNotNull(contextMap);
