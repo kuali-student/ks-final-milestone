@@ -15,10 +15,6 @@
 
 package org.kuali.student.r2.core.krms.config.context.lu;
 
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.student.r1.core.statement.naturallanguage.ReqComponentFieldTypes;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 
@@ -40,7 +36,7 @@ public class CreditContextImpl extends AbstractLuContext {
      * @throws OperationFailedException
      */
     @Override
-    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+    public Map<String, Object> createContextMap(Map<String, Object> parameters) {
         Map<String, Object> contextMap = new HashMap<String, Object>();
         contextMap.put(TOTAL_CREDITS_TOKEN, parameters.get(TermParameterTypes.TOTAL_CREDIT_KEY.getId()));
         return contextMap;
