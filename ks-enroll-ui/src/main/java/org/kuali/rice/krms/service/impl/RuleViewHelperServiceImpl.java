@@ -480,13 +480,15 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     public PropositionEditor copyProposition(PropositionEditor oldProposition) {
         try {
             PropositionEditor newProposition = this.copyPropositionEditor(oldProposition);
+
+            //Use a deepcopy to create new references to inner objects such as string.
             return (PropositionEditor) ObjectUtils.deepCopy(newProposition);
         } catch (Exception e) {
             return null;
         }
     }
 
-    private PropositionEditor copyPropositionEditor(PropositionEditor oldProposition) {
+    protected PropositionEditor copyPropositionEditor(PropositionEditor oldProposition) {
         PropositionEditor newProposition;
         try {
             newProposition = this.getPropositionEditorClass().newInstance();
