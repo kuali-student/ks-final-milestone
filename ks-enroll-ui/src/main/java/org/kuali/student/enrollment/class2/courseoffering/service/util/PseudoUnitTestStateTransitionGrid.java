@@ -23,33 +23,37 @@ import java.util.Map;
 
 /**
  * Creates a matrix to determine whether going from a fromState to a toState is valid.
+ * Both states are valid
  * If the value is null, then it wasn't tested.
  *
  * @author Kuali Student Team
  */
 public class PseudoUnitTestStateTransitionGrid {
     List<String> stateKeys;
-    List<List<Integer>> expectedTransitions;
-    List<List<Integer>> actualTransitions;
+    List<String> allowedValues;
+    List<List<String>> expectedTransitions;
+    List<List<String>> actualTransitions;
     String socStateKey;
     String entityType;  // ao, fo, co
 
-    public PseudoUnitTestStateTransitionGrid(List<String> stateNames, String entityType) {
+    public PseudoUnitTestStateTransitionGrid(List<String> stateNames, List<String> allowedValues, String entityType) {
         this.entityType = entityType;
         this.stateKeys = new ArrayList<String>();
         this.stateKeys.addAll(stateNames); // make a deep copy
+        this.allowedValues = new ArrayList<String>();
+        this.allowedValues.addAll(allowedValues);
         // Create the grid
         expectedTransitions = _createTransitionsGrid();
         actualTransitions = _createTransitionsGrid();
     }
 
-    private List<List<Integer>> _createTransitionsGrid() {
-        List<List<Integer>> grid = new ArrayList<List<Integer>>();  // Set size to 0
+    private List<List<String>> _createTransitionsGrid() {
+        List<List<String>> grid = new ArrayList<List<String>>();  // Set size to 0
         int size = stateKeys.size();
         for (int i = 0; i < size; i++) {
-            List<Integer> row = new ArrayList<Integer>();
+            List<String> row = new ArrayList<String>();
             for (int j = 0; j < size; j++) {
-                row.add(-1);  // -1 acts as null
+                row.add(TransitionGridYesNoEnum.INVALID.getName());  // -1 acts as null
             }
             grid.add(row);
         }
@@ -68,9 +72,12 @@ public class PseudoUnitTestStateTransitionGrid {
         return socStateKey;
     }
 
-    public void setTransition(TransitionGridEnum actualOrExpected, String fromState, String toState, int value) {
-        if (value < -1 || value > 1) {
-            throw new IndexOutOfBoundsException();
+    public void setTransition(TransitionGridTypeEnum actualOrExpected, String fromState, String toState, String value) {
+        if (!allowedValues.contains(value)) {
+            throw new RuntimeException(value + " is in invalid value for grid: " + entityType);
+        }
+        if (!stateKeys.contains(fromState) || !stateKeys.contains(toState)) {
+            throw new RuntimeException("Invalid fromState or toState");
         }
         int fromIndex = stateKeys.indexOf(fromState);
         if (fromIndex < 0) {
@@ -80,14 +87,14 @@ public class PseudoUnitTestStateTransitionGrid {
         if (toIndex < 0) {
             throw new IndexOutOfBoundsException("toIndex out of bounds: " + toIndex);
         }
-        if (actualOrExpected == TransitionGridEnum.EXPECTED) {
+        if (actualOrExpected == TransitionGridTypeEnum.EXPECTED) {
             expectedTransitions.get(fromIndex).set(toIndex, value);
         } else {
             actualTransitions.get(fromIndex).set(toIndex, value);
         }
     }
 
-    public int getTransition(TransitionGridEnum actualOrExpected, String fromState, String toState) {
+    public String getTransition(TransitionGridTypeEnum actualOrExpected, String fromState, String toState) {
         int fromIndex = stateKeys.indexOf(fromState);
         if (fromIndex < 0) {
             throw new IndexOutOfBoundsException("fromIndex out of bounds: " + fromIndex);
@@ -96,7 +103,7 @@ public class PseudoUnitTestStateTransitionGrid {
         if (toIndex < 0) {
             throw new IndexOutOfBoundsException("toIndex out of bounds: " + toIndex);
         }
-        if (actualOrExpected == TransitionGridEnum.EXPECTED) {
+        if (actualOrExpected == TransitionGridTypeEnum.EXPECTED) {
             return expectedTransitions.get(fromIndex).get(toIndex);
         } else {
             return actualTransitions.get(fromIndex).get(toIndex);
@@ -111,16 +118,16 @@ public class PseudoUnitTestStateTransitionGrid {
         return stateKeys.size();
     }
 
-    public int getTransition(TransitionGridEnum actualOrExpected, int row, int col) {
-        if (actualOrExpected == TransitionGridEnum.EXPECTED) {
+    public String getTransition(TransitionGridTypeEnum actualOrExpected, int row, int col) {
+        if (actualOrExpected == TransitionGridTypeEnum.EXPECTED) {
             return expectedTransitions.get(row).get(col);
         } else {
             return actualTransitions.get(row).get(col);
         }
     }
 
-    public int setTransition(TransitionGridEnum actualOrExpected, int row, int col, int val) {
-        if (actualOrExpected == TransitionGridEnum.EXPECTED) {
+    public String setTransition(TransitionGridTypeEnum actualOrExpected, int row, int col, String val) {
+        if (actualOrExpected == TransitionGridTypeEnum.EXPECTED) {
             return expectedTransitions.get(row).set(col, val);
         } else {
             return actualTransitions.get(row).get(col);
@@ -135,40 +142,26 @@ public class PseudoUnitTestStateTransitionGrid {
     public static final String ACTUAL = "actual";
     public static final String PASS_FAIL = "passFail";
     // Values
-    public static final String YES_VAL = "yes";
-    public static final String NO_VAL = "no";
     public static final String PASS_VAL = "pass";
     public static final String FAIL_VAL = "fail";
-    public static final String INVALID_VAL = "invalid";
-
-    private static String convertValToString(int val) {
-        if (val == 1) {
-            return YES_VAL;
-        } else if (val == 0) {
-            return NO_VAL;
-        } else if (val == -1) {
-            return INVALID_VAL;
-        }
-        throw new IndexOutOfBoundsException();
-    }
 
     public List<Map<String, String>> compare() {
         List<Map<String, String>> results = new ArrayList<Map<String, String>>();
         for (int row = 0; row < size(); row++) {
             for (int col = 0; col < size(); col++) {
-                int expectedVal = getTransition(TransitionGridEnum.EXPECTED, row, col);
-                int actualVal = getTransition(TransitionGridEnum.ACTUAL, row, col);
+                String expectedVal = getTransition(TransitionGridTypeEnum.EXPECTED, row, col);
+                String actualVal = getTransition(TransitionGridTypeEnum.ACTUAL, row, col);
                 Map<String, String> keyValue = new HashMap<String, String>();
                 String fromState = getStateKeyAt(row);
                 String toState = getStateKeyAt(col);
                 keyValue.put(AO_STATE_FROM, fromState);
                 keyValue.put(AO_STATE_TO, toState);
-                keyValue.put(EXPECTED, convertValToString(expectedVal));
-                keyValue.put(ACTUAL, convertValToString(actualVal));
+                keyValue.put(EXPECTED, expectedVal);
+                keyValue.put(ACTUAL, actualVal);
                 keyValue.put(SOC_STATE, getSocStateKey());
-                keyValue.put(PASS_FAIL, expectedVal == actualVal ? PASS_VAL : FAIL_VAL);
-                if (expectedVal == -1) {
-                    keyValue.put(PASS_FAIL, INVALID_VAL);
+                keyValue.put(PASS_FAIL, expectedVal.equals(actualVal) ? PASS_VAL : FAIL_VAL);
+                if (expectedVal.equals(TransitionGridYesNoEnum.INVALID.getName())) {
+                    keyValue.put(PASS_FAIL, TransitionGridYesNoEnum.INVALID.getName());
                 }
                 results.add(keyValue);
             }

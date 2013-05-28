@@ -31,26 +31,23 @@ import java.util.Map;
  */
 public class AoStateTransitionRefSolution {
     // Only supports draft, approved, offered AO states
-    public static final int [][] AO_STATE_SOC_DRAFT =    {
-            {1, 1, 0},
-            {1, 1, 0},
-            {-1, -1, -1} };  // Technically, can't be in offered unless SOC in publishing/published
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_DRAFT =    {
+            {TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.NO},
+            {TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.NO},
+            {TransitionGridYesNoEnum.INVALID, TransitionGridYesNoEnum.INVALID, TransitionGridYesNoEnum.INVALID} };  // Technically, can't be in offered unless SOC in publishing/published
 
-    public static final int [][] AO_STATE_SOC_OPEN = AO_STATE_SOC_DRAFT;
-    public static final int [][] AO_STATE_SOC_LOCKED = AO_STATE_SOC_DRAFT;
-    public static final int [][] AO_STATE_SOC_FINAL_EDITS = AO_STATE_SOC_DRAFT;
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_OPEN = AO_STATE_SOC_DRAFT;
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_LOCKED = AO_STATE_SOC_DRAFT;
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_FINAL_EDITS = AO_STATE_SOC_DRAFT;
 
-    public static final int [][] AO_STATE_SOC_PUBLISHING =    {
-            {1, 1, 1},
-            {1, 1, 1},
-            {1, 1, 1} };
-    public static final int [][] AO_STATE_SOC_PUBLISHED =    {
-            {1, 1, 1},
-            {1, 1, 1},
-            {1, 1, 1} };
-    public static Map<String, int[][]> SOC_STATE_TO_AO_TRANSITION;
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_PUBLISHING =    {
+            {TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES},
+            {TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES},
+            {TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES, TransitionGridYesNoEnum.YES} };
+    public static final TransitionGridYesNoEnum [][] AO_STATE_SOC_PUBLISHED =  AO_STATE_SOC_PUBLISHING;
+    public static Map<String, TransitionGridYesNoEnum [][]> SOC_STATE_TO_AO_TRANSITION;
     static {
-        SOC_STATE_TO_AO_TRANSITION = new HashMap<String, int[][]>();
+        SOC_STATE_TO_AO_TRANSITION = new HashMap<String, TransitionGridYesNoEnum [][]>();
         SOC_STATE_TO_AO_TRANSITION.put(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY, AO_STATE_SOC_DRAFT);
         SOC_STATE_TO_AO_TRANSITION.put(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, AO_STATE_SOC_OPEN);
         SOC_STATE_TO_AO_TRANSITION.put(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, AO_STATE_SOC_LOCKED);
@@ -69,12 +66,16 @@ public class AoStateTransitionRefSolution {
     }
 
     public static PseudoUnitTestStateTransitionGrid getReferenceGridForState(String socState) {
-        final int[][] stateTransition = SOC_STATE_TO_AO_TRANSITION.get(socState);
-        PseudoUnitTestStateTransitionGrid grid = new PseudoUnitTestStateTransitionGrid(AoStateTransitionRefSolution.AO_STATES_ORDERED, "ao");
+        final TransitionGridYesNoEnum[][] stateTransition = SOC_STATE_TO_AO_TRANSITION.get(socState);
+        List<String> values = new ArrayList<String>();
+        values.add(TransitionGridYesNoEnum.YES.getName());
+        values.add(TransitionGridYesNoEnum.NO.getName());
+        values.add(TransitionGridYesNoEnum.INVALID.getName());
+        PseudoUnitTestStateTransitionGrid grid = new PseudoUnitTestStateTransitionGrid(AoStateTransitionRefSolution.AO_STATES_ORDERED, values, "ao");
         grid.setSocStateKey(socState);
         for (int from = 0; from < stateTransition.length; from++) {
             for (int to = 0; to < stateTransition.length; to++) {
-                grid.setTransition(TransitionGridEnum.EXPECTED, from, to, stateTransition[from][to]);
+                grid.setTransition(TransitionGridTypeEnum.EXPECTED, from, to, stateTransition[from][to].getName());
             }
         }
         return grid;
