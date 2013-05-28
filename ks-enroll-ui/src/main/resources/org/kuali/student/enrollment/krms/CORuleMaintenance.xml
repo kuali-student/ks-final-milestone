@@ -110,7 +110,6 @@
                         <list>
                             <ref bean="KRMS-RuleEditorView-AddButton"/>
                             <ref bean="KRMS-RuleEditorView-EditButton"/>
-                            <ref bean="KRMS-RuleEditorView-GroupButton"/>
                         </list>
                     </property>
                 </bean>
@@ -118,11 +117,9 @@
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
+                            <ref bean="KRMS-RuleEditorView-GroupButton"/>
                             <ref bean="KRMS-RuleEditorView-LeftButton"/>
                             <ref bean="KRMS-RuleEditorView-RightButton"/>
-                            <ref bean="KRMS-RuleEditorView-UpButton"/>
-                            <ref bean="KRMS-RuleEditorView-DownButton"/>
-                            <ref bean="KRMS-RuleEditorView-CopyButton"/>
                         </list>
                     </property>
                 </bean>
@@ -130,6 +127,16 @@
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
+                            <ref bean="KRMS-RuleEditorView-UpButton"/>
+                            <ref bean="KRMS-RuleEditorView-DownButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <ref bean="KRMS-RuleEditorView-CopyButton"/>
                             <ref bean="KRMS-RuleEditorView-CutButton"/>
                             <ref bean="KRMS-RuleEditorView-PasteButton"/>
                             <ref bean="KRMS-RuleEditorView-DeleteButton"/>
