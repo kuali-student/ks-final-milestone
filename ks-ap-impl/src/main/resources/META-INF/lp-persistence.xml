@@ -48,8 +48,6 @@
 
         <class>org.kuali.student.myplan.academicplan.model.PlanItemRichTextEntity</class>
         
-        <class>org.kuali.student.ap.course.model.ClassFinderCriteriaEntity</class>
-
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     </persistence-unit>

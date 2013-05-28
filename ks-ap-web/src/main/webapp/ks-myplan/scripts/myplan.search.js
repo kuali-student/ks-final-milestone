@@ -1,3 +1,4 @@
+
 var oTable;
 var oFacets = new Object();
 
@@ -64,6 +65,22 @@ function ksapGetCampusSelect() {
 	return aCampus;
 }
 
+function ksapGetSearchParams() {
+	var sQuery = jQuery("input[name='searchQuery']").val();
+	var sTerm = jQuery("select[name='searchTerm'] option:selected").val();
+	var extra = ksapGetExtraSearchParams();
+	var rv = '?searchQuery=' + escape(sQuery) + '&searchTerm=' + sTerm;
+	var cs = ksapGetCampusSelect();
+	for (var i in cs)
+		rv = rv + '&campusSelect=' + cs[i];
+	rv = rv + extra + '&time=' + new Date().getTime();
+	return rv;
+}
+
+function ksapGetExtraSearchParams() {
+	return ''; // Override at institution level
+}
+
 function ksapSearchComplete() {
 	// Override at institution level
 }
@@ -102,10 +119,7 @@ function searchForCourses(id, parentId) {
 	var results = jQuery("#" + parentId); // course_search_results_panel
 	results.fadeOut("fast");
 	showLoading("Searching. Please wait...");
-	var sQuery = jQuery("input[name='searchQuery']").val();
-	var sTerm = jQuery("select[name='searchTerm'] option:selected").val();
-	var aCampus = ksapGetCampusSelect();
-	fnLoadFacets(sQuery, sTerm, aCampus);
+	fnLoadFacets();
 	oTable = jQuery("#" + id)
 			.dataTable(
 					{
@@ -186,10 +200,7 @@ function searchForCourses(id, parentId) {
 							"sLengthMenu" : "Show _MENU_",
 							"sZeroRecords" : "0 results found"
 						},
-						sAjaxSource : 'course/search?queryText='
-								+ escape(sQuery) + '&termParam=' + sTerm
-								+ '&campusParam=' + aCampus + '&time='
-								+ new Date().getTime(),
+						sAjaxSource : 'course/search' + ksapGetSearchParams(),
 						sCookiePrefix : "myplan_",
 						sDom : "ilrtSp",
 						sPaginationType : "full_numbers"
@@ -206,14 +217,13 @@ function searchForCourses(id, parentId) {
  * @param aCampus
  *            Campus selections.
  */
-function fnLoadFacets(sQuery, sTerm, aCampus) {
+function fnLoadFacets() {
 	showLoading("Loading", jQuery("#course_search_results_facets"));
 	jQuery
 			.ajax({
 				dataType : 'json',
 				type : "GET",
-				url : 'course/facetValues?queryText=' + escape(sQuery)
-						+ '&termParam=' + sTerm + '&campusParam=' + aCampus,
+				url : 'course/facetValues' + ksapGetSearchParams(),
 				success : function(data, textStatus, jqXHR) {
 					oFacets = data;
 					jQuery(
@@ -252,9 +262,7 @@ function fnClickFacet(sFilter, fcol, e) {
 	jQuery.ajax({
 		dataType : 'json',
 		type : "GET",
-		url : 'course/facetValues?queryText=' + escape(oFacets.sQuery)
-				+ '&termParam=' + oFacets.sTerm + '&campusParam='
-				+ oFacets.aCampus + '&fclick=' + sFilter + '&fcol=' + fcol,
+		url : 'course/facetValues' + ksapGetSearchParams() + '&fclick=' + sFilter + '&fcol=' + fcol,
 		success : function(data, textStatus, jqXHR) {
 			var i = data.oSearchColumn[fcol];
 			oFacets = data;

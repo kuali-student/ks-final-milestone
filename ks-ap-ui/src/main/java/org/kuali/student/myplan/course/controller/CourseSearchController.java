@@ -19,10 +19,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +29,6 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -41,30 +38,20 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.framework.course.ClassFinderForm;
-import org.kuali.student.ap.framework.course.ClassFinderForm.CourseLevel;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.FacetKeyValue;
 import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
 import org.kuali.student.myplan.course.util.CampusSearch;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.messages.dto.MessageInfo;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
@@ -367,15 +354,7 @@ public class CourseSearchController extends UifControllerBase {
 			c.add(f.getSearchQuery());
 			c.add(f.getSearchTerm());
 			c.addAll(f.getCampusSelect());
-			criteria = Collections.unmodifiableList(c);
-		}
-
-		public FormKey(ClassFinderForm f) {
-			List<String> c = new ArrayList<String>();
-			c.add(f.getQuery());
-			for (String fa : f.getFacet())
-				if (f.isCriterion(fa))
-					c.add(fa);
+			c.addAll(f.getAdditionalCriteria());
 			criteria = Collections.unmodifiableList(c);
 		}
 
@@ -641,43 +620,6 @@ public class CourseSearchController extends UifControllerBase {
 							form,
 							KsapFrameworkServiceLocator.getUserSessionHelper()
 									.getStudentId()));
-		}
-
-		public SessionSearchInfo(HttpServletRequest request,
-				ClassFinderForm form, boolean a) {
-			this(request, new FormKey(form), KsapFrameworkServiceLocator
-					.getCourseSearchStrategy().findClasses(
-							form,
-							KsapFrameworkServiceLocator.getUserSessionHelper()
-									.getStudentId()));
-		}
-
-		/**
-		 * Compose class finder information based on materialized inputs.
-		 * 
-		 * <p>
-		 * This constructor is potentially expensive - it is where the actual
-		 * search is performed on the back end when pulling data or facet table
-		 * results.
-		 * </p>
-		 * 
-		 * @param request
-		 *            The active HTTP servlet request.
-		 * @param form
-		 *            The search form.
-		 * @see org.kuali.student.myplan.course.controller.CourseSearchController#getJsonResponse(javax.servlet.http.HttpServletResponse,
-		 *      javax.servlet.http.HttpServletRequest)
-		 * @see org.kuali.student.myplan.course.controller.CourseSearchController#getFacetValues(javax.servlet.http.HttpServletResponse,
-		 *      javax.servlet.http.HttpServletRequest)
-		 */
-		public SessionSearchInfo(HttpServletRequest request,
-				ClassFinderForm form) {
-			this(request, new FormKey(form),
-					KsapFrameworkServiceLocator.getCourseSearchStrategy()
-							.findClasses(
-									form,
-									GlobalVariables.getUserSession()
-											.getPrincipalName()));
 		}
 
 		private SessionSearchInfo(HttpServletRequest request, FormKey formKey,
@@ -989,29 +931,6 @@ public class CourseSearchController extends UifControllerBase {
 			}
 		}
 
-		/**
-		 * Update checked state on all facets following a click event from the
-		 * class finder interface.
-		 * 
-		 * @param form
-		 *            The class finder form.
-		 */
-		private void facetClick(ClassFinderForm form) {
-			for (Map<String, FacetState> fsm : facetState.values()) {
-				boolean none = true;
-				for (String fsk : fsm.keySet())
-					none = none && !form.getFacet().contains(fsk);
-				if (none)
-					for (FacetState fs : fsm.values())
-						fs.checked = true;
-				else
-					for (Entry<String, FacetState> fe : fsm.entrySet())
-						fe.getValue().checked = form.getFacet().contains(
-								fe.getKey());
-			}
-			updateFacetCounts();
-		}
-
 		private List<SearchInfo> getFilteredResults(
 				final DataTablesInputs dataTablesInputs) {
 			final List<SearchInfo> filteredResults = new ArrayList<SearchInfo>(
@@ -1208,51 +1127,6 @@ public class CourseSearchController extends UifControllerBase {
 			return filteredResults;
 		}
 
-		private List<SearchInfo> getFilteredResults(final ClassFinderForm form) {
-			Map<String, Boolean> all = new java.util.HashMap<String, Boolean>();
-			for (Entry<String, Map<String, FacetState>> fs : this.facetState
-					.entrySet()) {
-				boolean a = true;
-				for (Entry<String, FacetState> fsc : fs.getValue().entrySet())
-					if (a && !fsc.getValue().checked)
-						a = false;
-				all.put(fs.getKey(), a);
-			}
-			List<SearchInfo> filteredResults = new ArrayList<SearchInfo>(
-					searchResults);
-			Iterator<SearchInfo> i = filteredResults.iterator();
-			while (i.hasNext()) { // filter search results
-				SearchInfo ln = i.next();
-				boolean removed = false;
-				for (Entry<String, Map<String, Map<String, KeyValue>>> group : ln.item
-						.getFacetColumns().entrySet()) {
-					if (Boolean.TRUE.equals(all.get(group.getKey())))
-						continue; // only scan groups that are partially checked
-					for (Entry<String, Map<String, KeyValue>> cell : group
-							.getValue().entrySet()) {
-						boolean match = false;
-						for (String c : cell.getValue().keySet()) {
-							if (match)
-								continue;
-							for (String ff : form.getFacet()) {
-								if (ff.equals(c))
-									match = true;
-							}
-						}
-						if (!match)
-							if (!removed) {
-								i.remove();
-								removed = true;
-							}
-					}
-				}
-			}
-
-			// TODO: sort not required by current front-end, implement here
-
-			return filteredResults;
-		}
-
 		public List<SearchInfo> getSearchResults() {
 			return searchResults;
 		}
@@ -1434,20 +1308,16 @@ public class CourseSearchController extends UifControllerBase {
 	}
 
 	@RequestMapping(value = "/course/search")
-	public void getJsonResponse(HttpServletResponse response,
-			final HttpServletRequest request) throws IOException {
+	public void getJsonResponse(
+			@ModelAttribute("KualiForm") final CourseSearchForm form,
+			HttpServletResponse response, final HttpServletRequest request)
+			throws IOException {
 
 		// Parse incoming jQuery datatables inputs
 		final DataTablesInputs dataTablesInputs = new DataTablesInputs(request);
 		if (LOG.isDebugEnabled())
 			LOG.debug(dataTablesInputs);
 
-		// Populate search form from HTTP request
-		final CourseSearchForm form = searcher.createSearchForm();
-		form.setSearchQuery(request.getParameter("queryText"));
-		form.setCampusSelect(Arrays.asList(request.getParameter("campusParam")
-				.split("\\s*,\\s*")));
-		form.setSearchTerm(request.getParameter("termParam"));
 		if (LOG.isDebugEnabled())
 			LOG.debug("Search form : " + form);
 
@@ -1533,14 +1403,9 @@ public class CourseSearchController extends UifControllerBase {
 
 	@RequestMapping(value = "/course/facetValues")
 	public void getFacetValues(HttpServletResponse response,
+			@ModelAttribute("KualiForm") final CourseSearchForm form,
 			final HttpServletRequest request) throws IOException {
 
-		// Populate search form from HTTP request
-		final CourseSearchForm form = searcher.createSearchForm();
-		form.setSearchQuery(request.getParameter("queryText"));
-		form.setCampusSelect(Arrays.asList(request.getParameter("campusParam")
-				.split("\\s*,\\s*")));
-		form.setSearchTerm(request.getParameter("termParam"));
 		if (LOG.isDebugEnabled())
 			LOG.debug("Search form : " + form);
 
@@ -1644,373 +1509,4 @@ public class CourseSearchController extends UifControllerBase {
 		return results;
 	}
 
-	@RequestMapping(value = "/course/s/")
-	public ModelAndView startClassFinder(
-			@ModelAttribute("KualiForm") UifFormBase form,
-			BindingResult result, HttpServletRequest request,
-			HttpServletResponse response) {
-		assert form instanceof ClassFinderForm : form;
-		super.start(form, result, request, response);
-		form.setViewId("ClassFinder-View");
-		form.setView(super.getViewService().getViewById("ClassFinder-View"));
-		ModelAndView mav = getUIFModelAndView(form);
-		// TODO: provide Angular-friendly default within KRAD
-		mav.setViewName(form.getView().getTemplate());
-		return mav;
-	}
-
-	// TODO: remove json/**
-	@RequestMapping(value = { "/course/s/partials/**",
-			"/course/s/templates/**", "/course/s/json/**" })
-	public ModelAndView htmlProxy(
-			@ModelAttribute("KualiForm") UifFormBase form,
-			BindingResult result, HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		String pi = request.getPathInfo();
-		assert pi.startsWith("/course/s/");
-		// TODO: move proxy folders under WEB-INF, parameterize root, validate
-		// token
-		String fp = "/arm-cs/" + pi.substring(10);
-		LOG.info("proxy HTML request for " + pi + " to " + fp);
-		request.getRequestDispatcher(fp).forward(request, response);
-		return null;
-	}
-
-	@RequestMapping(value = "/course/s/json")
-	public ModelAndView findClasses(
-			@ModelAttribute("KualiForm") final ClassFinderForm form,
-			BindingResult result, final HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-
-		if (form.getCriteriaKey() != null)
-			try {
-				KsapFrameworkServiceLocator.getClassFinderService()
-						.restoreCriteria(form.getCriteriaKey(), form);
-			} catch (Throwable t) {
-				LOG.warn("Failed to restore criteria for form " + form, t);
-			}
-
-		SessionSearchInfo table = form.getQuery() == null ? null
-				: getSearchResults(new FormKey(form),
-						new Callable<SessionSearchInfo>() {
-							@Override
-							public SessionSearchInfo call() throws Exception {
-								return new SessionSearchInfo(request, form,
-										true);
-							}
-						}, request);
-		if (table != null)
-			table.facetClick(form);
-
-		ObjectNode json = mapper.createObjectNode();
-
-		// criteria (see facets/radio in email, use "alerts" with "type"
-		// instead of "error")
-		// filters (see facets/radio in email)
-		// count
-		// results - actual data
-		json.put("query", form.getQuery());
-
-		// TODO: Model class finder response as a data object, and convert below
-		// to a builder
-		// TODO: pull placeholder and examples from MessageService
-		json.put("placeholder",
-				"title, keyword, department, subject, or number");
-		ArrayNode exa = json.putArray("examples");
-
-		ObjectNode ex = exa.addObject();
-		ex.put("label", "Find english courses");
-		ArrayNode exex = ex.putArray("examples");
-		exex.add("english");
-		exex.add("ENG");
-		exex.add("ENG-W");
-
-		ex = exa.addObject();
-		ex.put("label", "Find a specific english course");
-		exex = ex.putArray("examples");
-		exex.add("ENG-W 131");
-
-		ex = exa.addObject();
-		ex.put("label", "Find 200 level english courses");
-		exex = ex.putArray("examples");
-		exex.add("ENG 2*");
-
-		ObjectNode criteriaNode = json.putObject("criteria");
-		criteriaNode.put("key", KsapFrameworkServiceLocator
-				.getClassFinderService().saveCriteria(form));
-
-		ArrayNode ofas = criteriaNode.putArray("facets");
-
-		// Output Campus Location Options
-		ObjectNode campusFacetGroup = ofas.addObject();
-		campusFacetGroup.put("label", "Campus");
-		campusFacetGroup.put("select", true);
-		ArrayNode ocfas = campusFacetGroup.putArray("facets");
-		ObjectNode oCampusFacets = ocfas.addObject();
-		oCampusFacets.put("label", "Campuses");
-		ArrayNode campusFacetState = oCampusFacets.putArray("facets");
-
-		List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
-				.getEnumerationHelper().getEnumerationValueInfoList(
-						"kuali.lu.campusLocation");
-
-		EnumeratedValueInfo csa = null;
-		for (EnumeratedValueInfo ev : enumeratedValueInfoList)
-			// TODO - Online class search is IU specific,
-			// move to strategy override
-			if (!"edu.iu.sis.acadorg.SisInstitution.IUCSA"
-					.equals(ev.getValue())) {
-				ObjectNode campusFacet = campusFacetState.addObject();
-				campusFacet.put("label", ev.getValue());
-				campusFacet
-						.put("value", form.getFacet().contains(ev.getCode()));
-				campusFacet.put("id", ev.getCode());
-			} else
-				csa = ev;
-
-		// TODO - Online class search may be IU specific,
-		// move to strategy override
-		ObjectNode onlineFacets = ocfas.addObject();
-		ArrayNode onlineFacetState = onlineFacets.putArray("facets");
-		ObjectNode onlineFacet = onlineFacetState.addObject();
-		onlineFacet.put("label", "Online");
-		onlineFacet.put("value", form.getFacet().contains("ONLINE"));
-		onlineFacet.put("id", "ONLINE");
-		if (csa != null) {
-			onlineFacet = onlineFacetState.addObject();
-			onlineFacet.put("label", csa.getValue());
-			onlineFacet.put("value", form.getFacet().contains(csa.getCode()));
-			onlineFacet.put("id", csa.getCode());
-		}
-
-		// Output Course Level options to json
-		ObjectNode levelFacets = ofas.addObject();
-		levelFacets.put("label", "Degree Level");
-		ArrayNode alertsCourseLevel = levelFacets.putArray("alerts");
-		ObjectNode alertCourseLevel = alertsCourseLevel.addObject();
-		alertCourseLevel.put("type", "error");
-		alertCourseLevel.put("message", "Select a degree level.");
-		ArrayNode levelFacetState = levelFacets.putArray("facets");
-		StringBuilder clCondition = new StringBuilder("!(");
-		boolean first = true;
-		for (CourseLevel cl : CourseLevel.class.getEnumConstants()) {
-			if (first)
-				first = false;
-			else
-				clCondition.append("||");
-			clCondition.append(cl.name());
-			ObjectNode levelFacet = levelFacetState.addObject();
-			levelFacet.put("label", cl.toString());
-			levelFacet.put("value", form.getFacet().contains(cl.name()));
-			levelFacet.put("id", cl.name());
-
-			// IU Specific move when separating into independent module.
-			if (cl.name().compareTo("PROFESSIONAL") == 0) {
-				levelFacet
-						.put("condition",
-								"(edu.iu.sis.acadorg.SisInstitution.IUBLA||edu.iu.sis.acadorg.SisInstitution.IUINA)");
-			}
-		}
-		clCondition.append(")");
-		alertCourseLevel.put("condition", clCondition.toString());
-
-		// Output Term Options
-		ObjectNode termFacets = ofas.addObject();
-		termFacets.put("label", "Offered");
-		ArrayNode alertsTerm = termFacets.putArray("alerts");
-		ObjectNode alertTerm = alertsTerm.addObject();
-		alertTerm.put("type", "error");
-		alertTerm.put("message", "Select a term.");
-		termFacets.put("radio", true);
-		ArrayNode termFacetState = termFacets.putArray("facets");
-
-		StringBuilder termCondition = new StringBuilder();
-
-		ObjectNode anyTermFacet = termFacetState.addObject();
-		anyTermFacet.put("label", "Any term");
-		anyTermFacet
-				.put("value",
-						form.getFacet().contains(
-								CourseSearchForm.SEARCH_TERM_ANY_ITEM));
-		anyTermFacet.put("id", CourseSearchForm.SEARCH_TERM_ANY_ITEM);
-		termCondition.append("!" + CourseSearchForm.SEARCH_TERM_ANY_ITEM
-				+ "&&!(");
-
-		ObjectNode specificTermFacet = termFacetState.addObject();
-		specificTermFacet.put("label", "Specific term");
-		specificTermFacet.put("value",
-				!form.getFacet()
-						.contains(CourseSearchForm.SEARCH_TERM_ANY_ITEM));
-		specificTermFacet.put("id", "");
-		ArrayNode specificTermFacets = specificTermFacet.putArray("facets");
-		ObjectNode scheduledSpecificTermFacet = specificTermFacets.addObject();
-		scheduledSpecificTermFacet.put("label", "Scheduled classes");
-		ArrayNode scheduledSpecificTermFacets = scheduledSpecificTermFacet
-				.putArray("facets");
-
-		AtpService atpService = KsapFrameworkServiceLocator.getAtpService();
-		Calendar c = Calendar.getInstance();
-		c.setTime(KsapFrameworkServiceLocator.getTermHelper().getCurrentTerms()
-				.get(0).getStartDate());
-		c.add(Calendar.DATE, -1);
-		Date startDate = c.getTime();
-		c.setTime(new Date());
-		c.add(Calendar.YEAR, 1);
-		Date endDate = c.getTime();
-		try {
-			first = true;
-			for (AtpInfo atp : atpService.getAtpsByDates(startDate, endDate,
-					KsapFrameworkServiceLocator.getContext().getContextInfo())) {
-				if (first)
-					first = false;
-				else
-					termCondition.append("||");
-
-				termCondition.append(atp.getId());
-				ObjectNode termFacet = scheduledSpecificTermFacets.addObject();
-				termFacet.put("label", atp.getName());
-				termFacet.put("value", form.getFacet().contains(atp.getId()));
-				termFacet.put("id", atp.getId());
-			}
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("ATP lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("ATP lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("ATP lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("ATP lookup failure", e);
-		}
-
-		ObjectNode seasonTermFacet = specificTermFacets.addObject();
-		seasonTermFacet.put("label", "All courses");
-		seasonTermFacet.put("title", "including scheduled classes");
-		ArrayNode seasonTermFacets = seasonTermFacet.putArray("facets");
-
-		try {
-			List<TypeInfo> termTypeInfos = KsapFrameworkServiceLocator
-					.getAcademicCalendarService().getTermTypes(
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
-			if (termTypeInfos == null || termTypeInfos.isEmpty())
-				throw new IllegalStateException(
-						"No term types available using AcademicCalendarService.getTermTypes()");
-			String[] tto = new String[termTypeInfos.size()];
-			for (int i = 0; i < tto.length; i++) {
-				ObjectNode seasonTerm = seasonTermFacets.addObject();
-				seasonTerm.put("label", termTypeInfos.get(i).getName());
-				seasonTerm
-						.put("value",
-								form.getFacet().contains(
-										termTypeInfos.get(i).getKey()));
-				seasonTerm.put("id", termTypeInfos.get(i).getKey());
-
-				// IU Specific move when separating into independent module.
-				if (termTypeInfos.get(i).getKey()
-						.compareTo("edu.iu.sis.acadorg.SisTerm.type.winter") == 0) {
-					seasonTerm
-							.put("condition",
-									"GRADUATE&&(edu.iu.sis.acadorg.SisInstitution.IUBLA||edu.iu.sis.acadorg.SisInstitution.IUINA)");
-				}
-			}
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("Type lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("Type lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("Type lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("Type lookup error", e);
-		}
-		termCondition.append(")");
-
-		alertTerm.put("condition", termCondition.toString());
-
-		ObjectNode tempExtras = ofas.addObject();
-		ArrayNode extras = tempExtras.putArray("facets");
-		ObjectNode extra = extras.addObject();
-		ContextInfo ctx = KsapFrameworkServiceLocator.getContext()
-				.getContextInfo();
-		// TODO: move default message to ref data
-		String msg = "More than 10 years ago";
-		try {
-			MessageInfo mi = KsapFrameworkServiceLocator.getMessageService()
-					.getMessage(ctx.getLocale(), "kuali.ap.course",
-							"termNotProjected", ctx);
-			if (mi != null)
-				msg = mi.getValue();
-		} catch (DoesNotExistException e) {
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("Message lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("Message lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("Message lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("Message lookup failure", e);
-		}
-		extra.put("label", msg);
-		extra.put("id", "");
-
-		ObjectNode filters = json.putObject("filters");
-		ArrayNode filtersFacets = filters.putArray("facets");
-
-		if (table == null) {
-
-		} else {
-			Map<String, Map<String, FacetState>> facetStates = table.facetState;
-
-			// TODO: configure from strategy
-			Map<String, String> facetOrder = new java.util.LinkedHashMap<String, String>();
-			facetOrder.put("facet_gened", "Gen Ed");
-			facetOrder.put("facet_credits", "Credits");
-			facetOrder.put("facet_level", "Class Level");
-			facetOrder.put("facet_subject", "Subject");
-			facetOrder.put("facet_keywords", "Keywords");
-			for (Entry<String, String> fo : facetOrder.entrySet()) {
-				ObjectNode filterFacet = filtersFacets.addObject();
-				filterFacet.put("label", fo.getValue());
-				ArrayNode filterFacetFacets = filterFacet.putArray("facets");
-				Map<String, FacetState> facetStateValues = facetStates.get(fo
-						.getKey());
-				if (facetStateValues != null)
-					for (String key2 : facetStateValues.keySet()) {
-						FacetState state = facetStateValues.get(key2);
-						ObjectNode stateNode = filterFacetFacets.addObject();
-						stateNode.put("id", key2);
-						String fk = state.value.getKey();
-						assert fk.length() >= 3 && fk.charAt(0) == ';'
-								&& fk.charAt(fk.length() - 1) == ';' : fk + " "
-								+ state.value.getValue();
-						stateNode
-								.put("label", fk.substring(1, fk.length() - 1));
-						stateNode.put("value", state.value.getValue());
-						stateNode.put("count", state.count);
-						stateNode.put("value", state.checked);
-					}
-			}
-
-			List<SearchInfo> filteredResults = table.getFilteredResults(form);
-			json.put("count", filteredResults.size());
-			ArrayNode results = json.putArray("results");
-			int start = Math.min(form.getStart(), filteredResults.size());
-			int len = Math.min(form.getCount(), filteredResults.size() - start);
-			for (int i = 0; i < len; i++)
-				results.add(filteredResults.get(start + i).getItem()
-						.toJson(start + i));
-		}
-
-		String jsonString = mapper.writeValueAsString(json);
-		if (LOG.isDebugEnabled())
-			LOG.debug("JSON output : "
-					+ (jsonString.length() < 8192 ? jsonString : jsonString
-							.substring(0, 8192)));
-
-		response.setContentType("application/json");
-		response.setHeader("Cache-Control", "No-cache");
-		response.setHeader("Cache-Control", "No-store");
-		response.setHeader("Cache-Control", "max-age=0");
-		response.getWriter().println(jsonString);
-		return null;
-	}
 }

@@ -37,13 +37,18 @@
             <ref bean="course_details_back_link"/>
         </property>
 	    <property name="page">
-			<bean parent="Uif-Page" p:id="course_details_page"
-		          p:headerText="@{dataObject.courseSummaryDetails.code} @{dataObject.courseSummaryDetails.courseTitle} (@{dataObject.courseSummaryDetails.credit})">
-		        <property name="layoutManager">
-		            <bean parent="Uif-HorizontalBoxLayout"/>
-		        </property>
-		        <property name="onDocumentReadyScript"
-		                  value="
+	    	<ref bean="course_details_page" />
+	    </property>
+    </bean>
+
+	<bean id="course_details_page" parent="course_details_page-parent" />
+	<bean id="course_details_page-parent" parent="Uif-Page" p:id="course_details_page"
+		p:headerText="@{dataObject.courseSummaryDetails.code} @{dataObject.courseSummaryDetails.courseTitle} (@{dataObject.courseSummaryDetails.credit})">
+		<property name="layoutManager">
+			<bean parent="Uif-HorizontalBoxLayout" />
+		</property>
+		<property name="onDocumentReadyScript"
+			value="
 		                      jQuery('body')
 		                          .subscribe('SECTION_ITEM_ADDED', function(data){
 		                              var link = '&lt;a href=&quot;inquiry?methodToCall=start&amp;viewId=SingleTerm-InquiryView&amp;term_atp_id=' + data.atpId.replace(/-/g,'.') + '&quot;&gt;Added&lt;/a&gt;';
@@ -53,16 +58,14 @@
 		                                  jQuery('#section_' + data.InstituteCode + '_' + data.atpId + '_' + data.PrimarySectionCode).attr('title', data.PrimarySectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
 		                                  fnDisplayMessage(link, 'fl-font-size-80', 'section_' + data.InstituteCode + '_' + data.atpId + '_' + data.PrimarySectionCode, false);
 		                              }
-		                          });"/>
-		        <property name="items">
-		            <list>
-		                <ref bean="course_details_section"/>
-		                <ref bean="myplan_section"/>
-		            </list>
-		        </property>
-	    	</bean>
-	    </property>
-    </bean>
+		                          });" />
+		<property name="items">
+			<list>
+				<ref bean="course_details_section" />
+				<ref bean="myplan_section" />
+			</list>
+		</property>
+	</bean>
 
     <bean id="course_details_back_link" parent="Uif-ViewHeader">
         <property name="upperGroup">

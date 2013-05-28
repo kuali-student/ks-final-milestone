@@ -184,7 +184,7 @@ public class CourseSearchControllerTest {
 
 	@Test
 	public void testIsCourseOffered() throws Throwable {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		CourseSearchItemImpl course = new CourseSearchItemImpl();
 		CourseSearchStrategy strategy = KsapFrameworkServiceLocator
 				.getCourseSearchStrategy();

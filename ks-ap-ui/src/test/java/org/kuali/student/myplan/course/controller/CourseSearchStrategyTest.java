@@ -43,7 +43,7 @@ public class CourseSearchStrategyTest {
 
 	@Test
 	public void testAddCampusParams() throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
 		campusParams.add("311");
@@ -71,7 +71,7 @@ public class CourseSearchStrategyTest {
 
 	@Test
 	public void testAddCampusParams2() throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setCampusSelect(null);
 
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
@@ -93,7 +93,7 @@ public class CourseSearchStrategyTest {
 
 	@Test
 	public void testAddCampusParam() throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
 		campusParams.add("311");
@@ -119,7 +119,7 @@ public class CourseSearchStrategyTest {
 
 	@Test
 	public void testAddCampusParam2() throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setCampusSelect(null);
 
 		SearchRequestInfo requests = new SearchRequestInfo("test");
@@ -239,7 +239,7 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testQueryToRequestsExactCourseCodeAndNumberMatch()
 			throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("AP 101");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
@@ -268,7 +268,7 @@ public class CourseSearchStrategyTest {
 
 	@Test
 	public void testQueryToRequestsCourseCodeMatch() throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("PHIL");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
@@ -326,7 +326,7 @@ public class CourseSearchStrategyTest {
 
 	@Test
 	public void testQueryToRequestsSingleStringMatch() throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("Astro");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
@@ -366,7 +366,7 @@ public class CourseSearchStrategyTest {
 
 	@Test
 	public void testQueryToRequestsCodeAndLevelMatch() throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("BIOL 1xx");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
@@ -404,7 +404,7 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testQueryToRequestsSingleStringAndCourseCodeMatch()
 			throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("Astronomy");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
@@ -450,7 +450,7 @@ public class CourseSearchStrategyTest {
 	 * testQueryToRequestsCourseCodeAndAdditionalCourseCodeMatch() throws
 	 * Exception {
 	 * 
-	 * CourseSearchForm form = new CourseSearchFormImpl();
+	 * CourseSearchFormImpl form = new CourseSearchFormImpl();
 	 * form.setSearchQuery("HIST"); List<String> campusParams=new
 	 * ArrayList<String>(); campusParams.add("310");
 	 * form.setCampusSelect(campusParams); form.setSearchTerm("any");
@@ -503,7 +503,7 @@ public class CourseSearchStrategyTest {
 
 	@Test
 	public void testQueryToRequestsTwoStringsMatch() throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("Engronomy biology");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
@@ -583,7 +583,7 @@ public class CourseSearchStrategyTest {
 	 * not present.
 	 * 
 	 * @Test public void testQueryToRequestsTwoCourseCodesMatch() throws
-	 * Exception { CourseSearchForm form = new CourseSearchFormImpl();
+	 * Exception { CourseSearchFormImpl form = new CourseSearchFormImpl();
 	 * form.setSearchQuery("PHIL BIOL"); List<String> campusParams = new
 	 * ArrayList<String>(); campusParams.add("310");
 	 * form.setCampusSelect(campusParams); form.setSearchTerm("any");
@@ -663,7 +663,7 @@ public class CourseSearchStrategyTest {
 
 	@Test
 	public void testQueryToRequestsEmpty() throws Exception {
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("");
 		List<String> campusParams = new ArrayList<String>();
 		form.setCampusSelect(campusParams);
@@ -717,7 +717,7 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testProcessRequests() throws Exception {
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("ASTR");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("306");
@@ -776,7 +776,7 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testProcessRequests2() throws Exception {
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("HIST");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
@@ -851,7 +851,7 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testProcessRequests3() throws Exception {
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("PHILONOMY");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
@@ -895,7 +895,7 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testProcessRequests4() throws Exception {
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("ASTRONOMY BIOLOGY");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("310");
@@ -966,7 +966,7 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testProcessRequests5() throws Exception {
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("ASTR BIOL");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("306");
@@ -1065,7 +1065,7 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testProcessRequests6() throws Exception {
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("AS");
 		List<String> campusParams = new ArrayList<String>();
 		campusParams.add("306");
@@ -1099,7 +1099,7 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testProcessRequests7() throws Exception {
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-		CourseSearchForm form = new CourseSearchFormImpl();
+		CourseSearchFormImpl form = new CourseSearchFormImpl();
 		form.setSearchQuery("");
 		List<String> campusParams = new ArrayList<String>();
 		form.setCampusSelect(campusParams);

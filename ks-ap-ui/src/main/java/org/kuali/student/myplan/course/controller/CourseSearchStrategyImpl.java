@@ -19,14 +19,11 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.framework.context.TermHelper;
-import org.kuali.student.ap.framework.course.ClassFinderForm;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.Credit;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
@@ -50,7 +47,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -939,41 +935,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				form.getSearchQuery(), form.getSearchTerm(),
 				form.getCampusSelect(), String.valueOf(hits.size())));
 		return courseList;
-	}
-
-	@Override
-	public List<CourseSearchItem> findClasses(ClassFinderForm form,
-			String principalName) {
-		Set<String> cloc = getCampusLocations();
-		Set<String> termOptions = new java.util.HashSet<String>();
-		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
-		for (Term t : th.getCurrentTerms())
-			termOptions.add(t.getId());
-		AcademicCalendarService acal = KsapFrameworkServiceLocator
-				.getAcademicCalendarService();
-		try {
-			for (TypeInfo tt : acal.getTermTypes(KsapFrameworkServiceLocator
-					.getContext().getContextInfo()))
-				termOptions.add(tt.getKey());
-		} catch (InvalidParameterException e) {
-			throw new IllegalStateException("Acal lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalStateException("Acal lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("Acal lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("Acal lookup failure", e);
-		}
-		CourseSearchForm csform = createSearchForm();
-		csform.setSearchQuery(form.getQuery());
-		List<String> campusSelect = new java.util.LinkedList<String>();
-		for (String fk : form.getFacet()) {
-			if (cloc.contains(fk))
-				campusSelect.add(fk);
-			if (termOptions.contains(fk))
-				csform.setSearchTerm(fk);
-		}
-		return courseSearch(csform, principalName);
 	}
 
 	public void hitCourseID(Map<String, Hit> courseMap, String id) {

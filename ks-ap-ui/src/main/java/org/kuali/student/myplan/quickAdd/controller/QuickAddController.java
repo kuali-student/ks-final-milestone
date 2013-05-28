@@ -3,6 +3,7 @@ package org.kuali.student.myplan.quickAdd.controller;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -78,7 +80,7 @@ public class QuickAddController extends UifControllerBase {
 
 	private final CourseSearchController searchController = new CourseSearchController();
 
-    private transient AcademicPlanService academicPlanService;
+	private transient AcademicPlanService academicPlanService;
 
 	private final CourseSearchStrategy strategy = KsapFrameworkServiceLocator
 			.getCourseSearchStrategy();
@@ -119,11 +121,10 @@ public class QuickAddController extends UifControllerBase {
 			} else if (searchForm.getPlanType().equalsIgnoreCase(
 					QuickAddConstants.BACKUP_TYPE)) {
 				termYear = termYear + QuickAddConstants.BACKUP;
+			} else if (searchForm.getPlanType().equalsIgnoreCase(
+					QuickAddConstants.CART_TYPE)) {
+				termYear = termYear + QuickAddConstants.CART;
 			}
-            else if (searchForm.getPlanType().equalsIgnoreCase(
-                    QuickAddConstants.CART_TYPE)) {
-                termYear = termYear + QuickAddConstants.CART;
-            }
 			searchForm.setTermYear(termYear);
 		}
 		return getUIFModelAndView(searchForm);
@@ -228,10 +229,7 @@ public class QuickAddController extends UifControllerBase {
 					QuickAddConstants.EMPTY_SEARCH, null, parameters);
 		}
 
-        SessionSearchInfo searchInfo = getSearchResults(form,request);
-
-
-
+		SessionSearchInfo searchInfo = getSearchResults(form, request);
 
 		if (searchInfo.getSearchResults().isEmpty()) {
 			return doOperationFailedError(form, "Could not find course",
@@ -239,13 +237,14 @@ public class QuickAddController extends UifControllerBase {
 					new String[] { form.getCourseCd() });
 		}
 
-        if (searchInfo.getSearchResults().size()>1) {
-            return doOperationFailedError(form, "Multiple Courses Found",
-                    QuickAddConstants.COURSE_NOT_FOUND, null,
-                    new String[] { form.getCourseCd() });
-        }
+		if (searchInfo.getSearchResults().size() > 1) {
+			return doOperationFailedError(form, "Multiple Courses Found",
+					QuickAddConstants.COURSE_NOT_FOUND, null,
+					new String[] { form.getCourseCd() });
+		}
 
-        String courseId = searchInfo.getSearchResults().get(0).getItem().getCourseId();
+		String courseId = searchInfo.getSearchResults().get(0).getItem()
+				.getCourseId();
 		// Further validation of ATP IDs will happen in the service validation
 		// methods.
 		if (org.apache.commons.lang.StringUtils.isEmpty(form.getAtpId())) {
@@ -264,9 +263,9 @@ public class QuickAddController extends UifControllerBase {
 		if (form.getPlanType().equalsIgnoreCase("backup")) {
 			newType = PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP;
 		}
-        if (form.getPlanType().equalsIgnoreCase("cart")) {
-            newType = PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART;
-        }
+		if (form.getPlanType().equalsIgnoreCase("cart")) {
+			newType = PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART;
+		}
 
 		// This list can only contain one item, otherwise the backend validation
 		// will fail.
@@ -457,8 +456,8 @@ public class QuickAddController extends UifControllerBase {
 				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
 				|| planItem.getTypeKey().equals(
 						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
-                || planItem.getTypeKey().equals(
-                        PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+				|| planItem.getTypeKey().equals(
+						PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
 			params.put("atpId",
 					formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
 		}
@@ -526,16 +525,16 @@ public class QuickAddController extends UifControllerBase {
 			}
 		}
 
-        if (planItem == null) {
-            try {
-                planItem = getPlanItemByAtpAndType(learningPlan.getId(),
-                        courseId, atpId,
-                        PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
-            } catch (Exception e) {
-                LOG.error("Could not retrieve plan items.", e);
-                throw new RuntimeException("Could not retrieve plan items.", e);
-            }
-        }
+		if (planItem == null) {
+			try {
+				planItem = getPlanItemByAtpAndType(learningPlan.getId(),
+						courseId, atpId,
+						PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+			} catch (Exception e) {
+				LOG.error("Could not retrieve plan items.", e);
+				throw new RuntimeException("Could not retrieve plan items.", e);
+			}
+		}
 
 		// A null here means that no plan item exists for the given course and
 		// ATP IDs.
@@ -846,109 +845,108 @@ public class QuickAddController extends UifControllerBase {
 		return totalCredits;
 	}
 
-    private String getCartCredits(String termId) {
-        double plannedTotalMin = 0;
-        double plannedTotalMax = 0;
-        String totalCredits = null;
-        Person user = GlobalVariables.getUserSession().getPerson();
-        String studentID = user.getPrincipalId();
+	private String getCartCredits(String termId) {
+		double plannedTotalMin = 0;
+		double plannedTotalMax = 0;
+		String totalCredits = null;
+		Person user = GlobalVariables.getUserSession().getPerson();
+		String studentID = user.getPrincipalId();
 
-        String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
-        List<LearningPlanInfo> learningPlanList = null;
+		String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
+		List<LearningPlanInfo> learningPlanList = null;
 
+		List<PlanItemInfo> planItemList = null;
+		try {
+			learningPlanList = getAcademicPlanService()
+					.getLearningPlansForStudentByType(
+							studentID,
+							planTypeKey,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
+			for (LearningPlanInfo learningPlan : learningPlanList) {
+				String learningPlanID = learningPlan.getId();
 
-        List<PlanItemInfo> planItemList = null;
-        try {
-            learningPlanList = getAcademicPlanService()
-                    .getLearningPlansForStudentByType(
-                            studentID,
-                            planTypeKey,
-                            KsapFrameworkServiceLocator.getContext()
-                                    .getContextInfo());
-            for (LearningPlanInfo learningPlan : learningPlanList) {
-                String learningPlanID = learningPlan.getId();
+				planItemList = getAcademicPlanService()
+						.getPlanItemsInPlanByType(
+								learningPlanID,
+								PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART,
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo());
 
-                planItemList = getAcademicPlanService()
-                        .getPlanItemsInPlanByType(
-                                learningPlanID,
-                                PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART,
-                                KsapFrameworkServiceLocator.getContext()
-                                        .getContextInfo());
+				for (PlanItemInfo planItem : planItemList) {
+					String courseID = planItem.getRefObjectId();
+					if (planItem.getRefObjectType().equalsIgnoreCase(
+							PlanConstants.COURSE_TYPE)) {
+						if (this.courseDetailsInquiryService
+								.isCourseIdValid(courseID)) {
+							for (String atp : planItem.getPlanPeriods()) {
+								if (atp.equalsIgnoreCase(termId)) {
+									CourseSummaryDetails courseDetails = this.courseDetailsInquiryService
+											.retrieveCourseSummaryById(courseID);
+									if (courseDetails != null
+											&& !courseDetails.getCredit()
+													.contains(".")) {
+										String[] str = courseDetails
+												.getCredit().split("\\D");
+										double min = Double.parseDouble(str[0]);
+										plannedTotalMin += min;
+										double max = Double
+												.parseDouble(str[str.length - 1]);
+										plannedTotalMax += max;
 
-                for (PlanItemInfo planItem : planItemList) {
-                    String courseID = planItem.getRefObjectId();
-                    if (planItem.getRefObjectType().equalsIgnoreCase(
-                            PlanConstants.COURSE_TYPE)) {
-                        if (this.courseDetailsInquiryService.isCourseIdValid(
-                                courseID)) {
-                            for (String atp : planItem.getPlanPeriods()) {
-                                if (atp.equalsIgnoreCase(termId)) {
-                                    CourseSummaryDetails courseDetails = this.courseDetailsInquiryService
-                                            .retrieveCourseSummaryById(courseID);
-                                    if (courseDetails != null
-                                            && !courseDetails.getCredit()
-                                            .contains(".")) {
-                                        String[] str = courseDetails
-                                                .getCredit().split("\\D");
-                                        double min = Double.parseDouble(str[0]);
-                                        plannedTotalMin += min;
-                                        double max = Double
-                                                .parseDouble(str[str.length - 1]);
-                                        plannedTotalMax += max;
+									} else if (courseDetails != null
+											&& courseDetails.getCredit()
+													.contains(".")) {
+										if (courseDetails.getCredit().contains(
+												PlanConstants.MULTIPLE)) {
+											String[] str = courseDetails
+													.getCredit()
+													.split(PlanConstants.MULTIPLE);
+											plannedTotalMin += Double
+													.parseDouble(str[0]);
+											plannedTotalMax += Double
+													.parseDouble(str[1]);
+										} else if (courseDetails.getCredit()
+												.contains(PlanConstants.RANGE)) {
+											String[] str = courseDetails
+													.getCredit()
+													.split(PlanConstants.RANGE);
+											plannedTotalMin += Double
+													.parseDouble(str[0]);
+											plannedTotalMax += Double
+													.parseDouble(str[1]);
+										} else {
+											plannedTotalMin += Double
+													.parseDouble(courseDetails
+															.getCredit());
+											plannedTotalMax += Double
+													.parseDouble(courseDetails
+															.getCredit());
+										}
+									}
+								}
+								totalCredits = Double.toString(plannedTotalMin);
+								if (plannedTotalMin != plannedTotalMax) {
+									totalCredits = totalCredits + "-"
+											+ Double.toString(plannedTotalMax);
+								}
+							}
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			LOG.error("could not load total credits");
+		}
 
-                                    } else if (courseDetails != null
-                                            && courseDetails.getCredit()
-                                            .contains(".")) {
-                                        if (courseDetails.getCredit().contains(
-                                                PlanConstants.MULTIPLE)) {
-                                            String[] str = courseDetails
-                                                    .getCredit()
-                                                    .split(PlanConstants.MULTIPLE);
-                                            plannedTotalMin += Double
-                                                    .parseDouble(str[0]);
-                                            plannedTotalMax += Double
-                                                    .parseDouble(str[1]);
-                                        } else if (courseDetails.getCredit()
-                                                .contains(PlanConstants.RANGE)) {
-                                            String[] str = courseDetails
-                                                    .getCredit()
-                                                    .split(PlanConstants.RANGE);
-                                            plannedTotalMin += Double
-                                                    .parseDouble(str[0]);
-                                            plannedTotalMax += Double
-                                                    .parseDouble(str[1]);
-                                        } else {
-                                            plannedTotalMin += Double
-                                                    .parseDouble(courseDetails
-                                                            .getCredit());
-                                            plannedTotalMax += Double
-                                                    .parseDouble(courseDetails
-                                                            .getCredit());
-                                        }
-                                    }
-                                }
-                                totalCredits = Double.toString(plannedTotalMin);
-                                if (plannedTotalMin != plannedTotalMax) {
-                                    totalCredits = totalCredits + "-"
-                                            + Double.toString(plannedTotalMax);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            LOG.error("could not load total credits");
-        }
-
-        if (totalCredits != null) {
-            if (totalCredits.contains(".0"))
-                totalCredits = totalCredits.replace(".0", "");
-        } else {
-            totalCredits = "0";
-        }
-        return totalCredits;
-    }
+		if (totalCredits != null) {
+			if (totalCredits.contains(".0"))
+				totalCredits = totalCredits.replace(".0", "");
+		} else {
+			totalCredits = "0";
+		}
+		return totalCredits;
+	}
 
 	/**
 	 * Creates an update credits event.
@@ -966,8 +964,8 @@ public class QuickAddController extends UifControllerBase {
 		params.put("atpId", formatAtpIdForUI(atpId));
 		String totalCredits = this.getTotalCredits(atpId);
 		params.put("totalCredits", totalCredits);
-        String cartCredits = this.getCartCredits(atpId);
-        params.put("cartCredits", cartCredits);
+		String cartCredits = this.getCartCredits(atpId);
+		params.put("cartCredits", cartCredits);
 
 		events.put(eventName, params);
 		return events;
@@ -1001,8 +999,8 @@ public class QuickAddController extends UifControllerBase {
 				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
 				|| planItem.getTypeKey().equals(
 						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
-                || planItem.getTypeKey().equals(
-                        PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+				|| planItem.getTypeKey().equals(
+						PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
 			params.put("atpId",
 					formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
 			// event for aler Icon
@@ -1151,11 +1149,10 @@ public class QuickAddController extends UifControllerBase {
 				.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
 			return (counter >= PlanConstants.PLANNED_PLAN_ITEM_CAPACITY) ? false
 					: true;
-		} else if (typeKey
-                .equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
-            return (counter >= PlanConstants.CART_PLAN_ITEM_CAPACITY) ? false
-                    : true;
-        }
+		} else if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+			return (counter >= PlanConstants.CART_PLAN_ITEM_CAPACITY) ? false
+					: true;
+		}
 
 		throw new RuntimeException(String.format(
 				"Unknown plan item type [%s].", typeKey));
@@ -1257,9 +1254,9 @@ public class QuickAddController extends UifControllerBase {
 		if (type.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
 			errorId = PlanConstants.ERROR_KEY_BACKUP_ITEM_CAPACITY_EXCEEDED;
 		}
-        if (type.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
-            errorId = PlanConstants.ERROR_KEY_CART_ITEM_CAPACITY_EXCEEDED;
-        }
+		if (type.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+			errorId = PlanConstants.ERROR_KEY_CART_ITEM_CAPACITY_EXCEEDED;
+		}
 		return doErrorPage(form, errorId, new String[0]);
 	}
 
@@ -1443,78 +1440,89 @@ public class QuickAddController extends UifControllerBase {
 		return results;
 	}
 
-    /**
-     * Synchronously retrieve session bound search results for an incoming
-     * request.
-     *
-     * <p>
-     * This method ensures that only one back-end search per HTTP session is
-     * running at the same time for the same set of criteria. This is important
-     * since the browser fires requests for the facet table and the search table
-     * independently, so this consideration constrains those two requests to
-     * operating synchronously on the same set of results.
-     * </p>
-     *
-     * @param request
-     *            The incoming request.
-     * @return Session-bound search results for the request.
-     */
-    private SessionSearchInfo getSearchResults(QuickAddForm quickAddForm,  HttpServletRequest request) {
-        /**
-         * HTTP session attribute key for holding recent search results.
-         */
-        String RESULTS_ATTR = QuickAddController.class
-                .getName() + ".results";
+	/**
+	 * Synchronously retrieve session bound search results for an incoming
+	 * request.
+	 * 
+	 * <p>
+	 * This method ensures that only one back-end search per HTTP session is
+	 * running at the same time for the same set of criteria. This is important
+	 * since the browser fires requests for the facet table and the search table
+	 * independently, so this consideration constrains those two requests to
+	 * operating synchronously on the same set of results.
+	 * </p>
+	 * 
+	 * @param request
+	 *            The incoming request.
+	 * @return Session-bound search results for the request.
+	 */
+	private SessionSearchInfo getSearchResults(QuickAddForm quickAddForm,
+			HttpServletRequest request) {
+		/**
+		 * HTTP session attribute key for holding recent search results.
+		 */
+		String RESULTS_ATTR = QuickAddController.class.getName() + ".results";
 
-        // Populate search form from HTTP request
-        CourseSearchForm form = KsapFrameworkServiceLocator.getCourseSearchStrategy().createSearchForm();
-        form.setSearchQuery(quickAddForm.getCourseCd());
-        form.setSearchTerm("any");
-        if (LOG.isDebugEnabled())
-            LOG.debug("Search form : " + form);
+		// Populate search form from HTTP request
+		CourseSearchForm form = KsapFrameworkServiceLocator
+				.getCourseSearchStrategy().createSearchForm();
+		try {
+			PropertyUtils.setProperty(form, "searchQuery",
+					quickAddForm.getCourseCd());
+			PropertyUtils.setProperty(form, "searchTerm", "any");
+		} catch (IllegalAccessException e) {
+			throw new IllegalStateException("CourseSearchForm is not mutable "
+					+ form, e);
+		} catch (InvocationTargetException e) {
+			throw new IllegalStateException("CourseSearchForm is not mutable "
+					+ form, e);
+		} catch (NoSuchMethodException e) {
+			throw new IllegalStateException("CourseSearchForm is not mutable "
+					+ form, e);
+		}
+		if (LOG.isDebugEnabled())
+			LOG.debug("Search form : " + form);
 
-        // Check HTTP session for cached search results
-        FormKey k = new FormKey(form);
-        @SuppressWarnings("unchecked")
-        Map<FormKey, SessionSearchInfo> results = (Map<FormKey, SessionSearchInfo>) request
-                .getSession().getAttribute(RESULTS_ATTR);
-        if (results == null)
-            request.getSession()
-                    .setAttribute(
-                            RESULTS_ATTR,
-                            results = Collections
-                                    .synchronizedMap(new java.util.LinkedHashMap<FormKey, SessionSearchInfo>()));
-        SessionSearchInfo table = null;
-        // Synchronize on the result table to constrain sessions to
-        // one back-end search at a time
-        synchronized (results) {
-            // dump search results in excess of 3
-            while (results.size() > 3) {
-                Iterator<?> ei = results.entrySet().iterator();
-                ei.next();
-                ei.remove();
-            }
-            results.put(
-                    k, // The back-end search happens here --------V
-                    (table = results.remove(k)) == null ? table = new SessionSearchInfo(
-                            request, form) : table);
-        }
-        return table;
-    }
+		// Check HTTP session for cached search results
+		FormKey k = new FormKey(form);
+		@SuppressWarnings("unchecked")
+		Map<FormKey, SessionSearchInfo> results = (Map<FormKey, SessionSearchInfo>) request
+				.getSession().getAttribute(RESULTS_ATTR);
+		if (results == null)
+			request.getSession()
+					.setAttribute(
+							RESULTS_ATTR,
+							results = Collections
+									.synchronizedMap(new java.util.LinkedHashMap<FormKey, SessionSearchInfo>()));
+		SessionSearchInfo table = null;
+		// Synchronize on the result table to constrain sessions to
+		// one back-end search at a time
+		synchronized (results) {
+			// dump search results in excess of 3
+			while (results.size() > 3) {
+				Iterator<?> ei = results.entrySet().iterator();
+				ei.next();
+				ei.remove();
+			}
+			results.put(
+					k, // The back-end search happens here --------V
+					(table = results.remove(k)) == null ? table = new SessionSearchInfo(
+							request, form) : table);
+		}
+		return table;
+	}
 
-    public AcademicPlanService getAcademicPlanService() {
-        if (academicPlanService == null) {
-            academicPlanService = (AcademicPlanService) GlobalResourceLoader
-                    .getService(new QName(PlanConstants.NAMESPACE,
-                            PlanConstants.SERVICE_NAME));
-        }
-        return academicPlanService;
-    }
+	public AcademicPlanService getAcademicPlanService() {
+		if (academicPlanService == null) {
+			academicPlanService = (AcademicPlanService) GlobalResourceLoader
+					.getService(new QName(PlanConstants.NAMESPACE,
+							PlanConstants.SERVICE_NAME));
+		}
+		return academicPlanService;
+	}
 
-    public void setAcademicPlanService(AcademicPlanService academicPlanService) {
-        this.academicPlanService = academicPlanService;
-    }
-
-
+	public void setAcademicPlanService(AcademicPlanService academicPlanService) {
+		this.academicPlanService = academicPlanService;
+	}
 
 }

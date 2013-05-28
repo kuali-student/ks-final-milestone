@@ -175,7 +175,6 @@ public interface CourseSearchStrategy {
 	 *            The search result row.
 	 * @param key
 	 *            The column key.
-	 *            @
 	 */
 	String getCellValue(SearchResultRow row, String key);
 
@@ -195,8 +194,5 @@ public interface CourseSearchStrategy {
 			List<String> divisions, boolean isSpaceAllowed);
 
 	Map<String, Comparator<String>> getFacetSort();
-
-	List<CourseSearchItem> findClasses(ClassFinderForm form,
-			String principalName);
 
 }
