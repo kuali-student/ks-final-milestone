@@ -110,11 +110,9 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeInfoMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ManageRegistrationGroupsView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CopyCourseOfferingPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageActivityOfferingsPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SelectedAoDeleteConfirmationPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CoDeleteConfirmationPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/PersonnelLookupView.xml</value>
