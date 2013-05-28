@@ -235,7 +235,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      * Returns the Subject (Org) code.
      *
      * @see #setSubjectCode(String)
-     * @return
+     * @return subjectCode
      */
     public String getSubjectCode(){
         return subjectCode;
@@ -246,7 +246,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      * for CO search,
      *
      * @see #setSubjectCodeDescription(String)
-     * @param subjectCode
+     * @param subjectCode Subject Code
      */
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;
@@ -328,7 +328,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      * This has its ref at view xml.
      *
      * @see #setSubjectCodeDescription(String)
-     * @return
+     * @return subjectCodeDescription
      */
     @SuppressWarnings("unused")
     public String getSubjectCodeDescription() {
@@ -338,7 +338,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     /**
      * Sets the subject code. This will be displayed when the result set is only Course Offerings
      *
-     * @param subjectCodeDescription
+     * @param subjectCodeDescription Subject Code Description
      */
     public void setSubjectCodeDescription(String subjectCodeDescription) {
         this.subjectCodeDescription = subjectCodeDescription;

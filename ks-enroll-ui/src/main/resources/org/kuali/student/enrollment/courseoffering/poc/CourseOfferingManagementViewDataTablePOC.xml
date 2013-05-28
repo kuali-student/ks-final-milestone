@@ -23,7 +23,7 @@
           p:id="courseOfferingManagementViewDataTablePOC"
           p:entryPageId="searchInputPageDataTablePOC"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingManagementViewHelperServiceImpl"
-          p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm">
+          p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
