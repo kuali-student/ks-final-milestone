@@ -25,6 +25,17 @@
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm">
 
+        <property name="topGroup">
+            <bean  parent="KS-Uif-HorizontalBoxGroup-TopGroup">
+                <property name="items">
+                    <list merge="true">
+                        <bean id="contextBarTermCode" parent="Uif-InputField" p:readOnly="true" p:propertyName="contextBarTermCode"/>
+                        <bean id="contextBarSocState" parent="Uif-InputField" p:readOnly="true" p:propertyName="contextBarSocState"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <bean parent="Uif-BreadcrumbItem">

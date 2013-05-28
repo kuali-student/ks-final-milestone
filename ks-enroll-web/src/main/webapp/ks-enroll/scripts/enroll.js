@@ -828,4 +828,17 @@ function highlightElements(validationJSONString, isValid){
 
 }
 
+function updateContextBar(){
+    var termCode = jQuery("#contextBarTermCodeId_control");
+    var termCodeLabel = jQuery("#contextBarTermCode");
+    termCodeLabel.text(termCode.val());
+//    var termCodeLableHeight = termCodeLabel.height();
+
+    var socState = jQuery("#contextBarSocStateId_control");
+    var socStateLabel = jQuery("#contextBarSocState");
+    socStateLabel.text(socState.val());
+//    var socStateLableHeight = socStateLabel.height();
+
+//    jQuery("#Uif-TopGroupWrapper").height((termCodeLableHeight  > socStateLableHeight) ? termCodeLableHeight : socStateLableHeight );
+}
 

@@ -20,7 +20,7 @@
      limitations under the License.
     -->
     <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="manageTheCourseOfferingPage">
+          p:id="manageTheCourseOfferingPage" p:onDocumentReadyScript="updateContextBar();">
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
@@ -71,6 +71,8 @@
                         <bean parent="Uif-HiddenControl"/>
                     </property>
                 </bean>
+                <bean id="contextBarSocStateId" parent="Uif-InputField" p:hidden="true" p:propertyName="contextBarSocState"/>
+                <bean id="contextBarTermCodeId" parent="Uif-InputField" p:hidden="true" p:propertyName="contextBarTermCode"/>
                 <ref bean="KS-CourseOfferingManagement-ViewAOClustersSection"/>
                 <ref bean="KS-CourseOfferingManagement-ViewRegistrationGroupsSection"/>
             </list>

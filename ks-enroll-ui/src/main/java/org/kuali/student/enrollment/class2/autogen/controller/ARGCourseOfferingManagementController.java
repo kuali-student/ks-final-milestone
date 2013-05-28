@@ -139,6 +139,9 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         form.setInputCode(form.getInputCode().toUpperCase());
         ARGUtil.getViewHelperService(form).populateTerm(form);
 
+        form.setContextBarTermCode(form.getTermCode());
+        form.setContextBarSocState(form.getSocState());
+
         if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
             return getUIFModelAndView(form);
         }
