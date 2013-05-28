@@ -49,6 +49,7 @@
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
+        <property name="stickyTopGroup" value="true"/>
         <property name="stickyBreadcrumbs" value="true"/>
         <property name="stickyApplicationHeader" value="true"/>
         <property name="applicationHeader">
@@ -59,6 +60,34 @@
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
         <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+    </bean>
+
+    <bean id="KS-Uif-HorizontalBoxGroup-TopGroup" abstract="true" parent="Uif-HorizontalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-topGroup</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <!--<bean parent="Uif-DataField" p:label="Term" p:propertyName="termCode" p:cssClasses="ks-dataField"/>-->
+                <!--<bean parent="Uif-DataField" p:label="State" p:propertyName="socState" p:cssClasses="ks-dataField"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-VerticalBoxGroup-TopGroup" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-topGroup</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <!--<bean parent="KS-Uif-DataField-Simple" p:label="Term" p:propertyName="termCode"/>-->
+                <!--<bean parent="KS-Uif-DataField-Simple" p:label="State" p:propertyName="socState"/>-->
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-Uif-LookupView" abstract="true"
