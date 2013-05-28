@@ -15,14 +15,13 @@
  */
 package org.kuali.student.enrollment.class1.krms.controller;
 
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
-import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
@@ -52,6 +51,27 @@ import java.util.List;
 @Controller
 @RequestMapping(value = KRMSConstants.WebPaths.RULE_STUDENT_EDITOR_PATH)
 public class RuleStudentEditorController extends RuleEditorController {
+
+    @Override
+    @RequestMapping(params = "methodToCall=route")
+    public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+
+        super.route(form,result,request, response);
+
+        return back(form,result,request,response);
+    }
+
+    @RequestMapping(params = "methodToCall=cancel")
+    @Override
+    public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+
+        DocumentFormBase documentForm = (DocumentFormBase) form;
+        performWorkflowAction(documentForm, UifConstants.WorkflowAction.CANCEL, false);
+
+        return back(form,result,request,response);
+    }
 
     @Override
     @RequestMapping(params = "methodToCall=addRule")

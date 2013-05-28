@@ -33,6 +33,23 @@
                 <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
             </list>
         </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Home"/>
+                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Enrollment"/>
+                    <property name="url.viewId" value="enrollmentHomeView"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Manage Course Offerings"/>
+                    <property name="url.viewId" value="courseOfferingManagementView"/>
+                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="CORuleWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
