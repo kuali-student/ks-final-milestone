@@ -497,7 +497,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             List<String> scheduleIds = searchForScheduleIdsByAOId(aoId);
             if(scheduleIds != null && !scheduleIds.isEmpty()) {
                 for(String scheduleId : scheduleIds) {
-                    strSchedules = scheduleId + ",";
+                    strSchedules = strSchedules + scheduleId + ",";
                 }
 
                 row.addCell(SearchResultColumns.SCHEDULE_ID, strSchedules.substring(0, strSchedules.lastIndexOf(",")));
