@@ -53,8 +53,6 @@
 		</property>
 	</bean>
 
-    <bean id="classFinderService" class="org.kuali.student.ap.course.service.ClassFinderServiceImpl" />
-
     <!-- Default JPA EntityManagerFactory -->
     <bean id="apDefaultEntityManagerFactory" abstract="true"
     		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -107,10 +105,6 @@
     </bean>
 
     <bean id="planItemRichTextDao" class="org.kuali.student.myplan.academicplan.dao.PlanItemRichTextDao">
-        <property name="em" ref="lpEntityManager"/>
-    </bean>
-
-    <bean id="classFinderDao" class="org.kuali.student.ap.course.dao.ClassFinderDao">
         <property name="em" ref="lpEntityManager"/>
     </bean>
 
