@@ -75,7 +75,7 @@
 
     <!-- TODO this contextRegistry should be part of KS -->
     <bean id="contextRegistry"
-          class="org.kuali.rice.krms.impl.repository.language.ContextRegistry">
+          class="org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry">
         <constructor-arg>
             <map>
                 <entry key="kuali.krms.proposition.type.course.courseset.completed.none">

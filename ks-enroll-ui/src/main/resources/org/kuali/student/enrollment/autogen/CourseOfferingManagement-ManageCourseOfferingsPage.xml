@@ -33,7 +33,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection" p:id="searchResultSection" p:onDocumentReadyScript="updateContextBar();">
+    <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection" p:id="searchResultSection">
         <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="headerText" value="@{subjectCode} - @{subjectCodeDescription}" />
         <property name="disclosure.render" value="false"/>
@@ -45,8 +45,6 @@
         </property>
         <property name="items">
             <list>
-                <bean id="contextBarSocStateId" parent="Uif-InputField" p:hidden="true" p:propertyName="contextBarSocState"/>
-                <bean id="contextBarTermCodeId" parent="Uif-InputField" p:hidden="true" p:propertyName="contextBarTermCode"/>
                 <ref bean="KS-CourseOfferingManagement-CO-ToolBarSection"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingListSection"/>
             </list>

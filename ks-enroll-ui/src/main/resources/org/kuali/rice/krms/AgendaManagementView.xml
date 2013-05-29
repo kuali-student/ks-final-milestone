@@ -151,8 +151,11 @@
             </bean>
         </property>
         <property name="rulePrototype">
-            <bean parent="Uif-Disclosure-VerticalBoxSubSection">
+            <bean parent="Uif-Disclosure-VerticalBoxSection">
                 <property name="disclosure.defaultOpen" value="false"/>
+                <property name="header">
+                    <bean parent="Uif-HeaderThree"/>
+                </property>
                 <property name="items">
                     <list>
                         <bean parent="Uif-VerticalBoxSection" p:width="500px" p:render="@{!#line.dummy}">

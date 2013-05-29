@@ -331,29 +331,6 @@ public class AcademicCalendarController extends UifControllerBase {
     }
 
     /**
-     * This will update an official academic calendar.
-     *
-     * @param academicCalendarForm
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=updateOfficial")
-    public ModelAndView updateOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) {
-        ModelAndView page = saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_UPDATED, false);
-
-        if(page!=null)return page;
-
-        Properties urlParameters = new Properties();
-        urlParameters.put(CalendarConstants.GROWL_TITLE,"");
-        urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_UPDATED);
-        urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,academicCalendarForm.getAcademicCalendarInfo().getName());
-        return redirectToSearch(academicCalendarForm, request, urlParameters);
-    }
-
-    /**
      * Method used to delete AcademicCalendar
      *
      * @param acalForm

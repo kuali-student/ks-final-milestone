@@ -4,12 +4,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
+import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.util.AttributeTester;
+import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -95,7 +99,7 @@ public class LrcContextImplTest extends AbstractServiceTest {
 
 	@Test
     public void testCreateContextMap_Lrc() throws OperationFailedException {
-		Map<String, Object> contextMap = lrcContext.createContextMap(term);
+		Map<String, Object> contextMap = lrcContext.createContextMap(term, ContextUtils.getContextInfo());
         String grade = (String) contextMap.get(LrcContextImpl.GRADE_TOKEN);
         ResultScaleInfo gradeType = (ResultScaleInfo) contextMap.get(LrcContextImpl.GRADE_TYPE_TOKEN);
 
@@ -105,8 +109,8 @@ public class LrcContextImplTest extends AbstractServiceTest {
 	}
 	
 	@Test
-    public void testCreateContextMap_NullTokenValues()  {
-        Map<String, Object> contextMap = lrcContext.createContextMap(term2);
+    public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
+        Map<String, Object> contextMap = lrcContext.createContextMap(term2, ContextUtils.getContextInfo());
         String grade = (String) contextMap.get(LrcContextImpl.GRADE_TOKEN);
         ResultScaleInfo gradeType = (ResultScaleInfo) contextMap.get(LrcContextImpl.GRADE_TYPE_TOKEN);
 

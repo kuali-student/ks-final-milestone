@@ -27,18 +27,6 @@
         <property name="page">
             <bean parent="Uif-Page"/>
         </property>
-        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
-            <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Home"/>
-                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
-                </bean>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Enrollment"/>
-                    <property name="url.viewId" value="enrollmentHomeView"/>
-                </bean>
-            </list>
-        </property>
         <property name="header">
             <bean parent="Uif-HeaderTwo" />
         </property>

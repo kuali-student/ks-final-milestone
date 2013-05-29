@@ -6,6 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -40,8 +42,8 @@ public class PersonContextImplTest extends AbstractServiceTest {
 	}
 
 	@Test
-    public void testCreateContextMap_Person() {
-		Map<String, Object> contextMap = personContext.createContextMap(term);
+    public void testCreateContextMap_Person() throws OperationFailedException {
+		Map<String, Object> contextMap = personContext.createContextMap(term, ContextUtils.getContextInfo());
 		String person = (String) contextMap.get(PersonContextImpl.PERSON_TOKEN);
 
 		Assert.assertNotNull(contextMap);
@@ -49,8 +51,8 @@ public class PersonContextImplTest extends AbstractServiceTest {
 	}
 	
 	@Test
-    public void testCreateContextMap_NullTokenValues() {
-        Map<String, Object> contextMap = personContext.createContextMap(term2);
+    public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
+        Map<String, Object> contextMap = personContext.createContextMap(term2, ContextUtils.getContextInfo());
         String person = (String) contextMap.get(PersonContextImpl.PERSON_TOKEN);
 
         Assert.assertNotNull(contextMap);

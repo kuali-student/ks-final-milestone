@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Charles on 5/23/13
+ * Created by Charles on 5/22/13
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.util;
 
@@ -21,15 +21,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.util;
  *
  * @author Kuali Student Team
  */
-public enum TransitionGridYesNoEnum {
-    YES("yes"), NO("no"), INVALID("invalid");
-
-    private String name;
-    private TransitionGridYesNoEnum(String val) {
-        name = val;
-    }
-
-    public String getName() {
-        return name;
-    }
+public enum TransitionGridEnum {
+    ACTUAL, EXPECTED
 }

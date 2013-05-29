@@ -44,7 +44,7 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * This class is used by the ARGCourseOfferingManagementController to handle AO operations
+ * This class //TODO ...
  *
  * @author Kuali Student Team
  */
@@ -194,18 +194,24 @@ public class ARGCourseOfferingHandler {
     public static void deleteBulkCos(ARGCourseOfferingManagementForm theForm) throws Exception {
         List<CourseOfferingListSectionWrapper> coList = theForm.getSelectedCoToDeleteList();
         int checked = 0;
+        int enabled = 0;
 
         for (CourseOfferingListSectionWrapper co : coList) {
+            boolean hasDeletion = true;
             if (co.getIsChecked()) {
                 checked++;
                 CourseOfferingResourceLoader.loadCourseOfferingService().deleteCourseOfferingCascaded(co.getCourseOfferingId(), ContextBuilder.loadContextInfo());
             }
         }
 
-        if (checked > 0) {
+        if (checked > enabled) {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE);
         } else {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS);
+            if (enabled == 1) {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_1_SUCCESS);
+            } else {
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS);
+            }
         }
 
         ARGUtil.reloadCourseOfferings(theForm);
@@ -220,14 +226,14 @@ public class ARGCourseOfferingHandler {
         return ARGUtil._buildCOURLParameters(theCourseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
     }
 
-    public static Properties edit(@SuppressWarnings("unused") ARGCourseOfferingManagementForm theForm, CourseOfferingListSectionWrapper coWrapper) throws Exception {
-        Properties urlParameters;
+    public static Properties edit(ARGCourseOfferingManagementForm theForm, CourseOfferingListSectionWrapper coWrapper) throws Exception {
+        Properties urlParameters = new Properties();
         CourseOfferingInfo courseOfferingInfo = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
         urlParameters = ARGUtil._buildCOURLParameters(courseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
         return urlParameters;
     }
 
-    public static Properties view(@SuppressWarnings("unused") ARGCourseOfferingManagementForm theForm, CourseOfferingInfo coInfo) throws Exception {
+    public static Properties view(ARGCourseOfferingManagementForm theForm, CourseOfferingInfo coInfo) throws Exception {
         return ARGUtil._buildCOURLParameters(coInfo, KRADConstants.START_METHOD);
     }
 

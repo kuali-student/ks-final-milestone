@@ -8,6 +8,8 @@ import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -71,8 +73,8 @@ public class AtpContextImplTest extends AbstractServiceTest {
     }
 
 	@Test
-    public void testCreateContextMap_Atp() {
-		Map<String, Object> contextMap = atpContext.createContextMap(term);
+    public void testCreateContextMap_Atp() throws OperationFailedException {
+		Map<String, Object> contextMap = atpContext.createContextMap(term, ContextUtils.getContextInfo());
         String duration = (String) contextMap.get(AtpContextImpl.DURATION_TOKEN);
         TypeInfo durationType = (TypeInfo) contextMap.get(AtpContextImpl.DURATION_TYPE_TOKEN);
 
@@ -82,8 +84,8 @@ public class AtpContextImplTest extends AbstractServiceTest {
     }
 
     @Test
-    public void testCreateContextMap_NullTokenValues()  {
-        Map<String, Object> contextMap = atpContext.createContextMap(term2);
+    public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
+        Map<String, Object> contextMap = atpContext.createContextMap(term2, ContextUtils.getContextInfo());
         String duration = (String) contextMap.get(AtpContextImpl.DURATION_TOKEN);
         TypeInfo durationType = (TypeInfo) contextMap.get(AtpContextImpl.DURATION_TYPE_TOKEN);
 

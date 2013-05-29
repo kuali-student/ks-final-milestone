@@ -54,38 +54,9 @@
             <list>
                 <ref bean="KS-CourseOfferingRolloverManagement-SelectTermPage"/>
                 <ref bean="KS-RolloverResultsPage-SelectTermPage"/>
+                <ref bean="KS-CourseOfferingRolloverManagement-ReleaseToDeptsPage"/>
             </list>
         </property>
-        <property name="dialogs">
-            <list>
-                <bean id="releaseToDepts"  parent="KS-CourseOfferingRolloverManagement-ReleaseToDeptsDialog"/>
-            </list>
-        </property>
-    </bean>
-    <bean id="KS-CourseOfferingRolloverManagement-ReleaseToDeptsDialog" parent="Uif-VerticalBoxGroup" p:hidden="true" p:style="width: 600px; overflow: hidden" p:cssClasses="aoc_dialog">
-        <property name="items">
-            <list>
-                <bean id="releaseToDepts1" parent="Uif-VerticalBoxSection">
-                    <property name="headerText" value="Confirm Release Courses"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message" p:messageText="@{rolloverTargetTermDesc == '' ? 'Unknown Term Course Offerings': rolloverTargetTermDesc}"
-                                  p:style="padding-bottom:25px; font-size:125%"/>
-                            <bean parent="Uif-Message" p:messageText="Releasing this is a permanent action and term will:&lt;br&gt;Set this term's Schedule of Classes (SOC) to Open&lt;br&gt;Grant departmental administrators access to edit the Schedule of Classes"/>
-                            <bean parent="Uif-Message" p:messageText="Already released to departments" p:style="font-style:italic" p:render="@{socReleasedToDepts}"/>
-                            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-top:25px;">
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Confirm Release Courses" p:id="releaseToDeptsButton"
-                                              p:actionParameters="confirm:do" p:methodToCall="confirmReleaseToDepts" p:disabled="@{releaseToDeptsDisabled}"/>
-                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionParameters="confirm:cancel" p:methodToCall="confirmReleaseToDepts" p:style="padding-top:8px;"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
+
     </bean>
 </beans>

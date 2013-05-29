@@ -16,8 +16,13 @@
 package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
+import org.kuali.rice.krms.impl.repository.TermBo;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -28,13 +33,8 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
+import java.util.HashMap;
 import java.util.Map;
-import org.kuali.rice.core.api.exception.RiceIllegalStateException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.ContextUtils;
 
 /**
  * This class creates the template context for grade condition type.
@@ -70,14 +70,14 @@ public class LrcContextImpl extends BasicContextImpl {
         this.typeService = typeService;
     }
 
-    private ResultScaleInfo getResultScale(String resultScaleId, ContextInfo contextInfo)  {
+    private ResultScaleInfo getResultScale(String resultScaleId, ContextInfo contextInfo) throws OperationFailedException {
         if (resultScaleId == null) {
             return null;
         }
         try {
             return this.getLrcService().getResultScale(resultScaleId, contextInfo);
         } catch (Exception e) {
-            throw new RiceIllegalStateException (e);
+            throw new OperationFailedException(e.getMessage(), e);
         }
     }
     private ResultValuesGroupInfo getResultValuesGroupByResultValueGroupId(String resultValueGroupId, ContextInfo contextInfo ) throws OperationFailedException {
@@ -87,15 +87,15 @@ public class LrcContextImpl extends BasicContextImpl {
         try {
             return this.getLrcService().getResultValuesGroup(resultValueGroupId,contextInfo);
         } catch (Exception e) {
-            throw new RiceIllegalStateException (e);
+            throw new OperationFailedException(e.getMessage(), e);
         }
     }
 
-    private ResultValueInfo getResultValue(String resultValueId, ContextInfo contextInfo)  {
+    private ResultValueInfo getResultValue(String resultValueId, ContextInfo contextInfo) throws OperationFailedException {
         try {
             return this.getLrcService().getResultValue(resultValueId,contextInfo);
         } catch (Exception e) {
-            throw new RiceIllegalStateException (e);
+            throw new OperationFailedException(e.getMessage(), e);
         }
 
     }
@@ -106,10 +106,8 @@ public class LrcContextImpl extends BasicContextImpl {
      * @param parameters
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    @Override
-    public Map<String, Object> createContextMap(Map<String, Object> parameters) {
-        ContextInfo contextInfo = ContextUtils.getContextInfo();
-        Map<String, Object> contextMap = super.createContextMap(parameters);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
         String gradeId = (String) parameters.get(TermParameterTypes.GRADE_KEY.getId());
         if (gradeId == null) {

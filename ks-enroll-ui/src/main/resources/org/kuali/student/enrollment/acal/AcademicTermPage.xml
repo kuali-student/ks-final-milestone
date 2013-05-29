@@ -82,9 +82,6 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" p:disabled="true"/>
                                 </property>
-                                <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Instructional Days include @{#lp.instructionalDayConfig}"/>
-                                </property>
                             </bean>
                         </list>
                     </property>

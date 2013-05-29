@@ -68,8 +68,6 @@ import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -225,15 +223,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         try {
             List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, createContextInfo());
-
-            //Sort the termInfos by start date
-            Collections.sort(termInfos, new Comparator<TermInfo>() {
-                @Override
-                public int compare(TermInfo termInfo1, TermInfo termInfo2) {
-                    return termInfo2.getStartDate().compareTo(termInfo1.getStartDate());
-                }
-            });
-
             for (TermInfo termInfo : termInfos) {
                 AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy,calculateInstrDays);
                 termWrappers.add(termWrapper);

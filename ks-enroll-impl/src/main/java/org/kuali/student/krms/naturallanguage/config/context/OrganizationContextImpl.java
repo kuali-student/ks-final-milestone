@@ -16,6 +16,7 @@
 package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -25,12 +26,6 @@ import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 import javax.xml.namespace.QName;
 import java.util.Map;
-import org.kuali.rice.core.api.exception.RiceIllegalStateException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.ContextUtils;
 
 
 /**
@@ -55,7 +50,7 @@ public class OrganizationContextImpl extends BasicContextImpl {
     }
 
 
-	private OrgInfo getOrganization(String orgId, ContextInfo context)  {
+	private OrgInfo getOrganization(String orgId, ContextInfo context) throws OperationFailedException {
 		if (orgId == null) {
 			return null;
 		}
@@ -63,7 +58,7 @@ public class OrganizationContextImpl extends BasicContextImpl {
 
 			return this.getOrganizationService().getOrg(orgId, context);
 		} catch (Exception e) {
-                    throw new RiceIllegalStateException (e);
+			throw new OperationFailedException(e.getMessage(), e);
 		}
 	}
 
@@ -73,10 +68,8 @@ public class OrganizationContextImpl extends BasicContextImpl {
      * @param parameters
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    @Override
-    public Map<String, Object> createContextMap(Map<String, Object> parameters) {
-        ContextInfo contextInfo = ContextUtils.getContextInfo();
-        Map<String, Object> contextMap = super.createContextMap(parameters);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
         String orgId = (String) parameters.get(TermParameterTypes.ORGANIZATION_KEY.getId());
         OrgInfo org = getOrganization(orgId, contextInfo);

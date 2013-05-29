@@ -92,7 +92,7 @@
     <bean id="KS-Department-LookupView" parent="KS-Uif-LookupView">
         <property name="id" value="departmentLookupView"/>
         <property name="viewName" value="krmsOrgDepartmentView" />
-        <property name="headerText" value="Advanced Search: Organization" />
+        <property name="headerText" value="Advance Search: Organization" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class1.krms.service.impl.DepartmentLookupableImpl" />
         <property name="criteriaFields">

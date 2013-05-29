@@ -35,10 +35,10 @@ public class PersonContextImpl extends BasicContextImpl {
      *
      * @param parameters
      * @param contextInfo
+     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    @Override
-    public Map<String, Object> createContextMap(Map<String, Object> parameters)  {
-        Map<String, Object> contextMap = super.createContextMap(parameters);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
         String person = (String) parameters.get(TermParameterTypes.PERSON_KEY.getId());
         if( person != null){

@@ -327,13 +327,4 @@
         </property>
     </bean>
 
-    <bean id="KS-Schedule-DisplayField" parent="Uif-MessageField" p:cssClasses="font-light12" abstract="true">
-        <property name="propertyReplacers">
-            <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                      p:condition="#line.aoInfo.scheduleId == null" p:replacement="color:grey;"/>
-            </list>
-        </property>
-    </bean>
-
 </beans>

@@ -612,15 +612,20 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     }
 
     /**
-     * This is used in the release to depts page
+     * This is used in the release to depts page from
+     * CourseOfferingRolloverManagement-ReleaseToDeptsPage.xml
      */
-    public CourseOfferingRolloverManagementForm releaseToDepts(CourseOfferingRolloverManagementForm form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(params = "methodToCall=releaseToDepts")
+    public ModelAndView releaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
+                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("releaseToDepts");
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         boolean accept = form.getAcceptIndicator();
         TermInfo targetTerm = form.getTargetTerm();
-        if (targetTerm == null) {
+        if (!accept) {
+            // Didn't click approval
+            GlobalVariables.getMessageMap().putError("approveCheckbox", "error.rollover.release.notApproved");
+        } else if (targetTerm == null) {
             // Didn't get term info from Rollover Results page
             GlobalVariables.getMessageMap().putError("approveCheckbox", "error.rollover.invalidTerm");
         } else {
@@ -639,7 +644,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             showRolloverResults(form, result, request, response);
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.COURSEOFFERING_ROLLOVER_RELEASE_TO_DEPTS_SUCCESSFULLY);
         }
-        return form;
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(params = "methodToCall=checkApproval")
@@ -660,18 +665,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public ModelAndView confirmReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("confirmReleaseToDepts ");
-        if (!hasDialogBeenDisplayed("releaseToDepts", form)){
-            // redirect back to client to display lightbox
-            return showDialog("releaseToDepts", form, request, response);
-        } else if (form.getActionParamaterValue("confirm").equals("cancel") ){
-            form.getDialogManager().removeAllDialogs();
-            form.setLightboxScript("closeLightbox('releaseToDepts');");
-        } else if (form.getActionParamaterValue("confirm").equals("do") ){
-            form = releaseToDepts(form, result, request, response);
-            form.getDialogManager().removeAllDialogs();
-            form.setLightboxScript("closeLightbox('releaseToDepts');");
-        }
-        return getUIFModelAndView(form);
+        return getUIFModelAndView(form, ROLLOVER_CONFIRM_RELEASE);
     }
 
     private String getTermDisplayString(String termId, TermInfo term) {

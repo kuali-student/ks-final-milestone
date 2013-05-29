@@ -46,6 +46,10 @@ public class KeyDateWrapper extends TimeSetWrapper{
 
     public KeyDateWrapper(KeyDateInfo keydate,boolean isCopy){
 
+        this.setStartDate(keydate.getStartDate());
+        this.setEndDate(keydate.getEndDate());
+        this.setAllDay(keydate.getIsAllDay());
+        this.setDateRange(keydate.getIsDateRange());
         this.setKeyDateType(keydate.getTypeKey());
 
         if (isCopy){
@@ -55,10 +59,6 @@ public class KeyDateWrapper extends TimeSetWrapper{
             getKeyDateInfo().setDescr(desc);
             getKeyDateInfo().setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         }else{
-            this.setStartDate(keydate.getStartDate());
-            this.setEndDate(keydate.getEndDate());
-            this.setAllDay(keydate.getIsAllDay());
-            this.setDateRange(keydate.getIsDateRange());
             this.setKeyDateInfo(keydate);
         }
 

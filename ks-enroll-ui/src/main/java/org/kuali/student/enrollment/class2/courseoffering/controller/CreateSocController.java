@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * Utility controller for creating a SOC
+ * This class //TODO ...
  *
  * @author Kuali Student Team
  */

@@ -504,7 +504,6 @@
     <bean id="KRMS-GPA-Field" parent="KRMS-GPA-Field-Parent" />
 
     <bean id="KRMS-OrgDepartment-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter" p:required="true">
-        <property name="style" value="width:450px;"/>
         <property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
@@ -517,15 +516,23 @@
                 </property>
             </bean>
         </property>
-        <property name="control">
-            <bean parent="Uif-TextControl" p:size="60"/>
+        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+        <property name="quickfinder.viewName" value="krmsOrgDepartmentView" />
+        <property name="quickfinder.quickfinderAction">
+            <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
         </property>
-        <property name="quickfinder">
-            <bean parent="KRMS-OrgDepartment-QuickFinder"/>
+        <property name="quickfinder.lightBoxLookup">
+            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+        </property>
+        <property name="quickfinder.fieldConversions">
+            <map>
+                <entry key="longName" value="proposition.termParameter"/>
+                <entry key="id" value="proposition.orgInfo.id"/>
+            </map>
         </property>
     </bean>
 
-    <bean id="KRMS-Department-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Department"/>
+    <bean id="KRMS-Department-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Department" />
 
     <bean id="KRMS-Administering-Org-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Organization" />
 
@@ -905,17 +912,6 @@
             <map>
                 <entry key="name" value="name"/>
                 <entry key="id" value="id"/>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="KRMS-OrgDepartment-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
-        <property name="viewName" value="krmsOrgDepartmentView" />
-        <property name="fieldConversions">
-            <map>
-                <entry key="longName" value="proposition.termParameter"/>
-                <entry key="id" value="proposition.orgInfo.id"/>
             </map>
         </property>
     </bean>

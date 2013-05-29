@@ -79,9 +79,7 @@ public class CalendarConstants {
     public static class MessageKeys{
         public static final String INFO_ACADEMIC_CALENDAR_OFFICIAL = "info.enroll.academiccalendar.official";
         public static final String INFO_ACADEMIC_CALENDAR_SAVED = "info.enroll.academiccalendar.saved";
-        public static final String INFO_ACADEMIC_CALENDAR_UPDATED = "info.enroll.academiccalendar.updated";
         public static final String INFO_ACADEMIC_CALENDAR_DELETED = "info.enroll.academiccalendar.deleted";
-        public static final String INFO_HOLIDAY_CALENDAR_DELETED = "info.enroll.holidaycalendar.deleted";
         public static final String INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
         public static final String INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
         public static final String INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";

@@ -16,8 +16,10 @@
 package org.kuali.student.krms.naturallanguage.config.context;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -26,11 +28,6 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import javax.xml.namespace.QName;
 import java.util.Map;
-import org.kuali.rice.core.api.exception.RiceIllegalStateException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 
 /**
@@ -64,7 +61,7 @@ public class AtpContextImpl extends BasicContextImpl {
         this.typeService = typeService;
     }
 
-	private TypeInfo getAtpDurationType(String atpDurationTypeKey)  {
+	private TypeInfo getAtpDurationType(String atpDurationTypeKey) throws OperationFailedException {
 		if (atpDurationTypeKey == null) {
 			return null;
 		}
@@ -72,7 +69,7 @@ public class AtpContextImpl extends BasicContextImpl {
 			TypeInfo atpDurationType = this.getTypeService().getType(atpDurationTypeKey, ContextUtils.getContextInfo());
 			return atpDurationType;
 		} catch (Exception e) {
-                   throw new RiceIllegalStateException (e);
+			throw new OperationFailedException(e.getMessage(), e);
 		}
 	}
 	
@@ -83,9 +80,8 @@ public class AtpContextImpl extends BasicContextImpl {
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException Creating context map fails
      */
-    @Override
-    public Map<String, Object> createContextMap(Map<String, Object> parameters) {
-        Map<String, Object> contextMap = super.createContextMap(parameters);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
+        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
 
         String durationTypeKey = (String) parameters.get(TermParameterTypes.DURATION_TYPE_KEY.getId());
         TypeInfo atpDurationType = getAtpDurationType(durationTypeKey);
