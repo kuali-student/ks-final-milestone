@@ -28,6 +28,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -56,19 +57,18 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         TypeInfo typeInfo = getTypeInfo(aoInfo.getTypeKey());
         aoWrapper.setTypeName(typeInfo.getName());
 
-        /*   TODOSSR
-        ColocatedOfferingSetInfo colocatedOfferingSetInfo = null;
+        List<ScheduleRequestSetInfo>  scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                aoInfo.getId(), contextInfo);
 
-        if(aoInfo.getIsPartOfColocatedOfferingSet()) {
+        if(scheduleRequestSetInfoList != null && scheduleRequestSetInfoList.size() > 0) {
 
             StringBuffer buffer = new StringBuffer();
             buffer.append(" ");
             CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
-            List<ColocatedOfferingSetInfo> coloSetList = coService.getColocatedOfferingSetsByActivityOffering(aoInfo.getId(),createContextInfo());
 
-            if (!coloSetList.isEmpty()){
-                for(ColocatedOfferingSetInfo coloSet : coloSetList) {
-                    List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(coloSet.getActivityOfferingIds(), createContextInfo());
+            if (!scheduleRequestSetInfoList.isEmpty()){
+                for(ScheduleRequestSetInfo coloSet : scheduleRequestSetInfoList) {
+                    List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(coloSet.getRefObjectIds(), createContextInfo());
                     for(ActivityOfferingInfo coloActivity : aoList) {
                         if (!StringUtils.equals(coloActivity.getId(),aoInfo.getId())){
                             buffer.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
@@ -76,7 +76,6 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                     }
                 }
                 aoWrapper.setColocatedAoInfo(buffer.toString());
-                colocatedOfferingSetInfo = coloSetList.get(0);
             }
          }
 
@@ -98,44 +97,45 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         }
 
         //This section is to display either schedule request or actuals. If actuals available, display that instead of request
-        if (StringUtils.isNotBlank(aoInfo.getScheduleId())){
+        if (aoInfo.getScheduleIds() != null && aoInfo.getScheduleIds().size() > 0) {
             //FIXME: Use display object once we get the TBA with ScheduleComponentDisplay
-            *//*ScheduleDisplayInfo displayInfo = getSchedulingService().getScheduleDisplay(aoInfo.getScheduleId(),contextInfo);
+
+            /*ScheduleDisplayInfo displayInfo = getSchedulingService().getScheduleDisplay(aoInfo.getScheduleId(),contextInfo);
             if (!displayInfo.getScheduleComponentDisplays().isEmpty()){
                 ScheduleComponentDisplay componentDisplay = displayInfo.getScheduleComponentDisplays().get(0);
                 updateScheduleToAOWrapperForDisplay(aoWrapper,Boolean.FALSE,componentDisplay.getRoom(),componentDisplay.getTimeSlots().get(0));
 
-            }*//*
+            }*/
 
-            ScheduleInfo scheduleInfo = getSchedulingService().getSchedule(aoInfo.getScheduleId(),contextInfo);
+            List<ScheduleInfo> scheduleInfoList = getSchedulingService().getSchedulesByIds(aoInfo.getScheduleIds(), contextInfo);
 
-            if (!scheduleInfo.getScheduleComponents().isEmpty()){
+            if (!scheduleInfoList.isEmpty()) {
+                for (ScheduleInfo scheduleInfo : scheduleInfoList) {
+                    if (!scheduleInfo.getScheduleComponents().isEmpty()) {
 
-                boolean appendScheduleRowDisplay = false;
+                        boolean appendScheduleRowDisplay = false;
 
-                for (ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
+                        for (ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
 
-                    String roomId = scheduleComponentInfo.getRoomId();
-                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0),contextInfo);
+                            String roomId = scheduleComponentInfo.getRoomId();
+                            TimeSlotInfo timeSlotInfo = getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0), contextInfo);
 
-                    updateScheduleToAOWrapperForDisplay(aoWrapper,scheduleComponentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
+                            updateScheduleToAOWrapperForDisplay(aoWrapper, scheduleComponentInfo.getIsTBA(), roomId, timeSlotInfo, appendScheduleRowDisplay);
 
-                    if (!appendScheduleRowDisplay){
-                        appendScheduleRowDisplay = true;
+                            if (!appendScheduleRowDisplay) {
+                                appendScheduleRowDisplay = true;
+                            }
+                        }
+
                     }
                 }
-
             }
 
         }else{
 
             List<ScheduleRequestInfo> scheduleRequestInfoList;
 
-            if (colocatedOfferingSetInfo != null){
-                scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, colocatedOfferingSetInfo.getId(), contextInfo);
-            } else {
-                scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), contextInfo);
-            }
+            scheduleRequestInfoList = getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), contextInfo);
 
             if (!scheduleRequestInfoList.isEmpty()){
 
@@ -153,7 +153,7 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 }
             }
 
-        }*/
+        }
 
         return aoWrapper;
     }
