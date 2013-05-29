@@ -451,7 +451,7 @@ public class HolidayCalendarController extends UifControllerBase {
         urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
 
         HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
-        urlParameters.put("growlMessage", CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS);
+        urlParameters.put("growlMessage", CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED);
         urlParameters.put("growlMessageParam", hCalInfo.getName());
 
         return performRedirect(hcForm, request.getRequestURL().toString(), urlParameters);

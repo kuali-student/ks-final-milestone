@@ -15,7 +15,6 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -30,6 +29,14 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.kuali.rice.core.api.exception.RiceIllegalStateException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 
 /**
@@ -78,10 +85,8 @@ public class CluContextImpl extends BasicContextImpl {
      *
      * @param cluId CLU id
      * @return CLU
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *          If retrieving CLU fails
      */
-    public CluInfo getCluInfo(String cluId, ContextInfo contextInfo) throws OperationFailedException {
+    public CluInfo getCluInfo(String cluId, ContextInfo contextInfo)  {
         if (cluId == null) {
             return null;
         }
@@ -90,11 +95,11 @@ public class CluContextImpl extends BasicContextImpl {
             CluInfo clu = this.cluService.getClu(versionInfo.getId(), contextInfo);
             return clu;
         } catch (Exception e) {
-            throw new OperationFailedException(e.getMessage(), e);
+            throw new RiceIllegalStateException (e);
         }
     }
 
-    private CluInfo getClu(Map<String, Object> map, String key, ContextInfo contextInfo) throws OperationFailedException {
+    private CluInfo getClu(Map<String, Object> map, String key, ContextInfo contextInfo)  {
         if (map.containsKey(key)) {
             String cluId = (String) map.get(key);
             return getCluInfo(cluId, contextInfo);
@@ -107,10 +112,8 @@ public class CluContextImpl extends BasicContextImpl {
      *
      * @param cluSetId CLU set id
      * @return CLU set
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *          If retrieving CLU set fails
      */
-    public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo) throws OperationFailedException {
+    public CluSetInfo getCluSetInfo(String cluSetId, ContextInfo contextInfo)  {
         if (cluSetId == null) {
             return null;
         }
@@ -118,7 +121,7 @@ public class CluContextImpl extends BasicContextImpl {
             CluSetInfo cluSet = this.cluService.getCluSet(cluSetId, contextInfo);
             return cluSet;
         } catch (Exception e) {
-            throw new OperationFailedException(e.getMessage(), e);
+            throw new RiceIllegalStateException (e);
         }
     }
 
@@ -136,12 +139,12 @@ public class CluContextImpl extends BasicContextImpl {
         }
     }
 
-    private void findClusInCluSet(String cluSetId, List<CluInfo> cluList, ContextInfo contextInfo) throws OperationFailedException {
+    private void findClusInCluSet(String cluSetId, List<CluInfo> cluList, ContextInfo contextInfo) {
         try {
             CluSetTreeViewInfo tree = cluService.getCluSetTreeView(cluSetId, contextInfo);
             findClusInCluSet(tree, cluList);
         } catch (Exception e) {
-            throw new OperationFailedException(e.getMessage(), e);
+            throw new RiceIllegalStateException (e);
         }
     }
 
@@ -166,7 +169,7 @@ public class CluContextImpl extends BasicContextImpl {
      * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
      *          If building a custom CLU set fails
      */
-    public NLCluSet getCluSet(Map<String, Object> map, String key, ContextInfo contextInfo) throws OperationFailedException {
+    public NLCluSet getCluSet(Map<String, Object> map, String key, ContextInfo contextInfo)  {
         NLCluSet cluSet = null;
         if (map.containsKey(key)) {
             String cluSetId = (String) map.get(key);
@@ -228,8 +231,9 @@ public class CluContextImpl extends BasicContextImpl {
      *          Creating context map fails
      */
     @Override
-    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
+    public Map<String, Object> createContextMap(Map<String, Object> parameters) {
+        ContextInfo contextInfo = ContextUtils.getContextInfo();
+        Map<String, Object> contextMap = super.createContextMap(parameters);
 
         CluInfo clu = getClu(parameters, TermParameterTypes.CLU_KEY.getId(), contextInfo);
         if (clu != null) {

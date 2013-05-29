@@ -16,13 +16,13 @@ import java.util.List;
 public class ScheduleRequestCalcContainer {
 
 
-    String aoId;
-    String schdCmpId;
-    List<TimeSlotInfo> timeSlots;
-    List<RoomInfo> rooms;
-    List<BuildingInfo> bldgs;
-    String scheduleType; // requested or actual
-    Boolean tbaInd;
+    private String aoId;
+    private String schdCmpId;
+    private List<TimeSlotInfo> timeSlots;
+    private List<RoomInfo> rooms;
+    private List<BuildingInfo> bldgs;
+    private String scheduleType; // requested or actual
+    private Boolean tbaInd;
 
     public ScheduleRequestCalcContainer(String aoId, String schdCmpId, String scheduleType, List<TimeSlotInfo> timeSlots,List<RoomInfo> rooms, List<BuildingInfo> bldgs , Boolean tbaInd) {
         this.aoId = aoId;

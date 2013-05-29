@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
@@ -55,6 +56,23 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
         return EnrolPropositionEditor.class;
+    }
+
+    @Override
+    public PropositionEditor copyProposition(PropositionEditor oldProposition) {
+        try {
+            EnrolPropositionEditor newProposition = (EnrolPropositionEditor) this.copyPropositionEditor(oldProposition);
+
+            //Set the cluset to null to force the builder to create a new cluset.
+            if(newProposition.getCluSet()!=null){
+                newProposition.getCluSet().setCluSetInfo(null);
+            }
+
+            //Use a deepcopy to create new references to inner objects such as string.
+            return (PropositionEditor) ObjectUtils.deepCopy(newProposition);
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,

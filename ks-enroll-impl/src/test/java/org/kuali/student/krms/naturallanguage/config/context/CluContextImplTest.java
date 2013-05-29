@@ -10,14 +10,10 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Daos( { @Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql") })
@@ -66,8 +62,8 @@ public class CluContextImplTest extends AbstractServiceTest {
 	}
 
 	@Test
-    public void testCreateContextMap_Clu() throws OperationFailedException {
-		Map<String, Object> contextMap = cluContext.createContextMap(term, ContextUtils.getContextInfo());
+    public void testCreateContextMap_Clu()  {
+		Map<String, Object> contextMap = cluContext.createContextMap(term);
 		CluInfo clu = (CluInfo) contextMap.get(CluContextImpl.CLU_TOKEN);
 		CluInfo courseClu = (CluInfo) contextMap.get(CluContextImpl.COURSE_CLU_TOKEN);
 		CluInfo programClu = (CluInfo) contextMap.get(CluContextImpl.PROGRAM_CLU_TOKEN);
@@ -85,8 +81,8 @@ public class CluContextImplTest extends AbstractServiceTest {
 	}
 
 	@Test
-    public void testCreateContextMap_CluSet() throws OperationFailedException {
-		Map<String, Object> contextMap = cluContext.createContextMap(term, ContextUtils.getContextInfo());
+    public void testCreateContextMap_CluSet() {
+		Map<String, Object> contextMap = cluContext.createContextMap(term);
 		NLCluSet cluSet = (NLCluSet) contextMap.get(CluContextImpl.CLU_SET_TOKEN);
 		NLCluSet courseCluSet = (NLCluSet) contextMap.get(CluContextImpl.COURSE_CLU_SET_TOKEN);
 		NLCluSet programCluSet = (NLCluSet) contextMap.get(CluContextImpl.PROGRAM_CLU_SET_TOKEN);
@@ -110,8 +106,8 @@ public class CluContextImplTest extends AbstractServiceTest {
 	}
 	
 	@Test
-    public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
-		Map<String, Object> contextMap = cluContext.createContextMap(term2, ContextUtils.getContextInfo());
+    public void testCreateContextMap_NullTokenValues()  {
+		Map<String, Object> contextMap = cluContext.createContextMap(term2);
 		CluInfo clu = (CluInfo) contextMap.get(CluContextImpl.CLU_TOKEN);
 		CluInfo courseClu = (CluInfo) contextMap.get(CluContextImpl.COURSE_CLU_TOKEN);
 		CluInfo programClu = (CluInfo) contextMap.get(CluContextImpl.PROGRAM_CLU_TOKEN);

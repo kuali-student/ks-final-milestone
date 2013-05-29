@@ -42,6 +42,16 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String adminOrg;
 
     /**
+     * Used in context bar
+     */
+    private String contextBarTermCode;
+
+    /**
+     * Used in context bar
+     */
+    private String contextBarSocState;
+
+    /**
      * Search input field with the label of *Term
      */
     private String termCode;
@@ -225,7 +235,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      * Returns the Subject (Org) code.
      *
      * @see #setSubjectCode(String)
-     * @return
+     * @return subjectCode
      */
     public String getSubjectCode(){
         return subjectCode;
@@ -236,7 +246,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      * for CO search,
      *
      * @see #setSubjectCodeDescription(String)
-     * @param subjectCode
+     * @param subjectCode Subject Code
      */
     public void setSubjectCode(String subjectCode) {
         this.subjectCode = subjectCode;
@@ -318,7 +328,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      * This has its ref at view xml.
      *
      * @see #setSubjectCodeDescription(String)
-     * @return
+     * @return subjectCodeDescription
      */
     @SuppressWarnings("unused")
     public String getSubjectCodeDescription() {
@@ -328,7 +338,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     /**
      * Sets the subject code. This will be displayed when the result set is only Course Offerings
      *
-     * @param subjectCodeDescription
+     * @param subjectCodeDescription Subject Code Description
      */
     public void setSubjectCodeDescription(String subjectCodeDescription) {
         this.subjectCodeDescription = subjectCodeDescription;
@@ -742,4 +752,19 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.selectedTabId = selectedTabId;
     }
 
+    public String getContextBarTermCode() {
+        return contextBarTermCode;
+    }
+
+    public void setContextBarTermCode(String contextBarTermCode) {
+        this.contextBarTermCode = contextBarTermCode;
+    }
+
+    public String getContextBarSocState() {
+        return contextBarSocState;
+    }
+
+    public void setContextBarSocState(String contextBarSocState) {
+        this.contextBarSocState = contextBarSocState;
+    }
 }

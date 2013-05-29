@@ -10,15 +10,15 @@ package org.kuali.student.enrollment.class2.autogen.dto;
 public class ScheduleCalcContainer {
 
 
-    String aoId;
-    String scheduleId;
-    String start;
-    String end;
-    String weekdays;
-    String scheduleType; // requested or actual
-    String roomCode;
-    String bldgName;
-    Boolean tbaInd;
+    private String aoId;
+    private String scheduleId;
+    private String start;
+    private String end;
+    private String weekdays;
+    private String scheduleType; // requested or actual
+    private String roomCode;
+    private String bldgName;
+    private Boolean tbaInd;
 
     public ScheduleCalcContainer(String aoId, String scheduleId, String scheduleType, String start, String end,String weekdays, String roomCode, String bldgName, Boolean tbaInd) {
         this.aoId = aoId;

@@ -4,20 +4,13 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.rice.krms.api.repository.term.TermParameterDefinitionContract;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
-import org.kuali.student.krms.naturallanguage.KRMSDataGenerator;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,8 +41,8 @@ public class GPAContextImplTest extends AbstractServiceTest {
 	}
 
 	@Test
-    public void testCreateContextMap_Gpa() throws OperationFailedException {
-		Map<String, Object> contextMap = gpaContext.createContextMap(term, ContextUtils.getContextInfo());
+    public void testCreateContextMap_Gpa() {
+		Map<String, Object> contextMap = gpaContext.createContextMap(term);
         String gpa = (String) contextMap.get(GpaContextImpl.GPA_TOKEN);
 
 		Assert.assertNotNull(contextMap);
@@ -57,8 +50,8 @@ public class GPAContextImplTest extends AbstractServiceTest {
 	}
 	
 	@Test
-    public void testCreateContextMap_NullTokenValues() throws OperationFailedException {
-        Map<String, Object> contextMap = gpaContext.createContextMap(term2, ContextUtils.getContextInfo());
+    public void testCreateContextMap_NullTokenValues()  {
+        Map<String, Object> contextMap = gpaContext.createContextMap(term2);
         String gpa = (String) contextMap.get(GpaContextImpl.GPA_TOKEN);
 
         Assert.assertNotNull(contextMap);

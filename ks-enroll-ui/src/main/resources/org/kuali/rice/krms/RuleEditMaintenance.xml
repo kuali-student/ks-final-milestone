@@ -235,7 +235,7 @@
 
     <bean id="KRMS-RuleEditorView-GroupButton" parent="KRMS-RuleEditorView-Button"
           p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','RuleStudentEditorView-TreeGroup');"
-          p:actionLabel="Add Parent">
+          p:actionLabel="Create Group">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconGroup.png"
@@ -245,7 +245,7 @@
 
     <bean id="KRMS-RuleEditorView-LeftButton" parent="KRMS-RuleEditorView-Button"
           p:actionScript="ajaxCallPropositionTree('movePropositionLeft','RuleStudentEditorView-TreeGroup');"
-          p:actionLabel="Move Left">
+          p:actionLabel="Move Out">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconLeft.png"
@@ -261,7 +261,7 @@
 
     <bean id="KRMS-RuleEditorView-RightButton" parent="KRMS-RuleEditorView-Button"
           p:actionScript="ajaxCallPropositionTree('movePropositionRight','RuleStudentEditorView-TreeGroup');"
-          p:actionLabel="Move Right">
+          p:actionLabel="Move In">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconRight.png"

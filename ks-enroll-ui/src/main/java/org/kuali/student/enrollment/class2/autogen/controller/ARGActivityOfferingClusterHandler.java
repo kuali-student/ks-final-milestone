@@ -23,12 +23,13 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.adapter.ActivityOfferingResult;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -41,8 +42,6 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.common.uif.util.GrowlIcon;
-import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
@@ -51,13 +50,12 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * This class //TODO ...
+ * This class is used by the ARGCourseOfferingManagementController to handle AO Cluster operations
  *
  * @author Kuali Student Team
  */
 public class ARGActivityOfferingClusterHandler {
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGActivityOfferingClusterHandler.class);
     private static boolean createAOCFromMove = false;
 
     public static boolean loadAOs_RGs_AOCs(ARGCourseOfferingManagementForm form) throws Exception {
@@ -90,8 +88,7 @@ public class ARGActivityOfferingClusterHandler {
         try {
             String aoIdToCopy = selectedAO.getAoInfo().getId(); // Create a copy of this AO
             String clusterId = selectedAO.getAoClusterID();
-            ActivityOfferingResult aoResult =
-                    ARGUtil.getArgServiceAdapter().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
+            ARGUtil.getArgServiceAdapter().copyActivityOfferingToCluster(aoIdToCopy, clusterId, ContextBuilder.loadContextInfo());
 
             // reload AOs including the new one just created
             ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(form);
@@ -139,7 +136,6 @@ public class ARGActivityOfferingClusterHandler {
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
         urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 
-//        KSUifUtils.setBreadcrumbRedirectUrlParams(urlParameters, theForm);
         return urlParameters;
     }
 
@@ -206,7 +202,7 @@ public class ARGActivityOfferingClusterHandler {
         return true;
     }
 
-    public static Properties view(ARGCourseOfferingManagementForm theForm, ActivityOfferingWrapper aoWrapper) throws Exception {
+    public static Properties view(@SuppressWarnings("unused") ARGCourseOfferingManagementForm theForm, ActivityOfferingWrapper aoWrapper) throws Exception {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_ID, aoWrapper.getAoInfo().getId());
@@ -231,8 +227,8 @@ public class ARGActivityOfferingClusterHandler {
 
     public static ARGCourseOfferingManagementForm createNewCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
 
-        String growlPrivateName="";
-        String growlPublicName="";
+        String growlPrivateName;
+        String growlPublicName;
 
         if (createAOCFromMove) {  //where is the call coming from
             if (theForm.getPrivateClusterNameForMovePopover().isEmpty()) {
@@ -252,15 +248,6 @@ public class ARGActivityOfferingClusterHandler {
             growlPrivateName = theForm.getPrivateClusterNamePopover();
             growlPublicName = theForm.getPublishedClusterNamePopover();
         }
-
-        //fix names
-        /*if(theForm.getPrivateClusterNamePopover().contains(",") ) {
-            theForm.setPrivateClusterNamePopover(theForm.getPrivateClusterNamePopover().replace(",",""));
-        }
-        if(theForm.getPublishedClusterNamePopover().contains(",") ) {
-            theForm.setPublishedClusterNamePopover(theForm.getPublishedClusterNamePopover().replace(",",""));
-        }*/
-
 
         String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
         ContextInfo context = ContextUtils.createDefaultContextInfo();
@@ -359,219 +346,10 @@ public class ARGActivityOfferingClusterHandler {
 
     }
 
-    public static void removeAOFromCluster(ARGCourseOfferingManagementForm theForm) throws Exception {
-/*        ActivityOfferingWrapper selectedAOWrapper =(ActivityOfferingWrapper)ARGUtil.getSelectedObject(theForm, "Remove");
-        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection was not set for Remove");
-        }
-        String selectedClusterIndex = StringUtils.substringBetween(selectedCollectionPath,"filteredAOClusterWrapperList[","]");
-        ActivityOfferingClusterWrapper theClusterWrapper = theForm.getFilteredAOClusterWrapperList().get(Integer.parseInt(selectedClusterIndex));
 
-        //First, update the DB for cluster and RGs if any
-        String aoTypeKey = selectedAOWrapper.getTypeKey();
-        if (aoTypeKey== null || aoTypeKey.isEmpty()) {
-            try {
-                TypeInfo typeInfo = ARGUtil.getTypeService().getType(selectedAOWrapper.getAoInfo().getTypeKey(), ContextUtils.createDefaultContextInfo());
-                selectedAOWrapper.setTypeKey(typeInfo.getKey());
-                selectedAOWrapper.setTypeName(typeInfo.getName());
-                aoTypeKey = typeInfo.getKey();
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-        //try to retrieve the accurate AOCluster from DB always
-        ActivityOfferingClusterInfo aoCluster = ARGUtil.getCourseOfferingService().getActivityOfferingCluster(
-                theClusterWrapper.getAoCluster().getId(), ContextUtils.createDefaultContextInfo());
-        List <ActivityOfferingSetInfo> aoSetList = aoCluster.getActivityOfferingSets();
-        for (ActivityOfferingSetInfo aoSet:aoSetList) {
-            if (aoTypeKey.equalsIgnoreCase(aoSet.getActivityOfferingType())) {
-                aoSet.getActivityOfferingIds().remove(selectedAOWrapper.getAoInfo().getId());
-                break;
-            }
-        }
-        aoCluster = ARGUtil.getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
-                aoCluster.getId(), aoCluster, ContextUtils.createDefaultContextInfo());
-        theClusterWrapper.setAoCluster(aoCluster);
-
-        List<RegistrationGroupInfo> rgInfos = ARGUtil.getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(aoCluster.getId(), ContextUtils.createDefaultContextInfo());
-        List<RegistrationGroupWrapper> filteredRGs = ARGUtil._getRGsForSelectedFO(rgInfos, theClusterWrapper.getAoWrapperList());
-        theClusterWrapper.setRgWrapperList(filteredRGs);
-        if (rgInfos.size() > 0) {
-            theClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
-            theClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
-            theClusterWrapper.setHasAllRegGroups(true);
-        }
-        for (int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
-            rgInfos = ARGUtil.getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId(),
-                    ContextUtils.createDefaultContextInfo());
-            //validate RGs for each cluster and set error msg
-            if (rgInfos.size() > 0 && theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups() ) {
-                // perform max enrollment validation
-                ARGUtil._performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
-                //validate AO time conflict in RG
-                ARGUtil._performRGTimeConflictValidation(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos, i);
-            }
-        }
-        //finally, move selected AO from AO table under selected Cluster to the unassigned table
-        theClusterWrapper.getAoWrapperList().remove(selectedAOWrapper);
-        theForm.getFilteredUnassignedAOsForSelectedFO().add(selectedAOWrapper);
- */   }
-
-    public static void deleteACluster(ARGCourseOfferingManagementForm theForm) throws Exception {
-       /*
-        ActivityOfferingClusterWrapper selectedCluster = (ActivityOfferingClusterWrapper)ARGUtil.getSelectedObject(theForm, "Remove Cluster");
-        //first need to move all AOs under the selected Cluster back to filteredUnassignedAOsForSelectedFO
-        List<ActivityOfferingWrapper> unassignedAOs = theForm.getFilteredUnassignedAOsForSelectedFO();
-        List<ActivityOfferingWrapper> toBeRemovedAOs = selectedCluster.getAoWrapperList();
-        for(ActivityOfferingWrapper aoWrapper:toBeRemovedAOs){
-            unassignedAOs.add(aoWrapper);
-        }
-        theForm.setFilteredUnassignedAOsForSelectedFO(unassignedAOs);
-        //then delete the selected cluster
-        ARGUtil.getCourseOfferingService().deleteActivityOfferingClusterCascaded(selectedCluster.getActivityOfferingClusterId(), ContextUtils.createDefaultContextInfo());
-        List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getFilteredAOClusterWrapperList();
-        aoClusterWrapperList.remove(selectedCluster);
-        if (aoClusterWrapperList.size() == 0){
-            theForm.setHasAOCluster(false);
-        }
-        */
-    }
-
-    public static void generateRegGroupsPerCluster (ARGCourseOfferingManagementForm theForm) throws Exception {
-        /*
-        ActivityOfferingClusterWrapper selectedClusterWrapper = (ActivityOfferingClusterWrapper)ARGUtil.getSelectedObject(theForm, "Generate Registration Groups");
-        String selectedClusterId = selectedClusterWrapper.getAoCluster().getId();
-        AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = ARGUtil.getCourseOfferingService().verifyActivityOfferingClusterForGeneration(selectedClusterId,ContextUtils.createDefaultContextInfo());
-        if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isWarn())  {
-            ARGUtil.getCourseOfferingService().generateRegistrationGroupsForCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
-            List<RegistrationGroupInfo> rgInfos = ARGUtil.getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
-            if (rgInfos.size() > 0) {
-                //build RGWrapperList and set it to selectedClusterWrapper
-
-                String clusterIndex = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-                // perform max enrollment validation
-                ARGUtil._performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), selectedClusterWrapper.getAoCluster(), Integer.parseInt(clusterIndex));
-                //validate AO time conflict in RG
-                ARGUtil._performRGTimeConflictValidation(selectedClusterWrapper.getAoCluster(), rgInfos, Integer.parseInt(clusterIndex));
-
-                List<RegistrationGroupWrapper> rgWrapperListPerCluster = ARGUtil._getRGsForSelectedFO(rgInfos, selectedClusterWrapper.getAoWrapperList());
-                selectedClusterWrapper.setRgWrapperList(rgWrapperListPerCluster);
-                selectedClusterWrapper.setHasAllRegGroups(true);
-                selectedClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
-                selectedClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
-            }
-        } else {
-            aoClusterVerifyResultsInfo.getValidationResults().get(0).getMessage();
-            int selectedLineIndex = -1;
-            String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-            if (StringUtils.isNotBlank(selectedLine)) {
-                selectedLineIndex = Integer.parseInt(selectedLine);
-            }
-
-            if (selectedLineIndex == -1) {
-                throw new RuntimeException("Selected line index was not set");
-            }
-            GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+selectedLine, RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER);
-        }
-        // Update all form AOCs with validation messages
-        for (int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
-            // Collect RGs for each cluster
-            List<RegistrationGroupInfo> rgInfos = ARGUtil.getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(
-                    theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId(), ContextUtils.createDefaultContextInfo());
-            // validate RGs for each cluster and set error msg
-            if (rgInfos.size() > 0 && theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups() ) {
-                // perform max enrollment validation
-                ARGUtil._performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
-                //validate AO time conflict in RG
-                ARGUtil._performRGTimeConflictValidation(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos, i);
-            }
-        }*/
-    }
-
-    public static void generateAllRegGroups (ARGCourseOfferingManagementForm theForm) throws Exception {
- /*       //Generate RGs for all AOCs
-        for (int i = 0; i < theForm.getFilteredAOClusterWrapperList().size(); i++) {
-            String selectedClusterId = theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster().getId();
-            AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = ARGUtil.getCourseOfferingService().verifyActivityOfferingClusterForGeneration(selectedClusterId,ContextUtils.createDefaultContextInfo());
-            List<RegistrationGroupInfo> rgInfos = ARGUtil.getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
-            //only generate for valid AOCs without RGs or partial RGs
-            if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isWarn() && !theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups())  {
-                ARGUtil.getCourseOfferingService().generateRegistrationGroupsForCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
-                rgInfos = ARGUtil.getCourseOfferingService().getRegistrationGroupsByActivityOfferingCluster(selectedClusterId, ContextUtils.createDefaultContextInfo());
-                if (rgInfos.size() > 0 ) {
-                    //build RGWrapperList and set it to selectedClusterWrapper
-                    List<RegistrationGroupWrapper> rgWrapperListPerCluster = ARGUtil._getRGsForSelectedFO(rgInfos, theForm.getFilteredAOClusterWrapperList().get(i).getAoWrapperList());
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgWrapperList(rgWrapperListPerCluster);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setHasAllRegGroups(true);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgStatus(RegistrationGroupConstants.RGSTATUS_ALL_RG_GENERATED);
-                    theForm.getFilteredAOClusterWrapperList().get(i).setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
-                }
-            } else if (rgInfos.size() < 1 ) {
-                GlobalVariables.getMessageMap().putErrorForSectionId("activityOfferingsPerCluster_line"+i, RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER);
-            }
-            //validate RGs for each cluster and set error msg
-            if (rgInfos.size() > 0 && theForm.getFilteredAOClusterWrapperList().get(i).isHasAllRegGroups() ) {
-                // perform max enrollment validation
-                ARGUtil._performMaxEnrollmentValidation(theForm.getFormatOfferingIdForViewRG(), theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), i);
-                //validate AO time conflict in RG
-                ARGUtil._performRGTimeConflictValidation(theForm.getFilteredAOClusterWrapperList().get(i).getAoCluster(), rgInfos, i);
-            }
-        } */
-    }
-
-    /*
-    public static void generateUnconstrainedRegGroups (RegistrationGroupManagementForm theForm) throws Exception {
-        String formatOfferingId = theForm.getFormatOfferingIdForViewRG();
-
-        //new implementation for M5
-        //first, build a new default cluster
-        ActivityOfferingClusterInfo defaultCluster = ARGUtil._buildDefaultAOCluster(formatOfferingId, theForm);
-
-
-        AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = ARGUtil.getCourseOfferingService().
-                verifyActivityOfferingClusterForGeneration(defaultCluster.getId(),ContextUtils.createDefaultContextInfo());
-        if (!aoClusterVerifyResultsInfo.getValidationResults().get(0).isWarn())  {
-            //now create RGs for the default cluster
-            ARGUtil.getCourseOfferingService().generateRegistrationGroupsForCluster(defaultCluster.getId(), ContextUtils.createDefaultContextInfo());
-
-            //build and set ActivityOfferingClusterWrapper
-            ActivityOfferingClusterWrapper aoClusterWrapper = ARGUtil._buildAOClusterWrapper (defaultCluster, theForm,0);
-            List<ActivityOfferingWrapper> defaultAOList = new ArrayList<ActivityOfferingWrapper>();
-            List<ActivityOfferingWrapper> filteredAOs = theForm.getFilteredUnassignedAOsForSelectedFO();
-            for(ActivityOfferingWrapper aoWrapper:filteredAOs){
-                defaultAOList.add(aoWrapper);
-            }
-            aoClusterWrapper.setAoWrapperList(defaultAOList);
-            List<ActivityOfferingClusterWrapper> aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
-            aoClusterWrapperList.add(aoClusterWrapper);
-            theForm.setFilteredAOClusterWrapperList(aoClusterWrapperList);
-            theForm.setHasAOCluster(true);
-            //no AO in unassigned list any more for now
-            filteredAOs.clear();
-            theForm.setFilteredUnassignedAOsForSelectedFO(filteredAOs);
-        }else {
-            ARGUtil.getCourseOfferingService().deleteActivityOfferingCluster(defaultCluster.getId(), ContextUtils.createDefaultContextInfo());
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RegistrationGroupConstants.MSG_ERROR_INVALID_AOLIST);
-        }
-    }
-    */
     public static CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }
-
-//    public RegistrationGroupManagementViewHelperService getViewHelperService(RegistrationGroupManagementForm theForm){
-//
-//        if (viewHelperService == null) {
-//            if (theForm.getView().getViewHelperServiceClass() != null){
-//                viewHelperService = (RegistrationGroupManagementViewHelperService) theForm.getView().getViewHelperService();
-//            }else{
-//                viewHelperService= (RegistrationGroupManagementViewHelperService) theForm.getPostedView().getViewHelperService();
-//            }
-//        }
-//
-//        return viewHelperService;
-//    }
 
     public static void showDeleteClusterConfirmPage(ARGCourseOfferingManagementForm theForm) throws Exception {
 
@@ -581,9 +359,6 @@ public class ARGActivityOfferingClusterHandler {
             theForm.setSelectedCluster(clusterWrapper);
             theForm.setSelectedToDeleteList(clusterWrapper.getAoWrapperList());
             theForm.setTotalAOsToBeDeleted(clusterWrapper.getAoWrapperList().size());
-
-
-
         }
     }
 

@@ -50,7 +50,7 @@
     </bean>
 
     <bean id="contextRegistry"
-          class="org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry">
+          class="org.kuali.rice.krms.impl.repository.language.ContextRegistry">
         <constructor-arg>
             <map>
                 <entry key="kuali.krms.proposition.type.course.courseset.completed.none">

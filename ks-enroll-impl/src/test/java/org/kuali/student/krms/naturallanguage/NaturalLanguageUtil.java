@@ -19,16 +19,15 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContr
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
 import org.kuali.student.krms.naturallanguage.mock.ContextMockImpl;
 import org.kuali.student.r2.core.krms.config.context.lu.MockCluInfo;
 import org.kuali.student.r2.core.krms.config.context.lu.MockCluSetInfo;
-import org.kuali.student.r2.core.krms.naturallanguage.Context;
-import org.kuali.student.r2.core.krms.naturallanguage.ContextRegistry;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.kuali.rice.krms.impl.repository.language.Context;
+import org.kuali.rice.krms.impl.repository.language.ContextRegistry;
 
 
 

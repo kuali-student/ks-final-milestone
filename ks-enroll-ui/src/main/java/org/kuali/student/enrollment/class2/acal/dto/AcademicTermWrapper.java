@@ -16,11 +16,12 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -47,6 +48,8 @@ public class AcademicTermWrapper {
 
     private List<KeyDatesGroupWrapper> keyDatesGroupWrappers;
     private List<KeyDateWrapper> keyDatesToDeleteOnSave;
+
+    private String instructionalDayConfig = "cars";
 
     /**
      * This constructor sets all the default values.
@@ -320,4 +323,37 @@ public class AcademicTermWrapper {
         return false;
     }
 
+    /**
+     * The users might want to know that instructional days only include Mon->Fri since the days are now configurable
+     * via the type service attributes.
+     * @return
+     */
+    public String getInstructionalDayConfig(){
+        instructionalDayConfig = "";
+        if(typeInfo != null &&
+                typeInfo.getAttributes() != null &&
+                typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR) != null &&
+                !typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR).isEmpty()){
+            instructionalDayConfig += typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR);
+        }else {
+            instructionalDayConfig = "MTWHFSU";  // if instructional days are not configured, then it defaults to Mon->Sun.
+        }
+
+        return _getInstructionalDayMessageTranslation(instructionalDayConfig);
+    }
+
+    public void setInstructionalDayConfig(String instructionalDayConfig) {
+        this.instructionalDayConfig = instructionalDayConfig;
+    }
+
+    /**
+     * This method was created as a place holder in case an implementing institution would like to alter how the Instructional
+     * Days tooltip message is displayed. By default, it's just MTWHFSU, but you could overwrite this method and translate that
+     * to "Mon, Tue, Wed, Thu, Fri, Sat, Sun"
+     * @param dbText
+     * @return
+     */
+    protected String _getInstructionalDayMessageTranslation(String dbText){
+        return dbText;
+    }
 }
