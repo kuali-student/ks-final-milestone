@@ -36,7 +36,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExamOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name",
         "descr", "meta", "attributes",
-        "termId", "examId",
+        "examPeriodId", "examId",
         "scheduleId", "schedulingStateKey", "_futureElements"})
 public class ExamOfferingInfo extends IdEntityInfo implements ExamOffering, Serializable {
 
@@ -45,7 +45,7 @@ public class ExamOfferingInfo extends IdEntityInfo implements ExamOffering, Seri
     /////////////////////////////
 
     @XmlElement
-    private String termId;
+    private String examPeriodId;
 
     @XmlElement
     private String examId; // the canonical exam id
@@ -81,7 +81,7 @@ public class ExamOfferingInfo extends IdEntityInfo implements ExamOffering, Seri
             return;
         }
 
-        this.termId = offering.getTermId();
+        this.examPeriodId = offering.getExamPeriodId();
         this.examId = offering.getExamId();
         this.scheduleId= offering.getScheduleId();
         this.schedulingStateKey= offering.getSchedulingStateKey();
@@ -93,12 +93,12 @@ public class ExamOfferingInfo extends IdEntityInfo implements ExamOffering, Seri
     //////////////////////////////
 
 
-    public String getTermId() {
-        return termId;
+    public String getExamPeriodId() {
+        return examPeriodId;
     }
 
-    public void setTermId(String termId) {
-        this.termId = termId;
+    public void setExamPeriodId(String examPeriodId) {
+        this.examPeriodId = examPeriodId;
     }
 
     public String getExamId() {

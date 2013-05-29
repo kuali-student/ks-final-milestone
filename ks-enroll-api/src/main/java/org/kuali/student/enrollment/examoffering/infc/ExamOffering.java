@@ -16,12 +16,12 @@ import org.kuali.student.r2.common.infc.IdEntity;
 public interface ExamOffering extends IdEntity {
 
     /**
-     * A term this exam offering is tied to
-     * @return a term id of the term this exam is offered for
+     * A term (exam period) this exam offering is tied to
+     * @return a term id of the exam period this exam is offered for
      * @readonly
      * @required
      */
-    public String getTermId();
+    public String getExamPeriodId();
 
     /**
      * The canonical exam referred to by this exam offering.
