@@ -655,6 +655,17 @@ a {
     text-transform: uppercase;
     white-space: nowrap
 }
+
+    /* Uif-Message */
+.text-lozenge-grey-msg {
+    color: white;
+    background-color: #a9a9a9;
+    font-size: .85em;
+    padding: 0.2em 0.6em;
+    border-radius: 6px;
+    text-transform: uppercase;
+    white-space: nowrap
+}
 /************************************** END LOZENGES **********************/
 
 

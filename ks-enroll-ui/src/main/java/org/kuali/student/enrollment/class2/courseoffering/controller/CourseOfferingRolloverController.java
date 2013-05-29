@@ -660,12 +660,15 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public ModelAndView confirmReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("confirmReleaseToDepts ");
-        if (!hasDialogBeenDisplayed("releaseToDepts", form)){
+
+//        if (!hasDialogBeenDisplayed("releaseToDepts", form)){
+        if (form.getActionParamaterValue("confirm") == null || form.getActionParamaterValue("confirm").equals("")) {
             // redirect back to client to display lightbox
             return showDialog("releaseToDepts", form, request, response);
         } else if (form.getActionParamaterValue("confirm").equals("cancel") ){
             form.getDialogManager().removeAllDialogs();
             form.setLightboxScript("closeLightbox('releaseToDepts');");
+            form.getDialogManager().resetDialogStatus("releaseToDepts");
         } else if (form.getActionParamaterValue("confirm").equals("do") ){
             form = releaseToDepts(form, result, request, response);
             form.getDialogManager().removeAllDialogs();
