@@ -167,7 +167,7 @@
     </listener>
 
     <listener>
-        <listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
+        <listener-class>org.kuali.rice.krad.web.listener.KualiStudentHttpSessionListener</listener-class>
     </listener>
 
     <listener>
