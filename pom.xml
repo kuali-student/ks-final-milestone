@@ -6,10 +6,10 @@
         <artifactId>student</artifactId>
         <version>2.0.0-M7-SNAPSHOT</version>
     </parent>
-    <groupId>org.kuali.student.deployments</groupId>
-    <artifactId>ks-deployments</artifactId>
+    <groupId>org.kuali.student.core</groupId>
+    <artifactId>ks-core</artifactId>
     <version>2.0.0-M7-SNAPSHOT</version>
-    <name>KS Deployments</name>
+    <name>KS Core</name>
     <packaging>pom</packaging>
     <profiles>
         <profile>
@@ -18,22 +18,79 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-deployment-resources</module>
-                <module>ks-dbs</module>
-                <module>ks-web</module>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
         <profile>
-            <id>impex-only</id>
+            <id>sql-only</id>
             <modules>
-                <module>ks-deployment-resources</module>
-                <module>ks-dbs</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
             </modules>
         </profile>
         <profile>
-            <id>web-only</id>
+            <id>skip-developer-wars</id>
             <modules>
-                <module>ks-web</module>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-all-wars</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>bundled-only-war</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>standalone-only-wars</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-ui</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
     </profiles>

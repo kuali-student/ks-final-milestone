@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.kuali.student.core</groupId>
+        <artifactId>ks-core</artifactId>
+        <version>2.0.0-M7-SNAPSHOT</version>
+    </parent>
+    <artifactId>ks-common</artifactId>
+    <name>KS Common</name>
+    <packaging>pom</packaging>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>ks-cxf</module>
+                <module>ks-metro</module>
+                <module>ks-eclipselink</module>
+                <module>ks-hibernate</module>
+                <module>ks-jta</module>
+                <module>ks-rice-lessdep</module>
+                <module>ks-common-util</module>
+                <module>ks-common-test</module>
+                <module>ks-common-impl</module>
+                <module>ks-common-ui</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-ui</id>
+            <modules>
+                <module>ks-cxf</module>
+                <module>ks-metro</module>
+                <module>ks-eclipselink</module>
+                <module>ks-hibernate</module>
+                <module>ks-jta</module>
+                <module>ks-rice-lessdep</module>
+                <module>ks-common-util</module>
+                <module>ks-common-test</module>
+                <module>ks-common-impl</module>
+            </modules>
+        </profile>
+    </profiles>
+</project>

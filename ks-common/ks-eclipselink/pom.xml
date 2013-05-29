@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>ks-eclipselink</artifactId>
+    <packaging>pom</packaging>
+    <name>KS Eclipselink Pom</name>
+    <description>KS Eclipselink dependencies</description>
+    <parent>
+        <groupId>org.kuali.student.core</groupId>
+        <version>2.0.0-M7-SNAPSHOT</version>
+        <artifactId>ks-common</artifactId>
+    </parent>
+    <dependencies>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+        </dependency>
+    </dependencies>
+</project>
