@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -13,13 +12,10 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
@@ -36,7 +32,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -44,7 +39,6 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -53,7 +47,6 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -68,7 +61,8 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -81,7 +75,6 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -99,7 +92,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient StateService stateService;
     private transient AcademicCalendarService academicCalendarService;
     private transient SchedulingService schedulingService;
-    private transient RoomService roomService;
     private transient PopulationService populationService;
     private transient SeatPoolUtilityService seatPoolUtilityService = new SeatPoolUtilityServiceImpl();
     private transient CourseService courseService;
@@ -112,22 +104,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     public void saveDataObject() {
         if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
 
-            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            ContextInfo contextInfo = createContextInfo();
 
             ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) getDataObject();
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
             seatPoolUtilityService.updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), contextInfo);
 
-            saveColocatedAOs(activityOfferingWrapper);
-
-            /**
-             * Detach the AO from colo schedule if it's not a part of colo anymore
-             */
-            if (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
-                activityOfferingWrapper.getAoInfo().setScheduleId(null);
-                activityOfferingWrapper.getAoInfo().setIsPartOfColocatedOfferingSet(false);
-            }
+            processEnrollmentDetail(activityOfferingWrapper);
 
             ActivityOfferingInfo activityOfferingInfo = null;
 
@@ -142,21 +126,20 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 throw convertServiceExceptionsToUI(e);
             }
 
-            if(activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()){
-                //if change co-located to un-coloated, no schedules
-            } else {
-                /**
-                 * Even if the user doesnt change any RDL data, here are the scenarios whether we need to process schedules
-                 * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
-                 * 2. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
-                 * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
-                 */
-                if (activityOfferingWrapper.isSchedulesModified() ||
-                        (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
-                        (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
-                    getScheduleHelper().saveSchedules(activityOfferingWrapper);
-                }
+            /**
+             * Even if the user doesnt change any RDL data, here are the scenarios whether we need to process schedules
+             * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
+             * 2. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
+             * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
+             */
+            if (activityOfferingWrapper.isSchedulesModified() ||
+                (!activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && activityOfferingWrapper.isColocatedAO()) ||
+                (activityOfferingWrapper.isPartOfColoSetOnLoadAlready() && !activityOfferingWrapper.isColocatedAO()) ||
+                (activityOfferingWrapper.isSchedulingCompleted() && !activityOfferingWrapper.getRequestedScheduleComponents().isEmpty())){
+
+                getScheduleHelper().saveSchedules(activityOfferingWrapper,contextInfo);
             }
+
 
             /**
              * Now that the Ao & the schedule has been updated, we need to update the registration groups
@@ -173,21 +156,26 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 for(ColocatedActivity activity : activityOfferingWrapper.getColocatedActivities()){
                     //If an activity is newly added in this session for colo, delete it's RDLs and ADLs if exists
 
-                    activity.getActivityOfferingInfo().setIsPartOfColocatedOfferingSet(activityOfferingWrapper.isColocatedAO());
+                    activity.getActivityOfferingInfo().setIsColocated(activityOfferingWrapper.isColocatedAO());
                     if (activityOfferingWrapper.isColocatedAO() && activityOfferingWrapper.isMaxEnrollmentShared()){
                         activity.getActivityOfferingInfo().setMaximumEnrollment(activityOfferingWrapper.getSharedMaxEnrollment());
                     }
 
                     boolean deleteSchedule = false;
+                    List<String> deleteScheduleIds = new ArrayList<String>();
                     if (activityOfferingWrapper.isColocatedAO() && !activity.isAlreadyPersisted()){
-                        activity.getActivityOfferingInfo().setScheduleId("");
+                        if (!activityOfferingWrapper.isSchedulingCompleted()){
+                            deleteScheduleIds.addAll(activity.getActivityOfferingInfo().getScheduleIds());
+                            activity.getActivityOfferingInfo().getScheduleIds().clear();
+                        }
+                        deleteSchedule = true;
                     }
 
-                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(), activity.getActivityOfferingInfo(), createContextInfo());
+                    ActivityOfferingInfo updatedAO = getCourseOfferingService().updateActivityOffering(activity.getAoId(), activity.getActivityOfferingInfo(), contextInfo);
                     activity.setActivityOfferingInfo(updatedAO);
 
                     if (deleteSchedule){
-                        getScheduleHelper().deleteRequestedAndActualSchedules(activity.getActivityOfferingInfo());
+                        getScheduleHelper().deleteRequestedAndActualSchedules(activityOfferingWrapper.getScheduleRequestSetInfo(),updatedAO.getId(),deleteScheduleIds,contextInfo);
                     }
                 }
             } catch (Exception e) {
@@ -212,30 +200,29 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
      *
      * @param wrapper
      */
-    protected void saveColocatedAOs(ActivityOfferingWrapper wrapper){
+    protected void processEnrollmentDetail(ActivityOfferingWrapper wrapper){
 
-        ColocatedOfferingSetInfo coloSet = wrapper.getColocatedOfferingSetInfo();
-        /**
-         * Set the effective date and expiration date if it's not already there
-         */
-        if (coloSet.getEffectiveDate() == null){
-            coloSet.setEffectiveDate(new Date());
-            coloSet.setExpirationDate(DateUtils.addYears(new Date(),1));
+        if (wrapper.getScheduleRequestSetInfo() == null){
+            ScheduleRequestSetInfo set = new ScheduleRequestSetInfo();
+            wrapper.setScheduleRequestSetInfo(set);
+            set.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+            set.setName("Schedule request set for " + wrapper.getAoInfo().getCourseOfferingCode() + " - " + wrapper.getAoInfo().getActivityCode());
+            set.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
+            set.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
         }
 
-
         if (wrapper.isColocatedAO()){
-            coloSet.getActivityOfferingIds().clear();
+            wrapper.getScheduleRequestSetInfo().getRefObjectIds().clear();
 
             for (ColocatedActivity activity : wrapper.getColocatedActivities()){
-                coloSet.getActivityOfferingIds().add(activity.getAoId());
+                wrapper.getScheduleRequestSetInfo().getRefObjectIds().add(activity.getAoId());
             }
-            coloSet.getActivityOfferingIds().add(wrapper.getAoInfo().getId());
+            wrapper.getScheduleRequestSetInfo().getRefObjectIds().add(wrapper.getAoInfo().getId());
 
-            coloSet.setIsMaxEnrollmentShared(wrapper.isMaxEnrollmentShared());
+            wrapper.getScheduleRequestSetInfo().setMaxEnrollmentShared(wrapper.isMaxEnrollmentShared());
             if (wrapper.isMaxEnrollmentShared()){
-                coloSet.setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
                 wrapper.getAoInfo().setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
+                wrapper.getScheduleRequestSetInfo().setMaximumEnrollment(wrapper.getSharedMaxEnrollment());
             } else {
                 int totalSeats = 0;
                 for (ColocatedActivity activity : wrapper.getEditRenderHelper().getManageSeperateEnrollmentList()){
@@ -244,26 +231,26 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
                     totalSeats = totalSeats + activity.getMaxEnrollmentCount();
                 }
-                coloSet.setMaximumEnrollment(totalSeats);
-            }
-            try{
-                if (StringUtils.isNotBlank(coloSet.getId())){
-                    ColocatedOfferingSetInfo updatedColoSet = getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
-                    wrapper.setColocatedOfferingSetInfo(updatedColoSet);
-                } else {
-                    coloSet.setTypeKey(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY);
-                    coloSet.setStateKey(LuiServiceConstants.LUI_SET_ACTIVE_STATE_KEY);
-                    coloSet.setName("Colo set");
-                    ColocatedOfferingSetInfo createdColoSet = getCourseOfferingService().createColocatedOfferingSet(coloSet.getTypeKey(), coloSet, createContextInfo());
-                    wrapper.setColocatedOfferingSetInfo(createdColoSet);
-                }
-            } catch (Exception e){
-                throw convertServiceExceptionsToUI(e);
+                wrapper.getScheduleRequestSetInfo().setMaximumEnrollment(totalSeats);
             }
         } else {
-            //detach AO from colocation
-            if(wrapper.isPartOfColoSetOnLoadAlready()){
-                detachAOFromColocatedSet(wrapper.getAoInfo().getId(), wrapper.getColocatedOfferingSetInfo());
+            /**
+             * If the current AO is part of the colo set before but now user removed it from the set, then
+             * recalculate the enrollment seats if it's managed seperately
+             */
+            if (wrapper.isPartOfColoSetOnLoadAlready() && !wrapper.getScheduleRequestSetInfo().getIsMaxEnrollmentShared()){
+                int totalSeats = 0;
+                /**
+                 * This is not the best way to do the calculation based on the wrapper as there may be chances user changed
+                 * the details at screen before deleting the AO from the coloset.
+                 */
+                for (ColocatedActivity activity : wrapper.getEditRenderHelper().getManageSeperateEnrollmentList()){
+                    if (activity.getEditRenderHelper().isAllowEnrollmentEdit()){
+                        wrapper.getAoInfo().setMaximumEnrollment(activity.getMaxEnrollmentCount());
+                    }
+                    totalSeats = totalSeats + activity.getMaxEnrollmentCount();
+                }
+                wrapper.getScheduleRequestSetInfo().setMaximumEnrollment(totalSeats);
             }
         }
     }
@@ -272,43 +259,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     public boolean addScheduleRequestComponent(ActivityOfferingWrapper activityOfferingWrapper) {
         return getScheduleHelper().addScheduleRequestComponent(activityOfferingWrapper);
     }
-
-    private void detachAOFromColocatedSet(String activityOfferingId, ColocatedOfferingSetInfo  coloSet){
-        try{
-            coloSet.getActivityOfferingIds().remove(activityOfferingId);
-            //If there is only one AO in the colo set, delete the Coloset and point the colo RLDs to the last AO.
-            if (coloSet.getActivityOfferingIds().size() == 1){
-                //For performance reasons, just get the lui instead of AO.
-                LuiInfo luiInfo = getLuiService().getLui(coloSet.getActivityOfferingIds().get(0), createContextInfo());
-                List<ScheduleRequestInfo> scheduleRequestInfos = getSchedulingService().getScheduleRequestsByRefObject(LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY,coloSet.getId(),createContextInfo());
-                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-                    scheduleRequestInfo.setRefObjectId(luiInfo.getId());
-                    scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-                    scheduleRequestInfo.setName("Schedule request for activity offering");
-                    getSchedulingService().updateScheduleRequest(scheduleRequestInfo.getId(),scheduleRequestInfo,createContextInfo());
-                }
-                getCourseOfferingService().deleteColocatedOfferingSet(coloSet.getId(), createContextInfo());
-            } else {
-                getCourseOfferingService().updateColocatedOfferingSet(coloSet.getId(),coloSet,createContextInfo());
-            }
-
-        } catch (AuthorizationException ae){
-            // Work around, should be fixed with KULRICE-8049
-            throw new AuthorizationException(ae.getUserId(), "open", null,
-                    "User '" + ae.getUserId() + "' is not authorized to open view", null);
-        }catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    /*@Override
-    public void prepareForScheduleRevise(ActivityOfferingWrapper wrapper) {
-        getScheduleHelper().prepareForScheduleRevise(wrapper);
-    }*/
-
-    /* @Override
-    public void processRevisedSchedules(ActivityOfferingWrapper activityOfferingWrapper) {
-        getScheduleHelper().processRevisedSchedules(activityOfferingWrapper);
-    }*/
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -496,7 +446,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             loadColocatedAOs(wrapper);
 
-            getScheduleHelper().loadSchedules(wrapper);
+            getScheduleHelper().loadSchedules(wrapper,contextInfo);
 
             return wrapper;
 
@@ -511,24 +461,25 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     protected void loadColocatedAOs(ActivityOfferingWrapper wrapper) throws Exception {
 
         ActivityOfferingInfo info = wrapper.getAoInfo();
-        wrapper.setPartOfColoSetOnLoadAlready(info.getIsPartOfColocatedOfferingSet());
+        wrapper.setColocatedOnLoadAlready(info.getIsColocated());
 
-        if (info.getIsPartOfColocatedOfferingSet()){
+        if (info.getIsColocated()){
 
             wrapper.setColocatedAO(true);
-            List<ColocatedOfferingSetInfo> coloSet = getCourseOfferingService().getColocatedOfferingSetsByActivityOffering(info.getId(), createContextInfo());
+            wrapper.setPartOfColoSetOnLoadAlready(true);
 
-            if (!coloSet.isEmpty()){
+            List<ScheduleRequestSetInfo> scheduleRequestSets = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, info.getId(), createContextInfo());
+            if(scheduleRequestSets != null && !scheduleRequestSets.isEmpty()){
+                ScheduleRequestSetInfo scheduleRequestSetInfo = scheduleRequestSets.get(0);
 
-                ColocatedOfferingSetInfo colocatedOfferingSetInfo = coloSet.get(0);
-                wrapper.setColocatedOfferingSetInfo(colocatedOfferingSetInfo);
-
-                wrapper.setMaxEnrollmentShared(colocatedOfferingSetInfo.getIsMaxEnrollmentShared());
-                if (colocatedOfferingSetInfo.getIsMaxEnrollmentShared()) {
-                    wrapper.setSharedMaxEnrollment(colocatedOfferingSetInfo.getMaximumEnrollment());
+                //Each AO has only one ScheduleRequestSet for M7-SP2(support full co-location only)
+                wrapper.setScheduleRequestSetInfo(scheduleRequestSetInfo);
+                wrapper.setMaxEnrollmentShared(scheduleRequestSetInfo.getIsMaxEnrollmentShared());
+                if(scheduleRequestSetInfo.getIsMaxEnrollmentShared()) {
+                    wrapper.setSharedMaxEnrollment(scheduleRequestSetInfo.getMaximumEnrollment());
                 }
 
-                List<String> activityOfferingIds = new ArrayList<String>(colocatedOfferingSetInfo.getActivityOfferingIds());
+                List<String> activityOfferingIds = new ArrayList<String>(scheduleRequestSetInfo.getRefObjectIds());
                 activityOfferingIds.remove(info.getId());
                 List<ActivityOfferingInfo> aoInfos = getCourseOfferingService().getActivityOfferingsByIds(activityOfferingIds,createContextInfo());
 
@@ -541,7 +492,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     coloAO.setCoId(dto.getCourseOfferingId());
                     coloAO.setActivityOfferingCode(dto.getActivityCode());
                     coloAO.setCourseOfferingCode(dto.getCourseOfferingCode());
-                    coloAO.setColoSetInfo(colocatedOfferingSetInfo);
                     coloAO.setAlreadyPersisted(true);
                     coloAO.setActivityOfferingInfo(dto);
                     wrapper.getColocatedActivities().add(coloAO);
@@ -845,7 +795,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
                     colo.setActivityOfferingInfo(ao);
 
-                    if (ao.getIsPartOfColocatedOfferingSet()){
+                    if (ao.getIsColocated()){
                         GlobalVariables.getMessageMap().putError(groupId, RiceKeyConstants.ERROR_CUSTOM, "This Activity is already part of another colocate set");
                         return false;
                     } else if (StringUtils.equals(ao.getId(),activityOfferingWrapper.getAoInfo().getId())){
@@ -987,7 +937,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         if (StringUtils.endsWith(collectionPath, "requestedScheduleComponents")) {
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             wrapper.setSchedulesModified(true);
-            wrapper.getRequestedScheduleComponents().remove(lineIndex);
+            ScheduleWrapper scheduleWrapper = wrapper.getRequestedScheduleComponents().remove(lineIndex);
+            /*
+                If the schedule request already exists in the DB, mark it to delete from DB.
+             */
+            if (scheduleWrapper.isRequestAlreadySaved()){
+                wrapper.getDeletedScheduleComponents().add(scheduleWrapper);
+            }
         } else if (StringUtils.endsWith(collectionPath, "colocatedActivities")) {
             ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             ColocatedActivity deleteCOLO = wrapper.getColocatedActivities().remove(lineIndex);

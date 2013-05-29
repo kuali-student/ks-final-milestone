@@ -72,8 +72,33 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="KS-Lozenge-Grey-Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:render="@{!socReleasedToDepts and statusField=='Finished'}"/>
-                                        <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt; &#160; &#160;Released to Departments" p:render="@{socReleasedToDepts}" p:colSpan="2" p:style="padding-left:140px;"/>
+                                        <bean parent="KS-Lozenge-Grey-Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:render="@{statusField!='Finished'}"/>
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:style="padding-right:97px;" p:render="@{!socReleasedToDepts and statusField=='Finished'}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ks-rolloverResultsInfoSection-gridSubsection</value>
+                                                </list>
+                                            </property>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt;" p:style="font-size:109%;"/>
+                                                    <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Complete"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3"  p:style="padding-right:5px;" p:render="@{socReleasedToDepts and statusField=='Finished'}">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ks-rolloverResultsInfoSection-gridSubsection</value>
+                                                </list>
+                                            </property>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt;"   p:style="font-size:109%;"/>
+                                                    <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Released to Departments" />
+                                                </list>
+                                            </property>
+                                        </bean>
                                         <bean parent="Uif-DataField" p:label="Date Initiated"
                                               p:fieldLabel.renderColon="false"
                                               p:propertyName="dateInitiated"/>
@@ -98,11 +123,26 @@
                             <bean parent="Uif-VerticalBoxSection" p:colSpan="3" p:width="20cm" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-Message" p:render="@{socReleasedToDepts}" p:id="KS-RolloverResultsInfoSectionMsg"
+                                        <bean parent="Uif-Message" p:render="@{socReleasedToDepts}" p:id="KS-RolloverResultsInfoSectionMsg1"
                                               p:messageText="Course offerings for @{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} have been released to the departments."/>
+                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1" p:render="@{!releaseToDeptsDisabled and rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message" p:id="KS-RolloverResultsInfoSectionMsg2"
+                                                          p:messageText="Course offerings for @{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} have been rolled over and are in draft state."/>
+                                                    <bean parent="Uif-ImageField"
+                                                          p:source="@{#ConfigProperties['ks.externalizable.images.url']}/help_gray_14px.png">
+                                                        <property name="toolTip">
+                                                            <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{rolloverTargetTermDesc!='' ? rolloverTargetTermDesc : 'Unknown Term'} is now in draft state, and&lt;br&gt;only central administrators can make&lt;br&gt;changes to course and activity&lt;br&gt;offerings. Release the term to grant&lt;br&gt;departmental administrators access.&lt;br&gt;(Note that this will disable future&lt;br&gt;Rollovers to this term.)"/>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
+
                             <bean parent="Uif-Link" p:linkText="Manage Course Offerings" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}"
                                   p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start&amp;withinPortal=false"/>
                             <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="3" p:render="@{!releaseToDeptsDisabled and rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}" p:style="padding-top:15px">
@@ -113,6 +153,7 @@
                                     </list>
                                 </property>
                             </bean>
+
                             <bean parent="Uif-TableCollectionSection" p:headerText="Exceptions" p:style="padding-top:30px"
                                   p:layoutManager.numberOfColumns="3" p:renderAddLine="false"
                                   p:renderLineActions="false" p:render="@{socRolloverResultItems.size() ge 1}">

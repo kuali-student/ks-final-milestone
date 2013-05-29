@@ -251,7 +251,6 @@
     <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao"/>
     <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
     <property name="schedulingService" ref="schedulingService"/>
-    <property name="colocatedOfferingSetTransformer" ref="colocatedOfferingSetTransformer"/>
     <property name="searchService" ref="SearchService" />
   </bean>
 
@@ -275,8 +274,6 @@
         <property name="lprService" ref="lprService" />
         <property name="lrcService" ref="LrcService"/>
     </bean>
-
-    <bean id="colocatedOfferingSetTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ColocatedOfferingSetTransformer"/>
 
     <bean id="LrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl"/>
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">

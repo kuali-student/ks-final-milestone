@@ -22,7 +22,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.ColocatedOfferingSetInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -43,6 +42,8 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -293,22 +294,24 @@ public class CourseOfferingViewHelperUtil {
         return null;
     }
 
-
+    /**
+     * Builds a string of course and activity codes for display.
+     * @param ao
+     * @param context
+     */
     public static String createColocatedDisplayData(ActivityOfferingInfo ao, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException,
             OperationFailedException, DoesNotExistException {
-
         StringBuffer buffer = new StringBuffer();
         buffer.append(" ");
         CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
-        List<ColocatedOfferingSetInfo> colos = coService.getColocatedOfferingSetsByActivityOffering(ao.getId(),
-                context);
-        for(ColocatedOfferingSetInfo colo : colos) {
-            List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(colo.getActivityOfferingIds(), context);
+        SchedulingService schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
+        List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(ao.getTypeKey(), ao.getId(), context);
+        for(ScheduleRequestSetInfo srs : scheduleRequestSets) {
+            List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(srs.getRefObjectIds(), context);
             for(ActivityOfferingInfo aoInfo : aoList) {
                 buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + " ");
             }
         }
-
         return buffer.toString();
     }
 
