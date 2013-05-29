@@ -72,7 +72,6 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="KS-Lozenge-Grey-Uif-DataField" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" p:render="@{statusField!='Finished'}"/>
                                         <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:style="padding-right:97px;" p:render="@{!socReleasedToDepts and statusField=='Finished'}">
                                             <property name="cssClasses">
                                                 <list merge="true">
