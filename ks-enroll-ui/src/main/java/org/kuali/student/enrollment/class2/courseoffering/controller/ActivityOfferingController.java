@@ -199,7 +199,13 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.modified" );
 
-        String url = form.getReturnLocation().replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
+        String url;
+        if (!form.getReturnLocation().contains("methodToCall=")){ //This happens when we display a list of COs and then user click on Manage action
+            url = form.getReturnLocation() + "&methodToCall=show";
+        } else {
+            url = form.getReturnLocation().replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
+        }
+
 
         // clear current form from session
         GlobalVariables.getUifFormManager().removeSessionForm(form);
