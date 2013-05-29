@@ -156,7 +156,7 @@ public class TestAcademicCalendarServiceImpl {
         Date effDate = new Date();
         orig.setEffectiveDate(effDate);
         Calendar cal = Calendar.getInstance();
-        cal.set(2022, 8, 23);
+        cal.set(2022, Calendar.AUGUST, 23);
         orig.setExpirationDate(cal.getTime());
         AttributeInfo attr = new AttributeInfo();
         attr.setKey("attribute.key");
@@ -939,7 +939,7 @@ public class TestAcademicCalendarServiceImpl {
         calendarKeys.clear();
         calendarKeys.add("3B6605D9-9370-441D-89D8-8B747B9AB496"); // Bogus UID
         try {
-            calendars = acalService.getAcademicCalendarsByIds(calendarKeys, callContext);
+            acalService.getAcademicCalendarsByIds(calendarKeys, callContext);
             fail("Expected DoesNotExistException.");
         } catch (DoesNotExistException e) {
         }
@@ -1344,12 +1344,12 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals(kd.getName(), kdInfo.getName());
 
         // Holiday before period... shouldn't be counted
-        HolidayInfo holidayInfoSingle = _createHoliday(hCal.getId(), "2013-02-08");
+        _createHoliday(hCal.getId(), "2013-02-08");
         Integer days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
         assertEquals(10,days.intValue());
 
         // Holiday after period... shouldn't be counted
-        holidayInfoSingle = _createHoliday(hCal.getId(), "2013-05-08");
+        _createHoliday(hCal.getId(), "2013-05-08");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
         assertEquals(10,days.intValue());
 
@@ -1368,12 +1368,12 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals(9,days.intValue());
 
         // Overlap period end dates
-        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-03-08","2013-03-09");
+        _updateHcalDatesDates(holidayInfo, "2013-03-08","2013-03-09");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
         assertEquals(9,days.intValue());
 
         // Overlaping holidays. Make sure we don't count the same day twice
-        holidayInfoSingle = _createHoliday(hCal.getId(), "2013-03-08");
+        _createHoliday(hCal.getId(), "2013-03-08");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
         assertEquals(9,days.intValue());
 

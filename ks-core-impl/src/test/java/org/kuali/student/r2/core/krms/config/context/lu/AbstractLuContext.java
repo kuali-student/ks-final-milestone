@@ -15,18 +15,14 @@
 
 package org.kuali.student.r2.core.krms.config.context.lu;
 
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.student.r2.core.krms.naturallanguage.AbstractContext;
-import org.kuali.student.r2.core.krms.naturallanguage.Context;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.rice.krms.impl.repository.language.AbstractContext;
 
 public abstract class AbstractLuContext extends AbstractContext {
 
@@ -165,8 +161,9 @@ public abstract class AbstractLuContext extends AbstractContext {
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
+    @Override
+    public Map<String, Object> createContextMap(Map<String, Object> parameters)  {
+        Map<String, Object> contextMap = super.createContextMap(parameters);
 //		contextMap.put(EXPECTED_VALUE_TOKEN, getTermParameterValue(term, TermParameterTypes.INTEGER_VALUE1_KEY.getId()));
 //        contextMap.put(OPERATOR_TOKEN, getTermParameterValue(term, TermParameterTypes.OPERATOR_KEY.getId()));
         return contextMap;
