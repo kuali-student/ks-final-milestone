@@ -23,7 +23,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     private String name;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "START_DT", nullable = false)
+    @Column(name = "START_DT", nullable = true)
     private Date startDate;
 
     @Temporal(TemporalType.TIMESTAMP)

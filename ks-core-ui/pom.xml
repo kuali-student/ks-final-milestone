@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.core</groupId>
         <artifactId>ks-core</artifactId>
-        <version>2.0.0-SSR1-SNAPSHOT</version>
+        <version>2.0.0-M7-SNAPSHOT</version>
     </parent>
     <artifactId>ks-core-ui</artifactId>
     <name>KS Core UI</name>
