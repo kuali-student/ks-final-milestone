@@ -174,11 +174,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo();
         requestSetToSchedule.setTypeKey( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET );
         requestSetToSchedule.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        requestSetToSchedule.setRefObjectTypeKey(sourceAo.getTypeKey());
+        requestSetToSchedule.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
         List<String> targetAoIds = new ArrayList<String>();
         targetAoIds.add( targetAo.getId() );
         requestSetToSchedule.setRefObjectIds( targetAoIds );
-        requestSetToSchedule = schedulingService.createScheduleRequestSet( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, sourceAo.getTypeKey(), requestSetToSchedule, context );
+        requestSetToSchedule = schedulingService.createScheduleRequestSet( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, requestSetToSchedule, context );
 
         // create the SRs/SRCs
         for( String sourceSchedId : sourceAo.getScheduleIds() ) {
@@ -206,11 +206,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo();
         requestSetToSchedule.setTypeKey( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET );
         requestSetToSchedule.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        requestSetToSchedule.setRefObjectTypeKey( sourceAo.getTypeKey() );
+        requestSetToSchedule.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
         List<String> targetRefObjIds = new ArrayList<String>();
         targetRefObjIds.add( targetAo.getId() );
         requestSetToSchedule.setRefObjectIds( targetRefObjIds );
-        requestSetToSchedule = schedulingService.createScheduleRequestSet( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, sourceAo.getTypeKey(), requestSetToSchedule, context );
+        requestSetToSchedule = schedulingService.createScheduleRequestSet( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, requestSetToSchedule, context );
 
         // get the source sched-requests
         List<ScheduleRequestInfo> sourceSchedRequests = schedulingService.getScheduleRequestsByRefObject( CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, sourceAo.getId(), context );
