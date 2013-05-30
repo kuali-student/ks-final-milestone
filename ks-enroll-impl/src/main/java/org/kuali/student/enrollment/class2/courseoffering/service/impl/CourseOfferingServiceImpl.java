@@ -649,7 +649,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // transform it back to a course offering
         CourseOfferingInfo createdCo = new CourseOfferingInfo();
-        new CourseOfferingTransformer().lui2CourseOffering(lui, createdCo, context);
+        
+        coTransformer.lui2CourseOffering(lui, createdCo, context);
+        coTransformer.copyRulesFromCanonical(courseInfo, createdCo, optionKeys, context);
         return createdCo;
     }
 

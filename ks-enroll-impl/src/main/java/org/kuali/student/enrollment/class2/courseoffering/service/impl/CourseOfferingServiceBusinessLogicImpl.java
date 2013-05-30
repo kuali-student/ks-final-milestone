@@ -426,6 +426,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         targetCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
         targetCo = coService.createCourseOffering(targetCo.getCourseId(), targetCo.getTermId(), targetCo.getTypeKey(),
                 targetCo, optionKeys, context);
+        
+        // have to copy rules AFTER CO is created because the link is by the CO id
+        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer ();
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
+            // copy rules from cannonical too
+            coTransformer.copyRulesFromCanonical(targetCourse, targetCo, optionKeys, context);
+        }
         return targetCo;
     }
 
@@ -497,11 +504,15 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
         coTransformer.copyFromCanonical(course, co, optionKeys, context);
         try {
-            return coService.updateCourseOffering(courseOfferingId, co, context);
+            co = coService.updateCourseOffering(courseOfferingId, co, context);
         } catch (ReadOnlyException ex) {
             throw new OperationFailedException("unexpected", ex);
         }
         // TODO: continue traversing down the formats and activities updating from the canonical
+        
+        // copy rules from canonical
+        coTransformer.copyRulesFromCanonical(course, co, optionKeys, context);
+        return co;
     }
 
     @Override

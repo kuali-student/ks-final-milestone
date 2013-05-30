@@ -47,6 +47,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethods;
+import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl;
 
 public class CourseOfferingTransformer {
     private LprService lprService;
@@ -54,6 +57,7 @@ public class CourseOfferingTransformer {
     private LRCService lrcService;
     private CluService cluService;
     private LuiService luiService;
+    private RuleManagementService ruleManagementService;
 
     final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
 
@@ -741,6 +745,24 @@ public class CourseOfferingTransformer {
         courseOfferingInfo.setInstructors(copyInstructors(courseInfo.getInstructors()));
     }
 
+    public void copyRulesFromCanonical(CourseInfo courseInfo,
+            CourseOfferingInfo courseOfferingInfo,
+            List<String> optionKeys, ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            PermissionDeniedException,
+            OperationFailedException {
+        if (courseOfferingInfo.getId() == null) {
+            throw new InvalidParameterException("CourseOffering should already have it's id assigned");
+        }
+        KrmsRuleManagementCopyMethods copier = new KrmsRuleManagementCopyMethodsMockImpl();
+        copier.deepCopyReferenceObjectBindingsFromTo(CourseInfo.class.getSimpleName(),
+                courseInfo.getId(),
+                CourseOfferingInfo.class.getSimpleName(),
+                courseOfferingInfo.getId(),
+                optionKeys);
+    }
+
     public List<OfferingInstructorInfo> copyInstructors(List<CluInstructorInfo> cluInstructors) {
         if (cluInstructors == null) {
             return null;
@@ -897,4 +919,14 @@ public class CourseOfferingTransformer {
     public void setLuiService(LuiService luiService) {
         this.luiService = luiService;
     }
+
+    public RuleManagementService getRuleManagementService() {
+        return ruleManagementService;
+    }
+
+    public void setRuleManagementService(RuleManagementService ruleManagementService) {
+        this.ruleManagementService = ruleManagementService;
+    }
+    
+    
 }

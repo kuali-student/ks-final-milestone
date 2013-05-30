@@ -371,6 +371,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         copy.setMeta(newMeta(context));
         courseOfferingMap.put(copy.getId(), copy);
         log.info("CourseOfferingMockImpl: created course offering: " + copy.getId() + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
+        
+        // copy rules from canonical
+        coTransformer.copyRulesFromCanonical(courseInfo, copy, optionKeys, context);
         return new CourseOfferingInfo(copy);
     }
 
