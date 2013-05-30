@@ -21,6 +21,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.util;
  *
  * @author Kuali Student Team
  */
-public enum TransitionGridTypeEnum {
+public enum AFUTTypeEnum {
     ACTUAL, EXPECTED
 }

@@ -75,7 +75,7 @@ public class AoStateTransitionRefSolution {
         grid.setSocStateKey(socState);
         for (int from = 0; from < stateTransition.length; from++) {
             for (int to = 0; to < stateTransition.length; to++) {
-                grid.setTransition(TransitionGridTypeEnum.EXPECTED, from, to, stateTransition[from][to].getName());
+                grid.setTransition(AFUTTypeEnum.EXPECTED, from, to, stateTransition[from][to].getName());
             }
         }
         return grid;

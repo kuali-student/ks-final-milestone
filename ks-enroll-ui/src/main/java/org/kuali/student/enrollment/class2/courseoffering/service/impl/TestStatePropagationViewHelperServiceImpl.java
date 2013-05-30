@@ -23,9 +23,10 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.exception.AssertException;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.exception.PseudoUnitTestException;
+import org.kuali.student.enrollment.class2.courseoffering.service.util.AFUTTypeEnum;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.AoStateTransitionRefSolution;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.PseudoUnitTestStateTransitionGrid;
-import org.kuali.student.enrollment.class2.courseoffering.service.util.TransitionGridTypeEnum;
+import org.kuali.student.enrollment.class2.courseoffering.service.util.RegGroupStateResult;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.TransitionGridYesNoEnum;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -61,6 +62,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -81,8 +83,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private List<FormatOfferingInfo> foInfos;
     private RegistrationGroupInfo rgInfo;
     private List<ActivityOfferingInfo> aoInfos; // Only for a single RG in first FO
-    private String secondAoState = LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY;
     private String primaryAoId;
+    private String secondaryAoId;
+    private String secondAoState = LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY;
 
     // Constants
     public static final String SAMPLE_TERM = "200001";
@@ -169,8 +172,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
      */
     private void _resetFoCoAndSecondaryAoState(String fromState, String secondaryState) throws Exception {
         // First, reset the secondary AO state
-        ActivityOfferingInfo aoSecond = aoInfos.get(1); // Get second AO
-        LuiInfo aoLui = luiService.getLui(aoSecond.getId(), CONTEXT);
+        LuiInfo aoLui = luiService.getLui(secondaryAoId, CONTEXT);
         aoLui.setStateKey(secondaryState);
         luiService.updateLui(aoLui.getId(), aoLui, CONTEXT);
         // The AO state that has the biggest index is used to determine what the FO/CO state is.
@@ -235,6 +237,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             // Get list of AOs but only for this RG
             aoInfos = coService.getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
             primaryAoId = aoInfos.get(0).getId();
+            secondaryAoId = aoInfos.get(1).getId();
         }
     }
 
@@ -292,48 +295,159 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     @Override
     public String[] runTests() throws Exception {
         _initServices();
-//        _reset(false);
-//        String[] results = new String[2];
-//        testSocStateHappy();
-//        // Now iterate over all the unhappy paths
-//        for (int i = 0; i < SOC_STATES_ORDERED.size(); i++) {
-//            _reset(false);
-//            testSocStateUnhappy(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, i);
-//        }
         // Now begin to test AO state transitions
-        System.err.println("---------------------- Starting tests");
+        System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
         _reset(true);
-        String aoId = aoInfos.get(0).getId();
-        String secondaryAoState = LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY;
-        for (int i = 0; i < SOC_STATES_ORDERED.size(); i++) {
-            String socState = SOC_STATES_ORDERED.get(i);
-            System.err.println("---------------------- socState = " + socState);
-            Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid =
-                    testAoStateTransitionsInSocState(aoId, socInfo.getId(), socState, secondaryAoState);
-            _compareGrids(gridTypeToGrid);
-            _resetSocOnly(); // Make sure to reset the SOC
-        }
+        _testAoStateTransition();
+        System.err.println("<<<<<<<<<<<<<< Ending tests >>>>>>>>>>>>");
+        System.err.println("<<<<<<<<<<<<<< Starting RG tests >>>>>>>>>>>>");
+        _reset(true);
+        System.err.println("------------------------- Testing draft");
+        RegGroupStateResult rgStateResult = testRegistrationGroupStatePropagation(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+        _printRegGroupResults(rgStateResult);
+        System.err.println("------------------------- Testing approved");
+        rgStateResult = testRegistrationGroupStatePropagation(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
+        _printRegGroupResults(rgStateResult);
+        System.err.println("<<<<<<<<<<<<<< Ending RG tests >>>>>>>>>>>>");
         return null;
     }
 
-    private void _compareGrids(Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid) {
+    private void _testAoStateTransition() throws Exception {
+                String aoId = aoInfos.get(0).getId();
+        for (String secondaryAoState: AoStateTransitionRefSolution.AO_STATES_ORDERED) {
+            secondAoState = secondaryAoState; // Save to instance variable
+
+            for (int i = 0; i < SOC_STATES_ORDERED.size(); i++) {
+                String socState = SOC_STATES_ORDERED.get(i);
+                if (secondAoState.equals(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)) {
+                    if (! (socState.equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY) ||
+                          socState.equals(CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY))) {
+                        // Can only have AO offered in SOC published/publishing, so skip if need be
+                        continue;
+                    }
+                }
+                System.err.println("======================= SOC state = " + socState + " (Second AO state: " + secondAoState + ")");
+                Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid =
+                        testAoStateTransitionsInSocState(aoId, socInfo.getId(), socState, secondaryAoState);
+                _compareGrids(gridTypeToGrid, socState);
+                _resetSocOnly(); // Make sure to reset the SOC
+            }
+        }
+    }
+
+    private String _computeAoStateString(int index, int size) {
+        // "O" stands for offered state and "X" stands for not offered
+        String binString = Integer.toString(index, 2);
+        binString = binString.replaceAll("1", "O");
+        binString = binString.replaceAll("0", "X");
+        while (binString.length() < size) {
+            binString = "X" + binString;
+        }
+        return binString;
+    }
+
+    private String _getAfterDot(String s) {
+        int index = s.lastIndexOf('.');
+        if (index == -1) {
+            return s;
+        }
+        s = s.substring(index + 1);
+        return s;
+    }
+
+    private void _printRegGroupResults(RegGroupStateResult rgStateResult) {
+        for (int i = 0; i < rgStateResult.size(); i++) {
+            String aoStatesString = _computeAoStateString(i, rgStateResult.numAos());
+            String expected = _getAfterDot(rgStateResult.getExpected(i));
+            String actual = _getAfterDot(rgStateResult.getActual(i));
+            System.err.println(aoStatesString + " expected/actual = " + expected + "/" + actual);
+        }
+    }
+
+    private int _intPower(int base, int exponent) {
+        return (int) Math.pow(base, exponent);
+    }
+
+    public RegGroupStateResult testRegistrationGroupStatePropagation(String otherAoState) throws Exception {
+        RegGroupStateResult result = new RegGroupStateResult(rgInfo.getActivityOfferingIds().size());
+        _resetSocOnly();
+        _advanceSocState(socInfo.getId(), CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY);
+        List<Integer> ints = new ArrayList<Integer>();
+        int numPermutations = result.size();
+        for (int i = 0; i < numPermutations; i++) {
+            ints.add(i);
+        }
+        Random rn = new Random();
+        // Randomly select values from 0 to power - 1 to test RG states
+        for (int i = 0; i < numPermutations; i++) {
+            int index = rn.nextInt(ints.size());
+            int val = ints.get(index); // Pick a random int from the list of ints
+            String resultRgState = testRegGroupPermutation(val, otherAoState);
+            result.setActual(val, resultRgState);
+            ints.remove(index); // Remove it so it doesn't get picked again
+        }
+
+        return result;
+    }
+
+    private String testRegGroupPermutation(int index, String otherAoState) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        List<String> aoIds = rgInfo.getActivityOfferingIds();
+        int pow = _intPower(2, aoIds.size());
+        if (index >= pow) {
+            throw new IndexOutOfBoundsException(index + " too big for: " + pow);
+        }
+
+        String aoStateString = _computeAoStateString(index, aoIds.size());
+        for (int i = 0; i < aoStateString.length(); i++) {
+            char ch = aoStateString.charAt(i);
+            if (ch == 'X') {
+                coService.changeActivityOfferingState(aoIds.get(i), otherAoState, CONTEXT);
+            } else {
+                coService.changeActivityOfferingState(aoIds.get(i), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, CONTEXT);
+            }
+        }
+        LuiInfo lui = luiService.getLui(rgInfo.getId(), CONTEXT);
+        return lui.getStateKey();
+    }
+
+    private String _computeDisplayString(String aoFromState, String aoToState, int size) {
+        String transition = "[AO " + aoFromState + " => AO " + aoToState + "]";
+        while (transition.length() < size) {
+            transition = transition + " ";
+        }
+        return transition;
+    }
+
+    private String _computeExpectedActual(String expected, String actual, int size) {
+        String result = expected + "/" + actual;
+        while (result.length() < size) {
+            result = result + " ";
+        }
+        return result;
+    }
+
+    private void _compareGrids(Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid,
+                               String socState) {
         List<Map<String, String>> aoResults = gridTypeToGrid.get("ao").compare();
-        String socState = "err";
-        System.err.println("---------------------- AO state results");
+        System.err.println("---------------------- AO state results (SOC: " + socState + ")");
         for (int i = 0; i < aoResults.size(); i++) {
             // Put socState in front
             Map<String, String> resultMap = aoResults.get(i);
-            socState = resultMap.get(PseudoUnitTestStateTransitionGrid.SOC_STATE);
             String aoFromState = resultMap.get(PseudoUnitTestStateTransitionGrid.AO_STATE_FROM);
+            int indexOfLastDot = aoFromState.lastIndexOf(".");
+            aoFromState = aoFromState.substring(indexOfLastDot + 1);
             String aoToState = resultMap.get(PseudoUnitTestStateTransitionGrid.AO_STATE_TO);
+            indexOfLastDot = aoToState.lastIndexOf(".");
+            aoToState = aoToState.substring(indexOfLastDot + 1);
             String expectedVal = resultMap.get(PseudoUnitTestStateTransitionGrid.EXPECTED);
             String actualVal = resultMap.get(PseudoUnitTestStateTransitionGrid.ACTUAL);
             String passFail = resultMap.get(PseudoUnitTestStateTransitionGrid.PASS_FAIL);
             String color = passFail.equals(PseudoUnitTestStateTransitionGrid.PASS_VAL) ? "((( GREEN )))" :
                     (passFail.equals(PseudoUnitTestStateTransitionGrid.FAIL_VAL) ?
                             "*** red ***" : "... White ...");
-            String message = "(" + socState + ") " + "[" + aoFromState + " => " + aoToState + "]" +
-                    " expected/actual = " + expectedVal + "/" + actualVal + " " + color;
+            String transition = _computeDisplayString(aoFromState, aoToState, 30);
+            String message = "(AO) " + transition +
+                    " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             System.err.println(message);
         }
         System.err.println("---------------------- FO state results (SOC: " + socState + ")");
@@ -342,10 +456,17 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             // Put socState in front
             Map<String, String> resultMap = foResults.get(i);
             String aoFromState = resultMap.get(PseudoUnitTestStateTransitionGrid.AO_STATE_FROM);
+            int indexOfLastDot = aoFromState.lastIndexOf(".");
+            aoFromState = aoFromState.substring(indexOfLastDot + 1);
+
             String aoToState = resultMap.get(PseudoUnitTestStateTransitionGrid.AO_STATE_TO);
+            indexOfLastDot = aoToState.lastIndexOf(".");
+            aoToState = aoToState.substring(indexOfLastDot + 1);
+
             String expectedVal = resultMap.get(PseudoUnitTestStateTransitionGrid.EXPECTED);
-            int indexOfLastDot = expectedVal.lastIndexOf(".");
+            indexOfLastDot = expectedVal.lastIndexOf(".");
             expectedVal = expectedVal.substring(indexOfLastDot + 1);
+
             String actualVal = resultMap.get(PseudoUnitTestStateTransitionGrid.ACTUAL);
             indexOfLastDot = actualVal.lastIndexOf(".");
             actualVal = actualVal.substring(indexOfLastDot + 1);
@@ -353,8 +474,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String color = passFail.equals(PseudoUnitTestStateTransitionGrid.PASS_VAL) ? "((( GREEN )))" :
                     (passFail.equals(PseudoUnitTestStateTransitionGrid.FAIL_VAL) ?
                             "*** red ***" : "... White ...");
-            String message = "(FO) " + "[" + aoFromState + " => " + aoToState + "]" +
-                    " expected/actual = " + expectedVal + "/" + actualVal + " " + color;
+            String transition = _computeDisplayString(aoFromState, aoToState, 30);
+            String message = "(FO) " + transition +
+                    " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             System.err.println(message);
         }
         System.err.println("---------------------- CO state results (SOC: " + socState + ")");
@@ -363,9 +485,15 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             // Put socState in front
             Map<String, String> resultMap = coResults.get(i);
             String aoFromState = resultMap.get(PseudoUnitTestStateTransitionGrid.AO_STATE_FROM);
+            int indexOfLastDot = aoFromState.lastIndexOf(".");
+            aoFromState = aoFromState.substring(indexOfLastDot + 1);
+
             String aoToState = resultMap.get(PseudoUnitTestStateTransitionGrid.AO_STATE_TO);
+            indexOfLastDot = aoToState.lastIndexOf(".");
+            aoToState = aoToState.substring(indexOfLastDot + 1);
+
             String expectedVal = resultMap.get(PseudoUnitTestStateTransitionGrid.EXPECTED);
-            int indexOfLastDot = expectedVal.lastIndexOf(".");
+            indexOfLastDot = expectedVal.lastIndexOf(".");
             expectedVal = expectedVal.substring(indexOfLastDot + 1);
             String actualVal = resultMap.get(PseudoUnitTestStateTransitionGrid.ACTUAL);
             indexOfLastDot = actualVal.lastIndexOf(".");
@@ -374,8 +502,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String color = passFail.equals(PseudoUnitTestStateTransitionGrid.PASS_VAL) ? "((( GREEN )))" :
                     (passFail.equals(PseudoUnitTestStateTransitionGrid.FAIL_VAL) ?
                             "*** red ***" : "... White ...");
-            String message = "(CO) " + "[" + aoFromState + " => " + aoToState + "]" +
-                    " expected/actual = " + expectedVal + "/" + actualVal + " " + color;
+            String transition = _computeDisplayString(aoFromState, aoToState, 30);
+            String message = "(CO) " + transition +
+                    " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             System.err.println(message);
         }
         System.err.println("---------------------- end");
@@ -433,9 +562,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String fromState = aoGrid.getStateKeyAt(i);
             for (int j = 0; j < aoGrid.size(); j++) {
                 String toState = aoGrid.getStateKeyAt(j);
-                boolean invalidTransition = aoGrid.getTransition(TransitionGridTypeEnum.EXPECTED, fromState, toState).equals(TransitionGridYesNoEnum.INVALID.getName());
+                boolean invalidTransition = aoGrid.getTransition(AFUTTypeEnum.EXPECTED, fromState, toState).equals(TransitionGridYesNoEnum.INVALID.getName());
                 if (invalidTransition) {
-                    aoGrid.setTransition(TransitionGridTypeEnum.ACTUAL, fromState, toState, TransitionGridYesNoEnum.INVALID.getName());
+                    aoGrid.setTransition(AFUTTypeEnum.ACTUAL, fromState, toState, TransitionGridYesNoEnum.INVALID.getName());
                     continue;
                 }
 
@@ -447,7 +576,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
 
                 // Attempt to change toState using normal services call
                 boolean change = _tryChangingAoState(aoId, toState);
-                aoGrid.setTransition(TransitionGridTypeEnum.ACTUAL, fromState, toState,
+                aoGrid.setTransition(AFUTTypeEnum.ACTUAL, fromState, toState,
                         change ? TransitionGridYesNoEnum.YES.getName() : TransitionGridYesNoEnum.NO.getName());
                 // Now to test FO/CO states
                 _refetch();
@@ -455,7 +584,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                 String localFoState = foInfos.get(0).getStateKey();
                 // In order to test CO/FO state propagation, we need to pretend valid AO state transitions occurred.
                 String desiredAoState = fromState; // Initialize to fromState
-                if (aoGrid.getTransition(TransitionGridTypeEnum.EXPECTED, fromState, toState).equals(TransitionGridYesNoEnum.YES.getName())) {
+                if (aoGrid.getTransition(AFUTTypeEnum.EXPECTED, fromState, toState).equals(TransitionGridYesNoEnum.YES.getName())) {
                     desiredAoState = toState; // Transition valid so this is the desired AO state
                 }
                 if (fromState.equals(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) &&
@@ -465,10 +594,10 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                 }
                 String foStateComputed = _computeFoState(primaryAoId, desiredAoState);
                 String coStateComputed = _computeCoState(primaryAoId, desiredAoState);
-                foGrid.setTransition(TransitionGridTypeEnum.EXPECTED, fromState, toState, foStateComputed);
-                foGrid.setTransition(TransitionGridTypeEnum.ACTUAL, fromState, toState, localFoState);
-                coGrid.setTransition(TransitionGridTypeEnum.EXPECTED, fromState, toState, coStateComputed);
-                coGrid.setTransition(TransitionGridTypeEnum.ACTUAL, fromState, toState, localCoState);
+                foGrid.setTransition(AFUTTypeEnum.EXPECTED, fromState, toState, foStateComputed);
+                foGrid.setTransition(AFUTTypeEnum.ACTUAL, fromState, toState, localFoState);
+                coGrid.setTransition(AFUTTypeEnum.EXPECTED, fromState, toState, coStateComputed);
+                coGrid.setTransition(AFUTTypeEnum.ACTUAL, fromState, toState, localCoState);
             }
         }
         Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid = new HashMap<String, PseudoUnitTestStateTransitionGrid>();
