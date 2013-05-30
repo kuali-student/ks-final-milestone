@@ -32,16 +32,16 @@ public class RegGroupStateResult {
     private List<String> expected;
     private List<String> actual;
     private int numAos;
-    private int power;
+    private int numPermutations;
     private static List<String> RG_STATES = Arrays.asList(LuiServiceConstants.REGISTRATION_GROUP_LIFECYCLE_KEY_STATES);
 
     public RegGroupStateResult(int numAos) {
         // The index
         this.numAos = numAos;
-        power = (int) Math.pow(2, numAos);
+        numPermutations = (int) Math.pow(2, numAos);
         expected = new ArrayList<String>();
         actual = new ArrayList<String>();
-        while (expected.size() < power) {
+        while (expected.size() < numPermutations) {
             expected.add(LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY);
             actual.add("empty");
         }
