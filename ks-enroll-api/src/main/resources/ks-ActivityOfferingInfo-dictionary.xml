@@ -109,8 +109,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingInfo.scheduleId" parent="ActivityOfferingInfo.scheduleId-parent"/>
-	<bean id="ActivityOfferingInfo.scheduleId-parent" abstract="true" parent="ActivityOfferingInfo.scheduleId-generated">
+	<bean id="ActivityOfferingInfo.scheduleIds" parent="ActivityOfferingInfo.scheduleIds-parent"/>
+	<bean id="ActivityOfferingInfo.scheduleIds-parent" abstract="true" parent="ActivityOfferingInfo.scheduleIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -239,8 +239,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingInfo.isPartOfColocatedOfferingSet" parent="ActivityOfferingInfo.isPartOfColocatedOfferingSet-parent"/>
-	<bean id="ActivityOfferingInfo.isPartOfColocatedOfferingSet-parent" abstract="true" parent="ActivityOfferingInfo.isPartOfColocatedOfferingSet-generated">
+	<bean id="ActivityOfferingInfo.isColocated" parent="ActivityOfferingInfo.isColocated-parent"/>
+	<bean id="ActivityOfferingInfo.isColocated-parent" abstract="true" parent="ActivityOfferingInfo.isColocated-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -274,3 +274,4 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 </beans>
+

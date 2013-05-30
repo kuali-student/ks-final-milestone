@@ -20,16 +20,23 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
-import org.kuali.student.r2.core.scheduling.dto.*;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
+import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -672,6 +679,32 @@ public interface SchedulingService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+
+
+    /**
+     * Retrieves a list of ScheduleRequest objects by ScheduleRequestSet.
+     *
+     * @param scheduleRequestSetId   a unique id of the ScheduleRequestSet
+     * @param contextInfo   Context information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return a list of ScheduleRequest objects matching
+     *         scheduleRequestSetId or an empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleRequestSetId or contextInfo
+     *                                   is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+
+    public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
 
     /**
      * Searches for ScheduleRequests based on the criteria and returns a list of
@@ -1719,6 +1752,292 @@ public interface SchedulingService {
      */
     public List<ScheduleRequestDisplayInfo> searchForScheduleRequestDisplays(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a ScheduleRequestSet.
+     *
+     * @param scheduleRequestSetId  unique Id of a ScheduleRequestSet
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the ScheduleRequestSet
+     * @throws DoesNotExistException     ScheduleRequestSetId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException ScheduleRequestSetId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public ScheduleRequestSetInfo getScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleRequestSets corresponding to the given list of ScheduleRequestSet
+     * Ids.
+     *
+     * @param scheduleRequestSetIds list of ScheduleRequestSets to be retrieved
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return a list of ScheduleRequestSets
+     * @throws DoesNotExistException     a ScheduleRequestSetIds in list is not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException ScheduleRequestSetIds or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ScheduleRequestSetInfo> getScheduleRequestSetsByIds(@WebParam(name = "scheduleRequestSetIds") List<String> scheduleRequestSetIds,
+                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
+     * Retrieves a list of ScheduleRequestSet Ids by ScheduleRequestSet Type.
+     *
+     * @param scheduleRequestSetTypeKey an identifier for a ScheduleRequestSet Type
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of ScheduleRequestSet identifiers matching ScheduleRequestSetTypeKey or an
+     *         empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException ScheduleRequestSetTypeKey or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getScheduleRequestSetIdsByType(@WebParam(name = "scheduleRequestSetTypeKey") String scheduleRequestSetTypeKey,
+                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+    /**
+     * Retrieves a list of ScheduleRequestSet Ids by RefObj Type.
+     *
+     * @param refObjectTypeKey an identifier for a refObject Type
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of ScheduleRequestSet identifiers matching refObject Type or an
+     *         empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException refObjectTypeKey or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getScheduleRequestSetIdsByRefObjType(@WebParam(name = "refObjectTypeKey") String refObjectTypeKey,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+    /**
+     * Searches for ScheduleRequestSets based on the criteria and returns a list of
+     * ScheduleRequestSet identifiers which match the search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return list of ScheduleRequestSet Ids
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForScheduleRequestSetIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for ScheduleRequestSets based on the criteria and returns a list of
+     * ScheduleRequestSets which match the search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return list of ScheduleRequestSets
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ScheduleRequestSetInfo> searchForScheduleRequestSets(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates a ScheduleRequestSet. Depending on the value of validationType, this
+     * validation could be limited to tests on just the current ScheduleRequestSet and its
+     * directly contained sub-objects or expanded to perform all tests related
+     * to this ScheduleRequestSet. If an identifier is present for the ScheduleRequestSet (and/or
+     * one of its contained sub-objects) and a record is found for that
+     * identifier, the validation checks if the ScheduleRequestSet can be updated to the
+     * new values. If an identifier is not present or a record does not exist,
+     * the validation checks if the object with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param scheduleRequestSetTypeKey   the identifier for the ScheduleRequestSet Type
+     * @param refObjectTypeKey  the identifier of the refObject Type
+     * @param scheduleRequestSetInfo      detailed information about the ScheduleRequestSet
+     * @param contextInfo       Context information containing the principalId
+     *                          and locale information about the caller of
+     *                          service operation
+     * @return a list of validation results or an empty list if validation
+     *         succeeded
+     * @throws DoesNotExistException     validationTypeKey, ScheduleRequestSetId, not
+     *                                   found
+     * @throws InvalidParameterException invalid ScheduleRequestSetInfo or contextInfo
+     * @throws MissingParameterException validationTypeKey, ScheduleRequestSetId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateScheduleRequestSet(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                   @WebParam(name = "scheduleRequestSetTypeKey") String scheduleRequestSetTypeKey,
+                                                                   @WebParam(name = "refObjectTypeKey") String refObjectTypeKey,
+                                                                   @WebParam(name = "scheduleRequestSetInfo") ScheduleRequestSetInfo scheduleRequestSetInfo,
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a ScheduleRequestSet
+     *
+     * @param scheduleRequestSetTypeKey the identifier for the ScheduleRequestSet Type
+     * @param refObjectTypeKey  the identifier of the refObject Type
+     * @param scheduleRequestSetInfo    detailed information about the ScheduleRequestSet
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return detailed information about the ScheduleRequestSet
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        scheduleRequestSetTypeKey or refObjectTypeKey does not exist
+     * @throws InvalidParameterException    invalid ScheduleRequestSetInfo or contextInfo
+     * @throws MissingParameterException    scheduleRequestSetTypeKey, refObjectTypeKey or contextInfo is missing
+     *                                      or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     */
+    public ScheduleRequestSetInfo createScheduleRequestSet(@WebParam(name = "scheduleRequestSetTypeKey") String scheduleRequestSetTypeKey,
+                                                               @WebParam(name = "refObjectTypeKey") String refObjectTypeKey,
+                                                               @WebParam(name = "scheduleRequestSetInfo") ScheduleRequestSetInfo scheduleRequestSetInfo,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     * Updates a ScheduleRequestSet.
+     *
+     * @param scheduleRequestSetId   identifier of the ScheduleRequestSet  to be updated
+     * @param scheduleRequestSetInfo information about the object ScheduleRequestSetInfo to be
+     *                     updated
+     * @param contextInfo  context information containing the principalId and
+     *                     locale information about the caller of service
+     *                     operation
+     * @return updated ScheduleRequestSet information
+     * @throws DataValidationErrorException one or more values invalid for this
+     *                                      operation
+     * @throws DoesNotExistException        ScheduleRequestSetId not found
+     * @throws InvalidParameterException    invalid ScheduleRequestSetInfo or contextInfo
+     * @throws MissingParameterException    ScheduleRequestSetId, ScheduleRequestSetInfo or
+     *                                      contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     * @throws VersionMismatchException     optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public ScheduleRequestSetInfo updateScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                               @WebParam(name = "scheduleRequestSetInfo") ScheduleRequestSetInfo scheduleRequestSetInfo,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+    /**
+     * Removes a ScheduleRequestSet.
+     *
+     * @param scheduleRequestSetId  ScheduleRequestSet  identifier
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     ScheduleRequestSetId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException ScheduleRequestSetId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleRequestSets
+     * that a refObject with given id is part of.
+     *
+     * @param refObjectType         the identifier for the ref object Type
+     * @param refObjectId           the identifier for the refObject
+     * @param contextInfo           information containing the principalId and
+     *                              locale information about the caller of
+     *                              service operation
+     * @return a list of ScheduleRequestSets for the Activity Offering,
+     *         or an empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException activityOfferingId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ScheduleRequestSetInfo> getScheduleRequestSetsByRefObject(@WebParam(name = "refObjectType") String refObjectType,
+                                                                          @WebParam(name = "refObjectId") String refObjectId,
+                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
