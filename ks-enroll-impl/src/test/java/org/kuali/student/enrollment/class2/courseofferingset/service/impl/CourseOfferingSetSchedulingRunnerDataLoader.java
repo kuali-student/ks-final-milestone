@@ -57,6 +57,7 @@ import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
@@ -242,6 +243,26 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
         return type;
     }
 
+
+    private void loadTimeSlotInfo (String ts_id, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
+            throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+        TimeSlotInfo ts = new TimeSlotInfo();
+        ts.setId(ts_id);
+        ts.setWeekdays(weekdays);
+        TimeOfDayInfo startTime = new TimeOfDayInfo();
+        startTime.setMilliSeconds(startTimeInMillisecs);
+        ts.setStartTime(startTime);
+        TimeOfDayInfo endTime = new TimeOfDayInfo();
+        endTime.setMilliSeconds(endTimeInMillisecs);
+        ts.setEndTime(endTime);
+        ts.setStateKey(stateKey);
+        ts.setTypeKey(typeKey);
+        schedulingService.createTimeSlot(typeKey, ts, context);
+    }
+
+
+
+
     private void loadSchedulingData() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
         // create soc
         SocInfo soc = new SocInfo();
@@ -273,8 +294,20 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
         loadTimeSlotInfo(TIME_SLOT_2_ID, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, CourseOfferingSetSchedulingRunnerDataLoader.DOW_T_TH, CourseOfferingSetSchedulingRunnerDataLoader.START_TIME_MILLIS_10_00_AM, CourseOfferingSetSchedulingRunnerDataLoader.END_TIME_MILLIS_10_50_AM);
         CommonServiceConstants.setIsIdAllowedOnCreate(context, false);
 
+        ActivityOfferingInfo ao = coService.getActivityOffering(SCHEDULED_AO_ID, context);
+
+        // create a sched-request SET to which we can attach the sched-requests
+        ScheduleRequestSetInfo srs = new ScheduleRequestSetInfo();
+        srs.setTypeKey( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET );
+        srs.setStateKey( SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED );
+        srs.setRefObjectTypeKey( ao.getTypeKey() );
+        List<String> srsRefObjIds = new ArrayList<String>();
+        srsRefObjIds.add( ao.getId() );
+        srs.setRefObjectIds( srsRefObjIds );
+        srs = schedulingService.createScheduleRequestSet( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, ao.getTypeKey(), srs, context );
+
         // create a schedule request for the AO intended to be scheduled
-        ScheduleRequestInfo request1 = setupScheduleRequestInfo("request1", CourseOfferingSetSchedulingRunnerDataLoader.SCHEDULED_AO_ID, "requestComponent1-1", "request1", TIME_SLOT_1_ID);
+        ScheduleRequestInfo request1 = setupScheduleRequestInfo( srs.getId(), "request1", CourseOfferingSetSchedulingRunnerDataLoader.SCHEDULED_AO_ID, "requestComponent1-1", "request1", TIME_SLOT_1_ID);
 
         // create a second schedule request component and add it to the first schedule request
         ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo(request1.getScheduleRequestComponents().get(0));
@@ -284,42 +317,27 @@ public class CourseOfferingSetSchedulingRunnerDataLoader extends CourseOfferingS
         componentInfo.setIsTBA(true);
 
         request1.getScheduleRequestComponents().add(componentInfo);
-        
-        
+
+
         schedulingService.createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, request1, context);
 
         // create a schedule request for the AO intended to have a TBA request
-        ScheduleRequestInfo request2 = setupScheduleRequestInfo("request2", CourseOfferingSetSchedulingRunnerDataLoader.EXEMPT_AO_ID, "requestComponent2", "request2", TIME_SLOT_2_ID);
+        ScheduleRequestInfo request2 = setupScheduleRequestInfo(srs.getId(), "request2", CourseOfferingSetSchedulingRunnerDataLoader.EXEMPT_AO_ID, "requestComponent2", "request2", TIME_SLOT_2_ID);
         request2.getScheduleRequestComponents().get(0).setIsTBA(true);
         schedulingService.createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, request2, context);
 
         // create a schedule request for the AO that is draft and will not have an actual schedule
-        ScheduleRequestInfo request3 = setupScheduleRequestInfo("request3", CourseOfferingSetSchedulingRunnerDataLoader.DRAFT_AO_ID, "requestComponent3", "request3", TIME_SLOT_1_ID);
+        ScheduleRequestInfo request3 = setupScheduleRequestInfo(srs.getId(), "request3", CourseOfferingSetSchedulingRunnerDataLoader.DRAFT_AO_ID, "requestComponent3", "request3", TIME_SLOT_1_ID);
         schedulingService.createScheduleRequest(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, request3, context);
     }
 
-    private void loadTimeSlotInfo (String ts_id, String stateKey, String typeKey, List<Integer> weekdays, Long startTimeInMillisecs, Long endTimeInMillisecs)
-            throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
-        TimeSlotInfo ts = new TimeSlotInfo();
-        ts.setId(ts_id);
-        ts.setWeekdays(weekdays);
-        TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(startTimeInMillisecs);
-        ts.setStartTime(startTime);
-        TimeOfDayInfo endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(endTimeInMillisecs);
-        ts.setEndTime(endTime);
-        ts.setStateKey(stateKey);
-        ts.setTypeKey(typeKey);
-        schedulingService.createTimeSlot(typeKey, ts, context);
-    }
-
-    public static ScheduleRequestInfo setupScheduleRequestInfo(String scheduleRequestInfoId, String scheduleRequestInfoRefObjectId,
-                                                               String ScheduleRequestComponentInfoId, String scheduleRequestInfoName, String timeSlotId) {
+    private ScheduleRequestInfo setupScheduleRequestInfo(String scheduleRequestSetId, String scheduleRequestInfoId, String scheduleRequestInfoRefObjectId,
+                                                                   String ScheduleRequestComponentInfoId, String scheduleRequestInfoName, String timeSlotId) {
         ScheduleRequestInfo scheduleRequestInfo = new ScheduleRequestInfo();
         scheduleRequestInfo.setId(scheduleRequestInfoId);
-        scheduleRequestInfo.setRefObjectId(scheduleRequestInfoRefObjectId);
-        scheduleRequestInfo.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+
+        scheduleRequestInfo.setScheduleRequestSetId(scheduleRequestSetId);
+
         scheduleRequestInfo.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
         scheduleRequestInfo.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
         scheduleRequestInfo.setName(scheduleRequestInfoName);

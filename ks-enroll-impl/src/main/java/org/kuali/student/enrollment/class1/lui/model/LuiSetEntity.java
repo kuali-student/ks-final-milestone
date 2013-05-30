@@ -43,7 +43,7 @@ import java.util.Set;
 
 /**
  * This is the entity representation for <code>KSEN_LUI_SET</code> table. And, this is mapped with the dto <code>LuiSetInfo</code>
- * at class1 and <code>ColocatedOfferingSetInfo</code> at class2 service.
+ * at class1. This isn't currently used in for any class 2 entities.
  *
  * @author Kuali Student Team
  */
