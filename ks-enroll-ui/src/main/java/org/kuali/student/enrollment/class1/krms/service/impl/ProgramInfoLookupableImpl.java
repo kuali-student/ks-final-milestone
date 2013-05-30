@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
@@ -56,7 +57,7 @@ public class ProgramInfoLookupableImpl extends LookupableImpl {
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        List <CoreProgramInfo> coreProgramInfoList = new ArrayList<CoreProgramInfo>();
+        List <CluInformation> programInfoList = new ArrayList<CluInformation>();
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         SearchParamInfo qpv1 = new SearchParamInfo();
         qpv1.setKey("lu.queryParam.luOptionalType");
@@ -98,44 +99,42 @@ public class ProgramInfoLookupableImpl extends LookupableImpl {
 
         try {
             SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
-            CoreProgramInfo coreProgramInfo = null;
+            CluInformation clu  = null;
             if (searchResult.getRows().size() > 0) {
                 for(SearchResultRowInfo srrow : searchResult.getRows()){
-                    coreProgramInfo = new CoreProgramInfo();
+                    clu = new CluInformation();
                     List<SearchResultCellInfo> srCells = srrow.getCells();
                     if(srCells != null && srCells.size() > 0){
                         for(SearchResultCellInfo srcell : srCells){
                             if (srcell.getKey().equals("lu.resultColumn.cluId")) {
-                                coreProgramInfo.setId(srcell.getValue());
-//                               CoreProgramInfo coreProgramInfo new  = getProgramService().getpget(courseId, ContextUtils.getContextInfo());
-//                                coreProgramInfoList.add(course);
+                                clu.setCluId(srcell.getValue());
                             }
                             else if(srcell.getKey().equals("lu.resultColumn.luOptionalLongName")) {
-                                coreProgramInfo.setLongTitle(srcell.getValue());
+                                clu.setTitle(srcell.getValue());
                             }
-                            else if(srcell.getKey().equals("lu.resultColumn.luOptionalShortName")) {
-                                coreProgramInfo.setShortTitle(srcell.getValue());
-                            }
+                             else if (srcell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")){
+                            clu.setVerIndependentId(srcell.getValue());
+                             }
                             else if(srcell.getKey().equals("lu.resultColumn.luOptionalDescr")) {
                                 RichTextInfo richTextInfo = new RichTextInfo();
                                 richTextInfo.setPlain(srcell.getValue());
-                                coreProgramInfo.setDescr(richTextInfo);
+                                clu.setDescription(srcell.getValue());
                             }
                             else if(srcell.getKey().equals("lu.resultColumn.luOptionalState")) {
-                                coreProgramInfo.setStateKey(srcell.getValue());
+                                clu.setState(srcell.getValue());
                             }
                             else if(srcell.getKey().equals("lu.resultColumn.luOptionalCode")) {
-                                coreProgramInfo.setCode(srcell.getValue());
+                                clu.setCode(srcell.getValue());
                             }
 
                         }
                     }
-                    coreProgramInfoList.add(coreProgramInfo);
+                    programInfoList.add(clu);
                 }
 
             }
 
-            return coreProgramInfoList;
+            return programInfoList;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

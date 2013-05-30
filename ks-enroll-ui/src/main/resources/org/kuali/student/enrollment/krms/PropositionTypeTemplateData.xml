@@ -241,7 +241,7 @@
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="AdmittedToProgram"
                           p:value="false">
-                        <property name="componentId" value="KRMS-Program-SuggestField"/>
+                        <property name="componentId" value="KRMS-Program-Section"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>

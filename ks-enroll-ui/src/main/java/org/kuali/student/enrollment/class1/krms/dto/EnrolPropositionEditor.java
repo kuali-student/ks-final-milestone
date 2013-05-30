@@ -36,6 +36,7 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private OrgInfo orgInfo;
     private Integer duration;
     private String durationType;
+    private ProgramCluSetInformation progCluSet;
 
     private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
@@ -90,16 +91,20 @@ public class EnrolPropositionEditor extends PropositionEditor {
     }
 
     public int getCluListSize(){
-        if ((this.getCluSet() != null) && (this.getCluSet().getClus() != null)){
+        if ((this.getCluSet() != null) && (this.getCluSet().getClus() != null)) {
             return this.getCluSet().getClus().size();
+        } else if ((this.getProgCluSet() != null) && (this.getProgCluSet().getClus() != null)) {
+            return this.getProgCluSet().getClus().size();
         } else {
             return 0;
         }
     }
 
     public int getCluSetListSize(){
-        if ((this.getCluSet() != null) && (this.getCluSet().getCluSets() != null)){
+        if ((this.getCluSet() != null) && (this.getCluSet().getCluSets() != null)) {
             return this.getCluSet().getCluSets().size();
+        } else if ((this.getProgCluSet() != null) && (this.getProgCluSet().getCluSets() != null)) {
+            return this.getProgCluSet().getCluSets().size();
         } else {
             return 0;
         }
@@ -129,6 +134,14 @@ public class EnrolPropositionEditor extends PropositionEditor {
         this.durationType = durationType;
     }
 
+    public ProgramCluSetInformation getProgCluSet() {
+        return progCluSet;
+    }
+
+    public void setProgCluSet(ProgramCluSetInformation progCluSet) {
+        this.progCluSet = progCluSet;
+    }
+
     @Override
     protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){
         return new EnrolPropositionEditor(definition);
@@ -140,6 +153,10 @@ public class EnrolPropositionEditor extends PropositionEditor {
         if (this.getCluSet() != null){
             nlParameters.put(CLULIST_KEY, this.getCluSet().getCluDelimitedString());
             nlParameters.put(CLUSETLIST_KEY, this.getCluSet().getCluSetDelimitedString());
+        }
+        else if (this.getProgCluSet() != null)   {
+            nlParameters.put(CLULIST_KEY, this.getProgCluSet().getCluDelimitedString());
+            nlParameters.put(CLUSETLIST_KEY, this.getProgCluSet().getCluSetDelimitedString());
         }
         return nlParameters;
     }

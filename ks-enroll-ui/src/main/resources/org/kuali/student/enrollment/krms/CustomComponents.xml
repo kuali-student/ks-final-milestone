@@ -115,6 +115,8 @@
     </bean>
 
     <bean id="KRMS-Course-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="id" value="CourseLookupView"/>
+        <property name="viewName" value="krmsCoursesOnlyLookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
         <property name="fieldConversions">
             <map>
@@ -126,6 +128,8 @@
     </bean>
 
     <bean id="KRMS-ApprovedCourses-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="id" value="CourseLookupView"/>
+        <property name="viewName" value="krmsCoursesOnlyLookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
         <property name="fieldConversions">
             <map>
@@ -842,7 +846,7 @@
                 </property>
             </bean>
         </property>
-        <property name="propertyName" value="proposition.cluSet.clus"/>
+        <property name="propertyName" value="proposition.progCluSet.clus"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
         <property name="header">
@@ -859,24 +863,13 @@
         </property>
         <property name="addLineItems">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:required="true" p:style="width: 280px;">
+                <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:disabled="true"/>
+                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;" p:disabled="true">
+                        </bean>
                     </property>
                     <property name="label" value="Approved Programs"/>
-                    <!--<property name="suggest">-->
-                        <!--<bean parent="Uif-Suggest">-->
-                            <!--<property nahme="render" value="true"/>-->
-                            <!--<property name="valuePropertyName" value="displayName"/>-->
-                            <!--<property name="templateOptions" value="minLength:1,delay:0"/>-->
-                            <!--<property name="suggestQuery">-->
-                                <!--<bean parent="Uif-AttributeQueryConfig">-->
-                                    <!--<property name="queryMethodToCall" value="getProgramForSuggest"/>-->
-                                <!--</bean>-->
-                            <!--</property>-->
-                        <!--</bean>-->
-                    <!--</property>-->
                     <property name="quickfinder">
                         <bean parent="KRMS-Programs-QuickFinder"/>
                     </property>
@@ -884,16 +877,21 @@
                 </bean>
             </list>
         </property>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="false"/>
+        </property>
     </bean>
 
 
     <bean id="KRMS-Programs-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.program.dto.CoreProgramInfo"/>
-        <!--<property name="viewName" value="krmsProgramOnlyLookup"/>-->
+        <property name="id" value="ProgramLookupView"/>
+        <property name="viewName" value="krmsProgramOnlyLookup"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
         <property name="fieldConversions">
             <map>
                 <entry key="code" value="code"/>
-                <entry key="id" value="id"/>
+                <entry key="cluId" value="cluId"/>
+                <entry key="verIndependentId" value="verIndependentId"/>
             </map>
         </property>
     </bean>
