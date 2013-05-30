@@ -1,6 +1,7 @@
 package org.kuali.rice.krad.uif.layout.extension;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.layout.StackedLayoutManager;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -37,7 +38,7 @@ public class TabbedLayoutManager extends StackedLayoutManager {
 	@Override
 	protected String buildLineHeaderText(View view, Object line, Group lineGroup) {
 		// check for expression on summary title
-		// TODO: getExpressionEvaluatorService() removed in Rice 2.3
+		// TODO: KSAP-34 Rice 2.3 no longer includes expressionEvaluatorService
 		// if
 		// (KRADServiceLocatorWeb.getExpressionEvaluatorService().containsElPlaceholder(getSummaryTitle()))
 		// {
@@ -71,5 +72,4 @@ public class TabbedLayoutManager extends StackedLayoutManager {
 
 		return headerText;
 	}
-
 }

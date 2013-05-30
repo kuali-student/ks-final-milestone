@@ -53,4 +53,12 @@
         </property>
     </bean>
 
+
+    <!-- List based Data Field that supports dl and dd -->
+    <bean id="Uif-ListDataField" parent="Uif-DataField-parentBean" class="org.kuali.rice.krad.uif.container.extension.ListDataField"/>
+
+    <!-- TODO: Temporary Fix for KULRICE-9215 -->
+    <bean id="Uif-MultiRowTableCollectionLayout" parent="Uif-TableCollectionLayout-parentBean" class="org.kuali.rice.krad.uif.layout.extension.MultiRowSpanTableLayoutManager"/>
+
+
 </beans>

@@ -662,21 +662,26 @@ public class CourseSearchController extends UifControllerBase {
 					for (Entry<String, Map<String, FacetState>> fce : facetStateMap
 							.entrySet()) {
 						Map<String, FacetState> fm = fce.getValue();
-						for (Entry<String, Map<String, KeyValue>> group : row.item
-								.getFacetColumns().get(fce.getKey()).entrySet())
-							for (Entry<String, KeyValue> fe : group.getValue()
-									.entrySet()) {
-								KeyValue fv = fe.getValue();
-								assert fv.getKey().startsWith(";")
-										&& fv.getKey().endsWith(";")
-										&& fv.getKey().length() >= 3 : fv
-										.getKey();
-								String facetKey = fe.getKey();
-								FacetState fs = fm.get(facetKey);
-								if (fs == null)
-									fm.put(facetKey, fs = new FacetState(fv));
-								fs.count++;
-							}
+						Map<String, Map<String, KeyValue>> fcr;
+						if (row.item != null
+								&& (fcr = row.item.getFacetColumns().get(
+										fce.getKey())) != null)
+							for (Entry<String, Map<String, KeyValue>> group : fcr
+									.entrySet())
+								for (Entry<String, KeyValue> fe : group
+										.getValue().entrySet()) {
+									KeyValue fv = fe.getValue();
+									assert fv.getKey().startsWith(";")
+											&& fv.getKey().endsWith(";")
+											&& fv.getKey().length() >= 3 : fv
+											.getKey();
+									String facetKey = fe.getKey();
+									FacetState fs = fm.get(facetKey);
+									if (fs == null)
+										fm.put(facetKey,
+												fs = new FacetState(fv));
+									fs.count++;
+								}
 					}
 					for (String kw : row.item.getKeywords()) {
 						Integer kwi = kwc.get(kw);

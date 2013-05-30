@@ -180,6 +180,17 @@
         </property>
     </bean>
 
+    <!--Myplan theme with different view-->
+    <bean id="MyPlanRetrievedTheme" abstract="true" parent="MyPlanRetrievedTheme-parentBean"/>
+    <bean id="MyPlanRetrievedTheme-parentBean" parent="Uif-KradTheme">
+        <property name="cssFiles">
+            <list merge="false"/>
+        </property>
+        <property name="scriptFiles">
+            <list merge="false"/>
+        </property>
+    </bean>
+
     <bean id="MyPlanFooterDocument" parent="Uif-FooterBase">
         <property name="items">
             <list>
@@ -659,4 +670,112 @@
         </property>
     </bean>
 
+    <!-- Light weight fields -->
+    <bean id="KSAP-SimpleDataField" parent="KSAP-SimpleDataField-parentBean"/>
+    <bean id="KSAP-SimpleDataField-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
+        <property name="fieldLabel.render" value="false"/>
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/KSAPSimpleDataField.ftl"/>
+        <property name="templateName" value="ksap_simpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+
+    <bean id="KSAP-SimpleInputField" parent="KSAP-SimpleInputField-parentBean"/>
+    <bean id="KSAP-SimpleInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
+        <property name="fieldLabel.render" value="false"/>
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/KSAPSimpleDataField.ftl"/>
+        <property name="templateName" value="ksap_simpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+        <property name="quickfinder">
+            <null/>
+        </property>
+        <property name="validationMessages">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-MessageField" parent="KSAP-MessageField-parentBean"/>
+    <bean id="KSAP-MessageField-parentBean" abstract="true" class="org.kuali.rice.krad.uif.field.MessageField"
+          parent="Uif-MessageField-parentBean" scope="prototype">
+        <property name="message">
+            <bean parent="KSAP-NoSpanMessage"/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-NoSpanMessage" parent="KSAP-NoSpanMessage-parentBean"/>
+    <bean id="KSAP-NoSpanMessage-parentBean" abstract="true" parent="Uif-Message-parentBean" scope="prototype">
+        <property name="generateSpan" value="false"/>
+    </bean>
+
+
+    <bean id="KSAP-StackedCollectionGroup" parent="KSAP-StackedCollectionGroup-parentBean"/>
+    <bean id="KSAP-StackedCollectionGroup-parentBean" parent="Uif-StackedCollectionGroup-parentBean">
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/KSAPcollectionGroup.ftl"/>
+        <property name="templateName" value="ksap_collectionGroup"/>
+
+
+        <property name="highlightNewItems" value="false"/>
+        <property name="newItemsCssClass" value="uif-newCollectionItem"/>
+        <property name="highlightAddItem" value="false"/>
+        <property name="addItemCssClass" value="uif-collectionAddItem"/>
+        <property name="renderAddBlankLineButton" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="readOnly" value="true"/>
+        <property name="bindingInfo">
+            <ref bean="Uif-BindingInfo"/>
+        </property>
+        <property name="addLineBindingInfo">
+            <null/>
+        </property>
+        <property name="addLineLabel">
+            <null/>
+        </property>
+        <property name="addLineActions">
+            <list>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+            </list>
+        </property>
+        <property name="addBlankLineAction">
+            <null/>
+        </property>
+        <property name="addViaLightBoxAction">
+            <null/>
+        </property>
+        <property name="collectionLookup">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-VerticalBoxGroup" parent="Uif-VerticalBoxGroup">
+        <property name="validationMessages">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-HorizontalBoxGroup" parent="Uif-HorizontalBoxGroup">
+        <property name="validationMessages">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+        <property name="toolTip">
+            <null/>
+        </property>
+    </bean>
+
 </beans>
+
