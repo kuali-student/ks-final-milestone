@@ -44,6 +44,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -53,9 +54,6 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -77,8 +75,6 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
     private SchedulingService schedulingService;
     private RoomService roomService;
     private CourseOfferingSetService courseOfferingSetService;
-
-    protected static final String TIME_FORMAT_STRING = "hh:mm a";
 
     @Transactional // If it's already a part of transaction, it's ok.. Otherwise, create a new transaction boundary for all the changes.
     public void saveSchedules(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo){
@@ -493,28 +489,18 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
         timeSlot.setWeekdays(days);
 
-        DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
-
         if (StringUtils.isNotEmpty(scheduleWrapper.getStartTime())) {
-            try {
-                long time = df.parse(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM()).getTime();
-                TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-                timeOfDayInfo.setMilliSeconds(time);
-                timeSlot.setStartTime(timeOfDayInfo);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+            long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(scheduleWrapper.getStartTime() + " " + scheduleWrapper.getStartTimeAMPM()).getTime();
+            TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+            timeOfDayInfo.setMilliSeconds(time);
+            timeSlot.setStartTime(timeOfDayInfo);
         }
 
         if (StringUtils.isNotEmpty(scheduleWrapper.getEndTime())) {
-            try {
-                long time = df.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
-                TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-                timeOfDayInfo.setMilliSeconds(time);
-                timeSlot.setEndTime(timeOfDayInfo);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+            long time = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM()).getTime();
+            TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
+            timeOfDayInfo.setMilliSeconds(time);
+            timeSlot.setEndTime(timeOfDayInfo);
         }
 
         try {
@@ -646,12 +632,10 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             if (!timeSlotInfos.isEmpty()){
                 scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
-                DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
-
                 Date timeForDisplay;
                 if(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null) {
                     timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                    String formattedTime = df.format(timeForDisplay);
+                    String formattedTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
                     //Set for read only display purpose in the format hh:mm a
                     scheduleWrapper.setStartTimeUI(formattedTime);
                     //Set only hh:mm for user editable purpose
@@ -661,8 +645,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
                 if(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null) {
                     timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                    String formattedTime = df.format(timeForDisplay);
-                    scheduleWrapper.setEndTimeUI(df.format(timeForDisplay));
+                    String formattedTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
                     //Set for read only display purpose in the format hh:mm a
                     scheduleWrapper.setEndTimeUI(formattedTime);
                     //Set only hh:mm for user editable purpose
@@ -731,17 +714,15 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                         if (!timeSlotInfos.isEmpty()){
                             scheduleWrapper.setTimeSlot(timeSlotInfos.get(0));
 
-                            DateFormat df = new SimpleDateFormat(TIME_FORMAT_STRING);
-
                             Date timeForDisplay;
                             if (scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds() != null){
                                 timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds());
-                                scheduleWrapper.setStartTimeUI(df.format(timeForDisplay));
+                                scheduleWrapper.setStartTimeUI(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
                             }
 
                             if (scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds() != null){
                                 timeForDisplay = new Date(scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds());
-                                scheduleWrapper.setEndTimeUI(df.format(timeForDisplay));
+                                scheduleWrapper.setEndTimeUI(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
                             }
 
                             scheduleWrapper.setDaysUI(buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
