@@ -15,21 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.search;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Resource;
-import javax.jws.WebParam;
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
-
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingSetEntity;
@@ -42,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -52,6 +38,17 @@ import org.kuali.student.r2.core.search.dto.SortDirection;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.annotation.Resource;
+import javax.jws.WebParam;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -76,25 +73,26 @@ public class CourseOfferingServiceAutogenCountSearchServiceImpl implements Searc
     }
 
     /**
-     * 
+     *
      * @param typeKey
-     * @param name
-     * @param description
-     * @param effectiveDate as a string "MM/dd/yyyy"
-     * @return initialized type info
+     * @param typeName
+     * @param effectiveDate
+     * @return
      */
     private static TypeInfo initializeTypeInfo (String typeKey, String typeName, String effectiveDate) {
         TypeInfo info = new TypeInfo();
         info.setKey(typeKey);
         info.setName(typeName);
         info.setDescr(new RichTextHelper().fromPlain(typeName));
-        DateFormat mmddyyyy = new SimpleDateFormat("MM/dd/yyyy");
+
         try {
-            info.setEffectiveDate(mmddyyyy.parse(effectiveDate));
-        } catch (ParseException ex) {
-            throw new RuntimeException("bad code");
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(effectiveDate));
+        } catch (IllegalArgumentException ex) {
+            throw new RuntimeException("parsing["+ effectiveDate +"] is not possible", ex);
+        } catch (UnsupportedOperationException ex){
+            throw new RuntimeException("parsing["+ effectiveDate +"] is not supported", ex);
         }
-        
+
         return info;
     }
     
