@@ -19,6 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -708,6 +709,21 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
+
+        //Compare CO to CLU and display info message
+        if(ruleEditor.getProposition() != null) {
+            MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+            Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
+            if (dataObject instanceof RuleManagementWrapper) {
+                RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) dataObject;
+                if(!this.getViewHelper(form).compareRules(ruleEditor, ruleWrapper.getRefObjectId())) {
+                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "info.krms.tree.rule.changed");
+                } else {
+                    GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_INFO);
+                }
+            }
+        }
+
         if (ruleEditor.getProposition() != null) {
             PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
         }

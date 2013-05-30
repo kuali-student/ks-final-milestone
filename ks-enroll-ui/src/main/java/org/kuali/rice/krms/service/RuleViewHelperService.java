@@ -32,6 +32,8 @@ public interface RuleViewHelperService {
 
     public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception;
 
+    public Boolean compareRules(RuleEditor original, String compareToRefObjectId) throws Exception;
+
     public PropositionEditor copyProposition(PropositionEditor proposition);
 
     public PropositionEditor createCompoundPropositionBoStub(PropositionEditor existing, boolean addNewChild);

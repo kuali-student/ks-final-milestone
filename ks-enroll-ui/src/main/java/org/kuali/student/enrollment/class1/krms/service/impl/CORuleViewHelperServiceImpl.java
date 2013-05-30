@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
@@ -21,6 +23,8 @@ import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,6 +76,55 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         Tree<CompareTreeNode, String> compareTree = treeBuilder.buildTree(original, compareEditor);
 
         return compareTree;
+    }
+
+    @Override
+    public Boolean compareRules(RuleEditor original, String compareToRefObjectId) throws Exception {
+        //Get the CLU Tree.
+        CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(compareToRefObjectId, ContextUtils.createDefaultContextInfo());
+        CORuleCompareTreeBuilder treeBuilder = new CORuleCompareTreeBuilder();
+        treeBuilder.setRuleManagementService(this.getRuleManagementService());
+        RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
+
+        //If no CLU Rule exists, then return true
+        RuleEditor compareEditor;
+        if(compare==null){
+            return true;
+        } else {
+            compareEditor = new EnrolRuleEditor(compare);
+        }
+
+        //Compare Root Proposition Type and if the same test recursively
+        if(original.getProposition().getTypeId().equals(compareEditor.getProposition().getTypeId())) {
+            Boolean result = comparePropositions(original.getProposition(), compareEditor.getProposition());
+            return result;
+        } else {
+            return false;
+        }
+    }
+
+    private Boolean comparePropositions(PropositionDefinitionContract original, PropositionDefinitionContract compare) {
+        BeanPropertyComparator propertyComparator = null;
+        if(compare.getPropositionTypeCode().equals("C")) {
+            propertyComparator = new BeanPropertyComparator(Arrays.asList("compoundOpCode","propositionTypeCode"));
+            if(propertyComparator.compare(original, compare) != 0) {
+                return false;
+            }
+        } else {
+            //TODO: Compare Term and TermParameters
+            propertyComparator = new BeanPropertyComparator(Arrays.asList("compoundSequenceNumber","typeId","propositionTypeCode"));
+            if(propertyComparator.compare(original, compare) != 0) {
+                return false;
+            }
+        }
+
+        if(original.getCompoundComponents().size() == compare.getCompoundComponents().size()) {
+            for(int index = 0; index < original.getCompoundComponents().size(); index++) {
+                comparePropositions(original.getCompoundComponents().get(index), compare.getCompoundComponents().get(index));
+            }
+        }
+
+        return true;
     }
 
     protected void initPropositionEditor(PropositionEditor propositionEditor) {
