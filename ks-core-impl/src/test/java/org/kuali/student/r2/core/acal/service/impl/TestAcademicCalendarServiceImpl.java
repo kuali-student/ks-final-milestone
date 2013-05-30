@@ -40,7 +40,9 @@ import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +89,10 @@ public class TestAcademicCalendarServiceImpl {
     @Autowired
     @Qualifier("stateService")
     private StateService stateService;
+
+    @Autowired
+    @Qualifier("typeService")
+    private TypeService typeService;
 
     public static String principalId = "123";
     public ContextInfo callContext = null;
@@ -1368,14 +1374,56 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals(9,days.intValue());
 
         // Overlap period end dates
-        _updateHcalDatesDates(holidayInfo, "2013-03-08","2013-03-09");
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-03-08","2013-03-09");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
         assertEquals(9,days.intValue());
 
         // Overlaping holidays. Make sure we don't count the same day twice
-        _createHoliday(hCal.getId(), "2013-03-08");
+        HolidayInfo singleDayHoliday = _createHoliday(hCal.getId(), "2013-03-08");
         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
         assertEquals(9,days.intValue());
+
+
+        // Now lets alter the default system config and test. Just remove Friday. This is a two week period so it
+        // removes two Fridays (2 days).
+        TypeInfo termType = typeService.getType(termInfo.getTypeKey(), callContext);
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        AttributeInfo attrInfo = new AttributeInfo();
+        attrInfo.setId("instr_day_for_" + AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        attrInfo.setKey(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR);
+        attrInfo.setValue("MTWH");
+        attributes.add(attrInfo);
+
+        termType.setAttributes(attributes);
+        typeService.updateType(termType.getKey(), termType, callContext);
+
+        // reset the field by moving the holidays out
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2010-02-24","2010-02-25");
+        singleDayHoliday = _updateHcalDatesDates(singleDayHoliday, "2010-02-24","2010-02-24");
+
+
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(8,days.intValue());
+
+        // Place Date Range Holiday inside period
+        holidayInfo = _createHoliday(hCal.getId(), "2013-03-04","2013-03-05");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(6,days.intValue());
+
+        // Overlap period start dates
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-02-24","2013-02-25");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(7,days.intValue());
+
+        // Overlap period end dates
+        _updateHcalDatesDates(holidayInfo, "2013-03-08","2013-03-09");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(8,days.intValue());
+
+        // Overlaping holidays. Make sure we don't count the same day twice
+        _createHoliday(hCal.getId(), "2013-03-08");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(8,days.intValue());
 
 
 

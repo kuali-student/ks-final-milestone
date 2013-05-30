@@ -15,6 +15,14 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml" />
     <import resource="classpath:search-test-context.xml"/>
 
+    <bean id="configContext" class="org.kuali.student.common.test.KSTestConfigContextLoader">
+        <constructor-arg index="0">
+            <list>
+                <value>classpath:META-INF/acal-test-config.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
     <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
     </bean>

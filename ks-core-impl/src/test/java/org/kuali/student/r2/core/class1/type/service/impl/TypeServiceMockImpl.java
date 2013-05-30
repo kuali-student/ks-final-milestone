@@ -174,11 +174,19 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     @Override
     public TypeInfo updateType(String typeKey, TypeInfo typeInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        if(allTypes.get(typeKey) == null){
+            throw new DoesNotExistException(typeKey + " does not have a type in the system");
+        }else{
+            allTypes.put(typeKey, typeInfo);
+            return typeInfo;
+        }
+
+
+
     }
 
     @Override
-    public StatusInfo deleteType(String typeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
@@ -630,6 +638,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
             createTypeTypeRelationInfo(populationCategoryGroupType, type);
         }
 
+        /**
         // Add type attributes for instructional days
         addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_FALL_TYPE_KEY), AtpServiceConstants.ATP_FALL_TYPE_KEY);
         addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_SPRING_TYPE_KEY), AtpServiceConstants.ATP_SPRING_TYPE_KEY);
@@ -637,6 +646,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_SUMMER1_TYPE_KEY), AtpServiceConstants.ATP_SUMMER1_TYPE_KEY);
         addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_SUMMER2_TYPE_KEY), AtpServiceConstants.ATP_SUMMER2_TYPE_KEY);
         addInstructionalDayAttribute(allTypes.get(AtpServiceConstants.ATP_WINTER_TYPE_KEY), AtpServiceConstants.ATP_WINTER_TYPE_KEY);
+         **/
     }
 
     private void addInstructionalDayAttribute(TypeInfo typeInfo, String parentAtp){

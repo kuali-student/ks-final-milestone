@@ -4,6 +4,7 @@ package org.kuali.student.r2.core.acal.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTimeConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -45,6 +46,7 @@ import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
@@ -2152,9 +2154,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
      * 2. Count all instructional days for the term. Instructional days of the week is configured via the term's type attribute*
      * 3. Subtract all non-instructional days, like holidays, from the previous count.
      *
-     * * By default, KS has it's term types configured so instructional days are only Monday -> Friday. This is configured
-     * by the term's type attribute:  kuali.attribute.type.atp.term.instructional.days
-     * For every term type we have configured a default value of: 'MTWHF', which translates to Monday -> Friday.
+     * * By default, KS has it's term types configured so instructional days are only Monday -> Friday (MTWHF). The default value
+     * is configured in the application config file with the constant "kuali.ks.core.academiccalendar.instructionalDaysDefault".
+     * This default configuration can be overridden by configuring the
+     * term's type attribute:  kuali.attribute.type.atp.term.instructional.days
      * Update the Type Attribute table if you want to configure different instructional days.
      *
      * @param termId      an identifier for a Term
@@ -2241,7 +2244,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     /**
      * Instructional Days are configurable via the type attribute TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR.
      *
-     * By default, every term atp has  this field configured to Monday -> Friday, MTWHF. But you can easly configure
+     * By default, every term atp has  this field configured to Monday -> Friday, MTWHF. The default is set in the
+     * application config file. But you can easly configure
      * this for your own term types by updating the type attribute in the database.
      *
      * @param atpType
@@ -2251,7 +2255,16 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private boolean _dateIsInstructional(TypeInfo atpType, DateMidnight date) {
 
         boolean bRet = false;
+
+        // This allows us to override the default with an explicit value configured on the term
         String instrDaysConfig = atpType.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR);
+
+
+        // if we don't have an explicit value set for this term then pull the default from the config file.
+        if(instrDaysConfig == null || instrDaysConfig.isEmpty()){
+            org.kuali.rice.core.api.config.property.Config cfg = ConfigContext.getCurrentContextConfig();
+            instrDaysConfig = cfg.getProperty(AcademicCalendarServiceConstants.CONFIG_PARAM_KEY_INSTRUCTIONAL_DAYS_DEFAULT);
+        }
 
         if(instrDaysConfig != null && !instrDaysConfig.isEmpty()){
             if(date.getDayOfWeek() == DateTimeConstants.MONDAY){
