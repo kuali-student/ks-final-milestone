@@ -210,7 +210,7 @@
 
     <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-Button"
           p:actionScript="ajaxCallPropositionTree('addProposition','RuleStudentEditorView-TreeGroup');"
-          p:actionLabel="Add Rule Statement">
+          p:actionLabel="Add Statement">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconAdd.png"

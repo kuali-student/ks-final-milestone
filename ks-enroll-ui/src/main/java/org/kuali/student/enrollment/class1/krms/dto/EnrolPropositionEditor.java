@@ -7,6 +7,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.impl.ui.TermParameter;
+import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
@@ -31,6 +32,8 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private CourseInfo courseInfo;
     private CluSetInformation cluSet;
     private String multipleCourseType;
+    private CluSetRangeHelper cluSetRange = new CluSetRangeHelper();
+
     private String programType;
     private String gradeScale;
     private OrgInfo orgInfo;
@@ -63,6 +66,14 @@ public class EnrolPropositionEditor extends PropositionEditor {
 
     public void setMultipleCourseType(String multipleCourseType) {
         this.multipleCourseType = multipleCourseType;
+    }
+
+    public CluSetRangeHelper getCluSetRange() {
+        return cluSetRange;
+    }
+
+    public void setCluSetRange(CluSetRangeHelper cluSetRange) {
+        this.cluSetRange = cluSetRange;
     }
 
     public String getProgramType() {

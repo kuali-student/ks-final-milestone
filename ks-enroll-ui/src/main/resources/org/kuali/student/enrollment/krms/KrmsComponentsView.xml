@@ -30,7 +30,6 @@
         </property>
         <property name="dialogs">
             <list>
-                <!--bean id="courseRangeLightBox" parent="KRMS-CourseRangeLightBox"/-->
                 <bean id="myDropdownLightBox" parent="KRMS-DropDownLightBox"/>
             </list>
         </property>

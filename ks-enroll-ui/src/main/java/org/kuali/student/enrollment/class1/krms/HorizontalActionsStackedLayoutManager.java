@@ -25,32 +25,23 @@ import java.util.Map;
  */
 public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager {
 
-    /*private Group headerGroup;
-
-    public Group getHeaderGroup() {
-        return headerGroup;
-    }
-
-    public void setHeaderGroup(Group headerGroup) {
-        this.headerGroup = headerGroup;
-    }*/
-
     @Override
     public void buildLine(View view, Object model, CollectionGroup collectionGroup, List<Field> lineFields,
                           List<FieldGroup> subCollectionFields, String bindingPath, List<Action> actions, String idSuffix,
                           Object currentLine, int lineIndex) {
 
+        super.buildLine(view, model, collectionGroup, lineFields, subCollectionFields, bindingPath, actions, idSuffix,
+                currentLine, lineIndex);
+
         if (lineIndex == -1) {
             String nodePath = this.getNodePath(this.getContext());
             if (nodePath != null) {
-                for (Component component : this.getComponentPrototypes()) {
-                    ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
+                for (Group group : this.getStackedGroups()) {
+                    //Set the nodepath on the add line group so that progressive rendering can use the #np
+                    ComponentUtils.pushObjectToContext(group, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
                 }
             }
         }
-
-        super.buildLine(view, model, collectionGroup, lineFields, subCollectionFields, bindingPath, actions, idSuffix,
-                currentLine, lineIndex);
 
     }
 
@@ -65,24 +56,4 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
         return null;
     }
 
-    /*@Override
-    public List<Component> getComponentsForLifecycle() {
-        return super.getComponentsForLifecycle();
-    } */
-
-    /*@Override
-    public void performFinalize(View view, Object model, Container container) {
-        super.performFinalize(view, model, container);
-
-        for (Group line : this.getStackedGroups()) {
-            if (line.getFooter() != null) {
-                List<Component> footerItems = (List<Component>) line.getFooter().getItems();
-                List<Component> lineItems = (List<Component>) line.getItems();
-                line.getFooter().setItems(new ArrayList());
-                lineItems.addAll(footerItems);
-                line.setRenderFooter(false);
-                line.setItems(lineItems);
-            }
-        }
-    }    */
 }

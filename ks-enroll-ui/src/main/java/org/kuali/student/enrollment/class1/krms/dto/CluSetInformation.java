@@ -21,8 +21,6 @@ public class CluSetInformation implements Serializable {
     private List<CluInformation> clusInRange;
     private Map<String, CluSetInformation> subCluSetInformations;
 
-    private List<CluSetRangeHelper> cluSetRange;
-
     public CluSetInfo getCluSetInfo() {
         return cluSetInfo;
     }
@@ -67,17 +65,6 @@ public class CluSetInformation implements Serializable {
 
     public void setClusInRange(List<CluInformation> clusInRange) {
         this.clusInRange = clusInRange;
-    }
-
-    public List<CluSetRangeHelper> getCluSetRange() {
-        if (this.cluSetRange == null) {
-            this.cluSetRange = new ArrayList<CluSetRangeHelper>();
-        }
-        return cluSetRange;
-    }
-
-    public void setCluSetRange(List<CluSetRangeHelper> cluSetRange) {
-        this.cluSetRange.set(0, cluSetRange.get(cluSetRange.size() - 1));
     }
 
     public Map<String, CluSetInformation> getSubCluSetInformations() {

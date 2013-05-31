@@ -3,7 +3,9 @@ package org.kuali.student.enrollment.class1.krms.util;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CluSetRangeHelper implements Serializable {
 
@@ -13,6 +15,12 @@ public class CluSetRangeHelper implements Serializable {
     private String learningObjective;
     private Date effectiveFrom;
     private Date effectiveTo;
+
+    private String searchByCourseRange = COURSE_RANGE_COURSE_NUMBER;
+
+    public static final String COURSE_RANGE_COURSE_NUMBER = "1";
+    public static final String COURSE_RANGE_LEARNING_OBJECTIVES = "2";
+    public static final String COURSE_RANGE_EFFECTIVE_DATE = "3";
 
     public CluSetRangeHelper() {
         this.cluSetRangeLabel = StringUtils.EMPTY;
@@ -69,5 +77,13 @@ public class CluSetRangeHelper implements Serializable {
 
     public void setEffectiveTo(Date effectiveTo) {
         this.effectiveTo = effectiveTo;
+    }
+
+    public String getSearchByCourseRange() {
+        return searchByCourseRange;
+    }
+
+    public void setSearchByCourseRange(String searchByCourseRange) {
+        this.searchByCourseRange = searchByCourseRange;
     }
 }

@@ -21,14 +21,17 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaUtilities;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.service.impl.EnrolRuleViewHelperServiceImpl;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
@@ -57,9 +60,9 @@ public class RuleStudentEditorController extends RuleEditorController {
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
 
-        super.route(form,result,request, response);
+        super.route(form, result, request, response);
 
-        return back(form,result,request,response);
+        return back(form, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=cancel")
@@ -98,12 +101,9 @@ public class RuleStudentEditorController extends RuleEditorController {
         String dialog = "courseRangeLookup";
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         CORuleManagementWrapper ruleWrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-        EnrolRuleEditor rule = ruleWrapper.getEnrolRuleEditor();
-        EnrolPropositionEditor prop = (EnrolPropositionEditor) rule.getProposition();
+        EnrolPropositionEditor prop = (EnrolPropositionEditor) ruleWrapper.getEnrolRuleEditor().getProposition();
 
         ruleWrapper.setClusInRange(this.getViewHelper(form).getCoursesInRange(prop.getCluSet().getMembershipQueryInfo()));
-        rule.setClusInRange(ruleWrapper.getClusInRange());
-        prop.getCluSet().setClusInRange(ruleWrapper.getClusInRange());
 
         form.setLightboxScript("showLightboxComponent('" + dialog + "');");
         return getUIFModelAndView(form);
@@ -112,92 +112,67 @@ public class RuleStudentEditorController extends RuleEditorController {
     @RequestMapping(params = "methodToCall=addRange")
     public ModelAndView addRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        CORuleManagementWrapper ruleWrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-        EnrolRuleEditor rule = ruleWrapper.getEnrolRuleEditor();
-        EnrolPropositionEditor prop = (EnrolPropositionEditor) rule.getProposition();
 
-        MembershipQueryInfo membershipQueryInfo = new MembershipQueryInfo();
-        membershipQueryInfo.setId(null);
+        EnrolRuleEditor rule = (EnrolRuleEditor) getRuleEditor(form);
+        EnrolPropositionEditor prop = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(rule);
 
-        if(rule.getSearchByCourseRange().equals("1")) {
+        if(prop.getCluSet()==null){
+            prop.setCluSet(new CluSetInformation());
+        }
+
+        if(prop.getCluSet().getMembershipQueryInfo()==null){
+            prop.getCluSet().setMembershipQueryInfo(new MembershipQueryInfo());
+        }
+
+        MembershipQueryInfo membershipQueryInfo = prop.getCluSet().getMembershipQueryInfo();
+        CluSetRangeHelper cluSetRange = prop.getCluSetRange();
+
+        List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
+        if(prop.getCluSetRange().getSearchByCourseRange().equals(CluSetRangeHelper.COURSE_RANGE_COURSE_NUMBER)) {
+
             membershipQueryInfo.setSearchTypeKey("lu.search.mostCurrent.union");
-            List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
 
-            SearchParamInfo courseCode = new SearchParamInfo();
-            courseCode.setKey("lu.queryParam.luOptionalDivision");
-            List<String> code = new ArrayList<String>();
-            code.add(ruleWrapper.getCluSetRange().getSubjectCode());
-            courseCode.setValues(code);
-            queryParams.add(courseCode);
-
-            SearchParamInfo courseRange = new SearchParamInfo();
-            courseRange.setKey("lu.queryParam.luOptionalCrsNoRange");
-            List<String> range = new ArrayList<String>();
-            range.add(ruleWrapper.getCluSetRange().getCourseNumberRange());
-            courseRange.setValues(range);
-            queryParams.add(courseRange);
-
-            SearchParamInfo courseState = new SearchParamInfo();
-            courseState.setKey("lu.queryParam.luOptionalState");
-            List<String> state = new ArrayList<String>();
-            state.add("Draft");
-            courseState.setValues(state);
-            queryParams.add(courseState);
-
+            queryParams.add(createSearchParam("lu.queryParam.luOptionalDivision", cluSetRange.getSubjectCode()));
+            queryParams.add(createSearchParam("lu.queryParam.luOptionalCrsNoRange", cluSetRange.getCourseNumberRange()));
+            queryParams.add(createSearchParam("lu.queryParam.luOptionalState", "Draft"));
             membershipQueryInfo.setQueryParamValues(queryParams);
 
-            rule.getCluSetRange().setCluSetRangeLabel("<b>Subject Code:</b> " + rule.getCluSetRange().getSubjectCode() + " <b>Course Number Range:</b> " + rule.getCluSetRange().getCourseNumberRange() + " <b>State:</b> Draft");
-            ruleWrapper.setClusInRange(this.getViewHelper(form).getCoursesInRange(prop.getCluSet().getMembershipQueryInfo()));
-        } else if(rule.getSearchByCourseRange().equals("2")) {
+            cluSetRange.setCluSetRangeLabel("<b>Subject Code:</b> " + cluSetRange.getSubjectCode() + " <b>Course Number Range:</b> " + cluSetRange.getCourseNumberRange() + " <b>State:</b> Draft");
+
+        } else if(cluSetRange.getSearchByCourseRange().equals(CluSetRangeHelper.COURSE_RANGE_LEARNING_OBJECTIVES)) {
+
             membershipQueryInfo.setSearchTypeKey("lu.search.loByDescCrossSearch");
-            List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
 
-            SearchParamInfo lo = new SearchParamInfo();
-            lo.setKey("lu.queryParam.loDescPlain");
-            List<String> desc = new ArrayList<String>();
-            desc.add(ruleWrapper.getCluSetRange().getLearningObjective());
-            lo.setValues(desc);
-            queryParams.add(lo);
-
+            queryParams.add(createSearchParam("lu.queryParam.loDescPlain", cluSetRange.getLearningObjective()));
             membershipQueryInfo.setQueryParamValues(queryParams);
 
-            rule.getCluSetRange().setCluSetRangeLabel("<b>Learning Objective:</b> " + rule.getCluSetRange().getLearningObjective());
-        } else if(rule.getSearchByCourseRange().equals("3")) {
+            cluSetRange.setCluSetRangeLabel("<b>Learning Objective:</b> " + cluSetRange.getLearningObjective());
+
+        } else if(cluSetRange.getSearchByCourseRange().equals(CluSetRangeHelper.COURSE_RANGE_EFFECTIVE_DATE)) {
+
             membershipQueryInfo.setSearchTypeKey("lu.search.generic");
-            List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
 
-            SearchParamInfo effectiveDate1 = new SearchParamInfo();
-            effectiveDate1.setKey("lu.queryParam.luOptionalEffectiveDate1");
-            List<String> date1 = new ArrayList<String>();
-            date1.add(ruleWrapper.getCluSetRange().getEffectiveFrom().toString());
-            effectiveDate1.setValues(date1);
-            queryParams.add(effectiveDate1);
+            queryParams.add(createSearchParam("lu.queryParam.luOptionalEffectiveDate1", cluSetRange.getEffectiveFrom().toString()));
+            queryParams.add(createSearchParam("lu.queryParam.luOptionalEffectiveDate2", cluSetRange.getEffectiveTo().toString()));
 
-            SearchParamInfo effectiveDate2 = new SearchParamInfo();
-            effectiveDate2.setKey("lu.queryParam.luOptionalEffectiveDate2");
-            List<String> date2 = new ArrayList<String>();
-            date2.add(ruleWrapper.getCluSetRange().getEffectiveTo().toString());
-            effectiveDate2.setValues(date2);
-            queryParams.add(effectiveDate2);
+            cluSetRange.setCluSetRangeLabel("<b>Effective From:</b> " + cluSetRange.getEffectiveFrom() + " <b>Effective To:</b> " + cluSetRange.getEffectiveTo());
 
-            membershipQueryInfo.setQueryParamValues(queryParams);
-
-            rule.getCluSetRange().setCluSetRangeLabel("<b>Effective From:</b> " + rule.getCluSetRange().getEffectiveFrom() + " <b>Effective To:</b> " + rule.getCluSetRange().getEffectiveTo());
         }
 
-        if(prop.getCluSet() == null) {
-            CluSetInformation cluSet = new CluSetInformation();
-            cluSet.setMembershipQueryInfo(membershipQueryInfo);
-            cluSet.getCluSetRange().add(ruleWrapper.getCluSetRange());
-            prop.setCluSet(cluSet);
-        } else {
-            prop.getCluSet().getCluSetRange().add(ruleWrapper.getCluSetRange());
-            prop.getCluSet().setMembershipQueryInfo(membershipQueryInfo);
-        }
+        membershipQueryInfo.setQueryParamValues(queryParams);
 
-        form.setLightboxScript("jQuery.fancybox.close();");
         return getUIFModelAndView(form);
+    }
+
+    private SearchParamInfo createSearchParam(String key, String value){
+        SearchParamInfo param = new SearchParamInfo();
+        param.setKey(key);
+
+        List<String> values = new ArrayList<String>();
+        values.add(value);
+        param.setValues(values);
+
+        return param;
     }
 
     protected EnrolRuleViewHelperServiceImpl getViewHelper(UifFormBase form) {

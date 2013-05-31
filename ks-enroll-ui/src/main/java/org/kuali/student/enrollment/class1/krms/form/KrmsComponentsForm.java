@@ -123,14 +123,6 @@ public class KrmsComponentsForm extends KSUifForm {
         this.field2 = field;
     }
 
-    public String getSearchByCourseRange() {
-        return this.getRule().getSearchByCourseRange();
-    }
-
-    public void setSearchByCourseRange(String searchByCourseRange) {
-        this.getRule().setSearchByCourseRange(searchByCourseRange);
-    }
-
     /**
      * @return the tree1
      */

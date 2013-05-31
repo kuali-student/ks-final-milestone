@@ -18,6 +18,7 @@ import java.util.List;
 public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     private String cluDescription;
+    private List<CluInformation> clusInRange;
 
     public String getCluDescription() {
         return cluDescription;
@@ -31,40 +32,15 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
         return (EnrolRuleEditor) this.getRuleEditor();
     }
 
-    public String getSearchByCourseRange() {
-        if (this.getEnrolRuleEditor()==null){
-            return "-1";
-        }
-        return this.getEnrolRuleEditor().getSearchByCourseRange();
-    }
-
-    public void setSearchByCourseRange(String searchByCourseRange) {
-        this.getEnrolRuleEditor().setSearchByCourseRange(searchByCourseRange);
-    }
-
-    public CluSetRangeHelper getCluSetRange() {
-        if(this.getEnrolRuleEditor()==null){
-            return new CluSetRangeHelper();
-        }
-        return this.getEnrolRuleEditor().getCluSetRange();
-    }
-
-    public void setCluSetRange(CluSetRangeHelper cluSetRange) {
-        this.getEnrolRuleEditor().setCluSetRange(cluSetRange);
-    }
-
-    public void setSubjectCode(CluSetRangeHelper cluSetRange) {
-        this.getEnrolRuleEditor().setCluSetRange(cluSetRange);
-    }
-
     public List<CluInformation> getClusInRange() {
-        if(this.getEnrolRuleEditor()==null){
-            return new ArrayList<CluInformation>();
+        if(this.clusInRange==null){
+            this.clusInRange = new ArrayList<CluInformation>();
         }
-        return this.getEnrolRuleEditor().getClusInRange();
+        return this.clusInRange;
     }
 
     public void setClusInRange(List<CluInformation> clusInRange) {
-        this.getEnrolRuleEditor().setClusInRange(clusInRange);
+        this.clusInRange = clusInRange;
     }
+
 }

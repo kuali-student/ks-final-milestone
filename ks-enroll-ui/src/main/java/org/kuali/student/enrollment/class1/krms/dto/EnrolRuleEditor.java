@@ -21,11 +21,6 @@ public class EnrolRuleEditor extends RuleEditor {
 
     private static final long serialVersionUID = 1L;
 
-    //Course Range Dialog.
-    private String searchByCourseRange;
-    private CluSetRangeHelper cluSetRange;
-    private List<CluInformation> clusInRange;
-
     public EnrolRuleEditor(){
         super();
     }
@@ -36,30 +31,6 @@ public class EnrolRuleEditor extends RuleEditor {
 
     public EnrolRuleEditor(String key, boolean dummy, RuleTypeInfo ruleTypeInfo) {
         super(key, dummy, ruleTypeInfo);
-    }
-
-    public String getSearchByCourseRange() {
-        return searchByCourseRange;
-    }
-
-    public void setSearchByCourseRange(String searchByCourseRange) {
-        this.searchByCourseRange = searchByCourseRange;
-    }
-
-    public CluSetRangeHelper getCluSetRange() {
-        return cluSetRange;
-    }
-
-    public void setCluSetRange(CluSetRangeHelper cluSetRange) {
-        this.cluSetRange = cluSetRange;
-    }
-
-    public List<CluInformation> getClusInRange() {
-        return clusInRange;
-    }
-
-    public void setClusInRange(List<CluInformation> clusInRange) {
-        this.clusInRange = clusInRange;
     }
 
     @Override

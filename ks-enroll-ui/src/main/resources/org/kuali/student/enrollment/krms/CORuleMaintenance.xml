@@ -29,7 +29,6 @@
                   value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleViewHelperServiceImpl"/>
         <property name="dialogs">
             <list merge="true">
-                <bean id="courseRangeLightBox" parent="KRMS-CourseRangeLightBox"/>
                 <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
             </list>
         </property>
