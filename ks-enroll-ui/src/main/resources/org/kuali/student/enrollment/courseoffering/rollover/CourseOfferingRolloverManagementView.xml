@@ -71,7 +71,7 @@
                         <list>
                             <bean parent="Uif-Message" p:messageText="@{rolloverTargetTermDesc == '' ? 'Unknown Term Course Offerings': rolloverTargetTermDesc}"
                                   p:style="padding-bottom:25px; font-size:125%"/>
-                            <bean parent="Uif-Message" p:messageText="Releasing this is a permanent action and term will:&lt;br&gt;Set this term's Schedule of Classes (SOC) to Open&lt;br&gt;Grant departmental administrators access to edit the Schedule of Classes"/>
+                            <bean parent="Uif-Message" p:messageText="Releasing this is a permanent action and term will:&lt;br&gt;-  Set this term's Schedule of Classes (SOC) to Open&lt;br&gt;-  Grant departmental administrators access to edit the Schedule of Classes"/>
                             <bean parent="Uif-Message" p:messageText="Already released to departments" p:style="font-style:italic" p:render="@{socReleasedToDepts}"/>
                             <bean parent="Uif-HorizontalBoxGroup" p:style="padding-top:25px;">
                                 <property name="items">
