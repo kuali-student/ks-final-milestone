@@ -86,7 +86,11 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         //side effect of the authorization.
         form.setTermCode(null);
         form.setInputCode(null);
-        form.setCurrentCourseOfferingWrapper(null);
+
+        //TODO: Workaround for KRMS return
+        if(!form.getMethodToCall().contains("refresh")) {
+            form.setCurrentCourseOfferingWrapper(null);
+        }
 
         // check view authorization
         // TODO: this needs to be invoked for each request
