@@ -31,7 +31,7 @@ li.compoundOpCodeNode > a { display: none; }
 
 .jstree-editrule > ul { background-color:transparent; }
 .jstree-editrule ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
-.jstree-editrule li { background-position:-18px 0; background-repeat:repeat-y; }
+.jstree-editrule li { background-position:-18px 0; background-repeat:repeat-y; margin-left: 36px; }
 .jstree-editrule li.jstree-last { background:transparent; }
 .jstree-editrule .jstree-open a { color: black; }
 .jstree-editrule .jstree-closed a { text-shadow: 1px 1px 0.2em #ccc; }
