@@ -79,6 +79,7 @@
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Confirm Release Courses" p:id="releaseToDeptsButton"
                                               p:actionParameters="confirm:do" p:methodToCall="confirmReleaseToDepts" p:disabled="@{releaseToDeptsDisabled}"/>
                                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionParameters="confirm:cancel" p:methodToCall="confirmReleaseToDepts" p:style="padding-top:8px;"/>
+                                        <!--bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:onClickScript="closeLightbox('releaseToDepts');"/-->
                                     </list>
                                 </property>
                             </bean>
