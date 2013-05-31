@@ -134,7 +134,7 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         }
 
         if(original.getCompoundComponents() != null && compare.getCompoundComponents() != null) {
-            if(!original.getCompoundComponents().isEmpty() && compare.getCompoundComponents().isEmpty()) {
+            if(!original.getCompoundComponents().isEmpty() && !compare.getCompoundComponents().isEmpty()) {
                 if(original.getCompoundComponents().size() == compare.getCompoundComponents().size()) {
                     for(int index = 0; index < original.getCompoundComponents().size(); index++) {
                         comparePropositions((EnrolPropositionEditor) original.getCompoundComponents().get(index), (EnrolPropositionEditor) compare.getCompoundComponents().get(index));
