@@ -1647,4 +1647,54 @@ function myplanReplaceWithJson(id, url, retrieveOptions) {
     });
 }
 
+function myplanGetSectionEnrollment(url, retrieveOptions, componentId) {
+    var elementToBlock = jQuery(".myplan-enrl-data").parent();
+    if (componentId) elementToBlock = jQuery("#" + componentId + " .myplan-enrl-data").parent();
+    jQuery.ajax({
+        url:url,
+        data:retrieveOptions,
+        dataType:"json",
+        beforeSend:function () {
+            elementToBlock.block({
+                message:'<img src="../ks-myplan/images/ajaxLoader16.gif" alt="Fetching enrollment data..." />',
+                fadeIn:0,
+                fadeOut:0,
+                overlayCSS:{
+                    backgroundColor:'#fff',
+                    opacity:0
+                },
+                css:{
+                    border:'none',
+                    width:'16px',
+                    top:'0px',
+                    left:'0px'
+                }
+            });
+        },
+        error:function () {
+            elementToBlock.fadeOut(250);
+            elementToBlock.each(function () {
+                jQuery(this).css("text-align", "center").find("img.myplan-enrl-data").addClass("alert").attr("alt", "Oops, couldn't fetch the data. Refresh the page.").attr("title", "Oops, couldn't fetch the data. Refresh the page.");
+            });
+            elementToBlock.fadeIn(250);
+            elementToBlock.unblock();
+        },
+        success:function (response) {
+            elementToBlock.fadeOut(250);
+            jQuery.each(response, function (sectionId, enrlObject) {
+                var message = "<strong>" + enrlObject.enrollCount + "</strong> / " + enrlObject.enrollMaximum;
+                var title = enrlObject.enrollCount + " enrolled out of " + enrlObject.enrollMaximum;
+                if (enrlObject.enrollEstimate) {
+                    message += "E";
+                    title += " estimated";
+                }
+                title += " limit. Updated few minutes ago."
+                var data = jQuery("<span />").addClass("myplan-enrl-data").attr("title", title).html(message);
+                jQuery("#" + sectionId + " .myplan-enrl-data").replaceWith(data);
+            });
+            elementToBlock.fadeIn(250);
+            elementToBlock.unblock();
+        }
+    });
+}
 
