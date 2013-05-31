@@ -478,8 +478,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     @Override
     public Boolean compareRules(RuleEditor original, String compareToRefObjectId) throws Exception {
-
-        throw new UnsupportedOperationException("Method now implemented for type of offering");
+        return true;
     }
 
     @Override

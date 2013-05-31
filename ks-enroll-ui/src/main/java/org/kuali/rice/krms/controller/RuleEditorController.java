@@ -30,6 +30,7 @@ import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.AlphaIterator;
+import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
@@ -329,7 +330,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-    private void moveSelectedProposition(UifFormBase form, boolean up) {
+    private void moveSelectedProposition(UifFormBase form, boolean up) throws Exception {
 
         /* Rough algorithm for moving a node up.
          *
@@ -373,6 +374,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 }
             }
         }
+        //Compare CLU and CO rules
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+
     }
 
     public boolean isSimpleNode(String nodeType) {
@@ -418,6 +422,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
             // and move the node to the second child.
 
         }
+        //Compare CLU and CO rules
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
         return getUIFModelAndView(form);
     }
 
@@ -455,6 +461,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 }
             }
         }
+        //Compare CLU and CO rules
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
         return getUIFModelAndView(form);
     }
 
@@ -602,6 +610,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
             viewHelper.refreshInitTrees(ruleEditor);
         }
 
+        //Compare CLU and CO rules
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+
         // call the super method to avoid the agenda tree being reloaded from the db
         return getUIFModelAndView(form);
     }
@@ -701,6 +712,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         viewHelper.refreshInitTrees(ruleEditor);
 
+        //Compare CLU and CO rules
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+
         return getUIFModelAndView(form);
     }
 
@@ -710,19 +724,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
 
-        //Compare CO to CLU and display info message
-        if(ruleEditor.getProposition() != null) {
-            MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-            Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
-            if (dataObject instanceof RuleManagementWrapper) {
-                RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) dataObject;
-                if(!this.getViewHelper(form).compareRules(ruleEditor, ruleWrapper.getRefObjectId())) {
-                    GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "info.krms.tree.rule.changed");
-                } else {
-                    GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_INFO);
-                }
-            }
-        }
+        //Compare CLU and CO rules
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
 
         if (ruleEditor.getProposition() != null) {
             PropositionTreeUtil.resetNewProp((PropositionEditor) ruleEditor.getProposition());
@@ -739,6 +742,17 @@ public class RuleEditorController extends MaintenanceDocumentController {
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         return getUIFModelAndView(form);
+    }
+
+    private void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) throws Exception {
+        //Compare CO to CLU and display info message
+        if(ruleEditor.getProposition() != null) {
+            if(!this.getViewHelper(form).compareRules(ruleEditor, ((RuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject()).getRefObjectId())) {
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "info.krms.tree.rule.changed");
+            } else {
+                GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_INFO);
+            }
+        }
     }
 
     @RequestMapping(params = "methodToCall=updateRule")
@@ -829,6 +843,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
+
+        //Compare CLU and CO rules
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
 
         return getUIFModelAndView(form);
     }

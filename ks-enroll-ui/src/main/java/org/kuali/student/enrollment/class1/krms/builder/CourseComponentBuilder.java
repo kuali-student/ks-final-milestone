@@ -1,10 +1,13 @@
 package org.kuali.student.enrollment.class1.krms.builder;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.ManageSOCViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -28,6 +31,7 @@ import java.util.Map;
  */
 public class CourseComponentBuilder implements ComponentBuilder<EnrolPropositionEditor> {
 
+    private final static Logger LOG = Logger.getLogger(CourseComponentBuilder.class);
     private CourseService courseService;
     private CluService cluService;
 
@@ -46,6 +50,8 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
                 VersionDisplayInfo versionInfo = this.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, courseId, null);
                 CourseInfo courseInfo = this.getCourseService().getCourse(versionInfo.getId(), ContextUtils.getContextInfo());
                 propositionEditor.setCourseInfo(courseInfo);
+            } catch (DoesNotExistException e) {
+                throw new RuntimeException("Clu does not exist");
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

@@ -68,6 +68,7 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
             compareEditor = new EnrolRuleEditor();
         } else {
             compareEditor = new EnrolRuleEditor(compare);
+            this.initPropositionEditor((PropositionEditor) compareEditor.getProposition());
         }
         if(compareEditor.getProposition()!=null){
             PropositionEditor root = (PropositionEditor) compareEditor.getProposition();
@@ -92,18 +93,19 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
             return true;
         } else {
             compareEditor = new EnrolRuleEditor(compare);
+            this.initPropositionEditor((PropositionEditor) compareEditor.getProposition());
         }
 
         //Compare Root Proposition Type and if the same test recursively
         if(original.getProposition().getTypeId().equals(compareEditor.getProposition().getTypeId())) {
-            Boolean result = comparePropositions(original.getProposition(), compareEditor.getProposition());
+            Boolean result = comparePropositions((EnrolPropositionEditor) original.getProposition(), (EnrolPropositionEditor) compareEditor.getProposition());
             return result;
         } else {
             return false;
         }
     }
 
-    private Boolean comparePropositions(PropositionDefinitionContract original, PropositionDefinitionContract compare) {
+    private Boolean comparePropositions(EnrolPropositionEditor original, EnrolPropositionEditor compare) {
         BeanPropertyComparator propertyComparator = null;
         if(compare.getPropositionTypeCode().equals("C")) {
             propertyComparator = new BeanPropertyComparator(Arrays.asList("compoundOpCode","propositionTypeCode"));
@@ -111,16 +113,35 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
                 return false;
             }
         } else {
-            //TODO: Compare Term and TermParameters
             propertyComparator = new BeanPropertyComparator(Arrays.asList("compoundSequenceNumber","typeId","propositionTypeCode"));
             if(propertyComparator.compare(original, compare) != 0) {
                 return false;
             }
+            if(original.getCourseInfo() != null && compare.getCourseInfo() != null) {
+                if(!original.getCourseInfo().getCode().equals(compare.getCourseInfo().getCode())) {
+                    return false;
+                }
+            }
+            if(original.getCluSet() != null && compare.getCluSet() != null) {
+                if(original.getCluSet().getClus() != null && compare.getCluSet().getClus() != null) {
+                    for(int index = 0; index < original.getCluSet().getClus().size(); index++) {
+                        if(original.getCluSet().getClus().get(index).getCode().equals(compare.getCluSet().getClus().get(index).getCode())) {
+                            return false;
+                        }
+                    }
+                }
+            }
         }
 
-        if(original.getCompoundComponents().size() == compare.getCompoundComponents().size()) {
-            for(int index = 0; index < original.getCompoundComponents().size(); index++) {
-                comparePropositions(original.getCompoundComponents().get(index), compare.getCompoundComponents().get(index));
+        if(original.getCompoundComponents() != null && compare.getCompoundComponents() != null) {
+            if(!original.getCompoundComponents().isEmpty() && compare.getCompoundComponents().isEmpty()) {
+                if(original.getCompoundComponents().size() == compare.getCompoundComponents().size()) {
+                    for(int index = 0; index < original.getCompoundComponents().size(); index++) {
+                        comparePropositions((EnrolPropositionEditor) original.getCompoundComponents().get(index), (EnrolPropositionEditor) compare.getCompoundComponents().get(index));
+                    }
+                } else {
+                    return false;
+                }
             }
         }
 
