@@ -33,6 +33,8 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
@@ -478,7 +480,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
                 //putErrorForSectionId seems not working
                 GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
-                GlobalVariables.getMessageMap().addGrowlMessage("Error", CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
                 StringBuilder sb = new StringBuilder();
                 sb.append("\"key_date_group_type\":\"Required\"");
                 form.setValidationJSONString("{"+sb.toString()+"}");
@@ -496,12 +498,13 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             if(StringUtils.isEmpty(keydate.getKeyDateType())) {
                 //putErrorForSectionId seems not working
                 GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
-                GlobalVariables.getMessageMap().addGrowlMessage("Error", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
                 sb.append("\"key_date_type\":\"Required\"");
                 isValid = false;
             }
             if(keydate.getStartDate() == null || StringUtils.isEmpty(keydate.getStartDate().toString())){
-                GlobalVariables.getMessageMap().addGrowlMessage("Error", CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED);
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED);
+
                 //{"key1" : "value1", "key1" : "value1", ... }
                 if(!StringUtils.isEmpty(sb.toString())){
                    sb.append(",");

@@ -24,7 +24,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
@@ -107,7 +109,7 @@ public class CalendarSearchController  extends UifControllerBase {
                 growlMessageParams=new String[0];
             }
             // After gathering and decoding message add it to the growl message map
-            GlobalVariables.getMessageMap().addGrowlMessage(growlTitle, growlMessageKey,growlMessageParams);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessageKey, growlMessageParams);
         }
 
         return super.start(form, result, request, response);
@@ -283,7 +285,7 @@ public class CalendarSearchController  extends UifControllerBase {
          if(atp instanceof HolidayCalendarInfo){
              StatusInfo status = getAcademicCalendarService().deleteHolidayCalendar(((HolidayCalendarInfo)atp).getId(),getContextInfo());
              if (status.getIsSuccess()){
-                 GlobalVariables.getMessageMap().addGrowlMessage("", CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Holiday calendar", ((HolidayCalendarInfo) atp).getName());
+                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Holiday calendar", ((HolidayCalendarInfo) atp).getName());
                  searchForm.getHolidayCalendars().remove(atp);
              } else{
                  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
@@ -291,7 +293,7 @@ public class CalendarSearchController  extends UifControllerBase {
          } else if(atp instanceof AcademicCalendarInfo) {
              StatusInfo status = getAcademicCalendarService().deleteAcademicCalendar(((AcademicCalendarInfo)atp).getId(),getContextInfo());
              if (status.getIsSuccess()){
-                 GlobalVariables.getMessageMap().addGrowlMessage("", CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic calendar", ((AcademicCalendarInfo) atp).getName());
+                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic calendar", ((AcademicCalendarInfo) atp).getName());
                  searchForm.getAcademicCalendars().remove(atp);
              } else{
                  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
@@ -299,7 +301,7 @@ public class CalendarSearchController  extends UifControllerBase {
          } else if(atp instanceof TermInfo){
              StatusInfo status = getAcademicCalendarService().deleteTerm(((TermInfo)atp).getId(),getContextInfo());
              if (status.getIsSuccess()){
-                 GlobalVariables.getMessageMap().addGrowlMessage("", CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic term", ((TermInfo) atp).getName());
+                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic term", ((TermInfo) atp).getName());
                  searchForm.getTerms().remove(atp);
              } else{
                  GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());

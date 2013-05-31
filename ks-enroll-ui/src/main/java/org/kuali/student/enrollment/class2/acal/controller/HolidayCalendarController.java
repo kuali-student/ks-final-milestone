@@ -26,6 +26,8 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.KsUifFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
@@ -451,8 +453,8 @@ public class HolidayCalendarController extends UifControllerBase {
         urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
 
         HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
-        urlParameters.put("growlMessage", CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED);
-        urlParameters.put("growlMessageParam", hCalInfo.getName());
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED);
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS, hCalInfo.getName());
 
         return performRedirect(hcForm, request.getRequestURL().toString(), urlParameters);
     }
@@ -542,7 +544,7 @@ public class HolidayCalendarController extends UifControllerBase {
         // sort holidays again, in case any were added
         Collections.sort(hcForm.getHolidays());
 
-        GlobalVariables.getMessageMap().addGrowlMessage("", updateMsg, hCalInfo.getName());
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, updateMsg, hCalInfo.getName());
         if (isSetOfficial) {
             return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
         } else {
