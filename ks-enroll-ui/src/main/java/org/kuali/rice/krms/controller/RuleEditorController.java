@@ -278,8 +278,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 blank.setRuleId(ruleEditor.getId());
                 ruleEditor.setPropId(blank.getId());
                 ruleEditor.setProposition(blank);
-                this.getViewHelper(form).refreshInitTrees(ruleEditor);
             }
+            this.getViewHelper(form).refreshInitTrees(ruleEditor);
         }
         return getUIFModelAndView(form);
     }
@@ -408,7 +408,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         // find agendaEditor.getAgendaItemLine().getRule().getPropositionTree().getRootElement()parent
         Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
         Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
-        if ((parent != null) && (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(parent.getNodeType()))) {
+        if ((parent != null) && (!parent.getNodeType().contains(RuleEditorTreeNode.ROOT_TYPE))) {
             Node<RuleEditorTreeNode, String> granny = PropositionTreeUtil.findParentPropositionNode(root, parent.getData().getProposition().getKey());
             if (!granny.equals(root)) {
                 int oldIndex = findChildIndex(parent, selectedpropKey);
