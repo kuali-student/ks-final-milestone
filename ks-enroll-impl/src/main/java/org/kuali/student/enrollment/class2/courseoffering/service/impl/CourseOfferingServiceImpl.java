@@ -3164,14 +3164,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     public List<ActivityOfferingInfo> searchForActivityOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+
+        //Add luiType Predicate
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+               qbcBuilder.setPredicates(PredicateFactory.and(
+                       criteria.getPredicate(),
+                       PredicateFactory.like("luiType", "kuali.lui.type.activity.offering.*")));
+        QueryByCriteria newCriteria = qbcBuilder.build();
+
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, newCriteria);
+
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>(results.getResults().size());
         for (LuiEntity lui : results.getResults()) {
             try {
-                if (_checkTypeForActivityOfferingType(lui.getLuiType(), context)) {
-                    ActivityOfferingInfo ao = this.getActivityOffering(lui.getId(), context);
-                    activityOfferingInfos.add(ao);
-                }
+                ActivityOfferingInfo ao = this.getActivityOffering(lui.getId(), context);
+                activityOfferingInfos.add(ao);
             } catch (DoesNotExistException ex) {
                 throw new OperationFailedException(lui.getId(), ex);
             }
