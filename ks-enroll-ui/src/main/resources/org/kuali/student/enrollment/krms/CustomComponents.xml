@@ -522,7 +522,7 @@
             </bean>
         </property>
         <property name="control">
-            <bean parent="Uif-TextControl" p:size="60"/>
+            <bean parent="Uif-TextControl" p:size="60" p:disabled="true"/>
         </property>
         <property name="quickfinder">
             <bean parent="KRMS-OrgDepartment-QuickFinder"/>
