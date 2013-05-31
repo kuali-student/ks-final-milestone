@@ -4,20 +4,22 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import java.util.ArrayList;
@@ -276,19 +278,24 @@ public class CourseOfferingRolloverRunner implements Runnable {
         } catch (AlreadyExistsException ex) {
             error = ex.getMessage();
         } catch (DataValidationErrorException ex) {
-            // This provides a better error message for display in rollover results page= (KSENROLL-4582)
-            String err = "Validation error(s): ";
             boolean firstTime = true;
+
+            // This provides a better error message for display in rollover results page= (KSENROLL-4582)
+            StringBuffer errorBuffer = new StringBuffer("Validation error(s): ");
+            if (!StringUtils.isBlank(ex.getMessage())){
+                errorBuffer.append(ex.getMessage());
+                firstTime = false;
+            }
             for (ValidationResultInfo info: ex.getValidationResults()) {
                 if (firstTime) {
                     firstTime = false;
                 } else {
-                    err += ", ";
+                    errorBuffer.append(", ");
                 }
                 // Append on multiple error messages
-                err += info.getElement() + " has bad data: " + info.getInvalidData();
+                errorBuffer.append(info.getElement() + " has bad data: " + info.getInvalidData());
             }
-            error = err;
+            error = errorBuffer.toString();
         } catch (InvalidParameterException ex) {
             error = ex.getMessage();
         } catch (Exception ex) {
