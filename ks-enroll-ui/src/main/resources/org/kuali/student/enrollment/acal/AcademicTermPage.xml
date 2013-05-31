@@ -11,8 +11,6 @@
         <property name="header.style" value="margin-bottom:0"/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Cancel Adding Term" p:render="@{!#view.readOnly}"
-                      p:methodToCall="cancelAddingTerm" p:actionScript="actionInvokeHandler(this);"/>
                 <ref bean="KS-AcademicTerm-EditSection-Main"/>
             </list>
         </property>

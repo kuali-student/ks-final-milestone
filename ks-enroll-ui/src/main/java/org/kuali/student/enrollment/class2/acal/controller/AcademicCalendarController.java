@@ -492,26 +492,6 @@ public class AcademicCalendarController extends UifControllerBase {
     }
 
     /**
-     * This cancels adding a term.
-     *
-     * Improvement jira KSENROLL-3567 to clear all the fields at the client side instead of at server side.
-     *
-     * @param academicCalendarForm
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelAddingTerm")
-    public ModelAndView cancelAddingTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
-
-        ((AcademicTermWrapper)academicCalendarForm.getNewCollectionLines().get("termWrapperList")).clear();
-
-        return getUIFModelAndView(academicCalendarForm);
-    }
-
-    /**
      *
      * Improvement jira KSENROLL-3568  to clear all the fields at the client side instead of at server side.
      * @param academicCalendarForm
