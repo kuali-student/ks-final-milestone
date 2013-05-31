@@ -353,7 +353,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 Node<RuleEditorTreeNode, String> child = children.get(index);
                 // if our selected node is a simple proposition, add a new one after
                 if (propKeyMatches(child, selectedPropKey) &&
-                        (isSimpleNode(child.getNodeType()) || (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())))) {
+                        (isSimpleNode(child.getNodeType()) ||
+                                (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(child.getNodeType())) ||
+                                (child.getNodeType().contains(RuleEditorTreeNode.FIRST_IN_GROUP)) ||
+                                (child.getNodeType().contains(RuleEditorTreeNode.LAST_IN_GROUP)))) {
 
                     //remove it from its current spot
                     PropositionEditor parentProp = parent.getData().getProposition();
