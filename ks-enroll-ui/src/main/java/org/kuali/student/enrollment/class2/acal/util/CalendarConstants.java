@@ -108,4 +108,6 @@ public class CalendarConstants {
     public static final String GROWL_MESSAGE="growl.message";
     public static final String GROWL_MESSAGE_PARAMS="growl.message.params";
 
+    public static final String EMPTY_TERM_CODE = "No Code";
+
 }

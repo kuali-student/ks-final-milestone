@@ -319,10 +319,17 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
+
+        // Save the calendar and retrieve the page
         ModelAndView page = saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
 
-        if(page!=null)return page;
+        // Check for errors or warnings during the save
+        if(GlobalVariables.getMessageMap().getErrorCount()>0 ||GlobalVariables.getMessageMap().getWarningCount()>0){
+            // If errors or warnings present redisplay page for correction
+            return page;
+        }
 
+        // If page is saved without errors or warnings populate growl messaging information and redirect to search page as no further work is needed on page.
         Properties urlParameters = new Properties();
         urlParameters.put(CalendarConstants.GROWL_TITLE,"");
         urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED);
@@ -392,17 +399,18 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         if (statusInfo.getIsSuccess()){
-            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, acalForm.getAcademicCalendarInfo().getName());
+            // If delete successful, populate growl message parameters and redirect to the search page.
+            Properties urlParameters = new Properties();
+            urlParameters.put(CalendarConstants.GROWL_TITLE,"");
+            urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_DELETED);
+            urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,acalForm.getAcademicCalendarInfo().getName());
+            return redirectToSearch(acalForm,request,urlParameters);
         } else {
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING, acalForm.getAcademicCalendarInfo().getName(),statusInfo.getMessage());
             return getUIFModelAndView(acalForm);
         }
 
-        Properties urlParameters = new Properties();
-        urlParameters.put(CalendarConstants.GROWL_TITLE,"");
-        urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_DELETED);
-        urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,acalForm.getAcademicCalendarInfo().getName());
-        return redirectToSearch(acalForm,request,urlParameters);
+
     }
 
     /**
@@ -646,10 +654,16 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=makeAcalOfficial")
     public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
+        // Save the calendar and retrieve the page
         ModelAndView page = saveAcademicCalendar(acalForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_OFFICIAL, true);
 
-        if(page!=null)return page;
+        // Check for errors or warnings during the save
+        if(GlobalVariables.getMessageMap().getErrorCount()>0 ||GlobalVariables.getMessageMap().getWarningCount()>0){
+            // If errors or warnings present redisplay page for correction
+            return page;
+        }
 
+        // If page is saved without errors or warnings populate growl messaging information and redirect to search page as no further work is needed on page.
         Properties urlParameters = new Properties();
         urlParameters.put(CalendarConstants.GROWL_TITLE,"");
         urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_OFFICIAL);
@@ -781,12 +795,8 @@ public class AcademicCalendarController extends UifControllerBase {
 
         GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, keyToDisplayOnSave, academicCalendarForm.getAcademicCalendarInfo().getName());
 
-        if(GlobalVariables.getMessageMap().getErrorCount()>0 ||GlobalVariables.getMessageMap().getWarningCount()>0){
-            return getUIFModelAndView(academicCalendarForm);
-        }
 
-
-        return null;
+        return getUIFModelAndView(academicCalendarForm);
     }
 
     private void createEvents(String acalId, AcademicCalendarForm acalForm) throws Exception {
@@ -864,6 +874,14 @@ public class AcademicCalendarController extends UifControllerBase {
         return viewHelperService;
     }
 
+    /**
+     * Redirects from an academic calendar page to the calendar search page
+     *
+     * @param academicCalendarForm - Calendar form backing the page
+     * @param request - Http requests parameters
+     * @param urlParameters - Additional parameters to pass when redirecting
+     * @return The Calendar search page.
+     */
     ModelAndView redirectToSearch(AcademicCalendarForm academicCalendarForm,HttpServletRequest request, Properties urlParameters){
         urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
         urlParameters.put("methodToCall", KRADConstants.START_METHOD);

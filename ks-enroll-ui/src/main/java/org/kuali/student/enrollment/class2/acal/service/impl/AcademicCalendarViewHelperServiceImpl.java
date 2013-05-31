@@ -55,6 +55,8 @@ import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.core.acal.service.TermCodeGenerator;
+import org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
@@ -92,6 +94,11 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     private AcademicCalendarService acalService;
     private TypeService typeService;
     private AtpService atpService;
+    private TermCodeGenerator termCodeGenerator;
+
+    public AcademicCalendarViewHelperServiceImpl getInstance(){
+        return this;
+    }
 
     /**
      * This method builds an academic calendar for ui processing. Basically, it builds the wrappers
@@ -1129,6 +1136,17 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
         return this.atpService;
     }
+    public TermCodeGenerator getTermCodeGenerator() {
+        if(termCodeGenerator==null){
+            //TODO: Change this to get term code generator from the service calls instead of directly (KSENROLL-7233).
+            termCodeGenerator = new TermCodeGeneratorImpl(); //(TermCodeGenerator) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/termcodegen","termCodeGenerator"));
+        }
+        return termCodeGenerator;
+    }
+
+    public void setTermCodeGenerator(TermCodeGenerator termCodeGenerator) {
+        this.termCodeGenerator = termCodeGenerator;
+    }
 
     protected String getAdminOrgNameById(String id){
         String adminOrgName = null;
@@ -1141,5 +1159,44 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         return adminOrgName;
+    }
+
+    /**
+     * Generated a preview of the term code using the start date and type
+     * Called by and AttributeQuery
+     *
+     * @param startDate - Start date of the term in either MM/dd/yyyy or MM-dd-yyyy format
+     * @param typeKey - The type of term
+     * @return The term code wrapped in a blank academic term wrapper
+     */
+    public AcademicTermWrapper termInfoAjaxQuery(String startDate, String typeKey){
+        AcademicTermWrapper temp = new AcademicTermWrapper();
+        String termCode;
+        try{
+            // Parse the date string
+            Date date;
+            try{
+                // Date format MM/dd/yyyy
+                date = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(startDate);
+            }catch(IllegalArgumentException e){
+                // Date format MM-dd-yyyy
+                date = DateFormatters.DEFAULT_DATE_FORMATTER.parse(startDate);
+            }
+
+            // Find what the created term code would be from the term code generator
+            TermInfo term = new TermInfo();
+            term.setTypeKey(typeKey);
+            term.setStartDate(date);
+            termCode = this.getTermCodeGenerator().generateTermCode(term);
+
+        }catch (Exception e){
+            // If code can not be determined from start date and term type key return empty code
+            LOG.error("Unable to find term code using start date = " + startDate +" and type key = "+ typeKey);
+            termCode="";
+        }
+
+        // Set term info code to the found code, wrap it, and return
+        temp.getTermInfo().setCode(termCode);
+        return temp;
     }
 }

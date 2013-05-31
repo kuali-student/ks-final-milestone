@@ -56,18 +56,62 @@
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
                                 </property>
+                                <property name="attributeQuery">
+                                    <bean parent="Uif-AttributeQueryConfig">
+                                        <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                                        <property name="queryMethodArgumentFieldList">
+                                            <list>
+                                                <value>startDate</value>
+                                                <value>termType</value>
+                                            </list>
+                                        </property>
+                                        <property name="queryFieldMapping" value="{startDate:startDate,termType:termType}"/>
+                                        <property name="returnFieldMapping" value="termCode:termCode"/>
+                                    </bean>
+                                </property>
                             </bean>
                             <bean id="term_name" parent="Uif-InputField-LabelTop" p:propertyName="name" p:render="@{!#isAddLine}" p:label="Name" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="30" />
                                 </property>
+                                <!--<property name="constraintText" value="Term Code: @{#line.termCode eq null ? '' : #line.termCode}"/>-->
                             </bean>
+                            <bean id="term_code" parent="Uif-InputField" p:propertyName="termCode" p:label="Term Code">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:disabled="true">
+                                        <property name="cssClasses">
+                                            <list>
+                                                <value>acal_term_code</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="termType" p:render="@{!#isAddLine}">
+                                <property name="control">
+                                    <bean parent="Uif-HiddenControl"/>
+                                </property>
+                            </bean>
+
                             <bean id="term_start_date" parent="Uif-InputField-LabelTop" p:propertyName="startDate" p:label="Start Date" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
                                 </property>
                                 <property name="validCharactersConstraint">
                                     <bean parent="BasicDatePatternConstraint" />
+                                </property>
+                                <property name="attributeQuery">
+                                    <bean parent="Uif-AttributeQueryConfig">
+                                        <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                                        <property name="queryMethodArgumentFieldList">
+                                                <list>
+                                                    <value>startDate</value>
+                                                    <value>termType</value>
+                                                </list>
+                                        </property>
+                                        <property name="queryFieldMapping" value="{startDate:startDate,termType:termType}"/>
+                                        <property name="returnFieldMapping" value="termCode:termCode"/>
+                                    </bean>
                                 </property>
                             </bean>
                             <bean id="term_end_date" parent="Uif-InputField-LabelTop" p:propertyName="endDate" p:label="End Date" p:required="true">

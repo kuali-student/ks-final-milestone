@@ -16,13 +16,19 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.TermCodeGenerator;
+import org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -321,6 +327,42 @@ public class AcademicTermWrapper {
             }
         }
         return false;
+    }
+
+    /**
+     * Attempts to retrieve the academic term's term code.  If code is empty attempt to generate it.
+     *
+     * @return - The Term code stored in the term info or one generated using the information in the term already.
+     */
+    public String getTermCode(){
+
+        // Check if term code is present
+        if(termInfo!=null){
+            if(termInfo.getCode()!=null){
+                if(!termInfo.getCode().isEmpty()){
+                    // Return stored term code
+                    return termInfo.getCode();
+                }
+            }
+        }
+
+        // If term code is empty attempt to generate it using the TermCodeGenerator
+
+        //TODO: Change this to get term code generator from the service calls instead of directly (KSENROLL-7233).
+        TermCodeGenerator termCodeGenerator = new TermCodeGeneratorImpl();
+
+        TermInfo tempInfo = new TermInfo();
+        tempInfo.setStartDate(this.getStartDate());
+        tempInfo.setTypeKey(this.getTermType());
+        String tempCode = termCodeGenerator.generateTermCode(tempInfo);
+
+        if(tempCode!=null && !tempCode.isEmpty()){
+            // Return generated term code
+            return tempCode;
+        }
+
+        // If code is not present or can not be filled in with stored information return empty value
+        return CalendarConstants.EMPTY_TERM_CODE;
     }
 
     /**

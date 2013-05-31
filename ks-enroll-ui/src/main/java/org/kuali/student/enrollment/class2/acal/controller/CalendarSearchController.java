@@ -85,19 +85,28 @@ public class CalendarSearchController  extends UifControllerBase {
         }
 
 
+        // Retrieve growl message key
         String growlMessageKey = request.getParameter(CalendarConstants.GROWL_MESSAGE);
 
-
+        // Check if growl message key is present
         if(growlMessageKey!=null){
+            // If message key is present gather parameters and repopulate growl message
+            // This is used when page is a redirect from another as messages are lost when redirecting
             String growlTitle = request.getParameter(CalendarConstants.GROWL_TITLE);
             String temp = request.getParameter(CalendarConstants.GROWL_MESSAGE_PARAMS);
             String[] growlMessageParams;
+
+            // Message paramters are passed as csv to allow for multiple paramters to be pasted at once.
+            // Check that a paramters string was found
             if(temp!=null){
+                // If parameters' string found seperate into an array of values from csv
                 growlMessageParams = temp.split(",");
             }
             else{
+                // If no parameters' string found initialize empty string
                 growlMessageParams=new String[0];
             }
+            // After gathering and decoding message add it to the growl message map
             GlobalVariables.getMessageMap().addGrowlMessage(growlTitle, growlMessageKey,growlMessageParams);
         }
 
