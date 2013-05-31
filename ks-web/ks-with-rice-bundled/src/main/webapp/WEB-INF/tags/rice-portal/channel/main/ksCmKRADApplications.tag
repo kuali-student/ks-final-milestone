@@ -19,7 +19,7 @@
 <div class="body">
   
   <ul class="chan">
-    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=curriculumHomeView&methodToCall=start">Create a Course</a></li>
+    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=curriculumHomeView&methodToCall=start">KRAD - Curriculum Management</a></li>
   </ul>
   
 </div>
