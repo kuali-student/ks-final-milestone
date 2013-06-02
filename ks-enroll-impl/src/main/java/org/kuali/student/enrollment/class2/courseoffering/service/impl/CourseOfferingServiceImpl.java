@@ -3083,22 +3083,26 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<CourseOfferingInfo> searchForCourseOfferings(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        //Add luiType Predicate
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                   criteria.getPredicate(),
+                   PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)));
+        QueryByCriteria newCriteria = qbcBuilder.build();
 
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, newCriteria);
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>(results.getResults().size());
         List<String> coIds = new ArrayList<String>(results.getResults().size());
 
         if (results != null && results.getResults().size() > 0) {
             for (LuiEntity lui : results.getResults()) {
-                if (_checkTypeForCourseOfferingType(lui.getLuiType())) {
-                    coIds.add(lui.getId());
-                    CourseOfferingInfo co = new CourseOfferingInfo();
-                    //Associate instructors to the given CO
-                    courseOfferingTransformer.lui2CourseOffering(lui.toDto(), co, context);
-                    //courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
+                coIds.add(lui.getId());
+                CourseOfferingInfo co = new CourseOfferingInfo();
+                //Associate instructors to the given CO
+                courseOfferingTransformer.lui2CourseOffering(lui.toDto(), co, context);
+                //courseOfferingTransformer.assembleInstructors(co, lui.getId(), context, getLprService());
 
-                    courseOfferings.add(co);
-                }
+                courseOfferings.add(co);
             }
 
             if (coIds.isEmpty()){
@@ -3198,19 +3202,25 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<RegistrationGroupInfo> searchForRegistrationGroups(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+        //Add luiType Predicate
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+               criteria.getPredicate(),
+               PredicateFactory.equal("luiType",LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY)));
+        QueryByCriteria newCriteria = qbcBuilder.build();
+
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, newCriteria);
 
         List<RegistrationGroupInfo> regGroups = new ArrayList<RegistrationGroupInfo>();
         for (LuiEntity lui : results.getResults()) {
-            if (_checkTypeForRegistrationGroupType(lui.getLuiType())) {
-                RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(lui.toDto(), context);
-                try {
-                    rgInfo.setCourseOfferingId(this.getFormatOffering(rgInfo.getFormatOfferingId(), context).getCourseOfferingId());
-                    regGroups.add(rgInfo); // Add the reg group
-                } catch (DoesNotExistException ex) {
-                    throw new OperationFailedException(rgInfo.getFormatOfferingId(), ex);
-                }
+            RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(lui.toDto(), context);
+            try {
+                rgInfo.setCourseOfferingId(this.getFormatOffering(rgInfo.getFormatOfferingId(), context).getCourseOfferingId());
+                regGroups.add(rgInfo); // Add the reg group
+            } catch (DoesNotExistException ex) {
+                throw new OperationFailedException(rgInfo.getFormatOfferingId(), ex);
             }
+
         }
 
         return regGroups;
@@ -3720,15 +3730,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = true)
     public List<FormatOfferingInfo> searchForFormatOfferings(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
+        //Add luiType Predicate
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+               criteria.getPredicate(),
+               PredicateFactory.equal("luiType",LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY)));
+        QueryByCriteria newCriteria = qbcBuilder.build();
+
+        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, newCriteria);
         List<FormatOfferingInfo> infos = new ArrayList<FormatOfferingInfo>(results.getResults().size());
         for (LuiEntity lui : results.getResults()) {
             try {
-                // TODO: instead change this so this apply this in the where clause as a transform to the criteria
-                if (_checkTypeForFormatOfferingType(lui.getLuiType())) {
-                    FormatOfferingInfo co = this.getFormatOffering(lui.getId(), contextInfo);
-                    infos.add(co);
-                }
+                FormatOfferingInfo co = this.getFormatOffering(lui.getId(), contextInfo);
+                infos.add(co);
             } catch (DoesNotExistException ex) {
                 throw new OperationFailedException(lui.getId(), ex);
             }
