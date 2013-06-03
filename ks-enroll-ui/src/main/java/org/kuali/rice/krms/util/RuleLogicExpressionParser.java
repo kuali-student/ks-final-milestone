@@ -197,7 +197,7 @@ public class RuleLogicExpressionParser {
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.Condition) == false) {
-            errorMessages.add("cannot alter compound proposition");
+            errorMessages.add("Cannot add new groups in 'Edit Rule Logic'.");
             validToken = false;
         }
         if (nextToken != null && (nextToken.type == ExpressionToken.Condition || nextToken.type == ExpressionToken.StartParenthesis) == false) {
@@ -255,7 +255,7 @@ public class RuleLogicExpressionParser {
             }
         }
         if (!validConditonLetter) {
-            errorMessages.add(conditionLetter + " is not a valid conditon");
+            errorMessages.add("Cannot add new groups in 'Edit Rule Logic'.");
             validToken = false;
         }
         return validToken;

@@ -810,7 +810,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //show errors and don't change anything else
         if (!validExpression) {
             for (int i = 0; i < errorMessages.size(); i++) {
-                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.logicArea", errorMessages.get(i));
+                GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.logicArea", "error.krms.rule.logic", errorMessages.get(i));
             }
             // reload page1
             return;
