@@ -415,6 +415,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 int newIndex = findChildIndex(granny, parent.getData().getProposition().getKey());
                 if (oldIndex >= 0 && newIndex >= 0) {
                     PropositionEditor prop = parent.getData().getProposition().getCompoundEditors().remove(oldIndex / 2);
+                    if(parent.getChildren().size() == 1) {
+                        PropositionTreeUtil.removeCompoundProp((PropositionEditor) ruleEditor.getProposition());
+                    } else if(parent.getChildren().size() == 3) {
+                        GlobalVariables.getMessageMap().putWarning("editWithObjectTree", "warning.krms.tree.compound.single.simple", parent.getData().getProposition().getKey());
+                    }
                     granny.getData().getProposition().getCompoundEditors().add((newIndex / 2) + 1, prop);
                     this.getViewHelper(form).refreshInitTrees(ruleEditor);
                 }
@@ -454,7 +459,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             if (index >= 0 && index + 1 < parent.getChildren().size()) {
                 Node<RuleEditorTreeNode, String> nextSibling = parent.getChildren().get(index + 2);
                 // if selected node above a compound node, move it into it as first child
-                if (RuleEditorTreeNode.COMPOUND_NODE_TYPE.equalsIgnoreCase(nextSibling.getNodeType())) {
+                if (nextSibling.getNodeType().contains(RuleEditorTreeNode.COMPOUND_NODE_TYPE)) {
                     // remove selected node from it's current spot
                     PropositionEditor prop = parent.getData().getProposition().getCompoundEditors().remove(index / 2);
                     // add it to it's siblings children
