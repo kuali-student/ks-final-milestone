@@ -3194,7 +3194,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<String> searchForActivityOfferingIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, criteria);
+        //Add luiType Predicate
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+               qbcBuilder.setPredicates(PredicateFactory.and(
+                       criteria.getPredicate(),
+                       PredicateFactory.like("luiType", "kuali.lui.type.activity.offering.*")));
+        QueryByCriteria newCriteria = qbcBuilder.build();
+
+        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
         return results.getResults();
     }
 
@@ -3234,15 +3241,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public List<String> searchForRegistrationGroupIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
+        //Add luiType Predicate
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+               criteria.getPredicate(),
+               PredicateFactory.equal("luiType",LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY)));
+        QueryByCriteria newCriteria = qbcBuilder.build();
 
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
-        List<String> registrationGroupIds = new ArrayList<String>(results.getResults().size());
-        for (LuiEntity lui : results.getResults()) {
-            if (_checkTypeForRegistrationGroupType(lui.getLuiType())) {
-                registrationGroupIds.add(lui.getId());
-            }
-        }
-        return registrationGroupIds;
+        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
+        return results.getResults();
     }
 
     @Override
@@ -3716,15 +3723,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Override
     @Transactional(readOnly = true)
     public List<String> searchForFormatOfferingIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        GenericQueryResults<LuiEntity> results = criteriaLookupService.lookup(LuiEntity.class, criteria);
-        List<String> ids = new ArrayList<String>(results.getResults().size());
-        for (LuiEntity lui : results.getResults()) {
-            // TODO: instead change this so this apply this in the where clause as a transform to the criteria
-            if (_checkTypeForFormatOfferingType(lui.getLuiType())) {
-                ids.add(lui.getId());
-            }
-        }
-        return ids;
+        //Add luiType Predicate
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+               criteria.getPredicate(),
+               PredicateFactory.equal("luiType",LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY)));
+        QueryByCriteria newCriteria = qbcBuilder.build();
+
+        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LuiEntity.class, newCriteria);
+        return results.getResults();
     }
 
     @Override
