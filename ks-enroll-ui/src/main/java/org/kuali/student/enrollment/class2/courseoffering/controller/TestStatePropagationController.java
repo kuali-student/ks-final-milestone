@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagationForm;
-import org.kuali.student.enrollment.class2.courseoffering.service.TestServiceCallViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,7 +84,7 @@ public class TestStatePropagationController extends UifControllerBase {
     public ModelAndView testStatePropagation(@ModelAttribute("KualiForm") TestStatePropagationForm form, @SuppressWarnings("unused") BindingResult result,
                                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         TestStatePropagationViewHelperService helper = getViewHelperService(form);
-        helper.runTests();
+        helper.runTests(form);
         return getUIFModelAndView(form);
     }
 

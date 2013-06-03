@@ -20,8 +20,10 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.student.enrollment.class2.courseoffering.service.exception.AssertException;
+import org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagationForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.exception.AssertException;
 import org.kuali.student.enrollment.class2.courseoffering.service.exception.PseudoUnitTestException;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.AFUTTypeEnum;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.AoStateTransitionRefSolution;
@@ -293,12 +295,20 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     @Override
-    public String[] runTests() throws Exception {
+    public String[] runTests(TestStatePropagationForm form) throws Exception {
         _initServices();
+//        _reset(false);
+//        String[] results = new String[2];
+//        testSocStateHappy();
+//        // Now iterate over all the unhappy paths
+//        for (int i = 0; i < SOC_STATES_ORDERED.size(); i++) {
+//            _reset(false);
+//            testSocStateUnhappy(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, i);
+//        }
         // Now begin to test AO state transitions
         System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
         _reset(true);
-        _testAoStateTransition();
+        _testAoStateTransition(form);
         System.err.println("<<<<<<<<<<<<<< Ending tests >>>>>>>>>>>>");
         System.err.println("<<<<<<<<<<<<<< Starting RG tests >>>>>>>>>>>>");
         _reset(true);
@@ -312,7 +322,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         return null;
     }
 
-    private void _testAoStateTransition() throws Exception {
+    private void _testAoStateTransition(TestStatePropagationForm form) throws Exception {
                 String aoId = aoInfos.get(0).getId();
         for (String secondaryAoState: AoStateTransitionRefSolution.AO_STATES_ORDERED) {
             secondAoState = secondaryAoState; // Save to instance variable
@@ -329,7 +339,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                 System.err.println("======================= SOC state = " + socState + " (Second AO state: " + secondAoState + ")");
                 Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid =
                         testAoStateTransitionsInSocState(aoId, socInfo.getId(), socState, secondaryAoState);
-                _compareGrids(gridTypeToGrid, socState);
+                _compareGrids(gridTypeToGrid, socState, form);
                 _resetSocOnly(); // Make sure to reset the SOC
             }
         }
@@ -427,7 +437,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     private void _compareGrids(Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid,
-                               String socState) {
+                               String socState, TestStatePropagationForm form) {
         List<Map<String, String>> aoResults = gridTypeToGrid.get("ao").compare();
         System.err.println("---------------------- AO state results (SOC: " + socState + ")");
         for (int i = 0; i < aoResults.size(); i++) {
@@ -449,6 +459,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String message = "(AO) " + transition +
                     " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             System.err.println(message);
+            StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, expectedVal, actualVal, passFail);
+            form.addAoStatePropagationWrapper(statePropagationWrapper);
+
         }
         System.err.println("---------------------- FO state results (SOC: " + socState + ")");
         List<Map<String, String>> foResults = gridTypeToGrid.get("fo").compare();
@@ -477,6 +490,8 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String transition = _computeDisplayString(aoFromState, aoToState, 30);
             String message = "(FO) " + transition +
                     " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
+            StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, expectedVal, actualVal, passFail);
+            form.addFoStatePropagationWrapper(statePropagationWrapper);
             System.err.println(message);
         }
         System.err.println("---------------------- CO state results (SOC: " + socState + ")");
@@ -506,6 +521,8 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String message = "(CO) " + transition +
                     " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             System.err.println(message);
+            StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, expectedVal, actualVal, passFail);
+            form.addCoStatePropagationWrapper(statePropagationWrapper);
         }
         System.err.println("---------------------- end");
     }

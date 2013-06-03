@@ -16,6 +16,8 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
+import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagationForm;
+
 import java.util.Map;
 
 /**
@@ -24,6 +26,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public interface TestStatePropagationViewHelperService {
-    public String[] runTests() throws Exception;
+    public String[] runTests(TestStatePropagationForm form) throws Exception;
     public Map<String, Object> rolloverCourseOfferingFromSourceTermToTargetTerm(String courseOfferingCode, String sourceTermCode, String targetTermCode) throws Exception;
 }

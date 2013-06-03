@@ -24,19 +24,164 @@
           p:id="testStatePropagationPageId"
           p:headerText="AFT Unit Test for State Propagation">
 
-        <!-- It's easier to put the footer up front since it has a lot less content -->
-        <property name="footer"> <!-- Start of footer-->
-            <bean parent="Uif-FooterBase">
+
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Test State Propagation"
-                              p:methodToCall="testStatePropagation"/>
+                        <bean parent="Uif-HorizontalBoxSection" id="testButtonSection">
+                            <property name="items">
+                                <list>
+                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Test State Propagation"
+                                  p:methodToCall="testStatePropagation"/>
+                                </list>
+                            </property>
+
+                        </bean>
+
+                        <bean parent="Uif-HorizontalBoxSection" id="aoTestResultsSection">
+                        <property name="headerText" value="AO State Propagation Test Results" />
+                        <property name="items">
+                            <list>
+                            <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+                                <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper" />
+                                <property name="propertyName" value="aoStatePropagationWrapperList" />
+                                <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                <property name="layoutManager.renderSequenceField" value="false" />
+                                <property name="layoutManager.applyDefaultCellWidths" value="true" />
+                                <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="layoutManager.richTable.templateOptions">
+                                    <map merge="true">
+                                        <entry key="sDom" value="rtip"/>
+                                        <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                                        <entry key="bPaginate" value="false"/>
+                                    </map>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField"
+                                              p:label="Soc State"
+                                              p:propertyName="socState"/>
+                                        <bean parent="Uif-DataField"
+                                              p:label="AO From"
+                                              p:propertyName="aoFrom"/>
+                                        <bean parent="Uif-DataField"
+                                              p:label="AO To"
+                                              p:propertyName="aoTo"/>
+                                        <bean parent="Uif-DataField"
+                                              p:label="Expected"
+                                              p:propertyName="expected"/>
+                                        <bean parent="Uif-DataField"
+                                              p:label="Actual"
+                                              p:propertyName="actual"/>
+                                        <bean parent="Uif-DataField"
+                                              p:label="Status"
+                                              p:propertyName="status"/>
+
+                                    </list>
+                                </property>
+                            </bean>
+                            </list>
+                        </property>
+                    </bean>
+
+                        <bean parent="Uif-HorizontalBoxSection" id="foTestResultsSection">
+                            <property name="headerText" value="FO State Propagation Test Results" />
+                            <property name="items">
+                                <list>
+                                <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+                                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper" />
+                                    <property name="propertyName" value="foStatePropagationWrapperList" />
+                                    <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                    <property name="layoutManager.renderSequenceField" value="false" />
+                                    <property name="layoutManager.applyDefaultCellWidths" value="true" />
+                                    <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                    <property name="layoutManager.richTable.templateOptions">
+                                        <map merge="true">
+                                            <entry key="sDom" value="rtip"/>
+                                            <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                                            <entry key="bPaginate" value="false"/>
+                                        </map>
+                                    </property>
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="Soc State"
+                                                  p:propertyName="socState"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="AO From"
+                                                  p:propertyName="aoFrom"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="AO To"
+                                                  p:propertyName="aoTo"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="Expected"
+                                                  p:propertyName="expected"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="Actual"
+                                                  p:propertyName="actual"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="Status"
+                                                  p:propertyName="status"/>
+
+                                        </list>
+                                    </property>
+                                </bean>
+                                </list>
+                            </property>
+                        </bean>
+
+                        <bean parent="Uif-HorizontalBoxSection" id="coTestResultsSection">
+                            <property name="headerText" value="CO State Propagation Test Results" />
+                            <property name="items">
+                                <list>
+                                <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+                                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper" />
+                                    <property name="propertyName" value="coStatePropagationWrapperList" />
+                                    <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                    <property name="layoutManager.renderSequenceField" value="false" />
+                                    <property name="layoutManager.applyDefaultCellWidths" value="true" />
+                                    <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                    <property name="layoutManager.richTable.templateOptions">
+                                        <map merge="true">
+                                            <entry key="sDom" value="rtip"/>
+                                            <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                                            <entry key="bPaginate" value="false"/>
+                                        </map>
+                                    </property>
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="Soc State"
+                                                  p:propertyName="socState"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="AO From"
+                                                  p:propertyName="aoFrom"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="AO To"
+                                                  p:propertyName="aoTo"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="Expected"
+                                                  p:propertyName="expected"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="Actual"
+                                                  p:propertyName="actual"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="Status"
+                                                  p:propertyName="status"/>
+
+                                        </list>
+                                    </property>
+                                </bean>
+                                </list>
+                            </property>
+                        </bean>
+
+
+
                     </list>
                 </property>
             </bean>
-        </property> <!-- End of footer -->
-        <!-- Body start -->
 
 
-    </bean>
+
+
 </beans>
