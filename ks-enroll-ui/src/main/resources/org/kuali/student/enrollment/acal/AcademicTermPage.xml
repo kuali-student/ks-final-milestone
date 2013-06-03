@@ -141,7 +141,7 @@
     </bean>
 
     <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
-          p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid});">
+          p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
         <property name="propertyName" value="keyDatesGroupWrappers" />
@@ -190,7 +190,7 @@
     </bean>
 
     <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
-          p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}">
+          p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}" p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
         <property name="propertyName" value="keydates" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
         <property name="header.render" value="false"/>

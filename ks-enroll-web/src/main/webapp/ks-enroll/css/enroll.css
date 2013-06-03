@@ -800,3 +800,7 @@ input[disabled].acal_term_code{
     word-spacing: 0px;
     zoom: 1;
 }
+
+.ks-uif-hasError{
+    border: 2px solid #ff2300 !important;
+}
