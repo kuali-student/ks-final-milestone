@@ -208,7 +208,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-Button"
+    <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-Button" p:width="110px"
           p:actionScript="ajaxCallPropositionTree('addProposition','RuleStudentEditorView-TreeGroup');"
           p:actionLabel="Add Statement">
         <property name="actionImage">
