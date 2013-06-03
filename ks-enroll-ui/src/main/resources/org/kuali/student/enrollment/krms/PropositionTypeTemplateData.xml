@@ -342,22 +342,25 @@
 
                 <entry key="kuali.krms.proposition.type.success.compl.course.as.of.term">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
-                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                          p:termSpecName="CompletedCourse" p:value="true">
+                        <property name="componentId" value="KRMS-CourseAndTerm-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.success.compl.prior.to.term">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
+                          p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-CourseAndTerm-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.success.compl.course.between.terms">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
-                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                          p:termSpecName="CompletedCourse" p:value="true">
+                        <property name="componentId" value="KRMS-CourseAndTerm-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>
 

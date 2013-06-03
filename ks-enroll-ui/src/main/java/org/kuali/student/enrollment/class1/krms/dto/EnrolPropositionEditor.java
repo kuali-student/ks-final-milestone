@@ -8,6 +8,7 @@ import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.impl.ui.TermParameter;
 import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
@@ -40,6 +41,8 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private Integer duration;
     private String durationType;
     private ProgramCluSetInformation progCluSet;
+    private String termCode;
+    private TermInfo termInfo;
 
     private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
@@ -153,6 +156,21 @@ public class EnrolPropositionEditor extends PropositionEditor {
         this.progCluSet = progCluSet;
     }
 
+    public String getTermCode() {
+        return termCode;
+    }
+
+    public void setTermCode(String termCode) {
+        this.termCode = termCode;
+    }
+
+    public TermInfo getTermInfo(){
+        return termInfo;
+    }
+
+    public void setTermInfo(TermInfo termInfo){
+        this.termInfo = termInfo;
+    }
     @Override
     protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){
         return new EnrolPropositionEditor(definition);

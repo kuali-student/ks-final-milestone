@@ -722,7 +722,7 @@
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField"/>
-                <!-- TODO: Term component -->
+                <ref bean="KRMS-Term-Field"/>
             </list>
         </property>
     </bean>
@@ -889,4 +889,34 @@
             </list>
         </property>
     </bean>
+
+    <bean id="KRMS-Term-section" parent="Uif-VerticalFieldGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-SingleCourse-SuggestField"/>
+                <ref bean="KRMS-Term-Field"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Term-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termCode" p:label="Term" p:required="true" p:readOnly="false">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
+        </property>
+    </bean>
+    <bean id="KRMS-Term-Field" parent="KRMS-Term-Field-Parent"/>
+
+    <!--<bean id="KRMS-Term-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.durationType"-->
+          <!--p:label="Duration Type" p:required="true">-->
+        <!--<property name="control">-->
+            <!--<bean parent="Uif-DropdownControl"/>-->
+        <!--</property>-->
+        <!--<property name="optionsFinder">-->
+            <!--<bean class="org.kuali.student.enrollment.class1.krms.keyvalues.DurationTypeValueFinder"/>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean id="KRMS-Term-Field" parent="KRMS-Term-Field-Parent"/>-->
 </beans>
+
+

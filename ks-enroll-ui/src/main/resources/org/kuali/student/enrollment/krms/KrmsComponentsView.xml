@@ -64,6 +64,7 @@
                 <ref bean="KRMS-FreeForm-InputField"/>
                 <ref bean="KRMS-Duration-section"/>
                 <ref bean="Disable-Test"/>
+                <ref bean="KRMS-Term-Field"/>
             </list>
         </property>
     </bean>
