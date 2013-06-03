@@ -74,7 +74,16 @@
                                               p:propertyName="actual"/>
                                         <bean parent="Uif-DataField"
                                               p:label="Status"
-                                              p:propertyName="status"/>
+                                              p:propertyName="status">
+                                            <property name="propertyReplacers">
+                                                <list>
+                                                    <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                          p:condition="#line.green" p:replacement="color:green;"/>
+                                                    <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                          p:condition="#line.red" p:replacement="color:red;"/>
+                                                </list>
+                                            </property>
+                                        </bean>
 
                                     </list>
                                 </property>
@@ -120,7 +129,16 @@
                                                   p:propertyName="actual"/>
                                             <bean parent="Uif-DataField"
                                                   p:label="Status"
-                                                  p:propertyName="status"/>
+                                                  p:propertyName="status">
+                                                <property name="propertyReplacers">
+                                                    <list>
+                                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                              p:condition="#line.green" p:replacement="color:green;"/>
+                                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                              p:condition="#line.red" p:replacement="color:red;"/>
+                                                    </list>
+                                                </property>
+                                            </bean>
 
                                         </list>
                                     </property>
@@ -166,7 +184,16 @@
                                                   p:propertyName="actual"/>
                                             <bean parent="Uif-DataField"
                                                   p:label="Status"
-                                                  p:propertyName="status"/>
+                                                  p:propertyName="status">
+                                            <property name="propertyReplacers">
+                                                <list>
+                                                    <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                          p:condition="#line.green" p:replacement="color:green;"/>
+                                                    <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                          p:condition="#line.red" p:replacement="color:red;"/>
+                                                </list>
+                                            </property>
+                                            </bean>
 
                                         </list>
                                     </property>

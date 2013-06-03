@@ -28,6 +28,9 @@ public class StatePropagationWrapper {
     private String expected;
     private String actual;
     private String status;
+    private boolean green;
+    private boolean red;
+
 
     public StatePropagationWrapper(String socState, String aoFrom, String aoTo, String expected, String actual, String status) {
         this.socState = socState;
@@ -36,6 +39,11 @@ public class StatePropagationWrapper {
         this.expected = expected;
         this.actual = actual;
         this.status= status;
+        if(this.status.equals("pass")){
+            this.green=true;
+        } else if(this.status.equals("fail")){
+            this.red=true;
+        }
     }
 
     public StatePropagationWrapper() {
@@ -106,5 +114,21 @@ public class StatePropagationWrapper {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public boolean isGreen() {
+        return green;
+    }
+
+    public void setGreen(boolean green) {
+        this.green = green;
+    }
+
+    public boolean isRed() {
+        return red;
+    }
+
+    public void setRed(boolean red) {
+        this.red = red;
     }
 }
