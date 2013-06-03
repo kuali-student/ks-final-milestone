@@ -130,7 +130,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <warSourceDirectory>${project.build.directory}/${project.artifactId}-webapp</warSourceDirectory>
                     <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
                     <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,WEB-INF/krad-servlet.xml,**/sampleTravelApplication.tag</dependentWarExcludes>
                 </configuration>
