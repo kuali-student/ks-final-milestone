@@ -106,7 +106,7 @@
         <!--</property>-->
     <!--</bean>-->
 
-    <bean id="KS-CluSetInfo-LookupView" parent="KS-Uif-LookupView">
+    <bean id="KS-CluSetInfo-LookupView" parent="KS-Uif-LookupView" p:breadcrumbs.render="false">
         <property name="id" value="CourseSetsInfoLookupView"/>
         <!--<property name="viewName" value="krmsCourseSetsInfoView" />-->
         <property name="headerText" value="Advanced Search: Course Sets" />
@@ -123,6 +123,11 @@
         <property name="resultFields">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="name"/>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-enroll/css/krms.css</value>
             </list>
         </property>
     </bean>

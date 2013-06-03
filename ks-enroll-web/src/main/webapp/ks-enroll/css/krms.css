@@ -130,3 +130,7 @@
     line-height:16px !important;
     margin-bottom: 0px!important;
 }
+
+#Uif-BreadcrumbWrapper {
+    display: none;
+}

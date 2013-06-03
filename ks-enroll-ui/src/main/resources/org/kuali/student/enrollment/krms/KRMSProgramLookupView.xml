@@ -73,7 +73,7 @@
     </bean>
 
 
-    <bean id="KRMS-Program-LookupView" parent="KS-Uif-LookupView">
+    <bean id="KRMS-Program-LookupView" parent="KS-Uif-LookupView" p:breadcrumbs.render="false">
         <property name="id" value="ProgramLookupView"/>
         <property name="viewName" value="krmsProgramOnlyLookup"/>
         <property name="headerText" value="Advanced Search: Programs Only" />
@@ -103,6 +103,11 @@
                     <property name="shortLabel" value="Description"/>
                 </bean>
 
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-enroll/css/krms.css</value>
             </list>
         </property>
     </bean>

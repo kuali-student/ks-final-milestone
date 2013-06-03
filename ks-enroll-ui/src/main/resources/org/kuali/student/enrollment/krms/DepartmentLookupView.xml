@@ -107,6 +107,11 @@
                 <bean parent="Uif-DataField" p:propertyName="longName"/>
             </list>
         </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-enroll/css/krms.css</value>
+            </list>
+        </property>
     </bean>
 
 </beans>

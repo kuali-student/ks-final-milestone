@@ -72,7 +72,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-Course-LookupView" parent="KS-Uif-LookupView">
+    <bean id="KRMS-Course-LookupView" parent="KS-Uif-LookupView" p:breadcrumbs.render="false">
         <property name="id" value="CourseLookupView"/>
         <property name="viewName" value="krmsCoursesOnlyLookup"/>
         <property name="headerText" value="Advanced Search: Courses Only" />
@@ -92,6 +92,11 @@
                 <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code"/>
                 <bean parent="Uif-InputField" p:propertyName="state" p:label="State"/>
                 <bean parent="Uif-InputField" p:propertyName="description" p:label="Description"/>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-enroll/css/krms.css</value>
             </list>
         </property>
     </bean>
