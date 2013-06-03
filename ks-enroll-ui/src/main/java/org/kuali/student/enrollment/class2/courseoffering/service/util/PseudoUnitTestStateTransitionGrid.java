@@ -53,7 +53,7 @@ public class PseudoUnitTestStateTransitionGrid {
         for (int i = 0; i < size; i++) {
             List<String> row = new ArrayList<String>();
             for (int j = 0; j < size; j++) {
-                row.add(TransitionGridYesNoEnum.INVALID.getName());  // -1 acts as null
+                row.add(TransitionGridYesNoEnum.INVALID.getName());
             }
             grid.add(row);
         }
@@ -77,7 +77,7 @@ public class PseudoUnitTestStateTransitionGrid {
             throw new RuntimeException(value + " is in invalid value for grid: " + entityType);
         }
         if (!stateKeys.contains(fromState) || !stateKeys.contains(toState)) {
-            throw new RuntimeException("Invalid fromState or toState");
+            throw new RuntimeException("Invalid fromState (" + fromState + ") or toState (" + toState + ")");
         }
         int fromIndex = stateKeys.indexOf(fromState);
         if (fromIndex < 0) {

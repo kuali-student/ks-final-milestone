@@ -12,34 +12,15 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Charles on 5/23/13
+ * Created by Charles on 5/31/13
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.util;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class //TODO ...
  *
  * @author Kuali Student Team
  */
-public enum TransitionGridYesNoEnum {
-    YES("yes"), NO("no"), INVALID("invalid");
-    public static final List<String> ALLOWED_VALUES;
-    static {
-        ALLOWED_VALUES = new ArrayList<String>();
-        ALLOWED_VALUES.add("yes");
-        ALLOWED_VALUES.add("no");
-        ALLOWED_VALUES.add("invalid");
-    }
+public class RgStateTransitionRefSolution {
 
-    private String name;
-    private TransitionGridYesNoEnum(String val) {
-        name = val;
-    }
-
-    public String getName() {
-        return name;
-    }
 }

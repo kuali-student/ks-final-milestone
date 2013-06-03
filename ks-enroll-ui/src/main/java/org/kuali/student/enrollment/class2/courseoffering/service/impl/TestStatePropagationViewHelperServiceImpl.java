@@ -43,6 +43,7 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -297,14 +298,6 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     @Override
     public String[] runTests(TestStatePropagationForm form) throws Exception {
         _initServices();
-//        _reset(false);
-//        String[] results = new String[2];
-//        testSocStateHappy();
-//        // Now iterate over all the unhappy paths
-//        for (int i = 0; i < SOC_STATES_ORDERED.size(); i++) {
-//            _reset(false);
-//            testSocStateUnhappy(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, i);
-//        }
         // Now begin to test AO state transitions
         System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
         _reset(true);
@@ -319,7 +312,131 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         rgStateResult = testRegistrationGroupStatePropagation(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
         _printRegGroupResults(rgStateResult);
         System.err.println("<<<<<<<<<<<<<< Ending RG tests >>>>>>>>>>>>");
+
+        System.err.println("<<<<<<<<<<<<<< Starting RG Invalid tests >>>>>>>>>>>>");
+        _reset(true);
+        PseudoUnitTestStateTransitionGrid grid = testRegistrationGroupInvalid(true);
+        _printRegGroupInvalid(grid, true);
+        grid = testRegistrationGroupInvalid(false);
+        _printRegGroupInvalid(grid, false);
+        System.err.println("<<<<<<<<<<<<<< END RG Invalid tests >>>>>>>>>>>>");
         return null;
+    }
+
+     private void _printRegGroupInvalid(PseudoUnitTestStateTransitionGrid grid, boolean isRgOffered) {
+        for (int i = 0; i < grid.size(); i++) {
+            for (int j = 0; j < grid.size(); j++) {
+                String expected = grid.getTransition(AFUTTypeEnum.EXPECTED, i, j);
+                if (!expected.equals(TransitionGridYesNoEnum.INVALID.getName())) {
+                    String actual = grid.getTransition(AFUTTypeEnum.EXPECTED, i, j);
+                    String offered = "[RG offered] ";
+                    if (!isRgOffered) {
+                        offered = "[RG pending] ";
+                    }
+                    String message = offered + " expected/actual = " + _getAfterDot(expected)
+                            + "/" + _getAfterDot(actual);
+                    System.err.println(message);
+               }
+           }
+       }
+    }
+
+    private void _setAosInRgToAoState(String aoState) throws Exception {
+        for (ActivityOfferingInfo aoInfo: aoInfos) {
+            _forceChangeLuiState(aoInfo.getId(), aoState);
+        }
+    }
+    public static final List<String> RG_STATES;
+    static {
+        RG_STATES = new ArrayList<String>();
+        RG_STATES.add(LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY);
+        RG_STATES.add(LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
+        RG_STATES.add(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
+    }
+
+    // Only testing three transitions
+    private PseudoUnitTestStateTransitionGrid _createRgStateGrid(boolean aosAllOffered) {
+        PseudoUnitTestStateTransitionGrid rgStateGrid =
+                new PseudoUnitTestStateTransitionGrid(RG_STATES, TransitionGridYesNoEnum.ALLOWED_VALUES, "rg");
+        if (aosAllOffered) {
+            rgStateGrid.setTransition(AFUTTypeEnum.EXPECTED,
+                    LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY,
+                    LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,
+                    TransitionGridYesNoEnum.YES.getName());
+            rgStateGrid.setTransition(AFUTTypeEnum.EXPECTED,
+                    LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,
+                    LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY,
+                    TransitionGridYesNoEnum.YES.getName());
+            rgStateGrid.setTransition(AFUTTypeEnum.EXPECTED,
+                    LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,
+                    LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY,
+                    TransitionGridYesNoEnum.NO.getName());
+        } else {
+            rgStateGrid.setTransition(AFUTTypeEnum.EXPECTED,
+                    LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY,
+                    LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,
+                    TransitionGridYesNoEnum.YES.getName());
+            rgStateGrid.setTransition(AFUTTypeEnum.EXPECTED,
+                    LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,
+                    LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY,
+                    TransitionGridYesNoEnum.NO.getName());
+            rgStateGrid.setTransition(AFUTTypeEnum.EXPECTED,
+                    LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY,
+                    LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY,
+                    TransitionGridYesNoEnum.YES.getName());
+        }
+        return rgStateGrid;
+    }
+
+    // Just test in SOC state of publishing
+    public PseudoUnitTestStateTransitionGrid testRegistrationGroupInvalid(boolean aosAllOffered) throws Exception {
+        String initRgState = LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY;
+        String otherRgState = LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY;
+        if (aosAllOffered) {
+            _setAosInRgToAoState(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
+            _forceChangeLuiState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY);
+        } else {
+            initRgState = LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY;
+            otherRgState = LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY;
+            _setAosInRgToAoState(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+            _forceChangeLuiState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY);
+        }
+
+        StatusInfo status =
+                coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, CONTEXT);
+        PseudoUnitTestStateTransitionGrid rgStateGrid = _createRgStateGrid(aosAllOffered);
+        String result = TransitionGridYesNoEnum.YES.getName();
+        if (!status.getIsSuccess()) {
+            result = TransitionGridYesNoEnum.NO.getName();
+        }
+        rgStateGrid.setTransition(AFUTTypeEnum.ACTUAL,
+                initRgState, LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, result);
+        // RG should be in invalid state now
+        rgInfo = coService.getRegistrationGroup(rgInfo.getId(), CONTEXT);
+        if (!rgInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY)) {
+            throw new PseudoUnitTestException("RG should be in invalid state");
+        }
+        // Attempt to change it to state it shouldn't go to
+        status =
+            coService.changeRegistrationGroupState(rgInfo.getId(), otherRgState, CONTEXT);
+        result = TransitionGridYesNoEnum.YES.getName();
+        if (!status.getIsSuccess()) {
+            result = TransitionGridYesNoEnum.NO.getName();
+        }
+        rgStateGrid.setTransition(AFUTTypeEnum.ACTUAL,
+                LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, otherRgState, result);
+        // Change back to invalid for now
+        _forceChangeLuiState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
+        // Attempt to change it to state it SHOULD go to
+        status =
+                coService.changeRegistrationGroupState(rgInfo.getId(), initRgState, CONTEXT);
+        result = TransitionGridYesNoEnum.YES.getName();
+        if (!status.getIsSuccess()) {
+            result = TransitionGridYesNoEnum.NO.getName();
+        }
+        rgStateGrid.setTransition(AFUTTypeEnum.ACTUAL,
+                LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, initRgState, result);
+        return rgStateGrid;
     }
 
     private void _testAoStateTransition(TestStatePropagationForm form) throws Exception {
@@ -586,7 +703,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                 }
 
                 // Force the original AO to be in fromState
-                _forceChangeAoState(aoId, fromState);
+                _forceChangeLuiState(aoId, fromState);
                 // Adjust FO/CO states
                 _resetFoCoAndSecondaryAoState(fromState, secondaryAoState);
                 _refetch(); // Need to get latest CO/FO/AOs
@@ -661,7 +778,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         assertEquals(fetched.getStateKey(), origState, message);
     }
 
-    private boolean _forceChangeAoState(String aoId, String nextState) throws PseudoUnitTestException {
+    private boolean _forceChangeLuiState(String aoId, String nextState) throws PseudoUnitTestException {
         // DanEp suggested this sneaky way to circumvent state changes
         try {
             LuiInfo lui = luiService.getLui(aoId, CONTEXT);
