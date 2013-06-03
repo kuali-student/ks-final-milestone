@@ -135,14 +135,14 @@
                 </configuration>
             </plugin>
             <plugin>
-              <groupId>org.apache.tomcat.maven</groupId>
-              <artifactId>tomcat7-maven-plugin</artifactId>
-              <version>${tomcat7-maven-plugin.version}</version>
-              <configuration>
-                <path>/ks-with-rice-bundled-dev</path>
-                <port>8081</port>
-                <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
-              </configuration>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>${tomcat7-maven-plugin.version}</version>
+                <configuration>
+                    <path>/ks-with-rice-bundled-dev</path>
+                    <port>8081</port>
+                    <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>com.oracle</groupId>
@@ -157,41 +157,41 @@
                 </dependencies>
             </plugin>
             <plugin>
-              <groupId>org.zeroturnaround</groupId>
-              <artifactId>jrebel-maven-plugin</artifactId>
-              <version>${jrebel-maven-plugin.version}</version>
-              <configuration>
-                <alwaysGenerate>true</alwaysGenerate>
-                <addResourcesDirToRebelXml>false</addResourcesDirToRebelXml>
-                <!--
+                <groupId>org.zeroturnaround</groupId>
+                <artifactId>jrebel-maven-plugin</artifactId>
+                <version>${jrebel-maven-plugin.version}</version>
+                <configuration>
+                    <alwaysGenerate>true</alwaysGenerate>
+                    <addResourcesDirToRebelXml>false</addResourcesDirToRebelXml>
+                    <!--
                     root is 2 directories away from jar/war modules
                 -->
-                <relativePath>../../../</relativePath>
-                <!--
+                    <relativePath>../../../</relativePath>
+                    <!--
                     use a system property for specifing root directory (note the double $)
                     start your application with -Drebel.root=c:/projects/
                 -->
-                <rootPath>${rebel.root}</rootPath>
-                <classpath>
-                  <fallback>default</fallback>
-                  <resources>
-                    <resource>
-                      <directory>../../../ks-lum/ks-cm-krad/target/classes</directory>
-                    </resource>
-                  </resources>
-                </classpath>
-              </configuration>
-              <executions>
-                <execution>
-                  <id>generate-rebel-xml</id>
-                  <goals>
-                    <goal>generate</goal>
-                  </goals>
-                  <phase>${jrebel.phase}</phase>
-                </execution>
-              </executions>
-            </plugin>    
-          </plugins>
+                    <rootPath>${rebel.root}</rootPath>
+                    <classpath>
+                        <fallback>default</fallback>
+                        <resources>
+                            <resource>
+                                <directory>../../../ks-lum/ks-cm-krad/target/classes</directory>
+                            </resource>
+                        </resources>
+                    </classpath>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-rebel-xml</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <phase>${jrebel.phase}</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
     <dependencies>
         <!-- uncomment to enable sql logging -->
