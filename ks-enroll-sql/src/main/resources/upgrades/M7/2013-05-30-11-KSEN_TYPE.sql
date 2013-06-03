@@ -30,3 +30,23 @@ UPDATE KSEN_TYPE SET DESCR_FORMATTED = 'Last Day GR to Change Credits', DESCR_PL
 /
 UPDATE KSEN_TYPE SET DESCR_FORMATTED = 'Last Day UG to Drop with a "W"', DESCR_PLAIN = 'Last Day UG to Drop with a "W"', NAME = 'Last Day UG to Drop with a "W"' WHERE OBJ_ID = '0DD5A55DC2354B01B65D42FC0F5B4AE2'
 /
+
+-- KSENROLL-5663
+UPDATE KSEN_TYPE SET DESCR_FORMATTED = 'Rosh Hashanah', DESCR_PLAIN = 'Rosh Hashanah', NAME = 'Rosh Hashanah' WHERE TYPE_KEY = 'kuali.atp.milestone.RoshHashanah'
+/
+DELETE FROM KSEN_TYPETYPE_RELTN WHERE RELATED_TYPE_ID = 'kuali.atp.milestone.roshhashana'
+/
+DELETE FROM KSEN_TYPE WHERE TYPE_KEY = 'kuali.atp.milestone.roshhashana'
+/
+UPDATE KSEN_TYPE SET DESCR_FORMATTED = 'Election Day', DESCR_PLAIN = 'Election Day', NAME = 'Election Day' WHERE TYPE_KEY = 'kuali.atp.milestone.ElectionDay'
+/
+DELETE FROM KSEN_TYPETYPE_RELTN WHERE RELATED_TYPE_ID = 'kuali.atp.milestone.electionday'
+/
+DELETE FROM KSEN_TYPE WHERE TYPE_KEY = 'kuali.atp.milestone.electionday'
+/
+UPDATE KSEN_TYPE SET DESCR_FORMATTED = 'Martin Luther King Day', DESCR_PLAIN = 'Martin Luther King Day', NAME = 'Martin Luther King Day' WHERE TYPE_KEY = 'kuali.atp.milestone.MLKDay'
+/
+UPDATE KSEN_TYPE SET DESCR_FORMATTED = 'Spring Break', DESCR_PLAIN = 'Spring Break', NAME = 'Spring Break' WHERE TYPE_KEY = 'kuali.atp.milestone.SpringBreak'
+/
+UPDATE KSEN_TYPE SET DESCR_FORMATTED = 'Good Friday', DESCR_PLAIN = 'Good Friday', NAME = 'Good Friday' WHERE TYPE_KEY = 'kuali.atp.milestone.GoodFriday'
+/
