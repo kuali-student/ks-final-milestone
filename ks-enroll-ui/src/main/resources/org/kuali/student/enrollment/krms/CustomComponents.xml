@@ -459,7 +459,7 @@
     <bean id="KRMS-OrgDepartment-Field-Parent" parent="Uif-InputField-LabelTop"
           p:propertyName="proposition.termParameter" p:required="true">
         <property name="style" value="width:450px;"/>
-        <property name="suggest">
+        <!--<property name="suggest">
             <bean parent="Uif-Suggest">
                 <property name="render" value="true"/>
                 <property name="valuePropertyName" value="displayName"/>
@@ -470,7 +470,7 @@
                     </bean>
                 </property>
             </bean>
-        </property>
+        </property>-->
         <property name="control">
             <bean parent="Uif-TextControl" p:size="60" p:disabled="true"/>
         </property>
