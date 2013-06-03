@@ -36,6 +36,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
+import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
 import org.kuali.student.cm.course.form.SubjectCodeDisplay;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -44,7 +45,8 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 /**
  * This is the helper class for CourseView
@@ -58,6 +60,8 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 	private IdentityService identityService;
 
 	private SubjectCodeService subjectCodeService;
+
+	private CluService cluService;
 
 	private List<Person> findPeople(String principalName) {
 		List<Person> people = new ArrayList<Person>();
@@ -117,7 +121,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		return people;
 	}
 
-	public List<CluInstructorInfoDisplay> retrieveInstructors(
+	public List<CluInstructorInfoDisplay> getInstructorsForSuggest(
 			String instructorName) {
 		List<CluInstructorInfoDisplay> instructors = new ArrayList<CluInstructorInfoDisplay>();
 
@@ -125,10 +129,8 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		if (!people.isEmpty()) {
 			for (Person person : people) {
 				CluInstructorInfoDisplay instructorDisplay = new CluInstructorInfoDisplay();
-				CluInstructorInfo cluInstructorInfo = new CluInstructorInfo();
-				cluInstructorInfo.setId(person.getEntityId());
-				cluInstructorInfo.setPersonId(person.getPrincipalId());
-				instructorDisplay.setCluInstructorInfo(cluInstructorInfo);
+				instructorDisplay.setId(person.getEntityId());
+				instructorDisplay.setPersonId(person.getPrincipalId());
 				instructorDisplay.setDisplayName(person.getName() + " ("
 						+ person.getPrincipalName() + ")");
 				instructors.add(instructorDisplay);
@@ -138,7 +140,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		return instructors;
 	}
 	
-	public List<SubjectCodeDisplay> getSubjectCodes(String subjectCode) {
+	public List<SubjectCodeDisplay> getSubjectCodesForSuggest(String subjectCode) {
         List<SubjectCodeDisplay> retrievedCodes = new ArrayList<SubjectCodeDisplay>();
 
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
@@ -179,6 +181,61 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         return retrievedCodes;
     }
 	
+	public List<CourseJointInfoDisplay> getJointOfferingCourseNumbersForSuggest(String courseNumber) {
+		List<CourseJointInfoDisplay> courseJoints = new ArrayList<CourseJointInfoDisplay>();
+		
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+		
+		SearchParamInfo codeParam = new SearchParamInfo();
+        codeParam.setKey("lu.queryParam.luOptionalCode");
+        List<String> codeValues = new ArrayList<String>();
+        codeValues.add(courseNumber);
+        codeParam.setValues(codeValues);
+        
+        SearchParamInfo typeParam = new SearchParamInfo();
+        typeParam.setKey("lu.queryParam.luOptionalType");
+        List<String> typeValues = new ArrayList<String>();
+        typeValues.add("kuali.lu.type.CreditCourse");
+        typeParam.setValues(typeValues);
+        
+        queryParamValueList.add(codeParam);
+        queryParamValueList.add(typeParam);
+        
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("lu.search.current.quick");
+        searchRequest.setParams(queryParamValueList);
+        
+        SearchResultInfo searchResult = null;
+        try {
+        	searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
+            for (SearchResultRowInfo result : searchResult.getRows()) {
+                List<SearchResultCellInfo> cells = result.getCells();
+                String id = "";
+                String code = "";
+                for (SearchResultCellInfo cell : cells) {
+                	if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                		id = cell.getValue();
+                	}
+                	if ("lu.resultColumn.luOptionalCode".equals(cell.getKey())) {
+                		code = cell.getValue();
+                	}
+                }
+                CourseJointInfoDisplay courseJointDisplay = new CourseJointInfoDisplay();
+                courseJointDisplay.setCourseId(id);
+                courseJointDisplay.setCourseCode(code);
+                String subjectArea = code.replaceAll("\\d", "");
+                String numberSuffix = code.replaceAll("\\D", "");
+                courseJointDisplay.setSubjectArea(subjectArea);
+                courseJointDisplay.setCourseNumberSuffix(numberSuffix);
+                courseJoints.add(courseJointDisplay);
+            }
+        } catch (Exception e) {
+            //do nothing
+        }
+		
+		return courseJoints;
+	}
+	
 	private IdentityService getIdentityService() {
 		if (identityService == null) {
 			identityService = KimApiServiceLocator.getIdentityService();
@@ -192,6 +249,13 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		}
 		return subjectCodeService;
 	}	
+	
+	private CluService getCluService() {
+		if (cluService == null) {
+			cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
+		}
+		return cluService;
+	}
 	
 
 }

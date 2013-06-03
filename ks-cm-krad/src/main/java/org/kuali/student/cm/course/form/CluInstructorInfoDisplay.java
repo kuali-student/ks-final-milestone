@@ -2,20 +2,14 @@ package org.kuali.student.cm.course.form;
 
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 
-public class CluInstructorInfoDisplay {
+public class CluInstructorInfoDisplay extends CluInstructorInfo {
 	
-	private CluInstructorInfo cluInstructorInfo;
-	
+	private static final long serialVersionUID = 7495209564517379554L;
+
 	private String displayName;
-
-	public CluInstructorInfo getCluInstructorInfo() {
-		return cluInstructorInfo;
-	}
-
-	public void setCluInstructorInfo(CluInstructorInfo cluInstructorInfo) {
-		this.cluInstructorInfo = cluInstructorInfo;
-	}
-
+	
+	private String givenName;
+	
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -24,4 +18,12 @@ public class CluInstructorInfoDisplay {
 		this.displayName = displayName;
 	}
 
+	public String getGivenName() {
+		return givenName;
+	}
+
+	public void setGivenName(String givenName) {
+		this.givenName = givenName;
+	}
+	
 }

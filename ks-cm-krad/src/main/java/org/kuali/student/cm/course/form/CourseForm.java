@@ -37,11 +37,14 @@ public class CourseForm extends UifFormBase {
 	private ProposalInfo proposalInfo;
 	
 	private List<CluInstructorInfoDisplay> instructorDisplays;
+	
+	private List<CourseJointInfoDisplay> courseJointDisplays;
 
 	public CourseForm() {
 		this.courseInfo = new CourseInfo();
 		this.proposalInfo = new ProposalInfo();
 		this.instructorDisplays = new ArrayList<CluInstructorInfoDisplay>();
+		this.courseJointDisplays = new ArrayList<CourseJointInfoDisplay>();
 	}
 
 	public CourseInfo getCourseInfo() {
@@ -67,6 +70,14 @@ public class CourseForm extends UifFormBase {
 	public void setInstructorDisplays(
 			List<CluInstructorInfoDisplay> instructorDisplays) {
 		this.instructorDisplays = instructorDisplays;
+	}
+
+	public List<CourseJointInfoDisplay> getCourseJointDisplays() {
+		return courseJointDisplays;
+	}
+
+	public void setCourseJointDisplays(List<CourseJointInfoDisplay> courseJointDisplays) {
+		this.courseJointDisplays = courseJointDisplays;
 	}
    
 }

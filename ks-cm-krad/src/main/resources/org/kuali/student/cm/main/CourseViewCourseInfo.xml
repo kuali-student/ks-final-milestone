@@ -99,7 +99,7 @@ limitations under the License.
 										<property name="sourcePropertyName" value="code"/>
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
-											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getSubjectCodes" />
+											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getSubjectCodesForSuggest" />
 										</property>
 									</bean>
 								</property>
@@ -136,7 +136,7 @@ limitations under the License.
 										<property name="sourcePropertyName" value="displayName"/>
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
-											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveInstructors" />
+											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getInstructorsForSuggest" />
 										</property>
 									</bean>
 								</property>
@@ -215,8 +215,8 @@ limitations under the License.
 					</property>
 				</bean>
 				<bean id="KS-JointlyOffered-Section" parent="Uif-StackedCollectionSubSection"
-					p:headerText="Jointly Offered Courses" p:propertyName="courseInfo.joints"
-					p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseJointInfo">
+					p:headerText="Jointly Offered Courses" p:propertyName="courseJointDisplays"
+					p:collectionObjectClass="org.kuali.student.cm.course.form.CourseJointInfoDisplay">
 					<property name="layoutManager.summaryTitle" value="Jointly Offered Course" />
 					<property name="layoutManager.summaryFields" value="courseId" />
 					<property name="renderAddBlankLineButton" value="true" />
@@ -230,6 +230,35 @@ limitations under the License.
 								<property name="control">
 									<bean parent="Uif-TextControl" />
 								</property>
+								<property name="suggest">
+									<bean parent="Uif-Suggest" p:render="true">
+										<property name="sourcePropertyName" value="courseCode"/>
+										<property name="templateOptions" value="minLength:1,delay:0" />
+										<property name="suggestQuery">
+											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getJointOfferingCourseNumbersForSuggest" />
+										</property>
+									</bean>
+								</property>
+								<!-- <property name="quickfinder">
+									<bean parent="Uif-QuickFinder">
+										<property name="quickfinderAction">
+						           			<bean parent="Uif-ActionLink">
+								                <property name="methodToCall" value="performLookup"/>
+								                <property name="actionLabel" value="Advanced Search"/>
+								                <property name="cssClasses">
+								                	<list merge="true">
+        												<value>uif-actionLink-block</value>
+      												</list>
+								                </property>
+								            </bean>
+					        			</property>
+					     		        <property name="lightBoxLookup">
+								            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+								        </property>
+								        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseJointInfo"/>
+								        <property name="viewName" value="courseJointInfoLookup" />
+								    </bean>
+								</property>-->
 								<property name="help">
 									<bean parent="Uif-Help"
 										p:tooltipHelpContent="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator." />
