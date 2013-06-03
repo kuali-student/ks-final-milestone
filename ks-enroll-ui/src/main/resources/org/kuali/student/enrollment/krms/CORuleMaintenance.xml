@@ -81,7 +81,7 @@
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Requisites"/>
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
                 </bean>
                 <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
@@ -96,7 +96,7 @@
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Requisites"/>
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
                 </bean>
             </list>
@@ -109,7 +109,7 @@
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Requisites"/>
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
                 </bean>
             </list>
