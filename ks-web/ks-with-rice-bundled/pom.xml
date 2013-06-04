@@ -236,6 +236,13 @@
             <version>${ks.core.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-web</artifactId>
+            <version>${ks.core.version}</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.enroll</groupId>
             <artifactId>ks-enroll-web</artifactId>
             <version>${ks.enroll.version}</version>
