@@ -40,8 +40,8 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     private transient CluService cluService;
     private transient CourseOfferingService courseOfferingService;
 
-    private RuleViewTreeBuilder viewTreeBuilder;
-    private NaturalLanguageHelper nlHelper;
+    private transient RuleViewTreeBuilder viewTreeBuilder;
+    private transient NaturalLanguageHelper nlHelper;
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
