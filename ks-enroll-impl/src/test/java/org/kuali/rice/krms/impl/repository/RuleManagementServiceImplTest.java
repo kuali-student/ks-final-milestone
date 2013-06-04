@@ -57,6 +57,7 @@ import java.util.Arrays;
  *
  * @author nwright
  */
+// TODO: remove ignore per KSENROLL-7265 
 @Ignore
 public class RuleManagementServiceImplTest extends KSKRMSTestCase {
 
