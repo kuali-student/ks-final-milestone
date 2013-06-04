@@ -125,6 +125,11 @@
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-enroll/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
         <property name="header.rightGroup.items">
             <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
             <list/>
