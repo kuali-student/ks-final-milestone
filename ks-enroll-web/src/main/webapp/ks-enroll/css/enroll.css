@@ -658,6 +658,7 @@ a {
 /************************************** BREADCRUMBS **************************************
    The background where breadcrumbs reside on */
 #Uif-BreadcrumbWrapper {
+    display: block !important;         /* It is overriding the KRMS display: none; */
     background-image: url('../images/breadcrumb/bg_breadcrumb.png');
 }
 
