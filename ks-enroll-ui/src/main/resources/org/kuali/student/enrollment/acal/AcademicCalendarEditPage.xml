@@ -110,14 +110,16 @@ limitations under the License.
                             </property>
                             <property name="items">
                                 <list>
+                                    <bean parent="Uif-InputField" p:propertyName="makeOfficial" >
+                                        <property name="render" value="@{!reload and !#view.readOnly and !officialUI}"/>
+                                        <property name="label" value="Make Official"/>
+                                        <property name="control">
+                                            <bean parent="Uif-CheckboxControl"/>
+                                        </property>
+                                    </bean>
                                     <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
-                                          p:performClientSideValidation="true" p:render="@{!officialCalendar and !#view.readOnly and !reload}" p:disabled="@{reload}"
+                                          p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}" p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP"/>
-                                    <bean parent="Uif-SecondaryActionButton" p:render="@{!#view.readOnly and !reload}"
-                                          p:methodToCall="@{officialCalendar ? 'updateOfficial' : 'makeAcalOfficial'}"
-                                          p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
-                                          p:disabled="@{newCalendar}" p:performClientSideValidation="true"
-                                          p:jumpToIdAfterSubmit="TOP" />
                                     <bean parent="Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
                                           p:performClientSideValidation="true" p:render="@{reload}" />
                                     <bean parent="Uif-ActionLink" p:methodToCall="delete"
@@ -161,6 +163,7 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
+                <bean parent="Uif-MessageField" p:messageText="Official" p:render="@{officialUI}"/>
                 <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.name"
                       p:label="Academic Calendar Name" p:labelPlacement="TOP" p:required="true">
                     <property name="control">

@@ -62,6 +62,9 @@ public class AcademicCalendarForm extends UifFormBase {
     private boolean addLineValid;
     private String validationJSONString;
 
+    private boolean makeOfficial;
+    private String makeOfficialName;
+
     public String getValidationJSONString() {
         return validationJSONString;
     }
@@ -363,6 +366,30 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public void setSelectedCollectionPath(String selectedCollectionPath) {
         this.selectedCollectionPath = selectedCollectionPath;
+    }
+
+    /**
+     * Whether the Calendar should be made official on save
+     * @return
+     */
+    public boolean isMakeOfficial() {
+        return makeOfficial;
+    }
+
+    public void setMakeOfficial(boolean makeOfficial) {
+        this.makeOfficial = makeOfficial;
+    }
+
+    /**
+     * The name of the calendar or term being made official
+     * @return
+     */
+    public String getMakeOfficialName() {
+        return makeOfficialName;
+    }
+
+    public void setMakeOfficialName(String makeOfficialName) {
+        this.makeOfficialName = makeOfficialName;
     }
 
 }

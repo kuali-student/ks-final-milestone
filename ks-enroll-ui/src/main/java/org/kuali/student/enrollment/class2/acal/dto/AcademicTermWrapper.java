@@ -57,6 +57,8 @@ public class AcademicTermWrapper {
 
     private String instructionalDayConfig = "cars";
 
+    private boolean makeOfficial;
+
     /**
      * This constructor sets all the default values.
      */
@@ -397,5 +399,17 @@ public class AcademicTermWrapper {
      */
     protected String _getInstructionalDayMessageTranslation(String dbText){
         return dbText;
+    }
+
+    /**
+     * Whether the term should be made official on save.
+     * @return
+     */
+    public boolean isMakeOfficial() {
+        return makeOfficial;
+    }
+
+    public void setMakeOfficial(boolean makeOfficial) {
+        this.makeOfficial = makeOfficial;
     }
 }

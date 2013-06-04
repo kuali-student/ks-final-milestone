@@ -76,6 +76,9 @@ limitations under the License.
             <list>
                 <ref bean="KS-AcademicCalendar-ConfirmDelete-Dialog"/>
                 <ref bean="KS-AcademicTerm-ConfirmDelete-Dialog"/>
+                <ref bean="KS-AcademicCalendar-ConfirmCalendarOfficial-Dialog"/>
+                <ref bean="KS-AcademicCalendar-ConfirmTermOfficial-Dialog"/>
+                <ref bean="KS-AcademicCalendar-ConfirmCalendarTermOfficial-Dialog"/>
             </list>
         </property>
     </bean>
@@ -99,6 +102,51 @@ limitations under the License.
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Delete"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AcademicCalendar-ConfirmCalendarOfficial-Dialog" parent="Uif-DialogGroup" >
+        <property name="renderHeader" value="true"/>
+        <property name="headerText" value="Confirm Official Status"/>
+        <property name="promptText"
+                  value="You are making @{academicCalendarInfo.name} official. This action cannot be undone and once a calendar is official you cannot delete it.
+                  &lt;br&gt; &lt;br&gt; If you do not want to make this calendar offical cancel this action and edit the status of the calendar."/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm Status Change"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AcademicCalendar-ConfirmTermOfficial-Dialog" parent="Uif-DialogGroup" >
+        <property name="renderHeader" value="true"/>
+        <property name="headerText" value="Confirm Official Status"/>
+        <property name="promptText"
+                  value="You are making @{makeOfficialName} official. This action cannot be undone and once a term is official you cannot delete it.
+                  &lt;br&gt; &lt;br&gt; If you do not want to make this term offical cancel this action and edit the status of the term."/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm Status Change"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AcademicCalendar-ConfirmCalendarTermOfficial-Dialog" parent="Uif-DialogGroup" >
+        <property name="renderHeader" value="true"/>
+        <property name="headerText" value="Confirm Official Status"/>
+        <property name="promptText"
+                  value="You are making @{makeOfficialName} official. Because the containing calendar must also be
+                  official - this will also make @{academicCalendarInfo.name} official This action cannot be undone and
+                  once a term is official you cannot delete it.
+                  &lt;br&gt; &lt;br&gt;
+                  If you do not want to make this term offical cancel this action and edit the status of the term."/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm Status Change"/>
                 <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>
