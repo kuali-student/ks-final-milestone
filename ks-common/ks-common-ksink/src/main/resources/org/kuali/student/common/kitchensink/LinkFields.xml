@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    
+    <!-- The Interesting Bits -->
+
+    <bean parent="Uif-LinkField"  id="KS-KitchenSink-Links-Text">
+        <property name="linkText" value="Kuali Foundation"/>
+        <property name="href" value="http://www.kuali.org"/>
+        <property name="target" value="_blank"/>
+    </bean>
+
+    <bean parent="Uif-LinkField"  id="KS-KitchenSink-Links-Text-Lightbox">
+        <!--<property name="label" value="This link opens in a lightbox"/>-->
+        <property name="linkText" value="Kuali Foundation in a Lightbox"/>
+        <property name="href" value="http://www.kuali.org"/>
+        <property name="target" value="_blank"/>
+        <property name="lightBox">
+            <bean parent="Uif-LightBox"/>
+        </property>
+    </bean>
+
+    <bean parent="Uif-LinkGroup"  id="KS-KitchenSink-Links-Group">
+        <!-- instructionalText doesn't look like a normal link label; mimic with instructionalMessage
+        <property name="instructionalText" value="LinkGroup with | delimiter, [ begin delimiter, and ] end delimiter"/>
+        -->
+        <!-- no label is desired, after all
+        <property name="instructionalMessage">
+            <bean parent="Uif-Message"
+                  p:style="font-weight:bold"
+                  p:messageText="LinkGroup with | delimiter, [ begin delimiter, and ] end delimiter:"/>
+        </property>
+        -->
+        <!-- remove begin and end delimiters
+        <property name="groupBeginDelimiter" value="["/>
+        <property name="groupEndDelimiter" value="]"/>
+        -->
+        <property name="linkSeparator" value="|"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionScript" value="alert('You clicked link #1');"/>
+                    <property name="actionLabel" value="Example ActionLink 1"/>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionScript" value="alert('You clicked link #2');"/>
+                    <property name="actionLabel" value="Example ActionLink 2"/>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionScript" value="alert('You clicked link #3');"/>
+                    <property name="actionLabel" value="Example ActionLink 3"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- currently not displayed -->
+    <bean parent="Uif-ActionField"  id="KS-KitchenSink-Links-Image">
+        <property name="actionScript" value="window.open('http://www.kuali.org','_blank');"/>
+        <property name="label" value="ActionField simulating an image link"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image"
+                  p:source="../ks-enroll-ksink/images/kuali_16px.gif"
+                  p:altText="Kuali Website" p:title="Kuali Website"/>
+        </property>
+    </bean>
+
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-Links-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Input Fields"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Link Fields">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        Standard text links to websites.
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-Links-Content"/>
+                            <ref bean="KS-KitchenSink-Links-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-KitchenSink-Links-Content" parent="KS-KitchenSink-TabSection">-->
+    <bean id="KS-KitchenSink-Links-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents" p:width="55em">
+        <!--p:style="border:solid 1px black;margin-bottom:0;padding:1em 1em 0.5em 1em;">-->
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Links-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Example #1 containers -->
+
+    <bean id="KS-KitchenSink-Links-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Links-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Links-Section" parent="KS-KitchenSink-VerticalBoxSection"
+          p:headerText="Link fields" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Links-Text"/>
+                <ref bean="KS-KitchenSink-Links-Text-Lightbox"/>
+                <ref bean="KS-KitchenSink-Links-Group"/>
+                <!--<ref bean="KS-KitchenSink-Links-Image"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-Links-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/LinkFields.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/LinkFields.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifFieldDefinitions.xml (Uif-LinkField)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                        <entry key="UifGroupDefinitions.xml (Uif-LinkGroup)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifGroupDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="LinkField.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/LinkField.java"/>
+                                        <entry key="LinkGroup.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/container/LinkGroup.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="LinkField.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/field/LinkField.html"/>
+                                        <entry key="LinkGroup.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/container/LinkGroup.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Link and Link Field"
+                                               value="http://site.kuali.org/rice/2.2.0/reference/html/KRAD_Guide.html#linkAndLinkField"/>
+                                        <entry key="Link Group"
+                                               value="http://site.kuali.org/rice/2.2.0/reference/html/KRAD_Guide.html#d6766e7692"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Link Fields"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Links-View-Bare&amp;methodToCall=start"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

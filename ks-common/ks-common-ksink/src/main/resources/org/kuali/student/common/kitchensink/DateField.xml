@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2005-2012 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- The Interesting Bits -->
+
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-DateField-Example1">
+        <property name="propertyName" value="dateField"/>
+        <property name="label" value="Date Field"/>
+        <property name="instructionalText" value="Please select a date"/>
+        <property name="constraintText" value="Constraint text can go here"/>
+        <property name="helpSummary" value="Additional help or information for this field can go here."/>
+        <property name="control">
+            <bean parent="Uif-DateControl">
+                <property name="watermarkText" value="mm/dd/yyyy"/>
+                <!-- jQuery datepicker documentation: http://jqueryui.com/datepicker/ -->
+                <property name="datePicker.templateOptions">
+                    <map>
+                        <entry key="showOn" value="both"/>
+                        <entry key="buttonImageOnly" value="true"/>
+                        <entry key="showAnim" value="fadeIn"/>
+                        <entry key="showButtonPanel" value="false"/>
+                        <entry key="changeMonth" value="false"/>
+                        <entry key="changeYear" value="true"/>
+                        <entry key="numberOfMonths" value="1"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="BasicDatePatternConstraint" />
+        </property>
+    </bean>
+
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-DateField-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Input Fields"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Date Text Field">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        A simple input field for entering a date into a form.
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-DateField-Content"/>
+                            <ref bean="KS-KitchenSink-DateField-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-KitchenSink-DateField-Content" parent="KS-KitchenSink-TabSection">-->
+    <bean id="KS-KitchenSink-DateField-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-DateField-Example1-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Uif-InputField with a date control and some datepicker options set."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Example #1 containers -->
+
+    <bean id="KS-KitchenSink-DateField-Example1-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-DateField-Example1-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-DateField-Example1-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Text Field" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-DateField-Example1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-DateField-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/DateField.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/DateField.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup" p:label="jQuery Datepicker Reference">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="http://jqueryui.com/datepicker/"
+                                               value="http://jqueryui.com/datepicker/"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifFieldDefinitions.xml (Uif-InputField)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                        <entry key="UifControlDefinitions.xml (Uif-TextControl)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                        <entry key="TextControl.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/TextControl.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                        <entry key="TextControl.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/control/TextControl.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField"
+                                               value="http://site.kuali.org/rice/2.2.0/reference/html/KRAD_Guide.html#d6766e4967"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Date Text Field"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-DateField-Example1-View-Bare&amp;methodToCall=start"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -10,6 +10,16 @@
     <name>KS Common Util</name>
     <dependencies>
         <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-common-api</artifactId>
+            <version>${ks.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-core-api</artifactId>
+            <version>${ks.api.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
         </dependency>

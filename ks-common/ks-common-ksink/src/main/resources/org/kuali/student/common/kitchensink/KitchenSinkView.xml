@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- test start
+      <bean id="KS-Uif-TableCollectionSection" parent="KS-KitchenSink-Collection-Base">
+          <property name="layoutManager">
+              <bean parent="Uif-TableCollectionLayout-parentBean">
+                  <property name="richTable">
+                      <bean parent="Uif-RichTable-parentBean"
+                            class="org.kuali.student.enrollment.kitchensink.uif.TestRichTable">
+                          <property name="template" value="/ks-enroll-ksink/ftl/ksRichTable.ftl"/>
+                          <property name="templateName" value="ks_uif_richTable"/>
+                          <property name="selectableRows" value="true"/>
+                      </bean>
+                  </property>
+              </bean>
+          </property>
+      </bean>
+  test end -->
+
+    <!-- View definitions -->
+
+    <bean id="KS-KitchenSink-FormView" parent="KS-Uif-FormView" abstract="true">
+        <property name="formClass" value="org.kuali.student.common.kitchensink.KitchenSinkForm"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.common.kitchensink.KitchenSinkHelper"/>
+        <!--<property name="header.render" value="false"/>-->
+        <property name="footer.render" value="false"/>
+        <property name="applyDirtyCheck" value="false"/>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll-ksink/css/kitchensink.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll-ksink/scripts/kitchensink.js</value>
+            </list>
+        </property>
+        <!-- onSubmitScript returning false causes problems with Uif-DialogGroup -->
+        <!--<property name="onSubmitScript" value="alert('form submit canceled');return false;"/>-->
+        <!--<property name="onSubmitScript" value="return false;"/>-->
+    </bean>
+
+    <bean id="KS-KitchenSink-FormView-Bare" parent="KS-KitchenSink-FormView" abstract="true">
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-ks-kitchensink-marginTop</value>
+            </list>
+        </property>
+        <!-- -->
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll-ksink/scripts/crossdomain.js</value>
+            </list>
+        </property>
+        <!-- -->
+    </bean>
+
+    <bean id="KS-KitchenSink-InquiryView-NoHeaderButtons" parent="KS-Uif-InquiryView">
+        <property name="page">
+            <bean parent="Uif-InquiryPage">
+                <property name="header">
+                    <bean parent="Uif-ReadOnlyPageHeader">
+                        <property name="lowerGroup">
+                            <!-- prevents Expand/Collapse All buttons from showing -->
+                            <null/>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <!-- Page definitions -->
+
+    <bean id="KS-KitchenSink-Page" parent="Uif-Page" abstract="true">
+        <property name="header.style" value="border-bottom:solid 1px black"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Page-Bare" parent="Uif-Page" abstract="true"/>
+
+
+    <!-- Collection definitions -->
+
+    <bean id="KS-KitchenSink-Collection-Base" parent="Uif-TableCollectionSection" abstract="true">
+        <property name="propertyName" value="collection"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.common.kitchensink.KitchenSinkFormCollection1"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink">
+                    <property name="methodToCall" value="deleteLine"/>
+                    <property name="actionLabel" value="delete"/>
+                </bean>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField">
+                    <property name="propertyName" value="id"/>
+                    <property name="label" value="ID"/>
+                    <property name="width" value="5"/>
+                </bean>
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="name"/>
+                    <property name="label" value="Name"/>
+                    <property name="required" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="size" value="15"/>
+                        </bean>
+                    </property>
+                </bean>
+                <!-- per KSENROLL-3738
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="description"/>
+                    <property name="label" value="Description"/>
+                    <property name="required" value="true"/>
+                </bean>
+                -->
+                <bean parent="Uif-InputField">
+                    <property name="propertyName" value="date"/>
+                    <property name="label" value="Date"/>
+                    <property name="required" value="true"/>
+                    <property name="control">
+                        <bean parent="Uif-DateControl">
+                            <property name="watermarkText" value="mm/dd/yyyy"/>
+                            <property name="size" value="10"/>
+                        </bean>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Collection-Base-ReadOnly" parent="KS-KitchenSink-Collection-Base" abstract="true">
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="id" p:label="ID"/>
+                <bean parent="Uif-DataField" p:propertyName="name" p:label="Name"/>
+                <bean parent="Uif-DataField" p:propertyName="description" p:label="Description"/>
+                <bean parent="Uif-DataField" p:propertyName="date" p:label="Date"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionLabel="view" p:actionScript="alert('View!');"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="edit" p:actionScript="alert('Edit!');"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="delete" p:actionScript="alert('Exterminate!');"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- Miscellaneous definitions -->
+
+    <bean id="KS-KitchenSink-Page-Summary" parent="Uif-Message" abstract="true"
+          p:style="margin-bottom:1em;font-size:125%"/>
+
+    <bean id="KS-KitchenSink-Page-Links" parent="Uif-VerticalBoxSection" abstract="true"
+          p:style="margin-top:2em;margin-bottom:0;"/>
+
+    <bean id="KS-KitchenSink-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true"
+          p:style="margin-bottom:0;"/>
+    <bean id="KS-KitchenSink-VerticalBoxSection-Contents" parent="Uif-VerticalBoxSection" abstract="true"
+          p:header.render="false" p:width="45em"
+          p:style="border:solid 1px black;margin-bottom:0;padding:0.5em 1em 0.5em 1em;" />
+
+    <bean id="KS-KitchenSink-TabSection" parent="Uif-TabSection" p:style="margin-bottom:0;" p:width="45em"/>
+
+    <bean id="KS-KitchenSink-Group-UimLinks" parent="Uif-HorizontalFieldGroup" abstract="true"
+          p:style="border-top:solid 1px #333333;margin-bottom:0;padding-top:0.5em;"/>
+
+    <bean id="KS-KitchenSink-MessageField" parent="Uif-MessageField" p:style="margin-bottom:0"/>
+
+    <bean id="KS-KitchenSink-Link-To-Guide" parent="KS-KitchenSink-LinkField-Base" abstract="true"
+          p:label="KRAD Guide"/>
+    <bean id="KS-KitchenSink-Link-To-Source" parent="KS-KitchenSink-LinkField-Base" abstract="true"
+          p:label="Page Configuration"/>
+    <bean id="KS-KitchenSink-Link-To-KRAD-XML-Source" parent="KS-KitchenSink-LinkField-Base" abstract="true"
+          p:label="KRAD XML Configuration"/>
+    <bean id="KS-KitchenSink-Link-To-KRAD-Java-Source" parent="KS-KitchenSink-LinkField-Base" abstract="true"
+          p:label="KRAD Java Source"/>
+    <bean id="KS-KitchenSink-Link-To-KRAD-API" parent="KS-KitchenSink-LinkField-Base" abstract="true"
+          p:label="KRAD Java API"/>
+    <bean id="KS-KitchenSink-LinkField-Base" parent="Uif-LinkField" abstract="true">
+        <property name="target" value="_blank"/>
+        <property name="finalizeMethodToCall" value="setSourceLinkText"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Link-To-Bare" parent="Uif-LinkField" abstract="true">
+        <property name="label" value="Widget-Only Link (UIM)"/>
+        <property name="target" value="_blank"/>
+        <property name="style" value="border-top:solid 1px #333333;padding-top:0.5em;"/>
+        <property name="finalizeMethodToCall" value="setDirectLinkUrl"/>
+        <!-- pass a the 3rd "methodToCall" param to setDirectLinkUrl() method:
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>buttons</value>
+            </list>
+        </property>
+        -->
+    </bean>
+
+    <!-- for KitchenSinkFooterLinkSection -->
+    <bean id="KS-KitchenSink-FooterLinkSection" parent="KS-KitchenSink-FooterLinkSection-parentBean"/>
+    <bean id="KS-KitchenSink-FooterLinkSection-parentBean" parent="Uif-WidgetBase" abstract="true"
+          class="org.kuali.student.common.kitchensink.uif.KitchenSinkFooterLinkSection" scope="prototype">
+        <property name="template" value="/ks-enroll-ksink/ftl/ksKitchensinkFooterLinks.ftl"/>
+        <property name="templateName" value="uif_ksKitchensinkFooterLinks"/>
+    </bean>
+    <bean id="KS-KitchenSink-FooterLinkGroup" parent="KS-KitchenSink-FooterLinkGroup-parentBean"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-parentBean" abstract="true"
+          class="org.kuali.student.common.kitchensink.uif.KitchenSinkFooterLinkGroup"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-PageXml" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="Page Configuration"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-KradXml" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="KRAD XML Configuration"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-KradJava" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="KRAD Java Source"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-KradJavaApi" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="KRAD Java API"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-KradGuide" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="KRAD Guide"/>
+    <bean id="KS-KitchenSink-FooterLinkGroup-UIM" parent="KS-KitchenSink-FooterLinkGroup"
+          p:label="UIM Widget-Only Links" p:style="border-top:solid 1px #333333;padding-top:0.5em;"/>
+
+</beans>
