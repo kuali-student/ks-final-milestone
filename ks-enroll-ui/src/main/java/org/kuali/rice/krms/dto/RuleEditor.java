@@ -18,11 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2012/12/03
- * Time: 3:45 PM
- * To change this template use File | Settings | File Templates.
+ *
+ * @author Kuali Student Team
  */
 public class RuleEditor extends UifFormBase implements RuleDefinitionContract, Serializable {
 
@@ -63,6 +60,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     //Rule Instruction
     private RuleTypeInfo ruleTypeInfo;
+    private RuleEditor parent;
 
     public RuleEditor() {
         super();
@@ -113,6 +111,10 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public PropositionEditor getPropositionEditor(){
+        return proposition;
     }
 
     public void setProposition(PropositionEditor proposition) {
@@ -316,5 +318,13 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setRuleTypeInfo(RuleTypeInfo ruleTypeInfo) {
         this.ruleTypeInfo = ruleTypeInfo;
+    }
+
+    public RuleEditor getParent() {
+        return parent;
+    }
+
+    public void setParent(RuleEditor parent) {
+        this.parent = parent;
     }
 }

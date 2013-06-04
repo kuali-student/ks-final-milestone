@@ -197,14 +197,14 @@
                 <property name="dataGroupPrototype">
                     <bean parent="Uif-GroupBase" p:style="margin-left: 2em;">
                         <property name="layoutManager">
-                            <bean parent="Uif-BoxLayoutBase" p:style="display: table; width: 750px; margin: 0px;"/>
+                            <bean parent="Uif-BoxLayoutBase" p:style="display: table; width: 750px; margin: 1px;"/>
                         </property>
                         <property name="items">
                             <list>
                                 <bean parent="Uif-MessageField" p:messageText="@{#np.original}"
-                                      p:style="display: table-cell; width: 350px; margin: 0px;"/>
+                                      p:style="display: table-cell; width: 350px; margin: 1px;"/>
                                 <bean parent="Uif-MessageField" p:messageText="@{#np.compared}"
-                                      p:style="display: table-cell; width: 350px; margin: 0px;"/>
+                                      p:style="display: table-cell; width: 350px; margin: 1px;"/>
                             </list>
                         </property>
                     </bean>

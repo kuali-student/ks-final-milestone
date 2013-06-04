@@ -13,11 +13,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Peggy
- * Date: 2/4/13
- * Time: 3:26 PM
- * To change this template use File | Settings | File Templates.
+ * This is a helper class to build the view tree to be displayed on the manage requisites page on the ui to display
+ * a readonly tree of the rule.
+ *
+ * @author Kuali Student Team
  */
 public class RuleViewTreeBuilder extends AbstractTreeBuilder {
 
@@ -37,11 +36,9 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
             return myTree;
         }
 
-        PropositionEditor prop = (PropositionEditor) rule.getProposition();
+        if (rule.getPropositionEditor() != null) {
 
-        if (prop != null) {
-
-            buildPreviewTree(rule, rootNode, prop);
+            buildPreviewTree(rule, rootNode, rule.getPropositionEditor());
 
             //Underline the first node in the preview.
             if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {

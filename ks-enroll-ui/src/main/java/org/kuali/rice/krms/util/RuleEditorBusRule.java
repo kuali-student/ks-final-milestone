@@ -64,13 +64,6 @@ public class RuleEditorBusRule extends MaintenanceDocumentRuleBase {
             }
         }
 
-        // fail and complain if the person has selected a new object with keys that already exist
-        // in the DB.
-        else if (document.isNew()) {
-
-            // TODO: check for valid primary keys.
-        }
-
         return success;
     }
 

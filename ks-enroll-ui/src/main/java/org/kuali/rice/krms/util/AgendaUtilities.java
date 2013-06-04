@@ -3,9 +3,11 @@ package org.kuali.rice.krms.util;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 
+import java.util.List;
 import java.util.Map;
 
 /**

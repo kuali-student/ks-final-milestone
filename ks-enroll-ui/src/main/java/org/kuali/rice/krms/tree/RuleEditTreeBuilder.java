@@ -21,11 +21,8 @@ import org.kuali.student.enrollment.class2.courseoffering.service.decorators.Per
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Peggy
- * Date: 2/4/13
- * Time: 3:26 PM
- * To change this template use File | Settings | File Templates.
+ *
+ * @author Kuali Student Team
  */
 public class RuleEditTreeBuilder extends AbstractTreeBuilder{
 
@@ -40,10 +37,8 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
 
         myTree.setRootElement(rootNode);
 
-        PropositionEditor prop = (PropositionEditor) rule.getProposition();
-
-        if (prop != null){
-            Node firstNode = addChildNode(rule, rootNode, prop);
+        if (rule.getPropositionEditor() != null){
+            Node firstNode = addChildNode(rule, rootNode, rule.getPropositionEditor());
             firstNode.setNodeType(firstNode.getNodeType() + " " + RuleEditorTreeNode.ROOT_TYPE);
         }
 

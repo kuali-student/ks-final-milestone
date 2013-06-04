@@ -66,9 +66,9 @@ import javax.xml.namespace.QName;
 import java.util.*;
 
 /**
- * {@link org.kuali.rice.krad.maintenance.Maintainable} for the {@link org.kuali.rice.krms.impl.ui.AgendaEditor}
+ * {@link org.kuali.rice.krad.maintenance.Maintainable} for the {@link org.kuali.student.rice.krms.impl.ui.AgendaEditor}
  *
- * @author Kuali Rice Team (rice.collab@kuali.org)
+ * @author Kuali Student Team (rice.collab@kuali.org)
  */
 public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements RuleEditorMaintainable {
 
@@ -147,9 +147,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
-        AgendaEditor agendaEditor = new AgendaEditor(agenda);
-
-        return agendaEditor;
+        return new AgendaEditor(agenda);
     }
 
     public Map<String, RuleEditor> getRulesForAgendas(AgendaEditor agenda) {
@@ -204,7 +202,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
                 if (agendaItem.getRule() != null) {
                     RuleEditor ruleEditor = new RuleEditor(agendaItem.getRule());
-                    this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
+                    this.initPropositionEditor(ruleEditor.getPropositionEditor());
                     ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
                     rules.add(ruleEditor);
                 }
@@ -415,9 +413,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     protected RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
         // handle saving new parameterized terms
-        PropositionEditor proposition = (PropositionEditor) rule.getProposition();
-        if (proposition != null) {
-            this.finPropositionEditor(proposition);
+        if (rule.getPropositionEditor() != null) {
+            this.finPropositionEditor(rule.getPropositionEditor());
         }
 
         if (rule.getNamespace() == null) {
@@ -439,15 +436,15 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
             //Set the default operation and value
             TemplateInfo template = this.getTemplateRegistry().getTemplateForType(propositionEditor.getType());
-            propositionEditor.getParameters().get(2).setValue(template.getOperator());
+            PropositionTreeUtil.getOperatorParameter(propositionEditor.getParameters()).setValue(template.getOperator());
 
             if (!"n".equals(template.getValue())) {
-                propositionEditor.getParameters().get(1).setValue(template.getValue());
+                PropositionTreeUtil.getConstantParameter(propositionEditor.getParameters()).setValue(template.getValue());
             }
 
             if (propositionEditor.getTerm() != null) {
                 TermDefinition.Builder termBuilder = TermDefinition.Builder.create(propositionEditor.getTerm());
-                propositionEditor.getParameters().get(0).setTermValue(termBuilder.build());
+                PropositionTreeUtil.getTermParameter(propositionEditor.getParameters()).setTermValue(termBuilder.build());
             }
 
         } else {
@@ -489,9 +486,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         Map<String, String> termParameters = new HashMap<String, String>();
         if (proposition.getTerm() == null) {
-            if (proposition.getParameters().get(0) != null) {
+            PropositionParameterEditor termParameter = PropositionTreeUtil.getTermParameter(proposition.getParameters());
+            if (termParameter != null) {
 
-                PropositionParameterEditor termParameter = proposition.getParameters().get(0);
                 if (termParameter.getTermValue() == null) {
                     proposition.setTerm(new TermEditor());
                 } else {

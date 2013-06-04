@@ -16,11 +16,8 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2013/02/12
- * Time: 2:31 PM
- * To change this template use File | Settings | File Templates.
+ *
+ * @author Kuali Student Team
  */
 public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
 
@@ -45,8 +42,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
             return myTree;
         }
 
-        PropositionEditor prop = (PropositionEditor) rule.getProposition();
-        buildPreviewTree(rule, rootNode, prop);
+        buildPreviewTree(rule, rootNode, rule.getPropositionEditor());
 
         //Underline the first node in the preview.
         if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {

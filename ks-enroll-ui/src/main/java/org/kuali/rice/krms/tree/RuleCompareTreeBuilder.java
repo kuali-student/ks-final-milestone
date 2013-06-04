@@ -1,11 +1,9 @@
 package org.kuali.rice.krms.tree;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
@@ -14,11 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Peggy
- * Date: 2/4/13
- * Time: 3:26 PM
- * To change this template use File | Settings | File Templates.
+ * Build a tree to display to different rules next to each other.
+ *
+ * Used on the compare lightbox in KRMS.
+ *
+ * @author Kuali Student Team
  */
 public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
 
@@ -46,8 +44,14 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
             Node<CompareTreeNode, String> childNode = firstNode.getChildren().get(0);
             if(childNode.getData() != null){
                 CompareTreeNode compareTreeNode = childNode.getData();
-                compareTreeNode.setOriginal(compareTreeNode.getOriginal() + ":");
-                compareTreeNode.setCompared(compareTreeNode.getCompared() + ":");
+
+                if(!compareTreeNode.getOriginal().trim().isEmpty()){
+                    compareTreeNode.setOriginal(compareTreeNode.getOriginal() + ":");
+                }
+
+                if(!compareTreeNode.getCompared().trim().isEmpty()){
+                    compareTreeNode.setCompared(compareTreeNode.getCompared() + ":");
+                }
             }
         }
 

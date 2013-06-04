@@ -2,6 +2,7 @@ package org.kuali.rice.krms.util;
 
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.dto.PropositionEditor;
@@ -16,11 +17,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2012/12/03
- * Time: 4:39 PM
- * To change this template use File | Settings | File Templates.
+ * Utility class with common functionality on the proposition tree.
+ *
+ * @author Kuali Student Team
  */
 public class PropositionTreeUtil {
 
@@ -223,9 +222,9 @@ public class PropositionTreeUtil {
 
     public static List<PropositionParameterEditor> createParameterList() {
         // create blank proposition parameters
-        PropositionParameterEditor pTerm = new PropositionParameterEditor("T", new Integer("0"));
-        PropositionParameterEditor pOp = new PropositionParameterEditor("O", new Integer("2"));
-        PropositionParameterEditor pConst = new PropositionParameterEditor("C", new Integer("1"));
+        PropositionParameterEditor pTerm = new PropositionParameterEditor(PropositionParameterType.TERM.getCode(), new Integer("0"));
+        PropositionParameterEditor pOp = new PropositionParameterEditor(PropositionParameterType.OPERATOR.getCode(), new Integer("2"));
+        PropositionParameterEditor pConst = new PropositionParameterEditor(PropositionParameterType.CONSTANT.getCode(), new Integer("1"));
 
         return Arrays.asList(pTerm, pConst, pOp);
     }
@@ -304,5 +303,56 @@ public class PropositionTreeUtil {
                 resetNewProp(child);
             }
         }
+    }
+
+    /**
+     * Returns the first parameter of type term in the list.
+     *
+     * @param parameters
+     * @return
+     */
+    public static PropositionParameterEditor getTermParameter(List<PropositionParameterEditor> parameters){
+        return getParameterForType(parameters, PropositionParameterType.TERM);
+    }
+
+    /**
+     * Returns the first parameter of type constant in the list.
+     *
+     * @param parameters
+     * @return
+     */
+    public static PropositionParameterEditor getConstantParameter(List<PropositionParameterEditor> parameters){
+        return getParameterForType(parameters, PropositionParameterType.CONSTANT);
+    }
+
+    /**
+     * Returns the first parameter of type operator in the list.
+     *
+     * @param parameters
+     * @return
+     */
+    public static PropositionParameterEditor getOperatorParameter(List<PropositionParameterEditor> parameters){
+        return getParameterForType(parameters, PropositionParameterType.OPERATOR);
+    }
+
+    /**
+     * Returns the first parameter of the given type in the list.
+     *
+     * @param parameters
+     * @param type
+     * @return
+     */
+    public static PropositionParameterEditor getParameterForType(List<PropositionParameterEditor> parameters, PropositionParameterType type){
+
+        if(parameters==null){
+            return null;
+        }
+
+        for(PropositionParameterEditor parameter : parameters){
+            if (type.getCode().equals(parameter.getParameterType())){
+                return parameter;
+            }
+        }
+        return null;
     }
 }

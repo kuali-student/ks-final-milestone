@@ -42,17 +42,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2013/02/04
- * Time: 9:34 AM
- * To change this template use File | Settings | File Templates.
+ * Overridden class to handle CO specific maintainable functionality.
+ *
+ * @author Kuali Student Team
  */
 public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     private transient CluService cluService;
     private transient AtpService atpService;
     private transient CourseOfferingService courseOfferingService;
+
+    private RuleViewTreeBuilder viewTreeBuilder;
+    private NaturalLanguageHelper nlHelper;
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -106,22 +107,26 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         return dataObject;
     }
 
+    @Override
     public String getViewTypeName() {
         return "kuali.krms.agenda.type.course";
     }
 
+    /**
+     * This method was overriden from the RuleEditorMaintainableImpl to create an EnrolAgendaEditor instead of
+     * an AgendaEditor.
+     *
+     * @param agendaId
+     * @return EnrolAgendaEditor.
+     */
+    @Override
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
-        AgendaEditor agendaEditor = new EnrolAgendaEditor(agenda);
-
-        return agendaEditor;
+        return new EnrolAgendaEditor(agenda);
     }
 
+    @Override
     protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries) {
-
-        //Create NLHelper to populate Natural language on propositions.
-        NaturalLanguageHelper nlHelper = new NaturalLanguageHelper();
-        nlHelper.setRuleManagementService(this.getRuleManagementService());
 
         List<RuleEditor> rules = new ArrayList<RuleEditor>();
         for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
@@ -135,9 +140,8 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     RuleEditor ruleEditor = new EnrolRuleEditor(agendaItem.getRule());
 
                     //Initialize the Proposition tree
-                    PropositionEditor rootProposition = (PropositionEditor) ruleEditor.getProposition();
-                    this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
-                    nlHelper.setNaturalLanguageTreeForUsage(rootProposition, this.getViewTreeBuilder().getNaturalLanguageUsageKey());
+                    this.initPropositionEditor(ruleEditor.getPropositionEditor());
+                    this.getNLHelper().setNaturalLanguageTreeForUsage(ruleEditor.getPropositionEditor(), this.getViewTreeBuilder().getNaturalLanguageUsageKey());
                     ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
 
                     //Add rule to list on agenda
@@ -156,9 +160,19 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     }
 
     protected RuleViewTreeBuilder getViewTreeBuilder(){
-        RuleViewTreeBuilder viewTreeBuilder = new EnrolRuleViewTreeBuilder();
-        viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        if(this.viewTreeBuilder == null){
+            viewTreeBuilder = new EnrolRuleViewTreeBuilder();
+            viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        }
         return viewTreeBuilder;
+    }
+
+    protected NaturalLanguageHelper getNLHelper(){
+        if(this.nlHelper == null){
+            nlHelper = new NaturalLanguageHelper();
+            nlHelper.setRuleManagementService(this.getRuleManagementService());
+        }
+        return nlHelper;
     }
 
     protected CluService getCluService() {

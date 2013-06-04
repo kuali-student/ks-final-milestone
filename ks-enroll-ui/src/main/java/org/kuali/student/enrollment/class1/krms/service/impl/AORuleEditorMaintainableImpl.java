@@ -32,16 +32,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2013/02/04
- * Time: 9:34 AM
- * To change this template use File | Settings | File Templates.
+ *
+ * @author Kuali Student Team
  */
 public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     private transient CluService cluService;
     private transient CourseOfferingService courseOfferingService;
+
+    private RuleViewTreeBuilder viewTreeBuilder;
+    private NaturalLanguageHelper nlHelper;
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -86,6 +86,13 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         return "kuali.krms.agenda.type.course";
     }
 
+    /**
+     * This method was overriden from the RuleEditorMaintainableImpl to create an EnrolAgendaEditor instead of
+     * an AgendaEditor.
+     *
+     * @param agendaId
+     * @return EnrolAgendaEditor.
+     */
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
         AgendaEditor agendaEditor = new EnrolAgendaEditor(agenda);
@@ -93,6 +100,14 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         return agendaEditor;
     }
 
+    /**
+     * Retrieves all the rules from the agenda tree and create a list of ruleeditor objects.
+     *
+     * Also initialize the proposition editors for each rule recursively and set natural language for the view trees.
+     *
+     * @param agendaTreeEntries
+     * @return
+     */
     protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries) {
 
         //Create NLHelper to populate Natural language on propositions.
@@ -111,9 +126,8 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     RuleEditor ruleEditor = new EnrolRuleEditor(agendaItem.getRule());
 
                     //Initialize the Proposition tree
-                    PropositionEditor rootProposition = (PropositionEditor) ruleEditor.getProposition();
-                    this.initPropositionEditor((PropositionEditor) ruleEditor.getProposition());
-                    nlHelper.setNaturalLanguageTreeForUsage(rootProposition, this.getViewTreeBuilder().getNaturalLanguageUsageKey());
+                    this.initPropositionEditor(ruleEditor.getPropositionEditor());
+                    nlHelper.setNaturalLanguageTreeForUsage(ruleEditor.getPropositionEditor(), this.getViewTreeBuilder().getNaturalLanguageUsageKey());
                     ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
 
                     //Add rule to list on agenda
@@ -132,9 +146,19 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     }
 
     protected RuleViewTreeBuilder getViewTreeBuilder(){
-        RuleViewTreeBuilder viewTreeBuilder = new EnrolRuleViewTreeBuilder();
-        viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        if(this.viewTreeBuilder == null){
+            viewTreeBuilder = new EnrolRuleViewTreeBuilder();
+            viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        }
         return viewTreeBuilder;
+    }
+
+    protected NaturalLanguageHelper getNLHelper(){
+        if(this.nlHelper == null){
+            nlHelper = new NaturalLanguageHelper();
+            nlHelper.setRuleManagementService(this.getRuleManagementService());
+        }
+        return nlHelper;
     }
 
     protected CluService getCluService() {

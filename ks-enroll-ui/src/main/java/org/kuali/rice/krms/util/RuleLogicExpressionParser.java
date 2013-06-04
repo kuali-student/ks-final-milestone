@@ -119,9 +119,7 @@ public class RuleLogicExpressionParser {
         Stack<ExpressionToken> operatorStack = new Stack<ExpressionToken>();
 
         for (ExpressionToken token : nodeList) {
-            if (token.type == ExpressionToken.Condition) {
-                //do nothing
-            } else if (token.type == ExpressionToken.EndParenthesis) {
+            if (token.type == ExpressionToken.EndParenthesis) {
                 ExpressionToken operator = operatorStack.pop();
 
                 //Check if first type is a OR or a AND
@@ -138,7 +136,7 @@ public class RuleLogicExpressionParser {
 
                     operatorStack.pop();// pop the (
                 }
-            } else {
+            } else if (token.type != ExpressionToken.Condition){
                 operatorStack.push(token);
             }
         }
@@ -335,8 +333,7 @@ public class RuleLogicExpressionParser {
 
     public PropositionEditor parseExpressionIntoRule(RuleEditor ruleEditor) {
 
-        PropositionEditor oldEditor = (PropositionEditor) ruleEditor.getProposition();
-        List<PropositionEditor> rcs = this.getPropositions(new ArrayList<PropositionEditor>(), oldEditor);
+        List<PropositionEditor> rcs = this.getPropositions(new ArrayList<PropositionEditor>(), ruleEditor.getPropositionEditor());
 
         Queue<ExpressionToken> rpnList = getRPN(tokenList);
         return ruleFromRPN(rpnList, rcs);

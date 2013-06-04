@@ -1,13 +1,5 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
-/**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2013/02/26
- * Time: 3:30 PM
- * To change this template use File | Settings | File Templates.
- */
-
 import org.junit.Test;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
@@ -51,7 +43,7 @@ public class TestRuleLogicExpressionParser {
         RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
 
         RuleEditor rule = this.getFirstRuleEditor();
-        String origExp = PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition());
+        String origExp = PropositionTreeUtil.configureLogicExpression(rule.getPropositionEditor());
         assertEquals(origExp, "A(B(C OR D) AND E)");
 
         //Build the expression:
@@ -67,7 +59,7 @@ public class TestRuleLogicExpressionParser {
         RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
 
         RuleEditor rule = this.getSecondRuleEditor();
-        String origExp = PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition());
+        String origExp = PropositionTreeUtil.configureLogicExpression(rule.getPropositionEditor());
         assertEquals("A(C AND D AND E)", origExp);
 
         //Build the expression:
@@ -83,7 +75,7 @@ public class TestRuleLogicExpressionParser {
         RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
 
         RuleEditor rule = this.getSecondRuleEditor();
-        String origExp = PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition());
+        String origExp = PropositionTreeUtil.configureLogicExpression(rule.getPropositionEditor());
         assertEquals("A(C AND D AND E)", origExp);
 
         //Build the expression:
@@ -100,7 +92,7 @@ public class TestRuleLogicExpressionParser {
         RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
 
         RuleEditor rule = this.getThirdRuleEditor();
-        String origExp = PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition());
+        String origExp = PropositionTreeUtil.configureLogicExpression(rule.getPropositionEditor());
         assertEquals(origExp, "A(F AND B(C OR D) AND E)");
 
         //Build the expression:

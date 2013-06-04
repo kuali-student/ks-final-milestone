@@ -8,29 +8,29 @@ import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
-import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.builder.ComponentBuilder;
-import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
-import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
@@ -42,32 +42,25 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleEditTreeBuilder;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
-import org.kuali.rice.krms.util.AgendaBuilder;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.RuleViewHelperService;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
-import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeanWrapper;
-import org.springframework.beans.BeanWrapperImpl;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2012/12/04
- * Time: 11:52 AM
- * To change this template use File | Settings | File Templates.
+ * Helpers Service for the Rule Pages.
+ *
+ * @author Kuali Student Team
  */
 public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implements RuleViewHelperService {
 
@@ -138,10 +131,9 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
 
         //Do not display if there are no components.
-        if(components.size()==0){
+        if (components.size() == 0) {
             container.setRender(false);
-        }
-        else {
+        } else {
             container.setRender(true);
         }
 
@@ -177,7 +169,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     public String resetDescription(PropositionEditor prop) {
 
         //If proposition type is null, set description and term null
-        if(prop.getType() == null) {
+        if (prop.getType() == null) {
             prop.setDescription(StringUtils.EMPTY);
             prop.setTerm(null);
             prop.getNaturalLanguage().clear();
@@ -221,7 +213,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             prop.getTerm().setParameters(parameters);
 
             //Set the term specification if it doesn't exist.
-            if(prop.getTerm().getSpecification()==null){
+            if (prop.getTerm().getSpecification() == null) {
                 String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(prop.getType());
                 prop.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KsKrmsConstants.NAMESPACE_CODE));
             }
@@ -257,7 +249,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
                 proposition.setType(type.getName());
             }
 
-            if (proposition.getTerm() == null){
+            if (proposition.getTerm() == null) {
                 proposition.setTerm(new TermEditor());
             }
 
@@ -265,160 +257,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             proposition.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KsKrmsConstants.NAMESPACE_CODE));
 
         }
-    }
-
-    /**
-     * Validate the given proposition and its children.  Note that this method is side-effecting,
-     * when errors are detected with the proposition, errors are added to the error map.
-     *
-     * @param proposition the proposition to validate
-     * @param namespace   the namespace of the parent rule
-     * @return true if the proposition and its children (if any) are considered valid
-     */
-    // TODO also wire up to proposition for faster feedback to the user
-    public boolean validateProposition(PropositionEditor proposition, String namespace) {
-        boolean result = true;
-
-        if (proposition != null) { // Null props are allowed.
-
-            if (StringUtils.isBlank(proposition.getCompoundOpCode())) {
-                // then this is a simple proposition, validate accordingly
-
-                result &= validateSimpleProposition(proposition, namespace);
-
-            } else {
-                // this is a compound proposition (or it should be)
-                List<PropositionEditor> compoundComponents = proposition.getCompoundEditors();
-
-                if (!CollectionUtils.isEmpty(proposition.getParameters())) {
-                    GlobalVariables.getMessageMap().putError(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                            "error.rule.proposition.compound.invalidParameter", proposition.getDescription());
-                    result &= false;
-                }
-
-                // recurse
-                if (!CollectionUtils.isEmpty(compoundComponents))
-                    for (PropositionEditor childProp : compoundComponents) {
-                        result &= validateProposition(childProp, namespace);
-                    }
-            }
-        }
-
-        return result;
-    }
-
-    /**
-     * Validate the given simple proposition.  Note that this method is side-effecting,
-     * when errors are detected with the proposition, errors are added to the error map.
-     *
-     * @param proposition the proposition to validate
-     * @param namespace   the namespace of the parent rule
-     * @return true if the proposition is considered valid
-     */
-    private boolean validateSimpleProposition(PropositionEditor proposition, String namespace) {
-        boolean result = true;
-
-        String propConstant = null;
-        if (proposition.getParameters().get(1) != null) {
-            propConstant = proposition.getParameters().get(1).getValue();
-        }
-        String operator = null;
-        if (proposition.getParameters().get(2) != null) {
-            operator = proposition.getParameters().get(2).getValue();
-        }
-
-        String termId = null;
-        if (proposition.getParameters().get(0) != null) {
-            termId = proposition.getParameters().get(0).getValue();
-        }
-        // Simple proposition requires all of propConstant, termId and operator to be specified
-        if (StringUtils.isBlank(termId)) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                    "error.rule.proposition.simple.blankField", proposition.getDescription(), "Term");
-            result &= false;
-        } else {
-            result = validateTerm(proposition, namespace);
-        }
-        if (StringUtils.isBlank(operator)) {
-            GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                    "error.rule.proposition.simple.blankField", proposition.getDescription(), "Operator");
-            result &= false;
-        }
-        if (StringUtils.isBlank(propConstant) && !operator.endsWith("null")) { // ==null and !=null operators have blank values.
-            GlobalVariables.getMessageMap().putErrorForSectionId(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                    "error.rule.proposition.simple.blankField", proposition.getDescription(), "Value");
-            result &= false;
-        } else if (operator.endsWith("null")) { // ==null and !=null operators have blank values.
-            if (propConstant != null) {
-                proposition.getParameters().get(1).setValue(null);
-            }
-        }
-
-        if (!CollectionUtils.isEmpty(proposition.getCompoundComponents())) {
-            GlobalVariables.getMessageMap().putError(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                    "error.rule.proposition.simple.hasChildren", proposition.getDescription());
-            result &= false; // simple prop should not have compound components
-        }
-        return result;
-    }
-
-    /**
-     * Validate the term in the given simple proposition.  Note that this method is side-effecting,
-     * when errors are detected with the proposition, errors are added to the error map.
-     *
-     * @param proposition the proposition with the term to validate
-     * @param namespace   the namespace of the parent rule
-     * @return true if the proposition's term is considered valid
-     */
-    private boolean validateTerm(PropositionEditor proposition, String namespace) {
-        boolean result = true;
-
-        String termId = proposition.getParameters().get(0).getValue();
-        if (termId.startsWith(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX)) {
-            // validate parameterized term
-
-            // is the term name non-blank
-            if (StringUtils.isBlank(proposition.getNewTermDescription())) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                        "error.rule.proposition.simple.emptyTermName", proposition.getDescription());
-                result &= false;
-            }
-
-            String termSpecificationId = termId.substring(KrmsImplConstants.PARAMETERIZED_TERM_PREFIX.length());
-
-            TermResolverDefinition termResolverDefinition = null;
-            //RuleViewHelperServiceImpl.getSimplestTermResolver(termSpecificationId, namespace);
-
-            if (termResolverDefinition == null) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                        "error.rule.proposition.simple.invalidTerm", proposition.getDescription());
-                result &= false;
-            } else {
-                List<String> parameterNames = new ArrayList<String>(termResolverDefinition.getParameterNames());
-                Collections.sort(parameterNames);
-                //for (String parameterName : parameterNames) {
-                //if (!proposition.getTermParameters().containsKey(parameterName) ||
-                //        StringUtils.isBlank(proposition.getTermParameters().get(parameterName))) {
-                //    GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                //            "error.rule.proposition.simple.missingTermParameter", proposition.getDescription());
-                //    result &= false;
-                //    break;
-                //}
-                //}
-            }
-
-        } else {
-            //validate normal term
-            TermDefinition termDefinition = KrmsRepositoryServiceLocator.getTermBoService().getTerm(termId);
-            if (termDefinition == null) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                        "error.rule.proposition.simple.invalidTerm", proposition.getDescription());
-            } else if (!namespace.equals(termDefinition.getSpecification().getNamespace())) {
-                GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRMSPropertyConstants.Rule.PROPOSITION_TREE_GROUP_ID,
-                        "error.rule.proposition.simple.invalidTerm", proposition.getDescription());
-            }
-        }
-        return result;
     }
 
     @Override
@@ -430,7 +268,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         // Refresh the natural language if required.
         if (rule.getProposition() != null) {
-            PropositionEditor root = (PropositionEditor) rule.getProposition();
+            PropositionEditor root = rule.getPropositionEditor();
             if (!root.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
                 this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
             }
@@ -445,13 +283,18 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         //Also reset the logic expression. Should only be done after editTree is already built.
         if (rule.getProposition() != null) {
-            rule.setLogicArea(PropositionTreeUtil.configureLogicExpression((PropositionEditor) rule.getProposition()));
+            rule.setLogicArea(PropositionTreeUtil.configureLogicExpression(rule.getPropositionEditor()));
         } else {
             rule.setLogicArea(StringUtils.EMPTY);
         }
 
     }
 
+    /**
+     * Rebuild the tree used for the view only trees.
+     *
+     * @param rule
+     */
     @Override
     public void refreshViewTree(RuleEditor rule) {
 
@@ -465,22 +308,143 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, String refObjectId) throws Exception {
 
         //Get the CLU Tree.
-        RuleDefinitionContract compare = this.getRuleManagementService().getRule("10063");
-        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage((PropositionEditor) compare, this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
+        RuleEditor compare = original.getParent();
+        if (compare == null) {
+            compare = this.getCompareRule(refObjectId, original.getTypeId());
+            original.setParent(compare);
+        }
+        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compare.getPropositionEditor(), this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
 
         //Build the Tree
         return this.getCompareTreeBuilder().buildTree(original, compare);
 
     }
 
+    /**
+     * Compare all the propositions in a rule tree with a parent rule tree. Returns false if any proposition's type
+     * or term parameters are not the same.
+     *
+     * Apart from the type and termparameters, all other detail is derived from the typeid and therefore not included in
+     * the comparison.     *
+     *
+     * @param original
+     * @param refObjectId - the current editing ref object id.
+     * @return
+     * @throws Exception
+     */
     @Override
-    public Boolean compareRules(RuleEditor original, String compareToRefObjectId) throws Exception {
+    public Boolean compareRules(RuleEditor original, String refObjectId) throws Exception {
+
+        //Get the rule to compare with.
+        RuleEditor compareEditor = original.getParent();
+        if (compareEditor == null) {
+            compareEditor = this.getCompareRule(refObjectId, original.getTypeId());
+            original.setParent(compareEditor);
+        }
+
+        //Compare Root Proposition Type and if the same test recursively
+        if (original.getProposition().getTypeId().equals(compareEditor.getProposition().getTypeId())) {
+            return compareProposition(original.getPropositionEditor(), compareEditor.getPropositionEditor());
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Method to handle the proposition comparison recursively.
+     *
+     * @param original
+     * @param compare
+     * @return true if proposition are the same.
+     */
+    @Override
+    public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
+        //Compare the proposition
+        BeanPropertyComparator propositionComparator = new BeanPropertyComparator(Arrays.asList("typeId"));
+        if (propositionComparator.compare(original, compare) != 0) {
+            return false;
+        }
+
+        //Compare the term values
+        if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(original.getPropositionTypeCode())) {
+            TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
+            if (!compareTerm(original.getTerm().getEditorParameters(), term.getEditorParameters())) {
+                return false;
+            }
+        }
+
+        //Compare the compound propositions.
+        return compareCompoundProposition(original.getCompoundEditors(), compare.getCompoundEditors());
+    }
+
+    /**
+     * Compare all the keys and values of the term parameter. Returns false if any of the keys (names) or
+     * values of the term paramters is not the same.
+     *
+     * @param original list of term parameters for current term
+     * @param compare list of term paramters to compare with.
+     * @return true if all names and values are the same.
+     */
+    @Override
+    public Boolean compareTerm(List<TermParameterEditor> original, List<TermParameterEditor> compare) {
+
+        //If the sizes doesn't match, they are not same.
+        int originalSize = original == null ? 0 : original.size();
+        if (originalSize != (compare == null ? 0 : compare.size())) {
+            return false;
+        } else if (originalSize > 0) {
+
+            //Compare the compound propositions.
+            BeanPropertyComparator termComparator = new BeanPropertyComparator(Arrays.asList("name", "value"));
+            for (int index = 0; index < originalSize; index++) {
+                if (termComparator.compare(original.get(index), compare.get(index)) != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
+    }
+
+    /**
+     * Recursively compare child propositions.
+     *
+     * @param original
+     * @param compare
+     * @return
+     */
+    @Override
+    public Boolean compareCompoundProposition(List<PropositionEditor> original, List<PropositionEditor> compare) {
+
+        //If the sizes doesn't match, they are not same.
+        int originalSize = original == null ? 0 : original.size();
+        if (originalSize != (compare == null ? 0 : compare.size())) {
+            return false;
+        } else if (originalSize > 0) {
+
+            //Compare the compound propositions.
+            for (int index = 0; index < originalSize; index++) {
+                if (!compareProposition(original.get(index), compare.get(index))) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
+    /**
+     * Make a new copy of the current proposition including the compounds.
+     *
+     * The deepcopy is done to make sure that create a full copy and does not only copy the references.
+     *
+     * @param oldProposition
+     * @return
+     */
     @Override
     public PropositionEditor copyProposition(PropositionEditor oldProposition) {
         try {
@@ -493,6 +457,15 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
     }
 
+    /**
+     * Used when the user clicked the copy button. It creates a new copy of the proposition with all the related
+     * compound propositions.
+     *
+     * The compound propositions is handled recursively.
+     *
+     * @param oldProposition
+     * @return
+     */
     protected PropositionEditor copyPropositionEditor(PropositionEditor oldProposition) {
         PropositionEditor newProposition;
         try {
@@ -500,24 +473,24 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         } catch (Exception e) {
             newProposition = new PropositionEditor();
         }
-        BeanUtils.copyProperties(oldProposition, newProposition, new String[]{"key","id","term","parameters"});
+        BeanUtils.copyProperties(oldProposition, newProposition, new String[]{"key", "id", "term", "parameters"});
 
-        if(!oldProposition.getPropositionTypeCode().equals("C")) {
+        if (!oldProposition.getPropositionTypeCode().equals("C")) {
             List<PropositionParameterEditor> propositionParameterEditors = new ArrayList<PropositionParameterEditor>();
-            for(PropositionParameterEditor parm : oldProposition.getParameters()) {
+            for (PropositionParameterEditor parm : oldProposition.getParameters()) {
                 PropositionParameterEditor newParm = new PropositionParameterEditor();
-                BeanUtils.copyProperties(parm, newParm, new String[]{"termValue","id","versionNumber"});
+                BeanUtils.copyProperties(parm, newParm, new String[]{"termValue", "id", "versionNumber"});
                 propositionParameterEditors.add(newParm);
             }
 
             newProposition.setParameters(propositionParameterEditors);
 
             TermEditor termEditor = new TermEditor();
-            BeanUtils.copyProperties(oldProposition.getTerm(), termEditor, new String[]{"id","versionNumber","parameters"});
+            BeanUtils.copyProperties(oldProposition.getTerm(), termEditor, new String[]{"id", "versionNumber", "parameters"});
             List<TermParameterEditor> termParameterEditors = new ArrayList<TermParameterEditor>();
-            for(TermParameterEditor termParm : oldProposition.getTerm().getEditorParameters()) {
+            for (TermParameterEditor termParm : oldProposition.getTerm().getEditorParameters()) {
                 TermParameterEditor newTermParm = new TermParameterEditor();
-                BeanUtils.copyProperties(termParm, newTermParm, new String[]{"id","versionNumber"});
+                BeanUtils.copyProperties(termParm, newTermParm, new String[]{"id", "versionNumber"});
                 termParameterEditors.add(newTermParm);
             }
             termEditor.setParameters(termParameterEditors);
@@ -526,9 +499,9 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             this.resetDescription(newProposition);
         }
 
-        if(newProposition.getCompoundEditors() != null) {
+        if (newProposition.getCompoundEditors() != null) {
             List<PropositionEditor> props = new ArrayList<PropositionEditor>();
-            for(PropositionEditor prop : newProposition.getCompoundEditors()) {
+            for (PropositionEditor prop : newProposition.getCompoundEditors()) {
                 props.add(this.copyPropositionEditor(prop));
             }
             newProposition.setCompoundEditors(props);
@@ -550,6 +523,12 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
     }
 
+    /**
+     * Creates a new instance of a simple proposition.
+     *
+     * @param sibling
+     * @return
+     */
     @Override
     public PropositionEditor createSimplePropositionBoStub(PropositionEditor sibling) {
         try {
@@ -559,6 +538,77 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
     }
 
+    /**
+     * Override this method to return the reference object id of the parent object.
+     *
+     * @param refObjectId
+     * @return
+     */
+    @Override
+    public String getParentRefOjbectId(String refObjectId) throws Exception  {
+        return null;
+    }
+
+    /**
+     * Retrieves the rule of the same type from the agenda linked to the given reference object id.
+     *
+     * @param refObjectId
+     * @param typeId
+     * @return
+     */
+    public RuleEditor getCompareRule(String refObjectId, String typeId) throws Exception {
+
+        String parentRefObjectId = this.getParentRefOjbectId(refObjectId);
+        List<ReferenceObjectBinding> referenceObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lu.type.CreditCourse", parentRefObjectId);
+
+        RuleEditor compareRule = null;
+        for (ReferenceObjectBinding referenceObject : referenceObjects) {
+            AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(referenceObject.getKrmsObjectId());
+            compareRule = this.getRuleFromTree(agendaTree.getEntries(), typeId);
+
+            if (compareRule != null) {
+                return compareRule;
+            }
+        }
+
+        return new RuleEditor();
+    }
+
+    /**
+     * Retrieves the rule of the same type from the rule linked to the given reference object id.
+     *
+     * @param agendaTreeEntries
+     * @param typeId
+     * @return
+     */
+    private RuleEditor getRuleFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries, String typeId) {
+
+        for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
+            if (treeEntry instanceof AgendaTreeRuleEntry) {
+                AgendaTreeRuleEntry treeRuleEntry = (AgendaTreeRuleEntry) treeEntry;
+                AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
+                if (agendaItem.getRule().getTypeId().equals(typeId)) {
+                    RuleEditor rule = new RuleEditor(agendaItem.getRule());
+                    return rule;
+                }
+
+                if (treeRuleEntry.getIfTrue() != null) {
+                    RuleEditor childRule = getRuleFromTree(treeRuleEntry.getIfTrue().getEntries(), typeId);
+                    if (childRule != null) {
+                        return childRule;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Override this method to return a different class type if you need to use a different propositoin editor class.
+     *
+     * @return
+     */
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
         return PropositionEditor.class;
     }

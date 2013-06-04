@@ -9,18 +9,26 @@ import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
+import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.lang.reflect.Array;
@@ -29,16 +37,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2012/12/04
- * Time: 11:52 AM
- * To change this template use File | Settings | File Templates.
+ *
+ * @author Kuali Student Team
  */
 public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl {
 
     private RulePreviewTreeBuilder previewTreeBuilder;
     private RuleViewTreeBuilder viewTreeBuilder;
+    private RuleCompareTreeBuilder compareTreeBuilder;
 
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
@@ -46,103 +52,48 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleDefinitionContract original, String compareToRefObjectId) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, String refObjectId) throws Exception {
 
         //Set the original nl if not already exists.
         if (original.getProposition()!=null){
-            PropositionEditor originalRoot = (PropositionEditor) original.getProposition();
+            PropositionEditor originalRoot = original.getPropositionEditor();
             if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
                 this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
             }
         }
 
-        //Get the CLU Tree.
-        CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(compareToRefObjectId, ContextUtils.createDefaultContextInfo());
-        CORuleCompareTreeBuilder treeBuilder = new CORuleCompareTreeBuilder();
-        treeBuilder.setRuleManagementService(this.getRuleManagementService());
-        RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
-
         //Build the Tree
-        RuleEditor compareEditor;
-        if(compare==null){
-            compareEditor = new EnrolRuleEditor();
-        } else {
-            compareEditor = new EnrolRuleEditor(compare);
-            this.initPropositionEditor((PropositionEditor) compareEditor.getProposition());
+        RuleEditor compareEditor = original.getParent();
+        if(compareEditor == null){
+            compareEditor = this.getCompareRule(refObjectId, original.getTypeId());
+            original.setParent(compareEditor);
         }
         if(compareEditor.getProposition()!=null){
-            PropositionEditor root = (PropositionEditor) compareEditor.getProposition();
-            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compareEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         }
-        Tree<CompareTreeNode, String> compareTree = treeBuilder.buildTree(original, compareEditor);
+        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compareEditor);
 
         return compareTree;
     }
 
     @Override
-    public Boolean compareRules(RuleEditor original, String compareToRefObjectId) throws Exception {
-        //Get the CLU Tree.
-        CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(compareToRefObjectId, ContextUtils.createDefaultContextInfo());
-        CORuleCompareTreeBuilder treeBuilder = new CORuleCompareTreeBuilder();
-        treeBuilder.setRuleManagementService(this.getRuleManagementService());
-        RuleDefinitionContract compare = treeBuilder.getCompareRule(courseOffering.getCourseId(), original.getTypeId());
+    public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
 
-        //If no CLU Rule exists, then return true
-        RuleEditor compareEditor;
-        if(compare==null){
-            return true;
-        } else {
-            compareEditor = new EnrolRuleEditor(compare);
-            this.initPropositionEditor((PropositionEditor) compareEditor.getProposition());
-        }
-
-        //Compare Root Proposition Type and if the same test recursively
-        if(original.getProposition().getTypeId().equals(compareEditor.getProposition().getTypeId())) {
-            Boolean result = comparePropositions((EnrolPropositionEditor) original.getProposition(), (EnrolPropositionEditor) compareEditor.getProposition());
-            return result;
-        } else {
+        if(!super.compareProposition(original, compare)) {
             return false;
-        }
-    }
-
-    private Boolean comparePropositions(EnrolPropositionEditor original, EnrolPropositionEditor compare) {
-        BeanPropertyComparator propertyComparator = null;
-        if(compare.getPropositionTypeCode().equals("C")) {
-            propertyComparator = new BeanPropertyComparator(Arrays.asList("compoundOpCode","propositionTypeCode"));
-            if(propertyComparator.compare(original, compare) != 0) {
-                return false;
-            }
         } else {
-            propertyComparator = new BeanPropertyComparator(Arrays.asList("compoundSequenceNumber","typeId","propositionTypeCode"));
-            if(propertyComparator.compare(original, compare) != 0) {
-                return false;
-            }
-            if(original.getCourseInfo() != null && compare.getCourseInfo() != null) {
-                if(!original.getCourseInfo().getCode().equals(compare.getCourseInfo().getCode())) {
-                    return false;
-                }
-            }
-            if(original.getCluSet() != null && compare.getCluSet() != null) {
-                if(original.getCluSet().getClus() != null && compare.getCluSet().getClus() != null) {
-                    for(int index = 0; index < original.getCluSet().getClus().size(); index++) {
-                        if(original.getCluSet().getClus().get(index).getCode().equals(compare.getCluSet().getClus().get(index).getCode())) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
 
-        if(original.getCompoundComponents() != null && compare.getCompoundComponents() != null) {
-            if(!original.getCompoundComponents().isEmpty() && !compare.getCompoundComponents().isEmpty()) {
-                if(original.getCompoundComponents().size() == compare.getCompoundComponents().size()) {
-                    for(int index = 0; index < original.getCompoundComponents().size(); index++) {
-                        comparePropositions((EnrolPropositionEditor) original.getCompoundComponents().get(index), (EnrolPropositionEditor) compare.getCompoundComponents().get(index));
-                    }
-                } else {
-                    return false;
-                }
-            }
+            //TODO: do something to compare clusets.
+            //EnrolPropositionEditor enrolOriginal = (EnrolPropositionEditor) original;
+            //if(enrolOriginal.getCluSet() != null && compare.getCluSet() != null) {
+            //    if(enrolOriginal.getCluSet().getClus() != null && compare.getCluSet().getClus() != null) {
+            //        for(int index = 0; index < enrolOriginal.getCluSet().getClus().size(); index++) {
+            //            if(enrolOriginal.getCluSet().getClus().get(index).getCode().equals(compare.getCluSet().getClus().get(index).getCode())) {
+            //                return false;
+            //            }
+            //        }
+            //    }
+            //}
         }
 
         return true;
@@ -169,14 +120,20 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         }
     }
 
+    /**
+     * Create TermEditor from the TermDefinition objects to be used in the ui and return a map of
+     * the key and values of the term parameters.
+     *
+     * @param proposition
+     * @return
+     */
     protected Map<String, String> getTermParameters(PropositionEditor proposition) {
 
         Map<String, String> termParameters = new HashMap<String, String>();
         if (proposition.getTerm() == null) {
-            if (proposition.getParameters().get(0) != null) {
-
-                //TODO: this should already be on the proposition.
-                String termId = proposition.getParameters().get(0).getValue();
+            PropositionParameterEditor termParameter = PropositionTreeUtil.getTermParameter(proposition.getParameters());
+            if (termParameter != null) {
+                String termId = termParameter.getValue();
                 TermDefinition termDefinition = this.getTermRepositoryService().getTerm(termId);
                 proposition.setTerm(new TermEditor(termDefinition));
             } else {
@@ -189,6 +146,19 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         }
 
         return termParameters;
+    }
+
+    /**
+     * Return the clu id from the canonical course that is linked to the given course offering id.
+     *
+     * @param refObjectId - the course offering id.
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String getParentRefOjbectId(String refObjectId) throws Exception {
+        CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(refObjectId, ContextUtils.createDefaultContextInfo());
+        return courseOffering.getCourseId();
     }
 
     @Override
@@ -206,6 +176,14 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
             viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
         }
         return viewTreeBuilder;
+    }
+
+    protected RuleCompareTreeBuilder getCompareTreeBuilder() {
+        if (compareTreeBuilder == null) {
+            compareTreeBuilder = new CORuleCompareTreeBuilder();
+            compareTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+        }
+        return compareTreeBuilder;
     }
 
 }
