@@ -345,6 +345,15 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             original.setParent(compareEditor);
         }
 
+        //Do null check on propositions.
+        if(compareEditor.getProposition()==null){
+            if(original.getProposition()!=null){
+                return false; //if compare is null and original is not, they differ.
+            } else {
+                return true; //both of them are null.
+            }
+        }
+
         //Compare Root Proposition Type and if the same test recursively
         if (original.getProposition().getTypeId().equals(compareEditor.getProposition().getTypeId())) {
             return compareProposition(original.getPropositionEditor(), compareEditor.getPropositionEditor());
