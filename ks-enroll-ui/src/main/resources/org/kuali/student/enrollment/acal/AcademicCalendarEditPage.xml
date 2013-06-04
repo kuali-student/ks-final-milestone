@@ -45,6 +45,41 @@ limitations under the License.
                 </property>
             </bean>
         </property>
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Calendars"/>
+                    <property name="url.viewId" value="calendarSearchView"/>
+                    <property name="url.controllerMapping" value="/calendarSearch"/>
+                    <property name="url.methodToCall" value="start"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{!#view.readOnly and !newCalendar}">
+                    <property name="label" value="@{academicCalendarInfo.name}"/>
+                    <property name="url.viewId" value="academicCalendarFlowView"/>
+                    <property name="url.pageId" value="academicCalendarEditPage"/>
+                    <property name="url.controllerMapping" value="/academicCalendar"/>
+                    <property name="url.methodToCall" value="start"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="showHome" value="false"/>
+                            <entry key="readOnlyView" value="true"/>
+                            <entry key="id" value="@{academicCalendarInfo.id}"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{!#view.readOnly and !newCalendar}">
+                    <property name="label" value="Edit Calendar"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{#view.readOnly}">
+                    <property name="label" value="@{academicCalendarInfo.name}"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{newCalendar}">
+                    <property name="label" value="New Academic Calendar"/>
+                </bean>
+            </list>
+        </property>
+
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" >

@@ -32,7 +32,7 @@ limitations under the License.
     -->
     <bean id="KS-AcademicCalendarView" parent="KS-Uif-FormView">
         <property name="id" value="academicCalendarFlowView"/>
-        <property name="headerText" value="Academic Calendar"/>
+        <!--<property name="headerText" value="Academic Calendar"/>-->
         <property name="header.render" value="false"/>
         <property name="entryPageId" value="academicCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>

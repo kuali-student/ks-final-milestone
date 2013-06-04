@@ -189,8 +189,8 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.years.validation");
             form.setIsRolloverButtonDisabled(true);
             return getUIFModelAndView(form);
-        } 
-        
+        }
+
         List<TermInfo> termList = helper.findTermByTermCode(form.getTargetTermCode());
         if (termList != null && termList.size() == 1) {
             //validation to check if already rollover target term exists..
@@ -243,7 +243,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
                 form.setIsRolloverButtonDisabled(true);
                 return getUIFModelAndView(form);
-            }  
+            }
             form.setDisplayedSourceTermCode(sourceTermCode);
             // Set the start date
             Date startDate = matchingTerm.getStartDate();
