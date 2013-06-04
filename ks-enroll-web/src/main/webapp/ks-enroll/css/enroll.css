@@ -717,6 +717,16 @@ a {
     text-transform: uppercase;
     white-space: nowrap
 }
+
+.text-lozenge-green-msg {
+    color: white;
+    background-color: #029a02;
+    font-size: .85em;
+    padding: 0.2em 0.6em;
+    border-radius: 6px;
+    text-transform: uppercase;
+    white-space: nowrap
+}
 /************************************** END LOZENGES **********************/
 
 

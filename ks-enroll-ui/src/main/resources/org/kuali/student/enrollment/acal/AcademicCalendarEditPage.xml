@@ -82,18 +82,39 @@ limitations under the License.
 
         <property name="items">
             <list>
-                <bean parent="Uif-TabGroup" >
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="header">
+                        <bean parent="Uif-HeaderOne">
+                            <property name="headerText" value="@{academicCalendarInfo.name}"/>
+                            <property name="rightGroup">
+                                <bean parent="Uif-HorizontalBoxGroup">
+                                    <property name="items">
+                                        <list>
+                                            <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="instructionalText" value="Edit Academic Calendar"/>
                     <property name="items">
                         <list>
-                            <ref bean="KS-AcademicCalendar-EditSection"/>
-                            <ref bean="KS-AcademicTerm-EditSection"/>
+                            <bean parent="Uif-TabGroup" >
+                                <property name="items">
+                                    <list>
+                                        <ref bean="KS-AcademicCalendar-EditSection"/>
+                                        <ref bean="KS-AcademicTerm-EditSection"/>
+                                    </list>
+                                </property>
+                                <property name="tabsWidget.templateOptionsJSString">
+                                    <value>
+                                        { selected: @{defaultSelectedTabIndex} }
+                                    </value>
+                                </property>
+                            </bean>
                         </list>
                     </property>
-                    <property name="tabsWidget.templateOptionsJSString">
-                        <value>
-                          { selected: @{defaultSelectedTabIndex} }
-                        </value>
-                      </property>
                 </bean>
             </list>
         </property>
@@ -163,7 +184,6 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-MessageField" p:messageText="Official" p:render="@{officialUI}"/>
                 <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.name"
                       p:label="Academic Calendar Name" p:labelPlacement="TOP" p:required="true">
                     <property name="control">
