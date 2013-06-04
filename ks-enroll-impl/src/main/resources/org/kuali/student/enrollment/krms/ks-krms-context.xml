@@ -56,6 +56,11 @@
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService"/>
     </bean>
 
+    <bean id="acalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.acal.service.AcademicCalendarService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/acal}AcademicCalendarService"/>
+    </bean>
+
     <bean id="basicContext" class="org.kuali.student.krms.naturallanguage.config.context.BasicContextImpl">
     </bean>
     <bean id="luContext" class="org.kuali.student.krms.naturallanguage.config.context.CluContextImpl">
@@ -71,6 +76,9 @@
         <property name="organizationService" ref="orgClient"/>
     </bean>
     <bean id="atpContext" class="org.kuali.student.krms.naturallanguage.config.context.AtpContextImpl">
+    </bean>
+    <bean id="termContext" class="org.kuali.student.krms.naturallanguage.config.context.TermContextImpl">
+        <property name="acalService" ref="acalClient"/>
     </bean>
 
     <!-- TODO this contextRegistry should be part of KS -->
@@ -269,11 +277,13 @@
                 <entry key="kuali.krms.proposition.type.success.compl.course.as.of.term">
                     <list>
                         <ref bean="luContext"/>
+                        <ref bean="termContext"/>
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.success.compl.course.between.terms">
                     <list>
                         <ref bean="luContext"/>
+                        <ref bean="termContext"/>
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.success.compl.course.offer">
@@ -284,6 +294,7 @@
                 <entry key="kuali.krms.proposition.type.success.compl.prior.to.term">
                     <list>
                         <ref bean="luContext"/>
+                        <ref bean="termContext"/>
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.course.courseset.enrolled.nof">

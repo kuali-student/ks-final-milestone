@@ -930,7 +930,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
         if (proposition != null) {
             this.getViewHelper(form).resetDescription(proposition);
         }
-
+        if (!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
+            return getUIFModelAndView(form);
+        }
         //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
 
@@ -938,7 +940,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
-        return getUIFModelAndView(form);
+            return getUIFModelAndView(form);
     }
 
     private void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) throws Exception {
