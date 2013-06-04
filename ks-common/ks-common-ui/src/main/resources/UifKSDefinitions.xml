@@ -391,5 +391,12 @@
             </list>
         </property>
     </bean>
+    <bean id="KS-Lozenge-Grey-Uif-InputField" parent="KS-Uif-InputField">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>text-lozenge-grey-msg</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>
