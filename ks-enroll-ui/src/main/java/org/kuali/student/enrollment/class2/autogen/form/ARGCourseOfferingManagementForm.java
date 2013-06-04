@@ -191,6 +191,8 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     //TODO: do we still need this parameter?
     private boolean hasAOCluster;
 
+    private int termDayOfYear; // this is used in the context bar to determine term color
+
     public boolean getHasAOCluster() {
         return hasAOCluster;
     }
@@ -766,5 +768,13 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setContextBarSocState(String contextBarSocState) {
         this.contextBarSocState = contextBarSocState;
+    }
+
+    public int getTermDayOfYear() {
+        return termDayOfYear;
+    }
+
+    public void setTermDayOfYear(int termDayOfYear) {
+        this.termDayOfYear = termDayOfYear;
     }
 }

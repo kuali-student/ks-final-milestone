@@ -729,3 +729,29 @@ function updateContextBar(){
 //    jQuery("#Uif-TopGroupWrapper").height((termCodeLableHeight  > socStateLableHeight) ? termCodeLableHeight : socStateLableHeight );
 }
 
+function setSeasonalColor(objectToColor, dayOfYear, baseUrl) {
+    var image = jQuery('<img src="' + baseUrl + '/ks-enroll/images/season_gradient.png"/>');
+    var objToColor = jQuery('#' + objectToColor);
+    var percentage = dayOfYear / 365;
+
+    image.load(function (){
+        var canvas = document.createElement('canvas');
+        var tw = this.width;
+        var th = this.height;
+        canvas.width = this.width;
+        canvas.height = this.height;
+        canvas.getContext('2d').drawImage(this, 0, 0, tw, th);
+        var x = 10;
+        var y = th * percentage;
+        var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
+        var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+
+        objToColor.css("border-left", '8px solid ' + hex);
+    });
+}
+
+function rgbToHex(r, g, b) {
+    if (r > 255 || g > 255 || b > 255)
+        throw "Invalid color component";
+    return ((r << 16) | (g << 8) | b).toString(16);
+}

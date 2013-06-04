@@ -567,6 +567,7 @@ a {
 .ks-header-list li{
     float: left;
     padding-right: 13px;
+    padding-top: 18px;
 }
 
 /* Altering the Default Link Colour */
@@ -609,6 +610,7 @@ a {
     background-image:url('../images/context-bar/bg_context_bar.png');
     height: 38px;
     width: 100%;
+    border-left: 8px solid lightgreen;
 }
 
 .ks-topGroup label{
@@ -764,6 +766,26 @@ textarea,
     width: auto;
 }
 /************************************** END BOOTSTRAP OVERRIDES **********************/
+
+/********************** Seasons Gradient *********************************************/
+.seasons-gradient {
+    background-image: linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.12, rgb(17,230,245)),
+        color-stop(0.5, rgb(191,119,11)),
+        color-stop(0.75, rgb(255,242,0)),
+        color-stop(1, rgb(127,235,18))
+    );
+}
+/********************** Seasons Gradient END *********************************************/
 /*
    Edit Academic Calendar > Terms tab
    Masks the term code input control as a simple data field.

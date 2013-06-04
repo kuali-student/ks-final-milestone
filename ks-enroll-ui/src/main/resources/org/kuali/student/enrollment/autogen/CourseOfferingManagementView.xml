@@ -26,11 +26,12 @@
           p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm">
 
         <property name="topGroup">
-            <bean  parent="KS-Uif-HorizontalBoxGroup-TopGroup">
+            <bean  id="KS-CourseOfferingManagement-ContextBar" parent="KS-Uif-HorizontalBoxGroup-TopGroup">
                 <property name="items">
                     <list merge="true">
                         <bean id="contextBarTermCode" parent="Uif-InputField" p:readOnly="true" p:propertyName="contextBarTermCode"/>
-                        <bean id="contextBarSocState" parent="Uif-InputField" p:readOnly="true" p:propertyName="contextBarSocState"/>
+                        <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="contextBarSocState" />
+                        <!--<ref bean="KS-CourseOfferingManagement-CriteriaSection"/>-->
                     </list>
                 </property>
             </bean>

@@ -20,7 +20,7 @@
      limitations under the License.
     -->
     <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingPage" parent="Uif-Page" p:disclosure.render="false"
-          p:id="manageTheCourseOfferingPage" p:onDocumentReadyScript="updateContextBar();">
+          p:id="manageTheCourseOfferingPage" p:onDocumentReadyScript="updateContextBar(); setSeasonalColor('KS-CourseOfferingManagement-ContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');">
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
