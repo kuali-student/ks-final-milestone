@@ -6,12 +6,11 @@
         <artifactId>student</artifactId>
         <version>2.0.0-M7-SNAPSHOT</version>
     </parent>
-    <groupId>org.kuali.student.enroll</groupId>
-    <artifactId>ks-enroll</artifactId>
-    <version>1.0.0-M7-SNAPSHOT</version>
+    <groupId>org.kuali.student.core</groupId>
+    <artifactId>ks-core</artifactId>
+    <version>2.0.0-M7-SNAPSHOT</version>
+    <name>KS Core</name>
     <packaging>pom</packaging>
-    <name>KS Enroll</name>
-    <description>KS Enrollment</description>
     <profiles>
         <profile>
             <id>default</id>
@@ -19,27 +18,79 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-enroll-sql</module>
-                <module>ks-enroll-impl</module>
-                <module>ks-enroll-ui</module>
-                <module>ks-enroll-ksink</module>
-                <module>ks-enroll-web</module>
-                <module>ks-enroll-rice</module>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
         <profile>
             <id>sql-only</id>
             <modules>
-                <module>ks-enroll-sql</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-developer-wars</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
         <profile>
             <id>skip-all-wars</id>
             <modules>
-                <module>ks-enroll-impl</module>
-                <module>ks-enroll-ui</module>
-                <module>ks-enroll-ksink</module>
-                <module>ks-enroll-rice</module>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>bundled-only-war</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>standalone-only-wars</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-ui</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
     </profiles>

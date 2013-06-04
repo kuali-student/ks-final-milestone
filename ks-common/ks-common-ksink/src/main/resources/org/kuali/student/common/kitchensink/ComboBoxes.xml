@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="UifCompView-ComboBox" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="horizontalTextBox" parent="UifCompView-HorizontalTextBox">
+                    <property name="cssClasses">
+                        <list merge="false">
+                            <value>uif-horizontal-comboBox</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="dropDownTarget" parent="Uif-VerticalBoxSection">
+                    <property name="cssClasses">
+                        <list merge="false">
+                            <value>uif-target-comboBox</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="dropDown" parent="Uif-InputField" p:propertyName="stringField2" p:width="auto"
+                      p:defaultValue="1" p:style="display: none">
+                    <property name="readOnly" value="false"/>
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"
+                              p:onChangeScript="setFilterBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');">
+                            <property name="cssClasses">
+                                <list merge="false">
+                                    <value>uif-dropDown-control-comboBox</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.common.kitchensink.KitchenSinkMockLanguageKeyValues"
+                              p:blankOption="true"/>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="false">
+                            <value>uif-dropDown-comboBox</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UifCompView-HorizontalTextBox" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="filterTextBox" parent="Uif-InputField" p:propertyName="stringField2" p:label="Select Language"
+                      p:labelPlacement="TOP">
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="onKeyUpScript"
+                                      value="filterSelectBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');"/>
+                        </bean>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="false">
+                            <value>uif-filter-textBox</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="KS-KitchenSink-Button-Primary" parent="Uif-PrimaryActionButton">
+                    <property name="actionLabel" value="V"/>
+                    <property name="actionScript"
+                              value="expandSelectBox('dropDown_control', 'filterTextBox_control', 'dropDownTarget');"/>
+                    <property name="cssClasses">
+                        <list merge="false">
+                            <value>uif-comboBox-button</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="cssClasses">
+            <list merge="false">
+                <!--<value>uif-boxSection</value>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="GenericTextField" parent="Uif-InputField" abstract="true"
+          p:label="Field Label" p:labelPlacement="TOP"
+          p:fieldLabel.cssClasses="labelTop" p:fieldLabel.renderColon="false">
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-ComboBoxes-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Combo Boxes"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-ComboBoxes-Page">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-ComboBoxes-Page" parent="KS-KitchenSink-Page">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection" p:header.headerText="Default">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="UifCompView-ComboBox"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

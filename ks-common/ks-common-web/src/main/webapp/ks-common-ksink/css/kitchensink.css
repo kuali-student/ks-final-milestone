@@ -1,0 +1,81 @@
+/* used by ks-common-ksink */
+
+/*.myplan-popup-close { cursor:pointer; position:absolute; top:10px; right:10px; }*/
+/*div.ks-uif-field-with-help .uif-horizontalBoxLayout { white-space:nowrap; }*/
+
+.ks-uif-imageButton {
+    background: inherit;
+    border: none;
+    width: 2em;
+    /*background-image: url(images/button.png);*/
+}
+
+.uif-horizontal-comboBox {
+    background: inherit;
+    display: inline-block;
+    border: none;
+}
+
+.uif-comboBox-button {
+    position: absolute;
+    left: 211px;
+    top: 90px;
+    marging-top: 18px;
+    float: left;
+    width: 23px;
+    height: 23px;
+}
+
+.uif-filter-textBox {
+    position: absolute;
+    float: left;
+}
+
+.uif-dropDown-comboBox {
+    position: absolute;
+    left: 100px;
+}
+
+.uif-target-comboBox {
+    display: block;
+    position: relative;
+    top: 20px;
+    /*border: 1px solid;*/
+}
+
+.uif-dropDown-control-comboBox {
+    width: 219px;
+    margin: 0;
+}
+
+#ul_id_temp {
+    border: 1px solid;
+    width: 215px;
+}
+
+ul#ul_id_temp li:hover
+{
+    color: #ffff00;
+    background-color: #003366;
+}
+
+/* styles for ksKitchensinkFooterLinks.ftl and KitchenSinkFooterLinkSection.java */
+.uif-ks-kitchensink-footerLinkSection { margin-top:1.5em; }
+.uif-ks-kitchensink-footerLinkGroup { margin-top:0.75em; }
+.uif-ks-kitchensink-footerLinkGroup-label { font-weight:bold; }
+/* .uif-ks-kitchensink-footerLinkGroup-link { } */
+.uif-ks-kitchensink-footerLinkGroup-linkDelimiterStart { margin-right:0.25em; }
+.uif-ks-kitchensink-footerLinkGroup-linkDelimiterMiddle { margin-left:0.5em; margin-right:0.5em; }
+.uif-ks-kitchensink-footerLinkGroup-linkDelimiterEnd { margin-left:0.25em; }
+
+.uif-ks-kitchensink-marginTop { margin-top:10px; }
+
+/* styles for form lightbox */
+.ks-uif-lightbox-form { overflow:hidden; }
+.ks-uif-lightbox-form-header { margin-bottom:0; }
+.ks-uif-lightbox-form-header .uif-header { margin-bottom:7px; margin-top:0; }
+.ks-uif-lightbox-form-content { margin-bottom:0; padding:5px; border:solid 1px #555; }
+.ks-uif-lightbox-form-footer { margin-bottom:0; margin-top:7px; }
+.ks-uif-lightbox-form-footer .uif-action { margin-bottom:0; }
+
+x.maxWidth { max-width:75px; }

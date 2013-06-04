@@ -1,4 +1,0 @@
-table.uif-kskrad-collection-actionLinksOnHover tbody tr:hover td { background-color: #f0f0f0; }
-table.uif-kskrad-collection-actionLinksOnHover tbody tr div[data-label='Actions'] { display:none; }
-table.uif-kskrad-collection-actionLinksOnHover tbody tr.uif-collectionAddItem div[data-label='Actions'] { display:block; }
-table.uif-kskrad-collection-actionLinksOnHover div[data-label='Actions'] .uif-boxLayoutHorizontalItem { margin-bottom:0; }

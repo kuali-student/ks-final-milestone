@@ -1,0 +1,168 @@
+
+
+-----------------------------------------------------------------------------
+-- KSEN_TYPE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_TYPE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_TYPE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_TYPE
+(
+      TYPE_KEY VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , NAME VARCHAR2(255) NOT NULL
+        , DESCR_PLAIN VARCHAR2(4000)
+        , DESCR_FORMATTED VARCHAR2(4000)
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , REF_OBJECT_URI VARCHAR2(255)
+        , SERVICE_URI VARCHAR2(255)
+        , VER_NBR NUMBER(19) NOT NULL
+        , CREATETIME TIMESTAMP NOT NULL
+        , CREATEID VARCHAR2(255) NOT NULL
+        , UPDATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_TYPE
+    ADD CONSTRAINT KSEN_TYPEP1
+PRIMARY KEY (TYPE_KEY)
+/
+
+
+CREATE INDEX KSEN_TYPE_I1 
+  ON KSEN_TYPE 
+  (REF_OBJECT_URI)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_TYPETYPE_RELTN
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_TYPETYPE_RELTN';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_TYPETYPE_RELTN CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_TYPETYPE_RELTN
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , TYPETYPE_RELTN_TYPE VARCHAR2(255) NOT NULL
+        , TYPETYPE_RELTN_STATE VARCHAR2(255) NOT NULL
+        , EFF_DT TIMESTAMP
+        , EXPIR_DT TIMESTAMP
+        , OWNER_TYPE_ID VARCHAR2(255) NOT NULL
+        , RELATED_TYPE_ID VARCHAR2(255) NOT NULL
+        , RANK NUMBER(10)
+        , VER_NBR NUMBER(19) NOT NULL
+        , CREATETIME TIMESTAMP NOT NULL
+        , CREATEID VARCHAR2(255) NOT NULL
+        , UPDATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_TYPETYPE_RELTN
+    ADD CONSTRAINT KSEN_TYPETYPE_RELTNP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_TYPETYPE_RELTN_IF1 
+  ON KSEN_TYPETYPE_RELTN 
+  (OWNER_TYPE_ID)
+/
+CREATE INDEX KSEN_TYPETYPE_RELTN_IF2 
+  ON KSEN_TYPETYPE_RELTN 
+  (RELATED_TYPE_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_TYPETYPE_RELTN_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_TYPETYPE_RELTN_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_TYPETYPE_RELTN_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_TYPETYPE_RELTN_ATTR
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , ATTR_KEY VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(4000)
+        , OWNER_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_TYPETYPE_RELTN_ATTR
+    ADD CONSTRAINT KSEN_TYPETYPE_RELTN_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_TYPETYPE_RELTN_ATTR_IF1 
+  ON KSEN_TYPETYPE_RELTN_ATTR 
+  (OWNER_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_TYPE_ATTR
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , ATTR_KEY VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(4000)
+        , OWNER_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_TYPE_ATTR
+    ADD CONSTRAINT KSEN_TYPE_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_TYPE_ATTR_IF1 
+  ON KSEN_TYPE_ATTR 
+  (OWNER_ID)
+/
+

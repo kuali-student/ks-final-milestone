@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- The Interesting Bits -->
+
+    <bean id="KS-KitchenSink-Buttons-View-Base" parent="KS-KitchenSink-FormView">
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <!-- bean "Uif-KsKrad-Button-ImageOnly" requires this: -->
+                <value>ks-krad/css/ks-krad-collection-actionImages.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <!-- bean "Uif-KsKrad-Button-ImageOnly" requires this: -->
+                <value>ks-krad/scripts/ks-krad-collection-actionImages.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-PrimaryMain" parent="Uif-PrimaryActionButton">
+        <property name="actionLabel" value="Primary"/>
+        <property name="actionScript" value="alert('click');"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-PrimarySmall" parent="Uif-PrimaryActionButton-Small">
+        <property name="actionLabel" value="Primary Small"/>
+        <property name="actionScript" value="alert('click');"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-PrimaryImage" parent="Uif-PrimaryActionButton">
+        <property name="actionLabel" value="Image Left"/>
+        <property name="actionScript" value="alert('click');"/>
+        <property name="actionImagePlacement" value="LEFT"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="../ks-common-ksink/images/plus_15px.png"/>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-PrimarySmallImage" parent="Uif-PrimaryActionButton-Small">
+        <property name="actionLabel" value="Image Left"/>
+        <property name="actionScript" value="alert('click');"/>
+        <property name="actionImagePlacement" value="LEFT"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="../ks-common-ksink/images/plus_15px.png"/>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-SecondaryMain" parent="Uif-SecondaryActionButton">
+        <property name="actionLabel" value="Secondary"/>
+        <property name="actionScript" value="alert('click');"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-SecondarySmall" parent="Uif-SecondaryActionButton-Small">
+        <property name="actionLabel" value="Secondary Small"/>
+        <property name="actionScript" value="alert('click');"/>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-SecondarySmallImage" parent="Uif-SecondaryActionButton-Small">
+        <property name="actionLabel" value="Image Left"/>
+        <property name="actionScript" value="alert('click');"/>
+        <property name="actionImagePlacement" value="LEFT"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image">
+                <!--<property name="source" value="@{#ConfigProperties['krad.externalizable.images.url']}h2_expand-back-ks.png"/>-->
+                <!-- using ConfigProperties sometimes throws a freemarker exception; if so use -->
+                <property name="source" value="../ks-common-ksink/images/plus_15px.png"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-SecondaryImage" parent="Uif-SecondaryActionButton">
+        <property name="actionLabel" value="Image Left"/>
+        <property name="actionScript" value="alert('click');"/>
+        <property name="actionImagePlacement" value="LEFT"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="../ks-common-ksink/images/plus_15px.png"/>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-SecondarySmallImage-Left" parent="Uif-SecondaryActionButton-Small">
+        <property name="actionLabel" value="Image Left"/>
+        <property name="actionScript" value="alert('click');"/>
+        <property name="actionImagePlacement" value="LEFT"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="../ks-common-ksink/images/plus_15px.png"/>
+        </property>
+    </bean>
+
+    <bean id="Uif-KsKrad-Button-ImageOnly-Example" parent="Uif-KsKrad-Button-ImageOnly">
+        <!-- Uif-KsKrad-Button-ImageOnly defined in file ks-enroll-ui/../UifKradExtensionDefinitions.xml -->
+        <property name="actionScript" value="alert('click');"/>
+        <property name="imageSource" value="../ks-common-ksink/images/delete_16x16.png"/>
+        <property name="imageSourceOnHover" value="../ks-common-ksink/images/delete2_16x16.png"/>
+        <property name="title" value="Custom KS Image-Only Button"/>
+    </bean>
+
+
+    
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-Buttons-View" parent="KS-KitchenSink-Buttons-View-Base">
+        <property name="headerText" value="Button / Header Levels"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Buttons">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        A labeled form object that triggers a programmed response.
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-Buttons-Content"/>
+                            <ref bean="KS-KitchenSink-Buttons-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-Content" parent="KS-KitchenSink-TabSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Buttons-Overview-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="A gallery of buttons. The final example is a custom class for image-only buttons, an extension of KRAD's secondary small button."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Buttons-Primary-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="A gallery of primary buttons."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Buttons-Secondary-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="A gallery of secondary buttons."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Overview containers -->
+
+    <bean id="KS-KitchenSink-Buttons-Overview-View-Bare" parent="KS-KitchenSink-Buttons-View-Base">
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Buttons-Overview-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-Overview-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Overview" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Buttons-Overview"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-Overview" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:header.headerText="Default">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Buttons-PrimaryMain"/>
+                            <ref bean="KS-KitchenSink-Buttons-PrimarySmall"/>
+                            <ref bean="KS-KitchenSink-Buttons-SecondaryMain"/>
+                            <ref bean="KS-KitchenSink-Buttons-SecondarySmall"/>
+                            <ref bean="KS-KitchenSink-Buttons-SecondarySmallImage"/>
+                            <ref bean="Uif-KsKrad-Button-ImageOnly-Example"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection" p:header.headerText="Disabled">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Buttons-PrimaryMain" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-PrimarySmall" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-SecondaryMain" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-SecondarySmall" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-SecondarySmallImage" p:disabled="true"/>
+                            <bean parent="Uif-KsKrad-Button-ImageOnly-Example" p:disabled="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Primary Buttons containers -->
+
+    <bean id="KS-KitchenSink-Buttons-Primary-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Buttons-Primary"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-Primary-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Primary Buttons" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Buttons-Primary"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-Primary" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:header.headerText="Default">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Buttons-PrimaryMain"/>
+                            <ref bean="KS-KitchenSink-Buttons-PrimaryImage"/>
+                            <ref bean="KS-KitchenSink-Buttons-PrimarySmall"/>
+                            <ref bean="KS-KitchenSink-Buttons-PrimarySmallImage"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection" p:header.headerText="Disabled">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Buttons-PrimaryMain" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-PrimaryImage" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-PrimarySmall" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-PrimarySmallImage" p:disabled="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Secondary Buttons containers -->
+
+    <bean id="KS-KitchenSink-Buttons-Secondary-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Buttons-Secondary-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-Secondary-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Secondary Buttons" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Buttons-Secondary"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Buttons-Secondary" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:header.headerText="Default">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Buttons-SecondaryMain"/>
+                            <ref bean="KS-KitchenSink-Buttons-SecondaryImage"/>
+                            <ref bean="KS-KitchenSink-Buttons-SecondarySmall"/>
+                            <ref bean="KS-KitchenSink-Buttons-SecondarySmallImage-Left"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-VerticalBoxSection" p:header.headerText="Disabled">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Buttons-SecondaryMain" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-SecondaryImage" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-SecondarySmall" p:disabled="true"/>
+                            <bean parent="KS-KitchenSink-Buttons-SecondarySmallImage-Left" p:disabled="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-Buttons-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/Buttons.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/Buttons.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifElementDefinitions.xml (Uif-PrimaryActionButton)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifElementDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Action.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/element/Action.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Action.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/element/Action.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Action and Action Field"
+                                               value="http://site.kuali.org/rice/2.2.0/reference/html/KRAD_Guide.html#d6766e6122"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Overview"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-Overview-View-Bare&amp;methodToCall=start"/>
+                                        <entry key="Primary Buttons"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-Primary-View-Bare&amp;methodToCall=start"/>
+                                        <entry key="Secondary Buttons"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Buttons-Secondary-View-Bare&amp;methodToCall=start"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

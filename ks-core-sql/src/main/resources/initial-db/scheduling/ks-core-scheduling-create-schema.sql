@@ -1,0 +1,534 @@
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , SCHED_TYPE VARCHAR2(255) NOT NULL
+        , SCHED_STATE VARCHAR2(255) NOT NULL
+        , NAME VARCHAR2(255)
+        , DESCR_PLAIN VARCHAR2(4000)
+        , DESCR_FORMATTED VARCHAR2(4000)
+        , ATP_ID VARCHAR2(255) NOT NULL
+        , VER_NBR NUMBER(19) NOT NULL
+        , CREATETIME TIMESTAMP NOT NULL
+        , CREATEID VARCHAR2(255) NOT NULL
+        , UPDATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED
+    ADD CONSTRAINT KSEN_SCHEDP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_SCHED_I1 
+  ON KSEN_SCHED 
+  (SCHED_TYPE)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_ATTR
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , ATTR_KEY VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(4000)
+        , OWNER_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_ATTR
+    ADD CONSTRAINT KSEN_SCHED_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_SCHED_ATTR_IF1 
+  ON KSEN_SCHED_ATTR 
+  (OWNER_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_CMP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_CMP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_CMP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_CMP
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , ROOM_ID VARCHAR2(255)
+        , SCHED_ID VARCHAR2(255)
+        , TBA_IND NUMBER(22) NOT NULL
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_CMP
+    ADD CONSTRAINT KSEN_SCHED_CMPP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_SCHED_CMP_IF1 
+  ON KSEN_SCHED_CMP 
+  (SCHED_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_CMP_TMSLOT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_CMP_TMSLOT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_CMP_TMSLOT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_CMP_TMSLOT
+(
+      SCHED_CMP_ID VARCHAR2(255)
+        , TM_SLOT_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_CMP_TMSLOT
+    ADD CONSTRAINT KSEN_SCHED_CMP_TMSLOTP1
+PRIMARY KEY (SCHED_CMP_ID,TM_SLOT_ID)
+/
+
+
+CREATE INDEX KSEN_SCHED_CMP_TMSLOT_IF1 
+  ON KSEN_SCHED_CMP_TMSLOT 
+  (SCHED_CMP_ID)
+/
+CREATE INDEX KSEN_SCHED_CMP_TMSLOT_IF2 
+  ON KSEN_SCHED_CMP_TMSLOT 
+  (TM_SLOT_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(255)
+        , SCHED_RQST_TYPE VARCHAR2(255) NOT NULL
+        , SCHED_RQST_STATE VARCHAR2(255) NOT NULL
+        , NAME VARCHAR2(255)
+        , DESCR_PLAIN VARCHAR2(4000)
+        , DESCR_FORMATTED VARCHAR2(4000)
+        , REF_OBJECT_ID VARCHAR2(255) NOT NULL
+        , REF_OBJECT_TYPE VARCHAR2(255) NOT NULL
+        , VER_NBR NUMBER(19) NOT NULL
+        , CREATETIME TIMESTAMP NOT NULL
+        , CREATEID VARCHAR2(255) NOT NULL
+        , UPDATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_RQST
+    ADD CONSTRAINT KSEN_SCHED_RQSTP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_SCHED_RQST_I1 
+  ON KSEN_SCHED_RQST 
+  (REF_OBJECT_ID, REF_OBJECT_TYPE)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_ATTR
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , ATTR_KEY VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(2000)
+        , OWNER_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_RQST_ATTR
+    ADD CONSTRAINT KSEN_SCHED_RQST_ATTRP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_SCHED_RQST_ATTR_IF1 
+  ON KSEN_SCHED_RQST_ATTR 
+  (OWNER_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_CMP
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_CMP';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_CMP CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_CMP
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , SCHED_RQST_ID VARCHAR2(255)
+        , TBA_IND NUMBER(22) NOT NULL
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_RQST_CMP
+    ADD CONSTRAINT KSEN_SCHED_RQST_CMPP1
+PRIMARY KEY (ID)
+/
+
+
+CREATE INDEX KSEN_SCHED_RQST_CMP_IF1 
+  ON KSEN_SCHED_RQST_CMP 
+  (SCHED_RQST_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_CMP_BLDG
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_CMP_BLDG';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_CMP_BLDG CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_CMP_BLDG
+(
+      CMP_ID VARCHAR2(255) NOT NULL
+        , BUILDING_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT KSEN_SCHED_RQST_CMP_BLDG_I1 UNIQUE (CMP_ID, BUILDING_ID)
+
+)
+/
+
+
+
+CREATE INDEX KSEN_SCHED_RQST_CMP_BLDG_IF1 
+  ON KSEN_SCHED_RQST_CMP_BLDG 
+  (CMP_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_CMP_CAMPUS
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_CMP_CAMPUS';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_CMP_CAMPUS CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_CMP_CAMPUS
+(
+      CMP_ID VARCHAR2(255) NOT NULL
+        , CAMPUS_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT KSEN_SCHED_RQST_CMP_CAMPUS_I1 UNIQUE (CMP_ID, CAMPUS_ID)
+
+)
+/
+
+
+
+CREATE INDEX KSEN_SCHED_RQST_CMP_CAMPUS_IF1 
+  ON KSEN_SCHED_RQST_CMP_CAMPUS 
+  (CMP_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_CMP_ORG
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_CMP_ORG';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_CMP_ORG CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_CMP_ORG
+(
+      CMP_ID VARCHAR2(255) NOT NULL
+        , ORG_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT KSEN_SCHED_RQST_CMP_ORG_I1 UNIQUE (CMP_ID, ORG_ID)
+
+)
+/
+
+
+
+CREATE INDEX KSEN_SCHED_RQST_CMP_ORG_IF1 
+  ON KSEN_SCHED_RQST_CMP_ORG 
+  (CMP_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_CMP_ROOM
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_CMP_ROOM';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_CMP_ROOM CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_CMP_ROOM
+(
+      CMP_ID VARCHAR2(255) NOT NULL
+        , ROOM_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT KSEN_SCHED_RQST_CMP_ROOM_I1 UNIQUE (CMP_ID, ROOM_ID)
+
+)
+/
+
+
+
+CREATE INDEX KSEN_SCHED_RQST_CMP_ROOM_IF1 
+  ON KSEN_SCHED_RQST_CMP_ROOM 
+  (CMP_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_CMP_RT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_CMP_RT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_CMP_RT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_CMP_RT
+(
+      CMP_ID VARCHAR2(255) NOT NULL
+        , RSRC_TYPE_KEY VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT KSEN_SCHED_RQST_RT_I1 UNIQUE (CMP_ID, RSRC_TYPE_KEY)
+
+)
+/
+
+
+
+CREATE INDEX KSEN_SCHED_RQST_RT_IF1 
+  ON KSEN_SCHED_RQST_CMP_RT 
+  (CMP_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_RQST_CMP_TMSLOT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_RQST_CMP_TMSLOT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_RQST_CMP_TMSLOT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_RQST_CMP_TMSLOT
+(
+      CMP_ID VARCHAR2(255) NOT NULL
+        , TM_SLOT_ID VARCHAR2(255) NOT NULL
+    
+    , CONSTRAINT KSEN_SCHED_RQST_CMP_TMSLOT_I1 UNIQUE (CMP_ID, TM_SLOT_ID)
+
+)
+/
+
+
+
+CREATE INDEX KSEN_SCHED_RQST_CMP_TMSLOT_IF1 
+  ON KSEN_SCHED_RQST_CMP_TMSLOT 
+  (CMP_ID)
+/
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_TMSLOT
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_TMSLOT';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_TMSLOT CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_TMSLOT
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , TM_SLOT_TYPE VARCHAR2(255) NOT NULL
+        , TM_SLOT_STATE VARCHAR2(255) NOT NULL
+        , NAME VARCHAR2(255)
+        , DESCR_PLAIN VARCHAR2(4000)
+        , DESCR_FORMATTED VARCHAR2(4000)
+        , WEEKDAYS VARCHAR2(255)
+        , START_TIME_MS NUMBER(22)
+        , END_TIME_MS NUMBER(22)
+        , VER_NBR NUMBER(19) NOT NULL
+        , CREATETIME TIMESTAMP NOT NULL
+        , CREATEID VARCHAR2(255) NOT NULL
+        , UPDATETIME TIMESTAMP
+        , UPDATEID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_TMSLOT
+    ADD CONSTRAINT KSEN_SCHED_TMSLOTP1
+PRIMARY KEY (ID)
+/
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+-- KSEN_SCHED_TMSLOT_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_SCHED_TMSLOT_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_SCHED_TMSLOT_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_SCHED_TMSLOT_ATTR
+(
+      ID VARCHAR2(255)
+        , OBJ_ID VARCHAR2(36)
+        , ATTR_KEY VARCHAR2(255)
+        , ATTR_VALUE VARCHAR2(4000)
+        , OWNER_ID VARCHAR2(255)
+    
+
+)
+/
+
+ALTER TABLE KSEN_SCHED_TMSLOT_ATTR
+    ADD CONSTRAINT KSEN_SCHED_TMSLOT_ATTRP1
+PRIMARY KEY (ID)
+/
+

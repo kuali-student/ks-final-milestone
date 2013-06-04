@@ -1,3 +1,0 @@
---KSENROLL-5104 add kuali.atp.milestone.AdvancedRegistrationPeriod to the reg period type group
-insert into KSEN_TYPETYPE_RELTN (ID, OBJ_ID, TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE, EFF_DT, EXPIR_DT, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.type.type.relation.type.group.kuali.milestone.type.group.appt.regperiods.kuali.atp.milestone.AdvancedRegistrationPeriod', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.milestone.type.group.appt.regperiods', 'kuali.atp.milestone.AdvancedRegistrationPeriod', 0, 0, TIMESTAMP '2012-03-01 00:00:00', 'SYSTEMLOADER', null, null)
-/
