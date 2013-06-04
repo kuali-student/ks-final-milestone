@@ -439,7 +439,7 @@
                             <property name="actionLabel" value="Add Another Seat Pool"/>
                             <property name="actionImagePlacement" value="LEFT"/>
                             <property name="actionImage">
-                                <bean parent="Uif-Image" p:source="../ks-enroll-ksink/images/plus_15px.png"/>
+                                <bean parent="Uif-Image" p:source="../ks-common-ksink/images/plus_15px.png"/>
                             </property>
                             <property name="style" value="margin-top:5px;"/>
                         </bean>
