@@ -399,4 +399,12 @@
         </property>
     </bean>
 
+    <bean id="KS-Lozenge-Green-Uif-Message" parent="Uif-Message">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>text-lozenge-green-msg</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>
