@@ -322,7 +322,6 @@ public class AcademicCalendarController extends UifControllerBase {
                              HttpServletRequest request, HttpServletResponse response) {
         boolean makeOfficial = academicCalendarForm.isMakeOfficial();
         ModelAndView page;
-        Properties urlParameters = new Properties();
         String dialog=null;
 
         // Find any terms that are marked to be made official
@@ -404,24 +403,12 @@ public class AcademicCalendarController extends UifControllerBase {
             for(int i=0;i<termsToMakeOfficial.size();i++){
                makeTermOfficial(terms.get(termsToMakeOfficial.get(i)),academicCalendarForm);
             }
-
-            urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_OFFICIAL);
         }else{
             // Save the calendar and retrieve the page
             page = saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
-            urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED);
         }
 
-        // Check for errors or warnings during the save
-        if(GlobalVariables.getMessageMap().getErrorCount()>0 ||GlobalVariables.getMessageMap().getWarningCount()>0){
-            // If errors or warnings present redisplay page for correction
-            return page;
-        }
-
-        // If page is saved without errors or warnings populate growl messaging information and redirect to search page as no further work is needed on page.
-        urlParameters.put(CalendarConstants.GROWL_TITLE,"");
-        urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,academicCalendarForm.getAcademicCalendarInfo().getName());
-        return redirectToSearch(academicCalendarForm, request, urlParameters);
+        return page;
     }
 
     /**
@@ -758,7 +745,6 @@ public class AcademicCalendarController extends UifControllerBase {
                 } else{
                     academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(academicCalendarForm.getAcademicCalendarInfo().getId(), viewHelperService.createContextInfo()));
                     academicCalendarForm.setOfficialCalendar(true);
-                    academicCalendarForm.getView().setReadOnly(true);
                     for (AcalEventWrapper eventWrapper : academicCalendarForm.getEvents()) {
                         eventWrapper.setAcalEventInfo(getAcalService().getAcalEvent(eventWrapper.getAcalEventInfo().getId(),viewHelperService.createContextInfo()));
                     }
