@@ -51,7 +51,8 @@ function ajaxCallOnTabSelect(event, ui) {
                 //Add an error message for the user.
                 var data = jQuery("#LogicArea_InputField").data(kradVariables.VALIDATION_MESSAGES);
                 data.errors = [];
-                data.errors.push('The logical expression has changed, click Preview Change.');
+                var errorMessage = getMessage('error.krms.logic.preview');
+                data.errors.push(errorMessage);
                 jQuery("#LogicArea_InputField").data(kradVariables.VALIDATION_MESSAGES, data);
 
                 //Display error message
