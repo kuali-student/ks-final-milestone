@@ -116,10 +116,10 @@ public class AtpServiceConstants {
     public static final String ATP_SPRING_ODD_YEARS_TYPE_KEY = "kuali.atp.type.SpringOddYears";
 
     // continuing education
-    public static final String ATP_CE_TERM_I_TYPE_KEY = "kuali.atp.type.CETermI";
-    public static final String ATP_CE_TERM_II_TYPE_KEY = "kuali.atp.type.CETermII";
-    public static final String ATP_CE_TERM_III_TYPE_KEY = "kuali.atp.type.CETermIII";
-    public static final String ATP_CE_TERM_IV_TYPE_KEY = "kuali.atp.type.CETermIV";
+    public static final String ATP_CE_TERM_1_TYPE_KEY = "kuali.atp.type.CETerm1";
+    public static final String ATP_CE_TERM_2_TYPE_KEY = "kuali.atp.type.CETerm2";
+    public static final String ATP_CE_TERM_3_TYPE_KEY = "kuali.atp.type.CETerm3";
+    public static final String ATP_CE_TERM_4_TYPE_KEY = "kuali.atp.type.CETerm4";
 
     /**
      * Milstone types
