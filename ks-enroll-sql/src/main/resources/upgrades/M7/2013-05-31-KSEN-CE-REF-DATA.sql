@@ -128,3 +128,10 @@ insert into KSEN_ATPATP_RELTN (ID, OBJ_ID, ATP_TYPE, ATP_STATE, ATP_ID, RELATED_
 insert into KSEN_ATPATP_RELTN (ID, OBJ_ID, ATP_TYPE, ATP_STATE, ATP_ID, RELATED_ATP_ID, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('a965c892-5b6c-4558-a7f4-f1beb34c77a1', '8914aeb0-901c-4d8f-843a-3c337cf5fd2f', 'kuali.atp.atp.relation.includes', 'kuali.atp.atp.relation.state.active', 'b58c25aa-5d7f-4c85-academic-calendar', 'kuali.atp.2013CETerm4', TIMESTAMP '2013-02-02 05:13:18', null, 0, TIMESTAMP '2013-05-02 05:12:50', 'batchjob', TIMESTAMP '2013-05-02 05:12:50', 'batchjob')
 /
 
+--Add Soc
+insert into KSEN_SOC (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, NAME, DESCR_PLAIN, SOC_STATE, SOC_TYPE, SUBJECT_AREA, TERM_ID, UNITS_CONTENT_OWNER_ID, ID) values ('5e67a0c4-e1e7-41d2-bf8e-3fd5dd00729e', 0, 'admin', TIMESTAMP '2013-06-03 10:29:21.146', 'admin', TIMESTAMP '2013-06-03 10:29:21.146', '', '', '', 'kuali.soc.state.open', 'kuali.soc.type.main', '', 'kuali.atp.2012CETerm1', '', 'bc662f64-5078-431a-bc66-e4e586ef38f3')
+/
+insert into KSEN_SOC_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('a0115bdd-fc8d-46a5-926d-f2fd08a36b27', 'kuali.soc.state.draft', 'bc662f64-5078-431a-bc66-e4e586ef38f3', '2013-06-03T10:29:21-0400', 'ab8de027-afdb-448b-bbb2-cd2dc7c4785c')
+/
+insert into KSEN_SOC_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('1ae5a735-e176-4653-aa15-481693681972', 'kuali.soc.state.open', 'bc662f64-5078-431a-bc66-e4e586ef38f3', '2013-06-04T08:29:21-0400', '1516f93f-42da-4185-a34c-163888acff20')
+/
