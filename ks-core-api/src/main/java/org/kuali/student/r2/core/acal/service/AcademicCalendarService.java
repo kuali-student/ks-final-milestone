@@ -922,11 +922,11 @@ public interface AcademicCalendarService {
     public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list Terms included immediately inside the given Term ordered
+     * Retrieves a list of Terms that are children of the parentTermId ordered
      * by Term start date. This method should be called recursively to get
-     * sub-terms of the returned Terms.
+     * descendant sub-terms of the returned Terms.
      *
-     * @param termId      an identifier for a Term
+     * @param parentTermId      an identifier for the parent term
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return a list of Terms or an empty list if there are no included Terms
@@ -937,15 +937,16 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getIncludedTermsInTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getIncludedTermsInTerm(@WebParam(name = "termId") String parentTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Gets the containing terms of a given term. A term may be "included"
-     * inside other terms using addTermToTerm(). This method returns the list of
-     * Terms that the given Term has been placed inside. Typically, a term is
-     * placed inside a single parent term.
+     * Gets the containing (or parent) terms of a given child term. Although
+     * parent-child relations typically assume a single parent, the contract allows
+     * for multiple parents for a given child term.  One can call this recursively to
+     * get to a term that has no parents (assuming the term tree is acyclic).  That
+     * root term presumably is attached to a calendar.
      *
-     * @param termId      an identifier for a Term
+     * @param childTermId      an identifier for a child Term
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return the parent terms or an empty list if it is a root
@@ -956,7 +957,7 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getContainingTerms(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getContainingTerms(@WebParam(name = "termId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Terms that meet the given search criteria.
@@ -1145,10 +1146,12 @@ public interface AcademicCalendarService {
     public StatusInfo removeTermFromAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Adds a Term as an included term within another Term.
+     * Adds a child Term to a parent Term assuming such a relationship does not
+     * already exists.  The child Term is not necessarily contained within the
+     * start/end date of the parent Term.  This merely represents a hierarchy.
      *
-     * @param termId         an identifier for a Term
-     * @param includedTermId the identifier for the Term to be included
+     * @param parentTermId         an identifier for a parent Term
+     * @param childTermId the identifier for the child Term
      * @param contextInfo    information containing the principalId and locale
      *                       information about the caller of service operation
      * @return the status of the operation. This must always be true.
@@ -1161,13 +1164,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo addTermToTerm(@WebParam(name = "termId") String termId, @WebParam(name = "includedTermId") String includedTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo addTermToTerm(@WebParam(name = "termId") String parentTermId, @WebParam(name = "includedTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Removes an included Term from a Term.
+     * Removes a child Term from a parent Term.
      *
-     * @param termId         an identifier for a Term
-     * @param includedTermId the identifier for the Term to be removed
+     * @param parentTermId         an identifier for a Term
+     * @param childTermId the identifier for the Term to be removed
      * @param contextInfo    information containing the principalId and locale
      *                       information about the caller of service operation
      * @return the status of the operation. This must always be true.
@@ -1180,10 +1183,10 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removeTermFromTerm(@WebParam(name = "termId") String termId, @WebParam(name = "includedTermId") String includedTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeTermFromTerm(@WebParam(name = "termId") String parentTermId, @WebParam(name = "includedTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Rerieves a KeyDate Type by Type key.
+     * Retrieves a KeyDate Type by Type key.
      *
      * @param keyDateTypeKey the key of a keyDate Type
      * @param contextInfo    information containing the principalId and locale
