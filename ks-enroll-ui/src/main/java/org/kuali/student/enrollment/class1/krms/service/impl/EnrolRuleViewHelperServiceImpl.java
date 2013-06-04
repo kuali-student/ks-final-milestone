@@ -81,7 +81,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             //Check if this is a valid clu.
             CluInformation clu = (CluInformation) addLine;
             if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
-                clu.clear();
+                collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                 return false;
             }
 
@@ -90,7 +90,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
             for(CluInformation cluInformation : propEditor.getCluSet().getClus()){
                 if(cluInformation.getCluId().equals(clu.getCluId())){
-                    clu.clear();
+                    collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
                     return false;
                 }
             }
