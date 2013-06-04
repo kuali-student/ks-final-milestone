@@ -29,7 +29,7 @@ import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagem
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.common.uif.util.GrowlIcon;

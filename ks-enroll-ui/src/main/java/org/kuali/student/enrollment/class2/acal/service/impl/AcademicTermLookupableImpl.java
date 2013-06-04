@@ -22,8 +22,8 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.util.CalendarSearchViewHelperUtil;
-import org.kuali.student.enrollment.common.util.ContextBuilder;
+import org.kuali.student.common.util.CalendarSearchViewHelperUtil;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;

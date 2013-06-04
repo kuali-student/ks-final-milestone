@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -90,7 +91,7 @@ public class AcalEventInfoLookupableImpl extends LookupableImpl {
 
     public ContextInfo getContextInfo() {
         if (contextInfo == null){
-            contextInfo =  org.kuali.student.enrollment.common.util.ContextBuilder.loadContextInfo();
+            contextInfo =  ContextBuilder.loadContextInfo();
         }
         return contextInfo;
     }

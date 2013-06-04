@@ -22,7 +22,6 @@
                 <module>ks-enroll-sql</module>
                 <module>ks-enroll-impl</module>
                 <module>ks-enroll-ui</module>
-                <module>ks-enroll-ksink</module>
                 <module>ks-enroll-web</module>
                 <module>ks-enroll-rice</module>
             </modules>
@@ -38,7 +37,6 @@
             <modules>
                 <module>ks-enroll-impl</module>
                 <module>ks-enroll-ui</module>
-                <module>ks-enroll-ksink</module>
                 <module>ks-enroll-rice</module>
             </modules>
         </profile>

@@ -15,7 +15,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.class2.acal.util.CalendarSearchViewHelperUtil;
+import org.kuali.student.common.util.CalendarSearchViewHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;

@@ -18,19 +18,15 @@ package org.kuali.student.enrollment.class1.hold.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.HoldServiceConstants;
-import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -122,7 +118,7 @@ public class HoldIssueInfoLookupableImpl extends LookupableImpl {
 
     public ContextInfo getContextInfo() {
         if (contextInfo == null){
-            contextInfo =  org.kuali.student.enrollment.common.util.ContextBuilder.loadContextInfo();
+            contextInfo =  ContextBuilder.loadContextInfo();
         }
         return contextInfo;
     }
