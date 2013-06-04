@@ -116,9 +116,9 @@
         </property>
 
         <!--<property name="collections">-->
-            <!--<list>-->
-                <!--<bean parent="CollectionDefinition" p:name="holidays" /> &lt;!&ndash;p:label="Terms" p:shortLabel="Terms" p:elementLabel="Terms" />&ndash;&gt;-->
-            <!--</list>-->
+        <!--<list>-->
+        <!--<bean parent="CollectionDefinition" p:name="holidays" /> &lt;!&ndash;p:label="Terms" p:shortLabel="Terms" p:elementLabel="Terms" />&ndash;&gt;-->
+        <!--</list>-->
         <!--</property>-->
         <property name="objectLabel" value="Holiday Calendar"/>
         <property name="primaryKeys">

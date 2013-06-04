@@ -31,6 +31,21 @@
 
     <bean id="KS-HolidayCalendar-ViewPage" parent="Uif-Page"
           p:id="holidayCalendarViewPage" >
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Calendars"/>
+                    <property name="url.viewId" value="calendarSearchView"/>
+                    <property name="url.controllerMapping" value="/calendarSearch"/>
+                    <property name="url.methodToCall" value="start"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{holidayCalendarInfo.name}"/>
+                </bean>
+            </list>
+        </property>
+
         <property name="header">
             <bean parent="Uif-HeaderTwo">
                 <property name="cssClasses">

@@ -37,6 +37,41 @@
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Calendars"/>
+                    <property name="url.viewId" value="calendarSearchView"/>
+                    <property name="url.controllerMapping" value="/calendarSearch"/>
+                    <property name="url.methodToCall" value="start"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{!#view.readOnly and !newCalendar}">
+                    <property name="label" value="@{holidayCalendarInfo.name}"/>
+                    <property name="url.viewId" value="holidayCalendarFlowView"/>
+                    <property name="url.pageId" value="holidayCalendarViewPage"/>
+                    <property name="url.controllerMapping" value="/holidayCalendar"/>
+                    <property name="url.methodToCall" value="start"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="showHome" value="false"/>
+                            <entry key="readOnlyView" value="true"/>
+                            <entry key="id" value="@{holidayCalendarInfo.id}"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{!#view.readOnly and !newCalendar}">
+                    <property name="label" value="Edit Calendar"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{#view.readOnly}">
+                    <property name="label" value="@{holidayCalendarInfo.name}"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{newCalendar}">
+                    <property name="label" value="New Holiday Calendar"/>
+                </bean>
+            </list>
+        </property>
+
         <property name="items">
             <list>
                 <ref bean="KS-HolidayCalendar-MetaSection"/>
