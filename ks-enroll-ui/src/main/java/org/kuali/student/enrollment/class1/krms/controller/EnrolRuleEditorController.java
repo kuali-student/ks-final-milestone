@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2012 The Kuali Foundation
+ * Copyright 2005-2013 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
+import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
@@ -47,14 +48,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller for the Test UI Page
+ * Override of RuleEditorController for Student
  *
- * @author Kuali Rice Team (rice.collab@kuali.org)
+ * @author Kuali Student Team
  */
 @Controller
 @RequestMapping(value = KRMSConstants.WebPaths.RULE_STUDENT_EDITOR_PATH)
-public class RuleStudentEditorController extends RuleEditorController {
+public class EnrolRuleEditorController extends RuleEditorController {
 
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
@@ -65,6 +74,14 @@ public class RuleStudentEditorController extends RuleEditorController {
         return back(form, result, request, response);
     }
 
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(params = "methodToCall=cancel")
     @Override
     public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
@@ -76,6 +93,15 @@ public class RuleStudentEditorController extends RuleEditorController {
         return back(form,result,request,response);
     }
 
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @Override
     @RequestMapping(params = "methodToCall=addRule")
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
@@ -95,6 +121,15 @@ public class RuleStudentEditorController extends RuleEditorController {
         return super.navigate(form, result, request, response);
     }
 
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params="methodToCall=viewCourseRange")
     public ModelAndView viewCourseRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -103,12 +138,23 @@ public class RuleStudentEditorController extends RuleEditorController {
         CORuleManagementWrapper ruleWrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
         EnrolPropositionEditor prop = (EnrolPropositionEditor) ruleWrapper.getEnrolRuleEditor().getProposition();
 
-        ruleWrapper.setClusInRange(this.getViewHelper(form).getCoursesInRange(prop.getCluSet().getMembershipQueryInfo()));
+        List<CluInformation> clusInRange = this.getViewHelper(form).getCoursesInRange(prop.getCluSet().getMembershipQueryInfo());
+        if(clusInRange != null) {
+            ruleWrapper.setClusInRange(clusInRange);
+        }
 
-        form.setLightboxScript("showLightboxComponent('" + dialog + "');");
-        return getUIFModelAndView(form);
+        return showDialog(dialog, form, request, response);
      }
 
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=addRange")
     public ModelAndView addRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -164,6 +210,12 @@ public class RuleStudentEditorController extends RuleEditorController {
         return getUIFModelAndView(form);
     }
 
+    /**
+     *
+     * @param key
+     * @param value
+     * @return
+     */
     private SearchParamInfo createSearchParam(String key, String value){
         SearchParamInfo param = new SearchParamInfo();
         param.setKey(key);
@@ -175,6 +227,11 @@ public class RuleStudentEditorController extends RuleEditorController {
         return param;
     }
 
+    /**
+     *
+     * @param form
+     * @return
+     */
     protected EnrolRuleViewHelperServiceImpl getViewHelper(UifFormBase form) {
         return (EnrolRuleViewHelperServiceImpl) KSControllerHelper.getViewHelperService(form);
     }

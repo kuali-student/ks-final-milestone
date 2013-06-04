@@ -414,7 +414,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <!--ref bean="KRMS-CourseRangeResult"/-->
+                <ref bean="KRMS-CourseRangeResult"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
                       p:align="right"/>
             </list>
