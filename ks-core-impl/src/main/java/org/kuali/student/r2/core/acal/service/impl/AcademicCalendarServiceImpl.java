@@ -581,18 +581,18 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TermInfo> getIncludedTermsInTerm(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<TermInfo> getIncludedTermsInTerm(String parentTermId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
         // check for a valid term
-        TermInfo parentTerm = getTerm(termId, context);
+        TermInfo parentTerm = getTerm(parentTermId, context);
 
         List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByTypeAndAtp(parentTerm.getId(), AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
 
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
 
         for (AtpAtpRelationInfo atpRelation : results) {
-            if (atpRelation.getAtpId().equals(termId)) {
+            if (atpRelation.getAtpId().equals(parentTermId)) {
                 AtpInfo possibleTerm = atpService.getAtp(atpRelation.getRelatedAtpId(), context);
 
                 if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
@@ -610,20 +610,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TermInfo> getContainingTerms(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<TermInfo> getContainingTerms(String childTermId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
         // check for a valid term
-        TermInfo term = getTerm(termId, context);
+        TermInfo childTerm = getTerm(childTermId, context);
 
-        List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByAtp(term.getId(), context);
+        List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByAtp(childTerm.getId(), context);
 
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
 
         // check that the relations we found have the given termId as the
         // "related" atp, and that the owning atp is a term
         for (AtpAtpRelationInfo atpRelation : results) {
-            if (atpRelation.getRelatedAtpId().equals(termId)) {
+            if (atpRelation.getRelatedAtpId().equals(childTermId)) {
                 AtpInfo possibleTerm = atpService.getAtp(atpRelation.getAtpId(), context);
 
                 if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
@@ -871,25 +871,25 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     @Transactional(readOnly = false)
-    public StatusInfo addTermToTerm(String termId, String includedTermId, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
+    public StatusInfo addTermToTerm(String parentTermId, String childTermId, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        TermInfo term = getTerm(termId, context);
+        TermInfo parentTerm = getTerm(parentTermId, context);
 
-        TermInfo includedTerm = getTerm(includedTermId, context);
+        TermInfo childTerm = getTerm(childTermId, context);
 
         // check if the relationship already exists
-        List<TermInfo> terms = getIncludedTermsInTerm(term.getId(), context);
+        List<TermInfo> terms = getIncludedTermsInTerm(parentTerm.getId(), context);
         for (TermInfo t : terms) {
-            if (t.getId().equals(includedTerm.getId())) {
-                throw new AlreadyExistsException("A relationship already exists exists between term: " + termId + " and included term: " + includedTermId);
+            if (t.getId().equals(childTerm.getId())) {
+                throw new AlreadyExistsException("A relationship already exists exists between parent term: " + parentTermId + " and child term: " + childTermId);
             }
         }
 
         StatusInfo resultStatus = new StatusInfo();
 
         try {
-            createAtpAtpRelation(termId, includedTermId, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+            createAtpAtpRelation(parentTermId, childTermId, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
         } catch (DataValidationErrorException e) {
             resultStatus.setSuccess(false);
             resultStatus.setMessage("Creation of AtpAtpRelation failed due to DataValidationErrorExecption: " + e.getMessage());
@@ -900,31 +900,31 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     @Transactional(readOnly = false)
-    public StatusInfo removeTermFromTerm(String termId, String includedTermId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public StatusInfo removeTermFromTerm(String parentTermId, String childTermId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         try {
-            atpService.getAtp(termId, context);
+            atpService.getAtp(parentTermId, context);
         } catch (DoesNotExistException e) {
-            throw new InvalidParameterException("Invalid termId: " + termId);
+            throw new InvalidParameterException("Invalid termId: " + parentTermId);
         }
 
         try {
-            atpService.getAtp(includedTermId, context);
+            atpService.getAtp(childTermId, context);
         } catch (DoesNotExistException e) {
-            throw new InvalidParameterException("Invalid includedTermId: " + includedTermId);
+            throw new InvalidParameterException("Invalid childTermId: " + childTermId);
         }
 
-        List<AtpAtpRelationInfo> relations = atpService.getAtpAtpRelationsByTypeAndAtp(termId, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+        List<AtpAtpRelationInfo> relations = atpService.getAtpAtpRelationsByTypeAndAtp(parentTermId, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
         if (relations == null || relations.isEmpty()) {
-            throw new DoesNotExistException("No relationship exists between term: " + termId + " and included term: " + includedTermId);
+            throw new DoesNotExistException("No relationship exists between term: " + parentTermId + " and included term: " + childTermId);
         }
 
         AtpAtpRelationInfo relationToRemove = null;
 
         for (AtpAtpRelationInfo rel : relations) {
-            if (rel.getAtpId().equals(termId)) {
-                if (rel.getRelatedAtpId().equals(includedTermId)) {
+            if (rel.getAtpId().equals(parentTermId)) {
+                if (rel.getRelatedAtpId().equals(childTermId)) {
                     // if the relation represents an "includes" relationship
                     // from the Term to the included Term,
                     // then it is the one we need to remove
@@ -935,7 +935,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         if (relationToRemove == null) {
-            throw new DoesNotExistException("No relationship exists between term: " + termId + " and included term: " + includedTermId);
+            throw new DoesNotExistException("No relationship exists between parent term: " + parentTermId + " and child term: " + childTermId);
         }
 
         StatusInfo resultStatus = atpService.deleteAtpAtpRelation(relationToRemove.getId(), context);
