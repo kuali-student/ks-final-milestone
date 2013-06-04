@@ -305,6 +305,9 @@
                 <bean parent="timeOfDayInfoDictionaryLocation"/>
                 <bean parent="populationInfoDictionaryLocation" />
                 <bean parent="populationRuleInfoDictionaryLocation" />
+                <bean parent="buildingInfoDictionaryLocation" />
+                <bean parent="roomInfoDictionaryLocation"/>
+                <bean parent="roomResponsibleOrgInfoDictionaryLocation"/>
             </list>
         </constructor-arg>
     </bean>
