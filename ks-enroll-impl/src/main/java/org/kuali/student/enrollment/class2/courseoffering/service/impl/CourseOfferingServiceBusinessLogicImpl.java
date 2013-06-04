@@ -432,6 +432,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
             // copy rules from cannonical too
             coTransformer.copyRulesFromCanonical(targetCourse, targetCo, optionKeys, context);
+        } else {
+            coTransformer.copyRulesFromExistingCourseOffering(sourceCo, targetCo, optionKeys, context);
         }
         return targetCo;
     }

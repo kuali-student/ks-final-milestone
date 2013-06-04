@@ -753,7 +753,7 @@ public class CourseOfferingTransformer {
             PermissionDeniedException,
             OperationFailedException {
         if (courseOfferingInfo.getId() == null) {
-            throw new InvalidParameterException("CourseOffering should already have it's id assigned");
+            throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
         KrmsRuleManagementCopyMethods copier = new KrmsRuleManagementCopyMethodsMockImpl();
         copier.deepCopyReferenceObjectBindingsFromTo(CourseInfo.class.getSimpleName(),
@@ -763,6 +763,25 @@ public class CourseOfferingTransformer {
                 optionKeys);
     }
 
+    
+    public void copyRulesFromExistingCourseOffering(CourseOfferingInfo sourceCo,
+            CourseOfferingInfo targetCo,
+            List<String> optionKeys, ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            PermissionDeniedException,
+            OperationFailedException {
+        if (targetCo.getId() == null) {
+            throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
+        }
+        KrmsRuleManagementCopyMethods copier = new KrmsRuleManagementCopyMethodsMockImpl();
+        copier.deepCopyReferenceObjectBindingsFromTo(CourseOfferingInfo.class.getSimpleName(),
+                sourceCo.getId(),
+                CourseOfferingInfo.class.getSimpleName(),
+                targetCo.getId(),
+                optionKeys);
+    }
+    
     public List<OfferingInstructorInfo> copyInstructors(List<CluInstructorInfo> cluInstructors) {
         if (cluInstructors == null) {
             return null;
