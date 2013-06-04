@@ -1073,7 +1073,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleEditor ruleEditor = getRuleEditor(form);
         PropositionEditor proposition = ruleEditor.getPropositionEditor();
 
-        if(proposition.getPropositionTypeCode().equals("S") && proposition.getCompoundEditors() == null) {
+        //If first proposition and not yet updated, clear rule proposition
+        if(proposition.getPropositionTypeCode().equals("S") && proposition.getCompoundEditors() == null && proposition.getTerm().getParameters() == null) {
             ruleEditor.setProposition(null);
             ruleEditor.setSelectedKey(StringUtils.EMPTY);
             ruleEditor.setAlpha(new AlphaIterator());
