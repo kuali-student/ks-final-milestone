@@ -114,9 +114,9 @@
             <version>${ks.enroll.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-ksink</artifactId>
-            <version>${ks.enroll.version}</version>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-ksink</artifactId>
+            <version>${ks.core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.enroll</groupId>

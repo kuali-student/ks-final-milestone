@@ -33,5 +33,6 @@
 
   <context:component-scan base-package="org.kuali.rice.core.web.cache" />
   <context:component-scan base-package="org.kuali.student.enrollment" />
+  <context:component-scan base-package="org.kuali.student.common.kitchensink" />
 
 </beans>
