@@ -48,12 +48,6 @@ limitations under the License.
 
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Calendars"/>
-                    <property name="url.viewId" value="calendarSearchView"/>
-                    <property name="url.controllerMapping" value="/calendarSearch"/>
-                    <property name="url.methodToCall" value="start"/>
-                </bean>
                 <bean parent="Uif-BreadcrumbItem" p:render="@{!#view.readOnly and !newCalendar}">
                     <property name="label" value="@{academicCalendarInfo.name}"/>
                     <property name="url.viewId" value="academicCalendarFlowView"/>
@@ -65,6 +59,7 @@ limitations under the License.
                             <entry key="showHome" value="false"/>
                             <entry key="readOnlyView" value="true"/>
                             <entry key="id" value="@{academicCalendarInfo.id}"/>
+                            <entry key="flow" value="@{flowKey}"/>
                         </map>
                     </property>
                 </bean>
@@ -82,39 +77,18 @@ limitations under the License.
 
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxGroup">
-                    <property name="header">
-                        <bean parent="Uif-HeaderOne">
-                            <property name="headerText" value="@{academicCalendarInfo.name}"/>
-                            <property name="rightGroup">
-                                <bean parent="Uif-HorizontalBoxGroup">
-                                    <property name="items">
-                                        <list>
-                                            <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
-                                        </list>
-                                    </property>
-                                </bean>
-                            </property>
-                        </bean>
-                    </property>
-                    <property name="instructionalText" value="Edit Academic Calendar"/>
+                <bean parent="Uif-TabGroup" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-TabGroup" >
-                                <property name="items">
-                                    <list>
-                                        <ref bean="KS-AcademicCalendar-EditSection"/>
-                                        <ref bean="KS-AcademicTerm-EditSection"/>
-                                    </list>
-                                </property>
-                                <property name="tabsWidget.templateOptionsJSString">
-                                    <value>
-                                        { selected: @{defaultSelectedTabIndex} }
-                                    </value>
-                                </property>
-                            </bean>
+                            <ref bean="KS-AcademicCalendar-EditSection"/>
+                            <ref bean="KS-AcademicTerm-EditSection"/>
                         </list>
                     </property>
+                    <property name="tabsWidget.templateOptionsJSString">
+                        <value>
+                          { selected: @{defaultSelectedTabIndex} }
+                        </value>
+                      </property>
                 </bean>
             </list>
         </property>
@@ -131,16 +105,14 @@ limitations under the License.
                             </property>
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-InputField" p:propertyName="makeOfficial" >
-                                        <property name="render" value="@{!reload and !#view.readOnly and !officialUI}"/>
-                                        <property name="label" value="Make Official"/>
-                                        <property name="control">
-                                            <bean parent="Uif-CheckboxControl"/>
-                                        </property>
-                                    </bean>
                                     <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
-                                          p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}" p:disabled="@{reload}"
+                                          p:performClientSideValidation="true" p:render="@{!officialCalendar and !#view.readOnly and !reload}" p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP"/>
+                                    <bean parent="Uif-SecondaryActionButton" p:render="@{!#view.readOnly and !reload}"
+                                          p:methodToCall="@{officialCalendar ? 'updateOfficial' : 'makeAcalOfficial'}"
+                                          p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
+                                          p:disabled="@{newCalendar}" p:performClientSideValidation="true"
+                                          p:jumpToIdAfterSubmit="TOP" />
                                     <bean parent="Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
                                           p:performClientSideValidation="true" p:render="@{reload}" />
                                     <bean parent="Uif-ActionLink" p:methodToCall="delete"

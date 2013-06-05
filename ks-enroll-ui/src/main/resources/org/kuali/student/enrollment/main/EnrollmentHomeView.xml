@@ -53,7 +53,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Search for Calendar or Term"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/calendarSearch?viewId=calendarSearchView&amp;methodToCall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/calendarSearch?viewId=calendarSearchView&amp;methodToCall=start&amp;flow=start"/>
                 <bean parent="Uif-Link" p:linkText="Create New Calendar (Academic Year)"
                       p:href="@{#ConfigProperties['application.url']}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&amp;pageId=academicCalendarCopyPage&amp;methodToCall=startNew"/>
                 <bean parent="Uif-Link" p:linkText="Create Holiday Calendar"

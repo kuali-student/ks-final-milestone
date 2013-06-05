@@ -163,12 +163,15 @@ public class CalendarSearchController  extends UifControllerBase {
 
          if(atp instanceof HolidayCalendarInfo){
              urlParameters = viewHelperService.buildHCalURLParameters((HolidayCalendarInfo) atp, CalendarConstants.HC_VIEW_METHOD, true, getContextInfo());
+             urlParameters.put("flow", searchForm.getFlowKey());
              controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
          } else if(atp instanceof AcademicCalendarInfo) {
              urlParameters = viewHelperService.buildACalURLParameters((AcademicCalendarInfo) atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
+             urlParameters.put("flow", searchForm.getFlowKey());
              controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
          } else if(atp instanceof TermInfo){
              urlParameters = viewHelperService.buildTermURLParameters((TermInfo) atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
+             urlParameters.put("flow", searchForm.getFlowKey());
              controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
          } else {
              throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
@@ -198,12 +201,15 @@ public class CalendarSearchController  extends UifControllerBase {
 
          if(atp instanceof HolidayCalendarInfo){
              urlParameters = viewHelperService.buildHCalURLParameters((HolidayCalendarInfo) atp, CalendarConstants.HC_EDIT_METHOD, false, getContextInfo());
+             urlParameters.put("flow", searchForm.getFlowKey());
              controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
          } else if(atp instanceof AcademicCalendarInfo) {
              urlParameters = viewHelperService.buildACalURLParameters((AcademicCalendarInfo) atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
+             urlParameters.put("flow", searchForm.getFlowKey());
              controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
          } else if(atp instanceof TermInfo){
              urlParameters = viewHelperService.buildTermURLParameters((TermInfo) atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
+             urlParameters.put("flow", searchForm.getFlowKey());
              controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
          } else {
              throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
@@ -235,9 +241,11 @@ public class CalendarSearchController  extends UifControllerBase {
          if(atp instanceof HolidayCalendarInfo){
              controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
              urlParameters = viewHelperService.buildHCalURLParameters((HolidayCalendarInfo) atp, CalendarConstants.HC_COPY_METHOD, false, getContextInfo());
+             urlParameters.put("flow", searchForm.getFlowKey());
          }else if(atp instanceof AcademicCalendarInfo) {
              urlParameters = viewHelperService.buildACalURLParameters((AcademicCalendarInfo) atp, CalendarConstants.AC_COPY_METHOD, false, getContextInfo());
              controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
+             urlParameters.put("flow", searchForm.getFlowKey());
          } else {
              throw new RuntimeException("Invalid calendar type. This search supports Acal and HCal only");
          }
