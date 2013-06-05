@@ -120,21 +120,17 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
                         }
                     }
                 }
-            }
-
-            //If compare and original propositions are not null compare CluSetInformation
-            if(enrolOriginal.getCluSet() != null && enrolOriginal.getCluSet().getParent() != null) {
-                //Compare propositions CluSetInformation clu's
-                if(!enrolOriginal.getCluSet().getCluDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluDelimitedString())) {
-                    return false;
+                //If compare and original propositions are not null compare CluSetInformation
+                if(enrolOriginal.getCluSet() != null && enrolOriginal.getCluSet().getParent() != null) {
+                    //Compare propositions CluSetInformation clu's
+                    if(!enrolOriginal.getCluSet().getCluDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluDelimitedString())) {
+                        return false;
+                    }
+                    //Compare propositions CluSetInformation cluSets
+                    if(!enrolOriginal.getCluSet().getCluSetDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluSetDelimitedString())) {
+                        return false;
+                    }
                 }
-                //Compare propositions CluSetInformation cluSets
-                if(!enrolOriginal.getCluSet().getCluSetDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluSetDelimitedString())) {
-                    return false;
-                }
-            } //If propositions cluSets differ, return false
-            else if((enrolOriginal.getCluSet() == null ? false : true) != (enrolOriginal.getCluSet().getParent() == null ? false : true)) {
-                return false;
             }
         }
 
