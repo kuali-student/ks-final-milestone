@@ -13,6 +13,7 @@ public class CluInformation implements Serializable, Comparable<CluInformation> 
     private String verIndependentId;
     private String code;
     private String title;
+    private String shortName;
     private String description;
     private String credits;
     private String type;
@@ -95,11 +96,20 @@ public class CluInformation implements Serializable, Comparable<CluInformation> 
         return this.code.compareTo(clu.getCode());
     }
 
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
     public void clear() {
         this.cluId = null;
         this.verIndependentId = null;
         this.code = null;
         this.title = null;
+        this.shortName = null;
         this.description = null;
         this.credits = null;
         this.type = null;

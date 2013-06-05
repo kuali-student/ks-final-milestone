@@ -104,6 +104,8 @@ public class KRMSCourseInfoLookupableImpl extends LookupableImpl {
                                 clu.setDescription(srcell.getValue());
                             } else if (srcell.getKey().equals("lu.resultColumn.luOptionalState")){
                                 clu.setState(srcell.getValue());
+                            } else if (srcell.getKey().equals("lu.resultColumn.luOptionalShortName")){
+                                clu.setShortName(srcell.getValue());
                             }
                         }
                         courseInfoList.add(clu);

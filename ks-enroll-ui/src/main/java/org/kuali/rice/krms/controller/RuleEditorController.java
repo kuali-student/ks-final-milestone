@@ -959,7 +959,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
-            return getUIFModelAndView(form);
+        return getUIFModelAndView(form);
     }
 
     private void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) throws Exception {

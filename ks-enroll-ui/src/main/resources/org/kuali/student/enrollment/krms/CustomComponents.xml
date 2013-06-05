@@ -137,6 +137,8 @@
                 <entry key="code" value="code"/>
                 <entry key="cluId" value="cluId"/>
                 <entry key="verIndependentId" value="verIndependentId"/>
+                <entry key="shortName" value="title"/>
+                <entry key="credits" value="credits"/>
             </map>
         </property>
     </bean>
