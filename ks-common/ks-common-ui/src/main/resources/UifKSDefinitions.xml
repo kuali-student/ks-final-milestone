@@ -54,7 +54,7 @@
         <property name="stickyApplicationHeader" value="true"/>
         <property name="applicationHeader">
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-enroll/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:template="/ks-enroll/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
                   p:templateName="ks_applicationHeader"/>
         </property>
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
@@ -127,7 +127,7 @@
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-enroll/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:template="/ks-enroll/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
                   p:templateName="ks_applicationHeader"/>
         </property>
         <property name="header.rightGroup.items">
@@ -234,7 +234,7 @@
 
     <bean id="KS-Uif-InputField-Simple" parent="KS-Uif-InputField-Simple-parent"/>
     <bean id="KS-Uif-InputField-Simple-parent" abstract="true" parent="Uif-InputField" scope="prototype">
-        <property name="template" value="/ks-enroll/ftl/ksSimpleDataField.ftl"/>
+        <property name="template" value="/ks-enroll/WEB-INF/ftl/ksSimpleDataField.ftl"/>
         <property name="templateName" value="ks_SimpleDataField"/>
         <property name="inquiry">
             <null/>
@@ -258,7 +258,7 @@
 
     <bean id="KS-Uif-DataField-Simple" parent="KS-Uif-DataField-Simple-parentBean"/>
     <bean id="KS-Uif-DataField-Simple-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
-        <property name="template" value="/ks-enroll/ftl/ksSimpleDataField.ftl"/>
+        <property name="template" value="/ks-enroll/WEB-INF/ftl/ksSimpleDataField.ftl"/>
         <property name="templateName" value="ks_SimpleDataField"/>
         <property name="inquiry">
             <null/>
@@ -301,7 +301,7 @@
 
     <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup" parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent"/>
     <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent" parent="Uif-HorizontalBoxGroup" class="org.kuali.student.common.uif.container.KSToolbarGroup" abstract="true" scope="prototype">
-        <property name="template" value="/ks-enroll/ftl/ksToolbarGroup.ftl"/>
+        <property name="template" value="/ks-enroll/WEB-INF/ftl/ksToolbarGroup.ftl"/>
         <property name="templateName" value="ks_ToolbarGroup"/>
         <property name="cssClasses">
             <list merge="true">
@@ -321,7 +321,7 @@
 
     <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection" parent="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent"/>-->
     <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent" parent="Uif-NavigationActionLink" class="org.kuali.student.common.uif.container.KSNavigationLineActionLinkSeperatorerator" abstract="true" scope="prototype">-->
-        <!--<property name="template" value="/ks-enroll/ftl/ksNavigationActionLinkSection.ftl"/>-->
+        <!--<property name="template" value="/ks-enroll/WEB-INF/ftl/ksNavigationActionLinkSection.ftl"/>-->
         <!--<property name="templateName" value="ks_NavigationActionLinkSection"/>-->
     <!--</bean>-->
 
@@ -345,7 +345,7 @@
 
     <!--<bean id="KS-TableCollectionSection" parent="KS-TableCollectionSection-parentBean"/>
       <bean id="KS-TableCollectionSection-parentBean" parent="Uif-TableCollectionSection" class="org.kuali.student.common.uif.container.KSCollectionGroup">
-          <property name="template" value="/ks-enroll/ftl/ksCollectionGroup.ftl"/>
+          <property name="template" value="/ks-enroll/WEB-INF/ftl/ksCollectionGroup.ftl"/>
           <property name="templateName" value="ks_collectionGroup"/>
           &lt;!&ndash;<property name="collectionLookup">
             <null/>
@@ -360,7 +360,7 @@
     <bean id="KS-Uif-Suggest" parent="KS-Uif-Suggest-parentBean"/>
     <bean id="KS-Uif-Suggest-parentBean" abstract="true" scope="prototype"
           class="org.kuali.rice.krad.uif.widget.Suggest2" parent="Uif-WidgetBase">
-        <property name="template" value="/ks-krad/ftl/suggest2.ftl"/>
+        <property name="template" value="/ks-krad/WEB-INF/ftl/suggest2.ftl"/>
         <property name="templateName" value="uif_suggest2"/>
         <property name="customEntryAllowed" value="true"/>
         <property name="comboboxButtonEnabled" value="false"/>
