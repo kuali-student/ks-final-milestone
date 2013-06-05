@@ -930,14 +930,14 @@ public interface AcademicCalendarService {
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return a list of Terms or an empty list if there are no included Terms
-     * @throws DoesNotExistException     termId is not found
+     * @throws DoesNotExistException     parentTermId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException termId or contextInfo is missing or
+     * @throws MissingParameterException parentTermId or contextInfo is missing or
      *                                   null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getIncludedTermsInTerm(@WebParam(name = "termId") String parentTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getIncludedTermsInTerm(@WebParam(name = "parentTermId") String parentTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Gets the containing (or parent) terms of a given child term. Although
@@ -950,14 +950,14 @@ public interface AcademicCalendarService {
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return the parent terms or an empty list if it is a root
-     * @throws DoesNotExistException     termId is not found
+     * @throws DoesNotExistException     childTermId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException termId or contextInfo is missing or
+     * @throws MissingParameterException childTermId or contextInfo is missing or
      *                                   null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getContainingTerms(@WebParam(name = "termId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getContainingTerms(@WebParam(name = "childTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Terms that meet the given search criteria.
@@ -1149,41 +1149,44 @@ public interface AcademicCalendarService {
      * Adds a child Term to a parent Term assuming such a relationship does not
      * already exists.  The child Term is not necessarily contained within the
      * start/end date of the parent Term.  This merely represents a hierarchy.
+     * Also, a child Term could, in principle, be added to multiple parent terms
+     * although, in practice, it usually is not.
      *
-     * @param parentTermId         an identifier for a parent Term
-     * @param childTermId the identifier for the child Term
+     * @param parentTermId   an identifier for a parent Term
+     * @param childTermId    the identifier for the child Term
      * @param contextInfo    information containing the principalId and locale
      *                       information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws AlreadyExistsException    includedTermId is already mapped to
-     *                                   termId
-     * @throws DoesNotExistException     temId or includedTermId is not found
+     * @throws AlreadyExistsException    parentTermId is already mapped to
+     *                                   childTermId
+     * @throws DoesNotExistException     parentTermId or childTermId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException temId, includedTermId, or contextInfo
+     * @throws MissingParameterException parentTermId, childTermId, or contextInfo
      *                                   is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo addTermToTerm(@WebParam(name = "termId") String parentTermId, @WebParam(name = "includedTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo addTermToTerm(@WebParam(name = "parentTermId") String parentTermId, @WebParam(name = "childTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Removes a child Term from a parent Term.
      *
      * @param parentTermId         an identifier for a Term
-     * @param childTermId the identifier for the Term to be removed
+     * @param childTermId the identifier for the Term to be removed that is a "child"
+     *                    of the parent Term
      * @param contextInfo    information containing the principalId and locale
      *                       information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws DoesNotExistException     termId or includedTermId is not found
-     *                                   or includedTermId is not mapped to
-     *                                   termId
+     * @throws DoesNotExistException     parentTermId or childTermId is not found
+     *                                   or childTermId is not mapped to
+     *                                   parentTermId
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException termId, includedTermId, or contextInfo
+     * @throws MissingParameterException parentTermId, childTermId, or contextInfo
      *                                   is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removeTermFromTerm(@WebParam(name = "termId") String parentTermId, @WebParam(name = "includedTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeTermFromTerm(@WebParam(name = "parentTermId") String parentTermId, @WebParam(name = "childTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a KeyDate Type by Type key.
