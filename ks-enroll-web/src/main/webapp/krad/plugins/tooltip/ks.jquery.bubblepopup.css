@@ -13,3 +13,8 @@ div.uif-popup-closebutton {
 td.jquerybubblepopup-innerHtml > .uif-bubblepopup-content {
     margin: 10px;
 }
+
+/* defeat img.vertical-align:baseline def in enroll.css */
+img.jquerybubblepopup-tail {
+    vertical-align: top;
+}

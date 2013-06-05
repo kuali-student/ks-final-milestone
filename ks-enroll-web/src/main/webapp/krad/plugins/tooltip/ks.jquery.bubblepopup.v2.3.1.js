@@ -492,9 +492,9 @@
                 }
                 if (o(u.tail.align, r.alignHorizontalValues)) {
                     a("#" + u.privateVars.id).find("td." + u.baseClass + "-" + t).css("text-align", u.tail.align)
-                    if (t == "top-middle") { //KF- fix gap problem when bubble is under (caused by KF/KS css?):
-                        a("#" + u.privateVars.id).find("td." + u.baseClass + "-" + t + " img").css("margin-bottom","-4px");
-                    }
+                    //if (t == "top-middle") { //KF- fix gap problem when bubble is under (caused by KF/KS css?):
+                    //    a("#" + u.privateVars.id).find("td." + u.baseClass + "-" + t + " img").css("margin-bottom","-4px");
+                    //}
                 } else {
                     a("#" + u.privateVars.id).find("td." + u.baseClass + "-" + t).css("vertical-align", u.tail.align)
                 }
