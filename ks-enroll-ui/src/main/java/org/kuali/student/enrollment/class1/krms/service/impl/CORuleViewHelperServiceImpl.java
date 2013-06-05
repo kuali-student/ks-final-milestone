@@ -16,8 +16,6 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krad.util.BeanPropertyComparator;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
@@ -33,22 +31,14 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder;
-import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
-import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -119,83 +109,34 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
             EnrolPropositionEditor enrolOriginal = (EnrolPropositionEditor) original;
 
             //Populate compare proposition cluSetInformation for comparison
-            if(enrolOriginal.getParentCluSet() == null) {
+            if(enrolOriginal.getCluSet().getParent() == null) {
                 MultiCourseComponentBuilder builder = new MultiCourseComponentBuilder();
                 TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
                 for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
                     if(termParameterEditor.getName().equals("kuali.term.parameter.type.course.cluSet.id")) {
-                        enrolOriginal.setParentCluSet(builder.getCluSetInformation(termParameterEditor.getValue()));
+                        enrolOriginal.getCluSet().setParent(builder.getCluSetInformation(termParameterEditor.getValue()));
                         break;
                     }
                 }
             }
 
-            if(enrolOriginal.getCluSet() != null && enrolOriginal.getParentCluSet() != null) {
-                if(enrolOriginal.getCluSet().getClus().size() != enrolOriginal.getParentCluSet().getClus().size()) {
+            //If compare and original propositions are not null compare CluSetInformation
+            if(enrolOriginal.getCluSet() != null && enrolOriginal.getCluSet().getParent() != null) {
+                //Compare propositions CluSetInformation clu's
+                if(!enrolOriginal.getCluSet().getCluDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluDelimitedString())) {
                     return false;
-                } else {
-                    List<String> originalClus = populateCluIdList(enrolOriginal.getCluSet());
-                    List<String> compareClus = populateCluIdList(enrolOriginal.getParentCluSet());
-
-                    if(!buildDelimitedString(originalClus).equals(buildDelimitedString(compareClus))) {
-                        return false;
-                    }
                 }
-
-                if(enrolOriginal.getCluSet().getCluSets().size() != enrolOriginal.getParentCluSet().getCluSets().size()) {
+                //Compare propositions CluSetInformation cluSets
+                if(!enrolOriginal.getCluSet().getCluSetDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluSetDelimitedString())) {
                     return false;
-                } else {
-                    List<String> originalCluSets = populateCluSetIdList(enrolOriginal.getCluSet().getCluSets());
-                    List<String> compareCluSets = populateCluSetIdList(enrolOriginal.getParentCluSet().getCluSets());
-
-                    if(!buildDelimitedString(originalCluSets).equals(buildDelimitedString(compareCluSets))) {
-                        return false;
-                    }
                 }
             } //If propositions cluSets differ, return false
-            else if((enrolOriginal.getCluSet() == null ? false : true) != (enrolOriginal.getParentCluSet() == null ? false : true)) {
+            else if((enrolOriginal.getCluSet() == null ? false : true) != (enrolOriginal.getCluSet().getParent() == null ? false : true)) {
                 return false;
             }
         }
 
         return true;
-    }
-
-    protected List<String> populateCluIdList(CluSetInformation cluSetInformation) {
-        List<String> cluList = new ArrayList<String>();
-        for(CluInformation clu : cluSetInformation.getClus()) {
-            cluList.add(clu.getVerIndependentId());
-        }
-
-        if (cluSetInformation.getClusInRange() != null) {
-            for (CluInformation cluInRange : cluSetInformation.getClusInRange()) {
-                cluList.add(cluInRange.getVerIndependentId());
-            }
-        }
-
-        Collections.sort(cluList);
-        return cluList;
-    }
-
-    protected List<String> populateCluSetIdList(List<CluSetInfo> cluSets) {
-        List<String> cluSetList = new ArrayList<String>();
-        for(CluSetInfo cluSet : cluSets) {
-            cluSetList.add(cluSet.getId());
-        }
-        Collections.sort(cluSetList);
-        return cluSetList;
-    }
-
-    protected String buildDelimitedString(List<String> ids) {
-
-        StringBuilder sb = new StringBuilder();
-        for (String id : ids) {
-            if (sb.length() > 0) {
-                sb.append(",");
-            }
-            sb.append(id);
-        }
-        return sb.toString();
     }
 
     /**

@@ -1,31 +1,29 @@
+/**
+ * Copyright 2005-2013 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.impl.ui.TermParameter;
 import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-/**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2012/12/03
- * Time: 11:41 AM
- * To change this template use File | Settings | File Templates.
- */
 public class EnrolPropositionEditor extends PropositionEditor {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +41,6 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private ProgramCluSetInformation progCluSet;
     private String termCode;
     private TermInfo termInfo;
-
-    private CluSetInformation parentCluSet;
 
     private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
@@ -172,14 +168,6 @@ public class EnrolPropositionEditor extends PropositionEditor {
 
     public void setTermInfo(TermInfo termInfo){
         this.termInfo = termInfo;
-    }
-
-    public CluSetInformation getParentCluSet() {
-        return parentCluSet;
-    }
-
-    public void setParentCluSet(CluSetInformation parentCluSet) {
-        this.parentCluSet = parentCluSet;
     }
 
     @Override
