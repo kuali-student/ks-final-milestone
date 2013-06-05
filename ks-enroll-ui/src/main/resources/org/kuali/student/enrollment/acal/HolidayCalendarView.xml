@@ -35,7 +35,7 @@
         <property name="entryPageId" value="holidayCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarViewHelperServiceImpl"/>
         <property name="header.render" value="false"/>
-        <property name="headerText" value="@{holidayCalendarInfo.name != null? holidayCalendarInfo.name : 'New Holiday Calendar'}"/>
+        <!--<property name="headerText" value="@{holidayCalendarInfo.name != null? holidayCalendarInfo.name : 'New Holiday Calendar'}"/>-->
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>

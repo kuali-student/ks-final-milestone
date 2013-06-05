@@ -58,12 +58,6 @@
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Calendars"/>
-                    <property name="url.viewId" value="calendarSearchView"/>
-                    <property name="url.controllerMapping" value="/calendarSearch"/>
-                    <property name="url.methodToCall" value="start"/>
-                </bean>
-                <bean parent="Uif-BreadcrumbItem">
                     <property name="label" value="New Holiday Calendar"/>
                 </bean>
             </list>
