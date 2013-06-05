@@ -296,6 +296,25 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         RuleViewHelperService viewHelper = this.getViewHelper(form);
 
+        //Special case when only one proposition in tree or no proposition selected
+        if(selectedPropKey.isEmpty() && parent == null && root.getChildren().size() > 0) {
+            //Special case when now proposition selected and more than one proposition in tree
+            if(root.getChildren().get(root.getChildren().size() - 1).getNodeType().contains("compoundNode")) {
+                parent = root.getChildren().get(root.getChildren().size() - 1);
+                selectedPropKey = parent.getChildren().get(parent.getChildren().size() - 1).getData().getProposition().getKey();
+            } //Special case when one proposition in tree and no proposition selected
+            else {
+                parent = root;
+                selectedPropKey = root.getChildren().get(root.getChildren().size() - 1).getData().getProposition().getKey();
+            }
+        } //If root compound proposition selected
+        else if(parent != null) {
+            if(parent.getNodeType().equals("treeRoot")) {
+                parent = root.getChildren().get(root.getChildren().size() - 1);
+                selectedPropKey = parent.getChildren().get(parent.getChildren().size() - 1).getData().getProposition().getKey();
+            }
+        }
+
         // add new child at appropriate spot
         if (parent != null) {
             List<Node<RuleEditorTreeNode, String>> children = parent.getChildren();
@@ -1083,6 +1102,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             form.getView().setOnDocumentReadyScript("loadControlsInit();");
         } else {
             //Reset the editing tree.
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
             PropositionTreeUtil.cancelNewProp(proposition);
             PropositionTreeUtil.removeCompoundProp(proposition);
         }
