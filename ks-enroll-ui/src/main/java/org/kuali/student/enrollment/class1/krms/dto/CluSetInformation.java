@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,36 +81,26 @@ public class CluSetInformation implements Serializable {
 
     public String getCluDelimitedString() {
 
-        StringBuilder sb = new StringBuilder();
-        for (CluInformation clu : this.getClus()) {
-            if (sb.length() > 0) {
-                sb.append(",");
-            }
-            sb.append(clu.getVerIndependentId());
-        }
-
+        List<String> cluIds = this.getCluIds();
         if (this.getClusInRange() != null) {
             for (CluInformation clu : this.getClusInRange()) {
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
-                sb.append(clu.getVerIndependentId());
+                cluIds.add(clu.getVerIndependentId());
             }
         }
-        return sb.toString();
+
+        Collections.sort(cluIds);
+        return StringUtils.collectionToCommaDelimitedString(cluIds);
     }
 
     public String getCluSetDelimitedString() {
 
-        StringBuilder sb = new StringBuilder();
+        List<String> cluSetIds = new ArrayList<String>();
         for (CluSetInfo cluSet : this.getCluSets()) {
-            if (sb.length() > 0) {
-                sb.append(",");
-            }
-            sb.append(cluSet.getId());
+            cluSetIds.add(cluSet.getId());
         }
 
-        return sb.toString();
+        Collections.sort(cluSetIds);
+        return StringUtils.collectionToCommaDelimitedString(cluSetIds);
     }
 
     public boolean hasClus() {
