@@ -51,14 +51,13 @@
               	<ref bean="KS-CourseView-ReviewProposalPage" />
             </list>
 		</property>
-		
-		
-		<!-- <property name="additionalCssFiles"> -->
-		<!-- <list merge="true"> -->
-		<!-- <value>ks-enroll/css/calendar.css</value> -->
-		<!-- <value>ks-enroll/css/acal.css</value> -->
-		<!-- </list> -->
-		<!-- </property> -->
+		<!-- CSS Styling -->
+		<property name="additionalCssFiles">
+			<list merge="true">
+				<value>ks-cm-krad/css/cm.css</value>
+			</list>
+		</property>
+		<!-- Custom JavaScript -->
 		<property name="additionalScriptFiles">
 			<list merge="true">
 				<value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
