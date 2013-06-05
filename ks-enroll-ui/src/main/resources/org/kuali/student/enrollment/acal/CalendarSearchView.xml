@@ -124,7 +124,7 @@
                                             </property>
                                         </bean>
 
-                                        <bean parent="Uif-HorizontalBoxGroup" p:style="margin-top: 13px" >
+                                        <bean parent="Uif-HorizontalBoxGroup" >
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-SecondaryActionButton"

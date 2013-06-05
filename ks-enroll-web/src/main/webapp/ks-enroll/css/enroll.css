@@ -846,3 +846,11 @@ input[disabled].acal_term_code{
 #KS-CalendarSearch-CriteriaSection .uif-group {
     margin-top: 27px;
 }
+
+div[class*="-labelTop"] ~ div:not([class*="-labelTop"]){
+    margin-top: 30px;
+}
+
+/*div.uif-inputField-labelTop ~ div:not(.uif-inputField-labelTop){*/
+/*margin-top: 30px;*/
+/*}*/
