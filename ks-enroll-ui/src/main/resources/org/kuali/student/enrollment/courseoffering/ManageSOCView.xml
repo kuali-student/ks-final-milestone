@@ -32,13 +32,27 @@
 
     <bean id="ManageSOCView" parent="KS-Uif-FormView">
    	  <property name="id" value="ManageSOCView"/>
-      <property name="headerText" value="Manage SOC" />
-      <property name="header.render" value="false"/>
+      <property name="headerText" value="Set of Courses" />
 	  <property name="singlePageView" value="true"/>
+      <!-- This allows the page header to be conditionally rendered. Otherwise, it is rendered as part of the
+           view header and it always on. -->
+      <property name="unifiedHeader" value="false"/>
       <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ManageSOCViewHelperServiceImpl"/>
+
       <property name="page">
-          <bean parent="Uif-Page"/>
+          <bean parent="Uif-Page">
+              <!-- Set the page header to the current term, but only render if a search has been performed -->
+              <property name="headerText" value="Term @{termCode}" />
+              <property name="header.render" value="@{renderDetailsSection}"/>
+              <!-- Prevent the page breadcrumb from being rendered -->
+              <property name="breadcrumbItem">
+                  <bean parent="Uif-BreadcrumbItem">
+                      <property name="render" value="false" />
+                  </bean>
+              </property>
+          </bean>
       </property>
+
       <property name="breadcrumbOptions.homewardPathBreadcrumbs">
           <list>
               <bean parent="Uif-BreadcrumbItem">
@@ -52,16 +66,10 @@
           </list>
       </property>
       <property name="items">
-          <list>
-               <bean parent="Uif-VerticalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <ref bean="ManageSOCView-termSelection-Section"/>
-                            <ref bean="ManageSOCView-DetailsSection"/>
-                        </list>
-                    </property>
-               </bean>
-          </list>
+        <list>
+            <ref bean="ManageSOCView-termSelection-Section"/>
+            <ref bean="ManageSOCView-DetailsSection"/>
+        </list>
       </property>
       <property name="additionalCssFiles">
             <list merge="true">
@@ -86,7 +94,7 @@
           <map>
 			<entry key="publishHelper">
                 <bean class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper"/>
-              </entry>
+            </entry>
 		</map>
       </property>
    </bean>
@@ -165,17 +173,17 @@
         </property>
    </bean>
 
+
     <bean id="ManageSOCView-GoButton" parent="Uif-SecondaryActionButton-Small" p:actionLabel="Go" p:methodToCall="buildModel" p:valign="bottom"/>
 
     <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
-        <property name="headerText" value="@{termCode} Set of Courses" />
         <property name="items">
             <list>
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
                 <ref bean="ManageSOCView-SchedulingDetails-Section"/>
             </list>
         </property>
-   </bean>
+    </bean>
 
    <bean id="ManageSOCView-StatusHistory-Section" parent="Uif-VerticalBoxSection">
         <property name="items">
@@ -192,7 +200,6 @@
             <bean id="socStatus" parent="Uif-MessageField" p:messageText="@{socStatus}" p:label="Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
            </list>
        </property>
-
    </bean>
 
    <bean id="ManageSOCView-StatusHistory-SubSection2" parent="Uif-TableCollectionSubSection" p:readOnly="true">
