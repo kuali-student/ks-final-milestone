@@ -33,7 +33,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection" p:id="searchResultSection" p:onDocumentReadyScript="updateContextBar();">
+    <bean id="KS-CourseOfferingManagement-CourseOfferingResultSection" parent="Uif-VerticalBoxSection" p:id="searchResultSection" p:onDocumentReadyScript="updateContextBar(); setSeasonalColor('KS-CourseOfferingManagement-ContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');">
         <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="headerText" value="@{subjectCode} - @{subjectCodeDescription}" />
         <property name="disclosure.render" value="false"/>

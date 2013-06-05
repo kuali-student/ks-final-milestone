@@ -371,7 +371,7 @@
     <bean id="KRMS-RulerEditor-TreeSection-parent" parent="Uif-TreeSection" p:disclosure.render="false"
           p:header.render="false" p:id="editWithObjectTree"
           p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
-        <property name="template" value="/ks-enroll/ftl/ruleTreeGroup.ftl"/>
+        <property name="template" value="/ks-enroll/WEB-INF/ftl/ruleTreeGroup.ftl"/>
         <property name="templateName" value="uif_ruleTreeGroup"/>
         <property name="propertyName" value="editTree"/>
         <property name="validationMessages.displayMessages" value="true"/>

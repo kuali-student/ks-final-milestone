@@ -50,6 +50,7 @@ import java.util.Set;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethods;
 import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 public class CourseOfferingTransformer {
     private LprService lprService;
@@ -756,9 +757,13 @@ public class CourseOfferingTransformer {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
         KrmsRuleManagementCopyMethods copier = new KrmsRuleManagementCopyMethodsMockImpl();
-        copier.deepCopyReferenceObjectBindingsFromTo(CourseInfo.class.getSimpleName(),
+        copier.deepCopyReferenceObjectBindingsFromTo(
+                // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
+                "kuali.lu.type.CreditCourse",
+//                CourseServiceConstants.REF_OBJECT_URI_COURSE,
                 courseInfo.getId(),
-                CourseOfferingInfo.class.getSimpleName(),
+                "kuali.lui.type.course.offering",
+//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 courseOfferingInfo.getId(),
                 optionKeys);
     }
@@ -775,9 +780,13 @@ public class CourseOfferingTransformer {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
         KrmsRuleManagementCopyMethods copier = new KrmsRuleManagementCopyMethodsMockImpl();
-        copier.deepCopyReferenceObjectBindingsFromTo(CourseOfferingInfo.class.getSimpleName(),
+        copier.deepCopyReferenceObjectBindingsFromTo(
+                // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
+                "kuali.lui.type.course.offering",
+//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 sourceCo.getId(),
-                CourseOfferingInfo.class.getSimpleName(),
+                "kuali.lui.type.course.offering",
+//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 targetCo.getId(),
                 optionKeys);
     }

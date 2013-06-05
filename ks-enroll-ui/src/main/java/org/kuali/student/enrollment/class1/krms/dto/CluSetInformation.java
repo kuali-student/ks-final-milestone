@@ -1,12 +1,27 @@
+/**
+ * Copyright 2005-2013 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +35,7 @@ public class CluSetInformation implements Serializable {
     private MembershipQueryInfo membershipQueryInfo;
     private List<CluInformation> clusInRange;
     private Map<String, CluSetInformation> subCluSetInformations;
+    private CluSetInformation parent;
 
     public CluSetInfo getCluSetInfo() {
         return cluSetInfo;
@@ -78,38 +94,36 @@ public class CluSetInformation implements Serializable {
         this.subCluSetInformations = subCluSetInformations;
     }
 
+    public CluSetInformation getParent() {
+        return parent;
+    }
+
+    public void setParent(CluSetInformation parent) {
+        this.parent = parent;
+    }
+
     public String getCluDelimitedString() {
 
-        StringBuilder sb = new StringBuilder();
-        for (CluInformation clu : this.getClus()) {
-            if (sb.length() > 0) {
-                sb.append(",");
-            }
-            sb.append(clu.getVerIndependentId());
-        }
-
+        List<String> cluIds = this.getCluIds();
         if (this.getClusInRange() != null) {
             for (CluInformation clu : this.getClusInRange()) {
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
-                sb.append(clu.getVerIndependentId());
+                cluIds.add(clu.getVerIndependentId());
             }
         }
-        return sb.toString();
+
+        Collections.sort(cluIds);
+        return StringUtils.collectionToCommaDelimitedString(cluIds);
     }
 
     public String getCluSetDelimitedString() {
 
-        StringBuilder sb = new StringBuilder();
+        List<String> cluSetIds = new ArrayList<String>();
         for (CluSetInfo cluSet : this.getCluSets()) {
-            if (sb.length() > 0) {
-                sb.append(",");
-            }
-            sb.append(cluSet.getId());
+            cluSetIds.add(cluSet.getId());
         }
 
-        return sb.toString();
+        Collections.sort(cluSetIds);
+        return StringUtils.collectionToCommaDelimitedString(cluSetIds);
     }
 
     public boolean hasClus() {

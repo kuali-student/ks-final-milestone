@@ -106,7 +106,7 @@
 
     <!-- View only Tree -->
     <bean id="KRMS-Tree-parent" parent="Uif-Tree">
-        <property name="template" value="/ks-enroll/ftl/rulePreviewTree.ftl"/>
+        <property name="template" value="/ks-enroll/WEB-INF/ftl/rulePreviewTree.ftl"/>
         <property name="templateName" value="uif_rulePreviewTree"/>
         <property name="templateOptions">
             <map>
@@ -118,7 +118,7 @@
     <bean id="KRMS-Tree" parent="KRMS-Tree-parent"/>
 
     <bean id="KRMS-Tree-Section-parent" parent="Uif-TreeSection">
-        <property name="template" value="/ks-enroll/ftl/ruleTreeGroup.ftl"/>
+        <property name="template" value="/ks-enroll/WEB-INF/ftl/ruleTreeGroup.ftl"/>
         <property name="templateName" value="uif_ruleTreeGroup"/>
         <property name="tree">
             <bean parent="KRMS-Tree"/>

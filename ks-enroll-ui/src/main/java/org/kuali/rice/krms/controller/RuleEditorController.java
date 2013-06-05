@@ -296,6 +296,25 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         RuleViewHelperService viewHelper = this.getViewHelper(form);
 
+        //Special case when only one proposition in tree or no proposition selected
+        if(selectedPropKey.isEmpty() && parent == null && root.getChildren().size() > 0) {
+            //Special case when now proposition selected and more than one proposition in tree
+            if(root.getChildren().get(root.getChildren().size() - 1).getNodeType().contains("compoundNode")) {
+                parent = root.getChildren().get(root.getChildren().size() - 1);
+                selectedPropKey = parent.getChildren().get(parent.getChildren().size() - 1).getData().getProposition().getKey();
+            } //Special case when one proposition in tree and no proposition selected
+            else {
+                parent = root;
+                selectedPropKey = root.getChildren().get(root.getChildren().size() - 1).getData().getProposition().getKey();
+            }
+        } //If root compound proposition selected
+        else if(parent != null) {
+            if(parent.getNodeType().equals("treeRoot") && !parent.getChildren().get(parent.getChildren().size() - 1).getNodeType().contains("simple")) {
+                parent = root.getChildren().get(root.getChildren().size() - 1);
+                selectedPropKey = parent.getChildren().get(parent.getChildren().size() - 1).getData().getProposition().getKey();
+            }
+        }
+
         // add new child at appropriate spot
         if (parent != null) {
             List<Node<RuleEditorTreeNode, String>> children = parent.getChildren();
@@ -478,7 +497,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 }
             }
         }
-        //Compare CLU and CO rules
+        //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
 
     }
@@ -547,7 +566,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             // and move the node to the second child.
 
         }
-        //Compare CLU and CO rules
+        //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
         return getUIFModelAndView(form);
     }
@@ -596,7 +615,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 }
             }
         }
-        //Compare CLU and CO rules
+        //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
         return getUIFModelAndView(form);
     }
@@ -761,7 +780,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             viewHelper.refreshInitTrees(ruleEditor);
         }
 
-        //Compare CLU and CO rules
+        //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
 
         // call the super method to avoid the agenda tree being reloaded from the db
@@ -899,7 +918,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         viewHelper.refreshInitTrees(ruleEditor);
 
-        //Compare CLU and CO rules
+        //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
 
         return getUIFModelAndView(form);
@@ -951,7 +970,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         if(ruleEditor.getProposition() != null) {
             if(!this.getViewHelper(form).compareRules(ruleWrapper.getRuleEditor(), ruleWrapper.getRefObjectId())) {
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "info.krms.tree.rule.changed");
-            } else {
+            } else if(GlobalVariables.getMessageMap().containsMessageKey(KRADConstants.GLOBAL_INFO)){
                 GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_INFO);
             }
         }
@@ -1083,6 +1102,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             form.getView().setOnDocumentReadyScript("loadControlsInit();");
         } else {
             //Reset the editing tree.
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
             PropositionTreeUtil.cancelNewProp(proposition);
             PropositionTreeUtil.removeCompoundProp(proposition);
         }
@@ -1090,7 +1110,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
-        //Compare CLU and CO rules
+        //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
 
         return getUIFModelAndView(form);
@@ -1206,12 +1226,14 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public ModelAndView getSelectedKey(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        RuleViewHelperService viewHelper = this.getViewHelper(form);
+        //Clear the current states of the tabs to open the first tab again with the edit tree.
+        form.getClientStateForSyncing().clear();
         String selectedKey = request.getParameter("selectedKey");
 
+        //Set the selected rule statement key.
         RuleEditor ruleEditor = getRuleEditor(form);
         ruleEditor.setSelectedKey(selectedKey);
-        //this.goToEditProposition()
+
         return this.goToEditProposition(form, result, request, response);
     }
 

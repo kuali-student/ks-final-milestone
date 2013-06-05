@@ -1,10 +1,22 @@
+/**
+ * Copyright 2005-2013 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.opensource.org/licenses/ecl2.php
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krad.util.BeanPropertyComparator;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilder;
@@ -18,21 +30,14 @@ import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,11 +51,23 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     private RuleViewTreeBuilder viewTreeBuilder;
     private RuleCompareTreeBuilder compareTreeBuilder;
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
         return EnrolPropositionEditor.class;
     }
 
+    /**
+     * Builds compare tree for the compare CO and CLU lightbox links.
+     *
+     * @param original
+     * @param refObjectId
+     * @return
+     * @throws Exception
+     */
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, String refObjectId) throws Exception {
 
@@ -76,29 +93,55 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         return compareTree;
     }
 
+    /**
+     * Compares CO and CLU with each other for the display of a info message.
+     *
+     * @param original
+     * @param compare
+     * @return
+     */
     @Override
     public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
 
         if(!super.compareProposition(original, compare)) {
             return false;
-        } else {
+        } else if(!original.getPropositionTypeCode().equals("C")) {
+            EnrolPropositionEditor enrolOriginal = (EnrolPropositionEditor) original;
 
-            //TODO: do something to compare clusets.
-            //EnrolPropositionEditor enrolOriginal = (EnrolPropositionEditor) original;
-            //if(enrolOriginal.getCluSet() != null && compare.getCluSet() != null) {
-            //    if(enrolOriginal.getCluSet().getClus() != null && compare.getCluSet().getClus() != null) {
-            //        for(int index = 0; index < enrolOriginal.getCluSet().getClus().size(); index++) {
-            //            if(enrolOriginal.getCluSet().getClus().get(index).getCode().equals(compare.getCluSet().getClus().get(index).getCode())) {
-            //                return false;
-            //            }
-            //        }
-            //    }
-            //}
+            //Populate compare proposition cluSetInformation for comparison
+            if(enrolOriginal.getCluSet() != null) {
+                if(enrolOriginal.getCluSet().getParent() == null) {
+                    MultiCourseComponentBuilder builder = new MultiCourseComponentBuilder();
+                    TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
+                    for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
+                        if(termParameterEditor.getName().equals("kuali.term.parameter.type.course.cluSet.id")) {
+                            enrolOriginal.getCluSet().setParent(builder.getCluSetInformation(termParameterEditor.getValue()));
+                            break;
+                        }
+                    }
+                }
+                //If compare and original propositions are not null compare CluSetInformation
+                if(enrolOriginal.getCluSet() != null && enrolOriginal.getCluSet().getParent() != null) {
+                    //Compare propositions CluSetInformation clu's
+                    if(!enrolOriginal.getCluSet().getCluDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluDelimitedString())) {
+                        return false;
+                    }
+                    //Compare propositions CluSetInformation cluSets
+                    if(!enrolOriginal.getCluSet().getCluSetDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluSetDelimitedString())) {
+                        return false;
+                    }
+                }
+            }
         }
 
         return true;
     }
 
+    /**
+     * Initializes the proposition, populating the type and terms.
+     *
+     * @param propositionEditor
+     */
     protected void initPropositionEditor(PropositionEditor propositionEditor) {
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
 
