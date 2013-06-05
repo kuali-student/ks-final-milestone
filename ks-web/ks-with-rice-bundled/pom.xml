@@ -325,6 +325,13 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-cm-web</artifactId>
+    	    <version>${ks.lum.version}</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.enroll</groupId>
             <artifactId>ks-enroll-rice</artifactId>
             <version>${ks.enroll.version}</version>
