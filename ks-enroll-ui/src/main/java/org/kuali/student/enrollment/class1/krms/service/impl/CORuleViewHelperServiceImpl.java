@@ -109,13 +109,15 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
             EnrolPropositionEditor enrolOriginal = (EnrolPropositionEditor) original;
 
             //Populate compare proposition cluSetInformation for comparison
-            if(enrolOriginal.getCluSet().getParent() == null) {
-                MultiCourseComponentBuilder builder = new MultiCourseComponentBuilder();
-                TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
-                for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
-                    if(termParameterEditor.getName().equals("kuali.term.parameter.type.course.cluSet.id")) {
-                        enrolOriginal.getCluSet().setParent(builder.getCluSetInformation(termParameterEditor.getValue()));
-                        break;
+            if(enrolOriginal.getCluSet() != null) {
+                if(enrolOriginal.getCluSet().getParent() == null) {
+                    MultiCourseComponentBuilder builder = new MultiCourseComponentBuilder();
+                    TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
+                    for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
+                        if(termParameterEditor.getName().equals("kuali.term.parameter.type.course.cluSet.id")) {
+                            enrolOriginal.getCluSet().setParent(builder.getCluSetInformation(termParameterEditor.getValue()));
+                            break;
+                        }
                     }
                 }
             }
