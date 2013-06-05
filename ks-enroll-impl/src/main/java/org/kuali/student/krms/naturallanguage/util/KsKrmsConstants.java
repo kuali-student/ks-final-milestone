@@ -6,6 +6,7 @@ package org.kuali.student.krms.naturallanguage.util;
  */
 public class KsKrmsConstants {
 
+    public static final String KRMS_DISCRIMINATOR_TYPE_AGENDA = "Agenda";
     // language codes
     // these should match the codes returned from browsers following the internet standard 
     // in the kuali student ContextInfo (not to be confused with the KRMS context)
