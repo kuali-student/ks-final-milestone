@@ -448,7 +448,7 @@ public class HolidayCalendarController extends UifControllerBase {
 
         getHolidayCalendarFormHelper(hcForm).deleteHolidayCalendar(hcForm.getHolidayCalendarInfo().getId());
         Properties urlParameters = new  Properties();
-        urlParameters.put("viewId", CalendarConstants.ENROLLMENT_HOME_VIEW);
+        urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
         urlParameters.put("methodToCall", "start");
         urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
 
@@ -456,7 +456,7 @@ public class HolidayCalendarController extends UifControllerBase {
         urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED);
         urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS, hCalInfo.getName());
 
-        return performRedirect(hcForm, request.getRequestURL().toString(), urlParameters);
+        return performRedirect(hcForm, CalendarConstants.CALENDAR_SEARCH_CONTROLLER_PATH, urlParameters);
     }
 
     /**
