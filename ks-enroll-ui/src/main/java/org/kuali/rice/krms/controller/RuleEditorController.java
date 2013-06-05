@@ -309,7 +309,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
         } //If root compound proposition selected
         else if(parent != null) {
-            if(parent.getNodeType().equals("treeRoot")) {
+            if(parent.getNodeType().equals("treeRoot") && !parent.getChildren().get(parent.getChildren().size() - 1).getNodeType().contains("simple")) {
                 parent = root.getChildren().get(root.getChildren().size() - 1);
                 selectedPropKey = parent.getChildren().get(parent.getChildren().size() - 1).getData().getProposition().getKey();
             }
