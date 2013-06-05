@@ -567,6 +567,7 @@ a {
 .ks-header-list li{
     float: left;
     padding-right: 13px;
+    padding-top: 18px;
 }
 
 /* Altering the Default Link Colour */
@@ -854,3 +855,11 @@ div[class*="-labelTop"] ~ div:not([class*="-labelTop"]){
 /*div.uif-inputField-labelTop ~ div:not(.uif-inputField-labelTop){*/
 /*margin-top: 30px;*/
 /*}*/
+
+div#Uif-ApplicationHeader-Wrapper{
+    z-index: 100;
+}
+
+.open > .dropdown-menu {
+    left: -100px;
+}

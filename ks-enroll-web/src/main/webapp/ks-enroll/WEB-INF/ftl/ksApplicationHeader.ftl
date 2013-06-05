@@ -16,14 +16,28 @@
             <li class="ks-header-action-list"><a href="${ConfigProperties['kew.url']}/ActionList.do">Action List</a>
             </li>
 
-            <li class="ks-header-admin">
-                <img src="../ks-enroll/images/header/user.png" class="ks-header-user">
-                <span>${UserSession.loggedInUserPrincipalName!"You are not logged in."}</span>
-            </li>
-            <li class="ks-header-logout">
-                <#--<span><a href="#" onclick="logout();">Logout</a></span>-->
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-user icon-white"></i>
+                ${UserSession.loggedInUserPrincipalName!"You are not logged in."}
+                  <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                  <li>
+                      <a href="#" onclick="logout();">Logout</a>
+                  </li>
+              </ul>
+          </li>
+          <!--
+          <li class="ks-header-admin">
+              <img src="../ks-enroll/images/header/user.png" class="ks-header-user">
+              <#--<span>${UserSession.loggedInUserPrincipalName!"You are not logged in."}</span>-->
+          </li>
+          <li class="ks-header-logout">
+              <#--<span><a href="#" onclick="logout();">Logout</a></span>-->
                 <span><button type="button" onclick="logout();" class="btn">Logout</button></span>
             </li>
+            -->
         </ul>
     </div>
 </div>
