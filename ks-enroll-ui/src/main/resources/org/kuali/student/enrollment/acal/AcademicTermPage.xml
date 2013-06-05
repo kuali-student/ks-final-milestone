@@ -94,7 +94,7 @@
 
                             <bean parent="Uif-MessageField" p:messageText="Official" p:render="@{#line.official}"/>
 
-                            <bean parent="Uif-InputField" p:propertyName="termType" p:render="@{!#isAddLine}">
+                            <bean parent="Uif-InputField" p:propertyName="termType" p:render="@{!#isAddLine}" p:hidden="true">
                                 <property name="control">
                                     <bean parent="Uif-HiddenControl"/>
                                 </property>
