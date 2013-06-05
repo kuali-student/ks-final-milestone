@@ -34,6 +34,7 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
+import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
@@ -43,7 +44,9 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -114,39 +117,43 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
             return false;
         } else if(!original.getPropositionTypeCode().equals("C")) {
             EnrolPropositionEditor enrolOriginal = (EnrolPropositionEditor) original;
-            EnrolPropositionEditor enrolCompare = new EnrolPropositionEditor((PropositionDefinitionContract) compare);
 
             //Populate compare proposition cluSetInformation for comparison
-            if(enrolCompare.getCluSet() == null) {
+            if(enrolOriginal.getParentCluSet() == null) {
                 MultiCourseComponentBuilder builder = new MultiCourseComponentBuilder();
                 TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
                 for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
                     if(termParameterEditor.getName().equals("kuali.term.parameter.type.course.cluSet.id")) {
-                        enrolCompare.setCluSet(builder.getCluSetInformation(termParameterEditor.getValue()));
+                        enrolOriginal.setParentCluSet(builder.getCluSetInformation(termParameterEditor.getValue()));
                         break;
                     }
                 }
             }
 
-            if(enrolOriginal.getCluSet() != null && enrolCompare.getCluSet() != null) {
-                //Compare clu's
-                if(enrolOriginal.getCluSet().getClus() != null && enrolCompare.getCluSet().getClus() != null) {
-                    if(!compareClus(enrolOriginal.getCluSet().getClus(), enrolCompare.getCluSet().getClus())) {
+            if(enrolOriginal.getCluSet() != null && enrolOriginal.getParentCluSet() != null) {
+                if(enrolOriginal.getCluSet().getClus().size() != enrolOriginal.getParentCluSet().getClus().size()) {
+                    return false;
+                } else {
+                    List<String> originalClus = populateCluIdList(enrolOriginal.getCluSet());
+                    List<String> compareClus = populateCluIdList(enrolOriginal.getParentCluSet());
+
+                    if(!buildDelimitedString(originalClus).equals(buildDelimitedString(compareClus))) {
                         return false;
                     }
-                } //Compare cluSets
-                else if(enrolOriginal.getCluSet().getCluSets() != null && enrolCompare.getCluSet().getCluSets() != null) {
-                    if(!compareCluSets(enrolOriginal.getCluSet().getCluSets(), enrolCompare.getCluSet().getCluSets())) {
-                        return false;
-                    }
-                } //Compare membershipQueryInfo
-                else if(enrolOriginal.getCluSet().getMembershipQueryInfo() != null && enrolCompare.getCluSet().getMembershipQueryInfo() != null) {
-                    if(!compareMembershipQueryInfo(enrolOriginal.getCluSet().getMembershipQueryInfo(), enrolCompare.getCluSet().getMembershipQueryInfo())) {
+                }
+
+                if(enrolOriginal.getCluSet().getCluSets().size() != enrolOriginal.getParentCluSet().getCluSets().size()) {
+                    return false;
+                } else {
+                    List<String> originalCluSets = populateCluSetIdList(enrolOriginal.getCluSet().getCluSets());
+                    List<String> compareCluSets = populateCluSetIdList(enrolOriginal.getParentCluSet().getCluSets());
+
+                    if(!buildDelimitedString(originalCluSets).equals(buildDelimitedString(compareCluSets))) {
                         return false;
                     }
                 }
             } //If propositions cluSets differ, return false
-            else if((enrolOriginal.getCluSet() == null ? false : true) != (enrolCompare.getCluSet() == null ? false : true)) {
+            else if((enrolOriginal.getCluSet() == null ? false : true) != (enrolOriginal.getParentCluSet() == null ? false : true)) {
                 return false;
             }
         }
@@ -154,94 +161,41 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         return true;
     }
 
-    /**
-     * Compare the propositions CluSetInformation's Clu's
-     *
-     * @param original
-     * @param compare
-     * @return
-     */
-    protected Boolean compareClus(List<CluInformation> original, List<CluInformation> compare) {
-        //If the sizes doesn't match, they are not same.
-        int originalSize = original == null ? 0 : original.size();
-        if (originalSize != (compare == null ? 0 : compare.size())) {
-            return false;
-        } else if (originalSize > 0) {
-            //Compare the cluSet clu's.
-            BeanPropertyComparator cluComparator = new BeanPropertyComparator(Arrays.asList("code", "type"));
-            for (int index = 0; index < originalSize; index++) {
-                if (cluComparator.compare(original.get(index), compare.get(index)) != 0) {
-                    return false;
-                }
+    protected List<String> populateCluIdList(CluSetInformation cluSetInformation) {
+        List<String> cluList = new ArrayList<String>();
+        for(CluInformation clu : cluSetInformation.getClus()) {
+            cluList.add(clu.getVerIndependentId());
+        }
+
+        if (cluSetInformation.getClusInRange() != null) {
+            for (CluInformation cluInRange : cluSetInformation.getClusInRange()) {
+                cluList.add(cluInRange.getVerIndependentId());
             }
         }
 
-        return true;
+        Collections.sort(cluList);
+        return cluList;
     }
 
-    /**
-     * Compare the propositions CluSetInformation's CluSets
-     *
-     * @param original
-     * @param compare
-     * @return
-     */
-    protected Boolean compareCluSets(List<CluSetInfo> original, List<CluSetInfo> compare) {
-        //If the sizes doesn't match, they are not same.
-        int originalSize = original == null ? 0 : original.size();
-        if (originalSize != (compare == null ? 0 : compare.size())) {
-            return false;
-        } else if (originalSize > 0) {
-            //Compare the cluSet cluSetInfo's.
-            BeanPropertyComparator cluSetComparator = new BeanPropertyComparator(Arrays.asList("membershipQuery", "adminOrg","effectiveDate", "expirationDate"));
-            for (int index = 0; index < originalSize; index++) {
-                if (cluSetComparator.compare(original.get(index), compare.get(index)) != 0) {
-                    return false;
-                }
-                //Compare cluSetIds
-                int originalCluSetIdSize = original.get(index).getCluSetIds() == null ? 0 : original.get(index).getCluSetIds().size();
-                if (originalCluSetIdSize != (compare.get(index).getCluSetIds() == null ? 0 : compare.get(index).getCluSetIds().size())) {
-                    return false;
-                } else if (originalCluSetIdSize > 0) {
-                    for(int i = 0; i < originalCluSetIdSize; i++) {
-                        if(!original.get(index).getCluSetIds().get(i).equals(compare.get(index).getCluSetIds().get(i))) {
-                            return false;
-                        }
-                    }
+    protected List<String> populateCluSetIdList(List<CluSetInfo> cluSets) {
+        List<String> cluSetList = new ArrayList<String>();
+        for(CluSetInfo cluSet : cluSets) {
+            cluSetList.add(cluSet.getId());
+        }
+        Collections.sort(cluSetList);
+        return cluSetList;
+    }
 
-                }
-                //Compare cluIds
-                int originalCluIdSize = original.get(index).getCluIds() == null ? 0 : original.get(index).getCluIds().size();
-                if (originalCluIdSize != (compare.get(index).getCluIds() == null ? 0 : compare.get(index).getCluIds().size())) {
-                    return false;
-                } else if (originalCluIdSize > 0) {
-                    for(int k = 0; k < originalCluIdSize; k++) {
-                        if(!original.get(index).getCluIds().get(k).equals(compare.get(index).getCluIds().get(k))) {
-                            return false;
-                        }
-                    }
+    protected String buildDelimitedString(List<String> ids) {
 
-                }
+        StringBuilder sb = new StringBuilder();
+        for (String id : ids) {
+            if (sb.length() > 0) {
+                sb.append(",");
             }
+            sb.append(id);
         }
-
-        return true;
-    }
-
-    /**
-     * Compare the propositions CluSetInformation's MembershipQueryInfo
-     *
-     * @param original
-     * @param compare
-     * @return
-     */
-    protected Boolean compareMembershipQueryInfo(MembershipQueryInfo original, MembershipQueryInfo compare) {
-        //Compare the cluSet membershipQueryInfo
-        BeanPropertyComparator mqiComparator = new BeanPropertyComparator(Arrays.asList("searchTypeKey"));
-        if (mqiComparator.compare(original, compare) != 0) {
-            return false;
-        }
-        return true;
+        return sb.toString();
     }
 
     /**

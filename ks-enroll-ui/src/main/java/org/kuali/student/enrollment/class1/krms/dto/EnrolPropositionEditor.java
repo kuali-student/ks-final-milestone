@@ -44,6 +44,8 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private String termCode;
     private TermInfo termInfo;
 
+    private CluSetInformation parentCluSet;
+
     private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
 
@@ -171,6 +173,15 @@ public class EnrolPropositionEditor extends PropositionEditor {
     public void setTermInfo(TermInfo termInfo){
         this.termInfo = termInfo;
     }
+
+    public CluSetInformation getParentCluSet() {
+        return parentCluSet;
+    }
+
+    public void setParentCluSet(CluSetInformation parentCluSet) {
+        this.parentCluSet = parentCluSet;
+    }
+
     @Override
     protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){
         return new EnrolPropositionEditor(definition);
