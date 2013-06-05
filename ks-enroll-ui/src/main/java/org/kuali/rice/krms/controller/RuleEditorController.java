@@ -1226,12 +1226,14 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public ModelAndView getSelectedKey(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        RuleViewHelperService viewHelper = this.getViewHelper(form);
+        //Clear the current states of the tabs to open the first tab again with the edit tree.
+        form.getClientStateForSyncing().clear();
         String selectedKey = request.getParameter("selectedKey");
 
+        //Set the selected rule statement key.
         RuleEditor ruleEditor = getRuleEditor(form);
         ruleEditor.setSelectedKey(selectedKey);
-        //this.goToEditProposition()
+
         return this.goToEditProposition(form, result, request, response);
     }
 
