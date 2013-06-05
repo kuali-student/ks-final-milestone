@@ -567,7 +567,6 @@ a {
 .ks-header-list li{
     float: left;
     padding-right: 13px;
-    padding-top: 18px;
 }
 
 /* Altering the Default Link Colour */
@@ -713,7 +712,7 @@ a {
     white-space: nowrap
 }
 
-    /* Uif-Message */
+/* Uif-Message */
 .text-lozenge-grey-msg {
     color: white;
     background-color: #a9a9a9;
@@ -841,4 +840,8 @@ input[disabled].acal_term_code{
 
 .ks-uif-hasError{
     border: 2px solid #ff2300 !important;
+}
+
+#KS-CalendarSearch-CriteriaSection .uif-group {
+    margin-top: 27px;
 }
