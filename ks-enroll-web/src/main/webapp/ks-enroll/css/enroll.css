@@ -606,13 +606,13 @@ a {
 }
 
 #contextBarTermCode {
-    padding-top: 8px;
+    padding-top: 10px;
     padding-left: 15px;
     color: rgb(231, 231, 231)
 }
 
 #contextBarSocState {
-    margin-top: 6px;
+    margin-top: 8px;
 
 }
 /*
@@ -683,44 +683,48 @@ a {
 .text-lozenge-orange > span:first-child {
     color: white;
     background-color: darkorange;
-    font-size: .85em;
-    padding: 0.2em 0.6em;
+    font-size: 11px;
+    padding: 2px 8px;
     border-radius: 6px;
     margin-left: 1em;
     text-transform: uppercase;
-    white-space: nowrap
+    white-space: nowrap;
+    font-weight: bold;
 }
 
 .text-lozenge-grey > span:first-child {
     color: white;
     background-color: #a9a9a9;
-    font-size: .85em;
-    padding: 0.2em 0.6em;
+    font-size: 11px;
+    padding: 2px 8px;
     border-radius: 6px;
     margin-left: 1em;
     text-transform: uppercase;
-    white-space: nowrap
+    white-space: nowrap;
+    font-weight: bold;
 }
 
 /* Uif-Message */
 .text-lozenge-grey-msg {
     color: white;
     background-color: #a9a9a9;
-    font-size: .85em;
-    padding: 0.2em 0.6em;
+    font-size: 11px;
+    padding: 2px 8px;
     border-radius: 6px;
     text-transform: uppercase;
-    white-space: nowrap
+    white-space: nowrap;
+    font-weight: bold;
 }
 
 .text-lozenge-green-msg {
     color: white;
     background-color: #029a02;
-    font-size: .85em;
-    padding: 0.2em 0.6em;
+    font-size: 11px;
+    padding: 2px 8px;
     border-radius: 6px;
     text-transform: uppercase;
-    white-space: nowrap
+    white-space: nowrap;
+    font-weight: bold;
 }
 /************************************** END LOZENGES **********************/
 
