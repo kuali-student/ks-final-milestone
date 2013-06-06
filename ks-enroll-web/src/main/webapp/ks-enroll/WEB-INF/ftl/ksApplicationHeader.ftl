@@ -7,12 +7,12 @@
     }
 </script>
 
-<div class="ks-uif-viewHeader-container">
+<div class="ks-uif-viewHeader-container navbar-inverse navbar">
     <img class="ks-logo-image" title="Kuali Student" src="../ks-enroll/images/header/logo_kuali.png">
     <span class="ks-header-student">Student</span>
 
     <div class="header-right-group">
-        <ul class="ks-header-list">
+        <ul class="ks-header-list nav pull-right">
             <li class="ks-header-action-list"><a href="${ConfigProperties['kew.url']}/ActionList.do">Action List</a>
             </li>
 

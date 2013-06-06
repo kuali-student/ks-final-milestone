@@ -553,45 +553,53 @@ a {
 
 .ks-header-list li{
     float: left;
-    padding-right: 13px;
-    padding-top: 18px;
+    padding-top: 5px;
 }
 
+/* Adjusting the padding issues of the logout highlight */
 .ks-header-list .dropdown-menu li{
     float: none;
     padding-right: 0px;
     padding-top: 0px;
 }
 
+/* Adjusting the colour of the user icon */
+.ks-header-list li a i {
+    opacity: .5;
+}
+
+.ks-header-list li a i:hover {
+    opacity: 1;
+}
+
+/* Centering the drop down arrow beside the username */
+.ks-header-list li a b {
+    margin-top: 9px;
+}
+
+.header-right-group {
+    padding-right: 10px;
+}
+
 /* Altering the Default Link Colour */
 .header-right-group a {
-    color: white;
+    color: #999999;
+    font-size: 14px;
 }
 
 /* Altering the Default Hover Treatment */
 .header-right-group a:hover {
-    color: #999999;
+    color: white;
     text-decoration: none;
-}
-
-/* Adjusting the Opacity of User Icon */
-.ks-header-user {
-    opacity: .5;
-}
-
-/* User Text */
-.ks-header-admin {
-    color: #999999;
-}
-
-/* Vertically Centering Action List & Username */
-.ks-header-action-list, .ks-header-admin {
-    padding-top: 18px;
 }
 
 /* Logout Button */
 .ks-header-logout {
     padding-top: 10px;
+}
+
+.navbar {
+    margin-bottom: 0px;
 }
 /************************************** END APPLICATION HEADER **************************************/
 
@@ -651,6 +659,29 @@ a {
 }
 */
 /************************************** END CONTEXT BAR ***********************/
+
+
+
+
+/********************** SEASONS GRADIENT *********************************************/
+.seasons-gradient {
+    background-image: linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+    background-image: -o-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+    background-image: -moz-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+    background-image: -webkit-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+    background-image: -ms-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
+
+    background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.12, rgb(17,230,245)),
+        color-stop(0.5, rgb(191,119,11)),
+        color-stop(0.75, rgb(255,242,0)),
+        color-stop(1, rgb(127,235,18))
+    );
+}
+/********************** END SEASONS GRADIENT *********************************************/
 
 
 
@@ -782,25 +813,9 @@ textarea,
 }
 /************************************** END BOOTSTRAP OVERRIDES **********************/
 
-/********************** Seasons Gradient *********************************************/
-.seasons-gradient {
-    background-image: linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
-    background-image: -o-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
-    background-image: -moz-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
-    background-image: -webkit-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
-    background-image: -ms-linear-gradient(bottom, rgb(17,230,245) 12%, rgb(191,119,11) 50%, rgb(255,242,0) 75%, rgb(127,235,18) 100%);
 
-    background-image: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        color-stop(0.12, rgb(17,230,245)),
-        color-stop(0.5, rgb(191,119,11)),
-        color-stop(0.75, rgb(255,242,0)),
-        color-stop(1, rgb(127,235,18))
-    );
-}
-/********************** Seasons Gradient END *********************************************/
+
+
 /*
    Edit Academic Calendar > Terms tab
    Masks the term code input control as a simple data field.
