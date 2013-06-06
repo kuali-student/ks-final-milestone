@@ -48,20 +48,7 @@ import java.util.Map;
 public class TermCodeGeneratorImpl implements TermCodeGenerator {
     private static final String YEAR_ONLY_FORMAT_STRING = "yyyy";
 
-    private static Map<String, String> termTypeCodeMap;
     private TypeService typeService;
-
-    static {
-        Map<String, String> map = new HashMap<String, String>(5);
-
-        map.put(AtpServiceConstants.ATP_WINTER_TYPE_KEY, "12");
-        map.put(AtpServiceConstants.ATP_SPRING_TYPE_KEY, "01");
-        map.put(AtpServiceConstants.ATP_SUMMER1_TYPE_KEY, "05");
-        map.put(AtpServiceConstants.ATP_SUMMER1_TYPE_KEY, "07");
-        map.put(AtpServiceConstants.ATP_FALL_TYPE_KEY, "08");
-
-        termTypeCodeMap = Collections.unmodifiableMap(map);
-    }
 
     @Override
     public String generateTermCode(TermInfo term) {
@@ -96,14 +83,14 @@ public class TermCodeGeneratorImpl implements TermCodeGenerator {
         return result.toString();
     }
 
+    public ContextInfo createContextInfo(){
+        return ContextUtils.createDefaultContextInfo();
+    }
+
     public TypeService getTypeService() {
         if(typeService == null) {
             typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.typeService;
-    }
-
-    public ContextInfo createContextInfo(){
-        return ContextUtils.createDefaultContextInfo();
     }
 }
