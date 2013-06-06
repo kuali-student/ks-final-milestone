@@ -16,16 +16,24 @@
         </property>
     </bean>
 
-    <bean id="KS-AcademicTerm-EditSection-Main" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup">
+    <bean id="KS-AcademicTerm-EditSection-Main" parent="KS-Uif-StackedCollectionSection-VerticalSubCollectionFieldGroup">
         <property name="id" value="acal-term"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="style" value="min-width:70em;"/>
         <property name="header.render" value="false" />
-        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
-        <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.termNameForUI}"/>
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype">
+            <bean parent="Uif-CollectionVerticalBoxItem">
+                <property name="disclosure.render" value="true"/>
+                <property name="header">
+                    <bean parent="Uif-HeaderFour">
+                        <property name="headerText" value="@{#line.termNameForUI}"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
         <property name="addLineActions">
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
@@ -40,101 +48,147 @@
                 <bean id="term_cancel_button" parent="Uif-ActionLink" p:methodToCall="cancelTerm" p:actionLabel="Cancel"/>
             </list>
         </property>
+        <property name="addLineItems">
+            <list>
+                <bean id="term_type_add" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
+                      p:label="Term Type" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
+                    </property>
+                </bean>
+                <bean id="term_start_date_add" parent="Uif-InputField-LabelTop" p:propertyName="startDate" p:label="Start Date" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                    <property name="attributeQuery">
+                        <bean parent="Uif-AttributeQueryConfig">
+                            <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                            <property name="queryMethodArgumentFieldList">
+                                <list>
+                                    <value>startDate</value>
+                                    <value>termType</value>
+                                </list>
+                            </property>
+                            <property name="queryFieldMapping" value="{startDate:startDate,termType:termType}"/>
+                            <property name="returnFieldMapping" value="termCode:termCode"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="term_end_date_add" parent="Uif-InputField-LabelTop" p:propertyName="endDate" p:label="End Date" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                </bean>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+                <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
                         <list>
-                            <bean id="term_type" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
-                                  p:label="Term Type" p:required="true">
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl"/>
-                                </property>
-                                <property name="optionsFinder">
-                                    <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
-                                </property>
-                                <property name="attributeQuery">
-                                    <bean parent="Uif-AttributeQueryConfig">
-                                        <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
-                                        <property name="queryMethodArgumentFieldList">
-                                            <list>
-                                                <value>startDate</value>
-                                                <value>termType</value>
-                                            </list>
-                                        </property>
-                                        <property name="queryFieldMapping" value="{startDate:startDate,termType:termType}"/>
-                                        <property name="returnFieldMapping" value="termCode:termCode"/>
-                                    </bean>
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="term_type" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
+                                              p:label="Term Type" p:required="true">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
+                                            </property>
+                                            <property name="attributeQuery">
+                                                <bean parent="Uif-AttributeQueryConfig">
+                                                    <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                                                    <property name="queryMethodArgumentFieldList">
+                                                        <list>
+                                                            <value>startDate</value>
+                                                            <value>termType</value>
+                                                        </list>
+                                                    </property>
+                                                    <property name="queryFieldMapping" value="{startDate:startDate,termType:termType}"/>
+                                                    <property name="returnFieldMapping" value="termCode:termCode"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="term_name" parent="Uif-InputField-LabelTop" p:propertyName="name" p:render="@{!#isAddLine}" p:label="Name" p:required="true">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="30" />
+                                            </property>
+                                        </bean>
+                                        <bean id="term_code" parent="Uif-InputField-LabelTop" p:propertyName="termCode" p:label="Term Code">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:disabled="true" p:size="9">
+                                                    <property name="cssClasses">
+                                                        <list>
+                                                            <value>acal_term_code</value>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="makeOfficial" >
+                                            <property name="render" value="@{!#view.readOnly and !#line.official and !#isAddLine}"/>
+                                            <property name="label" value="Status"/>
+                                            <property name="control">
+                                                <bean parent="Uif-CheckboxControl" p:checkboxLabel="Make Official"/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
-                            <bean id="term_name" parent="Uif-InputField-LabelTop" p:propertyName="name" p:render="@{!#isAddLine}" p:label="Name" p:required="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="30" />
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="term_start_date" parent="Uif-InputField-LabelTop" p:propertyName="startDate" p:label="Start Date" p:required="true">
+                                            <property name="control">
+                                                <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="BasicDatePatternConstraint" />
+                                            </property>
+                                            <property name="attributeQuery">
+                                                <bean parent="Uif-AttributeQueryConfig">
+                                                    <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                                                    <property name="queryMethodArgumentFieldList">
+                                                        <list>
+                                                            <value>startDate</value>
+                                                            <value>termType</value>
+                                                        </list>
+                                                    </property>
+                                                    <property name="queryFieldMapping" value="{startDate:startDate,termType:termType}"/>
+                                                    <property name="returnFieldMapping" value="termCode:termCode"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="term_end_date" parent="Uif-InputField-LabelTop" p:propertyName="endDate" p:label="End Date" p:required="true">
+                                            <property name="control">
+                                                <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="BasicDatePatternConstraint" />
+                                            </property>
+                                        </bean>
+                                        <bean id="term_instructional_days" parent="Uif-InputField-LabelTop" p:propertyName="instructionalDays" p:label="Instructional Days" p:render="@{!#isAddLine}" p:readOnly="true">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Instructional Days include @{#lp.instructionalDayConfig}"/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
-                                <!--<property name="constraintText" value="Term Code: @{#line.termCode eq null ? '' : #line.termCode}"/>-->
                             </bean>
-                            <bean id="term_code" parent="Uif-InputField" p:propertyName="termCode" p:label="Term Code">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:disabled="true">
-                                        <property name="cssClasses">
-                                            <list>
-                                                <value>acal_term_code</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="makeOfficial" >
-                                <property name="render" value="@{!#view.readOnly and !#line.official and !#isAddLine}"/>
-                                <property name="label" value="Make Official"/>
-                                <property name="control">
-                                    <bean parent="Uif-CheckboxControl"/>
-                                </property>
-                            </bean>
-
-                            <bean parent="Uif-MessageField" p:messageText="Official" p:render="@{#line.official}"/>
-
                             <bean parent="Uif-InputField" p:propertyName="termType" p:render="@{!#isAddLine}" p:hidden="true">
                                 <property name="control">
                                     <bean parent="Uif-HiddenControl"/>
-                                </property>
-                            </bean>
-
-                            <bean id="term_start_date" parent="Uif-InputField-LabelTop" p:propertyName="startDate" p:label="Start Date" p:required="true">
-                                <property name="control">
-                                    <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
-                                </property>
-                                <property name="validCharactersConstraint">
-                                    <bean parent="BasicDatePatternConstraint" />
-                                </property>
-                                <property name="attributeQuery">
-                                    <bean parent="Uif-AttributeQueryConfig">
-                                        <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
-                                        <property name="queryMethodArgumentFieldList">
-                                                <list>
-                                                    <value>startDate</value>
-                                                    <value>termType</value>
-                                                </list>
-                                        </property>
-                                        <property name="queryFieldMapping" value="{startDate:startDate,termType:termType}"/>
-                                        <property name="returnFieldMapping" value="termCode:termCode"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean id="term_end_date" parent="Uif-InputField-LabelTop" p:propertyName="endDate" p:label="End Date" p:required="true">
-                                <property name="control">
-                                    <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
-                                </property>
-                                <property name="validCharactersConstraint">
-                                    <bean parent="BasicDatePatternConstraint" />
-                                </property>
-                            </bean>
-                            <bean id="term_instructional_days" parent="Uif-InputField-LabelTop" p:propertyName="instructionalDays" p:label="Instructional Days" p:render="@{!#isAddLine}">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="3" p:disabled="true"/>
-                                </property>
-                                <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Instructional Days include @{#lp.instructionalDayConfig}"/>
                                 </property>
                             </bean>
                         </list>
@@ -319,5 +373,5 @@
             </list>
         </property>
     </bean>
-
+    <bean id="textAligns" class="org.kuali.rice.krad.uif.CssConstants.TextAligns"/>
 </beans>

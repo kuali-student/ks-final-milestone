@@ -756,7 +756,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         academicCalendarForm.setNewCalendar(false);
 
-        GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, keyToDisplayOnSave, academicCalendarForm.getAcademicCalendarInfo().getName());
+        GlobalVariables.getMessageMap().addGrowlMessage("", keyToDisplayOnSave, academicCalendarForm.getAcademicCalendarInfo().getName());
 
 
         return getUIFModelAndView(academicCalendarForm);

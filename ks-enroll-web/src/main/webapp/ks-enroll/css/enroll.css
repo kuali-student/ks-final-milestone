@@ -336,19 +336,6 @@ a {
 }
 /************************************** END MANAGE REGISTRATION GROUP (SEPARATE FORM) ***************************************/
 
-
-
-
-/************************************** ACAL **************************************
-   Create Academic Calendar > Information tab
-   This causes the Organization, Start Date & End Date sections to start on a new line
-
-   Create Academic Calendar > Terms tab
-   This causes the Start Date & End Date sections to start on a new line
- */
-.ac_disclosure .uif-boxLayoutHorizontalItem {
-    float: none;
-}
 /************************************** END ACAL **************************************/
 
 
@@ -809,36 +796,7 @@ textarea,
    Masks the term code input control as a simple data field.
 */
 input[disabled].acal_term_code{
-    background-color: inherit;
-    color: #000;
-    border: none;
-    cursor: pointer;
-    display: inline-block;
-    box-shadow: none;
-    cursor: pointer;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    height: 20px;
-    letter-spacing: normal;
-    line-height: 20px;
-    margin-bottom: 2px;
-    margin-left: 0px;
-    margin-right: 0px;
-    margin-top: 0px;
-    padding-bottom: 0px;
-    padding-left: 0px;
-    padding-right: 0px;
-    padding-top: 0px;
-    text-align: start;
-    text-indent: 0px;
-    text-shadow: none;
-    vertical-align: middle;
-    width: 80px;
-    word-spacing: 0px;
-    zoom: 1;
+    background-color: #ffffff;
 }
 
 .ks-uif-hasError{
