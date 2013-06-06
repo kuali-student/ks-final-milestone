@@ -52,9 +52,8 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.acal.service.TermCodeGenerator;
 import org.kuali.student.r2.core.acal.service.assembler.TermAssembler;
-import org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl;
+import org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorMockImpl;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -187,7 +186,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
         try {
             TermInfo term = new TermAssembler().assemble(atpInfo, context);
-            TermCodeGenerator tcg = new TermCodeGeneratorImpl();
+            TermCodeGeneratorMockImpl tcg = new TermCodeGeneratorMockImpl();
             atpInfo.setCode(tcg.generateTermCode(term));
         } catch (AssemblyException e) {
             throw new OperationFailedException("Assembly of TermInfo failed", e);
