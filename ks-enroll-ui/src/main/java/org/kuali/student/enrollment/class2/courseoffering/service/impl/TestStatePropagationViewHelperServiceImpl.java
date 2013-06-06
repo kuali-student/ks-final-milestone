@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RGStateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagationForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
@@ -307,28 +308,28 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         _reset(true);
         System.err.println("------------------------- Testing draft");
         RegGroupStateResult rgStateResult = testRegistrationGroupStatePropagation(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
-        _printRegGroupResults(rgStateResult);
+        _printRegGroupResults(rgStateResult, form);
         System.err.println("------------------------- Testing approved");
         rgStateResult = testRegistrationGroupStatePropagation(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY);
-        _printRegGroupResults(rgStateResult);
+        _printRegGroupResults(rgStateResult, form);
         System.err.println("<<<<<<<<<<<<<< Ending RG tests >>>>>>>>>>>>");
 
         System.err.println("<<<<<<<<<<<<<< Starting RG Invalid tests >>>>>>>>>>>>");
         _reset(true);
         PseudoUnitTestStateTransitionGrid grid = testRegistrationGroupInvalid(true);
-        _printRegGroupInvalid(grid, true);
+        _printRegGroupInvalid(grid, true, form);
         grid = testRegistrationGroupInvalid(false);
-        _printRegGroupInvalid(grid, false);
+        _printRegGroupInvalid(grid, false, form);
         System.err.println("<<<<<<<<<<<<<< END RG Invalid tests >>>>>>>>>>>>");
         return null;
     }
 
-     private void _printRegGroupInvalid(PseudoUnitTestStateTransitionGrid grid, boolean isRgOffered) {
+     private void _printRegGroupInvalid(PseudoUnitTestStateTransitionGrid grid, boolean isRgOffered, TestStatePropagationForm form) {
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid.size(); j++) {
                 String expected = grid.getTransition(AFUTTypeEnum.EXPECTED, i, j);
                 if (!expected.equals(TransitionGridYesNoEnum.INVALID.getName())) {
-                    String actual = grid.getTransition(AFUTTypeEnum.EXPECTED, i, j);
+                    String actual = grid.getTransition(AFUTTypeEnum.ACTUAL, i, j);
                     String offered = "[RG offered] ";
                     if (!isRgOffered) {
                         offered = "[RG pending] ";
@@ -336,6 +337,13 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                     String message = offered + " expected/actual = " + _getAfterDot(expected)
                             + "/" + _getAfterDot(actual);
                     System.err.println(message);
+                    RGStateWrapper rgStateWrapper = new RGStateWrapper(grid.getStateKeyAt(i), grid.getStateKeyAt(j), _getAfterDot(expected) ,_getAfterDot(actual));
+                    if(rgStateWrapper.getStatus().equals("pass")){
+                        form.setPassCount(form.getPassCount()+1);
+                    } else if(rgStateWrapper.getStatus().equals("fail")){
+                        form.setFailCount(form.getFailCount()+1);
+                    }
+                    form.addRGFromTransitionStatePropagationWrapper(rgStateWrapper);
                }
            }
        }
@@ -482,12 +490,20 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         return s;
     }
 
-    private void _printRegGroupResults(RegGroupStateResult rgStateResult) {
+    private void _printRegGroupResults(RegGroupStateResult rgStateResult, TestStatePropagationForm form) {
         for (int i = 0; i < rgStateResult.size(); i++) {
             String aoStatesString = _computeAoStateString(i, rgStateResult.numAos());
             String expected = _getAfterDot(rgStateResult.getExpected(i));
             String actual = _getAfterDot(rgStateResult.getActual(i));
             System.err.println(aoStatesString + " expected/actual = " + expected + "/" + actual);
+            RGStateWrapper rgStateWrapper = new RGStateWrapper(aoStatesString, expected, actual);
+            if(rgStateWrapper.getStatus().equals("pass")){
+                form.setPassCount(form.getPassCount()+1);
+            } else if(rgStateWrapper.getStatus().equals("fail")){
+                form.setFailCount(form.getFailCount()+1);
+            }
+            form.addRGFromAOStatePropagationWrapper(rgStateWrapper);
+
         }
     }
 
@@ -577,6 +593,11 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                     " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             System.err.println(message);
             StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, expectedVal, actualVal, passFail);
+            if(statePropagationWrapper.getStatus().equals("pass")){
+                form.setPassCount(form.getPassCount()+1);
+            } else if(statePropagationWrapper.getStatus().equals("fail")){
+                form.setFailCount(form.getFailCount()+1);
+            }
             form.addAoStatePropagationWrapper(statePropagationWrapper);
 
         }
@@ -608,6 +629,11 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String message = "(FO) " + transition +
                     " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, expectedVal, actualVal, passFail);
+            if(statePropagationWrapper.getStatus().equals("pass")){
+                form.setPassCount(form.getPassCount()+1);
+            } else if(statePropagationWrapper.getStatus().equals("fail")){
+                form.setFailCount(form.getFailCount()+1);
+            }
             form.addFoStatePropagationWrapper(statePropagationWrapper);
             System.err.println(message);
         }
@@ -639,6 +665,11 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                     " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             System.err.println(message);
             StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, expectedVal, actualVal, passFail);
+            if(statePropagationWrapper.getStatus().equals("pass")){
+                form.setPassCount(form.getPassCount()+1);
+            } else if(statePropagationWrapper.getStatus().equals("fail")){
+                form.setFailCount(form.getFailCount()+1);
+            }
             form.addCoStatePropagationWrapper(statePropagationWrapper);
         }
         System.err.println("---------------------- end");

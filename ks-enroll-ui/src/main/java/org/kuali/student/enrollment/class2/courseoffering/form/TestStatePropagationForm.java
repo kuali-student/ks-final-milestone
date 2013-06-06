@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RGStateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper;
 
 import java.util.ArrayList;
@@ -32,12 +33,20 @@ public class TestStatePropagationForm extends UifFormBase {
     private List<StatePropagationWrapper> aoStatePropagationWrapperList;
     private List<StatePropagationWrapper> foStatePropagationWrapperList;
     private List<StatePropagationWrapper> coStatePropagationWrapperList;
+    private List<RGStateWrapper> rgFromAOStatePropagationWrapperList;
+    private List<RGStateWrapper> rgFromTransitionsStatePropagationWrapperList;
+    private int failCount;
+    private int passCount;
 
      public TestStatePropagationForm() {
 
         aoStatePropagationWrapperList = new ArrayList<StatePropagationWrapper>();
         foStatePropagationWrapperList = new ArrayList<StatePropagationWrapper>();
         coStatePropagationWrapperList = new ArrayList<StatePropagationWrapper>();
+        rgFromAOStatePropagationWrapperList = new ArrayList<RGStateWrapper>();
+        rgFromTransitionsStatePropagationWrapperList = new ArrayList<RGStateWrapper>();
+        failCount=0;
+        passCount=0;
     }
 
 
@@ -78,4 +87,46 @@ public class TestStatePropagationForm extends UifFormBase {
     public void addCoStatePropagationWrapper(StatePropagationWrapper wrapper){
         coStatePropagationWrapperList.add(wrapper);
     }
+
+    public List<RGStateWrapper> getRgFromAOStatePropagationWrapperList() {
+        return rgFromAOStatePropagationWrapperList;
+    }
+
+    public void setRgFromAOStatePropagationWrapperList(List<RGStateWrapper> rgFromAOStatePropagationWrapperList) {
+        this.rgFromAOStatePropagationWrapperList = rgFromAOStatePropagationWrapperList;
+    }
+
+    public void addRGFromAOStatePropagationWrapper(RGStateWrapper wrapper){
+        rgFromAOStatePropagationWrapperList.add(wrapper);
+    }
+
+    public List<RGStateWrapper> getRgFromTransitionsStatePropagationWrapperList() {
+        return rgFromTransitionsStatePropagationWrapperList;
+    }
+
+    public void setRgFromTransitionsStatePropagationWrapperList(List<RGStateWrapper> rgFromTransitionsStatePropagationWrapperList) {
+        this.rgFromTransitionsStatePropagationWrapperList = rgFromTransitionsStatePropagationWrapperList;
+    }
+
+    public void addRGFromTransitionStatePropagationWrapper(RGStateWrapper wrapper){
+        rgFromTransitionsStatePropagationWrapperList.add(wrapper);
+    }
+
+    public int getFailCount() {
+        return failCount;
+    }
+
+    public void setFailCount(int failCount) {
+        this.failCount = failCount;
+    }
+
+    public int getPassCount() {
+        return passCount;
+    }
+
+    public void setPassCount(int passCount) {
+        this.passCount = passCount;
+    }
+
+
 }

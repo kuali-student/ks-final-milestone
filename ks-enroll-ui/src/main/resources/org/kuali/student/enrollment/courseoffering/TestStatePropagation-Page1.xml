@@ -37,6 +37,20 @@
 
                         </bean>
 
+                        <bean parent="Uif-HorizontalBoxSection" id="countSection">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-DataField"
+                                          p:label="Pass Count"
+                                          p:propertyName="passCount"/>
+                                    <bean parent="Uif-DataField"
+                                          p:label="Fail Count"
+                                          p:propertyName="failCount"/>
+                                </list>
+                            </property>
+
+                        </bean>
+
                         <bean parent="Uif-HorizontalBoxSection" id="aoTestResultsSection">
                         <property name="headerText" value="AO State Propagation Test Results" />
                         <property name="items">
@@ -198,6 +212,115 @@
                                         </list>
                                     </property>
                                 </bean>
+                                </list>
+                            </property>
+                        </bean>
+
+                        <bean parent="Uif-HorizontalBoxSection" id="rgTestResultsSection">
+                            <property name="headerText" value="RG State Propagation Test Using AO List Results" />
+                            <property name="items">
+                                <list>
+                                    <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+                                        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RGStateWrapper" />
+                                        <property name="propertyName" value="rgFromAOStatePropagationWrapperList" />
+                                        <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                        <property name="layoutManager.renderSequenceField" value="false" />
+                                        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+                                        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                        <property name="layoutManager.richTable.templateOptions">
+                                            <map merge="true">
+                                                <entry key="sDom" value="rtip"/>
+                                                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                                                <entry key="bPaginate" value="false"/>
+                                            </map>
+                                        </property>
+                                        <property name="items">
+                                            <list>
+
+                                                <bean parent="Uif-DataField"
+                                                      p:label="AO 1"
+                                                      p:propertyName="ao1"/>
+                                                <bean parent="Uif-DataField"
+                                                      p:label="AO 2"
+                                                      p:propertyName="ao2"/>
+                                                <bean parent="Uif-DataField"
+                                                      p:label="AO 3"
+                                                      p:propertyName="ao3"/>
+                                                <bean parent="Uif-DataField"
+                                                      p:label="Expected"
+                                                      p:propertyName="expected"/>
+                                                <bean parent="Uif-DataField"
+                                                      p:label="Actual"
+                                                      p:propertyName="actual"/>
+                                                <bean parent="Uif-DataField"
+                                                      p:label="Status"
+                                                      p:propertyName="status">
+                                                    <property name="propertyReplacers">
+                                                        <list>
+                                                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                                  p:condition="#line.green" p:replacement="color:green;"/>
+                                                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                                  p:condition="#line.red" p:replacement="color:red;"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+
+                        <bean parent="Uif-HorizontalBoxSection" id="rgTestResultsSection">
+                            <property name="headerText" value="RG State Propagation Test Using Invalid Transitions Results" />
+                            <property name="items">
+                                <list>
+                                    <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
+                                        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RGStateWrapper" />
+                                        <property name="propertyName" value="rgFromTransitionsStatePropagationWrapperList" />
+                                        <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                        <property name="layoutManager.renderSequenceField" value="false" />
+                                        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+                                        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                        <property name="layoutManager.richTable.templateOptions">
+                                            <map merge="true">
+                                                <entry key="sDom" value="rtip"/>
+                                                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                                                <entry key="bPaginate" value="false"/>
+                                            </map>
+                                        </property>
+                                        <property name="items">
+                                            <list>
+
+                                                <bean parent="Uif-DataField"
+                                                      p:label="RG From"
+                                                      p:propertyName="rgFrom"/>
+                                                <bean parent="Uif-DataField"
+                                                      p:label="RG To"
+                                                      p:propertyName="rgTo"/>
+                                                <bean parent="Uif-DataField"
+                                                      p:label="Expected"
+                                                      p:propertyName="expected"/>
+                                                <bean parent="Uif-DataField"
+                                                      p:label="Actual"
+                                                      p:propertyName="actual"/>
+                                                <bean parent="Uif-DataField"
+                                                      p:label="Status"
+                                                      p:propertyName="status">
+                                                    <property name="propertyReplacers">
+                                                        <list>
+                                                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                                  p:condition="#line.green" p:replacement="color:green;"/>
+                                                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                                                  p:condition="#line.red" p:replacement="color:red;"/>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </list>
                             </property>
                         </bean>
