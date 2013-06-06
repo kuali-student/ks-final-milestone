@@ -30,8 +30,9 @@
                 <property name="items">
                     <list merge="true">
                         <bean id="contextBarTermCode" parent="Uif-InputField" p:readOnly="true" p:propertyName="contextBarTermCode"/>
-                        <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="contextBarSocState" />
-                        <!--<ref bean="KS-CourseOfferingManagement-CriteriaSection"/>-->
+                        <!-- We hide the next element by default because it was showing a single space + background color. There is javascript that gets
+                        run on page load that makes the state visible again. -->
+                        <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="contextBarSocState" p:hidden="true"/>
                     </list>
                 </property>
             </bean>

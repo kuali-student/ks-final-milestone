@@ -715,20 +715,36 @@ function highlightElements(validationJSONString, isValid, url) {
     }
 }
 
+/*
+Because the context bar resides in the topGroup, it only gets loaded once when the view is loaded. Because the context
+bar needs to update every time the page loads, we have to create some custom JS to update items in the context bar.
+ */
 function updateContextBar(){
     var termCode = jQuery("#contextBarTermCodeId_control");
     var termCodeLabel = jQuery("#contextBarTermCode");
     termCodeLabel.text(termCode.val());
-//    var termCodeLableHeight = termCodeLabel.height();
 
     var socState = jQuery("#contextBarSocStateId_control");
     var socStateLabel = jQuery("#contextBarSocState");
-    socStateLabel.text(socState.val());
-//    var socStateLableHeight = socStateLabel.height();
+    if(typeof socState.val() != 'undefined'){
+        socStateLabel.text(socState.val());
+        socStateLabel.css('display', '');
+    }  else{
+        socStateLabel.css('display', 'none');
+    }
 
-//    jQuery("#Uif-TopGroupWrapper").height((termCodeLableHeight  > socStateLableHeight) ? termCodeLableHeight : socStateLableHeight );
 }
 
+/*
+The users wanted to have a small strip of color that coincides with the term. If the user hasn't configured
+an explicit color then use the default coloring from a gradient.
+
+In this implementation we pass in the day of the year that you want to show a color for.
+Ie. Jan 1 = 1st day of year. The code does 1/365 = some %. that % is used to find how far
+down the gradient we pick a color.
+The default gradient goes : ice blue(winter), green(spring),yellow(summer), brown(fall), ice blue(winter).
+two winters because winter starts at the end of the year and goes through February.
+ */
 function setSeasonalColor(objectToColor, dayOfYear, baseUrl) {
     var image = jQuery('<img src="' + baseUrl + '/ks-enroll/images/season_gradient.png"/>');
     var objToColor = jQuery('#' + objectToColor);
