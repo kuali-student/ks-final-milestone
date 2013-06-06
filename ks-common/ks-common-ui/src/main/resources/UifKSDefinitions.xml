@@ -181,6 +181,18 @@
             <list/>
         </property>
     </bean>
+    <bean id="KS-Uif-StackedCollectionSection-VerticalSubCollectionFieldGroup" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-VerticalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
 
     <!--Note by bonnie: Not used in any code -->
     <bean id="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroupWithDisclosure" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup">
