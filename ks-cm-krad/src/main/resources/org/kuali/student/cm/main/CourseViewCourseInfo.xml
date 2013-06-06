@@ -140,22 +140,25 @@ limitations under the License.
 										</property>
 									</bean>
 								</property>
-								<!-- <property name="quickfinder">
+								<!--<property name="quickfinder">
             						<bean parent="Uif-QuickFinder">
 	            						<property name="quickfinderAction">
 						           			<bean parent="Uif-ActionLink">
 								                <property name="methodToCall" value="performLookup"/>
 								                <property name="actionLabel" value="Advanced Search"/>
-								                <property name="style" value="display:block;color: #3F7826;"/>
+								                <property name="cssClasses">
+								                	<list merge="true">
+        												<value>uif-actionLink-block</value>
+      												</list>
+								                </property>
 						            		</bean>
 					        			</property>
 								        <property name="lightBoxLookup">
 								            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
 								        </property>
 								        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CluInstructorInfoDisplay"/>
-								        <property name="viewName" value="cluInstructorInfoDisplayLookup" />
-								    </bean>
-        						</property>--> 
+								     </bean>
+        						</property>-->
         					</bean>
 						</list>
 					</property>
@@ -218,14 +221,14 @@ limitations under the License.
 					p:headerText="Jointly Offered Courses" p:propertyName="courseJointDisplays"
 					p:collectionObjectClass="org.kuali.student.cm.course.form.CourseJointInfoDisplay">
 					<property name="layoutManager.summaryTitle" value="Jointly Offered Course" />
-					<property name="layoutManager.summaryFields" value="courseId" />
+					<property name="layoutManager.summaryFields" value="courseCode" />
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="addBlankLineAction.actionLabel" value="Add Another Course" />
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Course Number or Title"
-								p:propertyName="courseId">
+								p:propertyName="courseCode">
 								<property name="instructionalText" value="Enter an existing course or proposal." />
 								<property name="control">
 									<bean parent="Uif-TextControl" />
@@ -239,7 +242,7 @@ limitations under the License.
 										</property>
 									</bean>
 								</property>
-								<!-- <property name="quickfinder">
+								<property name="quickfinder">
 									<bean parent="Uif-QuickFinder">
 										<property name="quickfinderAction">
 						           			<bean parent="Uif-ActionLink">
@@ -255,10 +258,14 @@ limitations under the License.
 					     		        <property name="lightBoxLookup">
 								            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
 								        </property>
-								        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseJointInfo"/>
-								        <property name="viewName" value="courseJointInfoLookup" />
+								        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoDisplay"/>
+								        <property name="fieldConversions">
+								            <map>
+								                <entry key="courseCode" value="courseCode"/>
+								            </map>
+								        </property>
 								    </bean>
-								</property>-->
+								</property>
 								<property name="help">
 									<bean parent="Uif-Help"
 										p:tooltipHelpContent="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator." />

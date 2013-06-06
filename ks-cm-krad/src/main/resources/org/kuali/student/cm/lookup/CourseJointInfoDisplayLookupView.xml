@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="KS-CourseJointInfoDisplay-DataObjectEntry" parent="DataObjectEntry">
+		<property name="objectLabel" value="Jointly Offered Courses Information Display" />
+		<property name="dataObjectClass"
+			value="org.kuali.student.cm.course.form.CourseJointInfoDisplay" />
+		<property name="titleAttribute" value="typeKey" />
+		<property name="attributes">
+			<list>
+				<ref bean="CourseJointInfoDisplay.typeKey" />
+				<!-- <ref bean="CourseJointInfoDisplay.stateKey"/> -->
+				<ref bean="CourseJointInfoDisplay.name" />
+				<!-- <ref bean="CourseJointInfoDisplay.courseNumberSuffix"/> -->
+				<ref bean="CourseJointInfoDisplay.courseTitle" />
+				<!-- <ref bean="CourseJointInfoDisplay.subjectArea"/> -->
+				<ref bean="CourseJointInfoDisplay.courseId" />
+				<!-- <ref bean="CourseJointInfoDisplay.relationId"/> -->
+				<ref bean="CourseJointInfoDisplay.courseCode" />
+				<ref bean="CourseJointInfoDisplay.level" />
+			</list>
+		</property>
+		<property name="complexAttributes">
+			<list>
+				<ref bean="CourseJointInfoDisplay.descr" />
+				<!-- <ref bean="CourseJointInfoDisplay.meta"/> -->
+			</list>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>typeKey</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CourseJointInfoDisplay.typeKey" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey" />
+	</bean>
+
+	<bean id="CourseJointInfoDisplay.name" parent="BaseKuali.name">
+		<property name="name" value="name" />
+	</bean>
+
+	<bean id="CourseJointInfoDisplay.courseTitle" parent="AttributeDefinition">
+		<property name="name" value="courseTitle" />
+		<property name="dataType" value="STRING" />
+		<property name="label" value="Given Name" />
+		<property name="shortLabel" value="Given Name" />
+		<property name="forceUppercase" value="false" />
+		<property name="maxLength" value="40" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+	</bean>
+
+	<bean id="CourseJointInfoDisplay.courseId" parent="BaseKuali.string">
+		<property name="name" value="courseId" />
+		<property name="shortLabel" value="Course Id" />
+		<property name="summary">
+			<value>
+				Unique identifier for a Course.
+			</value>
+		</property>
+		<property name="label" value="Course Id" />
+		<property name="description">
+			<value>
+				Unique identifier for a Course.
+			</value>
+		</property>
+		<property name="required" value="false" />
+	</bean>
+
+	<bean id="CourseJointInfoDisplay.courseCode" parent="AttributeDefinition">
+		<property name="name" value="courseCode" />
+		<property name="dataType" value="STRING" />
+		<property name="label" value="Course Code" />
+		<property name="shortLabel" value="Course Code" />
+		<property name="forceUppercase" value="false" />
+		<property name="maxLength" value="40" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+	</bean>
+
+	<bean id="CourseJointInfoDisplay.level" parent="AttributeDefinition">
+		<property name="name" value="level" />
+		<property name="dataType" value="STRING" />
+		<property name="label" value="Level" />
+		<property name="shortLabel" value="Level" />
+		<property name="forceUppercase" value="false" />
+		<property name="maxLength" value="40" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+	</bean>
+
+	<bean id="CourseJointInfoDisplay.descr" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr" />
+		<property name="shortLabel" value="Descr" />
+		<property name="summary">
+			<value>
+				A description of the entity.
+			</value>
+		</property>
+		<property name="label" value="Description" />
+		<property name="description">
+			<value>
+				A description of the entity.
+			</value>
+		</property>
+		<property name="required" value="false" />
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr" />
+				<property name="dataObjectClass"
+					value="org.kuali.student.r2.common.dto.RichTextInfo" />
+				<property name="objectLabel" value="Description" />
+				<property name="objectDescription">
+					<value>
+						A description of the entity.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="CourseJointInfo.descr.plain" />
+						<ref bean="CourseJointInfo.descr.formatted" />
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="CourseJointInfoDisplay.descr.plain" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain" />
+	</bean>
+
+	<bean id="CourseJointInfoDisplay.descr.formatted" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted" />
+	</bean>
+
+	<bean id="KS-CourseJointInfoDisplay-LookupView" parent="Uif-LookupView">
+		<property name="id" value="CourseJointInfoDisplayLookupView" />
+		<property name="headerText" value="Advanced Search: Courses and Proposals" />
+		<property name="dataObjectClassName"
+			value="org.kuali.student.cm.course.form.CourseJointInfoDisplay" />
+		<property name="viewHelperServiceClass"
+			value="org.kuali.student.cm.course.service.impl.CourseJointInfoLookupableImpl" />
+		<property name="criteriaFields">
+			<list>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseCode" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" />
+				<!-- <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseCode" 
+					/> <bean parent="Uif-LookupCriteriaInputField" p:propertyName="level" /> -->
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="name" p:label="Name" />
+				<bean parent="Uif-DataField" p:propertyName="courseCode"
+					p:label="Code" />
+				<bean parent="Uif-DataField" p:propertyName="descr.plain"
+					p:label="Description" />
+			</list>
+		</property>
+	</bean>
+
+</beans>
