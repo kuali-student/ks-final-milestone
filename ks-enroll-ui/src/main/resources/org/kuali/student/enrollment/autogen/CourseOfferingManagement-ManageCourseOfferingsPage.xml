@@ -37,12 +37,6 @@
         <property name="componentSecurity.viewAuthz" value="true"/>
         <property name="headerText" value="@{subjectCode} - @{subjectCodeDescription}" />
         <property name="disclosure.render" value="false"/>
-        <property name="help">
-            <bean parent="Uif-Help">
-                <!-- TODO: This is for debugging only. Remove after we upgrade the header to display this information-->
-                <property name="tooltipHelpContent" value="SOC State: @{socState}"/>
-            </bean>
-        </property>
         <property name="items">
             <list>
                 <bean id="contextBarSocStateId" parent="Uif-InputField" p:hidden="true" p:propertyName="contextBarSocState"/>
