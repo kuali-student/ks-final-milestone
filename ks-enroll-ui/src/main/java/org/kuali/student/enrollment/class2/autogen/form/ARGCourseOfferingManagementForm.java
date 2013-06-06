@@ -42,16 +42,6 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String adminOrg;
 
     /**
-     * Used in context bar
-     */
-    private String contextBarTermCode;
-
-    /**
-     * Used in context bar
-     */
-    private String contextBarSocState;
-
-    /**
      * Search input field with the label of *Term
      */
     private String termCode;
@@ -752,22 +742,6 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setSelectedTabId(String selectedTabId) {
         this.selectedTabId = selectedTabId;
-    }
-
-    public String getContextBarTermCode() {
-        return contextBarTermCode;
-    }
-
-    public void setContextBarTermCode(String contextBarTermCode) {
-        this.contextBarTermCode = contextBarTermCode;
-    }
-
-    public String getContextBarSocState() {
-        return contextBarSocState;
-    }
-
-    public void setContextBarSocState(String contextBarSocState) {
-        this.contextBarSocState = contextBarSocState;
     }
 
     public int getTermDayOfYear() {

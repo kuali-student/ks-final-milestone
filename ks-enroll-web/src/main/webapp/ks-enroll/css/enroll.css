@@ -618,6 +618,8 @@ a {
 
 .ks-topGroup label{
     padding-right: 20px;
+    color: white;
+    cursor: default;
 }
 
 #contextBarTermCode {

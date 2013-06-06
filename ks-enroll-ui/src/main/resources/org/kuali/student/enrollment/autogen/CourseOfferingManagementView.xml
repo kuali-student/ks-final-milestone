@@ -26,16 +26,7 @@
           p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm">
 
         <property name="topGroup">
-            <bean  id="KS-CourseOfferingManagement-ContextBar" parent="KS-Uif-HorizontalBoxGroup-TopGroup">
-                <property name="items">
-                    <list merge="true">
-                        <bean id="contextBarTermCode" parent="Uif-InputField" p:readOnly="true" p:propertyName="contextBarTermCode"/>
-                        <!-- We hide the next element by default because it was showing a single space + background color. There is javascript that gets
-                        run on page load that makes the state visible again. -->
-                        <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="contextBarSocState" p:hidden="true"/>
-                    </list>
-                </property>
-            </bean>
+            <bean  id="KS-CourseOfferingManagement-ContextBar" parent="KS-Uif-HorizontalBoxGroup-TopGroup"/>
         </property>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -47,7 +38,7 @@
         </property>
 
         <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:style="padding-left:15px;"/>
+            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:style="display: none; padding-left:15px;"/>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>

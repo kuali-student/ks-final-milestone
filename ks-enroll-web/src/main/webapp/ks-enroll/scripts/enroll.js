@@ -719,20 +719,11 @@ function highlightElements(validationJSONString, isValid, url) {
 Because the context bar resides in the topGroup, it only gets loaded once when the view is loaded. Because the context
 bar needs to update every time the page loads, we have to create some custom JS to update items in the context bar.
  */
-function updateContextBar(){
-    var termCode = jQuery("#contextBarTermCodeId_control");
-    var termCodeLabel = jQuery("#contextBarTermCode");
-    termCodeLabel.text(termCode.val());
-
-    var socState = jQuery("#contextBarSocStateId_control");
-    var socStateLabel = jQuery("#contextBarSocState");
-    if(typeof socState.val() != 'undefined'){
-        socStateLabel.text(socState.val());
-        socStateLabel.css('display', '');
-    }  else{
-        socStateLabel.css('display', 'none');
-    }
-
+function updateContextBar(srcId, contextBarId){
+    var contextBar = jQuery("#" + contextBarId);
+    var src = jQuery("#" + srcId);
+    jQuery(contextBar).append(jQuery(src));
+    jQuery(src).show();
 }
 
 /*
