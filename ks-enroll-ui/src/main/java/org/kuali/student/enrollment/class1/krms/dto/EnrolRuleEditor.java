@@ -5,10 +5,6 @@ import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleTypeInfo;
-import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.

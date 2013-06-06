@@ -153,8 +153,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-StackedCollectionGroup" parent="Uif-StackedCollectionGroup" abstract="true"
-          p:style="width: 600px; padding: 0;">
+    <bean id="KRMS-StackedCollectionGroup" parent="Uif-StackedCollectionGroup" abstract="true">
         <property name="addItemCssClass" value="ks-collectionAddItem"/>
         <property name="header">
             <bean parent="Uif-HeaderSix">

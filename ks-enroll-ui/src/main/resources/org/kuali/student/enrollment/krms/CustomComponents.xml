@@ -83,6 +83,11 @@
                             <ref bean="KS-CourseRange-DisplaySection"/>
                         </list>
                     </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-multiCourseItem</value>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
@@ -219,6 +224,11 @@
                 </property>
             </bean>
         </property-->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-multiCourseItem</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="KRMS-ApprovedCourseStackedCollectionGroup" parent="KRMS-StackedCollectionGroup"
@@ -288,6 +298,11 @@
                 </property>
             </bean>
         </property-->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-multiCourseItem</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-CourseRange-BoxSection-parent" parent="Uif-VerticalBoxSection"

@@ -76,7 +76,10 @@ public class CluSetInformation implements Serializable {
     }
 
     public List<CluInformation> getClusInRange() {
-        return clusInRange;
+        if (clusInRange == null) {
+            this.clusInRange = new ArrayList<CluInformation>();
+        }
+        return this.clusInRange;
     }
 
     public void setClusInRange(List<CluInformation> clusInRange) {
@@ -102,6 +105,25 @@ public class CluSetInformation implements Serializable {
         this.parent = parent;
     }
 
+    /**
+     * Returns a list of all the clus and the clusInRange.
+     *
+     * @return
+     */
+    public List<CluInformation> getClusAndClusInRange(){
+        List<CluInformation> clus = new ArrayList<CluInformation>();
+        clus.addAll(this.getClus());
+        clus.addAll(this.getClusInRange());
+        return clus;
+    }
+
+    /**
+     * Returns a comma delimited list of clu ids including the
+     * clusInRange to be passed to the service for the natural
+     * lantuage translation.
+     *
+     * @return
+     */
     public String getCluDelimitedString() {
 
         List<String> cluIds = this.getCluIds();
@@ -115,6 +137,12 @@ public class CluSetInformation implements Serializable {
         return StringUtils.collectionToCommaDelimitedString(cluIds);
     }
 
+    /**
+     * Returns a comma delimited list of cluset ids to be passed to
+     * the service for the natural lantuage translation.
+     *
+     * @return
+     */
     public String getCluSetDelimitedString() {
 
         List<String> cluSetIds = new ArrayList<String>();
@@ -126,6 +154,12 @@ public class CluSetInformation implements Serializable {
         return StringUtils.collectionToCommaDelimitedString(cluSetIds);
     }
 
+    /**
+     * Check if there are any simple clus linked to this cluset wrapper.
+     * Does not include clusInRAnge(membershipQuery) or other cluset.
+     *
+     * @return
+     */
     public boolean hasClus() {
         if ((this.getClus() != null) && (!this.getClus().isEmpty())) {
             return true;

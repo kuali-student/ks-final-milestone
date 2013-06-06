@@ -17,7 +17,7 @@ package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
+import org.kuali.student.enrollment.class1.krms.util.CluSetRangeInformation;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -31,7 +31,7 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private CourseInfo courseInfo;
     private CluSetInformation cluSet;
     private String multipleCourseType;
-    private CluSetRangeHelper cluSetRange = new CluSetRangeHelper();
+    private CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
 
     private String programType;
     private String gradeScale;
@@ -69,11 +69,11 @@ public class EnrolPropositionEditor extends PropositionEditor {
         this.multipleCourseType = multipleCourseType;
     }
 
-    public CluSetRangeHelper getCluSetRange() {
+    public CluSetRangeInformation getCluSetRange() {
         return cluSetRange;
     }
 
-    public void setCluSetRange(CluSetRangeHelper cluSetRange) {
+    public void setCluSetRange(CluSetRangeInformation cluSetRange) {
         this.cluSetRange = cluSetRange;
     }
 

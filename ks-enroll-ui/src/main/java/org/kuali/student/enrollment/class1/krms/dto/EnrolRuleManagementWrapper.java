@@ -1,11 +1,8 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
-import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

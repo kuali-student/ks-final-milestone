@@ -134,3 +134,7 @@
 #Uif-BreadcrumbWrapper {
     display: none;
 }
+
+div.ks-multiCourseItem {
+    margin: 0 !important;
+}

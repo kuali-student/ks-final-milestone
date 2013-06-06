@@ -1,8 +1,7 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
+import org.kuali.student.enrollment.class1.krms.util.CluSetRangeInformation;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ public class ProgramCluSetInformation implements Serializable {
     private List<CluSetInfo> cluSets;
     private Map<String, ProgramCluSetInformation> subCluSetInformations;
 
-    private List<CluSetRangeHelper> cluSetRange;
+    private List<CluSetRangeInformation> cluSetRange;
 
     public CluSetInfo getCluSetInfo() {
         return cluSetInfo;
@@ -51,14 +50,14 @@ public class ProgramCluSetInformation implements Serializable {
     }
 
 
-    public List<CluSetRangeHelper> getCluSetRange() {
+    public List<CluSetRangeInformation> getCluSetRange() {
         if (this.cluSetRange == null) {
-            this.cluSetRange = new ArrayList<CluSetRangeHelper>();
+            this.cluSetRange = new ArrayList<CluSetRangeInformation>();
         }
         return cluSetRange;
     }
 
-    public void setCluSetRange(List<CluSetRangeHelper> cluSetRange) {
+    public void setCluSetRange(List<CluSetRangeInformation> cluSetRange) {
         this.cluSetRange.set(0, cluSetRange.get(cluSetRange.size() - 1));
     }
 

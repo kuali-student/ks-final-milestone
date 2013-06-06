@@ -19,6 +19,8 @@ import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
@@ -37,6 +39,7 @@ import java.util.*;
 public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropositionEditor> {
 
     private CluService cluService;
+    private CourseService courseService;
     private LRCService lrcService;
 
     private static final String CLUSET_KEY = "kuali.term.parameter.type.course.cluSet.id";
@@ -55,6 +58,9 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             try {
                 CluSetInformation cluSetInfo = this.getCluSetInformation(cluSetId);
                 propositionEditor.setCluSet(cluSetInfo);
+                if(cluSetInfo.hasMembershipQuery()){
+                    propositionEditor.getCluSetRange().resetFromQuery(cluSetInfo.getMembershipQueryInfo());
+                }
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -280,13 +286,20 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
                 for (SearchResultCellInfo cell : cells) {
                     if (cell.getKey().equals("lu.resultColumn.cluId")) {
                         cluInformation.setCluId(cell.getValue());
-                    }
-                    if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {
+                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {
                         cluInformation.setCode(cell.getValue());
-                    }
-                    if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")) {
+                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")) {
                         cluInformation.setTitle(cell.getValue());
+                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")){
+                        cluInformation.setVerIndependentId(cell.getValue());
+                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalDescr")){
+                        cluInformation.setDescription(cell.getValue());
+                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalState")){
+                        cluInformation.setState(cell.getValue());
+                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")){
+                        cluInformation.setShortName(cell.getValue());
                     }
+
                 }
                 clusInRange.add(cluInformation);
             }
@@ -372,6 +385,13 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         }
 
         return wrapperCluSet.getId();
+    }
+
+    protected CourseService getCourseService() {
+        if (courseService == null) {
+            courseService = CourseOfferingResourceLoader.loadCourseService();
+        }
+        return courseService;
     }
 
     protected CluService getCluService() {
