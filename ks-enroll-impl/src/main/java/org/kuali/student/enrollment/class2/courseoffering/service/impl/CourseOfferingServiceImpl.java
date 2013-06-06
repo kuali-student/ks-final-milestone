@@ -1278,12 +1278,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_AO_TYPE_KEY, contextInfo);
         activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, schedulingService, luiService, contextInfo);
 
-        for (ActivityOfferingInfo ao : activityOfferings) {
+        Iterator<ActivityOfferingInfo> iter = activityOfferings.iterator();
+        while(iter.hasNext()) {
+            ActivityOfferingInfo ao = iter.next();
             //Filter out only course offerings (the relation type seems to vague to only hold format offerings)
             if (_isActivityType(ao.getTypeKey(), contextInfo)) {
                 _populateActivityOfferingRelationships(ao, contextInfo);
             } else {
-                activityOfferings.remove(ao);
+                iter.remove();
             }
         }
 
@@ -2569,6 +2571,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throw new DoesNotExistException(activityOfferingClusterId);
         }
         return activityOfferingClusterEntity.toDto();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ActivityOfferingClusterInfo> results = new ArrayList<ActivityOfferingClusterInfo>();
+
+        if(activityOfferingClusterIds != null && !activityOfferingClusterIds.isEmpty()) {
+            for(String id : activityOfferingClusterIds) {
+                results.add(getActivityOfferingCluster(id, context));
+            }
+        }
+
+        return results;
     }
 
     @Override

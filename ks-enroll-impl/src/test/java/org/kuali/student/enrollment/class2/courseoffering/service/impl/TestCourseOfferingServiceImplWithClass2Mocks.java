@@ -24,6 +24,7 @@ import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
+import org.kuali.student.common.test.util.RichTextTester;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -195,7 +196,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
 
     @Test
-    public void testCreateActivityOfferingCluster() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+    public void testActivityOfferingClusters() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
 
         // default cluster is 2x3 = 6 reg groups
 
@@ -216,17 +217,26 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
                 .createActivityOfferingCluster("CO-1:LEC-AND-LAB", "Default Cluster",
                         Arrays.asList(activities));
 
+        expected.setId("AOC-1");
         new AttributeTester().add2ForCreate(expected.getAttributes());
 
         ActivityOfferingClusterInfo actual = coService.createActivityOfferingCluster("CO-1:LEC-AND-LAB", CourseOfferingServiceConstants.AOC_ROOT_TYPE_KEY, expected, callContext);
 
-        assertNotNull(actual.getId());
-        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
-        new MetaTester().checkAfterCreate(actual.getMeta());
+        validateAoc(actual, expected, activities);
 
-        // check that the union of activity id's matches what we declared
-        new ListOfStringTester().checkExistsAnyOrder(Arrays.asList(new String[]{"CO-1:LEC-AND-LAB:LEC-A", "CO-1:LEC-AND-LAB:LAB-A", "CO-1:LEC-AND-LAB:LAB-B", "CO-1:LEC-AND-LAB:LAB-C"}), extractActivityOfferingIds(actual.getActivityOfferingSets()), true);
+        expected = actual;
+        actual = coService.getActivityOfferingCluster(expected.getId(), callContext);
 
+        validateAoc(actual, expected, activities);
+
+        List<String> aocIds = new ArrayList<String>();
+        aocIds.add(actual.getId());
+        List<String> aocIdsTwo = coService.getActivityOfferingClustersIdsByFormatOffering("CO-2:LEC-ONLY", callContext);
+        aocIds.addAll(aocIdsTwo);
+        List<ActivityOfferingClusterInfo> aocList = coService.getActivityOfferingClustersByIds(aocIds, callContext);
+        assertEquals(2, aocList.size());
+        assertTrue(aocList.get(0).getId().equals(aocIds.get(0)) || aocList.get(1).getId().equals(aocIds.get(0)));
+        assertTrue(aocList.get(0).getId().equals(aocIds.get(1)) || aocList.get(1).getId().equals(aocIds.get(1)));
 
         List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
 
@@ -244,6 +254,29 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
 
         assertEquals(3, rgList.size());
+    }
+
+    private void validateAoc(ActivityOfferingClusterInfo actual, ActivityOfferingClusterInfo expected, ActivityOfferingInfo... activities) {
+        assertNotNull(actual.getId());
+        assertEquals(expected.getId(), actual.getId());
+        assertEquals(expected.getTypeKey(), actual.getTypeKey());
+        assertEquals(expected.getStateKey(), actual.getStateKey());
+        assertEquals(expected.getFormatOfferingId(), actual.getFormatOfferingId());
+        assertEquals(expected.getPrivateName(), actual.getPrivateName());
+        assertEquals(expected.getName(), actual.getName());
+
+        new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
+        new MetaTester().checkAfterCreate(actual.getMeta());
+        new RichTextTester().check(expected.getDescr(), actual.getDescr());
+
+        // check that the union of activity id's matches what we declared
+        assertEquals(expected.getActivityOfferingSets().size(), actual.getActivityOfferingSets().size());
+        List<String> activityIds = new ArrayList<String>();
+        for(ActivityOfferingInfo info : activities) {
+            activityIds.add(info.getId());
+        }
+
+        new ListOfStringTester().checkExistsAnyOrder(activityIds, extractActivityOfferingIds(actual.getActivityOfferingSets()), true);
     }
 
     private List<String> extractActivityOfferingIds(List<ActivityOfferingSetInfo> aoList) {

@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.assembler.TransformUtility;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -154,6 +155,8 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
         aoClusterInfo.setPrivateName(getPrivateName());
         aoClusterInfo.setFormatOfferingId(getFormatOfferingId());
         aoClusterInfo.setPrivateName(getPrivateName());
+
+        aoClusterInfo.setDescr(RichTextHelper.buildRichTextInfo(getDescrPlain(), getDescrFormatted()));
 
         // Then, the meta fields
         aoClusterInfo.setMeta(super.toDTO());

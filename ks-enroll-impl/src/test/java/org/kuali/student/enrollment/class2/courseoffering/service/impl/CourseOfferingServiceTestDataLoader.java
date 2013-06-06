@@ -137,8 +137,12 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     public CourseOfferingServiceTestDataLoader() {
         super();
     }
-    
-    
+
+
+    public void beforeTest(boolean loadInstructors) throws Exception {
+        initializeData(loadInstructors);
+        initialized = true;
+    }
 
 
     /* (non-Javadoc)
@@ -146,7 +150,10 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     */
     @Override
     protected void initializeData() throws Exception {
+        initializeData(true);
+    }
 
+    protected void initializeData(boolean loadInstructors) throws Exception {
         this.acalDataLoader = new AcalTestDataLoader(atpService);
 
         acalDataLoader.loadData();
@@ -155,19 +162,22 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
         // we may want to externalize the base data into the TestCourseOfferingServiceWithClass2Mocks
         if (!loadBaseData)
             return;
-        
+
+        loadTerms();
+
+        // load the canonical course data
+
+        createCourse(fall2012, "CHEM", "123", context);
+        createCourseCHEM123(fall2012, loadInstructors, context);
+
+        createCourseENG101(spring2012, loadInstructors, context);
+    }
+
+    public void loadTerms() throws PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
         // load in custom dates for use in the courses
         fall2012 = createTerm(FALL_2012_TERM_ID, "Fall 2012", AtpServiceConstants.ATP_FALL_TYPE_KEY, new DateTime().withDate(2012, 9, 1).toDate(), new DateTime().withDate(2012, 12, 31).toDate(), context);
 
         spring2012 = createTerm("2012SP", "Spring 2012", AtpServiceConstants.ATP_SPRING_TYPE_KEY, new DateTime().withDate(2012, 1, 1).toDate(), new DateTime().withDate(2012, 4, 30).toDate(), context);
-
-        // load the canonical course data
-        
-        createCourse(fall2012, "CHEM", "123", context);
-        createCourseCHEM123(fall2012, context);
-
-        createCourseENG101(spring2012, context);
-
     }
 
    
@@ -335,7 +345,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
     }
 
-    protected void createCourseCHEM123(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    protected void createCourseCHEM123(TermInfo term, boolean loadInstructors, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         CourseInfo canonicalCourse = buildCanonicalCourse("CLU-1", term.getId(), "CHEM", "CHEM123", "Chemistry 123", "description 1");
 
@@ -374,8 +384,9 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
 
         List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
 
-        instructors.add(CourseOfferingServiceTestDataUtils.createInstructor("p1", "Instructor", 100.00F));
-
+        if(loadInstructors) {
+            instructors.add(CourseOfferingServiceTestDataUtils.createInstructor("p1", "Instructor", 100.00F));
+        }
 
         // Format 1 Lecture offering A
         ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceTestDataUtils.createActivityOffering(term.getId(), courseOffering, lectureOnlyFormatOffering.getId(), null, canonicalLectureOnlyLectureActivity.getId(), "Lecture A", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);
@@ -626,7 +637,7 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
     }
 
 
-    protected void createCourseENG101(TermInfo term, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    protected void createCourseENG101(TermInfo term, boolean loadInstructors, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         CourseInfo canonicalCourse = buildCanonicalCourse("CLU-2", term.getId(), "ENG", "ENG101", "Intro English", "Description of Intoroductory English");
 
@@ -654,7 +665,9 @@ public class CourseOfferingServiceTestDataLoader extends AbstractMockServicesAwa
         // create lecture activity
         List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
 
-        instructors.add(CourseOfferingServiceTestDataUtils.createInstructor("p2", "Instructor", 100.00F));
+        if(loadInstructors) {
+            instructors.add(CourseOfferingServiceTestDataUtils.createInstructor("p2", "Instructor", 100.00F));
+        }
 
         // Lecture A
         ActivityOfferingInfo lectureOnlyFormatLectureA = CourseOfferingServiceTestDataUtils.createActivityOffering(term.getId(), co, fo1.getId(), null, canonicalLectureOnlyFormatLectureActivity.getId(), "Lecture", "A", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, instructors);

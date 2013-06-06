@@ -11,7 +11,6 @@ import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
-import javax.jws.WebParam;
 import java.util.List;
 
 
@@ -180,7 +179,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RegistrationGroupInfo> getRegistrationGroupsByActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getRegistrationGroupsByActivityOffering(activityOfferingId, context);
     }
 
@@ -202,6 +201,10 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     @Override
     public ActivityOfferingClusterInfo getActivityOfferingCluster(String activityOfferingClusterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
+    }
+
+    public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getActivityOfferingClustersByIds(activityOfferingClusterIds, context);
     }
 
     @Override

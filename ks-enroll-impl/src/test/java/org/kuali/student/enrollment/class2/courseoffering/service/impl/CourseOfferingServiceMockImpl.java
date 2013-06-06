@@ -1255,6 +1255,19 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     }
 
     @Override
+    public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ActivityOfferingClusterInfo> results = new ArrayList<ActivityOfferingClusterInfo>();
+
+        if(activityOfferingClusterIds != null && !activityOfferingClusterIds.isEmpty()) {
+            for(String id : activityOfferingClusterIds) {
+                results.add(getActivityOfferingCluster(id, context));
+            }
+        }
+
+        return results;
+    }
+
+    @Override
     public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByFormatOffering(String formatOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ActivityOfferingClusterInfo> clusters = new ArrayList<ActivityOfferingClusterInfo>();
         for (ActivityOfferingClusterInfo info: this.activityOfferingClusterMap.values()) {
