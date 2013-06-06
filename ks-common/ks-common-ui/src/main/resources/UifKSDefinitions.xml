@@ -62,7 +62,8 @@
         <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
     </bean>
 
-    <bean id="KS-Uif-HorizontalBoxGroup-TopGroup" abstract="true" parent="Uif-HorizontalBoxGroup">
+    <bean id="KS-Uif-HorizontalBoxGroup-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
+          p:onDocumentReadyScript="updateContextBar('KS-Uif-HorizontalBoxGroup-ContextBar', 'KS-CourseOfferingManagement-ContextBar'); setSeasonalColor('KS-CourseOfferingManagement-ContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-topGroup</value>
@@ -70,8 +71,16 @@
         </property>
         <property name="items">
             <list>
-                <!--<bean parent="Uif-DataField" p:label="Term" p:propertyName="termCode" p:cssClasses="ks-dataField"/>-->
-                <!--<bean parent="Uif-DataField" p:label="State" p:propertyName="socState" p:cssClasses="ks-dataField"/>-->
+                <bean parent="Uif-Label" p:labelText="@{termCode}" p:renderColon="false"/>
+                <bean parent="Uif-Label" p:labelText="@{socState}" p:renderColon="false"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-HorizontalBoxGroup-TopGroup" abstract="true" parent="Uif-HorizontalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-topGroup</value>
             </list>
         </property>
     </bean>
@@ -80,12 +89,6 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-topGroup</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <!--<bean parent="KS-Uif-DataField-Simple" p:label="Term" p:propertyName="termCode"/>-->
-                <!--<bean parent="KS-Uif-DataField-Simple" p:label="State" p:propertyName="socState"/>-->
             </list>
         </property>
     </bean>
