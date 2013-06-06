@@ -125,7 +125,7 @@
                                                 <bean parent="Uif-TextControl" p:size="30" />
                                             </property>
                                         </bean>
-                                        <bean id="term_code" parent="Uif-InputField-LabelTop" p:propertyName="termCode" p:label="Term Code">
+                                        <bean id="term_code" parent="Uif-InputField-LabelTop" p:propertyName="termCode" p:label="Term Code" p:render="@{#line.termCode != 'No Code'}">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:disabled="true" p:size="9">
                                                     <property name="cssClasses">
@@ -178,7 +178,7 @@
                                                 <bean parent="BasicDatePatternConstraint" />
                                             </property>
                                         </bean>
-                                        <bean id="term_instructional_days" parent="Uif-InputField-LabelTop" p:propertyName="instructionalDays" p:label="Instructional Days" p:render="@{!#isAddLine}" p:readOnly="true">
+                                        <bean id="term_instructional_days" parent="Uif-InputField-LabelTop" p:propertyName="instructionalDays" p:label="Instructional Days" p:render="@{!#isAddLine}" p:readOnly="true" p:style="width:11em;">
                                             <property name="toolTip">
                                                 <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Instructional Days include @{#lp.instructionalDayConfig}"/>
                                             </property>
