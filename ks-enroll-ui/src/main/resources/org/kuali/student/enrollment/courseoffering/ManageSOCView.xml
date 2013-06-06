@@ -45,11 +45,7 @@
               <property name="headerText" value="Term @{termCode}" />
               <property name="header.render" value="@{renderDetailsSection}"/>
               <!-- Prevent the page breadcrumb from being rendered -->
-              <property name="breadcrumbItem">
-                  <bean parent="Uif-BreadcrumbItem">
-                      <property name="render" value="false" />
-                  </bean>
-              </property>
+              <property name="breadcrumbItem.render" value="false" />
           </bean>
       </property>
 
