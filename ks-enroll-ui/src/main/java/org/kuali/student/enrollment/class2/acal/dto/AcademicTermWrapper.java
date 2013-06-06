@@ -45,6 +45,7 @@ public class AcademicTermWrapper {
     private String name;
     private int instructionalDays;
     private String termType;
+    private String parentTerm;
     private Date startDate;
     private Date endDate;
 
@@ -134,6 +135,25 @@ public class AcademicTermWrapper {
      */
     public void setTermType(String termType) {
         this.termType = termType;
+    }
+
+    /**
+     * See <code>setParentTerm()</code>
+     *
+     * @return parentTerm type
+     */
+    public String getParentTerm() {
+        return parentTerm;
+    }
+
+    /**
+     * Sets the parent term type from the drop down list. This is being
+     * used only at the add line which allows user to pick an available term type
+     *
+     * @param parentTerm term type
+     */
+    public void setParentTerm(String parentTerm) {
+        this.parentTerm = parentTerm;
     }
 
     /**

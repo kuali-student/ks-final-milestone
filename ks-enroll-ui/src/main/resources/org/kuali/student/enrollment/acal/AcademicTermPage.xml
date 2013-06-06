@@ -88,6 +88,27 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
+                <bean id="parent_term_type" parent="Uif-InputField-LabelTop" p:propertyName="parentTerm" p:render="@{#isAddLine}" p:label="Parent Term">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
+                    </property>
+                    <property name="attributeQuery">
+                        <bean parent="Uif-AttributeQueryConfig">
+                            <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                            <property name="queryMethodArgumentFieldList">
+                                <list>
+                                    <value>startDate</value>
+                                    <value>termType</value>
+                                </list>
+                            </property>
+                            <property name="queryFieldMapping" value="{startDate:startDate,termType:termType}"/>
+                            <property name="returnFieldMapping" value="termCode:termCode"/>
+                        </bean>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="items">
