@@ -610,8 +610,7 @@ a {
     background-image:url('../images/context-bar/bg_context_bar.png');
     height: 38px;
     width: 100%;
-    border-left: 0 solid #808080;
-    border-left-width: 0;
+    border-left: 8px solid #808080;
 }
 
 .ks-topGroup label{

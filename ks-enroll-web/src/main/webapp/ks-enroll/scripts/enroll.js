@@ -746,7 +746,7 @@ function setSeasonalColor(objectToColor, dayOfYear, baseUrl) {
         var p = canvas.getContext('2d').getImageData(x, y, 1, 1).data;
         var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
 
-        //objToColor.css("border-left", '8px solid ' + hex);
+        objToColor.css("border-left", '8px solid ' + hex);
     });
 }
 
