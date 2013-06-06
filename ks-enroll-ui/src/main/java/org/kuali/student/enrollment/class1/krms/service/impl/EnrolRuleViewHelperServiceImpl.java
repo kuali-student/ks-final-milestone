@@ -16,9 +16,15 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
+import org.kuali.student.enrollment.class1.krms.util.CourseInfoHelper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
@@ -122,6 +128,9 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             RuleEditor ruleEditor = this.getRuleEditor(model);
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
 
+            CourseInfoHelper courseInfoHelper = new CourseInfoHelper();
+            CluInformation clu = (CluInformation) addLine;
+            clu.setCredits(courseInfoHelper.getCreditInfo(clu.getCluId()));
             Collections.sort(propEditor.getCluSet().getClus());
         } else if ("proposition.cluSet.cluSets".equals(collectionGroup.getPropertyName())){
             //Sort the clus.
