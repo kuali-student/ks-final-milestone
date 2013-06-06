@@ -74,6 +74,9 @@
                 <!-- KIM Attributes -->
                 <value>classpath:org/kuali/rice/student/bo/KualiStudentKimAttributes.xml</value>
 
+                <!-- KS Enrollment global defs -->
+                <value>classpath:org/kuali/student/enrollment/UifKSEnrollmentDefinitions.xml</value>
+
                 <!-- Acal -->
                 <value>classpath:org/kuali/student/enrollment/main/EnrollmentHomeView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/CalendarSearchView.xml</value>
