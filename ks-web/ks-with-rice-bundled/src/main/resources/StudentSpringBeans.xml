@@ -279,6 +279,8 @@
 				<value>classpath:org/kuali/student/cm/main/CourseViewSupportingDocuments.xml</value>
 				<value>classpath:org/kuali/student/cm/main/CourseViewReviewProposal.xml</value>
 				<value>classpath:org/kuali/student/cm/main/CourseViewAuthorsAndCollaborators.xml</value>
+				<!-- <value>classpath:org/kuali/student/cm/lookup/CluInstructorInfoDisplayLookupView.xml</value> -->
+            	<value>classpath:org/kuali/student/cm/lookup/CourseJointInfoDisplayLookupView.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
