@@ -21,6 +21,7 @@
 </td>
 <td class="content" valign="top">
     <mainChannel:wc1Applications/>
+    <mainChannel:aftApplications />
 <%--Disabled enrollment links because that application has not yet been released--%>
     <%--<mainChannel:coApplications/>--%>
     <%--<mainChannel:ec1Applications/>--%>
