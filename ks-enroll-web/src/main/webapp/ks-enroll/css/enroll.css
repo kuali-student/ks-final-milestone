@@ -607,8 +607,9 @@ a {
 
 /************************************** CONTEXT BAR ***********************/
 .ks-topGroup {
-    background-image:url('../images/context-bar/bg_context_bar.png');
-    height: 38px;
+    /* background-image:url('../images/context-bar/bg_context_bar.png');    */
+    height: 40px;
+    background-color: #555;
     width: 100%;
     border-left: 8px solid #808080;
 }
@@ -620,6 +621,7 @@ a {
 #contextBarTermCode {
     padding-top: 8px;
     padding-left: 15px;
+    color: rgb(231, 231, 231)
 }
 
 #contextBarSocState {
