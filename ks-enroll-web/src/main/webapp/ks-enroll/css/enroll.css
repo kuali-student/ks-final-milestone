@@ -557,6 +557,12 @@ a {
     padding-top: 18px;
 }
 
+.ks-header-list .dropdown-menu li{
+    float: none;
+    padding-right: 0px;
+    padding-top: 0px;
+}
+
 /* Altering the Default Link Colour */
 .header-right-group a {
     color: white;
