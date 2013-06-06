@@ -40,6 +40,7 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private String durationType;
     private ProgramCluSetInformation progCluSet;
     private String termCode;
+    private String termCode2;
     private TermInfo termInfo;
 
     private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
@@ -169,6 +170,15 @@ public class EnrolPropositionEditor extends PropositionEditor {
     public void setTermInfo(TermInfo termInfo){
         this.termInfo = termInfo;
     }
+
+    public String getTermCode2() {
+        return termCode2;
+    }
+
+    public void setTermCode2(String termCode2) {
+        this.termCode2 = termCode2;
+    }
+
 
     @Override
     protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){

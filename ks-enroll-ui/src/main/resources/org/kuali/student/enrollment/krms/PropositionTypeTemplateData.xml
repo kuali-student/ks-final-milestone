@@ -359,7 +359,7 @@
                 <entry key="kuali.krms.proposition.type.success.compl.course.between.terms">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourse" p:value="true">
-                        <property name="componentId" value="KRMS-CourseAndTerm-Group"/>
+                        <property name="componentId" value="KRMS-CourseAndTerms-Group"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.CourseComponentBuilder"/>
                     </bean>
                 </entry>

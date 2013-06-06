@@ -51,6 +51,7 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
 
     private static final String CLU_KEY = "kuali.term.parameter.type.course.clu.id";
     private static final String TERM_KEY = "kuali.term.parameter.type.Term";
+    private static final String TERM2_KEY = "kuali.term.parameter.type.Term2";
 
     @Override
     public List<String> getComponentIds() {
@@ -89,6 +90,22 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
                 propositionEditor.setTermInfo(termInfo);
                 if (propositionEditor.getTermInfo() != null){
                 termParameters.put(TERM_KEY, propositionEditor.getTermInfo().getId());
+                    loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode(),propositionEditor) ;
+                }
+            } catch (DoesNotExistException e) {
+                throw new RuntimeException("term does not exist");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if ( propositionEditor.getTermCode2() != null ){
+
+            try {
+                TermInfo termInfo = this.populateTerm(propositionEditor);
+                propositionEditor.setTermInfo(termInfo);
+                if (propositionEditor.getTermInfo() != null){
+                    termParameters.put(TERM2_KEY, propositionEditor.getTermInfo().getId());
                     loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode(),propositionEditor) ;
                 }
             } catch (DoesNotExistException e) {

@@ -39,6 +39,7 @@ public class TermContextImpl extends BasicContextImpl {
     private AcademicCalendarService acalService;
 
 	public final static String TERM_TOKEN = "term";
+    public final static String TERM2_TOKEN = "term2";
 
     public void setAcalService(AcademicCalendarService acalService) {
         this.acalService = acalService;
@@ -75,7 +76,12 @@ public class TermContextImpl extends BasicContextImpl {
         Map<String, Object> contextMap = super.createContextMap(parameters);
 
         String termId = (String) parameters.get(TermParameterTypes.TERM_KEY.getId());
+        String termId2 = (String) parameters.get(TermParameterTypes.TERM2_KEY.getId());
         TermInfo termInfo = this.getTerm(termId, contextInfo);
+        if (termId2 != null) {
+            TermInfo termInfo2 = this.getTerm(termId, contextInfo);
+            contextMap.put(TERM2_TOKEN, termInfo);
+        }
         if( termInfo != null){
             contextMap.put(TERM_TOKEN, termInfo);
         }
