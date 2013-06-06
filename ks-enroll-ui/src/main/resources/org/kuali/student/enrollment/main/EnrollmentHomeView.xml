@@ -19,10 +19,7 @@
         </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Home"/>
-                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
-                </bean>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
             </list>
         </property>
         <property name="items">

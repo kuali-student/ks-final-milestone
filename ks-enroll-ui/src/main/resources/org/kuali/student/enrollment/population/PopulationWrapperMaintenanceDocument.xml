@@ -27,16 +27,7 @@
         <property name="singlePageView" value="true"/>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
-            <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Home"/>
-                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
-                </bean>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Enrollment"/>
-                    <property name="url.viewId" value="enrollmentHomeView"/>
-                </bean>
-            </list>
+            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
         </property>
         <property name="parentLocation">
             <bean parent="Uif-ParentLocation">

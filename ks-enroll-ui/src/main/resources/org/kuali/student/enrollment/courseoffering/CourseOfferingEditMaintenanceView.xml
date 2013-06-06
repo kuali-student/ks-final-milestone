@@ -187,16 +187,7 @@
         <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
-            <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Home"/>
-                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
-                </bean>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Enrollment"/>
-                    <property name="url.viewId" value="enrollmentHomeView"/>
-                </bean>
-            </list>
+            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
         </property>
 
         <property name="header.lowerGroup">

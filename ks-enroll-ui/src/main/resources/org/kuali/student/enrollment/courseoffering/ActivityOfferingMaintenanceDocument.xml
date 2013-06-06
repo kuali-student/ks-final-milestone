@@ -61,14 +61,8 @@
         <property name="onLoadScript" value="activityEditDocumentOnLoad();"/>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Home"/>
-                    <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
-                </bean>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Enrollment"/>
-                    <property name="url.viewId" value="enrollmentHomeView"/>
-                </bean>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
                 <bean parent="Uif-BreadcrumbItem">
                     <property name="label" value="Manage Course Offerings"/>
                     <property name="url.viewId" value="courseOfferingManagementView"/>
