@@ -565,10 +565,11 @@ a {
 
 /* Adjusting the colour of the user icon */
 .ks-header-list li a i {
+    padding-right: .2em;
     opacity: .5;
 }
 
-.ks-header-list li a i:hover {
+.ks-header-list li a:hover i {
     opacity: 1;
 }
 
