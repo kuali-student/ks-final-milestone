@@ -113,11 +113,8 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract {
         int itemCount = 0;
         if (super.getListItems() != null){
             itemCount = super.getListItems().getItemCount();
-            // Fix for divide by zero error
-            // For some reason the code was going down the the super.getListItems() branch and getting 0 back
-            // and it is causing the divide by zero error. We'll instead use the proper branch in this case and get
-            // the proper count back from the select items box.
             if (itemCount == 0){
+                // Fix for divide by zero error by getting the proper count back from the select items box.
                 itemCount = selectedItems.size();
             }
         } else {
