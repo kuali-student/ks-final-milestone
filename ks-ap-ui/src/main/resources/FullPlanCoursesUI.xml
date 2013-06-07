@@ -35,33 +35,31 @@
             </list>
         </property>
         <property name="style" value="width:682px;"/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-LookupPage" p:id="full_planned_courses_detail_page">
-                    <property name="layoutManager">
-                        <bean parent="Uif-VerticalBoxLayout"/>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-HorizontalBoxGroup" p:style="margin:0;">
-                                <property name="validationMessages.render" value="false"/>
-                                <property name="items">
-                                    <list>
-                                        <!--<bean parent="Uif-Link" p:linkText="Back to Plan page">
-                                            <property name="href" value="javascript:history.go(-1)"/>
-                                        </bean>-->
-                                        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Print"
-                                              p:style="float:right; margin:0;">
-                                            <property name="actionScript" value="window.print();"/>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
-                            <ref bean="full_planned_courses"/>
-                        </list>
-                    </property>
-                </bean>
-            </list>
+        <property name="page">
+            <bean parent="Uif-LookupPage" p:id="full_planned_courses_detail_page">
+                <property name="layoutManager">
+                    <bean parent="Uif-VerticalBoxLayout"/>
+                </property>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup" p:style="margin:0;">
+                            <property name="validationMessages.render" value="false"/>
+                            <property name="items">
+                                <list>
+                                    <!--<bean parent="Uif-Link" p:linkText="Back to Plan page">
+                                        <property name="href" value="javascript:history.go(-1)"/>
+                                    </bean>-->
+                                    <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Print"
+                                          p:style="float:right; margin:0;">
+                                        <property name="actionScript" value="window.print();"/>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <ref bean="full_planned_courses"/>
+                    </list>
+                </property>
+            </bean>
         </property>
 
         <property name="criteriaFields">
