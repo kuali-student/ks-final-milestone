@@ -630,7 +630,23 @@ a {
 
 #contextBarSocState {
     margin-top: 8px;
+}
 
+.ks-topGroup-termCode{
+    padding-top: 10px;
+    padding-left: 8px;
+}
+
+.ks-topGroup-termCode label{
+    font-weight: normal;
+}
+
+.ks-topGroup-socState{
+    padding-top: 10px;
+}
+
+.ks-topGroup-socState label{
+    font-weight: normal;
 }
 /*
 
