@@ -272,21 +272,7 @@ public class SearchableCrudDaoImpl {
 				countQuery = em.createQuery(countQueryString);
 			}
 			for (SearchParamInfo searchParam : internalQueryParms) {
-			    // There is a bug here that happens with you pass a list of states in for lu_queryParam_luOptionalState
-			    // When you pass in ('Approved' , 'Active' , 'Retired') the code below only grabbed the first value (it was
-			    // hard coded with get(0). Thus, it would only count 'Approved' courses.  However, at UMD, there aren't even
-			    // approved courses in the KSLU_CLU table (only 'Active') so we were getting an empty list back.
-			    // Printout of searchParam.getValues():  [Approved, Active, Retired, null, null, null, null, null, null, null]
-			    // You can see broken code only grabs the first value in the array using searchParam.getValues().get(0).
-			    // select * from kslu_clu where st  IN ( 'Approved','Active', 'Retired' )
-			    // Fix was to pass in the entire list of values when getValues() > 1
-			  
-			    if ( searchParam.getValues().size() == 1){
-			        countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValues().get(0));
-			    }
-			    else {
-			        countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValues());  
-			    } 		
+				countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValues().get(0));
 			}
             Integer totalRecords = 0;
             Object resultObject = countQuery.getSingleResult();
