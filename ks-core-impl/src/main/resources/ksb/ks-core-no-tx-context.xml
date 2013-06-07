@@ -949,9 +949,14 @@
     <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar() -->
     <bean id="acalServiceCalculation" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
         <property name="atpService" ref="atpServiceClient" />
-        <property name="nextDecorator" ref="acalServiceImpl" />
+        <property name="nextDecorator" ref="academicCalendarServiceCacheDecorator" />
     </bean>
     <!-- -->
+
+    <bean id="academicCalendarServiceCacheDecorator" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceCacheDecorator">
+        <property name="nextDecorator" ref="acalServiceImpl" />
+        <property name="cacheManager" ref="ksCacheManager"/>
+    </bean>
 
     <!-- change id to "acalServiceImpl" if the above bean is used -->
     <bean id="acalServiceImpl" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
