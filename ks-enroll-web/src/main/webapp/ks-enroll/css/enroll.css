@@ -613,7 +613,7 @@ a {
     height: 40px;
     background-color: #555;
     width: 100%;
-    border-left: 8px solid #808080;
+    /* border-left: 8px solid #808080; */
 }
 
 .ks-topGroup label{
