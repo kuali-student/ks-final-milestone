@@ -134,7 +134,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
             //Terms (which in turn builds keydate groups and keydates)
             boolean calculateInstrDays = !holidayCalendarWrapperList.isEmpty();
-            List<AcademicTermWrapper> termWrappers = populateTermWrappers(acalId, false,calculateInstrDays);
+            List<AcademicTermWrapper> termWrappers = populateTermWrappers(acalId, false,true);
             acalForm.setTermWrapperList(termWrappers);
 
         }catch(Exception e){

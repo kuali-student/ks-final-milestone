@@ -16,9 +16,8 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.TermCodeGenerator;
@@ -28,7 +27,6 @@ import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -400,7 +398,9 @@ public class AcademicTermWrapper {
                 !typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR).isEmpty()){
             instructionalDayConfig += typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR);
         }else {
-            instructionalDayConfig = "MTWHFSU";  // if instructional days are not configured, then it defaults to Mon->Sun.
+            org.kuali.rice.core.api.config.property.Config cfg = ConfigContext.getCurrentContextConfig();
+            // if instructional days are not configured, then it defaults to Mon->Sun.
+            instructionalDayConfig = cfg.getProperty(AcademicCalendarServiceConstants.CONFIG_PARAM_KEY_INSTRUCTIONAL_DAYS_DEFAULT);
         }
 
         return _getInstructionalDayMessageTranslation(instructionalDayConfig);
