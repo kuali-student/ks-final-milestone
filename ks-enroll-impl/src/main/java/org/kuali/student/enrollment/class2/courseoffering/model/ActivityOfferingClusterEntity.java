@@ -154,8 +154,6 @@ public class ActivityOfferingClusterEntity extends MetaEntity implements Attribu
         aoClusterInfo.setName(getName());
         aoClusterInfo.setPrivateName(getPrivateName());
         aoClusterInfo.setFormatOfferingId(getFormatOfferingId());
-        aoClusterInfo.setPrivateName(getPrivateName());
-
         aoClusterInfo.setDescr(RichTextHelper.buildRichTextInfo(getDescrPlain(), getDescrFormatted()));
 
         // Then, the meta fields

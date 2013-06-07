@@ -1281,7 +1281,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         Iterator<ActivityOfferingInfo> iter = activityOfferings.iterator();
         while(iter.hasNext()) {
             ActivityOfferingInfo ao = iter.next();
-            //Filter out only course offerings (the relation type seems to vague to only hold format offerings)
+            //Remove anything that is not an activity offering.
             if (_isActivityType(ao.getTypeKey(), contextInfo)) {
                 _populateActivityOfferingRelationships(ao, contextInfo);
             } else {
@@ -2575,13 +2575,23 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if(activityOfferingClusterIds == null) {
+            throw new MissingParameterException("activityOfferingClusterIds is required");
+        }
+
         List<ActivityOfferingClusterInfo> results = new ArrayList<ActivityOfferingClusterInfo>();
 
-        if(activityOfferingClusterIds != null && !activityOfferingClusterIds.isEmpty()) {
-            for(String id : activityOfferingClusterIds) {
-                results.add(getActivityOfferingCluster(id, context));
+        try {
+            List<ActivityOfferingClusterEntity> entities = activityOfferingClusterDao.findByIds(activityOfferingClusterIds);
+            if(entities != null && !entities.isEmpty()) {
+                for(ActivityOfferingClusterEntity entity : entities) {
+                    results.add(entity.toDto());
+                }
             }
+        } catch(Exception e) {
+            //forced to catch a generic exception by activityOfferingClusterDao.findByIds
+            throw new OperationFailedException("failed to load activity offering clusters by ids", e);
         }
 
         return results;

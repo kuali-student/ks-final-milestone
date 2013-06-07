@@ -203,6 +203,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
     }
 
+    @Override
     public List<ActivityOfferingClusterInfo> getActivityOfferingClustersByIds(List<String> activityOfferingClusterIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getActivityOfferingClustersByIds(activityOfferingClusterIds, context);
     }
