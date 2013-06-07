@@ -43,13 +43,7 @@ public class KsUifFormBase extends UifFormBase {
         }
 
         if (growlMessage != null) {
-//            if (growlMessageParams != null) {
-//                GlobalVariables.getMessageMap().addGrowlMessage("", growlMessage, growlMessageParam);
               KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessage, growlMessageParams);
-//            } else {
-//                GlobalVariables.getMessageMap().addGrowlMessage("", growlMessage);
- //               KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessage);
-//            }
         }
 
         super.postBind(request);
