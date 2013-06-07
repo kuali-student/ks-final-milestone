@@ -54,9 +54,8 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import java.util.Arrays;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethods;
-import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl;
+import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsImpl;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 /**
  *
@@ -91,8 +90,10 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         this.krmsTypeRepositoryService = (KrmsTypeRepositoryService) GlobalResourceLoader.getService(QName.valueOf("krmsTypeRepositoryService"));
         this.termRepositoryService = (TermRepositoryService) GlobalResourceLoader.getService(QName.valueOf("termRepositoryService"));
         this.ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(QName.valueOf("ruleManagementService"));
-
-        this.krmsRuleManagementCopyMethods = new KrmsRuleManagementCopyMethodsMockImpl();
+        KrmsRuleManagementCopyMethodsImpl copyImpl = new KrmsRuleManagementCopyMethodsImpl();
+        copyImpl.setKrmsTypeRepositoryService(krmsTypeRepositoryService);
+        copyImpl.setRuleManagementService(ruleManagementService);
+        this.krmsRuleManagementCopyMethods = copyImpl;
         KrmsConfigurationLoader loader = new KrmsConfigurationLoader();
 //        loader.setKrmsTypeRepositoryService(this.krmsTypeRepositoryService);
 //        loader.setRuleManagementService(this.ruleManagementService);
@@ -115,38 +116,42 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
     public void testCreateSimpleProposition() {
         this.createCheckBasicAgendaFor1OfCluSet23();
     }
-    
-    
 
     @Test
     public void testCopyingSimpleProposition() {
+        String namespace = KsKrmsConstants.NAMESPACE_CODE;
+        // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
+//        String fromReferenceDiscriminatorType = CourseServiceConstants.COURSE_NAMESPACE_URI;
+        String fromReferenceDiscriminatorType = "kuali.lu.type.CreditCourse";
+        String fromReferenceObjectId = "COURSE1";
+        // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
+//        String toReferenceDiscriminatorType = CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+        String toReferenceDiscriminatorType = "kuali.lui.type.course.offering";
+        String toReferenceObjectId = "COURSEOFFERING1";
+
+        // delete any rules if there are any
+        int bindingsDeleted = this.krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade(fromReferenceDiscriminatorType, fromReferenceObjectId);
+        System.out.println("number of existing bindings deleted for " + fromReferenceObjectId + " count=" + bindingsDeleted);
+        bindingsDeleted = this.krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade(toReferenceDiscriminatorType, toReferenceObjectId);
+        System.out.println("number of existing bindings deleted for " + toReferenceObjectId + " count=" + bindingsDeleted);
+
+
         AgendaDefinition agenda = this.createCheckBasicAgendaFor1OfCluSet23();
         String krmsDiscriminatorType = KsKrmsConstants.KRMS_DISCRIMINATOR_TYPE_AGENDA;
         String krmsObjectId = agenda.getId();
-        String namespace = KsKrmsConstants.NAMESPACE_CODE;
-        // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-        String referenceDiscriminatorType = "kuali.lu.type.CreditCourse";
-//        String referenceDiscriminatorType = CourseServiceConstants.COURSE_NAMESPACE_URI;
-//        CluInfo anchorClu = this.getClu("COURSE1");
-        String fromReferenceObjectId = "COURSE1";
 
         ReferenceObjectBinding.Builder bindingBldr = ReferenceObjectBinding.Builder.create(krmsDiscriminatorType,
                 krmsObjectId,
                 namespace,
-                referenceDiscriminatorType,
+                fromReferenceDiscriminatorType,
                 fromReferenceObjectId);
         ReferenceObjectBinding binding = this.ruleManagementService.createReferenceObjectBinding(bindingBldr.build());
 
-        String toReferenceObjectId = "COURSEOFFERING1";
         List<String> optionKeys = new ArrayList<String>();
         List<ReferenceObjectBinding> list = this.krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
-                // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-                "kuali.lu.type.CreditCourse",
-//                CourseServiceConstants.REF_OBJECT_URI_COURSE,
+                fromReferenceDiscriminatorType,
                 fromReferenceObjectId,
-               // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-                "kuali.lui.type.course.offering",
-//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+                toReferenceDiscriminatorType,
                 toReferenceObjectId,
                 optionKeys);
 
@@ -154,15 +159,40 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertEquals(1, list.size());
         ReferenceObjectBinding copy = list.get(0);
         assertEquals(toReferenceObjectId, copy.getReferenceObjectId());
-        assertEquals(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, copy.getReferenceDiscriminatorType());
+        assertEquals("kuali.lui.type.course.offering", copy.getReferenceDiscriminatorType());
         checkCopy(binding, list.get(0));
+
+
+        // delete any rules that were created
+        bindingsDeleted = this.krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade(fromReferenceDiscriminatorType,
+                fromReferenceObjectId);
+        System.out.println("number of existing bindings deleted for " + fromReferenceObjectId + " count=" + bindingsDeleted);
+        bindingsDeleted = this.krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade(toReferenceDiscriminatorType,
+                toReferenceObjectId);
+        System.out.println("number of existing bindings deleted for " + toReferenceObjectId + " count=" + bindingsDeleted);
     }
-    
-    
-    
+
     @Test
     public void testCopyingCompoundProposition() {
-        
+        String namespace = KsKrmsConstants.NAMESPACE_CODE;
+        // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
+//        String fromReferenceDiscriminatorType = CourseServiceConstants.COURSE_NAMESPACE_URI;
+        String fromReferenceDiscriminatorType = "kuali.lu.type.CreditCourse";
+        String fromReferenceObjectId = "COURSE2";
+        // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
+//        String toReferenceDiscriminatorType = CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+        String toReferenceDiscriminatorType = "kuali.lui.type.course.offering";
+        String toReferenceObjectId = "COURSEOFFERING2";
+
+        // delete any rules if there are any
+        int bindingsDeleted = this.krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade(fromReferenceDiscriminatorType,
+                fromReferenceObjectId);
+        System.out.println("number of existing bindings deleted for " + fromReferenceObjectId + " count=" + bindingsDeleted);
+        bindingsDeleted = this.krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade(toReferenceDiscriminatorType,
+                toReferenceObjectId);
+        System.out.println("number of existing bindings deleted for " + toReferenceObjectId + " count=" + bindingsDeleted);
+
+
         ContextDefinition context = this.findCreateContext();
         AgendaDefinition agenda = createCheckEmptyAgenda(context);
         agenda = updateCheckAgendaFirstItemAddingEmptyRule(agenda);
@@ -176,33 +206,22 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         PropositionDefinition.Builder andPropBldr = this.makeAndCompoundProposition(propBldr2, propBldr3);
         PropositionDefinition.Builder orPropBldr = this.makeOrCompoundProposition(propBldr1, andPropBldr);
         agenda = updateCheckFirstItemSettingPropositionOnRule(agenda, orPropBldr);
-        
+
         String krmsDiscriminatorType = KsKrmsConstants.KRMS_DISCRIMINATOR_TYPE_AGENDA;
         String krmsObjectId = agenda.getId();
-        String namespace = KsKrmsConstants.NAMESPACE_CODE;
-        // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-        String referenceDiscriminatorType = "kuali.lu.type.CreditCourse";
-//        String referenceDiscriminatorType = CourseServiceConstants.COURSE_NAMESPACE_URI;
-//        CluInfo anchorClu = this.getClu("COURSE1");
-        String fromReferenceObjectId = "COURSE2";
 
         ReferenceObjectBinding.Builder bindingBldr = ReferenceObjectBinding.Builder.create(krmsDiscriminatorType,
                 krmsObjectId,
                 namespace,
-                referenceDiscriminatorType,
+                fromReferenceDiscriminatorType,
                 fromReferenceObjectId);
         ReferenceObjectBinding binding = this.ruleManagementService.createReferenceObjectBinding(bindingBldr.build());
 
-        String toReferenceObjectId = "COURSEOFFERING2";
         List<String> optionKeys = new ArrayList<String>();
         List<ReferenceObjectBinding> list = this.krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
-                // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-                "kuali.lu.type.CreditCourse",
-//                CourseServiceConstants.REF_OBJECT_URI_COURSE,
+                fromReferenceDiscriminatorType,
                 fromReferenceObjectId,
-               // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-                "kuali.lui.type.course.offering",
-//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+                toReferenceDiscriminatorType,
                 toReferenceObjectId,
                 optionKeys);
 
@@ -210,10 +229,18 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertEquals(1, list.size());
         ReferenceObjectBinding copy = list.get(0);
         assertEquals(toReferenceObjectId, copy.getReferenceObjectId());
-        assertEquals(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, copy.getReferenceDiscriminatorType());
+        assertEquals("kuali.lui.type.course.offering", copy.getReferenceDiscriminatorType());
         checkCopy(binding, list.get(0));
-    }
 
+        // delete any rules that were created
+        bindingsDeleted = this.krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade(fromReferenceDiscriminatorType,
+                fromReferenceObjectId);
+        System.out.println("number of existing bindings deleted for " + fromReferenceObjectId + " count=" + bindingsDeleted);
+        bindingsDeleted = this.krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade(toReferenceDiscriminatorType,
+                toReferenceObjectId);
+        System.out.println("number of existing bindings deleted for " + toReferenceObjectId + " count=" + bindingsDeleted);
+
+    }
 
     private void checkCopy(ReferenceObjectBinding orig, ReferenceObjectBinding copy) {
         assertNotEquals(orig.getId(), copy.getId());
@@ -314,7 +341,6 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         }
     }
 
-    
     private void checkCopy(PropositionParameter orig, PropositionParameter copy) {
         if (orig == null && copy == null) {
             return;
@@ -323,10 +349,14 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertEquals(orig.getParameterType(), copy.getParameterType());
         assertNotEquals(orig.getPropId(), copy.getPropId());
         assertEquals(orig.getSequenceNumber(), copy.getSequenceNumber());
-        assertEquals(orig.getValue(), copy.getValue());
-        checkCopy(orig.getTermValue(), copy.getTermValue());
+        if (orig.getParameterType().equals(PropositionParameterType.TERM.getCode())) {
+            checkCopy(orig.getTermValue(), copy.getTermValue());
+        } else {
+            assertEquals(orig.getValue(), copy.getValue());
+            assertNull (copy.getTermValue());
+        }
     }
-    
+
     private void checkCopy(TermDefinition orig, TermDefinition copy) {
         if (orig == null && copy == null) {
             return;
@@ -344,8 +374,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
             }
         }
     }
-    
-    
+
     private void checkCopy(TermSpecificationDefinition orig, TermSpecificationDefinition copy) {
         if (orig == null && copy == null) {
             return;
@@ -357,8 +386,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertEquals(orig.getNamespace(), copy.getNamespace());
         assertEquals(orig.getDescription(), copy.getDescription());
     }
-    
-    
+
     private void checkCopy(TermParameterDefinition orig, TermParameterDefinition copy) {
         if (orig == null && copy == null) {
             return;
@@ -369,8 +397,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertEquals(orig.getName(), copy.getName());
         assertEquals(orig.getValue(), copy.getValue());
     }
-    
-    
+
     @Test
     public void testBasicCreateCompoundProposition() {
         ContextDefinition context = this.findCreateContext();
@@ -388,9 +415,6 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         agenda = updateCheckFirstItemSettingPropositionOnRule(agenda, orPropBldr);
     }
 
-    
-    
-    
     @Test
     public void testChangeFromSimple2CompoundProposition() {
         ContextDefinition context = this.findCreateContext();

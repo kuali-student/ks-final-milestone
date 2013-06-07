@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 /**
  * This class contains the copy logic for copying object references from one object to another
@@ -48,12 +49,13 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         List<ReferenceObjectBinding> refsToCopy = this.ruleManagementService.findReferenceObjectBindingsByReferenceObject(fromReferenceDiscriminatorType, fromReferenceObjectId);
         for(ReferenceObjectBinding reference : refsToCopy){
             ReferenceObjectBinding.Builder refBldr = null;
-            if(reference.getKrmsDiscriminatorType().equals("Agenda")){//TODO data currently does not have the proper REF_OBJECT_URI in this field
+            if(reference.getKrmsDiscriminatorType().equals(KsKrmsConstants.KRMS_DISCRIMINATOR_TYPE_AGENDA)){
                 AgendaTreeDefinition agendaTree = ruleManagementService.getAgendaTree(reference.getKrmsObjectId());
 
                 AgendaDefinition copiedAgenda = deepCopyAgenda(agendaTree,toReferenceObjectId);
                 refBldr = ReferenceObjectBinding.Builder.create(reference);
                 refBldr.setId(null);
+                refBldr.setVersionNumber(null);
                 refBldr.setReferenceObjectId(toReferenceObjectId);
                 refBldr.setReferenceDiscriminatorType(toReferenceDiscriminatorType);
                 refBldr.setKrmsObjectId(copiedAgenda.getId());
@@ -71,8 +73,11 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         //clone the Agenda
         AgendaDefinition oldAgenda = ruleManagementService.getAgenda(agendaTree.getAgendaId());
         String agendaTypeKey = krmsTypeRepositoryService.getTypeById(oldAgenda.getTypeId()).getName();
-        AgendaDefinition copiedAgenda = AgendaDefinition.Builder.create(null, refObjectId + ":" + agendaTypeKey+":1", oldAgenda.getTypeId(), oldAgenda.getContextId()).build();
-        copiedAgenda = ruleManagementService.createAgenda(copiedAgenda);
+        AgendaDefinition.Builder copiedAgendaBldr = AgendaDefinition.Builder.create(oldAgenda);
+        copiedAgendaBldr.setId(null);
+        copiedAgendaBldr.setVersionNumber(null);
+        copiedAgendaBldr.setName(refObjectId + ":" + agendaTypeKey+":1");
+        AgendaDefinition copiedAgenda = ruleManagementService.createAgenda(copiedAgendaBldr.build ());
 
         AgendaItemDefinition.Builder firstAgendaItemBldr = null;
         AgendaItemDefinition.Builder previousAgendaItemBldr = null;
@@ -80,11 +85,20 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         for (AgendaTreeEntryDefinitionContract entry : agendaTree.getEntries()) {
             AgendaItemDefinition currentAgendaItem = ruleManagementService.getAgendaItem(entry.getAgendaItemId());
             AgendaItemDefinition.Builder copiedAgendaItemBldr = AgendaItemDefinition.Builder.create(currentAgendaItem);
-            copiedAgendaItemBldr.setId((firstItem ? copiedAgenda.getFirstItemId() : null));
+            if (firstItem) {
+                AgendaItemDefinition existingFirstItem = ruleManagementService.getAgendaItem(copiedAgenda.getFirstItemId());
+                copiedAgendaItemBldr.setId((copiedAgenda.getFirstItemId()));
+                copiedAgendaItemBldr.setVersionNumber(existingFirstItem.getVersionNumber());
+            }
+            else {
+                copiedAgendaItemBldr.setId(null);
+                copiedAgendaItemBldr.setVersionNumber(null);                
+            }
             copiedAgendaItemBldr.setAgendaId(copiedAgenda.getId());
             copiedAgendaItemBldr.setRuleId(null);
             RuleDefinition.Builder copiedRuleBldr = copiedAgendaItemBldr.getRule();
             copiedRuleBldr.setId(null);
+            copiedRuleBldr.setVersionNumber(null);
             copiedRuleBldr.setPropId(null);
             String ruleTypeKey = krmsTypeRepositoryService.getTypeById(copiedRuleBldr.getTypeId()).getName();
             copiedRuleBldr.setName(refObjectId + ":" + ruleTypeKey+":1");
@@ -100,7 +114,7 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
             firstItem = false;
         }
         ruleManagementService.updateAgendaItem(firstAgendaItemBldr.build());
-        return null;
+        return copiedAgenda;
     }
 
     private void deepUpdateForProposition(PropositionDefinition.Builder propBldr){
@@ -117,6 +131,7 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
                     termParmBldr.setId(null);
                     termParmBldr.setTermId(null);
                 }
+                propParmBldr.setTermValue(termBldr.build());
             }
         }
         if(PropositionType.COMPOUND.getCode().equals(propBldr.getPropositionTypeCode())){
@@ -126,6 +141,68 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         }
     }
 
+    @Override
+    public int deleteReferenceObjectBindingsCascade(String referenceDiscriminatorType,
+            String referenceObjectId)
+            throws RiceIllegalArgumentException, RiceIllegalStateException {
+        _checkEmptyParam(referenceDiscriminatorType, "referenceDiscriminatorType");
+        _checkEmptyParam(referenceObjectId, "referenceObjectId");
+
+        List<ReferenceObjectBinding> refsToDelete = this.ruleManagementService.findReferenceObjectBindingsByReferenceObject(referenceDiscriminatorType,
+                referenceObjectId);
+        for (ReferenceObjectBinding refToDelete : refsToDelete) {
+            if (refToDelete.getKrmsDiscriminatorType().equals(KsKrmsConstants.KRMS_DISCRIMINATOR_TYPE_AGENDA)) {
+                this._deleteAgendaCascade (refToDelete.getKrmsObjectId());
+            } else {
+                throw new RiceIllegalStateException ("unknown/unhandled KRMS discriminator type " + refToDelete.getKrmsDiscriminatorType());
+            }
+        }
+        for (ReferenceObjectBinding refToDelete : refsToDelete) {
+            this.ruleManagementService.deleteReferenceObjectBinding(refToDelete.getId());
+        }
+        return refsToDelete.size();
+    }
+    
+    private int _deleteAgendaCascade (String agendaId) {
+        AgendaDefinition agenda = this.ruleManagementService.getAgenda(agendaId);
+        this._deleteAgendaItemCascade (agenda.getFirstItemId());
+        this.ruleManagementService.deleteAgenda(agendaId);
+        return 1;
+    }
+    
+    private int _deleteAgendaItemCascade (String agendaItemId) {
+        AgendaItemDefinition item = this.ruleManagementService.getAgendaItem(agendaItemId);
+        if (item.getAlwaysId() != null) {
+            this._deleteAgendaItemCascade(item.getAlwaysId());
+        }
+        if (item.getWhenTrueId()!= null) {
+            this._deleteAgendaItemCascade(item.getWhenTrueId());
+        }
+        if (item.getWhenTrueId() != null) {
+            this._deleteAgendaItemCascade(item.getWhenTrueId());
+        }
+        if (item.getSubAgendaId()!= null) {
+            this._deleteAgendaCascade(item.getSubAgendaId());
+        }
+        if (item.getRuleId()!= null) {
+            AgendaItemDefinition.Builder bldr = AgendaItemDefinition.Builder.create(item);
+            bldr.setRule(null);
+            bldr.setRuleId (null);
+            this.ruleManagementService.updateAgendaItem(bldr.build());
+            this._deleteRuleCascade(item.getRuleId());
+        }
+        this.ruleManagementService.deleteAgendaItem(agendaItemId);
+        return 1;
+    }
+    
+
+    private int _deleteRuleCascade (String ruleId) {
+        RuleDefinition rule = this.ruleManagementService.getRule(ruleId);
+        // we can stop here because delete rule does a cascade (I think it does)
+        this.ruleManagementService.deleteRule(ruleId);
+        return 1;
+    }
+    
     private void _checkEmptyParam(String param, String message)
             throws RiceIllegalArgumentException {
         if (param == null) {

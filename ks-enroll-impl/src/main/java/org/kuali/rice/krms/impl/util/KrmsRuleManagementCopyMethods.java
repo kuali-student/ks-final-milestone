@@ -32,7 +32,7 @@ public interface KrmsRuleManagementCopyMethods {
      * (2) Rollover rules from previous course offering to newly rolled over course offering
      * (3) Copy rules down from course offering to activity offering so they can be overridden at the activity offering level
      * 
-     * @param fromReferenceDiscriminatorType the simple class name of the existing reference object
+     * @param fromReferenceDiscriminatorType the ref object uri of the existing reference object
      * @param fromReferenceObjectId the id of the reference object
      * @param toReferenceDiscriminatorType the simple class name of the new reference object
      * @param toReferenceObjectId the id of the reference object
@@ -46,5 +46,19 @@ public interface KrmsRuleManagementCopyMethods {
             String toReferenceDiscriminatorType,
             String toReferenceObjectId,
             List<String> optionKeys)
+            throws RiceIllegalArgumentException, RiceIllegalStateException;
+    
+    /**
+     * Delete the rules associated with the specified reference object.  This deletes the binding and 
+     * cascades to agendas, rules, propositions and terms as needed.
+     * 
+     * @param referenceDiscriminatorType the ref object uri of the reference object who's rules are to be deleted
+     * @param referenceObjectId the id of the reference object
+     * @return the number of reference object bindings that were deleted
+     * @throws RiceIllegalArgumentException if any of the parameters are null or invalid
+     * @throws RiceIllegalStateException  if the delete runs into a data condition that it cannot handle
+     */
+    public int deleteReferenceObjectBindingsCascade (String referenceDiscriminatorType,
+            String referenceObjectId) 
             throws RiceIllegalArgumentException, RiceIllegalStateException;
 }

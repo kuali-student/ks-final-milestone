@@ -32,9 +32,21 @@ public class KrmsRuleManagementCopyMethodsMockImpl implements KrmsRuleManagement
         _checkEmptyParam(toReferenceDiscriminatorType, "toReferenceDiscriminatorType");
         _checkEmptyParam(toReferenceObjectId, "toReferenceObjectId");
         List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
-        System.out.println("KrmsRuleManagementCopyMethodsMockImpl implementation does not really do any copying");
+        System.out.println("KrmsRuleManagementCopyMethodsMockImpl.deepCopyReferenceObjectBindingsFromTo () implementation does not really do any copying");
         return list;
     }
+
+    @Override
+    public int deleteReferenceObjectBindingsCascade(String referenceDiscriminatorType, 
+    String referenceObjectId) 
+            throws RiceIllegalArgumentException, RiceIllegalStateException {
+        _checkEmptyParam(referenceDiscriminatorType, "referenceDiscriminatorType");
+        _checkEmptyParam(referenceObjectId, "referenceObjectId");
+        System.out.println("KrmsRuleManagementCopyMethodsMockImpl.deleteReferenceObjectBindingsCascade implementation does not really do any copying");
+        return 0;
+    }
+    
+    
 
     private void _checkEmptyParam(String param, String message)
             throws RiceIllegalArgumentException {
