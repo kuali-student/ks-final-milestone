@@ -471,6 +471,20 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             }
         }
 
+        // Patch to disassemble pass/fail option as well (KSLAB-2633)
+        for (AttributeInfo attr : course.getAttributes()){
+            if (attr.getKey() != null){
+                if (attr.getKey().equals(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL)
+                        && "true".equals(attr.getValue()) ){
+                    if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_PASSFAIL)){
+                        course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_PASSFAIL);
+                    }
+                    break;
+                }
+            }
+        }
+        
+      
         List<CluResultInfo> cluResultList;
         try {
             cluResultList = cluService.getCluResultByClu(clu.getId(),contextInfo);
