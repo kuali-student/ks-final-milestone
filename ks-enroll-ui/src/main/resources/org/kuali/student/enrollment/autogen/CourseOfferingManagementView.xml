@@ -109,13 +109,15 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-Label" p:labelText="@{socState}" p:renderColon="false">
+            <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="socState" />
+        <!--
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-topGroup-socState</value>
                         </list>
                     </property>
                 </bean>
+                -->
             </list>
         </property>
     </bean>
