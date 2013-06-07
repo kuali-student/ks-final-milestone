@@ -790,7 +790,7 @@ body {
 
 /* Overriding from bottom as this was affecting headers items - Student text & user image */
 img {
-    vertical-align: baseline;
+    vertical-align: middle;
 }
 
 /* Overriding from block as required fields were dropping to another line */
