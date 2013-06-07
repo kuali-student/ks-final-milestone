@@ -71,8 +71,20 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="@{termCode}" p:renderColon="false"/>
-                <bean parent="Uif-Label" p:labelText="@{socState}" p:renderColon="false"/>
+                <bean parent="Uif-Label" p:labelText="@{termCode}" p:renderColon="false">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-topGroup-termCode</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-Label" p:labelText="@{socState}" p:renderColon="false">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-topGroup-socState</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
