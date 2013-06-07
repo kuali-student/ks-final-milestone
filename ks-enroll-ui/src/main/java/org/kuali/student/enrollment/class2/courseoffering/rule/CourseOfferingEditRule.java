@@ -41,8 +41,6 @@ public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
 
        private CourseOfferingService courseOfferingService;
 
-    private final static String EXISTING_CO_CODE_FOUND_ERROR = "That Course Offering Code is already in use.  Please enter a different, unique Course Offering Code for ";
-
     @Override
     protected boolean processGlobalSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = true;
@@ -59,8 +57,8 @@ public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
             if ((oldSuffix == null || oldSuffix.isEmpty()) && 
                 (newSuffix == null || newSuffix.isEmpty())) {
                 return valid;
-            }else if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
-                validateDuplicateSuffix(newCOWrapper);
+            } else if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
+                return validateDuplicateSuffix(newCOWrapper);
             }
         }
 
@@ -70,16 +68,17 @@ public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
 
     protected boolean validateDuplicateSuffix(CourseOfferingEditWrapper coWrapper){
         // Catalog course code is case INSENSITIVE, but the suffix is case SENSITIVE
-        String newCoCode = (coWrapper.getCourse().getCode().toUpperCase()) + coWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
+        String courseCode = coWrapper.getCourse().getCode().toUpperCase();
+        String newCoCode = courseCode + coWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
 
         try {
             List<CourseOfferingInfo> wrapperList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(coWrapper.getCourse().getId(), coWrapper.getCourseOfferingInfo().getTermId(), ContextUtils.createDefaultContextInfo());
             for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
 
                 if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
-                    StringBuilder sb = new StringBuilder(EXISTING_CO_CODE_FOUND_ERROR);
-                    sb.append(coWrapper.getCourse().getCode());
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, sb.toString());
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
+                            CourseOfferingConstants.COURSEOFFERING_ERROR_CREATE_DUPLICATECODE,
+                            newCoCode, courseCode);
                     return false;
                 }
             }

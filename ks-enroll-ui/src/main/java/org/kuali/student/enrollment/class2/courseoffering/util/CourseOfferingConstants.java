@@ -81,6 +81,7 @@ public class CourseOfferingConstants {
     /**
      * Course Offering create constants
      */
+    public static final String COURSEOFFERING_ERROR_CREATE_DUPLICATECODE = "error.enroll.courseoffering.create.duplicatecode";
     public static final String DELIVERY_FORMAT_SECTION_ID = "KS-Catalog-FormatOfferingSubSection";
     public static final String DELIVERY_FORMAT_REQUIRED_ERROR = "error.courseoffering.create.deliveryformat.required";
     public static final String JOINT_COURSE_FORMATS_DELETE_DIALOG = "jointCourseFormatsDeleteDialog";

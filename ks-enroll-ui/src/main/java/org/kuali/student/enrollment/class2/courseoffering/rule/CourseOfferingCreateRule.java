@@ -27,8 +27,6 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
 
     private CourseOfferingService courseOfferingService;
 
-    private final static String EXISTING_CO_CODE_FOUND_ERROR = "That Course Offering Code is already in use.  Please enter a different, unique Course Offering Code for ";
-
     @Override
     protected boolean processGlobalSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = true;
@@ -55,15 +53,16 @@ public class CourseOfferingCreateRule extends MaintenanceDocumentRuleBase {
     }
 
     protected boolean validateDuplicateSuffix(CourseOfferingCreateWrapper coWrapper){
-        String newCoCode = (coWrapper.getCatalogCourseCode().toUpperCase()) + coWrapper.getCourseOfferingSuffix().toUpperCase();
+        String courseCode = coWrapper.getCatalogCourseCode().toUpperCase();
+        String newCoCode = courseCode + coWrapper.getCourseOfferingSuffix().toUpperCase();
         try {
             List<CourseOfferingInfo> wrapperList = _findCourseOfferingsByTermAndCourseCode(coWrapper.getTerm().getId(), newCoCode);
             for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
 
                 if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
-                    StringBuilder sb = new StringBuilder(EXISTING_CO_CODE_FOUND_ERROR);
-                    sb.append(coWrapper.getCatalogCourseCode());
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, sb.toString());
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
+                            CourseOfferingConstants.COURSEOFFERING_ERROR_CREATE_DUPLICATECODE,
+                            newCoCode, courseCode);
                     coWrapper.setEnableCreateButton(true);
                     return false;
                 }
