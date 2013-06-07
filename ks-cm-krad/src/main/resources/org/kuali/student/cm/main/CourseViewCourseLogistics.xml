@@ -32,7 +32,7 @@
 				<ref
 					bean="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets" />
 				<ref bean="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets" />
-				<!-- <ref bean="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" /> -->
+				<ref bean="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" />
 				<!-- <ref bean="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" 
 					/> -->
 			</list>
@@ -52,7 +52,8 @@
 		parent="Uif-VerticalBoxSection" p:headerText="Scheduling">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.campusLocations"
+				<bean parent="Uif-Help" p:externalHelpUrl="http://www.kuali.org/" />
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.termsOffered"
 					p:label="Term">
 					<property name="instructionalText"
 						value="Selecting a single term will restrict this course to only that term. Any will allow the course to be offered in any term that matches the duration selected below." />
@@ -72,15 +73,15 @@
 		p:instructionalText="First select the duration type (term, month, week, weekend, day) then select the count of the duration for the course. Most courses will have 1 or 2 terms, for example.">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.subjectArea"
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.duration.atpDurationTypeKey"
 					p:label="Duration Type"
 					p:optionsFinderClass="org.kuali.rice.student.lookup.keyvalues.AllOrgsValuesFinder">
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField-LabelTop" p:label="Durantion Count"
-					p:propertyName="courseInfo.transcriptTitle">
+				<bean id="KS-DurationTimeQuantity-Field" parent="Uif-InputField-LabelTop"
+					p:label="Durantion Count" p:propertyName="courseInfo.duration.timeQuantity">
 					<property name="maxLength" value="3" />
 					<property name="control">
 						<bean parent="Uif-TextControl" p:size="3" />
@@ -99,7 +100,7 @@
 		parent="Uif-VerticalBoxSection" p:headerText="Grades/Assessments">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.campusLocations"
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions"
 					p:label="Assessment Scale" p:required="true">
 					<property name="control">
 						<bean parent="Uif-VerticalCheckboxesControl" />
@@ -120,19 +121,17 @@
 		parent="Uif-VerticalBoxSection" p:headerText="Student Registration Options">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.pilotCourse"
-					p:label="Audit" p:labelPlacement="LEFT">
-					<property name="instructionalText" value="This course can be audited" />
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="audit"
+					p:label="Audit">
 					<property name="control">
-						<bean parent="Uif-CheckboxControl" />
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="This course can be audited" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.pilotCourse"
-					p:label="Pass Fail Transcript Grade" p:labelPlacement="LEFT">
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="passFail">
 					<property name="instructionalText"
 						value="This course will have a student selectable pass/fail option" />
 					<property name="control">
-						<bean parent="Uif-CheckboxControl" />
+						<bean parent="Uif-CheckboxControl" p:checkboxLabel="Pass Fail Transcript Grade" />
 					</property>
 				</bean>
 			</list>
@@ -155,5 +154,64 @@
 				</bean>
 			</list>
 		</property>
+	</bean>
+	<bean id="KS-CourseView-CourseLogisticsPage-Outcome-Widgets"
+		parent="Uif-StackedCollectionSubSection" p:headerText="Outcome"
+		p:propertyName="creditOptionsDisplay"
+		p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoDisplay">
+		<property name="layoutManager.summaryTitle" value="Outcome" />
+		<property name="renderAddBlankLineButton" value="true" />
+		<property name="addLinePlacement" value="BOTTOM" />
+		<property name="addBlankLineAction.actionLabel" value="Add Another Outcome" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="typeKey"
+					p:label="Type">
+					<property name="control">
+						<bean parent="Uif-DropdownControl">
+							<property name="options">
+								<list>
+									<bean parent="Uif-KeyLabelPair" p:key="1" p:value="" />
+									<bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.fixed"
+										p:value="Fixed" />
+									<bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.multiple"
+										p:value="Multiple" />
+									<bean parent="Uif-KeyLabelPair" p:key="kuali.result.values.group.type.range"
+										p:value="Range" />
+								</list>
+							</property>
+						</bean>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField-LabelTop"
+					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.fixed'"
+					p:label="Credit Value" p:propertyName="resultValueRange.minValue" />
+				<bean parent="Uif-InputField-LabelTop"
+					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.range'"
+					p:label="Minimum Credit Value" p:propertyName="resultValueRange.minValue" />
+				<bean parent="Uif-InputField-LabelTop"
+					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.range'"
+					p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue" />
+			</list>
+		</property>
+		<property name="subCollections">
+					<list>
+						<bean parent="Uif-StackedCollectionSubSection" p:headerText="Credit Value"
+							p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysDisplay"
+							p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.multiple'"
+							p:propertyName="resultValueKeysDisplay">
+							
+							<property name="renderAddBlankLineButton" value="true" />
+							<property name="addLinePlacement" value="BOTTOM" />
+							<property name="addBlankLineAction.actionLabel" value="Add" />
+							<property name="items">
+								<list>
+									<bean parent="Uif-InputField-LabelTop" p:label="Credit Value"
+									p:propertyName="creditValueDisplay" />
+								</list>
+							</property>
+						</bean>
+					</list>
+				</property>
 	</bean>
 </beans>

@@ -36,14 +36,22 @@ public class CourseForm extends UifFormBase {
 	
 	private ProposalInfo proposalInfo;
 	
+	private boolean audit;
+	
+	private boolean passFail;
+	
 	private List<CluInstructorInfoDisplay> instructorDisplays;
 	
 	private List<CourseJointInfoDisplay> courseJointDisplays;
+	
+	private List<ResultValuesGroupInfoDisplay> creditOptionsDisplay;
 
 	public CourseForm() {
 		this.courseInfo = new CourseInfo();
 		this.proposalInfo = new ProposalInfo();
 		this.instructorDisplays = new ArrayList<CluInstructorInfoDisplay>();
+		
+		this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoDisplay>();
 		this.courseJointDisplays = new ArrayList<CourseJointInfoDisplay>();
 	}
 
@@ -72,12 +80,37 @@ public class CourseForm extends UifFormBase {
 		this.instructorDisplays = instructorDisplays;
 	}
 
-	public List<CourseJointInfoDisplay> getCourseJointDisplays() {
-		return courseJointDisplays;
-	}
+    public boolean isAudit() {
+        return audit;
+    }
 
-	public void setCourseJointDisplays(List<CourseJointInfoDisplay> courseJointDisplays) {
-		this.courseJointDisplays = courseJointDisplays;
-	}
+    public void setAudit(boolean audit) {
+        this.audit = audit;
+    }
+
+    public boolean isPassFail() {
+        return passFail;
+    }
+
+    public void setPassFail(boolean passFail) {
+        this.passFail = passFail;
+    }
+
+    public List<ResultValuesGroupInfoDisplay> getCreditOptionsDisplay() {
+        return creditOptionsDisplay;
+    }
+
+    public void setCreditOptionsDisplay(List<ResultValuesGroupInfoDisplay> creditOptionsDisplay) {
+        this.creditOptionsDisplay = creditOptionsDisplay;
+    }
+    
+    public List<CourseJointInfoDisplay> getCourseJointDisplays() {
+        return courseJointDisplays;
+    }
+
+    public void setCourseJointDisplays(List<CourseJointInfoDisplay> courseJointDisplays) {
+        this.courseJointDisplays = courseJointDisplays;
+    }
+
    
 }
