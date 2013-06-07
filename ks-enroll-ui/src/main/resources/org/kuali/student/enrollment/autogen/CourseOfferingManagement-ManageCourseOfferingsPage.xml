@@ -31,7 +31,7 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-CourseOfferingResultSection"/>
-                <ref bean="KS-Uif-HorizontalBoxGroup-ContextBar"/>
+                <ref bean="KS-CourseOfferingManagement-ContextBar"/>
             </list>
         </property>
     </bean>
