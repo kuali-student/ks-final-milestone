@@ -15,10 +15,6 @@ import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +27,7 @@ import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopyMethods {
 
     private RuleManagementService ruleManagementService;
-    private KrmsTypeRepositoryService krmsTypeRepositoryService;
+//    private KrmsTypeRepositoryService krmsTypeRepositoryService;
 
     @Override
     public List<ReferenceObjectBinding> deepCopyReferenceObjectBindingsFromTo(String fromReferenceDiscriminatorType,
@@ -72,11 +68,11 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
     private AgendaDefinition deepCopyAgenda(AgendaTreeDefinition agendaTree, String refObjectId){
         //clone the Agenda
         AgendaDefinition oldAgenda = ruleManagementService.getAgenda(agendaTree.getAgendaId());
-        String agendaTypeKey = krmsTypeRepositoryService.getTypeById(oldAgenda.getTypeId()).getName();
+//        String agendaTypeKey = krmsTypeRepositoryService.getTypeById(oldAgenda.getTypeId()).getName();
         AgendaDefinition.Builder copiedAgendaBldr = AgendaDefinition.Builder.create(oldAgenda);
         copiedAgendaBldr.setId(null);
         copiedAgendaBldr.setVersionNumber(null);
-        copiedAgendaBldr.setName(refObjectId + ":" + agendaTypeKey+":1");
+        copiedAgendaBldr.setName(refObjectId + ":" + oldAgenda.getTypeId()+":1");
         AgendaDefinition copiedAgenda = ruleManagementService.createAgenda(copiedAgendaBldr.build ());
 
         AgendaItemDefinition.Builder firstAgendaItemBldr = null;
@@ -100,8 +96,8 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
             copiedRuleBldr.setId(null);
             copiedRuleBldr.setVersionNumber(null);
             copiedRuleBldr.setPropId(null);
-            String ruleTypeKey = krmsTypeRepositoryService.getTypeById(copiedRuleBldr.getTypeId()).getName();
-            copiedRuleBldr.setName(refObjectId + ":" + ruleTypeKey+":1");
+//            String ruleTypeKey = krmsTypeRepositoryService.getTypeById(copiedRuleBldr.getTypeId()).getName();
+            copiedRuleBldr.setName(refObjectId + ":" + copiedRuleBldr.getTypeId()+":1");
             deepUpdateForProposition(copiedRuleBldr.getProposition());
 
             if(firstItem){
@@ -221,11 +217,11 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         this.ruleManagementService = ruleManagementService;
     }
 
-    public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
-        return krmsTypeRepositoryService;
-    }
-
-    public void setKrmsTypeRepositoryService(KrmsTypeRepositoryService krmsTypeRepositoryService) {
-        this.krmsTypeRepositoryService = krmsTypeRepositoryService;
-    }
+//    public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
+//        return krmsTypeRepositoryService;
+//    }
+//
+//    public void setKrmsTypeRepositoryService(KrmsTypeRepositoryService krmsTypeRepositoryService) {
+//        this.krmsTypeRepositoryService = krmsTypeRepositoryService;
+//    }
 }

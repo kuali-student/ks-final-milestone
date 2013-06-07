@@ -91,7 +91,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         this.termRepositoryService = (TermRepositoryService) GlobalResourceLoader.getService(QName.valueOf("termRepositoryService"));
         this.ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(QName.valueOf("ruleManagementService"));
         KrmsRuleManagementCopyMethodsImpl copyImpl = new KrmsRuleManagementCopyMethodsImpl();
-        copyImpl.setKrmsTypeRepositoryService(krmsTypeRepositoryService);
+//        copyImpl.setKrmsTypeRepositoryService(krmsTypeRepositoryService);
         copyImpl.setRuleManagementService(ruleManagementService);
         this.krmsRuleManagementCopyMethods = copyImpl;
         KrmsConfigurationLoader loader = new KrmsConfigurationLoader();
