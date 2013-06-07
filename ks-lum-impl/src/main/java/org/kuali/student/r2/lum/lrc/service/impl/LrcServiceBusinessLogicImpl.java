@@ -31,7 +31,7 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
     public LRCService getLrcService() {
         if(lrcService == null){
             lrcService = GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
-                    LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+                    "LearningResultService")); // dyak's response to KSCM-2247/KSLAB-2636 - instead of LrcServiceConstants.SERVICE_NAME_LOCAL_PART
         }
         return lrcService;
     }
