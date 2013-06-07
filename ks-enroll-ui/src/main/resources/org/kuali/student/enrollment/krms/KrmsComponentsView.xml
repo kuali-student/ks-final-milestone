@@ -65,6 +65,8 @@
                 <ref bean="KRMS-Duration-section"/>
                 <ref bean="Disable-Test"/>
                 <ref bean="KRMS-Term-Field"/>
+                <ref bean="KRMS-ClassStanding-Field"/>
+
             </list>
         </property>
     </bean>

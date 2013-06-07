@@ -21,6 +21,7 @@ import org.kuali.student.enrollment.class1.krms.util.CluSetRangeInformation;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 
 import java.util.Map;
 
@@ -42,6 +43,8 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private String termCode;
     private String termCode2;
     private TermInfo termInfo;
+    private String classStanding;
+    private PopulationWrapper  populationWrapper;
 
     private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
     private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
@@ -179,6 +182,22 @@ public class EnrolPropositionEditor extends PropositionEditor {
         this.termCode2 = termCode2;
     }
 
+
+    public String getClassStanding() {
+        return classStanding;
+    }
+
+    public void setClassStanding(String classStanding) {
+        this.classStanding = classStanding;
+    }
+
+    public PopulationWrapper getPopulationWrapper() {
+        return populationWrapper;
+    }
+
+    public void setPopulationWrapper(PopulationWrapper populationWrapper) {
+        this.populationWrapper = populationWrapper;
+    }
 
     @Override
     protected PropositionEditor createPropositionEditor(PropositionDefinitionContract definition){

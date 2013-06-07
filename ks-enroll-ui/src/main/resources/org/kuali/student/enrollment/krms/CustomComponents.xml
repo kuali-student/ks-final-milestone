@@ -605,7 +605,7 @@
     <bean id="KRMS-ClassStanding-Group" parent="Uif-VerticalFieldGroup">
         <property name="items">
             <list>
-                <!-- TODO: Class Standing component -->
+                <ref bean="KRMS-ClassStanding-Field"/>
             </list>
         </property>
     </bean>
@@ -652,8 +652,8 @@
     <bean id="KRMS-ProgramAndClassStanding-Group" parent="Uif-VerticalFieldGroup">
         <property name="items">
             <list>
-                <!-- TODO: Program component -->
-                <!-- TODO: Class Standing component -->
+                <ref bean="KRMS-Program-Section"/>
+                <ref bean="KRMS-ClassStanding-Field"/>
             </list>
         </property>
     </bean>
@@ -924,17 +924,28 @@
     </bean>
     <bean id="KRMS-Term-Field" parent="KRMS-Term-Field-Parent"/>
 
-    <!--<bean id="KRMS-Term-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.durationType"-->
-          <!--p:label="Duration Type" p:required="true">-->
-        <!--<property name="control">-->
-            <!--<bean parent="Uif-DropdownControl"/>-->
-        <!--</property>-->
-        <!--<property name="optionsFinder">-->
-            <!--<bean class="org.kuali.student.enrollment.class1.krms.keyvalues.DurationTypeValueFinder"/>-->
-        <!--</property>-->
-    <!--</bean>-->
+    <bean id="KRMS-ClassStanding-Field-Parent" parent="Uif-InputField-LabelTop"
+          p:propertyName="proposition.classStanding" p:required="true">
+        <property name="style" value="width:450px;"/>
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="60" p:disabled="true"/>
+        </property>
+        <property name="quickfinder">
+            <bean parent="KRMS-ClassStanding-QuickFinder"/>
+        </property>
+    </bean>
+    <bean id="KRMS-ClassStanding-Field" parent="KRMS-ClassStanding-Field-Parent" p:label="Class Standing"/>
 
-    <!--<bean id="KRMS-Term-Field" parent="KRMS-Term-Field-Parent"/>-->
+    <bean id="KRMS-ClassStanding-QuickFinder" parent="KRMS-QuickFinder">
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+        <property name="viewName" value="krmsClassStandingView"/>
+        <property name="fieldConversions">
+            <map>
+                <entry key="populationInfo.name" value="proposition.classStanding"/>
+                <entry key="id" value="proposition.populationWrapper.id"/>
+            </map>
+        </property>
+    </bean>
 </beans>
 
 
