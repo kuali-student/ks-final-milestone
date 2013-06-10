@@ -132,7 +132,7 @@
 }
 
 #Uif-BreadcrumbWrapper {
-    display: none;
+    visibility: hidden;
 }
 
 div.ks-multiCourseItem {
