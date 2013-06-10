@@ -1,17 +1,14 @@
 package org.kuali.student.myplan.course.service;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
@@ -20,11 +17,9 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
@@ -57,7 +52,6 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.room.infc.Building;
 import org.kuali.student.r2.core.room.infc.Room;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
@@ -68,8 +62,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
-import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("deprecation")
 public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
@@ -98,9 +90,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	private transient AcademicRecordService academicRecordService;
 
-	// TODO: These should be changed to an ehCache spring bean
-	private Map<String, List<OrgInfo>> campusLocationCache;
-	// private Map<String, String> atpCache;
 	private HashMap<String, Map<String, String>> hashMap;
 	private transient CourseInfo courseInfo;
 
@@ -113,18 +102,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	public void setHashMap(HashMap<String, Map<String, String>> hashMap) {
 		this.hashMap = hashMap;
-	}
-
-	public Map<String, List<OrgInfo>> getCampusLocationCache() {
-		if (this.campusLocationCache == null) {
-			this.campusLocationCache = new HashMap<String, List<OrgInfo>>();
-		}
-		return this.campusLocationCache;
-	}
-
-	public void setCampusLocationCache(
-			Map<String, List<OrgInfo>> campusLocationCache) {
-		this.campusLocationCache = campusLocationCache;
 	}
 
 	protected CluService getCluService() {
@@ -276,17 +253,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			courseDetails.setTermsOffered(to);
 		}
 
-		// Load campus location map
-		List<org.kuali.student.r2.core.organization.dto.OrgInfo> orgInfoList = KsapFrameworkServiceLocator
-				.getOrgHelper().getOrgInfo(
-						CourseSearchConstants.CAMPUS_LOCATION,
-						CourseSearchConstants.ORG_QUERY_SEARCH_BY_TYPE_REQUEST,
-						CourseSearchConstants.ORG_TYPE_PARAM,
-						KsapFrameworkServiceLocator.getContext()
-								.getContextInfo());
-		getCampusLocationCache().put(CourseSearchConstants.CAMPUS_LOCATION,
-				orgInfoList);
-
 		for (AttributeInfo attributeInfo : course.getAttributes()) {
 			String key = attributeInfo.getKey();
 			String value = attributeInfo.getValue();
@@ -313,12 +279,13 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 			// -- Campus Locations
 			if (key.startsWith(CourseSearchConstants.CAMPUS_LOCATION)) {
-				for (OrgInfo campusOrg : orgInfoList) {
-					if (campusOrg.getId().equals(value)) {
+				List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
+						.getEnumerationHelper().getEnumerationValueInfoList(
+								"kuali.lu.campusLocation");
+				for (EnumeratedValueInfo campusEnum : enumeratedValueInfoList)
+					if (campusEnum.getCode().equals(value))
 						courseDetails.getCampusLocations().add(
-								campusOrg.getLongName());
-					}
-				}
+								campusEnum.getValue());
 			}
 		}
 
@@ -329,70 +296,12 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				.getSubjectArea().trim()));
 
 		// -- Scheduled Terms
-		try {
-			// Fetch the available terms from the Academic Calendar Service.
-			CourseOfferingService cos = getCourseOfferingService();
-			Set<String> scheduledTermIds = new java.util.HashSet<String>();
-			for (CourseOffering co : cos.getCourseOfferingsByCourse(course
-					.getId(), KsapFrameworkServiceLocator.getContext()
-					.getContextInfo()))
-				if (scheduledTermIds.contains(co.getTermId()))
-					continue;
-				else
-					scheduledTermIds.add(co.getTermId());
+		courseDetails.setScheduledTerms(KsapFrameworkServiceLocator
+				.getCourseHelper().getScheduledTerms(course));
 
-			List<String> scheduledTerms = new java.util.LinkedList<String>();
-			for (TermInfo ti : getAcademicCalendarService().searchForTerms(
-					QueryByCriteria.Builder.fromPredicates(like(
-                            "atpStatus", PlanConstants.PUBLISHED)),
-					KsapFrameworkServiceLocator.getContext().getContextInfo()))
-				if (scheduledTermIds.contains(ti.getId()))
-					scheduledTerms.add(ti.getId());
-			courseDetails.setScheduledTerms(scheduledTerms);
-		} catch (Exception e) {
-			LOG.error("Error Retrieving ScheduleTerms", e);
-		}
-
-		if (courseDetails.getScheduledTerms().size() == 0) {
-			List<CourseOfferingInfo> courseOfferingInfo = null;
-			try {
-				courseOfferingInfo = getCourseOfferingService()
-						.getCourseOfferingsByCourse(
-								course.getId(),
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
-			} catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
-				throw new IllegalArgumentException("CO lookup failure", e);
-			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("CO lookup failure", e);
-			} catch (MissingParameterException e) {
-				throw new IllegalArgumentException("CO lookup failure", e);
-			} catch (OperationFailedException e) {
-				throw new IllegalStateException("CO lookup failure", e);
-			} catch (PermissionDeniedException e) {
-				throw new IllegalStateException("CO lookup failure", e);
-			}
-			if (courseOfferingInfo != null && courseOfferingInfo.size() > 0) {
-				TermInfo lo;
-				try {
-					lo = getAcademicCalendarService().getTerm(
-							courseOfferingInfo.get(0).getTermId(),
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
-				} catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
-					throw new IllegalArgumentException("AC lookup failure", e);
-				} catch (InvalidParameterException e) {
-					throw new IllegalArgumentException("AC lookup failure", e);
-				} catch (MissingParameterException e) {
-					throw new IllegalArgumentException("AC lookup failure", e);
-				} catch (OperationFailedException e) {
-					throw new IllegalStateException("AC lookup failure", e);
-				} catch (PermissionDeniedException e) {
-					throw new IllegalStateException("AC lookup failure", e);
-				}
-				courseDetails.setLastOffered(lo.getName());
-			}
-		}
+		if (courseDetails.getScheduledTerms().size() == 0)
+			courseDetails.setLastOffered(KsapFrameworkServiceLocator
+					.getCourseHelper().getLastOfferedTermId(course));
 
 		return courseDetails;
 
@@ -437,9 +346,10 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				studentId));
 
 		// Course offerings
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes()).getRequest();
-		if (request.getParameter("section_term") != null) {
+		ServletRequestAttributes rca = (ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes();
+		HttpServletRequest request = rca == null ? null : rca.getRequest();
+		if (request != null && request.getParameter("section_term") != null) {
 			String termId = KsapFrameworkServiceLocator.getTermHelper()
 					.getTerm(request.getParameter("section_term")).getName();
 			List<String> termList = new ArrayList<String>();
@@ -447,12 +357,11 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			courseDetails
 					.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
 							course, termList));
-		} else {
+		} else
 			courseDetails
 					.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
 							course, courseDetails.getCourseSummaryDetails()
 									.getScheduledTerms()));
-		}
 
 		EnrollmentStatusHelper enrollmentStatusHelper = KsapFrameworkServiceLocator
 				.getEnrollmentStatusHelper();
@@ -814,18 +723,23 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			// Activity offerings come back as a list, the first item is
 			// primary, the remaining are secondary
 			String courseOfferingID = courseInfo.getId();
-			List<ActivityOfferingDisplayInfo> aodiList = null;
-
+			List<ActivityOfferingDisplayInfo> aodiList;
 			try {
 				aodiList = getCourseOfferingService()
-						.getActivityOfferingDisplaysForCourseOffering(
-								courseOfferingID,
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
-			} catch (Exception e) {
-				LOG.error(" Could not load activity offering for course offering: "
-						+ courseOfferingID);
-				return activityOfferingItemList;
+							.getActivityOfferingDisplaysForCourseOffering(
+									courseOfferingID,
+									KsapFrameworkServiceLocator.getContext()
+											.getContextInfo());
+			} catch (DoesNotExistException e) {
+				throw new IllegalArgumentException("CO lookup error", e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("CO lookup error", e);
+			} catch (MissingParameterException e) {
+				throw new IllegalStateException("CO lookup error", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("CO lookup error", e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("CO lookup error", e);
 			}
 
 			boolean primary = true;

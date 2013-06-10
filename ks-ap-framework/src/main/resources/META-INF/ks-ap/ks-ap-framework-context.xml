@@ -41,6 +41,9 @@
 
 	<bean name="enrollStatusHelper"
 		class="org.kuali.student.ap.framework.context.support.DefaultEnrollmentStatusHelper" />
+		
+	<bean id="ksapCourseHelper"
+		class="org.kuali.student.ap.framework.context.support.DefaultCourseHelper" />
 
     <bean name="shoppingCartHelper"
           class="org.kuali.student.ap.framework.context.support.MockShoppingCartHelper" />

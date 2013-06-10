@@ -2,6 +2,7 @@ package org.kuali.student.ap.framework.config;
 
 import javax.ejb.EJB;
 
+import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.EnumerationHelper;
 import org.kuali.student.ap.framework.context.KsapContext;
@@ -222,6 +223,15 @@ public final class KsapFrameworkServiceLocator {
 	public static OrgHelper getOrgHelper() {
 		return getInstance().ksapOrgHelper;
 	}
+	
+	/**
+	 * Get the course helper.
+	 * 
+	 * @return The course helper.
+	 */
+	public static CourseHelper getCourseHelper() {
+		return getInstance().ksapCourseHelper;
+	}
 
 	/**
 	 * Get the academic plan service.
@@ -290,6 +300,8 @@ public final class KsapFrameworkServiceLocator {
 	private transient EnumerationHelper ksapEnumerationHelper;
 	@EJB
 	private transient OrgHelper ksapOrgHelper;
+	@EJB
+	private transient CourseHelper ksapCourseHelper;
 	@EJB
 	private transient AcademicPlanService academicPlanService;
 	@EJB

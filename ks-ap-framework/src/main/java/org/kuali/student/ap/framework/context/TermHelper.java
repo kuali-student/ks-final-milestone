@@ -37,7 +37,7 @@ public interface TermHelper {
 	List<Term> getCurrentTerms();
 
 	/**
-	 * Query the Academic Calendar Service for terms that have offering's
+	 * Query the Academic Calendar Service for terms that have offerings
 	 * published, determine the last ATP, and return its ID.
 	 * 
 	 * @return The ID of the last scheduled ATP.
@@ -46,7 +46,14 @@ public interface TermHelper {
 	 *             sense.
 	 */
 	Term getLastScheduledTerm();
-
+	
+	/**
+	 * Determine the oldest term to consider when performing historical lookups.
+	 * 
+	 * @return The ID of oldest term to consider when performing historical lookups.
+	 */
+	Term getOldestHistoricalTerm();
+	
 	/**
 	 * Gets the ATP ID of the first ATP in the current academic year.
 	 */
@@ -88,8 +95,6 @@ public interface TermHelper {
      * @return
      */
     public String getTermNameInAcadmicYear(int index);
-
-
 
 	/**
 	 * Returns true if an ATP is considered present or greater in the context of

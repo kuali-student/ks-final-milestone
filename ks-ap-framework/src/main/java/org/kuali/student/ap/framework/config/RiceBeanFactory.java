@@ -110,12 +110,14 @@ public class RiceBeanFactory extends DefaultListableBeanFactory {
 		final String beanName;
 		final AbstractBeanDefinition definition;
 		final BeanWrapper wrapper;
+		final RiceBeanFactory beanFactory;
 
 		private PopulatingBean(String beanName, AbstractBeanDefinition mbd,
-				BeanWrapper bw) {
+				BeanWrapper bw, RiceBeanFactory beanFactory) {
 			this.beanName = beanName;
 			this.definition = mbd;
 			this.wrapper = bw;
+			this.beanFactory = beanFactory;
 		}
 
 		public String getBeanName() {
@@ -128,6 +130,10 @@ public class RiceBeanFactory extends DefaultListableBeanFactory {
 
 		public BeanWrapper getWrapper() {
 			return wrapper;
+		}
+
+		public RiceBeanFactory getBeanFactory() {
+			return beanFactory;
 		}
 	}
 
@@ -229,7 +235,7 @@ public class RiceBeanFactory extends DefaultListableBeanFactory {
 			BeanWrapper bw) {
 		PopulatingBean obn = POPULATING.get();
 		try {
-			POPULATING.set(new PopulatingBean(beanName, mbd, bw));
+			POPULATING.set(new PopulatingBean(beanName, mbd, bw, this));
 			super.populateBean(beanName, mbd, bw);
 		} finally {
 			if (obn == null)
