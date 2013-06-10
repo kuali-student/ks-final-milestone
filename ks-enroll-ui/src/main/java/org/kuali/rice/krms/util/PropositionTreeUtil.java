@@ -23,6 +23,8 @@ import java.util.List;
  */
 public class PropositionTreeUtil {
 
+    public static final String EDIT_TREE_NEW_COLLECTION_LINE = "document.newMaintainableObject.dataObject.editTree";
+
     public static void setTypeForCompoundOpCode(PropositionEditor proposition, String compoundOpCode) {
         proposition.setCompoundOpCode(compoundOpCode);
         if (LogicalOperator.AND.getCode().equalsIgnoreCase(compoundOpCode)) {

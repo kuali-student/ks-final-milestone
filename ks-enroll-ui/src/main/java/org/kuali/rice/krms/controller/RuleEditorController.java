@@ -48,6 +48,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1029,6 +1030,16 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleEditor ruleEditor = getRuleEditor(form);
         parseRuleExpression(ruleEditor);
 
+        //Clear new collection lines to remove new collection add line only for edit tree
+        if(form.getNewCollectionLines().size() != 1) {
+            List<String> keys = new ArrayList<String>(form.getNewCollectionLines().keySet());
+            for(String key : keys) {
+                if(key.contains(PropositionTreeUtil.EDIT_TREE_NEW_COLLECTION_LINE)) {
+                    form.getNewCollectionLines().remove(key);
+                }
+            }
+        }
+
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
         return getUIFModelAndView(form);
     }
@@ -1105,6 +1116,16 @@ public class RuleEditorController extends MaintenanceDocumentController {
             ruleEditor.setSelectedKey(StringUtils.EMPTY);
             PropositionTreeUtil.cancelNewProp(proposition);
             PropositionTreeUtil.removeCompoundProp(proposition);
+        }
+
+        //Clear new collection lines to remove new collection add line only for edit tree
+        if(form.getNewCollectionLines().size() != 1) {
+            List<String> keys = new ArrayList<String>(form.getNewCollectionLines().keySet());
+            for(String key : keys) {
+                if(key.contains(PropositionTreeUtil.EDIT_TREE_NEW_COLLECTION_LINE)) {
+                    form.getNewCollectionLines().remove(key);
+                }
+            }
         }
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
