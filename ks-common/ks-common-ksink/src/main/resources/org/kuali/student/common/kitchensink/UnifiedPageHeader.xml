@@ -23,6 +23,10 @@
     <bean id="KS-KitchenSink-UnifiedPageHeader-View-Base" parent="KS-Uif-FormView">
         <!--<property name="headerText" value="Toolbar Example"/>-->
         <property name="headerText" value="Unified Header - View Title"/>
+        <!--
+        This was the only way I could get ANY page header stuff to display. By default, this value is set to true.
+        Please figure out what's up.
+         -->
         <property name="unifiedHeader" value="false"/>
         <property name="items">
             <list>
