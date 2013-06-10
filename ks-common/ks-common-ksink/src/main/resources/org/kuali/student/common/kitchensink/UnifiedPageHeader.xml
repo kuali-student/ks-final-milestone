@@ -27,7 +27,6 @@
         This was the only way I could get ANY page header stuff to display. By default, this value is set to true.
         Please figure out what's up.
          -->
-        <property name="unifiedHeader" value="false"/>
         <property name="items">
             <list>
                 <bean id="Demo-StandardLayout-SectionsPage" parent="Uif-Page" p:headerText="Unified Header - Page Title">
