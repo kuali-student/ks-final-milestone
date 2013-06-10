@@ -165,8 +165,7 @@
     <bean id="KS-CourseOffering-Creation-Header" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderOne" p:headerText="Create Course Offering" p:render="@{!document.newMaintainableObject.dataObject.enableCreateButton}"/>
-                <bean parent="Uif-HeaderOne" p:headerText="@{document.newMaintainableObject.dataObject.catalogCourseCode}" p:render="@{document.newMaintainableObject.dataObject.enableCreateButton}"/>
+                <bean parent="Uif-HeaderOne" p:headerText="@{(document.newMaintainableObject.dataObject.catalogCourseCode eq null)? 'Create Course Offering' : document.newMaintainableObject.dataObject.catalogCourseCode}"/>
                 <bean parent="Uif-HeaderFour" p:headerText="Create Course Offering" p:render="@{document.newMaintainableObject.dataObject.enableCreateButton}"/>
             </list>
         </property>
