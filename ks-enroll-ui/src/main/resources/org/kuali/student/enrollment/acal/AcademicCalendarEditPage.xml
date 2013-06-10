@@ -152,14 +152,76 @@ limitations under the License.
     </bean>
 
     <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
-        <property name="headerText" value="Information" />
+        <property name="headerText" value="Calendar" />
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="Last saved at @{lastUpdatedTime}" p:cssClasses="font-light12"/>
+                <!--<bean parent="Uif-Message" p:messageText="Last saved at @{lastUpdatedTime}" p:cssClasses="font-light12"/>-->
+                <ref bean="KS-AcademicCalendar-Overview" />
+                <ref bean="KS-AcademicTerm-Overview" />
                 <ref bean="KS-AcademicCalendar-MetaSubSection"/>
                 <ref bean="KS-AcademicCalendar-EventSubSection"/>
                 <ref bean="KS-AcademicCalendar-HolidaySubSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AcademicCalendar-Overview" parent="Uif-VerticalBoxSubSection">
+        <property name="headerText" value="Calendar Overview" />
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.name"
+                      p:label="Academic Calendar Name" p:labelPlacement="LEFT" />
+                <bean parent="Uif-DataField" p:propertyName="adminOrgName"
+                      p:label="Organization" p:labelPlacement="LEFT"/>
+                <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
+                      p:label="Start Date" p:labelPlacement="LEFT" />
+                <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.endDate"
+                      p:label="End Date" p:labelPlacement="LEFT" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AcademicTerm-Overview" parent="Uif-TableCollectionSection"
+          p:renderAddLine="false"  >
+        <!--<property name="hidden" value="true"/> p:render="@{(termWrapperList.size()>0)?'true':'false'}"-->
+        <property name="propertyName" value="termWrapperList" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
+        <property name="headerText" value="Terms/Subterms"/>
+        <!--<property name="instructionalText" value="@{#line.clusterNameForDisplay}" />-->
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <!--<entry key="aaSorting" value="[[ 0, 'asc' ]]"/>-->
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:label="Term"
+                      p:propertyName="termNameForUI" p:valign="middle"/>
+                <bean parent="Uif-DataField"
+                      p:label="Start Date"
+                      p:propertyName="startDate" p:valign="middle"/>
+                <bean parent="Uif-DataField"
+                      p:label="End Date"
+                      p:propertyName="endDate" p:valign="middle"/>
+                <bean parent="Uif-DataField"
+                      p:label="Status"
+                      p:propertyName="status" p:valign="middle"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeOfficial" p:actionLabel="Make Official" />
+                <!--<bean id="term_delete_link" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Term" />-->
             </list>
         </property>
     </bean>

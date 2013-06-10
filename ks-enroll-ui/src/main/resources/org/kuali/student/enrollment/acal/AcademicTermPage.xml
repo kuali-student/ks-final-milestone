@@ -5,12 +5,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean id="KS-AcademicTerm-EditSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Terms" />
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="header.style" value="margin-bottom:0"/>
         <property name="items">
             <list>
+                <ref bean="KS-AcademicCalendar-Overview" />
                 <ref bean="KS-AcademicTerm-EditSection-Main"/>
             </list>
         </property>
@@ -22,7 +23,8 @@
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="style" value="min-width:70em;"/>
-        <property name="header.render" value="false" />
+        <!--<property name="header.render" value="false" />-->
+        <property name="headerText" value="Term/Subterm Detail"/>
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="Uif-CollectionVerticalBoxItem">
