@@ -159,7 +159,7 @@ public class EnrolRuleEditorController extends RuleEditorController {
             prop.setCluSet(new CluSetInformation());
         }
 
-        MembershipQueryInfo membershipQueryInfo = prop.getCluSetRange().buildMembershipQuery(prop.getCluSet().getMembershipQueryInfo());
+        MembershipQueryInfo membershipQueryInfo = prop.getCluSet().getCluSetRange().buildMembershipQuery(prop.getCluSet().getMembershipQueryInfo());
         prop.getCluSet().setMembershipQueryInfo(membershipQueryInfo);
         prop.getCluSet().setClusInRange(this.getViewHelper(form).getCoursesInRange(membershipQueryInfo));
 

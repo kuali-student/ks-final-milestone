@@ -48,7 +48,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
         if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {
             Node<TreeNode, String> firstNode = rootNode.getChildren().get(0);
             if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)) {
-                firstNode.setNodeType("subruleHeader subruleElement");
+                firstNode.setNodeType(this.getHeaderAndElementNodeType());
                 TreeNode treeNode = firstNode.getData();
                 treeNode.setData("<u>" + treeNode.getData() + ":</u>");
             }
@@ -62,7 +62,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
 
             Node<TreeNode, String> newNode = new Node<TreeNode, String>();
             newNode.setNodeLabel(null);
-            newNode.setNodeType("subruleElement");
+            newNode.setNodeType(this.getElementNodeType());
 
             TreeNode tNode = new TreeNode(this.buildNodeLabel(rule, prop));
             tNode.setListItems(this.getListItems(prop));
@@ -96,7 +96,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
         }
     }
 
-    public List<String> getListItems(PropositionEditor propositionEditor) {
+    public List<Object> getListItems(PropositionEditor propositionEditor) {
         return null;
     }
 }

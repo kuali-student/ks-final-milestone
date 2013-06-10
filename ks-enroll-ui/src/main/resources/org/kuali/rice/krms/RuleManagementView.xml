@@ -133,41 +133,7 @@
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-
-                    <bean parent="Uif-StackedCollectionGroup" p:style="width: 400px; padding: 0;">
-                        <property name="layoutManager">
-                            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                                <property name="lineGroupPrototype">
-                                    <bean parent="Uif-CollectionHorizontalBoxItem">
-                                        <property name="cssClasses">
-                                            <list merge="true">
-                                                <value>krms-stackedPreviewItem</value>
-                                            </list>
-                                        </property>
-                                        <property name="renderFooter" value="false"/>
-                                    </bean>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>krms-stackedCollectionLayout</value>
-                                    </list>
-                                </property>
-                            </bean>
-                        </property>
-                        <property name="lineActions">
-                            <list>
-                            </list>
-                        </property>
-                        <property name="renderAddLine" value="false"/>
-                        <property name="propertyName" value="listItems"/>
-                        <property name="collectionObjectClass" value="java.lang.String"/>
-                        <property name="items">
-                            <list>
-                                <bean parent="Uif-MessageField" p:messageText="@{#line}"
-                                      p:style="width: 290px; margin: 0px;"/>
-                            </list>
-                        </property>
-                    </bean>
+                    <ref bean="KRMS-ListItems-DataGroup"/>
                 </property>
             </bean>
         </property>
@@ -181,6 +147,42 @@
         </property>
     </bean>
     <bean id="KRMS-ViewTree-Section" parent="KRMS-ViewTree-Section-parent"/>
+
+    <bean id="KRMS-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup" p:style="width: 400px; padding: 0;">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionHorizontalBoxItem">
+                        <property name="cssClasses">
+                            <list merge="true">
+                                <value>krms-stackedPreviewItem</value>
+                            </list>
+                        </property>
+                        <property name="renderFooter" value="false"/>
+                    </bean>
+                </property>
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>krms-stackedCollectionLayout</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lineActions">
+            <list>
+            </list>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="propertyName" value="listItems"/>
+        <property name="collectionObjectClass" value="java.lang.String"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line}"
+                      p:style="width: 290px; margin: 0px;"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent"/>
 
     <bean id="KRMS-View-Section-parent" parent="KRMS-ViewTree-Section">
         <property name="propertyName" value="viewTree"/>
@@ -280,39 +282,7 @@
                                     </property>
 
                                 </bean>
-                                <bean parent="Uif-StackedCollectionGroup" p:style="width: 400px; padding: 0;">
-                                    <property name="layoutManager">
-                                        <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
-                                            <property name="lineGroupPrototype">
-                                                <bean parent="Uif-CollectionHorizontalBoxItem">
-                                                    <property name="cssClasses">
-                                                        <list merge="true">
-                                                            <value>krms-stackedPreviewItem</value>
-                                                        </list>
-                                                    </property>
-                                                    <property name="renderFooter" value="false"/>
-                                                </bean>
-                                            </property>
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>krms-stackedCollectionLayout</value>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </property>
-                                    <property name="lineActions">
-                                        <list>
-                                        </list>
-                                    </property>
-                                    <property name="renderAddLine" value="false"/>
-                                    <property name="propertyName" value="listItems" />
-                                    <property name="collectionObjectClass" value="java.lang.String"/>
-                                    <property name="items">
-                                        <list>
-                                            <bean parent="Uif-MessageField" p:messageText="@{#line}" p:style="width: 290px; margin: 0px;"/>
-                                        </list>
-                                    </property>
-                                </bean>
+                                <ref bean="KRMS-ListItems-DataGroup"/>
                             </list>
                         </property>
                     </bean>

@@ -1,24 +1,27 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 
-import org.apache.commons.lang.StringUtils;
-
 import java.io.Serializable;
 
-public class CluInformation implements Serializable, Comparable<CluInformation> {
+public class CluInformation extends CluCore implements Serializable {
 
     private static final long serialVersionUID = 1123124L;
 
     private String cluId;
     private String verIndependentId;
-    private String code;
     private String title;
-    private String shortName;
     private String description;
-    private String credits;
     private String type;
     private String state;
     private String parentCluId;
+
+    public CluInformation() {
+        super();
+    }
+
+    public CluInformation(String code, String shortName, String credits) {
+        super(code, shortName, credits);
+    }
 
     public String getCluId() {
         return cluId;
@@ -26,14 +29,6 @@ public class CluInformation implements Serializable, Comparable<CluInformation> 
 
     public void setCluId(String cluId) {
         this.cluId = cluId;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getTitle() {
@@ -50,14 +45,6 @@ public class CluInformation implements Serializable, Comparable<CluInformation> 
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCredits() {
-        return credits;
-    }
-
-    public void setCredits(String credits) {
-        this.credits = credits;
     }
 
     public void setVerIndependentId(String verIndependentId) {
@@ -92,26 +79,12 @@ public class CluInformation implements Serializable, Comparable<CluInformation> 
         this.parentCluId = parentCluId;
     }
 
-    public int compareTo(CluInformation clu) {
-        return this.code.compareTo(clu.getCode());
-    }
-
-    public String getShortName() {
-        return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
     public void clear() {
+        super.clear();
         this.cluId = null;
         this.verIndependentId = null;
-        this.code = null;
         this.title = null;
-        this.shortName = null;
         this.description = null;
-        this.credits = null;
         this.type = null;
         this.state = null;
         this.parentCluId = null;

@@ -15,31 +15,33 @@
  */
 package org.kuali.student.enrollment.class1.krms.util;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class CourseInfoHelper {
+public class CluInformationHelper {
 
     private CluService cluService;
     private LRCService lrcService;
 
-    public CourseInfoHelper() {
+    public CluInformationHelper() {
         super();
     }
 
@@ -52,14 +54,14 @@ public class CourseInfoHelper {
                     CluInfo cluInfo = this.getCluService().getClu(versionInfo.getId(), ContextUtils.getContextInfo());
                     if (cluInfo != null) {
 
-                        String credits = getCreditInfo(cluInfo.getId());
-
                         CluInformation cluInformation = new CluInformation();
                         if (cluInfo.getOfficialIdentifier() != null) {
                             cluInformation.setCode(cluInfo.getOfficialIdentifier().getCode());
-                            cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
-                            cluInformation.setCredits(credits);
+                            cluInformation.setTitle(cluInfo.getOfficialIdentifier().getLongName());
+                            cluInformation.setShortName(cluInfo.getOfficialIdentifier().getShortName());
                         }
+
+                        cluInformation.setCredits(getCreditInfo(cluInfo.getId()));
 
                         cluInformation.setType(cluInfo.getTypeKey());
                         //If the clu type is variation, get the parent clu id.
@@ -95,7 +97,7 @@ public class CourseInfoHelper {
         try {
             cluResultInfos = this.getCluService().getCluResultByClu(cluId, ContextUtils.getContextInfo());
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new RuntimeException("Could not retrieve clu results for " + cluId);
         }
         if (cluResultInfos != null) {
             for (CluResultInfo cluResultInfo : cluResultInfos) {
@@ -116,7 +118,7 @@ public class CourseInfoHelper {
                             try {
                                 resultComponentInfo = this.getLrcService().getResultValuesGroup(resultOption.getResultComponentId(), ContextUtils.getContextInfo());
                             } catch (Exception e) {
-                                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                                throw new RuntimeException("Could not retrieve result values group for " + resultOption.getResultComponentId());
                             }
                             resultValues = resultComponentInfo.getResultValueKeys();
                             creditType = resultComponentInfo.getTypeKey();
@@ -150,17 +152,82 @@ public class CourseInfoHelper {
         return credits;
     }
 
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = CourseOfferingResourceLoader.loadCluService();
+    public List<CluInformation> getCluInfosForQuery(MembershipQueryInfo membershipQuery) {
+
+        if (membershipQuery != null) {
+            SearchRequestInfo searchRequest = new SearchRequestInfo();
+            searchRequest.setSearchKey(membershipQuery.getSearchTypeKey());
+            searchRequest.setParams(membershipQuery.getQueryParamValues());
+            try {
+                SearchResultInfo searchResult = this.getCluService().search(searchRequest, ContextUtils.getContextInfo());
+                return resolveCluSearchResultSet(searchResult);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
         }
+        return null;
+    }
+
+    public List<CluInformation> getCluInfosWithDetailForQuery(MembershipQueryInfo membershipQuery) {
+        List<CluInformation> cluInfos = this.getCluInfosForQuery(membershipQuery);
+        for(CluInformation cluInfo : cluInfos){
+            cluInfo.setCredits(this.getCreditInfo(cluInfo.getCluId()));
+        }
+        return cluInfos;
+    }
+
+    public static SearchParamInfo getApprovedStateSearchParam(){
+        SearchParamInfo searchParam = new SearchParamInfo();
+        searchParam.setKey("lu.queryParam.luOptionalState");
+        searchParam.getValues().add("Approved");
+        searchParam.getValues().add("Active");
+        searchParam.getValues().add("Retired");
+        searchParam.getValues().add("Suspended");
+        return searchParam;
+    }
+
+    public static List<CluInformation> resolveCluSearchResultSet(SearchResultInfo searchResult){
+        List<CluInformation> clus = new ArrayList<CluInformation>();
+        List<SearchResultRowInfo> rows = searchResult.getRows();
+        for (SearchResultRowInfo row : rows) {
+            List<SearchResultCellInfo> cells = row.getCells();
+            CluInformation cluInformation = new CluInformation();
+            for (SearchResultCellInfo cell : cells) {
+                if (cell.getKey().equals("lu.resultColumn.cluId")) {
+                    cluInformation.setCluId(cell.getValue());
+                } else if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {
+                    cluInformation.setCode(cell.getValue());
+                } else if (cell.getKey().equals("lu.resultColumn.luOptionalLongName")) {
+                    cluInformation.setTitle(cell.getValue());
+                } else if (cell.getKey().equals("lu.resultColumn.luOptionalDescr")) {
+                    cluInformation.setDescription(cell.getValue());
+                } else if (cell.getKey().equals("lu.resultColumn.luOptionalState")) {
+                    cluInformation.setState(cell.getValue());
+                } else if (cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")) {
+                    cluInformation.setVerIndependentId(cell.getValue());
+                } else if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")){
+                    cluInformation.setShortName(cell.getValue());
+                }
+            }
+            clus.add(cluInformation);
+        }
+        return clus;
+    }
+
+    public CluService getCluService() {
         return cluService;
     }
 
-    protected LRCService getLrcService() {
-        if (lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
+    }
+
+    public LRCService getLrcService() {
         return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
     }
 }

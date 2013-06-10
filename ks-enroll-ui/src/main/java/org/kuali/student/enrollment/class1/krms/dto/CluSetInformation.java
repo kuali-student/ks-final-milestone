@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
+import org.kuali.student.enrollment.class1.krms.util.CluSetRangeInformation;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.util.StringUtils;
@@ -31,9 +32,13 @@ public class CluSetInformation implements Serializable {
     private static final long serialVersionUID = 1123124L;
     private CluSetInfo cluSetInfo;
     private List<CluInformation> clus;
+
     private List<CluSetInfo> cluSets;
+
     private MembershipQueryInfo membershipQueryInfo;
     private List<CluInformation> clusInRange;
+    private CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
+
     private Map<String, CluSetInformation> subCluSetInformations;
     private CluSetInformation parent;
 
@@ -84,6 +89,14 @@ public class CluSetInformation implements Serializable {
 
     public void setClusInRange(List<CluInformation> clusInRange) {
         this.clusInRange = clusInRange;
+    }
+
+    public CluSetRangeInformation getCluSetRange() {
+        return cluSetRange;
+    }
+
+    public void setCluSetRange(CluSetRangeInformation cluSetRange) {
+        this.cluSetRange = cluSetRange;
     }
 
     public Map<String, CluSetInformation> getSubCluSetInformations() {
@@ -181,6 +194,29 @@ public class CluSetInformation implements Serializable {
             cluIds.add(clu.getVerIndependentId());
         }
         return cluIds;
+    }
+
+    public List<Object> getCluViewers(){
+        List<Object> cluViewers = new ArrayList<Object>();
+        //Individual Clus
+        if((this.getClus().size()>0)||(this.getClusInRange().size()>0)){
+            if (this.getClus().size()>0){
+                cluViewers.add(new CluCore("INDIVIDUAL COURSE(S)", null, null));
+            }
+        }
+        cluViewers.addAll(this.getClus());
+
+        //Course sets.
+        for (CluSetInfo cluSet : this.getCluSets()) {
+            cluViewers.add(new CluCore(null, cluSet.getName(), null));
+        }
+
+        //CourseRange
+        if(this.getClusInRange().size()>0){
+            cluViewers.add(new CluCore(null, this.getCluSetRange().getCluSetRangeLabel(), null));
+            cluViewers.addAll(this.getClusInRange());
+        }
+        return cluViewers;
     }
 
 }

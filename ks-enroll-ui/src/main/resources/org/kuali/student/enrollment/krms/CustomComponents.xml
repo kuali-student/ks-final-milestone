@@ -75,7 +75,7 @@
                 <ref bean="KRMS-CourseSetStackedCollectionGroup"/>
                 <bean parent="Uif-VerticalBoxGroup">
                     <property name="header">
-                        <bean parent="Uif-HeaderSix" p:headerText="Course Range" p:progressiveRender="#np.proposition.cluSetRange.cluSetRangeLabel ne ''"/>
+                        <bean parent="Uif-HeaderSix" p:headerText="Course Range" p:progressiveRender="#np.proposition.cluSet.cluSetRange.cluSetRangeLabel ne ''"/>
                     </property>
                     <property name="items">
                         <list>
@@ -318,7 +318,7 @@
     <bean id="KS-CourseRange-BoxSection" parent="KS-CourseRange-BoxSection-parent"/>
 
     <bean id="KS-CourseRange-TypeField-parent" parent="Uif-InputField-LabelTop" p:label="Select Course Range Type"
-          p:width="auto" p:propertyName="proposition.cluSetRange.searchByCourseRange">
+          p:width="auto" p:propertyName="proposition.cluSet.cluSetRange.searchByCourseRange">
         <property name="control">
             <bean parent="Uif-HorizontalRadioControl">
                 <property name="options">
@@ -337,16 +337,16 @@
     <bean id="KS-CourseRange-TypeField" parent="KS-CourseRange-TypeField-parent"/>
 
     <bean id="KS-CourseNumber-RangeSection" parent="Uif-HorizontalBoxSection"
-          p:progressiveRender="#np.proposition.cluSetRange.searchByCourseRange eq '1'">
+          p:progressiveRender="#np.proposition.cluSet.cluSetRange.searchByCourseRange eq '1'">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.subjectCode" p:label="Subject Code">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.cluSetRange.subjectCode" p:label="Subject Code">
                     <property name="control">
                         <bean parent="Uif-TextControl" />
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.courseNumberRange" p:label="Course Number Range">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.cluSetRange.courseNumberRange" p:label="Course Number Range">
                     <property name="control">
                         <bean parent="Uif-TextControl" />
                     </property>
@@ -358,10 +358,10 @@
     </bean>
 
     <bean id="KS-LearningObjective-RangeSection" parent="Uif-HorizontalBoxSection"
-          p:progressiveRender="#np.proposition.cluSetRange.searchByCourseRange eq '2'">
+          p:progressiveRender="#np.proposition.cluSet.cluSetRange.searchByCourseRange eq '2'">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.learningObjective" p:label="Description">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.cluSetRange.learningObjective" p:label="Description">
                     <property name="control">
                         <bean parent="Uif-TextControl" />
                     </property>
@@ -373,16 +373,16 @@
     </bean>
 
     <bean id="KS-EffectiveDate-RangeSection" parent="Uif-HorizontalBoxSection"
-          p:progressiveRender="#np.proposition.cluSetRange.searchByCourseRange eq '3'">
+          p:progressiveRender="#np.proposition.cluSet.cluSetRange.searchByCourseRange eq '3'">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.effectiveFrom" p:label="Effective From">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.cluSetRange.effectiveFrom" p:label="Effective From">
                     <property name="control">
                         <bean parent="Uif-DateControl" />
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSetRange.effectiveTo" p:label="Effective To">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.cluSetRange.effectiveTo" p:label="Effective To">
                     <property name="control">
                         <bean parent="Uif-DateControl" />
                     </property>
@@ -397,11 +397,11 @@
             p:style="margin-top: 25px;" p:methodToCall="addRange">
     </bean>
 
-    <bean id="KS-CourseRange-DisplaySection" parent="Uif-HorizontalBoxGroup" p:progressiveRender="#np.proposition.cluSetRange.cluSetRangeLabel ne ''"
+    <bean id="KS-CourseRange-DisplaySection" parent="Uif-HorizontalBoxGroup" p:progressiveRender="#np.proposition.cluSet.cluSetRange.cluSetRangeLabel ne ''"
           p:style="width:600px">
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#np.proposition.cluSetRange.cluSetRangeLabel}"
+                <bean parent="Uif-MessageField" p:messageText="@{#np.proposition.cluSet.cluSetRange.cluSetRangeLabel}"
                       p:style="width: 450px; margin: 0px;"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
                         p:style="margin-right: 15px;"/>

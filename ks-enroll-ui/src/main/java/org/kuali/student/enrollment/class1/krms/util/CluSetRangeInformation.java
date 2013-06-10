@@ -148,7 +148,9 @@ public class CluSetRangeInformation implements Serializable {
     private String getParmValue(List<SearchParamInfo> params, String key) {
         for (SearchParamInfo param : params) {
             if (param.getKey().equals(key)) {
-                return param.getValues().toString();
+                for(String value : param.getValues()){
+                    return value;
+                }
             }
         }
         return null;
@@ -165,7 +167,7 @@ public class CluSetRangeInformation implements Serializable {
         List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
         queryParams.add(createSearchParam(CluSetRangeInformation.CLU_SEARCH_PARM_DIV, this.getSubjectCode()));
         queryParams.add(createSearchParam(CluSetRangeInformation.CLU_SEARCH_PARM_RANGE, this.getCourseNumberRange()));
-        queryParams.add(createSearchParam("lu.queryParam.luOptionalState", "Draft"));
+        queryParams.add(CluInformationHelper.getApprovedStateSearchParam());
         membershipQueryInfo.setQueryParamValues(queryParams);
 
         resetCourseRangeLabel(this.getSubjectCode(), this.getCourseNumberRange());
@@ -177,7 +179,7 @@ public class CluSetRangeInformation implements Serializable {
     private void resetCourseRangeLabel(String subjectCode, String courseNumberRange) {
         subjectCode = StringEscapeUtils.escapeHtml(subjectCode);
         courseNumberRange = StringEscapeUtils.escapeHtml(courseNumberRange);
-        this.setCluSetRangeLabel("<b>Subject Code:</b> " + subjectCode + " <b>Course Number Range:</b> " + courseNumberRange + " <b>State:</b> Draft");
+        this.setCluSetRangeLabel("<b>Subject Code:</b> " + subjectCode + " <b>Course Number Range:</b> " + courseNumberRange + " <b>State:</b> Approved");
     }
 
     /**

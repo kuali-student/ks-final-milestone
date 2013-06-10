@@ -18,22 +18,15 @@ package org.kuali.student.enrollment.class1.krms.builder;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
-import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
-import org.kuali.student.enrollment.class1.krms.util.CourseInfoHelper;
+import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -50,6 +43,8 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
     private CluService cluService;
     private CourseService courseService;
     private LRCService lrcService;
+
+    private CluInformationHelper cluInfoHelper;
 
     private static final String CLUSET_KEY = "kuali.term.parameter.type.course.cluSet.id";
     private static final String GRADE_TYPE_KEY = "kuali.term.parameter.type.gradeType.id";
@@ -68,7 +63,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
                 CluSetInformation cluSetInfo = this.getCluSetInformation(cluSetId);
                 propositionEditor.setCluSet(cluSetInfo);
                 if(cluSetInfo.hasMembershipQuery()){
-                    propositionEditor.getCluSetRange().resetFromQuery(cluSetInfo.getMembershipQueryInfo());
+                    propositionEditor.getCluSet().getCluSetRange().resetFromQuery(cluSetInfo.getMembershipQueryInfo());
                 }
 
             } catch (Exception e) {
@@ -152,8 +147,8 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             result.setCluSets(unWrappedCluSets);
         }
 
-        result.setClus(this.getCluInformations(cluIds));
-        result.setClusInRange(this.getClusInRange(result.getMembershipQueryInfo()));
+        result.setClus(this.getCluInfoHelper().getCourseInfos(cluIds));
+        result.setClusInRange(this.getCluInfoHelper().getCluInfosWithDetailForQuery(result.getMembershipQueryInfo()));
 
         return result;
     }
@@ -180,54 +175,6 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             throw new RuntimeException(e);
         }
         return cluSetInfo;
-    }
-
-    private List<CluInformation> getCluInformations(List<String> cluIds) {
-        CourseInfoHelper courseInfoHelper = new CourseInfoHelper();
-
-        return courseInfoHelper.getCourseInfos(cluIds);
-    }
-
-    public List<CluInformation> getClusInRange(MembershipQueryInfo membershipQueryInfo) {
-        //Query info.
-        if (membershipQueryInfo != null) {
-            SearchRequestInfo searchRequest = new SearchRequestInfo();
-            searchRequest.setSearchKey(membershipQueryInfo.getSearchTypeKey());
-            searchRequest.setParams(membershipQueryInfo.getQueryParamValues());
-            SearchResultInfo searchResult = null;
-            try {
-                searchResult = this.getCluService().search(searchRequest, ContextUtils.getContextInfo());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-            List<CluInformation> clusInRange = new ArrayList<CluInformation>();
-            List<SearchResultRowInfo> rows = searchResult.getRows();
-            for (SearchResultRowInfo row : rows) {
-                List<SearchResultCellInfo> cells = row.getCells();
-                CluInformation cluInformation = new CluInformation();
-                for (SearchResultCellInfo cell : cells) {
-                    if (cell.getKey().equals("lu.resultColumn.cluId")) {
-                        cluInformation.setCluId(cell.getValue());
-                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {
-                        cluInformation.setCode(cell.getValue());
-                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")) {
-                        cluInformation.setTitle(cell.getValue());
-                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")){
-                        cluInformation.setVerIndependentId(cell.getValue());
-                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalDescr")){
-                        cluInformation.setDescription(cell.getValue());
-                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalState")){
-                        cluInformation.setState(cell.getValue());
-                    } else if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")){
-                        cluInformation.setShortName(cell.getValue());
-                    }
-
-                }
-                clusInRange.add(cluInformation);
-            }
-            return clusInRange;
-        }
-        return null;
     }
 
     public CluSetInfo buildCourseSet(CluSetInformation cluSetInformation) {
@@ -307,6 +254,15 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         }
 
         return wrapperCluSet.getId();
+    }
+
+    protected CluInformationHelper getCluInfoHelper() {
+        if (cluInfoHelper == null) {
+            cluInfoHelper = new CluInformationHelper();
+            cluInfoHelper.setCluService(this.getCluService());
+            cluInfoHelper.setLrcService(this.getLrcService());
+        }
+        return cluInfoHelper;
     }
 
     protected CourseService getCourseService() {

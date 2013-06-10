@@ -28,10 +28,6 @@
 
 }
 
-.uif-boxLayoutHorizontalItem {
-    margin-right: 0px;
-}
-
 .rootNode {
     border-bottom: #000000 solid 2px;
 }
@@ -106,6 +102,7 @@
 
 .krms-stackedPreviewItem {
     margin-bottom: 0px !important;
+    padding: 0px !important;
     margin-left: 20px;
     background-color: transparent !important;
 }
@@ -136,5 +133,5 @@
 }
 
 div.ks-multiCourseItem {
-    margin: 0 !important;
+    margin-top: 0 !important;
 }

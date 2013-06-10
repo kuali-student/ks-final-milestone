@@ -25,15 +25,15 @@ public class EnrolRulePreviewTreeBuilder extends RulePreviewTreeBuilder {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public List<String> getListItems(PropositionEditor propositionEditor) {
+    public List<Object> getListItems(PropositionEditor propositionEditor) {
         if (propositionEditor instanceof EnrolPropositionEditor) {
             CluSetInformation cluSetInfo = ((EnrolPropositionEditor) propositionEditor).getCluSet();
 
             if (cluSetInfo != null) {
-                List<String> listItems = new ArrayList<String>();
+                /*List<Object> listItems = new ArrayList<Object>();
 
                 for (CluInformation clu : cluSetInfo.getClusAndClusInRange()) {
-                    String description = clu.getCode() + (clu.getTitle() != null ? " " + clu.getTitle() : "") + (clu.getCredits() != null ? " " + clu.getCredits() : "");
+                    String description = clu.getCode() + (clu.getTitle() != null ? " " + clu.getShortName() : "") + (clu.getCredits() != null ? " " + clu.getCredits() : "");
                     listItems.add(description);
                 }
 
@@ -41,7 +41,8 @@ public class EnrolRulePreviewTreeBuilder extends RulePreviewTreeBuilder {
                     listItems.add(cluSet.getName());
                 }
 
-                return listItems;
+                return listItems;*/
+                return cluSetInfo.getCluViewers();
             }
         }
         return null;

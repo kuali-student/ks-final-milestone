@@ -158,4 +158,36 @@
         </property>
     </bean>
 
+    <!--bean id="KRMS-ListItems-DataGroup" parent="Uif-TableCollectionGroup" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CluCore" />
+        <property name="propertyName" value="listItems" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.showPageTotal" value="false"/>
+        <property name="layoutManager.showTotal" value="false"/>
+        <property name="lineActions">
+            <list></list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="code"/>
+                <bean parent="Uif-DataField" p:propertyName="shortName"/>
+                <bean parent="Uif-DataField" p:propertyName="credits"/>
+            </list>
+        </property>
+    </bean-->
+
+    <bean id="KRMS-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CluCore" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="code"/>
+                <bean parent="Uif-DataField" p:propertyName="shortName"/>
+                <bean parent="Uif-DataField" p:propertyName="credits"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

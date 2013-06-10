@@ -31,6 +31,9 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 
     private RuleManagementService ruleManagementService;
 
+    protected String NODE_TYPE_SUBRULEHEADER = "subruleHeader";
+    protected String NODE_TYPE_SUBRULEELEMENT = "subruleElement";
+
     public RuleManagementService getRuleManagementService() {
         return ruleManagementService;
     }
@@ -78,6 +81,14 @@ public abstract class AbstractTreeBuilder implements TreeBuilder {
 
     public String getNaturalLanguageUsageKey(){
         return  KsKrmsConstants.KRMS_NL_PREVIEW;
+    }
+
+    public String getHeaderAndElementNodeType(){
+        return this.NODE_TYPE_SUBRULEHEADER + " " + this.NODE_TYPE_SUBRULEELEMENT;
+    }
+
+    public String getElementNodeType(){
+        return this.NODE_TYPE_SUBRULEELEMENT;
     }
 
 }

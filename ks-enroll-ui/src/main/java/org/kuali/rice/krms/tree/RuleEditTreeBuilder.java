@@ -67,7 +67,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     leaf.setData(pNode);
                 } else {
                     leaf.setNodeLabel(this.buildNodeLabel(rule, prop));
-                    leaf.setNodeType(KSSimplePropositionNode.NODE_TYPE);
+                    leaf.setNodeType(KSSimplePropositionNode.NODE_TYPE + " " + this.getElementNodeType());
                     KSSimplePropositionNode pNode = new KSSimplePropositionNode(prop);
                     leaf.setData(pNode);
                 }

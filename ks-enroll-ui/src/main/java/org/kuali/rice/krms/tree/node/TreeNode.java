@@ -16,7 +16,7 @@ public class TreeNode implements Serializable {
 
     private String key;
     private String data;
-    private List<String> listItems;
+    private List<Object> listItems;
 
     public TreeNode(){
     }
@@ -29,11 +29,11 @@ public class TreeNode implements Serializable {
         this.key = key;
     }
 
-    public List<String> getListItems() {
+    public List<Object> getListItems() {
         return listItems;
     }
 
-    public void setListItems(List<String> listItems) {
+    public void setListItems(List<Object> listItems) {
         this.listItems = listItems;
     }
 

@@ -32,7 +32,6 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private CourseInfo courseInfo;
     private CluSetInformation cluSet;
     private String multipleCourseType;
-    private CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
 
     private String programType;
     private String gradeScale;
@@ -71,14 +70,6 @@ public class EnrolPropositionEditor extends PropositionEditor {
 
     public void setMultipleCourseType(String multipleCourseType) {
         this.multipleCourseType = multipleCourseType;
-    }
-
-    public CluSetRangeInformation getCluSetRange() {
-        return cluSetRange;
-    }
-
-    public void setCluSetRange(CluSetRangeInformation cluSetRange) {
-        this.cluSetRange = cluSetRange;
     }
 
     public String getProgramType() {
