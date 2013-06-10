@@ -1,1008 +1,1008 @@
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11153','11142','kuali.term.parameter.type.course.clu.id','743e00fa-f996-436b-bbe7-f8a1ace62898',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13155','13139','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11146','11135','kuali.term.parameter.type.course.clu.id','743e00fa-f996-436b-bbe7-f8a1ace62898',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13156','13140','kuali.term.parameter.type.free.text','Departmental approval of research project',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11147','11136','kuali.term.parameter.type.free.text','Must have completed two semesters of chemistry',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13157','13141','kuali.term.parameter.type.course.clu.id','3c14f5b5-12ea-4d2b-b556-dc19c7bb5aa3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11067','11059','kuali.term.parameter.type.course.clu.id','743e00fa-f996-436b-bbe7-f8a1ace62898',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13158','13142','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10843','10832','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13159','13143','kuali.term.parameter.type.free.text','Restricted to graduate students or advanced undergraduates with prerequisites',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10726','10718','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13160','13144','kuali.term.parameter.type.course.clu.id','e46453df-8acc-4d5c-968a-244bc9f286df',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11064','11056','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13161','13145','kuali.term.parameter.type.org.id','4269648307',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11079','11072','kuali.term.parameter.type.course.cluSet.id','3af50a5f-52e5-4e1b-b824-17a806d89786',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13162','13146','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10931','10924','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.recommended.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13163','13147','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11168','11157','kuali.term.parameter.type.free.text','Must have completed CHEM233.',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13183','13167','kuali.term.parameter.type.free.text','Must have completed at least one lower-level English literature course and one other lower-level English course',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10893','10886','kuali.term.parameter.type.org.id','4269648307',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13184','13168','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11115','11107','kuali.term.parameter.type.course.clu.id','2b0a936d-0e2e-44a9-aeb1-ba33063baf96',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13185','13169','kuali.term.parameter.type.free.text','Must have completed at least one lower-level English literature course and one other lower-level English course',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11219','11216','kuali.term.parameter.type.course.clu.id','c8dd1b36-b354-4790-8516-2cb2cc4f5660',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13186','13170','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10805','10795','kuali.term.parameter.type.free.text','Must be an honors student',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13187','13171','kuali.term.parameter.type.free.text','Must have completed one year of college chemistry and one year of college physics',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10777','10767','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13188','13172','kuali.term.parameter.type.org.id','9012742',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10778','10767','kuali.term.parameter.type.course.cluSet.id','27b5b42d-c34f-46e9-bb27-cf2d403322f2',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13189','13173','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11108','11100','kuali.term.parameter.type.course.clu.id','8aa10ba6-9941-4241-8c04-ffb4ffde49f6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13190','13174','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10827','10817','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13191','13175','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11162','11151','kuali.term.parameter.type.free.text','Must be in the English minor',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13192','13176','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10904','10897','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13193','13177','kuali.term.parameter.type.course.clu.id','515df57a-b171-43ed-a2c6-badaf47b348a',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11035','11027','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13194','13178','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10800','10791','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13195','13179','kuali.term.parameter.type.course.clu.id','2a97b4ac-1cbf-4b0d-979d-cab6f24a26c9',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10808','10798','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13196','13180','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10961','10954','kuali.term.parameter.type.free.text','Must have completed two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13197','13181','kuali.term.parameter.type.program.cluSet.id','cb49c3bb-dad8-419a-b87e-fe7e1ece6036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10916','10909','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13214','13198','kuali.term.parameter.type.org.id','1273172872',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10917','10910','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13215','13199','kuali.term.parameter.type.course.clu.id','51802382-43e9-4bc5-b628-2eec467e9a3c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10953','10946','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13216','13200','kuali.term.parameter.type.free.text','Must be a current WMST teaching assistant',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11074','11067','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13217','13201','kuali.term.parameter.type.course.clu.id','6415e84e-92cc-44f8-bda3-2f840b50feec',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10901','10894','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13218','13202','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11051','11043','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13219','13203','kuali.term.parameter.type.org.id','9012742',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11045','11037','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13220','13204','kuali.term.parameter.type.org.id','9012742',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11133','11125','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13221','13205','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10721','10711','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13222','13206','kuali.term.parameter.type.free.text','must have completed HIST156.',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11208','11200','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13223','13207','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11210','11204','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13224','13208','kuali.term.parameter.type.free.text','A course in critical theory',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11209','11202','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13225','13209','kuali.term.parameter.type.course.clu.id','4c1056a0-8ac2-489d-8457-986c6f419eca',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11213','11210','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13226','13210','kuali.term.parameter.type.course.cluSet.id','2ad370f0-36a2-4487-9ad9-9050812535cb',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11097','11089','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13227','13211','kuali.term.parameter.type.free.text','Must have completed CHEM233',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11098','11090','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13228','13212','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11120','11112','kuali.term.parameter.type.free.text','Two English courses (excluding fundamental studies requirement)',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13248','13231','kuali.term.parameter.type.course.clu.id','75a23193-a4e9-440a-82e5-dfc8a7d629b5',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11121','11113','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13249','13232','kuali.term.parameter.type.course.cluSet.id','21b9f6f3-7d6c-422b-9d25-1e4ec113df4b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11089','11082','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13250','13233','kuali.term.parameter.type.free.text','Must have completed CHEM233',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10753','10744','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13251','13234','kuali.term.parameter.type.course.cluSet.id','c346f81b-7f14-4b9f-a23c-ed2029eec577',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10951','10944','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13252','13235','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10952','10945','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13253','13236','kuali.term.parameter.type.course.cluSet.id','fce381c8-55b8-41d3-9fcb-6f05b44ffff7',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10730','10722','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13254','13237','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10994','10987','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13255','13238','kuali.term.parameter.type.course.clu.id','c6e9f035-404a-445b-bb00-0c4289ef3701',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11084','11077','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13256','13239','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11216','11213','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13257','13240','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10908','10901','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13258','13241','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10996','10989','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13259','13242','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11144','11133','kuali.term.parameter.type.program.cluSet.id','45111cce-0a10-451c-bd26-067d1a0d7d74',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13260','13243','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11001','10994','kuali.term.parameter.type.course.cluSet.id','ee4b44d2-40fc-4402-a8ab-bc7247c5e67f',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13261','13244','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10941','10934','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13262','13245','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11023','11016','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.recommended.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13263','13246','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10983','10976','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13264','13247','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10816','10806','kuali.term.parameter.type.course.cluSet.id','6dc1a13e-d4b0-48a7-a166-0ee60e411295',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13265','13248','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10818','10808','kuali.term.parameter.type.free.text','a high school physics course',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13266','13249','kuali.term.parameter.type.free.text','Must have completed prior coursework in Middle East studies or gender studies',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10820','10810','kuali.term.parameter.type.course.cluSet.id','6dc1a13e-d4b0-48a7-a166-0ee60e411295',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13267','13250','kuali.term.parameter.type.course.clu.id','92a27ea5-5746-445d-883d-726de52b4a1b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10889','10882','kuali.term.parameter.type.course.clu.id','54414200-ea95-47dd-9718-1ec1d81f366b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13268','13251','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10840','10829','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13269','13252','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11008','11001','kuali.term.parameter.type.org.id','9012742',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13270','13253','kuali.term.parameter.type.course.clu.id','951a8ea0-94d2-449a-8741-83e3dcffddf3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10735','10727','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13271','13254','kuali.term.parameter.type.course.clu.id','06611716-590a-4193-94b6-464e08763648',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11110','11102','kuali.term.parameter.type.course.clu.id','1b5db06d-92d3-4913-aeb6-01266cec1927',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13272','13255','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10975','10968','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13273','13256','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10811','10801','kuali.term.parameter.type.free.text','Must have Learning Proposal approved by Women''s Studies Academic Advisor',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13274','13257','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10751','10742','kuali.term.parameter.type.free.text','Must have completed a course cross-listed with a WMST course',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13275','13258','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10786','10777','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13276','13259','kuali.term.parameter.type.course.clu.id','19399620-8be3-401f-98b4-15157fe8134f',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10872','10863','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13277','13260','kuali.term.parameter.type.course.clu.id','743e00fa-f996-436b-bbe7-f8a1ace62898',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11006','10999','kuali.term.parameter.type.course.clu.id','6415e84e-92cc-44f8-bda3-2f840b50feec',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13278','13261','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10788','10779','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13279','13262','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10729','10721','kuali.term.parameter.type.course.cluSet.id','f9b1d3a9-ad34-4d2e-97cc-c45c4cd3eb89',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13280','13264','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10784','10775','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13281','13265','kuali.term.parameter.type.course.clu.id','8a246144-4da9-4cc1-aea4-85f61597bf9c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10925','10918','kuali.term.parameter.type.course.cluSet.id','e42ecc7e-4757-47fb-a1c6-d95a11068593',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13282','13266','kuali.term.parameter.type.course.cluSet.id','32a6177a-993d-4c35-9eff-2b3177e452a4',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10740','10732','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13008','12990','kuali.term.parameter.type.course.clu.id','8af491cf-9c23-409e-adc8-dc184dcbced6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10741','10732','kuali.term.parameter.type.course.cluSet.id','e4f1a5b6-b35c-4a0e-8a6e-1326ceccbd6d',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13051','13031','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10828','10818','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13052','13032','kuali.term.parameter.type.course.clu.id','6eaf5f60-e52f-44b7-b80c-95797aea3ac6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10829','10819','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13053','13033','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11180','11169','kuali.term.parameter.type.free.text','Must have completed CHEM233',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13054','13034','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10930','10923','kuali.term.parameter.type.course.cluSet.id','e20fc6c5-c2e2-42db-a9ea-6d9b36460439',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13055','13035','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11082','11075','kuali.term.parameter.type.course.clu.id','a153b3b5-1c50-4c20-b4b6-9ac74a99a30d',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13056','13035','kuali.term.parameter.type.course.cluSet.id','14cc4043-f0cc-44fb-8c40-40cd4372cd10',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11169','11158','kuali.term.parameter.type.course.cluSet.id','a6ad4f4c-b41f-4c91-b74f-6a714cbff75c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13057','13036','kuali.term.parameter.type.course.cluSet.id','192b03ad-075d-4a1d-84dd-774dec6e314e',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11041','11033','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13058','13037','kuali.term.parameter.type.course.clu.id','2368cf15-6c9f-4227-85a5-dfa9ca9e65a0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11114','11106','kuali.term.parameter.type.course.clu.id','2b0a936d-0e2e-44a9-aeb1-ba33063baf96',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13059','13038','kuali.term.parameter.type.free.text','Permission of Museum Scholarship Program required',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10804','10794','kuali.term.parameter.type.program.cluSet.id','f9ac7323-03bb-4aaf-ad8a-89c06ce4a1fc',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13060','13039','kuali.term.parameter.type.course.clu.id','3c14f5b5-12ea-4d2b-b556-dc19c7bb5aa3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11019','11012','kuali.term.parameter.type.course.cluSet.id','b009038d-b950-4009-ab44-41d88afe661b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13061','13040','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11020','11013','kuali.term.parameter.type.course.clu.id','8aa10ba6-9941-4241-8c04-ffb4ffde49f6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13062','13041','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10774','10765','kuali.term.parameter.type.course.clu.id','d16f1ecb-d793-4520-91f4-b4c4b7357c54',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13063','13042','kuali.term.parameter.type.course.clu.id','6d93b357-91cf-49e6-acc2-8864baa09ad3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11093','11086','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13064','13043','kuali.term.parameter.type.course.clu.id','8a246144-4da9-4cc1-aea4-85f61597bf9c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11094','11086','kuali.term.parameter.type.course.cluSet.id','039dd9cc-d12e-458b-866f-e7684c490674',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13065','13044','kuali.term.parameter.type.course.clu.id','6cff7779-174c-40c2-9c62-1b1c4a823734',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10850','10838','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13073','13052','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11134','11126','kuali.term.parameter.type.free.text','One semester of graduate study in chemistry',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13074','13053','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11135','11127','kuali.term.parameter.type.free.text','Restricted to students in the non-thesis M.S. option',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13075','13054','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10757','10748','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13076','13056','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11054','11046','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13077','13057','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10796','10787','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13078','13059','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11204','11194','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13079','13060','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11206','11196','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13080','13062','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10870','10861','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13081','13063','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11058','11050','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13082','13064','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.prefix.credits.completed.nof',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10986','10979','kuali.term.parameter.type.program.cluSet.id','cb49c3bb-dad8-419a-b87e-fe7e1ece6036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13083','13065','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11119','11111','kuali.term.parameter.type.course.clu.id','8682bdc7-bded-4056-8f86-eae722254f7e',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13084','13066','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11214','11211','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13085','13067','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10766','10757','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13086','13068','kuali.term.parameter.type.org.id','4284516367',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10767','10758','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13095','13077','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10940','10933','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13096','13078','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10989','10982','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13097','13080','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10988','10981','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13098','13081','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10760','10751','kuali.term.parameter.type.free.text','Candidacy for honors in English',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13099','13083','kuali.term.parameter.type.course.clu.id','54414200-ea95-47dd-9718-1ec1d81f366b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10755','10746','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13100','13084','kuali.term.parameter.type.course.clu.id','ffcc4b93-14fe-4655-95c0-226ddf1e9e0f',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10944','10937','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13107','13091','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10780','10769','kuali.term.parameter.type.free.text','An introductory course in critical theory',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13108','13092','kuali.term.parameter.type.free.text','must have completed HIST156.',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11013','11006','kuali.term.parameter.type.free.text','A course in critical theory',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13109','13093','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11086','11079','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13110','13094','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10896','10889','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13111','13095','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11143','11132','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13112','13096','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11172','11161','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13113','13097','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10966','10959','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13114','13098','kuali.term.parameter.type.course.cluSet.id','f42680f6-41de-4b94-b100-66e50baeb4cc',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10773','10764','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13115','13099','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11100','11092','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.math.elig',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13116','13100','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11156','11145','kuali.term.parameter.type.program.cluSet.id','75590bd4-7de2-4037-8a45-59323d2fdf72',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13117','13101','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10819','10809','kuali.term.parameter.type.org.id','9012742',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13118','13102','kuali.term.parameter.type.free.text','must have completed HIST157',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11026','11019','kuali.term.parameter.type.course.clu.id','30366277-9140-49e4-a767-f4b45a133e0c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13119','13103','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11027','11020','kuali.term.parameter.type.free.text','High school physics',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13120','13104','kuali.term.parameter.type.free.text','One English course in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11152','11141','kuali.term.parameter.type.course.cluSet.id','4ae90739-4013-447b-9a3a-1aececa2b964',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13121','13105','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10797','10788','kuali.term.parameter.type.course.clu.id','8af491cf-9c23-409e-adc8-dc184dcbced6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13178','13162','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10836','10825','kuali.term.parameter.type.course.cluSet.id','cbc17b3d-1a75-414a-8f3b-580a02360a2f',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13179','13163','kuali.term.parameter.type.free.text','Must have completed CHEM233 and CHEM243.',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11072','11065','kuali.term.parameter.type.course.cluSet.id','32a6177a-993d-4c35-9eff-2b3177e452a4',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13180','13164','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11009','11002','kuali.term.parameter.type.org.id','9012742',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13181','13165','kuali.term.parameter.type.free.text','must have completed HIST157',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11123','11115','kuali.term.parameter.type.org.id','9012742',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13182','13166','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10973','10966','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13283','13267','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10812','10802','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13006','12988','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10911','10904','kuali.term.parameter.type.free.text','Must have completed two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13007','12989','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11075','11068','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13286','13270','kuali.term.parameter.type.course.clu.id','1f99f4f2-7be0-4e77-80ad-ce9fe1d66202',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10792','10783','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13287','13271','kuali.term.parameter.type.course.cluSet.id','0513ec18-e77b-49df-a529-54aa12ee55ef',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10789','10780','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13288','13272','kuali.term.parameter.type.course.cluSet.id','e914f45e-d193-4a9d-abbf-a35d70d7cfd4',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10795','10786','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13289','13273','kuali.term.parameter.type.course.cluSet.id','3af50a5f-52e5-4e1b-b824-17a806d89786',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10932','10925','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13290','13274','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.prefix.credits.completed.nof',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10964','10957','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13291','13275','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10965','10958','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13292','13276','kuali.term.parameter.type.course.clu.id','a153b3b5-1c50-4c20-b4b6-9ac74a99a30d',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11167','11156','kuali.term.parameter.type.course.clu.id','743e00fa-f996-436b-bbe7-f8a1ace62898',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13293','13277','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11140','11130','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13294','13278','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11141','11130','kuali.term.parameter.type.course.cluSet.id','47649970-a003-4c45-9693-6679d93581ca',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13295','13279','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11044','11036','kuali.term.parameter.type.course.clu.id','c6e9f035-404a-445b-bb00-0c4289ef3701',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13296','13280','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10946','10939','kuali.term.parameter.type.course.clu.id','3c14f5b5-12ea-4d2b-b556-dc19c7bb5aa3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13297','13281','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10921','10914','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13298','13282','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10979','10972','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13299','13283','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10823','10813','kuali.term.parameter.type.program.cluSet.id','1826fd1d-d382-472b-af96-cabba5440b10',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13300','13284','kuali.term.parameter.type.course.cluSet.id','e0cb859b-9000-47fd-a3cf-7fc9c24df367',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11046','11038','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13301','13285','kuali.term.parameter.type.course.clu.id','6cff7779-174c-40c2-9c62-1b1c4a823734',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11053','11045','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13302','13286','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10720','10710','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13303','13287','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10722','10712','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13304','13287','kuali.term.parameter.type.course.cluSet.id','039dd9cc-d12e-458b-866f-e7684c490674',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11191','11180','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13305','13288','kuali.term.parameter.type.course.clu.id','0989a5fe-bfc6-4fe0-8ca7-2108d867491c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11212','11208','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13306','13289','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11195','11185','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13307','13290','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10745','10736','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13308','13291','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11059','11051','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13309','13292','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10960','10953','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13417','13403','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11215','11212','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13418','13404','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11088','11081','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13419','13405','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10992','10985','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13420','13407','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10882','10873','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13421','13408','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10971','10964','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13422','13409','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11175','11164','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13423','13411','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11173','11162','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13424','13412','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10862','10850','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13425','13413','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10768','10759','kuali.term.parameter.type.program.cluSet.id','fbf03658-4532-400b-b157-e4bbaa306c08',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13426','13414','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10771','10762','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13427','13415','kuali.term.parameter.type.free.text','must have completed HIST156',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10920','10913','kuali.term.parameter.type.course.clu.id','30366277-9140-49e4-a767-f4b45a133e0c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13428','13416','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11151','11140','kuali.term.parameter.type.course.cluSet.id','4ae90739-4013-447b-9a3a-1aececa2b964',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13429','13417','kuali.term.parameter.type.course.clu.id','c8dd1b36-b354-4790-8516-2cb2cc4f5660',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10839','10828','kuali.term.parameter.type.course.cluSet.id','cbc17b3d-1a75-414a-8f3b-580a02360a2f',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13430','13418','kuali.term.parameter.type.program.cluSet.id','bb9a8011-4efa-425b-a0bc-a69a8f88ff8d',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10841','10830','kuali.term.parameter.type.course.clu.id','6eaf5f60-e52f-44b7-b80c-95797aea3ac6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13431','13419','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10977','10970','kuali.term.parameter.type.org.id','9012742',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13432','13420','kuali.term.parameter.type.free.text','must have completed HIST156 or HIST157',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10935','10928','kuali.term.parameter.type.course.clu.id','0ebd57aa-0c14-4c34-808e-f96e4d53173c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13433','13421','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10903','10896','kuali.term.parameter.type.course.cluSet.id','f42680f6-41de-4b94-b100-66e50baeb4cc',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13284','13268','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10926','10919','kuali.term.parameter.type.course.clu.id','461232e9-65d5-4772-84ad-945ab91075d6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13285','13269','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10912','10905','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13346','13329','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11187','11176','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13347','13329','kuali.term.parameter.type.course.cluSet.id','74de3880-624f-48cf-bf04-bd1ecfc6f204',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11183','11172','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13348','13330','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10738','10730','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.prefix.courses.completed.nof',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13349','13330','kuali.term.parameter.type.course.cluSet.id','fa4fed31-cf28-4cd0-b125-3445e3302b94',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10955','10948','kuali.term.parameter.type.course.clu.id','6415e84e-92cc-44f8-bda3-2f840b50feec',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13350','13331','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10833','10822','kuali.term.parameter.type.free.text','For College Park Scholars - Life Sciences students only',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13351','13331','kuali.term.parameter.type.course.cluSet.id','47649970-a003-4c45-9693-6679d93581ca',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10844','10833','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13352','13332','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10845','10833','kuali.term.parameter.type.course.cluSet.id','14cc4043-f0cc-44fb-8c40-40cd4372cd10',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13353','13333','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10846','10834','kuali.term.parameter.type.course.cluSet.id','192b03ad-075d-4a1d-84dd-774dec6e314e',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13354','13334','kuali.term.parameter.type.program.cluSet.id','45111cce-0a10-451c-bd26-067d1a0d7d74',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10727','10719','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13355','13335','kuali.term.parameter.type.course.cluSet.id','c08123af-3498-4f95-850d-16b3ed6fff25',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11078','11071','kuali.term.parameter.type.course.cluSet.id','e914f45e-d193-4a9d-abbf-a35d70d7cfd4',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13356','13336','kuali.term.parameter.type.course.clu.id','743e00fa-f996-436b-bbe7-f8a1ace62898',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11190','11179','kuali.term.parameter.type.course.clu.id','0f549e4c-b201-4d53-8aed-3a0e86bc7492',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13357','13337','kuali.term.parameter.type.free.text','Must have completed two semesters of chemistry',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11039','11031','kuali.term.parameter.type.free.text','Must have completed CHEM233',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13358','13338','kuali.term.parameter.type.course.clu.id','0989a5fe-bfc6-4fe0-8ca7-2108d867491c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10984','10977','kuali.term.parameter.type.course.clu.id','2a97b4ac-1cbf-4b0d-979d-cab6f24a26c9',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13359','13339','kuali.term.parameter.type.course.clu.id','ffcc4b93-14fe-4655-95c0-226ddf1e9e0f',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11104','11096','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13360','13340','kuali.term.parameter.type.course.cluSet.id','4ae90739-4013-447b-9a3a-1aececa2b964',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10830','10820','kuali.term.parameter.type.course.cluSet.id','0cab1671-b09b-4a9f-99a5-3ddf57361392',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13361','13341','kuali.term.parameter.type.course.clu.id','ffcc4b93-14fe-4655-95c0-226ddf1e9e0f',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10801','10792','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13362','13342','kuali.term.parameter.type.course.cluSet.id','4ae90739-4013-447b-9a3a-1aececa2b964',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10802','10792','kuali.term.parameter.type.course.cluSet.id','d8478c18-b99e-4e05-ac2a-a5623ed506fb',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13368','13348','kuali.term.parameter.type.course.clu.id','a153b3b5-1c50-4c20-b4b6-9ac74a99a30d',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10880','10871','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13369','13349','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10877','10868','kuali.term.parameter.type.org.id','4284516367',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13370','13350','kuali.term.parameter.type.program.cluSet.id','65eedeae-d63a-4b21-a864-e247b786a150',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10878','10869','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13371','13351','kuali.term.parameter.type.program.cluSet.id','6300db00-4957-47c9-aef4-591bc114e015',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10826','10816','kuali.term.parameter.type.course.clu.id','3c14f5b5-12ea-4d2b-b556-dc19c7bb5aa3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13372','13352','kuali.term.parameter.type.free.text','Must be in the English minor',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11117','11109','kuali.term.parameter.type.course.cluSet.id','01c9b77e-9aaa-4c3e-a6b5-a20db8ccc207',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13373','13353','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11125','11117','kuali.term.parameter.type.course.clu.id','e25fa565-70df-4324-8cbe-79bf154260be',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12942','12926','kuali.term.parameter.type.course.cluSet.id','6a314b5d-9c2f-470a-9c9b-0e870e59c0d0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10905','10898','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12943','12927','kuali.term.parameter.type.org.id','9012742',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11034','11026','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12944','12928','kuali.term.parameter.type.org.id','9012742',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10978','10971','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12945','12929','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11129','11121','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12946','12930','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11127','11119','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12947','12931','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11130','11122','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12948','12932','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.prefix.courses.completed.nof',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11128','11120','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12949','12933','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11068','11060','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12950','12934','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10887','10879','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12951','12934','kuali.term.parameter.type.course.cluSet.id','e4f1a5b6-b35c-4a0e-8a6e-1326ceccbd6d',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10867','10855','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12952','12935','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10864','10852','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12953','12935','kuali.term.parameter.type.course.cluSet.id','e4f1a5b6-b35c-4a0e-8a6e-1326ceccbd6d',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11211','11206','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12954','12936','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.recommended.completed',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10869','10860','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12955','12937','kuali.term.parameter.type.course.clu.id','8a19e520-93d8-409e-b104-fbe75b460ac1',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10746','10737','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12956','12938','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11118','11110','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12957','12939','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10959','10952','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12958','12940','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10787','10778','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12959','12941','kuali.term.parameter.type.course.clu.id','0989a5fe-bfc6-4fe0-8ca7-2108d867491c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10910','10903','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12960','12942','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10914','10907','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12961','12943','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10939','10932','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12962','12944','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.prefix.courses.completed.nof',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10991','10984','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12963','12945','kuali.term.parameter.type.free.text','Must have completed a course cross-listed with a WMST course',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10759','10750','kuali.term.parameter.type.program.cluSet.id','44f5dac3-9699-4f28-bf1b-51e3fd95a1c5',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12964','12946','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11101','11093','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12965','12947','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11062','11054','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12966','12948','kuali.term.parameter.type.course.clu.id','6d93b357-91cf-49e6-acc2-8864baa09ad3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10897','10890','kuali.term.parameter.type.free.text','must have completed HIST156.',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12967','12949','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10907','10900','kuali.term.parameter.type.free.text','must have completed HIST157',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12968','12950','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11024','11017','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.recommended.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12969','12951','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10859','10847','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12970','12952','kuali.term.parameter.type.course.cluSet.id','da12e2f7-ebe0-4189-aff8-dd9e2aba2496',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10847','10835','kuali.term.parameter.type.course.clu.id','2368cf15-6c9f-4227-85a5-dfa9ca9e65a0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12971','12953','kuali.term.parameter.type.course.cluSet.id','c3faace1-a86e-4ba0-a1fd-b18bd8a0fc95',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10858','10846','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12972','12954','kuali.term.parameter.type.program.cluSet.id','44f5dac3-9699-4f28-bf1b-51e3fd95a1c5',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11000','10993','kuali.term.parameter.type.course.cluSet.id','a6d61113-871f-4552-9ea7-db3754305055',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12973','12955','kuali.term.parameter.type.free.text','Candidacy for honors in English',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10785','10776','kuali.term.parameter.type.course.cluSet.id','e7648ef6-dd34-470a-aa6f-268484a16d5a',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12974','12956','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11122','11114','kuali.term.parameter.type.course.clu.id','69eb3e54-5951-461b-a7d7-0d9c63b3cbf9',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12975','12957','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10809','10799','kuali.term.parameter.type.course.clu.id','d1baa980-8639-4577-aa4d-338558b9a17c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12976','12958','kuali.term.parameter.type.course.cluSet.id','f072ed5d-2a39-424d-bac4-f0081e1cf4bb',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10810','10800','kuali.term.parameter.type.org.id','9012742',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12977','12959','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11042','11034','kuali.term.parameter.type.course.cluSet.id','fce381c8-55b8-41d3-9fcb-6f05b44ffff7',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12978','12960','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11113','11105','kuali.term.parameter.type.free.text','Must have an outstanding undergraduate background in physics',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12979','12961','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10883','10874','kuali.term.parameter.type.course.clu.id','62c72bdc-42a8-48b2-8c04-f56239c3b5c1',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12980','12962','kuali.term.parameter.type.program.cluSet.id','fbf03658-4532-400b-b157-e4bbaa306c08',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10851','10839','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12981','12963','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10871','10862','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.prefix.credits.completed.nof',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12982','12964','kuali.term.parameter.type.program.cluSet.id','fbf03658-4532-400b-b157-e4bbaa306c08',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10972','10965','kuali.term.parameter.type.free.text','Must have completed at least one lower-level English literature course and one other lower-level English course',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12983','12965','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10974','10967','kuali.term.parameter.type.free.text','Must have completed at least one lower-level English literature course and one other lower-level English course',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12984','12966','kuali.term.parameter.type.program.cluSet.id','fbf03658-4532-400b-b157-e4bbaa306c08',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11056','11048','kuali.term.parameter.type.free.text','Must have completed prior coursework in Middle East studies or gender studies',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12985','12967','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10873','10864','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12986','12968','kuali.term.parameter.type.course.clu.id','d16f1ecb-d793-4520-91f4-b4c4b7357c54',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11182','11171','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12987','12969','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11181','11170','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12988','12969','kuali.term.parameter.type.course.cluSet.id','cb23862a-f8c0-486b-9902-8fb23d5bc9a6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10739','10731','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12989','12970','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10950','10943','kuali.term.parameter.type.org.id','4269648307',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12990','12970','kuali.term.parameter.type.course.cluSet.id','27b5b42d-c34f-46e9-bb27-cf2d403322f2',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10794','10785','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12991','12971','kuali.term.parameter.type.program.cluSet.id','31c363b8-9611-4c07-ae83-65061a65d701',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10790','10781','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12992','12972','kuali.term.parameter.type.free.text','An introductory course in critical theory',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10728','10720','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12993','12973','kuali.term.parameter.type.course.clu.id','7acbe5d7-9dda-4d7b-9bb7-e82296ac5b8c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11065','11057','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12994','12974','kuali.term.parameter.type.course.clu.id','461232e9-65d5-4772-84ad-945ab91075d6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10923','10916','kuali.term.parameter.type.course.clu.id','0f549e4c-b201-4d53-8aed-3a0e86bc7492',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12995','12975','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10924','10917','kuali.term.parameter.type.free.text','Must have completed CHEM233',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12996','12977','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11158','11147','kuali.term.parameter.type.course.clu.id','a153b3b5-1c50-4c20-b4b6-9ac74a99a30d',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12997','12979','kuali.term.parameter.type.course.cluSet.id','e7648ef6-dd34-470a-aa6f-268484a16d5a',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10963','10956','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12998','12980','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11105','11097','kuali.term.parameter.type.course.clu.id','0f549e4c-b201-4d53-8aed-3a0e86bc7492',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12999','12981','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11016','11009','kuali.term.parameter.type.free.text','Must have completed CHEM233',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13000','12982','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11036','11028','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13001','12983','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11025','11018','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13002','12984','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10968','10961','kuali.term.parameter.type.free.text','Must have completed CHEM233 and CHEM243.',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13003','12985','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11116','11108','kuali.term.parameter.type.course.clu.id','2b0a936d-0e2e-44a9-aeb1-ba33063baf96',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13004','12986','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11018','11011','kuali.term.parameter.type.course.clu.id','265f0fc4-9cfb-49cc-9c69-5f21b1109ccd',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13005','12987','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11021','11014','kuali.term.parameter.type.free.text','A grade of C- or better in the prerequisites is required for College of Computer, Mathematical, and Natural Sciences majors and recommended for all students',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13087','13069','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10879','10870','kuali.term.parameter.type.org.id','4284516367',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13088','13070','kuali.term.parameter.type.org.id','4284516367',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11109','11101','kuali.term.parameter.type.course.cluSet.id','fc61a323-4432-4c0d-be2d-e480524462d4',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13089','13071','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11037','11029','kuali.term.parameter.type.course.clu.id','75a23193-a4e9-440a-82e5-dfc8a7d629b5',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13090','13072','kuali.term.parameter.type.org.id','4284516367',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10724','10716','kuali.term.parameter.type.program.cluSet.id','2353a482-3b81-4fb9-947a-9ee35c18d519',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13091','13073','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10756','10747','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13092','13074','kuali.term.parameter.type.org.id','4284516367',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10799','10790','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13093','13075','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10962','10955','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13094','13076','kuali.term.parameter.type.course.clu.id','62c72bdc-42a8-48b2-8c04-f56239c3b5c1',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10824','10814','kuali.term.parameter.type.course.clu.id','ef12819c-24e9-4b08-ab92-04e8bb26261b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13122','13106','kuali.term.parameter.type.free.text','Must have completed two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11052','11044','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13123','13107','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10886','10878','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13124','13108','kuali.term.parameter.type.course.clu.id','461232e9-65d5-4772-84ad-945ab91075d6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10868','10856','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13125','13109','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10865','10853','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13126','13110','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10863','10851','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13127','13111','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11192','11181','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13128','13112','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11199','11189','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13129','13113','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.recommended.completed',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11198','11188','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13130','13114','kuali.term.parameter.type.course.cluSet.id','9562ba90-ff79-40db-baf9-3a384d79eeb3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10933','10926','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13131','13115','kuali.term.parameter.type.course.clu.id','30366277-9140-49e4-a767-f4b45a133e0c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10909','10902','kuali.term.parameter.type.free.text','One English course in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13132','13116','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10990','10983','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13133','13117','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11111','11103','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13134','13118','kuali.term.parameter.type.course.clu.id','0f549e4c-b201-4d53-8aed-3a0e86bc7492',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10945','10938','kuali.term.parameter.type.free.text','Departmental approval of research project',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13135','13119','kuali.term.parameter.type.free.text','Must have completed CHEM233',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11085','11078','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13136','13120','kuali.term.parameter.type.course.cluSet.id','e42ecc7e-4757-47fb-a1c6-d95a11068593',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10749','10740','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13137','13121','kuali.term.parameter.type.course.clu.id','461232e9-65d5-4772-84ad-945ab91075d6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11223','11220','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13138','13122','kuali.term.parameter.type.course.cluSet.id','dba98d72-c1dd-4096-8605-cf642a4f6774',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10969','10962','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13139','13123','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.enrolled.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10995','10988','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13140','13124','kuali.term.parameter.type.course.cluSet.id','e20fc6c5-c2e2-42db-a9ea-6d9b36460439',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11178','11167','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13141','13125','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11176','11165','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13142','13126','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.recommended.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10943','10936','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13143','13127','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11055','11047','kuali.term.parameter.type.free.text','Must have completed prior coursework in Middle East studies or gender studies',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13144','13128','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10861','10849','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13145','13129','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10860','10848','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13164','13148','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10982','10975','kuali.term.parameter.type.course.clu.id','515df57a-b171-43ed-a2c6-badaf47b348a',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13165','13149','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11061','11053','kuali.term.parameter.type.course.clu.id','06611716-590a-4193-94b6-464e08763648',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13166','13150','kuali.term.parameter.type.course.clu.id','6415e84e-92cc-44f8-bda3-2f840b50feec',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10817','10807','kuali.term.parameter.type.course.clu.id','30366277-9140-49e4-a767-f4b45a133e0c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13167','13151','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11150','11139','kuali.term.parameter.type.course.clu.id','ffcc4b93-14fe-4655-95c0-226ddf1e9e0f',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13168','13152','kuali.term.parameter.type.course.cluSet.id','279b36e8-e0c9-4524-906d-0b61e35e6db1',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10798','10789','kuali.term.parameter.type.course.clu.id','8af491cf-9c23-409e-adc8-dc184dcbced6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13169','13153','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10837','10826','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13170','13154','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10834','10823','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13171','13155','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10835','10824','kuali.term.parameter.type.course.clu.id','951a8ea0-94d2-449a-8741-83e3dcffddf3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13172','13156','kuali.term.parameter.type.free.text','Must have completed two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10842','10831','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13173','13157','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11071','11064','kuali.term.parameter.type.course.clu.id','8a246144-4da9-4cc1-aea4-85f61597bf9c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13174','13158','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10857','10845','kuali.term.parameter.type.course.cluSet.id','b95cb76d-857d-48fd-aece-44001ab364df',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13175','13159','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10854','10842','kuali.term.parameter.type.course.clu.id','6cff7779-174c-40c2-9c62-1b1c4a823734',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13176','13160','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11043','11035','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13177','13161','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10744','10735','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13198','13182','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11032','11024','kuali.term.parameter.type.course.cluSet.id','e301bea7-0fad-459a-9447-b5432d50641c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13199','13183','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11057','11049','kuali.term.parameter.type.course.clu.id','92a27ea5-5746-445d-883d-726de52b4a1b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13200','13184','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11090','11083','kuali.term.parameter.type.course.cluSet.id','e0cb859b-9000-47fd-a3cf-7fc9c24df367',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13201','13185','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10821','10811','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13202','13186','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11188','11177','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13203','13187','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11185','11174','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13204','13188','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11005','10998','kuali.term.parameter.type.free.text','Must be a current WMST teaching assistant',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13205','13189','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11163','11152','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13206','13190','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11145','11134','kuali.term.parameter.type.course.cluSet.id','c08123af-3498-4f95-850d-16b3ed6fff25',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13207','13191','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10855','10843','kuali.term.parameter.type.course.cluSet.id','cf6f1431-e918-489a-9893-35b5b4d36ff9',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13208','13192','kuali.term.parameter.type.course.cluSet.id','3e7aa9f0-6fed-42dc-81bb-435a69f7b2ce',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10747','10738','kuali.term.parameter.type.course.clu.id','0989a5fe-bfc6-4fe0-8ca7-2108d867491c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13209','13193','kuali.term.parameter.type.course.cluSet.id','a6d61113-871f-4552-9ea7-db3754305055',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11148','11137','kuali.term.parameter.type.course.clu.id','0989a5fe-bfc6-4fe0-8ca7-2108d867491c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13210','13194','kuali.term.parameter.type.course.cluSet.id','3e7aa9f0-6fed-42dc-81bb-435a69f7b2ce',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11081','11074','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13211','13195','kuali.term.parameter.type.course.cluSet.id','a6d61113-871f-4552-9ea7-db3754305055',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11124','11116','kuali.term.parameter.type.course.clu.id','0989a5fe-bfc6-4fe0-8ca7-2108d867491c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13212','13196','kuali.term.parameter.type.course.cluSet.id','ee4b44d2-40fc-4402-a8ab-bc7247c5e67f',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11030','11022','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13213','13197','kuali.term.parameter.type.free.text','Must be in History Honors program.',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11014','11007','kuali.term.parameter.type.course.clu.id','4c1056a0-8ac2-489d-8457-986c6f419eca',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13229','13213','kuali.term.parameter.type.course.clu.id','265f0fc4-9cfb-49cc-9c69-5f21b1109ccd',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11017','11010','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13230','13214','kuali.term.parameter.type.course.cluSet.id','b009038d-b950-4009-ab44-41d88afe661b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11136','11128','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13231','13215','kuali.term.parameter.type.course.clu.id','8aa10ba6-9941-4241-8c04-ffb4ffde49f6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11137','11128','kuali.term.parameter.type.course.cluSet.id','74de3880-624f-48cf-bf04-bd1ecfc6f204',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13232','13216','kuali.term.parameter.type.free.text','A grade of C- or better in the prerequisites is required for College of Computer, Mathematical, and Natural Sciences majors and recommended for all students',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10831','10821','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13233','13217','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10832','10821','kuali.term.parameter.type.course.cluSet.id','f61fa77c-9a87-4db1-8d33-5b8bca4322be',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13234','13218','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.recommended.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11164','11153','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13235','13219','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.recommended.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11165','11154','kuali.term.parameter.type.org.id','4112787133',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13236','13220','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10775','10766','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13237','13221','kuali.term.parameter.type.course.clu.id','30366277-9140-49e4-a767-f4b45a133e0c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10776','10766','kuali.term.parameter.type.course.cluSet.id','cb23862a-f8c0-486b-9902-8fb23d5bc9a6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13238','13222','kuali.term.parameter.type.free.text','High school physics',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10779','10768','kuali.term.parameter.type.program.cluSet.id','31c363b8-9611-4c07-ae83-65061a65d701',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13239','13223','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10876','10867','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13240','13223','kuali.term.parameter.type.course.cluSet.id','e5d23049-37fc-450c-b4fa-5831ddcf012e',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11107','11099','kuali.term.parameter.type.free.text','Must have completed CHEM243',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13241','13224','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10957','10950','kuali.term.parameter.type.course.cluSet.id','279b36e8-e0c9-4524-906d-0b61e35e6db1',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13242','13225','kuali.term.parameter.type.free.text','Must have completed coursework in advanced calculus',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10947','10940','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13243','13226','kuali.term.parameter.type.course.cluSet.id','e301bea7-0fad-459a-9447-b5432d50641c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11160','11149','kuali.term.parameter.type.program.cluSet.id','65eedeae-d63a-4b21-a864-e247b786a150',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13244','13227','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10762','10753','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13245','13228','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10763','10754','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13246','13229','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10922','10915','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13247','13230','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10954','10947','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13310','13293','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.math.elig',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11132','11124','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13311','13294','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10885','10876','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13312','13295','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11201','11191','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13313','13296','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11196','11186','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13314','13297','kuali.term.parameter.type.course.clu.id','0f549e4c-b201-4d53-8aed-3a0e86bc7492',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11200','11190','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13315','13298','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11194','11184','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13316','13299','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11207','11198','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13317','13300','kuali.term.parameter.type.free.text','Must have completed CHEM243',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11197','11187','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13318','13301','kuali.term.parameter.type.course.clu.id','8aa10ba6-9941-4241-8c04-ffb4ffde49f6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10934','10927','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13319','13302','kuali.term.parameter.type.course.cluSet.id','fc61a323-4432-4c0d-be2d-e480524462d4',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11103','11095','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13320','13303','kuali.term.parameter.type.course.clu.id','1b5db06d-92d3-4913-aeb6-01266cec1927',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10915','10908','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13321','13304','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11112','11104','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13322','13305','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11087','11080','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13323','13306','kuali.term.parameter.type.free.text','Must have an outstanding undergraduate background in physics',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11063','11055','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13324','13307','kuali.term.parameter.type.course.clu.id','2b0a936d-0e2e-44a9-aeb1-ba33063baf96',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10748','10739','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13325','13308','kuali.term.parameter.type.course.clu.id','2b0a936d-0e2e-44a9-aeb1-ba33063baf96',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11010','11003','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13326','13309','kuali.term.parameter.type.course.clu.id','2b0a936d-0e2e-44a9-aeb1-ba33063baf96',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11011','11004','kuali.term.parameter.type.free.text','must have completed HIST156.',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13327','13310','kuali.term.parameter.type.course.cluSet.id','01c9b77e-9aaa-4c3e-a6b5-a20db8ccc207',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11012','11005','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13328','13311','kuali.term.parameter.type.course.clu.id','8682bdc7-bded-4056-8f86-eae722254f7e',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11222','11219','kuali.term.parameter.type.free.text','must have completed HIST156 or HIST157',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13329','13312','kuali.term.parameter.type.free.text','Two English courses (excluding fundamental studies requirement)',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10906','10899','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13330','13313','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11171','11160','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13331','13314','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11177','11166','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13332','13315','kuali.term.parameter.type.course.clu.id','69eb3e54-5951-461b-a7d7-0d9c63b3cbf9',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11174','11163','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13333','13316','kuali.term.parameter.type.org.id','9012742',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10769','10760','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13334','13317','kuali.term.parameter.type.course.clu.id','0989a5fe-bfc6-4fe0-8ca7-2108d867491c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10770','10761','kuali.term.parameter.type.program.cluSet.id','fbf03658-4532-400b-b157-e4bbaa306c08',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13335','13318','kuali.term.parameter.type.course.clu.id','e25fa565-70df-4324-8cbe-79bf154260be',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10764','10755','kuali.term.parameter.type.course.cluSet.id','f072ed5d-2a39-424d-bac4-f0081e1cf4bb',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13336','13319','kuali.term.parameter.type.course.clu.id','75a23193-a4e9-440a-82e5-dfc8a7d629b5',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11099','11091','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13337','13320','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10815','10805','kuali.term.parameter.type.org.id','9012742',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13338','13321','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10838','10827','kuali.term.parameter.type.course.clu.id','951a8ea0-94d2-449a-8741-83e3dcffddf3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13339','13322','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10852','10840','kuali.term.parameter.type.course.clu.id','6d93b357-91cf-49e6-acc2-8864baa09ad3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13340','13323','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10919','10912','kuali.term.parameter.type.course.cluSet.id','9562ba90-ff79-40db-baf9-3a384d79eeb3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13341','13324','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10732','10724','kuali.term.parameter.type.course.cluSet.id','6a314b5d-9c2f-470a-9c9b-0e870e59c0d0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13342','13325','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10733','10725','kuali.term.parameter.type.org.id','9012742',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13343','13326','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10936','10929','kuali.term.parameter.type.course.cluSet.id','a4a7cb46-9e39-4e9a-a091-f9ddc9382aad',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13344','13327','kuali.term.parameter.type.free.text','One semester of graduate study in chemistry',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10743','10734','kuali.term.parameter.type.course.clu.id','8a19e520-93d8-409e-b104-fbe75b460ac1',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13345','13328','kuali.term.parameter.type.free.text','Restricted to students in the non-thesis M.S. option',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11031','11023','kuali.term.parameter.type.free.text','Must have completed coursework in advanced calculus',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13363','13343','kuali.term.parameter.type.course.clu.id','743e00fa-f996-436b-bbe7-f8a1ace62898',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10782','10771','kuali.term.parameter.type.course.clu.id','461232e9-65d5-4772-84ad-945ab91075d6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13364','13344','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10825','10815','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13365','13345','kuali.term.parameter.type.course.clu.id','6588e98b-afcd-4f4a-a4b4-7b9eb9c4d1df',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11095','11087','kuali.term.parameter.type.course.clu.id','0989a5fe-bfc6-4fe0-8ca7-2108d867491c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13366','13346','kuali.term.parameter.type.program.cluSet.id','75590bd4-7de2-4037-8a45-59323d2fdf72',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11096','11088','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13367','13347','kuali.term.parameter.type.free.text','High School Physics',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11080','11073','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.prefix.credits.completed.nof',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13374','13354','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10742','10733','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.recommended.completed',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13375','13355','kuali.term.parameter.type.org.id','4112787133',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11038','11030','kuali.term.parameter.type.course.cluSet.id','21b9f6f3-7d6c-422b-9d25-1e4ec113df4b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13376','13356','kuali.term.parameter.type.free.text','Permission of Study Abroad Office required',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11015','11008','kuali.term.parameter.type.course.cluSet.id','2ad370f0-36a2-4487-9ad9-9050812535cb',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13377','13357','kuali.term.parameter.type.course.clu.id','743e00fa-f996-436b-bbe7-f8a1ace62898',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10967','10960','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13378','13358','kuali.term.parameter.type.free.text','Must have completed CHEM233.',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11028','11021','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13379','13359','kuali.term.parameter.type.course.cluSet.id','a6ad4f4c-b41f-4c91-b74f-6a714cbff75c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11029','11021','kuali.term.parameter.type.course.cluSet.id','e5d23049-37fc-450c-b4fa-5831ddcf012e',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13380','13360','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11022','11015','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13381','13361','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10892','10885','kuali.term.parameter.type.course.clu.id','0f549e4c-b201-4d53-8aed-3a0e86bc7492',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13382','13362','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10803','10793','kuali.term.parameter.type.org.id','4284516367',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13383','13363','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10874','10865','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13384','13364','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10875','10866','kuali.term.parameter.type.org.id','4284516367',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13385','13365','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10976','10969','kuali.term.parameter.type.free.text','Must have completed one year of college chemistry and one year of college physics',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13386','13366','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10849','10837','kuali.term.parameter.type.course.clu.id','3c14f5b5-12ea-4d2b-b556-dc19c7bb5aa3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13387','13367','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10948','10941','kuali.term.parameter.type.free.text','Restricted to graduate students or advanced undergraduates with prerequisites',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13388','13368','kuali.term.parameter.type.program.cluSet.id','dcc6c79c-6fe1-4592-9396-d57f296cd990',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10918','10911','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.recommended.completed',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13389','13369','kuali.term.parameter.type.course.cluSet.id','3bd48ba5-2d6f-4d24-b335-2f482441e1f4',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11161','11150','kuali.term.parameter.type.program.cluSet.id','6300db00-4957-47c9-aef4-591bc114e015',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13390','13370','kuali.term.parameter.type.free.text','Must have completed CHEM233',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10758','10749','kuali.term.parameter.type.course.cluSet.id','da12e2f7-ebe0-4189-aff8-dd9e2aba2496',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13391','13371','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10807','10797','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13392','13372','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10980','10973','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13393','13373','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10981','10974','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13394','13374','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10900','10893','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13395','13375','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11048','11040','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13396','13376','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11049','11041','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13397','13377','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11050','11042','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13398','13378','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11131','11123','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13399','13379','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11069','11061','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13400','13380','kuali.term.parameter.type.course.clu.id','0f549e4c-b201-4d53-8aed-3a0e86bc7492',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11070','11063','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13401','13381','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10866','10854','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13402','13382','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10884','10875','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13403','13384','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11202','11192','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13404','13385','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11193','11183','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13405','13387','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11205','11195','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13406','13388','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10894','10887','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13407','13389','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10895','10888','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13408','13391','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11102','11094','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13409','13392','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10736','10728','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13410','13393','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10987','10980','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13411','13395','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11166','11155','kuali.term.parameter.type.free.text','Permission of Study Abroad Office required',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13412','13396','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11217','11214','kuali.term.parameter.type.free.text','must have completed HIST156',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13413','13397','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11218','11215','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13414','13399','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10942','10935','kuali.term.parameter.type.free.text','must have completed HIST156',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13415','13400','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10848','10836','kuali.term.parameter.type.free.text','Permission of Museum Scholarship Program required',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13416','13401','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10765','10756','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12930','12912','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11076','11069','kuali.term.parameter.type.course.clu.id','1f99f4f2-7be0-4e77-80ad-ce9fe1d66202',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12931','12913','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10890','10883','kuali.term.parameter.type.course.clu.id','ffcc4b93-14fe-4655-95c0-226ddf1e9e0f',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12932','12915','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10997','10990','kuali.term.parameter.type.course.cluSet.id','3e7aa9f0-6fed-42dc-81bb-435a69f7b2ce',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12933','12916','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11091','11084','kuali.term.parameter.type.course.clu.id','6cff7779-174c-40c2-9c62-1b1c4a823734',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12934','12918','kuali.term.parameter.type.program.cluSet.id','2353a482-3b81-4fb9-947a-9ee35c18d519',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10937','10930','kuali.term.parameter.type.course.clu.id','6cff7779-174c-40c2-9c62-1b1c4a823734',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12935','12919','kuali.term.parameter.type.free.text','Must be a new graduate student',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10913','10906','kuali.term.parameter.type.course.clu.id','461232e9-65d5-4772-84ad-945ab91075d6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12936','12920','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10822','10812','kuali.term.parameter.type.program.cluSet.id','a3831cde-80ff-4209-8e3e-90d683546918',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12937','12921','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11189','11178','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12938','12922','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11184','11173','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12939','12923','kuali.term.parameter.type.course.cluSet.id','f9b1d3a9-ad34-4d2e-97cc-c45c4cd3eb89',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11159','11148','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12940','12924','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11003','10996','kuali.term.parameter.type.org.id','1273172872',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('12941','12925','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11154','11143','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13009','12991','kuali.term.parameter.type.course.clu.id','8af491cf-9c23-409e-adc8-dc184dcbced6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10949','10942','kuali.term.parameter.type.course.clu.id','e46453df-8acc-4d5c-968a-244bc9f286df',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13010','12992','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10927','10920','kuali.term.parameter.type.course.cluSet.id','dba98d72-c1dd-4096-8605-cf642a4f6774',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13011','12993','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10928','10921','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.enrolled.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13012','12994','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10793','10784','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13013','12994','kuali.term.parameter.type.course.cluSet.id','d8478c18-b99e-4e05-ac2a-a5623ed506fb',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10791','10782','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13014','12995','kuali.term.parameter.type.org.id','4284516367',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10783','10774','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13015','12996','kuali.term.parameter.type.program.cluSet.id','f9ac7323-03bb-4aaf-ad8a-89c06ce4a1fc',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11179','11168','kuali.term.parameter.type.course.cluSet.id','3bd48ba5-2d6f-4d24-b335-2f482441e1f4',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13016','12997','kuali.term.parameter.type.free.text','Must be an honors student',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10929','10922','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13017','12998','kuali.term.parameter.type.course.clu.id','6d93b357-91cf-49e6-acc2-8864baa09ad3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11106','11098','kuali.term.parameter.type.org.id','2341562453',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13018','12999','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11138','11129','kuali.term.parameter.type.grade.id','C-',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13019','13000','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11139','11129','kuali.term.parameter.type.course.cluSet.id','fa4fed31-cf28-4cd0-b125-3445e3302b94',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13020','13001','kuali.term.parameter.type.course.clu.id','d1baa980-8639-4577-aa4d-338558b9a17c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10856','10844','kuali.term.parameter.type.course.cluSet.id','f8c72364-b0fd-4df1-962a-bf59f1dea54c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13021','13002','kuali.term.parameter.type.org.id','9012742',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11040','11032','kuali.term.parameter.type.course.cluSet.id','c346f81b-7f14-4b9f-a23c-ed2029eec577',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13022','13003','kuali.term.parameter.type.free.text','Must have Learning Proposal approved by Women''s Studies Academic Advisor',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11220','11217','kuali.term.parameter.type.program.cluSet.id','bb9a8011-4efa-425b-a0bc-a69a8f88ff8d',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13023','13004','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10881','10872','kuali.term.parameter.type.org.id','4284516367',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13024','13005','kuali.term.parameter.type.course.clu.id','30366277-9140-49e4-a767-f4b45a133e0c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11126','11118','kuali.term.parameter.type.course.clu.id','75a23193-a4e9-440a-82e5-dfc8a7d629b5',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13025','13006','kuali.term.parameter.type.free.text','a high school physics course',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10958','10951','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13026','13007','kuali.term.parameter.type.org.id','9012742',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10725','10717','kuali.term.parameter.type.free.text','Must be a new graduate student',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13027','13008','kuali.term.parameter.type.course.cluSet.id','6dc1a13e-d4b0-48a7-a166-0ee60e411295',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11073','11066','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13028','13009','kuali.term.parameter.type.course.clu.id','30366277-9140-49e4-a767-f4b45a133e0c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10899','10892','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13029','13010','kuali.term.parameter.type.free.text','a high school physics course',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10902','10895','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13030','13011','kuali.term.parameter.type.org.id','9012742',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11047','11039','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13031','13012','kuali.term.parameter.type.course.cluSet.id','6dc1a13e-d4b0-48a7-a166-0ee60e411295',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10723','10713','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13032','13013','kuali.term.parameter.type.org.id','4014660630',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11203','11193','kuali.term.parameter.type.course.clu.id','64d318d2-15f3-4f00-aa38-8c40dee543b0',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13033','13014','kuali.term.parameter.type.program.cluSet.id','a3831cde-80ff-4209-8e3e-90d683546918',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10985','10978','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13034','13015','kuali.term.parameter.type.course.clu.id','ef12819c-24e9-4b08-ab92-04e8bb26261b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10737','10729','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13035','13016','kuali.term.parameter.type.program.cluSet.id','1826fd1d-d382-472b-af96-cabba5440b10',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10752','10743','kuali.term.parameter.type.free.text','Two lower-level English courses, at least one in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13036','13017','kuali.term.parameter.type.org.id','2341562453',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10731','10723','kuali.term.parameter.type.org.id','2677933260',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13037','13018','kuali.term.parameter.type.course.clu.id','3c14f5b5-12ea-4d2b-b556-dc19c7bb5aa3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10993','10986','kuali.term.parameter.type.free.text','Two English courses in literature',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13038','13019','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10761','10752','kuali.term.parameter.type.course.cluSet.id','c3faace1-a86e-4ba0-a1fd-b18bd8a0fc95',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13039','13020','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.completed.enrolled',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11083','11076','kuali.term.parameter.type.program.cluSet.id','08597942-b4f3-4a4f-a14e-e0ebfe2acb6b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13040','13021','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11170','11159','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13041','13022','kuali.term.parameter.type.course.cluSet.id','0cab1671-b09b-4a9f-99a5-3ddf57361392',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10898','10891','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13042','13023','kuali.term.parameter.type.grade.id','C-',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11221','11218','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13043','13023','kuali.term.parameter.type.course.cluSet.id','f61fa77c-9a87-4db1-8d33-5b8bca4322be',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10970','10963','kuali.term.parameter.type.free.text','must have completed HIST157',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13044','13024','kuali.term.parameter.type.free.text','For College Park Scholars - Life Sciences students only',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11002','10995','kuali.term.parameter.type.free.text','Must be in History Honors program.',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13045','13025','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11142','11131','kuali.term.parameter.type.org.id','3213375036',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13046','13026','kuali.term.parameter.type.course.clu.id','951a8ea0-94d2-449a-8741-83e3dcffddf3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11066','11058','kuali.term.parameter.type.course.clu.id','19399620-8be3-401f-98b4-15157fe8134f',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13047','13027','kuali.term.parameter.type.course.cluSet.id','cbc17b3d-1a75-414a-8f3b-580a02360a2f',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10772','10763','kuali.term.parameter.type.program.cluSet.id','fbf03658-4532-400b-b157-e4bbaa306c08',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13048','13028','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11157','11146','kuali.term.parameter.type.free.text','High School Physics',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13049','13029','kuali.term.parameter.type.course.clu.id','951a8ea0-94d2-449a-8741-83e3dcffddf3',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11155','11144','kuali.term.parameter.type.course.clu.id','6588e98b-afcd-4f4a-a4b4-7b9eb9c4d1df',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13050','13030','kuali.term.parameter.type.course.cluSet.id','cbc17b3d-1a75-414a-8f3b-580a02360a2f',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11060','11052','kuali.term.parameter.type.course.clu.id','951a8ea0-94d2-449a-8741-83e3dcffddf3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13066','13045','kuali.term.parameter.type.course.cluSet.id','cf6f1431-e918-489a-9893-35b5b4d36ff9',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10813','10803','kuali.term.parameter.type.course.clu.id','30366277-9140-49e4-a767-f4b45a133e0c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13067','13046','kuali.term.parameter.type.course.cluSet.id','f8c72364-b0fd-4df1-962a-bf59f1dea54c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10814','10804','kuali.term.parameter.type.free.text','a high school physics course',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13068','13047','kuali.term.parameter.type.course.cluSet.id','b95cb76d-857d-48fd-aece-44001ab364df',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11149','11138','kuali.term.parameter.type.course.clu.id','ffcc4b93-14fe-4655-95c0-226ddf1e9e0f',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13069','13048','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11077','11070','kuali.term.parameter.type.course.cluSet.id','0513ec18-e77b-49df-a529-54aa12ee55ef',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13070','13049','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10888','10881','kuali.term.parameter.type.course.clu.id','54414200-ea95-47dd-9718-1ec1d81f366b',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13071','13050','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10891','10884','kuali.term.parameter.type.course.clu.id','ffcc4b93-14fe-4655-95c0-226ddf1e9e0f',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13072','13051','kuali.term.parameter.type.org.id','3213375036',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10998','10991','kuali.term.parameter.type.course.cluSet.id','3e7aa9f0-6fed-42dc-81bb-435a69f7b2ce',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13101','13085','kuali.term.parameter.type.course.clu.id','54414200-ea95-47dd-9718-1ec1d81f366b',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10999','10992','kuali.term.parameter.type.course.cluSet.id','a6d61113-871f-4552-9ea7-db3754305055',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13102','13086','kuali.term.parameter.type.course.clu.id','ffcc4b93-14fe-4655-95c0-226ddf1e9e0f',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10853','10841','kuali.term.parameter.type.course.clu.id','8a246144-4da9-4cc1-aea4-85f61597bf9c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13103','13087','kuali.term.parameter.type.course.clu.id','0f549e4c-b201-4d53-8aed-3a0e86bc7492',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11092','11085','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13104','13088','kuali.term.parameter.type.org.id','4269648307',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10734','10726','kuali.term.parameter.type.org.id','9012742',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13105','13089','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10806','10796','kuali.term.parameter.type.course.clu.id','6d93b357-91cf-49e6-acc2-8864baa09ad3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13106','13090','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10754','10745','kuali.term.parameter.type.course.clu.id','6d93b357-91cf-49e6-acc2-8864baa09ad3',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13146','13130','kuali.term.parameter.type.course.clu.id','0ebd57aa-0c14-4c34-808e-f96e4d53173c',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11033','11025','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13147','13131','kuali.term.parameter.type.course.cluSet.id','a4a7cb46-9e39-4e9a-a091-f9ddc9382aad',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10938','10931','kuali.term.parameter.type.course.clu.id','461232e9-65d5-4772-84ad-945ab91075d6',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13148','13132','kuali.term.parameter.type.course.clu.id','6cff7779-174c-40c2-9c62-1b1c4a823734',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10781','10770','kuali.term.parameter.type.course.clu.id','7acbe5d7-9dda-4d7b-9bb7-e82296ac5b8c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13149','13133','kuali.term.parameter.type.course.clu.id','461232e9-65d5-4772-84ad-945ab91075d6',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10750','10741','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.prefix.courses.completed.nof',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13150','13134','kuali.term.parameter.type.free.text','Two English courses in literature',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11186','11175','kuali.term.parameter.type.org.id','4014660630',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13151','13135','kuali.term.parameter.type.org.id','2677933260',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('10956','10949','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13152','13136','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.courseset.completed.one',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11004','10997','kuali.term.parameter.type.course.clu.id','51802382-43e9-4bc5-b628-2eec467e9a3c',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13153','13137','kuali.term.parameter.type.free.text','must have completed HIST156',1)
 /
-Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('11007','11000','kuali.term.parameter.type.free.text','No mapping for: kuali.reqComponent.type.course.content.dept.contact',1)
+Insert into KRMS_TERM_PARM_T (TERM_PARM_ID,TERM_ID,NM,VAL,VER_NBR) values ('13154','13138','kuali.term.parameter.type.free.text','No term spec for proposition type: kuali.krms.proposition.type.freeform.text',1)
 /
