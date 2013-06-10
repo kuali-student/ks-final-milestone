@@ -271,6 +271,7 @@
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionTL.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/CollectionSL.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/Toolbar.xml</value>
+                <value>classpath:org/kuali/student/common/kitchensink/UnifiedPageHeader.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
