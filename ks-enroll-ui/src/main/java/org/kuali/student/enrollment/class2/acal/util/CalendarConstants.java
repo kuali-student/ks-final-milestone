@@ -113,4 +113,9 @@ public class CalendarConstants {
 
     public static final String EMPTY_TERM_CODE = "No Code";
 
+    //http session attribute keys
+    public static final String SESSION_CALENDAR_SEARCH_TYPE = "sessionCalendarSearchType";
+    public static final String SESSION_CALENDAR_SEARCH_NAME = "sessionCalendarSearchName";
+    public static final String SESSION_CALENDAR_SEARCH_YEAR = "sessionCalendarSearchYear";
+
 }

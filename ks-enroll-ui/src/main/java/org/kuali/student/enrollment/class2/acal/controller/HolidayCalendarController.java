@@ -45,6 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 
@@ -449,7 +450,7 @@ public class HolidayCalendarController extends UifControllerBase {
         getHolidayCalendarFormHelper(hcForm).deleteHolidayCalendar(hcForm.getHolidayCalendarInfo().getId());
         Properties urlParameters = new  Properties();
         urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
-        urlParameters.put("methodToCall", "start");
+        urlParameters.put("methodToCall", "search");
         urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
 
         HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();

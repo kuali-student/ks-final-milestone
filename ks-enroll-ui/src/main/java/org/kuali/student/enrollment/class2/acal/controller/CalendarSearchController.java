@@ -47,6 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -121,25 +122,38 @@ public class CalendarSearchController  extends UifControllerBase {
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String calendarType = searchForm.getCalendarType();
+
+        //if no search criteria was set, it means the search method is called from redirection. Then retrieve search criteria from http session
+        HttpSession session = request.getSession(true);
+        if ((searchForm.getCalendarType()==null || searchForm.getCalendarType().isEmpty()) &&
+            (searchForm.getName()==null || searchForm.getName().isEmpty()) &&
+            (searchForm.getYear()==null || searchForm.getYear().isEmpty())) {
+            searchForm.setCalendarType((String)session.getAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_TYPE));
+            searchForm.setName((String)session.getAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_NAME));
+            searchForm.setYear((String)session.getAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_YEAR));
+        }
 
         resetForm(searchForm);
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
-        if(calendarType.equals(CalendarConstants.HOLIDAYCALENDER)){
+        if(searchForm.getCalendarType().equals(CalendarConstants.HOLIDAYCALENDER)){
                List<HolidayCalendarInfo> hCals = viewHelperService.searchForHolidayCalendars(searchForm.getName(), searchForm.getYear(), getContextInfo());
                searchForm.setHolidayCalendars(hCals);
-        } else if(calendarType.equals(CalendarConstants.ACADEMICCALENDER)) {
+        } else if(searchForm.getCalendarType().equals(CalendarConstants.ACADEMICCALENDER)) {
                List<AcademicCalendarInfo> aCals = viewHelperService.searchForAcademicCalendars(searchForm.getName(), searchForm.getYear(), getContextInfo());
                searchForm.setAcademicCalendars(aCals);
-        } else if(calendarType.equals(CalendarConstants.TERM)){
+        } else if(searchForm.getCalendarType().equals(CalendarConstants.TERM)){
                List<TermInfo> terms = viewHelperService.searchForTerms(searchForm.getName(), searchForm.getYear(), getContextInfo());
                searchForm.setTerms(terms);
         } else {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
         }
 
-       return getUIFModelAndView(searchForm, null);
+        //set search criteria into http session
+        session.setAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_TYPE, searchForm.getCalendarType());
+        session.setAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_NAME, searchForm.getName());
+        session.setAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_YEAR, searchForm.getYear());
+        return getUIFModelAndView(searchForm, null);
     }
 
     /**
