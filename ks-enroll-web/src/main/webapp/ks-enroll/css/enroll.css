@@ -709,6 +709,7 @@ a {
    The background where breadcrumbs reside on */
 #Uif-BreadcrumbWrapper {
     display: block !important;         /* It is overriding the KRMS display: none; */
+    visibility: visible !important;;    /* It is overriding the KRMS visibility: hidden; */
     background-image: url('../images/breadcrumb/bg_breadcrumb.png');
 }
 
