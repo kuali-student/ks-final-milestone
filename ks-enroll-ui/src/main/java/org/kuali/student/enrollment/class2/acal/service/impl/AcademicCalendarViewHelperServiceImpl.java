@@ -226,8 +226,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy,boolean calculateInstrDays){
 
-        ContextInfo contextInfo = createContextInfo();
-
         if (LOG.isDebugEnabled()){
             LOG.debug("Loading all the terms associated with an acal [id=" + acalId + "]");
         }
@@ -235,7 +233,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         List<AcademicTermWrapper> termWrappers = new ArrayList<AcademicTermWrapper>();
 
         try {
-            List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, contextInfo);
+            List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, createContextInfo());
 
             //Sort the termInfos by start date
             Collections.sort(termInfos, new Comparator<TermInfo>() {
@@ -248,13 +246,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             for (TermInfo termInfo : termInfos) {
                 AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy,calculateInstrDays);
                 termWrappers.add(termWrapper);
-                //identify and create subTerm relationships (if any)
-                List<TermInfo> subTermInfos = getAcalService().getIncludedTermsInTerm(termInfo.getId(), contextInfo);
-                if (subTermInfos != null && subTermInfos.size() > 0) {
-                    for (TermInfo subTermInfo : subTermInfos){
-                        getAcalService().addTermToTerm(termInfo.getId(), subTermInfo.getId(), contextInfo);
-                    }
-                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
