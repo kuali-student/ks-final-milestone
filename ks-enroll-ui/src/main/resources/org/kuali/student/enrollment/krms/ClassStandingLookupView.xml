@@ -3,49 +3,10 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-
-    <bean id="PopulationInfo" parent="PopulationInfo-parent">
-        <property name="titleAttribute" value="id"/>
-    </bean>
-
-    <bean id="PopulationWrapper" parent="PopulationWrapper-parentBean"/>
-    <bean id="PopulationWrapper-parentBean" abstract="true" parent="DataObjectEntry">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-        <property name="titleAttribute" value="id"/>
-        <property name="attributes">
-            <list>
-                <ref bean="PopulationWrapper.id"/>
-            </list>
-        </property>
-        <property name="complexAttributes">
-            <list>
-                <ref bean="PopulationWrapper.populationInfo"/>
-                <ref bean="PopulationWrapper.populationRuleInfo"/>
-            </list>
-        </property>
-        <property name="objectLabel" value="Population"/>
-        <property name="primaryKeys">
-            <list>
-                <value>id</value>
-            </list>
-        </property>
-    </bean>
-
-    <!-- Attribute Definitions -->
-    <bean id="PopulationWrapper.id" parent="PopulationInfo.id" p:name="id" p:label="ID"/>
-
-    <bean id="PopulationWrapper.populationInfo" parent="ComplexAttributeDefinition">
-        <property name="name" value="populationInfo"/>
-        <property name="dataObjectEntry" ref="PopulationInfo"/>
-    </bean>
-
-    <bean id="PopulationWrapper.populationRuleInfo" parent="ComplexAttributeDefinition">
-        <property name="name" value="populationRuleInfo"/>
-        <property name="dataObjectEntry" ref="PopulationRuleInfo"/>
-    </bean>
+    <!-- Copy from PopulationWraperLookupAndInquiry.xml  -->
 
     <!-- LookupView -->
-    <bean id="KS-Population-LookupView" parent="KS-Uif-LookupView">
+    <bean id="KS-KRMS-Population-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="'Population Lookup" />
         <property name="viewName" value="krmsClassStandingView"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
