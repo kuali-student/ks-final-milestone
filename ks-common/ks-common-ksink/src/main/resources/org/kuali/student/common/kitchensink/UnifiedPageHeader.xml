@@ -23,26 +23,36 @@
     <bean id="KS-KitchenSink-UnifiedPageHeader-View-Base" parent="KS-Uif-FormView">
         <!--<property name="headerText" value="Toolbar Example"/>-->
         <property name="headerText" value="Unified Header - View Title"/>
-        <!--
-        This was the only way I could get ANY page header stuff to display. By default, this value is set to true.
-        Please figure out what's up.
-         -->
-        <property name="items">
-            <list>
-                <bean id="Demo-StandardLayout-SectionsPage" parent="Uif-Page" p:headerText="Unified Header - Page Title">
-                    <property name="header.lowerGroup">
-                        <bean parent="Uif-LinkGroup">
+
+        <!--<property name="header.headerText" value="The Page Title"/>-->
+        <!--<property name="header.areaTitleText" value="The View Title"/>-->
+
+        <property name="header.rightGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"
-                                          p:actionScript="alert('You clicked the link');" p:actionLabel="Page Header LowerGroup Link 1"/>
-                                    <bean parent="Uif-ActionLink"
-                                          p:actionScript="alert('You clicked the link');" p:actionLabel="Page Header LowerGroup Link 2"/>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the delete link');"  p:actionLabel="Delete"/>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the inspect link');" p:actionLabel="Inspect"/>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the manage link');" p:actionLabel="Manage"/>
                                 </list>
                             </property>
                         </bean>
-                    </property>
-                </bean>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message" p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
                 <bean id="Demo-StandardLayout-CollectionSectionsPage" parent="Uif-Page" p:headerText="Page Title">
                     <property name="items">
                         <list>
@@ -71,8 +81,5 @@
                 </bean>
             </list>
         </property>
-
     </bean>
-
-
 </beans>
