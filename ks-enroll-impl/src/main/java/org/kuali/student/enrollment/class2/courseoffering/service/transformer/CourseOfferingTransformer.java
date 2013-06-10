@@ -47,10 +47,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethods;
-import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 public class CourseOfferingTransformer {
     private LprService lprService;
@@ -58,7 +55,7 @@ public class CourseOfferingTransformer {
     private LRCService lrcService;
     private CluService cluService;
     private LuiService luiService;
-    private RuleManagementService ruleManagementService;
+    private KrmsRuleManagementCopyMethods krmsRuleManagementCopyMethods;
 
     final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
 
@@ -756,8 +753,7 @@ public class CourseOfferingTransformer {
         if (courseOfferingInfo.getId() == null) {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
-        KrmsRuleManagementCopyMethods copier = new KrmsRuleManagementCopyMethodsMockImpl();
-        copier.deepCopyReferenceObjectBindingsFromTo(
+        krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
                 // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
                 "kuali.lu.type.CreditCourse",
 //                CourseServiceConstants.REF_OBJECT_URI_COURSE,
@@ -779,8 +775,7 @@ public class CourseOfferingTransformer {
         if (targetCo.getId() == null) {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
-        KrmsRuleManagementCopyMethods copier = new KrmsRuleManagementCopyMethodsMockImpl();
-        copier.deepCopyReferenceObjectBindingsFromTo(
+        krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
                 // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
                 "kuali.lui.type.course.offering",
 //                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
@@ -948,13 +943,12 @@ public class CourseOfferingTransformer {
         this.luiService = luiService;
     }
 
-    public RuleManagementService getRuleManagementService() {
-        return ruleManagementService;
+    public KrmsRuleManagementCopyMethods getKrmsRuleManagementCopyMethods() {
+        return krmsRuleManagementCopyMethods;
     }
 
-    public void setRuleManagementService(RuleManagementService ruleManagementService) {
-        this.ruleManagementService = ruleManagementService;
+    public void setKrmsRuleManagementCopyMethods(KrmsRuleManagementCopyMethods krmsRuleManagementCopyMethods) {
+        this.krmsRuleManagementCopyMethods = krmsRuleManagementCopyMethods;
     }
-    
-    
+
 }

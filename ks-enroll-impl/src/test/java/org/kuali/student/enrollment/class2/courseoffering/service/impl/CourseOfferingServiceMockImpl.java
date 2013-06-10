@@ -111,6 +111,9 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
     @Resource
     private SchedulingService schedulingService;
 
+    @Resource
+    private CourseOfferingTransformer courseOfferingTransformer;
+    
     public SchedulingService getSchedulingService() {
         return schedulingService;
     }
@@ -133,6 +136,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
 
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
+    }
+
+    public CourseOfferingTransformer getCourseOfferingTransformer() {
+        return courseOfferingTransformer;
+    }
+
+    public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
+        this.courseOfferingTransformer = courseOfferingTransformer;
     }
     
     @Override
@@ -366,14 +377,13 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService,
         // TODO: move this logic to the calculation decorator do the persistence layer doesn't have this logic mixed in with it
         // copy from cannonical
         CourseInfo courseInfo = new R1CourseServiceHelper(courseService, acalService).getCourse(courseId);
-        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-        coTransformer.copyFromCanonical(courseInfo, copy, optionKeys, context);
+        courseOfferingTransformer.copyFromCanonical(courseInfo, copy, optionKeys, context);
         copy.setMeta(newMeta(context));
         courseOfferingMap.put(copy.getId(), copy);
         log.info("CourseOfferingMockImpl: created course offering: " + copy.getId() + "term=" + copy.getTermId() + " for course =" + copy.getCourseId());
         
         // copy rules from canonical
-        coTransformer.copyRulesFromCanonical(courseInfo, copy, optionKeys, context);
+        courseOfferingTransformer.copyRulesFromCanonical(courseInfo, copy, optionKeys, context);
         return new CourseOfferingInfo(copy);
     }
 

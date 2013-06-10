@@ -327,6 +327,7 @@
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="AcademicCalendarService" />
         <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
 
@@ -429,13 +430,19 @@
    <bean id="offeringCodeGenerator" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCodeGeneratorDBImpl">
        <property name="codeGeneratorLocksDao" ref="codeGeneratorLocksDao" />
    </bean>
-
+   
+   <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsImpl">
+<!--       If I uncomment this next one it fails because ruleManagementService is not defined but if I have it commented out 
+       the program will get the rule management service by calling the global resource locator-->
+       <!--<property name="ruleManagementService" ref="ruleManagementService" />-->
+   </bean>
 
    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
        <property name="lprService" ref="lprPersistenceService" />
        <property name="lrcService" ref="lrcServiceCache" />
        <property name="cluService" ref="cluServiceImpl"/>
        <property name="luiService" ref="LuiService" />
+       <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
    </bean>
 
   <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />

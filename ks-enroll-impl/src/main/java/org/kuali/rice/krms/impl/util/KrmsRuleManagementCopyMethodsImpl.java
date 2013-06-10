@@ -18,6 +18,9 @@ import org.kuali.rice.krms.api.repository.term.TermParameterDefinition;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.namespace.QName;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 /**
@@ -27,7 +30,6 @@ import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopyMethods {
 
     private RuleManagementService ruleManagementService;
-//    private KrmsTypeRepositoryService krmsTypeRepositoryService;
 
     @Override
     public List<ReferenceObjectBinding> deepCopyReferenceObjectBindingsFromTo(String fromReferenceDiscriminatorType,
@@ -210,6 +212,9 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
     }
 
     public RuleManagementService getRuleManagementService() {
+       if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
         return ruleManagementService;
     }
 
@@ -217,11 +222,4 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         this.ruleManagementService = ruleManagementService;
     }
 
-//    public KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
-//        return krmsTypeRepositoryService;
-//    }
-//
-//    public void setKrmsTypeRepositoryService(KrmsTypeRepositoryService krmsTypeRepositoryService) {
-//        this.krmsTypeRepositoryService = krmsTypeRepositoryService;
-//    }
 }

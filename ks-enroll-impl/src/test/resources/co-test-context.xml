@@ -270,9 +270,14 @@
     <bean id="activityOfferingClusterDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.ActivityOfferingClusterDao" />
     <bean id="seatPoolDefinitionDao" class="org.kuali.student.enrollment.class2.courseoffering.dao.SeatPoolDefinitionDao"/>
 
+    
+   <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl">
+   </bean>
+    
     <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer">
         <property name="lprService" ref="lprService" />
         <property name="lrcService" ref="LrcService"/>
+        <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
     </bean>
 
     <bean id="LrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl"/>
@@ -281,6 +286,7 @@
     <property name="acalService" ref="acalService" />
     <property name="coService" ref="coService" />
     <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
+    <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
   </bean>
 
    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />

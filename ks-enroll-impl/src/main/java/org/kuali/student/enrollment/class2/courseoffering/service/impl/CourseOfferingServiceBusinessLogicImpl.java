@@ -17,7 +17,6 @@ import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
@@ -67,6 +66,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     @Resource
     private RoomService roomService;
 
+    @Resource
+    private CourseOfferingTransformer courseOfferingTransformer;
+    
     public CourseOfferingService getCoService() {
         return coService;
     }
@@ -103,6 +105,16 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         this.roomService = roomService;
     }
 
+    public CourseOfferingTransformer getCourseOfferingTransformer() {
+        return courseOfferingTransformer;
+    }
+
+    public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
+        this.courseOfferingTransformer = courseOfferingTransformer;
+    }
+
+    
+    
     /**
      * Initializes services, if needed
      */
@@ -419,8 +431,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         targetCo.setCourseId(targetCourse.getId());
         if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
             // copy from cannonical
-            CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-            coTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys, context);
+            courseOfferingTransformer.copyFromCanonical(targetCourse, targetCo, optionKeys, context);
         }
         // Rolled over CO should be in draft state
         targetCo.setStateKey(LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY);
@@ -428,12 +439,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 targetCo, optionKeys, context);
         
         // have to copy rules AFTER CO is created because the link is by the CO id
-        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer ();
         if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
             // copy rules from cannonical too
-            coTransformer.copyRulesFromCanonical(targetCourse, targetCo, optionKeys, context);
+            courseOfferingTransformer.copyRulesFromCanonical(targetCourse, targetCo, optionKeys, context);
         } else {
-            coTransformer.copyRulesFromExistingCourseOffering(sourceCo, targetCo, optionKeys, context);
+            courseOfferingTransformer.copyRulesFromExistingCourseOffering(sourceCo, targetCo, optionKeys, context);
         }
         return targetCo;
     }
@@ -503,8 +513,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         CourseOfferingInfo co = coService.getCourseOffering(courseOfferingId, context);
         CourseInfo course = new R1CourseServiceHelper(courseService, acalService).getCourse(co.getCourseId());
         // copy from canonical
-        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-        coTransformer.copyFromCanonical(course, co, optionKeys, context);
+        courseOfferingTransformer.copyFromCanonical(course, co, optionKeys, context);
         try {
             co = coService.updateCourseOffering(courseOfferingId, co, context);
         } catch (ReadOnlyException ex) {
@@ -513,7 +522,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         // TODO: continue traversing down the formats and activities updating from the canonical
         
         // copy rules from canonical
-        coTransformer.copyRulesFromCanonical(course, co, optionKeys, context);
+        courseOfferingTransformer.copyRulesFromCanonical(course, co, optionKeys, context);
         return co;
     }
 

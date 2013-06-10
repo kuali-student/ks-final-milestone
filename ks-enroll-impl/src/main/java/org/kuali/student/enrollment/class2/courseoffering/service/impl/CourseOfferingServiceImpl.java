@@ -624,8 +624,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         TermInfo term = acalService.getTerm(termId, context);
         CourseInfo courseInfo = _getCourse(courseId);
         // copy from canonical
-        CourseOfferingTransformer coTransformer = new CourseOfferingTransformer();
-        coTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys, context);
+        courseOfferingTransformer.copyFromCanonical(courseInfo, coInfo, optionKeys, context);
         //generate internal suffix code
         List<CourseOfferingInfo> existingCourseOfferings = _findCourseOfferingsByTermAndCourseCode(term.getId(), courseInfo.getCode());
         String internalSufx = offeringCodeGenerator.generateCourseOfferingInternalCode(existingCourseOfferings);
@@ -639,7 +638,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         // copy to lui
         LuiInfo lui = new LuiInfo();
-        coTransformer.courseOffering2Lui(coInfo, lui, context);
+        courseOfferingTransformer.courseOffering2Lui(coInfo, lui, context);
 
         //Default the effective date to the start date
         lui.setEffectiveDate(term.getStartDate());
@@ -650,8 +649,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // transform it back to a course offering
         CourseOfferingInfo createdCo = new CourseOfferingInfo();
         
-        coTransformer.lui2CourseOffering(lui, createdCo, context);
-        coTransformer.copyRulesFromCanonical(courseInfo, createdCo, optionKeys, context);
+        courseOfferingTransformer.lui2CourseOffering(lui, createdCo, context);
+        courseOfferingTransformer.copyRulesFromCanonical(courseInfo, createdCo, optionKeys, context);
         return createdCo;
     }
 
