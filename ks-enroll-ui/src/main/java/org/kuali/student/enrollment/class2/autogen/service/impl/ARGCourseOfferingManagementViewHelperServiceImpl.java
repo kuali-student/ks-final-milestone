@@ -730,7 +730,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         aoWrapper.setRoomName(room.getRoomCode(), newLine, "uif-scheduled-dl");
                     }
                     for (BuildingInfo bldg : sched.getBldgs()) {
-                        aoWrapper.setBuildingName(bldg.getBuildingCode(), newLine, "uif-scheduled-dl");
+                        aoWrapper.setBuildingName(bldg.getName(), newLine, "uif-scheduled-dl");
                     }
                     for (TimeSlotInfo timeSlotInfo : sched.getTimeSlots()) {
                         if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null) {
