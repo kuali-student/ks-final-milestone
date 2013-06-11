@@ -58,6 +58,8 @@ public class AcademicTermWrapper {
     private String instructionalDayConfig = "cars";
 
     private boolean makeOfficial;
+    private TermInfo parentTermInfo;
+    private boolean subTerm = false;
 
     /**
      * This constructor sets all the default values.
@@ -448,5 +450,21 @@ public class AcademicTermWrapper {
 
     public void setMakeOfficial(boolean makeOfficial) {
         this.makeOfficial = makeOfficial;
+    }
+
+    public TermInfo getParentTermInfo() {
+        return parentTermInfo;
+    }
+
+    public void setParentTermInfo(TermInfo parentTermInfo) {
+        this.parentTermInfo = parentTermInfo;
+    }
+
+    public boolean isSubTerm() {
+        return subTerm;
+    }
+
+    public void setSubTerm(boolean subTerm) {
+        this.subTerm = subTerm;
     }
 }
