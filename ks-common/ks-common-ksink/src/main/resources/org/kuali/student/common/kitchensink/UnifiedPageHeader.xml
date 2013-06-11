@@ -28,7 +28,7 @@
         <!--<property name="header.areaTitleText" value="The View Title"/>-->
 
         <property name="header.rightGroup">
-            <bean parent="Uif-VerticalBoxGroup">
+            <bean parent="Uif-VerticalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-container">
                 <property name="items">
                     <list>
                         <bean parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-action">
@@ -60,7 +60,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-Message" p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
-                                    <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Final"/>
+                                    <bean parent="KS-Lozenge-Orange-Uif-Message" p:messageText="Detail Status"/>
                                 </list>
                             </property>
                         </bean>
