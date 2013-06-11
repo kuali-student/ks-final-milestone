@@ -148,7 +148,7 @@
                                                 <bean parent="Uif-TextControl" p:size="30" />
                                             </property>
                                         </bean>
-                                        <bean id="term_code" parent="Uif-InputField-LabelTop" p:propertyName="termCode" p:label="Term Code" p:render="@{#line.termCode != 'No Code'}">
+                                        <bean id="term_code" parent="Uif-InputField-LabelTop" p:propertyName="termCode" p:label="Term Code" p:render="@{#line.termCode != T(org.kuali.student.enrollment.class2.acal.util.CalendarConstants).EMPTY_TERM_CODE}">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:disabled="true" p:size="9">
                                                     <property name="cssClasses">
