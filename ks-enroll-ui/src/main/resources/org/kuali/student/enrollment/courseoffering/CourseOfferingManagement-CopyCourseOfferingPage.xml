@@ -27,6 +27,7 @@
 
         <property name="items">
             <list>
+                <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar" />
                 <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingsSection"/>
                 <ref bean="KS-CourseOfferingManagement-ConfigureCourseOfferingCopySection"/>
@@ -34,6 +35,32 @@
             </list>
         </property>
 
+    </bean>
+
+    <!--
+     This is the context bar that will be put into the static context bar placeholder on page load. It does this via the
+     "updateContextBar" javascript.
+     Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
+    -->
+    <bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: block;"
+          p:onDocumentReadyScript="updateContextBar('KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar', 'KS-CourseOfferingManagement-ContextBar-PlaceHolder'); setSeasonalColor('KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-topGroup</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{termCode}" p:renderColon="false">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-topGroup-termCode</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="socState" />
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-CopyCourseOfferingSection" parent="Uif-GridGroup" p:layoutManager.numberOfColumns="2">
@@ -117,9 +144,6 @@
                 <list>
                     <bean parent="Uif-PrimaryActionButton" p:actionLabel="Create Copy" p:methodToCall="copyCourseOfferingCreateCopy"/>
                     <bean parent="Uif-ActionLink" p:methodToCall="copyCourseOfferingCancel" p:actionLabel="Cancel" />
-
-                    <!--  <bean parent="KS-SubmitActionLink" p:actionLabel="Cancel" p:methodToCall="copyCourseOfferingCancel"/>
-                     <bean parent="Uif-SecondaryActionButton" p:actionLabel="Cancel" p:methodToCall="copyCourseOfferingCancel"/> -->
                 </list>
             </property>
         </bean>
