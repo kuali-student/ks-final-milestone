@@ -720,9 +720,12 @@ Because the context bar resides in the topGroup, it only gets loaded once when t
 bar needs to update every time the page loads, we have to create some custom JS to update items in the context bar.
  */
 function updateContextBar(srcId, contextBarId){
-    var contextBar = jQuery("#" + contextBarId);
-    var src = jQuery("#" + srcId);
-    jQuery(contextBar).append(jQuery(src));
+
+    jQuery("#" + contextBarId + " #" + srcId).remove(); // remove any child elements so we can replace them later
+
+    var contextBar = jQuery("#" + contextBarId);    // grab the placeholder
+    var src = jQuery("#" + srcId);                  // grab the new context bar
+    jQuery(contextBar).append(jQuery(src));         // add it to the context bar placeholder
     jQuery(src).show();
 }
 
