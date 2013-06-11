@@ -177,7 +177,8 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="" p:propertyName="newScheduleRequest.startTimeAMPM" p:style="margin-top:15px" p:required="true">
+                <bean parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="newScheduleRequest.startTimeAMPM" p:required="true">
+                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
                     </property>
@@ -191,7 +192,8 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="" p:propertyName="newScheduleRequest.endTimeAMPM" p:style="margin-top:15px" p:required="true">
+                <bean parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="newScheduleRequest.endTimeAMPM" p:required="true">
+                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
                     </property>
