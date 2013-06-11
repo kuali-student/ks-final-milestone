@@ -783,6 +783,17 @@ a {
     white-space: nowrap;
     font-weight: bold;
 }
+
+.text-lozenge-orange-msg {
+    color: white;
+    background-color: darkorange;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-weight: bold;
+}
 /************************************** END LOZENGES **********************/
 
 
@@ -875,5 +886,16 @@ div#Uif-ApplicationHeader-Wrapper{
 
 .ks-unified-header-rightGroup-status{
     float: right;
+}
+
+.ks-unified-header-rightGroup-container{
+    /*background-color: #d3d3d3;*/
+}
+
+.uif-viewHeader-contentWrapper {
+    padding-bottom: 30px;
+    -webkit-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 6px 6px -5 pxrgba(0, 0, 0, 0.5);
+    box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
 }
 /*unified header related styles END*/
