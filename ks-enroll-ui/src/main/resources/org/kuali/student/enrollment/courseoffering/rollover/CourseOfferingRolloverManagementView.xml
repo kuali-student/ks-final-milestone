@@ -56,7 +56,7 @@
     <bean id="KS-CourseOfferingRolloverManagement-ReleaseToDeptsDialog" parent="Uif-VerticalBoxGroup" p:hidden="true" p:style="width: 600px; overflow: hidden" p:cssClasses="aoc_dialog">
         <property name="items">
             <list>
-                <bean id="releaseToDepts1" parent="Uif-VerticalBoxSection">
+                <bean id="releaseToDeptsVBoxSec" parent="Uif-VerticalBoxSection">
                     <property name="headerText" value="Confirm Release Courses"/>
                     <property name="items">
                         <list>
