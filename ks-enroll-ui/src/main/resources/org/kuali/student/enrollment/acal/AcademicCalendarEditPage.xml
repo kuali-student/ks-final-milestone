@@ -82,10 +82,14 @@ limitations under the License.
                         <bean parent="Uif-HeaderOne">
                             <property name="headerText" value="@{academicCalendarInfo.name}"/>
                             <property name="rightGroup">
-                                <bean parent="Uif-HorizontalBoxGroup">
+                                <bean id="KS-Make-Official-Status" parent="Uif-VerticalBoxGroup">
                                     <property name="items">
                                         <list>
+                                            <bean id="acal_Official" parent="Uif-ActionLink" p:methodToCall="makeAcalOfficial"
+                                                  p:actionLabel="Make Official"
+                                                  p:render="@{!reload and !#view.readOnly and !officialUI}" />
                                             <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
+                                            <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
                                         </list>
                                     </property>
                                 </bean>
@@ -125,17 +129,9 @@ limitations under the License.
                             </property>
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-InputField" p:propertyName="makeOfficial" >
-                                        <property name="render" value="@{!reload and !#view.readOnly and !officialUI}"/>
-                                        <property name="label" value="Make Official"/>
-                                        <property name="control">
-                                            <bean parent="Uif-CheckboxControl"/>
-                                        </property>
-                                    </bean>
                                     <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                                           p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}" p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP"/>
-
                                     <bean parent="Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
                                           p:performClientSideValidation="true" p:render="@{reload}" />
                                     <bean parent="Uif-ActionLink" p:methodToCall="delete"
@@ -152,11 +148,11 @@ limitations under the License.
     </bean>
 
     <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
-        <property name="headerText" value="Calendar" />
+        <property name="headerText" value="Information" />
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="items">
             <list>
-                <!--<bean parent="Uif-Message" p:messageText="Last saved at @{lastUpdatedTime}" p:cssClasses="font-light12"/>-->
+                <bean parent="Uif-Message" p:messageText="Last saved at @{lastUpdatedTime}" p:cssClasses="font-light12"/>
                 <ref bean="KS-AcademicCalendar-Overview" />
                 <ref bean="KS-AcademicTerm-Overview" />
                 <ref bean="KS-AcademicCalendar-MetaSubSection"/>
@@ -220,7 +216,7 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeOfficial" p:actionLabel="Make Official" />
+                <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official" />
                 <!--<bean id="term_delete_link" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Term" />-->
             </list>
         </property>

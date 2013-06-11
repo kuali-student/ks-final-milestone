@@ -320,95 +320,8 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
-        boolean makeOfficial = academicCalendarForm.isMakeOfficial();
-        ModelAndView page;
-        String dialog=null;
 
-        // Find any terms that are marked to be made official
-        List<AcademicTermWrapper> terms = academicCalendarForm.getTermWrapperList();
-        ArrayList<Integer> termsToMakeOfficial = new ArrayList<Integer>();
-        for(int i=0;i<terms.size();i++){
-            if(terms.get(i).isMakeOfficial()){
-                termsToMakeOfficial.add(i);
-            }
-        }
-
-        // Check if terms were found to make official
-        if(termsToMakeOfficial.size()>0){
-            makeOfficial=true;
-
-            // Select dialog for confirmation based on calendars official status
-            if(academicCalendarForm.isOfficialCalendar()){
-                dialog = CalendarConstants.ACADEMIC_TERM_OFFICIAL_CONFIRMATION_DIALOG;
-            }else{
-                dialog = CalendarConstants.ACADEMIC_TERM_AND_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;
-            }
-
-            // Dialog confirmation to make terms official
-            if (!hasDialogBeenDisplayed(dialog, academicCalendarForm)) {
-                if(termsToMakeOfficial.size()>1){
-                    academicCalendarForm.setMakeOfficialName(terms.get(termsToMakeOfficial.get(0)).getName()+" and others");
-                }else{
-                    academicCalendarForm.setMakeOfficialName(terms.get(termsToMakeOfficial.get(0)).getName());
-                }
-                //redirect back to client to display lightbox
-                return showDialog(dialog, academicCalendarForm, request, response);
-            }else{
-                if(hasDialogBeenAnswered(dialog,academicCalendarForm)){
-                    boolean confirm = getBooleanDialogResponse(dialog, academicCalendarForm, request, response);
-                    academicCalendarForm.getDialogManager().resetDialogStatus(dialog);
-                    if(!confirm){
-                        return getUIFModelAndView(academicCalendarForm);
-                    }
-                } else {
-
-                    //redirect back to client to display lightbox
-                    return showDialog(dialog, academicCalendarForm, request, response);
-                }
-            }
-        }
-
-
-        // Check if making calendar or terms official.
-        if(makeOfficial){
-
-            // If confirmation for terms has not been displayed do so for the calendar
-            if(dialog==null){
-
-                // Dialog confirmation to make the calendar official
-                dialog = CalendarConstants.ACADEMIC_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;
-                if (!hasDialogBeenDisplayed(dialog, academicCalendarForm)) {
-                     academicCalendarForm.setMakeOfficialName(academicCalendarForm.getAcademicCalendarInfo().getName());
-                    //redirect back to client to display lightbox
-                    return showDialog(dialog, academicCalendarForm, request, response);
-                }else{
-                    if(hasDialogBeenAnswered(dialog,academicCalendarForm)){
-                        boolean confirm = getBooleanDialogResponse(dialog, academicCalendarForm, request, response);
-                        academicCalendarForm.getDialogManager().resetDialogStatus(dialog);
-                        if(!confirm){
-                            return getUIFModelAndView(academicCalendarForm);
-                        }
-                    } else {
-
-                        //redirect back to client to display lightbox
-                        return showDialog(dialog, academicCalendarForm, request, response);
-                    }
-                }
-            }
-
-            // Save and make the selected page official
-            page = saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_OFFICIAL, true);
-
-            // Make any selected terms official
-            for(int i=0;i<termsToMakeOfficial.size();i++){
-               makeTermOfficial(terms.get(termsToMakeOfficial.get(i)),academicCalendarForm);
-            }
-        }else{
-            // Save the calendar and retrieve the page
-            page = saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
-        }
-
-        return page;
+        return saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
     }
 
     /**
@@ -499,6 +412,83 @@ public class AcademicCalendarController extends UifControllerBase {
 
         return getUIFModelAndView(academicCalendarForm);
     }
+
+    /**
+     * This method makes a term official and persist to DB. User can selectively make a term official.
+     *
+     * @param academicCalendarForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(params = "methodToCall=makeTermOfficial")
+    public ModelAndView makeTermOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) {
+
+        int selectedLineIndex;
+
+        AcademicTermWrapper termWrapper;
+
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
+
+        String dialog=null;
+        if(academicCalendarForm.isOfficialCalendar()){
+            dialog = CalendarConstants.ACADEMIC_TERM_OFFICIAL_CONFIRMATION_DIALOG;
+        }else{
+            dialog = CalendarConstants.ACADEMIC_TERM_AND_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;
+        }
+
+        // Dialog confirmation to make terms official
+        if (!hasDialogBeenDisplayed(dialog, academicCalendarForm)) {
+            selectedLineIndex= KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
+            termWrapper= academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
+            academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+            academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+            academicCalendarForm.setMakeOfficialName(termWrapper.getName());
+            //redirect back to client to display lightbox
+            return showDialog(dialog, academicCalendarForm, request, response);
+        }else{
+            if(hasDialogBeenAnswered(dialog,academicCalendarForm)){
+                boolean confirm = getBooleanDialogResponse(dialog, academicCalendarForm, request, response);
+                academicCalendarForm.getDialogManager().resetDialogStatus(dialog);
+                if(!confirm){
+                    return getUIFModelAndView(academicCalendarForm);
+                }
+            } else {
+                selectedLineIndex= KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
+                termWrapper= academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
+                academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+                academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+                academicCalendarForm.setMakeOfficialName(termWrapper.getName());
+                //redirect back to client to display lightbox
+                return showDialog(dialog, academicCalendarForm, request, response);
+            }
+        }
+
+        academicCalendarForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
+        if (academicCalendarForm.getSelectedLineIndex() != null && academicCalendarForm.getSelectedLineIndex().indexOf(",") > -1) {
+            academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, academicCalendarForm.getSelectedLineIndex().substring(0,academicCalendarForm.getSelectedLineIndex().indexOf(",")));
+        } else {
+            academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, academicCalendarForm.getSelectedLineIndex());
+        }
+        selectedLineIndex= KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
+        termWrapper= academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
+
+        boolean acalOfficial=true;
+
+        if(!academicCalendarForm.isOfficialCalendar()){
+            acalOfficial = makeAcalOfficial(academicCalendarForm);
+        }
+
+        if(acalOfficial){
+            makeTermOfficial(termWrapper,academicCalendarForm);
+        }
+
+        academicCalendarForm.setDefaultTabToShow(CalendarConstants.ACAL_TERM_TAB);
+        return getUIFModelAndView(academicCalendarForm);
+    }
+
 
     /**
      *
@@ -610,7 +600,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteKeyDateGroup")
+    @RequestMapping(params = "methodToCall=deleteKeyDateGroup")
     public ModelAndView deleteKeyDateGroup(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
 
@@ -635,6 +625,37 @@ public class AcademicCalendarController extends UifControllerBase {
 
         return getUIFModelAndView(academicCalendarForm);
 
+    }
+
+    /**
+     * Method used to set Acal as official
+     */
+    @RequestMapping(params = "methodToCall=makeAcalOfficial")
+    public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) {
+        // Dialog confirmation to make the calendar official
+       String dialog = CalendarConstants.ACADEMIC_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;
+        if (!hasDialogBeenDisplayed(dialog, acalForm)) {
+            acalForm.setMakeOfficialName(acalForm.getAcademicCalendarInfo().getName());
+            //redirect back to client to display lightbox
+            return showDialog(dialog, acalForm, request, response);
+        }else{
+            if(hasDialogBeenAnswered(dialog,acalForm)){
+                boolean confirm = getBooleanDialogResponse(dialog, acalForm, request, response);
+                acalForm.getDialogManager().resetDialogStatus(dialog);
+                if(!confirm){
+                    return getUIFModelAndView(acalForm);
+                }
+            } else {
+
+                //redirect back to client to display lightbox
+                return showDialog(dialog, acalForm, request, response);
+            }
+        }
+
+        makeAcalOfficial(acalForm);
+
+        return getUIFModelAndView(acalForm);
     }
 
     private AcademicCalendarInfo processHolidayCalendars(AcademicCalendarForm academicCalendarForm)    {
@@ -862,20 +883,43 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     private boolean makeTermOfficial(AcademicTermWrapper term, AcademicCalendarForm acalForm){
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
-
         try{
-            boolean alreadyOfficial = StringUtils.equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,acalForm.getAcademicCalendarInfo().getStateKey());
-            String messageText = alreadyOfficial ? "info.enroll.term.saved" : "info.enroll.term.official";
-            boolean calculateInstrDays = !acalForm.getHolidayCalendarList().isEmpty();
-            viewHelperService.saveTerm(term, acalForm.getAcademicCalendarInfo().getId(), true,calculateInstrDays);
-            if (!GlobalVariables.getMessageMap().hasErrors()){
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, messageText, term.getTermNameForUI());
+            StatusInfo statusInfo = getAcalService().changeTermState(term.getTermInfo().getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,viewHelperService.createContextInfo());
+            if (!statusInfo.getIsSuccess()){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
+                return false;
             }
-        }catch (Exception e){
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Error Saving term " + term.getTermNameForUI() + " - " + e.getMessage());
+            term.setTermInfo(getAcalService().getTerm(term.getTermInfo().getId(),viewHelperService.createContextInfo()));
+            for (KeyDatesGroupWrapper groupWrapper : term.getKeyDatesGroupWrappers()){
+                for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
+                    keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),viewHelperService.createContextInfo()));
+                }
             }
-            throw viewHelperService.convertServiceExceptionsToUI(e);
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_OFFICIAL_FAILED + " - " + e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    private boolean makeAcalOfficial(AcademicCalendarForm acalForm){
+        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
+        StatusInfo statusInfo = null;
+        try {
+            statusInfo = getAcalService().changeAcademicCalendarState(acalForm.getAcademicCalendarInfo().getId(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,viewHelperService.createContextInfo());
+            if (!statusInfo.getIsSuccess()){
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
+                return false;
+            } else{
+                acalForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalForm.getAcademicCalendarInfo().getId(), viewHelperService.createContextInfo()));
+                acalForm.setOfficialCalendar(true);
+                for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
+                    eventWrapper.setAcalEventInfo(getAcalService().getAcalEvent(eventWrapper.getAcalEventInfo().getId(),viewHelperService.createContextInfo()));
+                }
+            }
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_OFFICIAL_FAILED + " - " + e.getMessage());
+            return false;
         }
         return true;
     }

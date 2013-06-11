@@ -30,8 +30,24 @@
             <bean parent="Uif-CollectionVerticalBoxItem">
                 <property name="disclosure.render" value="true"/>
                 <property name="header">
-                    <bean parent="Uif-HeaderFour">
-                        <property name="headerText" value="@{#line.termNameForUI}"/>
+                    <bean parent="Uif-HeaderFour"  p:headerText="@{#empty(#line.parentTerm) ? '' : 'Subterm: '}@{#line.termNameForUI}">
+                        <property name="rightGroup">
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="render" value="@{#line.termInfo != null and #line.termInfo.id != null }"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}"/>
+                                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!#line.official}"/>
+                                        <bean id="term_official" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official"
+                                              p:render="@{!#line.official}"
+                                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"  />
+                                        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Term Draft"
+                                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
+                                              p:render="@{!#line.official}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </property>
                     </bean>
                 </property>
             </bean>
@@ -45,8 +61,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="term_delete_button" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Draft" p:render="@{!#view.readOnly and !#line.new and !#line.official}"
-                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+
                 <bean id="term_cancel_button" parent="Uif-ActionLink" p:methodToCall="cancelTerm" p:actionLabel="Cancel"/>
             </list>
         </property>
@@ -157,13 +172,6 @@
                                                         </list>
                                                     </property>
                                                 </bean>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-InputField-LabelTop" p:propertyName="makeOfficial" >
-                                            <property name="render" value="@{!#view.readOnly and !#line.official and !#isAddLine}"/>
-                                            <property name="label" value="Status"/>
-                                            <property name="control">
-                                                <bean parent="Uif-CheckboxControl" p:checkboxLabel="Make Official"/>
                                             </property>
                                         </bean>
                                     </list>
