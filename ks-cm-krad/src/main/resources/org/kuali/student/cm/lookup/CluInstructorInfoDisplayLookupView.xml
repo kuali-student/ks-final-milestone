@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="CluInstructorInfoDisplay-DataObjectEntry" parent="DataObjectEntry">
+		<property name="objectLabel" value="Instructor Info Display" />
+		<property name="dataObjectClass"
+			value="org.kuali.student.cm.course.form.CluInstructorInfoDisplay" />
+		<property name="titleAttribute" value="cluInstructorInfo.id" />
+		<property name="attributes">
+			<list>
+				<ref bean="CluInstructorInfoDisplay.displayName" />
+				<ref bean="CluInstructorInfoDisplay.givenName" />
+				<ref bean="CluInstructorInfoDisplay.id" />
+				<ref bean="CluInstructorInfoDisplay.personId" />
+				<ref bean="CluInstructorInfoDisplay.principalName" />
+			</list>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="CluInstructorInfoDisplay.id" parent="BaseKuali.id">
+		<property name="name" value="id" />
+	</bean>
+
+	<bean id="CluInstructorInfoDisplay.personId" parent="BaseKuali.personId">
+		<property name="name" value="personId" />
+		<property name="shortLabel" value="Person Id" />
+		<property name="summary">
+			<value>
+				Unique identifier for a person record.
+			</value>
+		</property>
+		<property name="label" value="Person Id" />
+		<property name="description">
+			<value>
+				Unique identifier for a person record.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also 
+			be entered <property name="attributeSecurity"> <ref bean="BaseKuali.readOnlyAttributeSecurity"/> 
+			</property> -->
+		<property name="required" value="true" />
+	</bean>
+
+	<bean id="CluInstructorInfoDisplay.displayName" parent="AttributeDefinition">
+		<property name="name" value="displayName" />
+		<property name="dataType" value="STRING" />
+		<property name="label" value="Name" />
+		<property name="shortLabel" value="Name" />
+		<property name="forceUppercase" value="false" />
+		<property name="maxLength" value="40" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+	</bean>
+
+	<bean id="CluInstructorInfoDisplay.givenName" parent="AttributeDefinition">
+		<property name="name" value="givenName" />
+		<property name="dataType" value="STRING" />
+		<property name="label" value="Given Name" />
+		<property name="shortLabel" value="Given Name" />
+		<property name="forceUppercase" value="false" />
+		<property name="maxLength" value="40" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+	</bean>
+
+	<bean id="CluInstructorInfoDisplay.principalName" parent="AttributeDefinition">
+		<property name="name" value="principalName" />
+		<property name="dataType" value="STRING" />
+		<property name="label" value="Username" />
+		<property name="shortLabel" value="Username" />
+		<property name="forceUppercase" value="false" />
+		<property name="maxLength" value="40" />
+		<property name="validCharactersConstraint">
+			<bean parent="AnyCharacterPatternConstraint" />
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="40" />
+		</property>
+	</bean>
+
+	<bean id="KS-CluInstructorInfoDisplay-LookupView" parent="Uif-LookupView">
+		<property name="id" value="CluInstructorInfoDisplayLookupView" />
+		<property name="headerText" value="Advanced Search: Person" />
+		<property name="dataObjectClassName"
+			value="org.kuali.student.cm.course.form.CluInstructorInfoDisplay" />
+		<property name="viewHelperServiceClass"
+			value="org.kuali.student.cm.course.service.impl.CluInstructorInfoLookupableImpl" />
+		<property name="criteriaFields">
+			<list>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="displayName" />
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="personId" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="Uif-DataField" p:propertyName="givenName"
+					p:label="Given Name" />
+				<bean parent="Uif-DataField" p:propertyName="id" p:label="Internal ID" />
+				<bean parent="Uif-DataField" p:propertyName="principalName"
+					p:label="Username" />
+				<bean parent="Uif-DataField" p:propertyName="displayName"
+					p:label="Display Name" />
+			</list>
+		</property>
+	</bean>
+
+</beans>

@@ -10,6 +10,12 @@ public class CluInstructorInfoDisplay extends CluInstructorInfo {
 	
 	private String givenName;
 	
+	private String principalName;
+	
+	public CluInstructorInfoDisplay() {
+		
+	}
+	
 	public String getDisplayName() {
 		return displayName;
 	}
@@ -24,6 +30,14 @@ public class CluInstructorInfoDisplay extends CluInstructorInfo {
 
 	public void setGivenName(String givenName) {
 		this.givenName = givenName;
+	}
+
+	public void setPrincipalName(String principalName) {
+		this.principalName = principalName;
+	}
+	
+	public String getPrincipalName() {
+		return principalName;
 	}
 	
 }

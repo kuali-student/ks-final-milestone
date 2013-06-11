@@ -140,7 +140,7 @@ limitations under the License.
 										</property>
 									</bean>
 								</property>
-								<!--<property name="quickfinder">
+								<property name="quickfinder">
             						<bean parent="Uif-QuickFinder">
 	            						<property name="quickfinderAction">
 						           			<bean parent="Uif-ActionLink">
@@ -157,8 +157,13 @@ limitations under the License.
 								            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
 								        </property>
 								        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CluInstructorInfoDisplay"/>
+								        <property name="fieldConversions">
+								            <map>
+								                <entry key="displayName" value="displayName"/>
+								            </map>
+								        </property>
 								     </bean>
-        						</property>-->
+        						</property>
         					</bean>
 						</list>
 					</property>
