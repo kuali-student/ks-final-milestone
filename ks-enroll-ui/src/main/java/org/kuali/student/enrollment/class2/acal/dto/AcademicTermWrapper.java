@@ -412,9 +412,9 @@ public class AcademicTermWrapper {
     public String getInstructionalDayConfig(){
         instructionalDayConfig = "";
         if(typeInfo != null &&
-                typeInfo.getAttributes() != null &&
-                typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR) != null &&
-                !typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR).isEmpty()){
+           typeInfo.getAttributes() != null &&
+           !StringUtils.isEmpty(typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR)))
+        {
             instructionalDayConfig += typeInfo.getAttributeValue(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR);
         }else {
             org.kuali.rice.core.api.config.property.Config cfg = ConfigContext.getCurrentContextConfig();
