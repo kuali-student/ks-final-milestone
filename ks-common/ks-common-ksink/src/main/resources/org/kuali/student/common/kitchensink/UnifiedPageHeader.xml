@@ -31,19 +31,36 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalBoxGroup">
+                        <bean parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-action">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the delete link');"  p:actionLabel="Delete"/>
-                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the inspect link');" p:actionLabel="Inspect"/>
-                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the manage link');" p:actionLabel="Manage"/>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the delete link');"
+                                          p:actionLabel="Delete" p:actionImagePlacement="LEFT">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete"
+                                                  p:source="../ks-common-ksink/images/delete.png"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the inspect link');" p:actionLabel="Inspect" p:actionImagePlacement="LEFT">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText="Inspect" p:title="Inspect"
+                                                  p:source="../ks-common-ksink/images/view_text_16x16.png"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the manage link');" p:actionLabel="Manage" p:actionImagePlacement="LEFT">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage"
+                                                  p:source="../ks-common-ksink/images/edit_text_16x16.png.png"/>
+                                        </property>
+                                    </bean>
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="Uif-HorizontalBoxGroup">
+                        <bean parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-status">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-Message" p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
+                                    <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Final"/>
                                 </list>
                             </property>
                         </bean>
