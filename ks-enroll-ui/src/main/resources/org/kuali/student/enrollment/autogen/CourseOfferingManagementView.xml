@@ -109,7 +109,7 @@
                         </list>
                     </property>
                 </bean>
-            <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="socState" />
+                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="socState" />
             </list>
         </property>
     </bean>
