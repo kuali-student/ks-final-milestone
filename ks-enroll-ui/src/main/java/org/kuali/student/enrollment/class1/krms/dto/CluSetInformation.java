@@ -33,7 +33,7 @@ public class CluSetInformation implements Serializable {
     private CluSetInfo cluSetInfo;
     private List<CluInformation> clus;
 
-    private List<CluSetInfo> cluSets;
+    private List<CluSetInformation> cluSets;
 
     private MembershipQueryInfo membershipQueryInfo;
     private List<CluInformation> clusInRange;
@@ -41,6 +41,15 @@ public class CluSetInformation implements Serializable {
 
     private Map<String, CluSetInformation> subCluSetInformations;
     private CluSetInformation parent;
+
+    public CluSetInformation(){
+        super();
+    }
+
+    public CluSetInformation(CluSetInfo cluSetInfo){
+        super();
+        this.cluSetInfo = cluSetInfo;
+    }
 
     public CluSetInfo getCluSetInfo() {
         return cluSetInfo;
@@ -61,14 +70,14 @@ public class CluSetInformation implements Serializable {
         this.clus = clus;
     }
 
-    public List<CluSetInfo> getCluSets() {
+    public List<CluSetInformation> getCluSets() {
         if (this.cluSets == null) {
-            this.cluSets = new ArrayList<CluSetInfo>();
+            this.cluSets = new ArrayList<CluSetInformation>();
         }
         return this.cluSets;
     }
 
-    public void setCluSets(List<CluSetInfo> cluSets) {
+    public void setCluSets(List<CluSetInformation> cluSets) {
         this.cluSets = cluSets;
     }
 
@@ -159,8 +168,8 @@ public class CluSetInformation implements Serializable {
     public String getCluSetDelimitedString() {
 
         List<String> cluSetIds = new ArrayList<String>();
-        for (CluSetInfo cluSet : this.getCluSets()) {
-            cluSetIds.add(cluSet.getId());
+        for (CluSetInformation cluSet : this.getCluSets()) {
+            cluSetIds.add(cluSet.getCluSetInfo().getId());
         }
 
         Collections.sort(cluSetIds);
@@ -197,26 +206,28 @@ public class CluSetInformation implements Serializable {
     }
 
     public List<Object> getCluViewers(){
-        List<Object> cluViewers = new ArrayList<Object>();
+        List<Object> cluGroups = new ArrayList<Object>();
         //Individual Clus
-        if((this.getClus().size()>0)||(this.getClusInRange().size()>0)){
-            if (this.getClus().size()>0){
-                cluViewers.add(new CluCore("INDIVIDUAL COURSE(S)", null, null));
-            }
+        if(this.getClus().size()>0){
+            CluGroup indCourses = new CluGroup("INDIVIDUAL COURSE(S)");
+            indCourses.setClus(this.getClus());
+            cluGroups.add(indCourses);
         }
-        cluViewers.addAll(this.getClus());
 
         //Course sets.
-        for (CluSetInfo cluSet : this.getCluSets()) {
-            cluViewers.add(new CluCore(null, cluSet.getName(), null));
+        for (CluSetInformation cluSet : this.getCluSets()) {
+            CluGroup cluSetCourses = new CluGroup(cluSet.getCluSetInfo().getName());
+            cluSetCourses.setClus(cluSet.getClus());
+            cluGroups.add(cluSetCourses);
         }
 
         //CourseRange
         if(this.getClusInRange().size()>0){
-            cluViewers.add(new CluCore(null, this.getCluSetRange().getCluSetRangeLabel(), null));
-            cluViewers.addAll(this.getClusInRange());
+            CluGroup cluRangeCourses = new CluGroup(this.getCluSetRange().getCluSetRangeLabel());
+            cluRangeCourses.setClus(this.getClusInRange());
+            cluGroups.add(cluRangeCourses);
         }
-        return cluViewers;
+        return cluGroups;
     }
 
 }

@@ -11,6 +11,7 @@ import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
+import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
@@ -98,8 +99,8 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             //Check if this clu is not already in the collection
             RuleEditor ruleEditor = this.getRuleEditor(model);
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-            for(CluSetInfo cluSetInfo : propEditor.getCluSet().getCluSets()){
-                if(cluSetInfo.getId().equals(cluSet.getId())){
+            for(CluSetInformation cluSetInfo : propEditor.getCluSet().getCluSets()){
+                if(cluSetInfo.getCluSetInfo().getId().equals(cluSet.getId())){
                     return false;
                 }
             }
@@ -124,11 +125,11 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             RuleEditor ruleEditor = this.getRuleEditor(model);
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
 
-            Collections.sort(propEditor.getCluSet().getCluSets(), new Comparator<CluSetInfo>(){
+            Collections.sort(propEditor.getCluSet().getCluSets(), new Comparator<CluSetInformation>(){
 
                 @Override
-                public int compare(CluSetInfo o1, CluSetInfo o2) {
-                    return o1.getName().compareTo(o2.getName());
+                public int compare(CluSetInformation o1, CluSetInformation o2) {
+                    return o1.getCluSetInfo().getName().compareTo(o2.getCluSetInfo().getName());
                 }
             });
         }

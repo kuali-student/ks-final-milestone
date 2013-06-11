@@ -158,29 +158,71 @@
         </property>
     </bean>
 
-    <!--bean id="KRMS-ListItems-DataGroup" parent="Uif-TableCollectionGroup" p:renderAddLine="false">
+    <bean id="KRMS-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionVerticalBoxItem">
+                        <property name="cssClasses">
+                            <list merge="true">
+                                <value>krms-stackedPreviewItem</value>
+                            </list>
+                        </property>
+                        <property name="renderFooter" value="false"/>
+                    </bean>
+                </property>
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
+                          p:cssClasses="uif-subCollection"/>
+                </property>
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>krms-stackedCollectionLayout</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CluGroup" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="title"/>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="KRMS-ListItems-SubGroup" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-SimpleTableCollectionLayout" parent="Uif-TableCollectionLayout" class="org.kuali.student.enrollment.class1.krms.SimpleTableLayoutManager">
+        <property name="cssClasses">
+            <list>
+                <value>uif-simpleTableCollectionLayout</value>
+            </list>
+        </property>
+        <property name="applyAlternatingRowStyles" value="false"/>
+        <property name="renderAlternatingHeaderColumns" value="false"/>
+        <property name="generateAutoSequence" value ="true"/>
+        <property name="richTable">
+            <bean parent="Uif-PagedRichTable">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
+        <property name="renderSequenceField" value="false" />
+    </bean>
+
+    <bean id="KRMS-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CluCore" />
-        <property name="propertyName" value="listItems" />
+        <property name="propertyName" value="clus" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
-        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.showPageTotal" value="false"/>
-        <property name="layoutManager.showTotal" value="false"/>
+        <property name="layoutManager">
+            <ref bean="KS-SimpleTableCollectionLayout"/>
+        </property>
+
         <property name="lineActions">
             <list></list>
         </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-DataField" p:propertyName="code"/>
-                <bean parent="Uif-DataField" p:propertyName="shortName"/>
-                <bean parent="Uif-DataField" p:propertyName="credits"/>
-            </list>
-        </property>
-    </bean-->
-
-    <bean id="KRMS-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CluCore" />
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="code"/>

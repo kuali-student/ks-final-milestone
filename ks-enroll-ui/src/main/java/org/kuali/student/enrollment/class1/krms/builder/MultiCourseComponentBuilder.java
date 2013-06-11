@@ -126,10 +126,12 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         // goes through the list of sub clusets and ignore the ones that are not reusable
         List<CluSetInfo> cluSetInfos = getCluSetInfos(result.getCluSetInfo().getCluSetIds());
         if (cluSetInfos != null) {
-            List<CluSetInfo> unWrappedCluSets = new ArrayList<CluSetInfo>();
+            List<CluSetInformation> unWrappedCluSets = new ArrayList<CluSetInformation>();
             for (CluSetInfo subCluSet : cluSetInfos) {
                 if (subCluSet.getIsReusable()) {
-                    unWrappedCluSets.add(subCluSet);
+                    CluSetInformation cluSetInformation = new CluSetInformation(subCluSet);
+                    cluSetInformation.setClus(this.getCluInfoHelper().getCourseInfos(subCluSet.getCluIds()));
+                    unWrappedCluSets.add(cluSetInformation);
                 } else {
 
                     //Retrieve the information from the wrapped clu cluset.
@@ -211,8 +213,8 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
                 return cluSetInfo;
             }
         } else {
-            for (CluSetInfo cluset : cluSetInformation.getCluSets()) {
-                cluSetInfo.getCluSetIds().add(cluset.getId());
+            for (CluSetInformation cluset : cluSetInformation.getCluSets()) {
+                cluSetInfo.getCluSetIds().add(cluset.getCluSetInfo().getId());
             }
         }
 

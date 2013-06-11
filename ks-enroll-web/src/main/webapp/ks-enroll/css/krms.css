@@ -135,3 +135,29 @@
 div.ks-multiCourseItem {
     margin-top: 0 !important;
 }
+
+/* Table Collections *************************************************************************************/
+table.uif-simpleTableCollectionLayout {
+    border: none;
+}
+
+table.uif-simpleTableCollectionLayout thead tr{
+    background: transparent;
+}
+
+.dataTables_scrollBody table.uif-simpleTableCollectionLayout thead tr{
+    border: none;
+}
+
+.dataTables_scrollBody table.uif-simpleTableCollectionLayout{
+    border: none;
+}
+
+table.uif-simpleTableCollectionLayout tbody tr {
+    border: none;
+}
+
+table.uif-simpleTableCollectionLayout td {
+    border: none;
+    border-collapse: collapse;
+}
