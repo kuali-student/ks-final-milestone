@@ -129,7 +129,7 @@
 }
 
 #Uif-BreadcrumbWrapper {
-    visibility: hidden;
+    dispay: none;
 }
 
 div.ks-multiCourseItem {
