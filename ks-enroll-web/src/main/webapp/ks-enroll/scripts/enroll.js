@@ -721,7 +721,7 @@ bar needs to update every time the page loads, we have to create some custom JS 
  */
 function updateContextBar(srcId, contextBarId){
 
-    jQuery("#" + contextBarId + " #" + srcId).remove(); // remove any child elements so we can replace them later
+    jQuery( "#" + contextBarId).empty(); // remove any child elements so we can replace them later
 
     var contextBar = jQuery("#" + contextBarId);    // grab the placeholder
     var src = jQuery("#" + srcId);                  // grab the new context bar
