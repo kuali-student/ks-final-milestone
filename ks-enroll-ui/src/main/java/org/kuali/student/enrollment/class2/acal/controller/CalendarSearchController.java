@@ -136,17 +136,19 @@ public class CalendarSearchController  extends UifControllerBase {
         resetForm(searchForm);
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
-        if(searchForm.getCalendarType().equals(CalendarConstants.HOLIDAYCALENDER)){
-               List<HolidayCalendarInfo> hCals = viewHelperService.searchForHolidayCalendars(searchForm.getName(), searchForm.getYear(), getContextInfo());
-               searchForm.setHolidayCalendars(hCals);
-        } else if(searchForm.getCalendarType().equals(CalendarConstants.ACADEMICCALENDER)) {
-               List<AcademicCalendarInfo> aCals = viewHelperService.searchForAcademicCalendars(searchForm.getName(), searchForm.getYear(), getContextInfo());
-               searchForm.setAcademicCalendars(aCals);
-        } else if(searchForm.getCalendarType().equals(CalendarConstants.TERM)){
-               List<TermInfo> terms = viewHelperService.searchForTerms(searchForm.getName(), searchForm.getYear(), getContextInfo());
-               searchForm.setTerms(terms);
-        } else {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
+        if(searchForm.getCalendarType() != null){
+            if(searchForm.getCalendarType().equals(CalendarConstants.HOLIDAYCALENDER)){
+                List<HolidayCalendarInfo> hCals = viewHelperService.searchForHolidayCalendars(searchForm.getName(), searchForm.getYear(), getContextInfo());
+                searchForm.setHolidayCalendars(hCals);
+            } else if(searchForm.getCalendarType().equals(CalendarConstants.ACADEMICCALENDER)) {
+                List<AcademicCalendarInfo> aCals = viewHelperService.searchForAcademicCalendars(searchForm.getName(), searchForm.getYear(), getContextInfo());
+                searchForm.setAcademicCalendars(aCals);
+            } else if(searchForm.getCalendarType().equals(CalendarConstants.TERM)){
+                List<TermInfo> terms = viewHelperService.searchForTerms(searchForm.getName(), searchForm.getYear(), getContextInfo());
+                searchForm.setTerms(terms);
+            } else {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
+            }
         }
 
         //set search criteria into http session
