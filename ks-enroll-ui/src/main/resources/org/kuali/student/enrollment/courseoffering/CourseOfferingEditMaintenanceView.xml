@@ -186,6 +186,15 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
         <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
 
+        <!--
+        Because the topGroup is static after the initial view load we needed to create a generic way to update the data
+        via javascript. So, we create a placeholder bean (KS-CourseOfferingEditWrapper-ContextBar-PlaceHolder) in the static context
+        bar. Then, we create an "updating" bean in the page. In this case:  KS-CourseOfferingEditWrapper-ContextBar
+        -->
+        <property name="topGroup">
+            <bean  id="KS-CourseOfferingEditWrapper-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup"/>
+        </property>
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
         </property>
@@ -207,6 +216,7 @@
         <property name="page.items">
             <list>
                 <ref bean="KS-EditCourseOffering-AliasMessageSection" />
+                <ref bean="KS-CourseOfferingEditWrapper-ContextBar" />
                 <ref bean="KS-CourseOfferingEdit-Term"/>
                 <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
                 <ref bean="KS-CourseOfferingEdit-CourseOfferingInformation"/>
@@ -219,6 +229,32 @@
         </property>
         <property name="page.footer.items">
             <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel" />
+        </property>
+    </bean>
+
+    <!--
+     This is the context bar that will be put into the static context bar placeholder on page load. It does this via the
+     "updateContextBar" javascript.
+     Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
+    -->
+    <bean id="KS-CourseOfferingEditWrapper-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
+          p:onDocumentReadyScript="updateContextBar( 'KS-CourseOfferingEditWrapper-ContextBar', 'KS-CourseOfferingEditWrapper-ContextBar-PlaceHolder' ); setSeasonalColor( 'KS-CourseOfferingEditWrapper-ContextBar', @{document.newMaintainableObject.dataObject.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-topGroup</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{document.newMaintainableObject.dataObject.termCode}" p:renderColon="false" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-topGroup-termCode</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="termSocState" />
+            </list>
         </property>
     </bean>
 

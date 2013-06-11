@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CourseOffering
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.ScheduleOfClassesConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
@@ -48,9 +49,15 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -64,14 +71,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class //TODO ...
@@ -87,6 +87,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     private transient AcademicCalendarService acalService;
     private transient CourseOfferingSetService courseOfferingSetService;
     private transient TypeService typeService;
+    private transient StateService stateService;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012).
 
@@ -489,12 +490,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 }
                 formObject.setOrganizationNames(orgList);
 
-                // Setting term string: Fall 2012 (09/28/2012 to 12/15/2012)
-                TermInfo termInfo = getAcalService().getTerm(coInfo.getTermId(), contextInfo);
-                StringBuilder termStartDate = new StringBuilder(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getStartDate()));
-                StringBuilder termEndDate = new StringBuilder(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getEndDate()));
-                String termStartEnd = termInfo.getName() + " (" + termStartDate + " to " +termEndDate + ")";
-                formObject.setTermStartEnd(termStartEnd);
+                setTermPropertiesOnFormObject( formObject, coInfo, contextInfo );
+                setTermDayOfYearOnFormObject( formObject, contextInfo );
 
                 // Set socInfo
 //                List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coInfo.getTermId(), ContextUtils.createDefaultContextInfo());
@@ -520,6 +517,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                         }
                     }
                 }
+
+                // set the SOC's state
+                formObject.setTermSocState( getStateService().getState( formObject.getSocInfo().getStateKey(), contextInfo ).getName() );
 
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);
@@ -552,6 +552,46 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    private void setTermDayOfYearOnFormObject( CourseOfferingEditWrapper formObject, ContextInfo contextInfo ) throws Exception {
+
+        List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm( formObject.getTerm().getId(), contextInfo);
+        Date termClassStartDate = null;
+        for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
+            if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
+                && keyDateInfo.getStartDate() != null
+                && keyDateInfo.getEndDate() != null )
+            {
+                termClassStartDate = keyDateInfo.getStartDate();
+
+                Date avgDate = new Date( termClassStartDate.getTime() + ( (keyDateInfo.getEndDate().getTime() - termClassStartDate.getTime()) /2 ) );
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(avgDate);
+                formObject.setTermDayOfYear( cal.get(Calendar.DAY_OF_YEAR) );
+                break;
+            }
+        }
+    }
+
+    private void setTermPropertiesOnFormObject( CourseOfferingEditWrapper formObject, CourseOfferingInfo coInfo, ContextInfo contextInfo ) throws Exception {
+
+        TermInfo termInfo = getAcalService().getTerm(coInfo.getTermId(), contextInfo);
+        formObject.setTerm( termInfo );
+        formObject.setTermCode(termInfo.getCode());
+        formObject.setTermName(termInfo.getName());
+
+        // Setting term string: Fall 2012 (09/28/2012 to 12/15/2012)
+        String termStartDate = new String( DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format( termInfo.getStartDate() ) );
+        String termEndDate = new String( DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format( termInfo.getEndDate() ) );
+        StringBuilder termStartEnd = new StringBuilder();
+        termStartEnd.append( termInfo.getName() );
+        termStartEnd.append( "(" );
+        termStartEnd.append( termStartDate );
+        termStartEnd.append( " to " );
+        termStartEnd.append( termEndDate );
+        termStartEnd.append( ")" );
+        formObject.setTermStartEnd( termStartEnd.toString() );
     }
 
     private FormatInfo getFormatInfo(CourseOfferingEditWrapper courseOfferingEditWrapper, String coFormId ){
@@ -596,6 +636,12 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingSetService;
+    }
+    protected StateService getStateService() {
+        if( stateService == null ) {
+            stateService = (StateService) GlobalResourceLoader.getService( new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART) );
+        }
+        return stateService;
     }
 
 }

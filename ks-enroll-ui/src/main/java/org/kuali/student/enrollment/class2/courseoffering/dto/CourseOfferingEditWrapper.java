@@ -43,7 +43,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     private List<String> crsGradingOptions;
     private List<OrganizationInfoWrapper> organizationNames;
     private List<OfferingInstructorWrapper> instructors;
-    private String termStartEnd;
     private String stateName;
 
     private String selectedGradingOptionName;
@@ -59,7 +58,12 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     private String gradingOption;
 
+    // term-info
+    private String termStartEnd;
     private String termName;
+    private int termDayOfYear;
+    private String termCode;
+    private String termSocState;
 
     private SocInfo socInfo;
 
@@ -150,14 +154,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         this.creditOptionFixed = creditOptionFixed;
     }
 
-    public String getTermStartEnd() {
-        return termStartEnd;
-    }
-
-    public void setTermStartEnd(String termStartEnd) {
-        this.termStartEnd = termStartEnd;
-    }
-
     public List<OfferingInstructorWrapper> getInstructors() {
         return instructors;
     }
@@ -239,12 +235,44 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         this.passFailStudentRegOpts = passFailStudentRegOpts;
     }
 
+    public String getTermStartEnd() {
+        return termStartEnd;
+    }
+
+    public void setTermStartEnd(String termStartEnd) {
+        this.termStartEnd = termStartEnd;
+    }
+
     public void setTermName(String name){
         this.termName=name;
     }
 
     public String getTermName(){
         return termName;
+    }
+
+    public int getTermDayOfYear() {
+        return this.termDayOfYear;
+    }
+
+    public void setTermDayOfYear(int termDayOfYear) {
+        this.termDayOfYear = termDayOfYear;
+    }
+
+    public void setTermCode(String termCode) {
+        this.termCode=termCode;
+    }
+
+    public String getTermCode() {
+        return this.termCode;
+    }
+
+    public String getTermSocState() {
+        return this.termSocState;
+    }
+
+    public void setTermSocState(String termSocState) {
+        this.termSocState = termSocState;
     }
 
     public Map<String,String> getAdminOrg(){
