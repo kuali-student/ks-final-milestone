@@ -835,12 +835,16 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
+    /* TODO:
+     *  Design review and code cleanup: shall we take out 'boolean isOfficial' from the method
+     *  signature given we have decided to separate make official from save function -- by Bonnie
+     */
     /**
-     * Saves the term
+     * Saves the term and subterm
      *
      * @param termWrapper wrapper around terminfo
      * @param acalId acal id
-     * @param isOfficial whether the term is official or not sothat state can be changed
+     * @param isOfficial whether the term is official or not so that state can be changed
      * @throws Exception
      */
     public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial,boolean calculateInstrDays) throws Exception {
@@ -851,15 +855,18 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         term.setStartDate(termWrapper.getStartDate());
         term.setName(termWrapper.getName());
         term.setTypeKey(termWrapper.getTermType());
-
-
-
-        if (termWrapper.isNew()){
+        
+        //handle subterm
+        if (termWrapper.isNew() && !termWrapper.isSubTerm()){
             TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
             termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
             getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),createContextInfo());
-        } else {
-
+        }else if(termWrapper.isNew() && termWrapper.isSubTerm()){
+            TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
+            termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
+            getAcalService().addTermToTerm(termWrapper.getParentTermInfo().getId(), termWrapper.getTermInfo().getId(), createContextInfo());
+        }else {
+            //assume when update a subterm, its parent term won't change
             AtpInfo existingAtp = getAtpService().getAtp(term.getId(), createContextInfo());
             if(existingAtp!=null){
                 if(existingAtp.getCode()== null){
