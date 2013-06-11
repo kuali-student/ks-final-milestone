@@ -17,31 +17,20 @@ package org.kuali.student.r2.core.acal.service.impl;
 
 import org.apache.commons.httpclient.util.DateUtil;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.TermCodeGenerator;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This implementation class generates the term code based off the term's type attributes.  The type attribute we're
+ * checking can be found in
+ * org.kuali.student.r2.core.constants.TypeServiceConstants.ATP_TERM_TYPE_CODE_ATTR
  *
  * @author Kuali Student Team
  */
@@ -50,7 +39,16 @@ public class TermCodeGeneratorImpl implements TermCodeGenerator {
 
     private TypeService typeService;
 
-    @Override
+    /**
+     * In this implementation we are generating the termCode from the term's startDate and the term's type attribute.
+     * From the startDate we are pulling just the year in the yyyy format. The type attribute will contain the
+     * Exact string that we need to populate to append to the year.
+     *
+     * So, in this example the year could be 2012 and if the type is spring and at UMD the attribute would contain '01'.
+     * This would result in a code: '201201' for spring 2012.
+     * @param term
+     * @return
+     */
     public String generateTermCode(TermInfo term) {
         //Don't generate if the term was set already
         if (term.getCode() != null){
@@ -61,7 +59,7 @@ public class TermCodeGeneratorImpl implements TermCodeGenerator {
             return null;
         }
 
-        String typeCode = "";
+        String typeCode;
 
         try {
             TypeInfo type = getTypeService().getType(term.getTypeKey(), createContextInfo());
@@ -89,7 +87,7 @@ public class TermCodeGeneratorImpl implements TermCodeGenerator {
 
     public TypeService getTypeService() {
         if(typeService == null) {
-            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+            typeService = GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.typeService;
     }
