@@ -245,7 +245,28 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
             for (TermInfo termInfo : termInfos) {
                 AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy,calculateInstrDays);
+
+                //retrieve sub terms by the parent term
+                List<TermInfo> subTermInfos = getAcalService().getIncludedTermsInTerm(termInfo.getId(), createContextInfo());
+
+                //Sort the subTermInfos by start date
+                Collections.sort(subTermInfos, new Comparator<TermInfo>() {
+                    @Override
+                    public int compare(TermInfo subTermInfo1, TermInfo subTermInfo2) {
+                        return subTermInfo2.getStartDate().compareTo(subTermInfo1.getStartDate());
+                    }
+                });
+
+                //add the parent term into the term wrapper list
                 termWrappers.add(termWrapper);
+
+                //add the sub terms into the term wrapper list
+                for (TermInfo subTermInfo : subTermInfos) {
+                    AcademicTermWrapper subTermWrapper = populateTermWrapper(subTermInfo, isCopy,calculateInstrDays);
+                    subTermWrapper.setParentTerm(termInfo.getId());
+                    termWrappers.add(subTermWrapper);
+                }
+
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
