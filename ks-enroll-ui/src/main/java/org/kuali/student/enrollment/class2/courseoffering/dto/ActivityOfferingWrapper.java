@@ -49,6 +49,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private String typeKey;
 
     private String termName;
+    private int termDayOfYear;
+    private String termSocState;
 
     private String formatOfferingName;
 
@@ -474,6 +476,22 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setTermName(String termName) {
         this.termName = termName;
+    }
+
+    public int getTermDayOfYear() {
+        return this.termDayOfYear;
+    }
+
+    public void setTermDayOfYear( int termDayOfYear ) {
+        this.termDayOfYear = termDayOfYear;
+    }
+
+    public String getTermSocState() {
+        return this.termSocState;
+    }
+
+    public void setTermSocState( String termSocState ) {
+        this.termSocState = termSocState;
     }
 
     public String getFormatOfferingName() {
