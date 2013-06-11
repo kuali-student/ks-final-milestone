@@ -867,3 +867,13 @@ div#Uif-ApplicationHeader-Wrapper{
 .open > .dropdown-menu {
     left: -100px;
 }
+
+/*unified header related styles START*/
+.ks-unified-header-rightGroup-action{
+     float: right;
+}
+
+.ks-unified-header-rightGroup-status{
+    float: right;
+}
+/*unified header related styles END*/
