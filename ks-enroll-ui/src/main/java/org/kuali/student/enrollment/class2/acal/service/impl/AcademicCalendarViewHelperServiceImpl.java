@@ -499,9 +499,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             form.setValidationJSONString("");
             KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
             if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
-                //putErrorForSectionId seems not working
-                GlobalVariables.getMessageMap().putErrorForSectionId("acal-term-keydatesgroup", CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
                 StringBuilder sb = new StringBuilder();
                 sb.append("\"key_date_group_type\":\"Required\"");
                 form.setValidationJSONString("{"+sb.toString()+"}");
@@ -517,9 +515,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             boolean isValid = true;
             if(StringUtils.isEmpty(keydate.getKeyDateType())) {
-                //putErrorForSectionId seems not working
-                GlobalVariables.getMessageMap().putErrorForSectionId( "acal-term-keydates", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
                 sb.append("\"key_date_type\":\"Required\"");
                 isValid = false;
             }
