@@ -409,13 +409,15 @@ function validateSeatsForSP(jqObject) {
             var num = id.substring(14, id.length - 8);
             var elemPct = jQuery('#seatLimitPercent_line' + num);
             var seatsNum = jQuery(this).val();
-            count += 1;
-            if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
-                seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
-                var result = (seatsNum / maxEnrollValue) * 100;
-                elemPct.text(Math.round(result) + "%");
-            } else {
-                elemPct.text("");
+            if(seatsNum != ""){
+                count += 1;
+                if (maxEnrollValue != "" && maxEnrollValue != 0 ) {
+                    seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
+                    var result = (seatsNum / maxEnrollValue) * 100;
+                    elemPct.text(Math.round(result) + "%");
+                } else {
+                    elemPct.text("");
+                }
             }
         }
     });
@@ -467,7 +469,7 @@ function calculatePercent(jqObject){
 
     if(jqObject) {
         var currentId = jqObject.attr('id');
-        if (currentId.indexOf("_control") == -1) {
+        if (currentId.indexOf("_control") == 0) {
             currentId = currentId + "_control";
         }
         var element = jQuery('#' + currentId);
@@ -504,13 +506,15 @@ function calculatePercent(jqObject){
                 var num = id.substring(14);
                 var elemPct = jQuery('#seatLimitPercent_line' + num + ' span[class=uif-message]');
                 var seatsNum = jQuery(this).text().trim();
-                count += 1;
-                if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
-                    seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
-                    var result = (seatsNum / maxEnrollValue) * 100;
-                    elemPct.text(Math.round(result) + "%");
-                } else {
-                    elemPct.text("");
+                if(seatsNum != ""){
+                    count += 1;
+                    if (maxEnrollValue != "" && maxEnrollValue != 0) {
+                        seatsTotal = parseInt(seatsTotal) + parseInt(seatsNum);
+                        var result = (seatsNum / maxEnrollValue) * 100;
+                        elemPct.text(Math.round(result) + "%");
+                    } else {
+                        elemPct.text("");
+                    }
                 }
             }
         });
@@ -552,8 +556,9 @@ function calculatePercent(jqObject){
                 }else{
                     seatsNum = jQuery(this).val();
                 }
+                if(seatsNum != ""){
                 count += 1;
-                if (maxEnrollValue != "" && maxEnrollValue != 0 && seatsNum != "") {
+                if (maxEnrollValue != "" && maxEnrollValue != 0) {
                     seatsTotal = parseInt(seatsTotal) + (parseInt(seatsNum) || 0);
                     if(seatsTotal == 0){
                         elemPct.text("");
@@ -564,6 +569,7 @@ function calculatePercent(jqObject){
                 } else {
                     elemPct.text("");
                 }
+            }
             }
         });
         seatpoolCount.text(count);
@@ -584,6 +590,8 @@ function calculatePercent(jqObject){
     } else {
         seatsRemaining.text("");
     }
+
+
 }
 
 function setRequestedDeliveryLogisticsFieldRequired(jqObject,required){
