@@ -19,6 +19,7 @@ import org.kuali.student.common.util.CalendarSearchViewHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -76,7 +77,15 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
 
         String acalId = null;
         try {
-            List<AcademicCalendarInfo> atps = getAcademicCalendarService().getAcademicCalendarsForTerm(term.getId(), context);
+            // check if it's a subterm
+            List<TermInfo> parentTerms = getAcademicCalendarService().getContainingTerms(term.getId(), context);
+            List<AcademicCalendarInfo> atps = new ArrayList<AcademicCalendarInfo>();
+            if(parentTerms.isEmpty()) {
+                atps = getAcademicCalendarService().getAcademicCalendarsForTerm(term.getId(), context);
+            } else {
+                TermInfo parentTerm = parentTerms.get(0);
+                atps = getAcademicCalendarService().getAcademicCalendarsForTerm(parentTerm.getId(), context);
+            }
             if (!atps.isEmpty()){
                 acalId = atps.get(0).getId();
             }
