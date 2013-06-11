@@ -48,6 +48,7 @@ public class AcademicTermWrapper {
     private Date endDate;
 
     private String termNameForUI;
+    private String status;
 
     private TypeInfo typeInfo;
 
@@ -311,6 +312,22 @@ public class AcademicTermWrapper {
      */
     public void setTypeInfo(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
+    }
+
+    public String getStatus() {
+        if(termInfo!=null){
+            if(StringUtils.equals(termInfo.getStateKey(), AcademicCalendarServiceConstants.TERM_OFFICIAL_STATE_KEY)){
+                status="Official";
+            }
+            else{
+                status="Draft";
+            }
+        }
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**
