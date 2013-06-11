@@ -398,19 +398,7 @@ limitations under the License.
             <value>ks-borderBottom2</value>
           </list>
         </property>
-        <property name="layoutManager.lineGroupPrototype.header.lowerGroup">
-             <bean parent="Uif-HorizontalBoxGroup">
-                 <property name="items">
-                    <list>
-                        <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
-                       <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
-                       <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
-                             p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                             p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
-                    </list>
-                 </property>
-             </bean>
-        </property>
+
         <property name="layoutManager.addLineGroup.header.lowerGroup">
              <bean parent="Uif-HorizontalBoxGroup">
                  <property name="items">
@@ -429,6 +417,19 @@ limitations under the License.
                     <bean parent="Uif-HeaderFour">
                         <property name="headerText" value="@{#line.holidayCalendarHeading}"/>
                         <property name="style" value="margin-bottom:5px;padding-bottom:0;"/>
+                        <property name="lowerGroup">
+                            <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
+                                        <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
+                                        <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
+                                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
+                                              p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </property>
                     </bean>
                 </property>
             </bean>
