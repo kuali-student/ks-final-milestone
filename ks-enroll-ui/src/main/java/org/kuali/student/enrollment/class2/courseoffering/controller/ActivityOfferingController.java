@@ -16,6 +16,7 @@ import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
@@ -197,8 +198,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         super.route(form,result,request, response);
 
-        GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.modified" );
-
         String url;
         if (!form.getReturnLocation().contains("methodToCall=")){ //This happens when we display a list of COs and then user click on Manage action
             url = form.getReturnLocation() + "&methodToCall=show";
@@ -206,11 +205,15 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             url = form.getReturnLocation().replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
         }
 
-
         // clear current form from session
         GlobalVariables.getUifFormManager().removeSessionForm(form);
 
-        return performRedirect(form, url, new Properties());
+        // Doesn't work with performRedirect
+        //KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, ActivityOfferingConstants.MSG_INFO_AO_MODIFIED);
+        // Alas, this doesn't work either.  See KsUifFormBase.postBind(..) for how it works in a regular form
+        Properties urlParameters = new Properties();
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE, ActivityOfferingConstants.MSG_INFO_AO_MODIFIED);
+        return performRedirect(form, url, urlParameters);
     }
 
     @RequestMapping(params = "methodToCall=cancel")

@@ -6,13 +6,9 @@ import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.main.rules.KsMaintenanceDocumentRuleBase;
 
-public class ActivityOfferingRule  extends MaintenanceDocumentRuleBase {
-
-    @Override
-    protected boolean processGlobalSaveDocumentBusinessRules(MaintenanceDocument document) {
-        return true;
-    }
+public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
 
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument maintenanceDocument) {

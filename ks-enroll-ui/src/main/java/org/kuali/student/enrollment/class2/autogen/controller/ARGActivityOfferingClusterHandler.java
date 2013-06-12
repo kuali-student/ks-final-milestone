@@ -340,10 +340,9 @@ public class ARGActivityOfferingClusterHandler {
             return theForm;
         }
 
-        GlobalVariables.getMessageMap().addGrowlMessage("", "activityOffering.moved" );
+        KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, ActivityOfferingConstants.MSG_INFO_AO_MOVED);
 
         return theForm;
-
     }
 
 

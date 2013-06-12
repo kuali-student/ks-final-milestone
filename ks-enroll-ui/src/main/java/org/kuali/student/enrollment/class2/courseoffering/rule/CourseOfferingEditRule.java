@@ -17,17 +17,14 @@
 package org.kuali.student.enrollment.class2.courseoffering.rule;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.main.rules.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.List;
@@ -37,13 +34,13 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
+public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
 
-       private CourseOfferingService courseOfferingService;
+    private CourseOfferingService courseOfferingService;
 
     @Override
-    protected boolean processGlobalSaveDocumentBusinessRules(MaintenanceDocument document) {
-        boolean valid = true;
+    protected boolean isDocumentValidForSave(MaintenanceDocument document) {
+        boolean valid = super.isDocumentValidForSave(document);
 
         if (document.getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
             CourseOfferingEditWrapper newCOWrapper = (CourseOfferingEditWrapper)document.getNewMaintainableObject().getDataObject();
@@ -54,11 +51,12 @@ public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
             // while even we didn't modify suffix in edit CO page, the suffix value in NewMaintainableObject became an empty string
             String newSuffix = newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
             String oldSuffix = oldCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
-            if ((oldSuffix == null || oldSuffix.isEmpty()) && 
+            if ((oldSuffix == null || oldSuffix.isEmpty()) &&
                 (newSuffix == null || newSuffix.isEmpty())) {
-                return valid;
-            } else if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
-                return validateDuplicateSuffix(newCOWrapper);
+                // no change to valid
+            }
+            else if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
+                valid &= validateDuplicateSuffix(newCOWrapper);
             }
         }
 
@@ -76,17 +74,19 @@ public class CourseOfferingEditRule extends MaintenanceDocumentRuleBase {
             for (CourseOfferingInfo courseOfferingInfo : wrapperList) {
 
                 if (StringUtils.equals(newCoCode, courseOfferingInfo.getCourseOfferingCode())) {
-                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
-                            CourseOfferingConstants.COURSEOFFERING_ERROR_CREATE_DUPLICATECODE,
-                            newCoCode, courseCode);
+                    GlobalVariables.getMessageMap().putError(
+                            "document.newMaintainableObject.dataObject.courseOfferingInfo.courseNumberSuffix",
+                            CourseOfferingConstants.COURSEOFFERING_ERROR_CREATE_DUPLICATECODE, newCoCode, courseCode);
                     return false;
                 }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
         return true;
     }
+
 
     protected CourseOfferingService getCourseOfferingService() {
         if (courseOfferingService == null) {

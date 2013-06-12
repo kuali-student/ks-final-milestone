@@ -285,7 +285,9 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingEdit-CourseOfferingInformation" parent="Uif-VerticalBoxSection" p:headerText="Course Offering Information">
+    <bean id="KS-CourseOfferingEdit-CourseOfferingInformation" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Course Offering Information"/>
+        <property name="validationMessages.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
@@ -296,11 +298,10 @@
                             <bean parent="Uif-HorizontalFieldGroup" p:showLabel="false">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="course.code" p:showLabel="false"
-                                              p:readOnly="true" />
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix"  p:showLabel="false" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                        <bean parent="Uif-DataField" p:propertyName="course.code" p:showLabel="false"/>
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:watermarkText="Suffix" p:size="5" />
+                                                <bean parent="Uif-TextControl" p:watermarkText="Suffix" p:size="10" />
                                             </property>
                                         </bean>
                                     </list>

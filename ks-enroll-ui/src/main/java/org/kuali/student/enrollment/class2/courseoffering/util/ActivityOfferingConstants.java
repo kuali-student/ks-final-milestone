@@ -30,6 +30,9 @@ public class ActivityOfferingConstants {
     public static final String ATP_CODE = "atpCode";
     public static final String ACTIVITY_OFFERING_WRAPPER_ID = "aoInfo.id";
 
+    public static final String MSG_INFO_AO_MOVED = "info.enroll.ao.moved";
+    public static final String MSG_INFO_AO_MODIFIED = "info.enroll.ao.modified";
+
     public static final String MSG_ERROR_INSTRUCTOR_NOTFOUND = "error.enroll.ao.instructor.notfound";
     public static final String MSG_ERROR_INSTRUCTOR_OVERFLOW = "error.enroll.ao.instructor.overflow";
     public static final String MSG_ERROR_INSTRUCTOR_DUPLICATE = "error.enroll.ao.instructor.duplicate";

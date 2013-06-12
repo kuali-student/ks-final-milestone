@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -68,22 +69,25 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-
-        /*
-         * If it's Create CO Maintenace document, just stay on the same view. If it's Edit CO, navigate back to Manage CO
-         */
-        if (!(this instanceof CourseOfferingCreateController)){
-            super.route(form,result,request, response);
-
-            String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
-            form.setReturnLocation(url);
-
-            return back(form,result,request,response);
-        } else {
-            return super.route(form,result,request, response);
+        // If it's Create CO Maintenance document, stay on the same view
+        if (this instanceof CourseOfferingCreateController) {
+            return super.route(form, result, request, response);
         }
 
+        // For Edit CO, navigate back to Manage CO unless there's an error
+
+        super.route(form, result, request, response);
+
+        // If Edit CO has errors, don't navigate back to Manage screen, display errors instead.
+        if (GlobalVariables.getMessageMap().hasErrors()) {
+            return getUIFModelAndView(form);
+        }
+
+        String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
+        form.setReturnLocation(url);
+        return back(form,result,request,response);
     }
+
 
     @RequestMapping(params = "methodToCall=cancel")
     @Override

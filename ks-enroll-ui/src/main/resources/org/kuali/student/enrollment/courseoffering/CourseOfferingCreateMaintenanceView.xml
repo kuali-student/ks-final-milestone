@@ -291,47 +291,23 @@
     </bean>
 
     <!--This will be displayed for Copy from Catalog action-->
-    <bean id="KS-Catalog-CourseOfferingCodeSubSection" parent="Uif-VerticalBoxSection" >
+    <bean id="KS-Catalog-CourseOfferingCodeSubSection" parent="Uif-VerticalBoxSection">
+        <property name="style" value="margin-left:50px;"/>
+        <property name="header.style" value="margin-left:-50px;margin-bottom:10px;"/>
         <property name="disclosure.render" value="false"/>
         <property name="headerText" value="Course Information"/>
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalFieldGroup" p:style="margin-left:68px;">
-                     <property name="group.instructionalMessage">
-                        <bean parent="Uif-InstructionalMessage" p:style="font-weight:bold;font-size:15px;"/>
-                    </property>
-                    <property name="group.instructionalMessage.cssClasses">
-                        <list merge="true">
-                            <value>ks-borderBottom</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-InputField" p:propertyName="course.code" p:label="Course Code(s)" p:readOnly="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="5"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="courseOfferingSuffix"
-                                  p:label="Suffix" p:labelPlacement="LEFT" p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="10" />
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="course.courseTitle" p:label="Course Title" p:readOnly="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="21"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField" p:propertyName="creditCount" p:label="Credits" p:readOnly="true">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="5"/>
-                                </property>
-                            </bean>
-                            <ref bean="KS-CoListed-Checkbox-Group"/>
-                         </list>
+                <bean parent="Uif-DataField" p:propertyName="course.code" p:label="Course Code(s)"/>
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingSuffix"
+                      p:label="Suffix" p:fieldLabel.renderColon="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
+                <bean parent="Uif-DataField" p:propertyName="course.courseTitle" p:label="Course Title"/>
+                <bean parent="Uif-DataField" p:propertyName="creditCount" p:label="Credits"/>
+                <ref bean="KS-CoListed-Checkbox-Group"/>
             </list>
         </property>
     </bean>
