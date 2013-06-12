@@ -852,7 +852,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param isOfficial whether the term is official or not so that state can be changed
      * @throws Exception
      */
-    public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial,boolean calculateInstrDays) throws Exception {
+    public void saveTerm(AcademicTermWrapper termWrapper, String acalId, boolean isOfficial,boolean calculateInstrDays) throws Exception {
 
         TermInfo term = termWrapper.getTermInfo();
 
@@ -861,17 +861,24 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         term.setName(termWrapper.getName());
         term.setTypeKey(termWrapper.getTermType());
         
-        //handle subterm
-        if (termWrapper.isNew() && !termWrapper.isSubTerm()){
+        if (termWrapper.isNew() && !termWrapper.isSubTerm()){ //handle term
             TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
             termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
             getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),createContextInfo());
-        }else if(termWrapper.isNew() && termWrapper.isSubTerm()){
-            TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
-            termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
-            getAcalService().addTermToTerm(termWrapper.getParentTermInfo().getId(), termWrapper.getTermInfo().getId(), createContextInfo());
+        }else if(termWrapper.isNew() && termWrapper.isSubTerm()){ //handle subterm
+            //the parent term must exist in DB
+            String parentTermTypeKey = termWrapper.getParentTerm();
+            TermInfo parentTermInfo = getParentTerm(acalId, parentTermTypeKey);
+            if(parentTermInfo == null){
+                throw new Exception("Parent Term does not exist. Therefor unable to save subterm.");
+            }else{
+                termWrapper.setParentTermInfo(parentTermInfo);
+                TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
+                termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
+                getAcalService().addTermToTerm(termWrapper.getParentTermInfo().getId(), termWrapper.getTermInfo().getId(), createContextInfo());
+            }
         }else {
-            //assume when update a subterm, its parent term won't change
+            //assume when update a subterm, its parent term id won't change
             AtpInfo existingAtp = getAtpService().getAtp(term.getId(), createContextInfo());
             if(existingAtp!=null){
                 if(existingAtp.getCode()== null){
@@ -1146,6 +1153,17 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         } else {
             super.processBeforeAddLine(view, collectionGroup, model, addLine);
         }
+    }
+    
+    private TermInfo getParentTerm(String acalId, String parentTermTypeKey) throws Exception{
+        
+        List<TermInfo> termInfoList =  getAcalService().getTermsForAcademicCalendar(acalId, createContextInfo());
+        for(TermInfo termInfo : termInfoList){
+            if (parentTermTypeKey.equals(termInfo.getTypeKey())) {
+                return termInfo;
+            }
+        }
+        return null;
     }
 
     public AcademicCalendarService getAcalService() {

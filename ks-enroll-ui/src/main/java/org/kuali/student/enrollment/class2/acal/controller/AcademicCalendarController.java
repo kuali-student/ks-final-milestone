@@ -696,7 +696,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         // If validation succeeds, continue save
         try {
-            if (StringUtils.isNotBlank(academicCalendarInfo.getId())) {
+            if (StringUtils.isNotBlank(academicCalendarInfo.getId())) { // update existing ACAL
                 // 1. update acal and AC-HC relationships
                 academicCalendarInfo = processHolidayCalendars(academicCalendarForm);
                 AcademicCalendarInfo acalInfo = getAcalService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, viewHelperService.createContextInfo());
@@ -706,7 +706,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 // 2. update acalEvents if any
                 List<AcalEventWrapper> events = academicCalendarForm.getEvents();
                 processEvents(academicCalendarForm, events, acalInfo.getId());
-            } else {
+            } else {  //create a new ACAL
                 AcademicCalendarInfo acalInfo = null;
                 // 1. create  a new acalInfo with a list of HC Ids
                 processHolidayCalendars(academicCalendarForm);
@@ -742,14 +742,32 @@ public class AcademicCalendarController extends UifControllerBase {
         academicCalendarForm.getTermsToDeleteOnSave().clear();
 
         boolean calculateInstrDays = !academicCalendarForm.getHolidayCalendarList().isEmpty();
-
-        // Save Term and keydates
+        List<AcademicTermWrapper> subTermWrapperList = new ArrayList<AcademicTermWrapper>();
+        // Then save Term and keydates
         for (AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
+            try {
+                if (!termWrapper.isSubTerm()){
+                    viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), false,calculateInstrDays);
+                }else{
+                    subTermWrapperList.add(termWrapper);
+                }
+            } catch(Exception e) {
+                if (LOG.isDebugEnabled()){
+                    LOG.error(String.format("Unable to save term [%s].", termWrapper.getName()), e);
+                }
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_SAVE_FAILED,
+                        termWrapper.getName(), e.getLocalizedMessage());
+                return getUIFModelAndView(academicCalendarForm, CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
+            }
+        }
+
+        //finally save subTerm if any
+        for (AcademicTermWrapper termWrapper : subTermWrapperList){
             try {
                 viewHelperService.saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), false,calculateInstrDays);
             } catch(Exception e) {
                 if (LOG.isDebugEnabled()){
-                    LOG.error(String.format("Unable to save term [%s].", termWrapper.getName()), e);
+                    LOG.error(String.format("Unable to save subterm [%s].", termWrapper.getName()), e);
                 }
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_SAVE_FAILED,
                         termWrapper.getName(), e.getLocalizedMessage());
