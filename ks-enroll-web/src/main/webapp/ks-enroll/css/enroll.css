@@ -867,10 +867,6 @@ div[class*="-labelTop"] ~ div:not([class*="-labelTop"]){
     margin-top: 30px;
 }
 
-/*div.uif-inputField-labelTop ~ div:not(.uif-inputField-labelTop){*/
-/*margin-top: 30px;*/
-/*}*/
-
 div#Uif-ApplicationHeader-Wrapper{
     z-index: 100;
 }
@@ -886,12 +882,6 @@ div#Uif-ApplicationHeader-Wrapper{
 
 .ks-unified-header-rightGroup-status{
     float: right;
-    clear: right;
-}
-
-.ks-unified-header-rightGroup-status span{
-    float: left;
-    padding-right: 20px;
 }
 
 .ks-unified-header-rightGroup-container{
