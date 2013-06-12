@@ -6,10 +6,20 @@ public class CourseJointInfoDisplay extends CourseJointInfo {
 
 	private static final long serialVersionUID = -3581960069878061510L;
 	
+	private String searchBy;
+	
 	private String courseCode;
 	
 	private String level;
 
+	public String getSearchBy() {
+		return searchBy;
+	}
+
+	public void setSearchBy(String searchBy) {
+		this.searchBy = searchBy;
+	}
+	
 	public String getCourseCode() {
 		return courseCode;
 	}

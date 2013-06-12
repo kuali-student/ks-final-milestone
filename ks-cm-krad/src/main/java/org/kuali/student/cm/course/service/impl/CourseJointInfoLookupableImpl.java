@@ -11,6 +11,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
+import org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder.SearchByKeys;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -33,6 +34,7 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
 		List<CourseJointInfoDisplay> courseJointInfoDisplays = new ArrayList<CourseJointInfoDisplay>();
 		
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        SearchByKeys searchByKey = SearchByKeys.valueOf(searchCriteria.get("searchBy"));
         String courseTitle = searchCriteria.get("courseTitle");
         String subjectArea = searchCriteria.get("courseCode");
         String description = searchCriteria.get("descr.plain");
@@ -63,16 +65,41 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
         SearchParamInfo stateParam = new SearchParamInfo();
         stateParam.setKey("lu.queryParam.luOptionalState");
         List<String> states = new ArrayList<String>();
-        states.add("Draft");
-        states.add("Submitted");
-        states.add("Withdrawn");
-        states.add("Approved");
-        states.add("Active");
+        switch (searchByKey) {
+	        case COURSES_AND_PROPOSALS:
+	        	states.add("Draft");
+	            states.add("Submitted");
+	            states.add("Withdrawn");
+	            states.add("Approved");
+	            states.add("Active");
+	            break;
+	        case COURSES_ONLY:
+	        	states.add("Active");
+	        	states.add("Approved");
+	        	states.add("Retired");
+	        	states.add("Suspended");
+	        	break;
+	        case PROPOSALS_ONLY:
+	        	states.add("Draft");
+    			states.add("Submitted");
+				states.add("Withdrawn");
+				states.add("Approved");
+        }
+        
         stateParam.setValues(states);
         queryParamValueList.add(stateParam);
 
+        String searchKey = "";
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("lu.search.generic");
+        switch (searchByKey) {
+        	case COURSES_AND_PROPOSALS:
+        		searchKey = "lu.search.generic";
+        		break;
+        	case COURSES_ONLY:
+        	case PROPOSALS_ONLY:
+        		searchKey = "lu.search.mostCurrent.union";
+        }
+        searchRequest.setSearchKey(searchKey);
         searchRequest.setParams(queryParamValueList);
         SearchResultInfo clus = null;
         try {
