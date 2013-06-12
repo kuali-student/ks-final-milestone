@@ -32,10 +32,12 @@ public interface AcademicCalendarServiceFacade {
     /**
      * Changes the state of the term and any ancestor term official, as well as the calendar.
      * KSENROLL-7251
-     * @param termId
-     * @param contextInfo
+     * @param termId The term whose state is made official
+     * @param contextInfo The context info
      */
-    void makeTermOfficial(String termId, ContextInfo contextInfo);
+    void makeTermOfficialCascaded(String termId, ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException;
 
     /**
      * Cascaded version of delete.  (We need to define this more formally).  We don't delete non-official terms
