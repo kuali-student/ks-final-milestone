@@ -886,10 +886,38 @@ div#Uif-ApplicationHeader-Wrapper{
 
 .ks-unified-header-rightGroup-status{
     float: right;
+    clear: right;
+}
+
+.ks-unified-header-rightGroup-status span{
+    float: left;
+    padding-right: 20px;
 }
 
 .ks-unified-header-rightGroup-container{
-    /*background-color: #d3d3d3;*/
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #0088cc;
+}
+
+.ks-unified-header-rightGroup-container :not(:last-child){
+    padding-bottom: 15px;
+}
+
+.ks-unified-header-list{
+    list-style: none;
+    float: right;
+}
+
+.ks-unified-header-list li{
+    float: left;
+    padding-top: 5px;
+    padding-right: 20px;
+}
+
+.ks-unified-header-list a{
+    color: blue;
 }
 
 .uif-viewHeader-contentWrapper {
