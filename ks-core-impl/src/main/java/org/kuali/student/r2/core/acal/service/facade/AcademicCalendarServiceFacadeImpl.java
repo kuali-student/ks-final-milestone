@@ -35,8 +35,12 @@ import javax.annotation.Resource;
 public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServiceFacade {
     private static final Logger LOGGER = Logger.getLogger(AcademicCalendarServiceFacadeImpl.class);
 
-    @Resource(name="AcademicCalendarService")
+    @Resource(name="acalService")
     private AcademicCalendarService acalService;
+
+    public void setAcalService(AcademicCalendarService acalService) {
+        this.acalService = acalService;
+    }
 
     @Override
     public void makeTermOfficial(String termId, ContextInfo contextInfo) {
