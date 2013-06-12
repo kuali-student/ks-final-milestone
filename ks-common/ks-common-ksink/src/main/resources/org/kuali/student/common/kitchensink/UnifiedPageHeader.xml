@@ -31,9 +31,50 @@
             <bean parent="Uif-VerticalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-container">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PageHeader"
-                              p:template="/ks-enroll/WEB-INF/ftl/ksUnifiedHeaderRightGroup.ftl" p:render="true"
-                              p:templateName="ks_UnifiedHeaderRightGroup"/>
+                        <bean id="ksUnifiedHeaderRightGroupActionId" parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-action" p:onDocumentReadyScript="addBootstrapImageToLink('ksUnifiedHeaderRightGroupActionId');">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Copy link');" p:actionLabel="Copy" p:actionImagePlacement="LEFT">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText="Copy" p:title="Copy" p:source="icon-plus-sign"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Comment link');" p:actionLabel="Comment" p:actionImagePlacement="LEFT">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:source="icon-comment"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Print link');" p:actionLabel="Print" p:actionImagePlacement="LEFT">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:source="icon-print"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Delete link');" p:actionLabel="Delete" p:actionImagePlacement="LEFT">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:source="icon-remove"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Edit link');" p:actionLabel="Edit" p:actionImagePlacement="LEFT">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:source="icon-edit"/>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Manage link');" p:actionLabel="Manage" p:actionImagePlacement="LEFT">
+                                        <property name="actionImage">
+                                            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:source="icon-wrench"/>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <bean parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-status">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message" p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
+                                    <bean parent="KS-Lozenge-Orange-Uif-Message" p:messageText="Detail Status"/>
+                                </list>
+                            </property>
+                        </bean>
                     </list>
                 </property>
             </bean>
