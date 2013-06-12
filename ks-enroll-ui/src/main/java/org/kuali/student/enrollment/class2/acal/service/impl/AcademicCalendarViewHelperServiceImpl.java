@@ -245,28 +245,33 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
             for (TermInfo termInfo : termInfos) {
                 AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy,calculateInstrDays);
-
+                //add the parent term into the term wrapper list
+                termWrappers.add(termWrapper);
                 //retrieve sub terms by the parent term
                 List<TermInfo> subTermInfos = getAcalService().getIncludedTermsInTerm(termInfo.getId(), createContextInfo());
 
-                //Sort the subTermInfos by start date
-                Collections.sort(subTermInfos, new Comparator<TermInfo>() {
-                    @Override
-                    public int compare(TermInfo subTermInfo1, TermInfo subTermInfo2) {
-                        return subTermInfo2.getStartDate().compareTo(subTermInfo1.getStartDate());
+                if (subTermInfos != null && subTermInfos.size() > 0) {
+                    //Sort the subTermInfos by start date
+                    Collections.sort(subTermInfos, new Comparator<TermInfo>() {
+                        @Override
+                        public int compare(TermInfo subTermInfo1, TermInfo subTermInfo2) {
+                            return subTermInfo2.getStartDate().compareTo(subTermInfo1.getStartDate());
+                        }
+                    });
+
+                    //add the sub terms into the term wrapper list
+                    for (TermInfo subTermInfo : subTermInfos) {
+                        AcademicTermWrapper subTermWrapper = populateTermWrapper(subTermInfo, isCopy,calculateInstrDays);
+                        if (isCopy){  //if copy - terms will have IDs after persisting (auto generated)
+                            subTermWrapper.setParentTerm(termInfo.getTypeKey());
+                            subTermWrapper.setSubTerm(true);
+                        } else {
+                            subTermWrapper.setParentTerm(termInfo.getId());
+                            subTermWrapper.setSubTerm(true);
+                        }
+                        termWrappers.add(subTermWrapper);
                     }
-                });
-
-                //add the parent term into the term wrapper list
-                termWrappers.add(termWrapper);
-
-                //add the sub terms into the term wrapper list
-                for (TermInfo subTermInfo : subTermInfos) {
-                    AcademicTermWrapper subTermWrapper = populateTermWrapper(subTermInfo, isCopy,calculateInstrDays);
-                    subTermWrapper.setParentTerm(termInfo.getId());
-                    termWrappers.add(subTermWrapper);
                 }
-
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
