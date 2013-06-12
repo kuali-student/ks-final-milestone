@@ -718,15 +718,22 @@ function highlightElements(validationJSONString, isValid, url) {
 /*
 Because the context bar resides in the topGroup, it only gets loaded once when the view is loaded. Because the context
 bar needs to update every time the page loads, we have to create some custom JS to update items in the context bar.
+
+Note: passing null for the 1st-argument (or if an element for 1st-argument is not found) will result in element targeted
+by 2nd-argument being emptied without getting a replacement.
  */
 function updateContextBar(srcId, contextBarId){
 
     jQuery( "#" + contextBarId).empty(); // remove any child elements so we can replace them later
 
+    if( contextBarId == null ) return;
+
     var contextBar = jQuery("#" + contextBarId);    // grab the placeholder
-    var src = jQuery("#" + srcId);                  // grab the new context bar
-    jQuery(contextBar).append(jQuery(src));         // add it to the context bar placeholder
-    jQuery(src).show();
+    if( contextBar ) {
+        var src = jQuery("#" + srcId);                  // grab the new context bar
+        jQuery(contextBar).append(jQuery(src));         // add it to the context bar placeholder
+        jQuery(src).show();
+    }
 }
 
 /*
