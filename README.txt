@@ -8,3 +8,5 @@ in the checkout, and what actual location inside Subversion they represent
 Even though this directory appears to be blank when browsing it over http, Subversion clients
 will detect the svn:externals definitions and checkout the mapped locations when checking out
 the top level project.
+Shem test of commit.
+
