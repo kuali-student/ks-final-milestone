@@ -52,7 +52,6 @@
 		parent="Uif-VerticalBoxSection" p:headerText="Scheduling">
 		<property name="items">
 			<list>
-				<bean parent="Uif-Help" p:externalHelpUrl="http://www.kuali.org/" />
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.termsOffered"
 					p:label="Term">
 					<property name="instructionalText"
@@ -62,7 +61,7 @@
 					</property>
 					<property name="optionsFinder">
 						<bean
-							class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder" />
+							class="org.kuali.student.lum.lu.ui.course.keyvalues.TermsKeyValueFinder" />
 					</property>
 				</bean>
 			</list>
@@ -75,7 +74,7 @@
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.duration.atpDurationTypeKey"
 					p:label="Duration Type"
-					p:optionsFinderClass="org.kuali.rice.student.lookup.keyvalues.AllOrgsValuesFinder">
+					p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
 					<property name="control">
 						<bean parent="Uif-DropdownControl" />
 					</property>
@@ -107,7 +106,7 @@
 					</property>
 					<property name="optionsFinder">
 						<bean
-							class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder" />
+							class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
 					</property>
 					<property name="help">
 						<bean parent="Uif-Help" p:tooltipHelpContent="Letter, Standard Values " />
@@ -149,7 +148,7 @@
 					</property>
 					<property name="optionsFinder">
 						<bean
-							class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder" />
+							class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder" />
 					</property>
 				</bean>
 			</list>
@@ -196,11 +195,10 @@
 		</property>
 		<property name="subCollections">
 					<list>
-						<bean parent="Uif-StackedCollectionSubSection" p:headerText="Credit Value"
+						<bean parent="Uif-StackedCollectionSubSection"
 							p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysDisplay"
 							p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.multiple'"
 							p:propertyName="resultValueKeysDisplay">
-							
 							<property name="renderAddBlankLineButton" value="true" />
 							<property name="addLinePlacement" value="BOTTOM" />
 							<property name="addBlankLineAction.actionLabel" value="Add" />
