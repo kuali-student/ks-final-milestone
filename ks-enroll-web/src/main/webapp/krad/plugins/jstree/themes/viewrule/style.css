@@ -29,7 +29,7 @@
 .jstree-viewrule ins {  }
 .jstree-viewrule li { background-position:-90px 0; background-repeat:repeat-y; }
 .jstree-viewrule li.jstree-last { background:transparent; }
-.jstree-viewrule .jstree-open a { color: black; }
+.jstree-viewrule .jstree-open a:not(.uif-action) { color: black; }
 .jstree-viewrule .jstree-closed a { display: none; }
 .jstree-viewrule .jstree-open > ins { display: none; }
 .jstree-viewrule .jstree-closed > ins { display: none; }
@@ -48,7 +48,8 @@
 .jstree-viewrule .jstree-hovered { background-color: transparent; }
 .jstree-viewrule .jstree-clicked { /* background:#beebff; border:1px solid #99defd; padding:0 3px 0 1px; */ }
 .jstree-viewrule a .jstree-icon { display: none; }
-.jstree-viewrule a.jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
+.jstree-viewrule a .jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
+.jstree-viewrule a { display: inline-block; height: 16px; line-height: 16px; margin: 0; padding: 1px 2px; text-decoration: none; white-space: nowrap; }
 
 .jstree-viewrule.jstree-focused { background: none; }
 

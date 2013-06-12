@@ -160,9 +160,10 @@
 
     <bean id="KRMS-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
         <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.enrollment.class1.krms.HorizontalActionsStackedLayoutManager">
+                <property name="actionsInLineGroup" value="true"/>
                 <property name="lineGroupPrototype">
-                    <bean parent="Uif-CollectionVerticalBoxItem">
+                    <bean parent="Uif-CollectionHorizontalBoxItem">
                         <property name="cssClasses">
                             <list merge="true">
                                 <value>krms-stackedPreviewItem</value>
@@ -188,9 +189,25 @@
                 <bean parent="Uif-DataField" p:propertyName="title"/>
             </list>
         </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionScript="show(e);"
+                      p:actionLabel="Show Courses" p:style="margin-left: 1em;">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionScript="hide(e);"
+                      p:actionLabel="Hide Courses" p:style="margin-left: 1em;">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+            </list>
+        </property>
         <property name="subCollections">
             <list>
-                <ref bean="KRMS-ListItems-SubGroup" />
+                <bean parent="KRMS-ListItems-SubGroup" />
             </list>
         </property>
     </bean>

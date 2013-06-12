@@ -55,8 +55,8 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
     private FieldGroup subCollectionFieldGroupPrototype;
     private Field selectFieldPrototype;
 
-    private boolean separateAddLine;
-    private Group addLineGroup;
+    //private boolean separateAddLine;
+    //private Group addLineGroup;
 
     // internal counter for the data columns (not including sequence, action)
     private int numberOfDataColumns;
@@ -80,7 +80,7 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
         useShortLabels = false;
         renderSequenceField = true;
         generateAutoSequence = false;
-        separateAddLine = false;
+        //separateAddLine = false;
         rowDetailsOpen = false;
 
         dataFields = new ArrayList<Component>();
@@ -211,19 +211,6 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
             isAddLine = true;
         }
 
-        boolean renderActions = collectionGroup.isRenderLineActions() && !collectionGroup.isReadOnly();
-        int extraColumns = 0;
-
-        if (collectionGroup.isHighlightNewItems() && ((UifFormBase) model).isAddedCollectionItem(currentLine)) {
-            getRowCssClasses().add(collectionGroup.getNewItemsCssClass());
-        } else if (isAddLine && collectionGroup.isRenderAddLine() && !collectionGroup.isReadOnly()
-                && !isSeparateAddLine()) {
-            getRowCssClasses().add(collectionGroup.getAddItemCssClass());
-            this.addStyleClass("uif-hasAddLine");
-        } else if (lineIndex != -1) {
-            getRowCssClasses().add("");
-        }
-
         // set label field rendered to true on line fields and adjust cell properties
         for (Field field : lineFields) {
             field.setLabelRendered(true);
@@ -265,7 +252,6 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
 
             ComponentUtils.updateContextForLine(sequenceField, currentLine, lineIndex, idSuffix);
             dataFields.add(sequenceField);
-            extraColumns++;
 
         }
 
@@ -279,20 +265,9 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
 
             dataFields.add(selectField);
 
-            extraColumns++;
-
         }
 
-        // now add the fields in the correct position
-        int cellPosition = 0;
-        int columnNumber = 0;
-
-        boolean renderActionsLast = actionColumnIndex == -1 || actionColumnIndex > lineFields.size() + extraColumns;
-
         for (Field lineField : lineFields) {
-
-            cellPosition += lineField.getColSpan();
-            columnNumber++;
 
             dataFields.add(lineField);
 
@@ -368,7 +343,7 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
         List<Component> components = super.getComponentsForLifecycle();
 
         components.add(richTable);
-        components.add(addLineGroup);
+        //components.add(addLineGroup);
         components.addAll(dataFields);
 
         if (isShowToggleAllDetails()) {
@@ -568,19 +543,19 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
      *
      * @return true if add line should be separated, false if it should be placed into the table
      */
-    @BeanTagAttribute(name = "separateAddLine")
-    public boolean isSeparateAddLine() {
-        return separateAddLine;
-    }
+    //@BeanTagAttribute(name = "separateAddLine")
+    //public boolean isSeparateAddLine() {
+    //    return separateAddLine;
+    //}
 
     /**
      * Setter for the separate add line indicator
      *
      * @param separateAddLine
      */
-    public void setSeparateAddLine(boolean separateAddLine) {
-        this.separateAddLine = separateAddLine;
-    }
+    //public void setSeparateAddLine(boolean separateAddLine) {
+    //    this.separateAddLine = separateAddLine;
+    //}
 
     /**
      * When {@link #isSeparateAddLine()} is true, this group will be used to render the add line
@@ -596,19 +571,19 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
      *
      * @return Group instance for the collection add line
      */
-    @BeanTagAttribute(name = "addLineGroup", type = BeanTagAttribute.AttributeType.SINGLEBEAN)
-    public Group getAddLineGroup() {
-        return addLineGroup;
-    }
+    //@BeanTagAttribute(name = "addLineGroup", type = BeanTagAttribute.AttributeType.SINGLEBEAN)
+    //public Group getAddLineGroup() {
+    //    return addLineGroup;
+    //}
 
     /**
      * Setter for the add line Group
      *
      * @param addLineGroup
      */
-    public void setAddLineGroup(Group addLineGroup) {
-        this.addLineGroup = addLineGroup;
-    }
+    //public void setAddLineGroup(Group addLineGroup) {
+    //    this.addLineGroup = addLineGroup;
+    //}
 
     /**
      * List of {@code Component} instances that make up the tables body. Pulled

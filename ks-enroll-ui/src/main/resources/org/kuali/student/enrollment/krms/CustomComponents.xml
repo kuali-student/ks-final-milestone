@@ -180,7 +180,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.name}" p:style="width: 500px; margin: 0px;"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.cluSetInfo.name}" p:style="width: 500px; margin: 0px;"/>
             </list>
         </property>
         <property name="addLineItems">

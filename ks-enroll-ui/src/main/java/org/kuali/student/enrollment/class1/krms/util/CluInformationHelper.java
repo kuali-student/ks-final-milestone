@@ -171,8 +171,10 @@ public class CluInformationHelper {
 
     public List<CluInformation> getCluInfosWithDetailForQuery(MembershipQueryInfo membershipQuery) {
         List<CluInformation> cluInfos = this.getCluInfosForQuery(membershipQuery);
-        for(CluInformation cluInfo : cluInfos){
-            cluInfo.setCredits(this.getCreditInfo(cluInfo.getCluId()));
+        if(cluInfos!=null){
+            for(CluInformation cluInfo : cluInfos){
+                cluInfo.setCredits(this.getCreditInfo(cluInfo.getCluId()));
+            }
         }
         return cluInfos;
     }

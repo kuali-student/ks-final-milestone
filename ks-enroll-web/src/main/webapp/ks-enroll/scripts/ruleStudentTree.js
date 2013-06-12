@@ -91,15 +91,15 @@ function ajaxCallOnTabSelect(event, ui) {
     }
 }
 
-/*function disableMe(element){
-    element.disable = true;
+function show(e){
+    var nextElement = jq(e.currentTarget).next().next();
+    nextElement.show();
 }
 
-function disableAll(classname){
-    jq(classname).each(function () {
-        this.disable = true;
-    });
-}*/
+function hide(e){
+    var nextElement = jq(e.currentTarget).next('div.uif-subCollection');
+    nextElement.hide();
+}
 
 function ajaxCutPropositionTree() {
     var selectedItemTracker = getSelectedPropositionInput();

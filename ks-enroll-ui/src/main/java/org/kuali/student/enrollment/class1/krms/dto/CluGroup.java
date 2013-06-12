@@ -16,6 +16,7 @@ import java.util.List;
 public class CluGroup implements Serializable {
 
     private String title;
+    private Boolean showClus;
     private List<CluInformation> clus;
 
     public CluGroup(){
@@ -32,6 +33,14 @@ public class CluGroup implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Boolean getShowClus() {
+        return showClus;
+    }
+
+    public void setShowClus(Boolean showClus) {
+        this.showClus = showClus;
     }
 
     public List<CluInformation> getClus() {
