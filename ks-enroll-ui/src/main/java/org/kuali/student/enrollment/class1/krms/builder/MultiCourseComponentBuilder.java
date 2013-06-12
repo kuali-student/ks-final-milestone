@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2012 The Kuali Foundation
+ * Copyright 2005-2013 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,14 @@
 package org.kuali.student.enrollment.class1.krms.builder;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
+import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.enrollment.class1.krms.keyvalues.GradeScaleValuesFinder;
+import org.kuali.student.enrollment.class1.krms.keyvalues.GradeValuesKeyFinder;
 import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -62,6 +66,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             try {
                 CluSetInformation cluSetInfo = this.getCluSetInformation(cluSetId);
                 propositionEditor.setCluSet(cluSetInfo);
+                populatePropositionWrapper(propositionEditor);
                 if(cluSetInfo.hasMembershipQuery()){
                     propositionEditor.getCluSet().getCluSetRange().resetFromQuery(cluSetInfo.getMembershipQueryInfo());
                 }
@@ -106,6 +111,17 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
+    }
+
+    private void populatePropositionWrapper(EnrolPropositionEditor propositionEditor) {
+        for(TermParameterEditor termParameterEditor : (List<TermParameterEditor>) propositionEditor.getTerm().getParameters()) {
+            if(termParameterEditor.getName().equals(GRADE_KEY)) {
+                propositionEditor.setTermParameter(termParameterEditor.getValue());
+            } else if(termParameterEditor.getName().equals(GRADE_TYPE_KEY)) {
+                        propositionEditor.setGradeScale(termParameterEditor.getValue());
+            }
+        }
+
     }
 
     /**
