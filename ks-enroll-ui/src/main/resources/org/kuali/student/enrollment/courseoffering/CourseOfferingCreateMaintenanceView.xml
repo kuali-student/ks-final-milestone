@@ -241,7 +241,7 @@
                 </bean>
 
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
-                              p:performClientSideValidation="true" p:style="margin-top:15px;" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                      p:jumpToIdAfterSubmit="TOP" p:performClientSideValidation="true" p:style="margin-top:15px;" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
             </list>
         </property>
