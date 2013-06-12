@@ -434,6 +434,10 @@ public class AutogenRegGroupServiceAdapterImpl implements AutogenRegGroupService
                     // TODO: this checking will be removed when canceled state handling is available.
                     if(!rgInfo.getStateKey().equals(LuiServiceConstants.REGISTRATION_GROUP_CANCELED_STATE_KEY)){
                         if (_isRegistrationGroupValid (rgInfo.getId(), context)) {
+                            // We don't know what the next state should be for this registration group, but the state
+                            // service kinda knows. So, try to send it to the highest state, offered.
+                            // If that doesn't work, try to send it to pending
+                            // if that doesn't work, the state change has failed and throw an exception.
                             if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()) {
                             } else if (coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess()) {
                             } else {
