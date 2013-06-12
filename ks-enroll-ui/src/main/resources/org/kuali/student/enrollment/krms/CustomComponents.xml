@@ -161,7 +161,7 @@
     <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Course Sets">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
-                <property name="summaryFields" value="name"/>
+                <property name="summaryFields" value="clusetInfo.name"/>
                 <property name="addLineGroup">
                     <bean parent="KRMS-CollectionGridItem"
                           p:progressiveRender="#np.proposition.multipleCourseType eq '2'"/>
@@ -423,8 +423,7 @@
         </property>
     </bean>
 
-    <bean id="KRMS-CourseRangeResult-Lookup" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL"
-          p:style="margin: 5px; width: 800px;">
+    <bean id="KRMS-CourseRangeResult-Lookup" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
         <property name="hidden" value="true"/>
         <property name="headerText" value="Course Range"/>
         <property name="disclosure.render" value="false"/>
@@ -444,7 +443,7 @@
         <property name="renderLineActions" value="false"/>
         <property name="collectionLookup.quickfinderAction.render" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
-        <property name="layoutManager.applyDefaultCellWidths" value="true"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
         <property name="layoutManager.richTable.templateOptions">
             <map>
@@ -454,9 +453,9 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="Code" p:propertyName="code"/>
-                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title"/>
-                <bean parent="Uif-DataField" p:label="Description" p:propertyName="description"/>
+                <bean parent="Uif-DataField" p:label="Code" p:propertyName="code" p:width="65"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="title" p:width="185"/>
+                <bean parent="Uif-DataField" p:label="Description" p:propertyName="description" p:width="450"/>
             </list>
         </property>
     </bean>

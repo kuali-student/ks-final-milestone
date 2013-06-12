@@ -21,6 +21,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
@@ -128,12 +129,13 @@ public class EnrolRuleEditorController extends RuleEditorController {
     public ModelAndView viewCourseRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         String dialog = "courseRangeLookup";
+
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         CORuleManagementWrapper ruleWrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-        EnrolPropositionEditor prop = (EnrolPropositionEditor) ruleWrapper.getEnrolRuleEditor().getProposition();
+        EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleWrapper.getRuleEditor());
 
-        if (prop.getCluSet() != null) {
-            ruleWrapper.setClusInRange(prop.getCluSet().getClusInRange());
+        if (proposition.getCluSet() != null) {
+            ruleWrapper.setClusInRange(proposition.getCluSet().getClusInRange());
         }
 
         return showDialog(dialog, form, request, response);
