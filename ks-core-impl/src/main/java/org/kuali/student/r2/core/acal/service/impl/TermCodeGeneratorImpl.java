@@ -71,7 +71,8 @@ public class TermCodeGeneratorImpl implements TermCodeGenerator {
 
         // if the term is not of a type that is handled by the defined formula, return null, since the value for the atp code is undefined at that point
         if(typeCode == null || typeCode.equals("")) {
-            throw new RuntimeException("Error: missing term code attribute. Please configure a type attribute in KSEN_TYPE_ATTTR table. For term type " + term.getTypeKey());
+            throw new RuntimeException("Error: missing term code attribute. Please configure a type attribute of '" + TypeServiceConstants.ATP_TERM_TYPE_CODE_ATTR +
+                    "' in KSEN_TYPE_ATTTR table. For term type " + term.getTypeKey());
         }
 
         StringBuilder result = new StringBuilder(DateFormatters.DEFULT_YEAR_FORMATTER.format(term.getStartDate()));
