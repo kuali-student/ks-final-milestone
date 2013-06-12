@@ -11,11 +11,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 /**
- * Created with IntelliJ IDEA.
- * User: swedev
- * Date: 6/7/13
- * Time: 11:49 AM
- * To change this template use File | Settings | File Templates.
+ * Cache Decorator for the Academic Calendar service. This class will grow as caching needs arise.
+ *
+ * Note: it uses ehcache which is configured in ks-ehcache.xml
  */
 public class AcademicCalendarServiceCacheDecorator extends AcademicCalendarServiceDecorator{
 
@@ -26,14 +24,15 @@ public class AcademicCalendarServiceCacheDecorator extends AcademicCalendarServi
     protected static final String INSTR_DAYS_FOR_TERM_KEY = "getInstructionalDaysForTerm";
 
     @Override
-    public Integer getInstructionalDaysForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public Integer getInstructionalDaysForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         MultiKey cacheKey = new MultiKey(INSTR_DAYS_FOR_TERM_KEY, termId);
 
-        Element cachedResult = cacheManager.getCache(ACAL_SERVICE_CACHE).get(cacheKey);
+        Element cachedResult = getCacheManager().getCache(ACAL_SERVICE_CACHE).get(cacheKey);
         Object result;
         if (cachedResult == null) {
             result = getNextDecorator().getInstructionalDaysForTerm(termId,contextInfo);
-            cacheManager.getCache(ACAL_SERVICE_CACHE).put(new Element(cacheKey, result));
+            getCacheManager().getCache(ACAL_SERVICE_CACHE).put(new Element(cacheKey, result));
         } else {
             result = cachedResult.getValue();
         }
@@ -42,7 +41,7 @@ public class AcademicCalendarServiceCacheDecorator extends AcademicCalendarServi
     }
 
     public CacheManager getCacheManager() {
-        if(cacheManager == null){
+        if (cacheManager == null){
             cacheManager = CacheManager.getInstance();
         }
         return cacheManager;
