@@ -16,8 +16,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 
 import java.util.ArrayList;
@@ -107,7 +105,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     }
 
     public void setCatalogCourseCode(String catalogCourseCode) {
-        this.catalogCourseCode = catalogCourseCode;
+        this.catalogCourseCode = catalogCourseCode.toUpperCase();
     }
 
     public boolean isCreateFromCatalog() {

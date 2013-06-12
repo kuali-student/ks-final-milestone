@@ -32,6 +32,11 @@
     margin-bottom: 5px;
 }
 
+.ks-borderBottom4 {
+    padding-top:1px;
+    padding-bottom:1px;
+    text-align: left;
+}
 .ks-tablecollection-table thead th {
     padding-bottom: 5px;;
     text-align: left;

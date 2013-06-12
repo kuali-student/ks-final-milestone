@@ -93,8 +93,8 @@
         </property>
         <property name="page.header.lowerGroup.render" value="false"/>
         <property name="header.cssClasses">
-          <list merge="true">
-            <value>ks-borderBottom2</value>
+          <list >
+            <value>ks-borderBottom4</value>
           </list>
         </property>
         <property name="additionalCssFiles">
