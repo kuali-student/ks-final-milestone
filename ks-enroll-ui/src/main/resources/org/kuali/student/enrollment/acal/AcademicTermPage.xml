@@ -116,7 +116,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues" p:addBlankOption="false"/>
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermParentTypeKeyValues" p:addBlankOption="false"/>
                     </property>
                     <property name="attributeQuery">
                         <bean parent="Uif-AttributeQueryConfig">
