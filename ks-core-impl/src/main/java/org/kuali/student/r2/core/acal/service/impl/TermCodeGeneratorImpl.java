@@ -66,7 +66,7 @@ public class TermCodeGeneratorImpl implements TermCodeGenerator {
             TypeInfo type = getTypeService().getType(term.getTypeKey(), createContextInfo());
             typeCode = type.getAttributeValue(TypeServiceConstants.ATP_TERM_TYPE_CODE_ATTR);
         } catch (Exception e) {
-            throw new RuntimeException("Term Code Generation : " + e.getMessage());
+            throw new RuntimeException("Term Code Generation error.", e);
         }
 
         // if the term is not of a type that is handled by the defined formula, return null, since the value for the atp code is undefined at that point
