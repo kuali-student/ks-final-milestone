@@ -895,6 +895,23 @@
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
     </bean>
 
+    <!-- For now, acal KSENROLL-7384 -->
+    <bean id="acalServiceFacade" class="org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacadeImpl">
+        <property name="acalService" ref="AcademicCalendarService" />
+    </bean>
+    <!-- Put facade on the bus KSENROLL-7384 -->
+    <bean id="ks.exp.acalServiceFacade" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="acalServiceFacade" />
+                <property name="serviceInterface" value="org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade" />
+                <property name="localServiceName" value="AcademicCalendarServiceFacade" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/acalServiceFacade" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
     <bean id="ActivityOfferingSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl">
         <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
