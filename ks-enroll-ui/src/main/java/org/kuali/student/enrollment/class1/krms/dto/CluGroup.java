@@ -16,8 +16,10 @@ import java.util.List;
 public class CluGroup implements Serializable {
 
     private String title;
-    private Boolean showClus;
     private List<CluInformation> clus;
+
+    private boolean showClus = true;
+    private boolean showTitle = true;
 
     public CluGroup(){
         super();
@@ -35,14 +37,6 @@ public class CluGroup implements Serializable {
         this.title = title;
     }
 
-    public Boolean getShowClus() {
-        return showClus;
-    }
-
-    public void setShowClus(Boolean showClus) {
-        this.showClus = showClus;
-    }
-
     public List<CluInformation> getClus() {
         return clus;
     }
@@ -50,4 +44,22 @@ public class CluGroup implements Serializable {
     public void setClus(List<CluInformation> clus) {
         this.clus = clus;
     }
+
+    public boolean getShowClus() {
+        return showClus;
+    }
+
+    public void setShowClus(boolean showClus) {
+        this.showClus = showClus;
+    }
+
+    public boolean isShowTitle() {
+        return showTitle;
+    }
+
+    public void setShowTitle(boolean showTitle) {
+        this.showTitle = showTitle;
+    }
+
+
 }

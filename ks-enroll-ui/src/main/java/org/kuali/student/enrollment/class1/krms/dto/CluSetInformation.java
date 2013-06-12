@@ -211,6 +211,11 @@ public class CluSetInformation implements Serializable {
         if(this.getClus().size()>0){
             CluGroup indCourses = new CluGroup("INDIVIDUAL COURSE(S)");
             indCourses.setClus(this.getClus());
+
+            //Only display the Indivdual Courses heading when clusets or queries exist.
+            if((this.getCluSets().size()==0)&&(this.getClusInRange().size()==0)){
+                indCourses.setShowTitle(false);
+            }
             cluGroups.add(indCourses);
         }
 

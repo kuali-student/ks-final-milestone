@@ -186,18 +186,18 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CluGroup" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="title"/>
+                <bean parent="Uif-DataField" p:propertyName="title" p:render="@{#line.showTitle}"/>
             </list>
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:actionScript="show(e);"
+                <bean parent="Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Show Courses" p:style="margin-left: 1em;">
                     <property name="actionImage">
                         <null/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionScript="hide(e);"
+                <bean parent="Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Hide Courses" p:style="margin-left: 1em;">
                     <property name="actionImage">
                         <null/>
