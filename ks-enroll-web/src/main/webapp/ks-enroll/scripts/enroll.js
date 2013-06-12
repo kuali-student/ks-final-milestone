@@ -765,3 +765,11 @@ function rgbToHex(r, g, b) {
         throw "Invalid color component";
     return ((r << 16) | (g << 8) | b).toString(16);
 }
+
+function addBootstrapImageToLink(containerId) {
+    jQuery("#" + containerId).find('img').each(function () {
+        var src = jQuery(this).attr('src');
+        var bsImage = '<i class="' + src + '"></i>';
+        jQuery(this).replaceWith(bsImage);
+    });
+}

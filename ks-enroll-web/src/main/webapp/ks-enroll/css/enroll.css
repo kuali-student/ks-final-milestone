@@ -902,22 +902,18 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 
 .ks-unified-header-rightGroup-container :not(:last-child){
-    padding-bottom: 15px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
-.ks-unified-header-list{
+.ks-unified-header-rightGroup-action{
     list-style: none;
     float: right;
 }
 
-.ks-unified-header-list li{
-    float: left;
-    padding-top: 5px;
-    padding-right: 20px;
-}
-
-.ks-unified-header-list a{
-    color: #0088cc;;
+.ks-unified-header-rightGroup-action a{
+    color: #0088cc;
+    padding-right: 10px;
 }
 
 .uif-viewHeader-contentWrapper {
