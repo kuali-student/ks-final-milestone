@@ -26,6 +26,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
@@ -47,11 +48,15 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
+import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -72,10 +77,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
@@ -104,6 +106,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     private transient SearchService searchService;
     private transient TypeService typeService;
     private CourseOfferingSetService courseOfferingSetService;
+    private transient StateService stateService;
 
     /**
      * This is called when the user clicks on the <i>'show'</i> button after entering the term and course code.
@@ -164,6 +167,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     coWrapper.setShowAllSections(true);
                     coWrapper.setShowCatalogLink(false);
                     coWrapper.setShowTermOfferingLink(true);
+
+                    coWrapper.setTermCode(term.getCode());
+                    coWrapper.setTermSocState( getStateService().getState( coWrapper.getSocInfo().getStateKey(), contextInfo ).getName() );
+                    setTermDayOfYearOnFormObject( coWrapper, contextInfo );
 
                     coWrapper.getExistingTermOfferings().clear();
                     coWrapper.getExistingOfferingsInCurrentTerm().clear();
@@ -233,6 +240,26 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         }
 
         return getUIFModelAndView(form);
+    }
+
+    private void setTermDayOfYearOnFormObject( CourseOfferingCreateWrapper formObject, ContextInfo contextInfo ) throws Exception {
+
+        List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm( formObject.getTerm().getId(), contextInfo);
+        Date termClassStartDate = null;
+        for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
+            if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
+                    && keyDateInfo.getStartDate() != null
+                    && keyDateInfo.getEndDate() != null )
+            {
+                termClassStartDate = keyDateInfo.getStartDate();
+
+                Date avgDate = new Date( termClassStartDate.getTime() + ( (keyDateInfo.getEndDate().getTime() - termClassStartDate.getTime()) /2 ) );
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(avgDate);
+                formObject.setTermDayOfYear( cal.get(Calendar.DAY_OF_YEAR) );
+                break;
+            }
+        }
     }
 
     private String getGradingOption(String gradingOptionId) throws Exception {
@@ -551,5 +578,12 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingSetService;
+    }
+
+    protected StateService getStateService() {
+        if( stateService == null ) {
+            stateService = (StateService) GlobalResourceLoader.getService( new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART) );
+        }
+        return stateService;
     }
 }

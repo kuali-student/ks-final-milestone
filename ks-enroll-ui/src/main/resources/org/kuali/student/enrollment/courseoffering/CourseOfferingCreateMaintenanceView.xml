@@ -53,6 +53,10 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl" />
         <property name="singlePageView" value="true"/>
 
+        <property name="topGroup">
+            <bean id="KS-CourseOffering-Create-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
+        </property>
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -118,6 +122,32 @@
         </property>
     </bean>
 
+    <!--
+     This is the context bar that will be put into the static context bar placeholder on page load. It does this via the
+     "updateContextBar" javascript.
+     Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
+    -->
+    <bean id="KS-CourseOffering-Create-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: block;" p:render="@{#showAllSections}"
+                  p:onDocumentReadyScript="updateContextBar('KS-CourseOffering-Create-ContextBar', 'KS-CourseOffering-Create-ContextBar-PlaceHolder'); setSeasonalColor('KS-CourseOffering-Create-ContextBar',@{document.newMaintainableObject.dataObject.termDayOfYear}, '@{#ConfigProperties['application.url']}');">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-topGroup</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{document.newMaintainableObject.dataObject.termCode}" p:renderColon="false">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-topGroup-termCode</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="termSocState" />
+            </list>
+        </property>
+    </bean>
+
     <bean id="Uif-MainteanceDialogResponse" parent="Uif-DialogResponse">
         <property name="bindingInfo.bindToForm" value="true"/>
     </bean>
@@ -174,6 +204,7 @@
     <bean id="KS-CourseOffering-NewCourseOffering" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true">
         <property name="items">
             <list>
+                <ref bean="KS-CourseOffering-Create-ContextBar" />
                 <ref bean="KS-CourseOffering-LinkSection"/>
                 <ref bean="KS-CreateFromCatalog"/>
                 <ref bean="KS-CreateFromExistingOffering"/>
@@ -241,6 +272,7 @@
                 </bean>
 
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
+                      p:onClickScript="updateContextBar( null, 'KS-CourseOffering-Create-ContextBar-PlaceHolder' );"
                       p:jumpToIdAfterSubmit="TOP" p:performClientSideValidation="true" p:style="margin-top:15px;" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
             </list>
