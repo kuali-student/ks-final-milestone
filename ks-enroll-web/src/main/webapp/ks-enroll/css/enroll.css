@@ -917,13 +917,13 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 
 .ks-unified-header-list a{
-    color: blue;
+    color: #0088cc;;
 }
 
 .uif-viewHeader-contentWrapper {
     padding-bottom: 30px;
     -webkit-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0px 6px 6px -5 pxrgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
     box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
 }
 /*unified header related styles END*/
