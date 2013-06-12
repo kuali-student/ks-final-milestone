@@ -184,3 +184,12 @@ INSERT INTO KSEN_ATPATP_RELTN (ID, OBJ_ID, ATP_TYPE, ATP_STATE, ATP_ID, RELATED_
 INSERT INTO KSEN_ATPATP_RELTN (ID, OBJ_ID, ATP_TYPE, ATP_STATE, ATP_ID, RELATED_ATP_ID, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID)
   VALUES ('56556B7514484F899021275E2D61F5CE', '5C815EEA490D44958681BDB3A853E3D4', 'kuali.atp.atp.relation.includes', 'kuali.atp.atp.relation.state.active', 'kuali.atp.2015Fall', 'kuali.atp.2015HalfFall2', TIMESTAMP '2013-02-02 05:13:18', null, 0, TIMESTAMP '2013-05-02 05:12:50', 'batchjob', TIMESTAMP '2013-05-02 05:12:50', 'batchjob')
 /
+
+
+-- KSENROLL-7282 - want to add typetype_relation term-subterm to be able to distinguish both
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, OBJ_ID, TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE, EFF_DT, EXPIR_DT, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID)
+  VALUES ('kuali.type.type.relation.type.group.kuali.atp.type.Fall.kuali.atp.type.HalfFall1', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.atp.type.Fall', 'kuali.atp.type.HalfFall1', 1, 0, TIMESTAMP '2012-06-13 19:00:00', 'SYSTEMLOADER', null, null)
+/
+INSERT INTO KSEN_TYPETYPE_RELTN (ID, OBJ_ID, TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE, EFF_DT, EXPIR_DT, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID)
+  VALUES ('kuali.type.type.relation.type.group.kuali.atp.type.Fall.kuali.atp.type.HalfFall2', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.atp.type.Fall', 'kuali.atp.type.HalfFall2', 1, 0, TIMESTAMP '2012-06-13 19:00:00', 'SYSTEMLOADER', null, null)
+/
