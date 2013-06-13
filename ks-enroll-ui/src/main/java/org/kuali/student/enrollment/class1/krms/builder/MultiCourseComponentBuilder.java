@@ -204,7 +204,9 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
 
         // Set default properties.
         CluSetInfo cluSetInfo = cluSetInformation.getCluSetInfo();
-        cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
+        if(cluSetInfo.getTypeKey()==null){
+            cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
+        }
         cluSetInfo.setStateKey("Active");
         cluSetInfo.setName("AdHock");
         cluSetInfo.setEffectiveDate(new Date());
