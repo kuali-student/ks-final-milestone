@@ -35,6 +35,8 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 /**
+ * TODO KSCM-819
+ * 
  * This is the helper class for CourseView
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!

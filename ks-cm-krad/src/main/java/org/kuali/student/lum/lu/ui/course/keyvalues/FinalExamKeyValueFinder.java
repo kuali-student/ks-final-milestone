@@ -35,6 +35,8 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 
 /**
+ * TODO KSCM-821
+ * 
  * This is the helper class for CourseView
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!

@@ -35,6 +35,8 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 /**
+ * TODO KSCM-820
+ * 
  * This is the helper class for CourseView
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
