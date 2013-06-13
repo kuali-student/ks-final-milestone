@@ -1,7 +1,10 @@
 package org.kuali.student.myplan.course.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +25,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.lum.common.client.widgets.Calendar;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.infc.LearningPlan;
@@ -40,7 +44,6 @@ import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
 import org.kuali.student.myplan.utils.CourseLinkBuilder;
-import org.kuali.student.myplan.utils.TimeStringMillisConverter;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -56,6 +59,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.room.infc.Building;
 import org.kuali.student.r2.core.room.infc.Room;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
@@ -72,9 +76,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	private static final Logger LOG = Logger
 			.getLogger(CourseDetailsInquiryHelperImpl.class);
-
-	private final static String[] WEEKDAYS_FIRST_LETTER = { "M", "T", "W",
-			"Th", "F", "Sa", "Su" };
 
 	public static final String NOT_OFFERED_IN_LAST_TEN_YEARS = "Not offered for more than 10 years.";
 
@@ -860,191 +861,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 						plannedSections.remove(planRefObjId);
 					}
 				}
-
-				// TODO: remove
-				// for (ActivityOfferingDisplayInfo aodi : aodiList) {
-				//
-				// ActivityOfferingItem activity = new ActivityOfferingItem();
-				// String sectionId = aodi.getActivityOfferingCode();
-				// activity.setCode(sectionId);
-				//
-				// String typeName = aodi.getTypeName();
-				// activity.setActivityOfferingType(typeName);
-				//
-				// activity.setCredits(courseInfo.getCreditOptionName());
-				// activity.setGradingOption(courseInfo.getGradingOptionName());
-				// List<MeetingDetails> meetingDetailsList = activity
-				// .getMeetingDetailsList();
-				// {
-				// ScheduleDisplayInfo sdi = aodi.getScheduleDisplay();
-				// for (ScheduleComponentDisplay scdi : sdi
-				// .getScheduleComponentDisplays()) {
-				// MeetingDetails meeting = new MeetingDetails();
-				//
-				// Building building = scdi.getBuilding();
-				// if (building != null) {
-				// meeting.setCampus(building.getCampusKey());
-				// meeting.setBuilding(building.getName());
-				// }
-				//
-				// Room roomInfo = scdi.getRoom();
-				// if (roomInfo != null) {
-				// meeting.setRoom(roomInfo.getRoomCode());
-				// }
-				//
-				// for (TimeSlot timeSlot : scdi.getTimeSlots()) {
-				//
-				// String days = "";
-				// for (int weekday : timeSlot.getWeekdays()) {
-				// if (weekday > -1 && weekday < 7) {
-				// String letter = WEEKDAYS_FIRST_LETTER[weekday];
-				// days += letter;
-				// }
-				// }
-				// if (!"".equals(days)) {
-				// meeting.setDays(days);
-				// }
-				//
-				// TimeOfDayInfo startInfo = timeSlot
-				// .getStartTime();
-				// TimeOfDayInfo endInfo = timeSlot.getEndTime();
-				// if (startInfo != null && endInfo != null
-				// && startInfo.getMilliSeconds() != null
-				// && endInfo.getMilliSeconds() != null) {
-				// long startTimeMillis = startInfo
-				// .getMilliSeconds();
-				// String startTime = TimeStringMillisConverter
-				// .millisToStandardTime(startTimeMillis);
-				//
-				// long endTimeMillis = endInfo
-				// .getMilliSeconds();
-				// String endTime = TimeStringMillisConverter
-				// .millisToStandardTime(endTimeMillis);
-				//
-				// String time = startTime + " - " + endTime;
-				//
-				// meeting.setTime(time);
-				// }
-				// meetingDetailsList.add(meeting);
-				// }
-				// }
-				// }
-				//
-				// String instituteCode = null;
-				// String instituteName = null;
-				//
-				// String campus = null;
-				// // String enrollCount = null;
-				// // String enrollMaximum = null;
-				// // String enrollEstimate = null;
-				// for (AttributeInfo attrib : aodi.getAttributes()) {
-				// String key = attrib.getKey();
-				// String value = attrib.getValue();
-				// if ("Campus".equalsIgnoreCase(key) && !"".equals(value)) {
-				// campus = value;
-				// continue;
-				// }
-				// if ("FeeAmount".equalsIgnoreCase(key)
-				// && !"".equals(value)) {
-				// activity.setFeeAmount(value);
-				// continue;
-				// }
-				// if ("SLN".equalsIgnoreCase(key)) {
-				// activity.setRegistrationCode(value);
-				// continue;
-				// }
-				// if ("instituteCode".equals(key)) {
-				// instituteCode = value;
-				// continue;
-				// }
-				// if ("instituteName".equals(key) && !"".equals(value)) {
-				// instituteName = value;
-				// continue;
-				// }
-				//
-				// // if ("currentEnrollment".equals(key) &&
-				// // !"".equals(value))
-				// // {
-				// // enrollCount = value;
-				// // continue;
-				// // }
-				// //
-				// // if ("enrollmentLimit".equals(key) &&
-				// // !"".equals(value)) {
-				// // enrollMaximum = value;
-				// // continue;
-				// // }
-				// //
-				// // if ("limitEstimate".equals(key) && "E".equals(value))
-				// // {
-				// // enrollEstimate = value;
-				// // continue;
-				// // }
-				//
-				// if ("SectionComments".equalsIgnoreCase(key)) {
-				// activity.setSectionComments(value);
-				// continue;
-				// }
-				//
-				// Boolean flag = Boolean.valueOf(value);
-				// if ("ServiceLearning".equalsIgnoreCase(key)) {
-				// activity.setServiceLearning(flag);
-				// } else if ("ResearchCredit".equalsIgnoreCase(key)) {
-				// activity.setResearch(flag);
-				// } else if ("DistanceLearning".equalsIgnoreCase(key)) {
-				// activity.setDistanceLearning(flag);
-				// } else if ("JointSections".equalsIgnoreCase(key)) {
-				// activity.setJointOffering(flag);
-				// } else if ("Writing".equalsIgnoreCase(key)) {
-				// activity.setWritingSection(flag);
-				// } else if ("FinancialAidEligible".equalsIgnoreCase(key)) {
-				// activity.setIneligibleForFinancialAid(flag);
-				// } else if ("AddCodeRequired".equalsIgnoreCase(key)) {
-				// activity.setAddCodeRequired(flag);
-				// } else if ("IndependentStudy".equalsIgnoreCase(key)) {
-				// activity.setIndependentStudy(flag);
-				// } else if ("EnrollmentRestrictions"
-				// .equalsIgnoreCase(key)) {
-				// activity.setEnrollRestriction(flag);
-				// }
-				//
-				// }
-				// // activity.setEnrollOpen(true);
-				// // activity.setEnrollCount(enrollCount);
-				// // activity.setEnrollMaximum(enrollMaximum);
-				// // activity.setEnrollEstimate(enrollEstimate);
-				// activity.setInstructor(aodi.getInstructorName());
-				//
-				// activity.setHonorsSection(aodi.getIsHonorsOffering());
-				// activity.setNewThisYear(false);
-				//
-				// activity.setDetails("View more details");
-				//
-				// // Added this flag to know if the activityoffering is
-				// // planned/backup
-				// activity.setPlanItemId(getPlanItemId(course.getCode() + " "
-				// + sectionId, termId));
-				// activity.setAtpId(termId);
-				// YearTerm yt = KsapFrameworkServiceLocator.getTermHelper()
-				// .getYearTerm(termId);
-				// activity.setQtryr(yt.getTermName().substring(0, 3)
-				// .toUpperCase()
-				// + "+" + yt.getYear());
-				//
-				// if (instituteCode == null) {
-				// instituteCode = campus;
-				// }
-				// if (instituteName == null) {
-				// instituteName = campus;
-				// }
-				//
-				// activity.setInstituteName(instituteName);
-				// activity.setInstituteCode(instituteCode);
-				//
-				// activity.setPrimary(primary);
-				// primary = false;
-				// activityOfferingItemList.add(activity);
-				// }
 			}
 		}
 
@@ -1074,6 +890,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		List<MeetingDetails> meetingDetailsList = activity
 				.getMeetingDetailsList();
 		{
+			DateFormat tdf = new SimpleDateFormat("hh:mm a");
 			ScheduleDisplayInfo sdi = displayInfo.getScheduleDisplay();
 			for (ScheduleComponentDisplay scdi : sdi
 					.getScheduleComponentDisplays()) {
@@ -1093,33 +910,48 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				}
 
 				for (TimeSlot timeSlot : scdi.getTimeSlots()) {
-
-					String days = "";
-					for (int weekday : timeSlot.getWeekdays()) {
-						if (weekday > -1 && weekday < 7) {
-							String letter = WEEKDAYS_FIRST_LETTER[weekday];
-							days += letter;
-						}
-					}
-					if (!"".equals(days)) {
-						meeting.setDays(days);
+					List<Integer> weekdays = timeSlot.getWeekdays();
+					if (weekdays != null && !weekdays.isEmpty()) {
+						StringBuilder days = new StringBuilder();
+						for (int weekday : timeSlot.getWeekdays())
+							switch (weekday) {
+							case Calendar.MONDAY:
+								days.append(SchedulingServiceConstants.MONDAY_TIMESLOT_DISPLAY_DAY_CODE);
+								break;
+							case Calendar.TUESDAY:
+								days.append(SchedulingServiceConstants.TUESDAY_TIMESLOT_DISPLAY_DAY_CODE);
+								break;
+							case Calendar.WEDNESDAY:
+								days.append(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DISPLAY_DAY_CODE);
+								break;
+							case Calendar.THURSDAY:
+								days.append(SchedulingServiceConstants.THURSDAY_TIMESLOT_DISPLAY_DAY_CODE);
+								break;
+							case Calendar.FRIDAY:
+								days.append(SchedulingServiceConstants.FRIDAY_TIMESLOT_DISPLAY_DAY_CODE);
+								break;
+							case Calendar.SATURDAY:
+								days.append(SchedulingServiceConstants.SATURDAY_TIMESLOT_DISPLAY_DAY_CODE);
+								break;
+							case Calendar.SUNDAY:
+								days.append(SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE);
+								break;
+							default:
+								throw new IllegalArgumentException(
+										"Unexpected day code " + weekday);
+							}
+						meeting.setDays(days.toString());
 					}
 
 					TimeOfDayInfo startInfo = timeSlot.getStartTime();
 					TimeOfDayInfo endInfo = timeSlot.getEndTime();
-					if (startInfo != null && endInfo != null) {
-						long startTimeMillis = startInfo.getMilliSeconds();
-						String startTime = TimeStringMillisConverter
-								.millisToStandardTime(startTimeMillis);
 
-						long endTimeMillis = endInfo.getMilliSeconds();
-						String endTime = TimeStringMillisConverter
-								.millisToStandardTime(endTimeMillis);
+					if (startInfo != null && endInfo != null)
+						meeting.setTime(tdf.format(new Date(startInfo
+								.getMilliSeconds())
+								+ " - "
+								+ new Date(endInfo.getMilliSeconds())));
 
-						String time = startTime + " - " + endTime;
-
-						meeting.setTime(time);
-					}
 					meetingDetailsList.add(meeting);
 				}
 			}
