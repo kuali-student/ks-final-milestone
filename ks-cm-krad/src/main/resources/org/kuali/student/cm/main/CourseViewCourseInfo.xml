@@ -205,13 +205,7 @@ limitations under the License.
 				<bean id="KS-CrossListed-Section" parent="Uif-StackedCollectionSubSection"
 					p:headerText="Cross Listed Courses" p:propertyName="courseInfo.crossListings"
 					p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo">
-					<property name="layoutManager.summaryTitle" value="Cross Listed Course" />
-					<property name="layoutManager.summaryFields">
-						<list>
-							<value>subjectArea</value>
-							<value>courseNumberSuffix</value>
-						</list>
-					</property>
+					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Course Listing @{(#index + 1)}" />
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="addBlankLineAction.actionLabel" value="Add Another Cross Listing" />
@@ -225,8 +219,7 @@ limitations under the License.
 				<bean id="KS-JointlyOffered-Section" parent="Uif-StackedCollectionSubSection"
 					p:headerText="Jointly Offered Courses" p:propertyName="courseJointDisplays"
 					p:collectionObjectClass="org.kuali.student.cm.course.form.CourseJointInfoDisplay">
-					<property name="layoutManager.summaryTitle" value="Jointly Offered Course" />
-					<property name="layoutManager.summaryFields" value="courseCode" />
+					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Joint Offering @{(#index + 1)}" />
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="addBlankLineAction.actionLabel" value="Add Another Course" />
@@ -282,13 +275,7 @@ limitations under the License.
 				<bean id="KS-VersionCodes-Section" parent="Uif-StackedCollectionSubSection"
 					p:headerText="Version Codes" p:propertyName="courseInfo.variations"
 					p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseVariationInfo">
-					<property name="layoutManager.summaryTitle" value="Version Code" />
-					<property name="layoutManager.summaryFields">
-						<list>
-							<value>variationCode</value>
-							<value>variationTitle</value>
-						</list>
-					</property>
+					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Version Code @{(#index + 1)}" />
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="addBlankLineAction.actionLabel" value="Add a Version Code" />
