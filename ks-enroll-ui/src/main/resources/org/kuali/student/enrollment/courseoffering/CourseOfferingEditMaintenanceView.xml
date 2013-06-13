@@ -253,7 +253,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="termSocState" />
+                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="termSocState" />
             </list>
         </property>
     </bean>

@@ -127,7 +127,7 @@
      "updateContextBar" javascript.
      Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
     -->
-    <bean id="KS-CourseOffering-Create-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: block;" p:render="@{#showAllSections}"
+    <bean id="KS-CourseOffering-Create-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;" p:render="@{#showAllSections}"
                   p:onDocumentReadyScript="updateContextBar('KS-CourseOffering-Create-ContextBar', 'KS-CourseOffering-Create-ContextBar-PlaceHolder'); setSeasonalColor('KS-CourseOffering-Create-ContextBar',@{document.newMaintainableObject.dataObject.termDayOfYear}, '@{#ConfigProperties['application.url']}');">
         <property name="cssClasses">
             <list merge="true">
