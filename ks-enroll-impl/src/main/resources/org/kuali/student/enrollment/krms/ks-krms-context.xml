@@ -56,6 +56,11 @@
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/organization}OrganizationService"/>
     </bean>
 
+    <bean id="PopulationServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.population.service.PopulationService"/>
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/population}PopulationService"/>
+    </bean>
+
     <bean id="acalClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface" value="org.kuali.student.r2.core.acal.service.AcademicCalendarService"/>
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/acal}AcademicCalendarService"/>
@@ -80,7 +85,9 @@
     <bean id="termContext" class="org.kuali.student.krms.naturallanguage.config.context.TermContextImpl">
         <property name="acalService" ref="acalClient"/>
     </bean>
-
+    <bean id="populationContext" class="org.kuali.student.krms.naturallanguage.config.context.PopulationContextImpl">
+        <property name="populationService" ref="PopulationServiceClient"/>
+    </bean>
     <!-- TODO this contextRegistry should be part of KS -->
     <bean id="contextRegistry"
           class="org.kuali.rice.krms.impl.repository.language.ContextRegistry">
@@ -316,6 +323,34 @@
                 <entry key="kuali.krms.proposition.type.freeform.text">
                     <list>
                         <ref bean="basicContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.greater.than.class.standing">
+                    <list>
+                        <ref bean="populationContext"/>
+                    </list>
+
+                </entry>
+                <entry key="kuali.krms.proposition.type.in.class.standing">
+                    <list>
+                        <ref bean="populationContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.less.than.class.standing">
+                    <list>
+                        <ref bean="populationContext"/>
+                    </list>
+                </entry>
+
+                <entry key="kuali.krms.proposition.type.notadmitted.to.program.in.class.standing">
+                    <list>
+                        <ref bean="luContext"/>
+                        <ref bean="populationContext"/>
+                    </list>
+                </entry>
+                <entry key="kuali.krms.proposition.type.notin.class.standing">
+                    <list>
+                        <ref bean="populationContext"/>
                     </list>
                 </entry>
             </map>

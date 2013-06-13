@@ -7,7 +7,7 @@
 
     <!-- LookupView -->
     <bean id="KS-KRMS-Population-LookupView" parent="KS-Uif-LookupView">
-        <property name="headerText" value="'Population Lookup" />
+        <property name="headerText" value="Population Lookup" />
         <property name="viewName" value="krmsClassStandingView"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />

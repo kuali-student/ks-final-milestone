@@ -8,7 +8,11 @@ import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.ProgramCluSetInformation;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -47,7 +51,10 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
 
     private LRCService lrcService;
 
+    private PopulationService populationService;
+
     private static final String PROGRAM_CLUSET_KEY = "kuali.term.parameter.type.program.cluSet.id";
+    private static final String ClASS_STANDING_KEY = "kuali.term.parameter.type.classStanding";
 
     @Override
     public List<String> getComponentIds() {
@@ -57,10 +64,24 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
         String cluSetId = termParameters.get(PROGRAM_CLUSET_KEY);
+        String classStadingId = termParameters.get(ClASS_STANDING_KEY);
         if (cluSetId != null) {
             try {
                 ProgramCluSetInformation cluSetInfo = this.getProgramCluSetInformation(cluSetId);
                 propositionEditor.setProgCluSet(cluSetInfo);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        if (classStadingId != null) {
+            try {
+                PopulationInfo populationInfo = this.getPopulationService().getPopulation(classStadingId, ContextUtils.getContextInfo());
+                PopulationWrapper populationWrapper = new PopulationWrapper();
+                propositionEditor.setPopulationWrapper(populationWrapper);
+                propositionEditor.getPopulationWrapper().setId(populationInfo.getId());
+                propositionEditor.getPopulationWrapper().setPopulationInfo(populationInfo);
+                propositionEditor.setClassStanding(populationInfo.getName());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -78,6 +99,10 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
                 termParameters.put(PROGRAM_CLUSET_KEY, null);
             }
         }
+        if (propositionEditor.getClassStanding() != null){
+
+            termParameters.put(ClASS_STANDING_KEY, propositionEditor.getPopulationWrapper().getId());
+        }
 
         return termParameters;
     }
@@ -86,6 +111,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     public void onSubmit(EnrolPropositionEditor propositionEditor) {
         //Create the courseset
         try {
+            if (propositionEditor.getProgCluSet()!= null) {
             propositionEditor.getProgCluSet().setCluSetInfo(this.buildCourseSet(propositionEditor.getProgCluSet()));
             CluSetInfo cluSetInfo = propositionEditor.getProgCluSet().getCluSetInfo();
             if (cluSetInfo.getId() == null) {
@@ -95,9 +121,11 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
             } else {
                 this.getCluService().updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
             }
+            }
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
         }
+
     }
 
     /**
@@ -335,5 +363,12 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
             lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
+    }
+
+    private PopulationService getPopulationService() {
+        if(populationService == null) {
+            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationService"));
+        }
+        return this.populationService;
     }
 }

@@ -389,7 +389,7 @@
 
                 <entry key="kuali.krms.proposition.type.notadmitted.to.program.in.class.standing">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
+                          p:termSpecName="ClassStanding" p:value="true">
                         <property name="componentId" value="KRMS-ProgramAndClassStanding-Group"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder"/>
                     </bean>
@@ -405,29 +405,33 @@
 
                 <entry key="kuali.krms.proposition.type.in.class.standing">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
+                          p:termSpecName="ClassStanding" p:value="true">
                         <property name="componentId" value="KRMS-ClassStanding-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.greater.than.class.standing">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
+                          p:termSpecName="ClassStanding" p:value="true">
                         <property name="componentId" value="KRMS-ClassStanding-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.less.than.class.standing">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="true">
+                          p:termSpecName="ClassStanding" p:value="true">
                         <property name="componentId" value="KRMS-ClassStanding-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.notin.class.standing">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null" p:value="false">
+                          p:termSpecName="ClassStanding" p:value="false">
                         <property name="componentId" value="KRMS-ClassStanding-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
