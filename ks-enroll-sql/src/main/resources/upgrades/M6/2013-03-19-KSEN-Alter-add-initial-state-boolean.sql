@@ -1,5 +1,5 @@
 ALTER TABLE KSEN_STATE
-ADD IS_INITIAL_STATE number(1) default(0) NOT NULL
+ADD IS_INITIAL_STATE number(1) default 0 NOT NULL
 /
 UPDATE KSEN_STATE
 SET is_initial_state = 1
