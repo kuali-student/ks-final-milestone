@@ -31,39 +31,15 @@
             <bean parent="Uif-VerticalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-container">
                 <property name="items">
                     <list>
-                        <bean id="ksUnifiedHeaderRightGroupActionId" parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-action" p:onDocumentReadyScript="addBootstrapImageToLink('ksUnifiedHeaderRightGroupActionId');">
+                        <bean id="KS-KS-ViewHeader-ActionGroup" parent="KS-Unified-Header-Action-Group" p:onDocumentReadyScript="addBootstrapImageToLink('KS-KS-ViewHeader-ActionGroup');">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Copy link');" p:actionLabel="Copy" p:actionImagePlacement="LEFT">
-                                        <property name="actionImage">
-                                            <bean parent="Uif-Image" p:altText="Copy" p:title="Copy" p:style="icon-plus-sign"/>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Comment link');" p:actionLabel="Comment" p:actionImagePlacement="LEFT">
-                                        <property name="actionImage">
-                                            <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:style="icon-comment"/>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Print link');" p:actionLabel="Print" p:actionImagePlacement="LEFT">
-                                        <property name="actionImage">
-                                            <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:style="icon-print"/>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Delete link');" p:actionLabel="Delete" p:actionImagePlacement="LEFT">
-                                        <property name="actionImage">
-                                            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="icon-remove"/>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Edit link');" p:actionLabel="Edit" p:actionImagePlacement="LEFT">
-                                        <property name="actionImage">
-                                            <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:style="icon-edit"/>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-ActionLink" p:actionScript="alert('You clicked the Manage link');" p:actionLabel="Manage" p:actionImagePlacement="LEFT">
-                                        <property name="actionImage">
-                                            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:style="icon-wrench"/>
-                                        </property>
-                                    </bean>
+                                    <ref bean="Unified-Right-Header-Group-Action-Copy"/>
+                                    <ref bean="Unified-Right-Header-Group-Action-Comment"/>
+                                    <ref bean="Unified-Right-Header-Group-Action-Print"/>
+                                    <ref bean="Unified-Right-Header-Group-Action-Delete"/>
+                                    <ref bean="Unified-Right-Header-Group-Action-Edit"/>
+                                    <ref bean="Unified-Right-Header-Group-Action-Manage"/>
                                 </list>
                             </property>
                         </bean>

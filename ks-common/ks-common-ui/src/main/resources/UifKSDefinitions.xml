@@ -444,18 +444,18 @@
             </list>
         </property>
         <property name="header.rightGroup">
-            <ref bean="Unified-Right-Header-Group"/>
+            <ref bean="KS-Unified-Header-Right-Group"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-container">
+    <bean id="KS-Unified-Header-Right-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-container">
         <property name="items">
             <list>
-                <ref bean="ksUnifiedHeaderRightGroupActionId"/>
-                <ref bean="Unified-Right-Header-Group-Status"/>
+                <ref bean="KS-Unified-Header-Action-Group"/>
+                <ref bean="KS-Unified-Right-Header-Group-Status"/>
             </list>
         </property>
     </bean>
-    <bean id="ksUnifiedHeaderRightGroupActionId" parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-action" p:onDocumentReadyScript="addBootstrapImageToLink('ksUnifiedHeaderRightGroupActionId');">
+    <bean id="KS-Unified-Header-Action-Group" parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-action" p:onDocumentReadyScript="addBootstrapImageToLink('KS-Unified-Header-Action-Group');">
         <property name="items">
             <list>
                 <ref bean="Unified-Right-Header-Group-Action-Copy"/>
@@ -467,37 +467,7 @@
             </list>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Copy" parent="Uif-ActionLink" p:actionScript="alert('You clicked the Copy link');" p:actionLabel="Copy" p:actionImagePlacement="LEFT">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Copy" p:title="Copy" p:style="icon-plus-sign"/>
-        </property>
-    </bean>
-    <bean id="Unified-Right-Header-Group-Action-Comment" parent="Uif-ActionLink" p:actionScript="alert('You clicked the Comment link');" p:actionLabel="Comment" p:actionImagePlacement="LEFT">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:style="icon-comment" />
-        </property>
-    </bean>
-    <bean id="Unified-Right-Header-Group-Action-Print" parent="Uif-ActionLink" p:actionScript="alert('You clicked the Print link');" p:actionLabel="Print" p:actionImagePlacement="LEFT">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:style="icon-print"/>
-        </property>
-    </bean>
-    <bean id="Unified-Right-Header-Group-Action-Delete" parent="Uif-ActionLink" p:actionScript="alert('You clicked the Delete link');" p:actionLabel="Delete" p:actionImagePlacement="LEFT">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="icon-remove"/>
-        </property>
-    </bean>
-    <bean id="Unified-Right-Header-Group-Action-Edit" parent="Uif-ActionLink" p:actionScript="alert('You clicked the Edit link');" p:actionLabel="Edit" p:actionImagePlacement="LEFT">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:style="icon-edit"/>
-        </property>
-    </bean>
-    <bean id="Unified-Right-Header-Group-Action-Manage" parent="Uif-ActionLink" p:actionScript="alert('You clicked the Manage link');" p:actionLabel="Manage" p:actionImagePlacement="LEFT">
-        <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:style="icon-wrench"/>
-        </property>
-    </bean>
-    <bean id="Unified-Right-Header-Group-Status" parent="Uif-HorizontalBoxSection" p:cssClasses="ks-unified-header-rightGroup-status">
+    <bean id="KS-Unified-Right-Header-Group-Status" parent="Uif-HorizontalBoxSection" p:cssClasses="ks-unified-header-rightGroup-status">
         <property name="items">
             <list>
                 <ref bean="Unified-Right-Header-Group-Status-Modified"/>
@@ -505,6 +475,39 @@
             </list>
         </property>
     </bean>
+    <bean id="Unified-Right-Header-Group-Action-Copy" parent="Uif-ActionLink"  p:actionLabel="Copy" p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Copy" p:title="Copy" p:style="icon-plus-sign"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Comment" parent="Uif-ActionLink"  p:actionLabel="Comment" p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:style="icon-comment" />
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Print" parent="Uif-ActionLink"  p:actionLabel="Print" p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:style="icon-print"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Delete" parent="Uif-ActionLink"  p:actionLabel="Delete" p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="icon-remove"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Edit" parent="Uif-ActionLink"  p:actionLabel="Edit" p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:style="icon-edit"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Manage" parent="Uif-ActionLink" p:actionLabel="Manage" p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:style="icon-wrench"/>
+        </property>
+    </bean>
+
+    <!-- Note: The static text is only here as an example. In the future we will have standard context variables for the User and the Update Date -->
     <bean id="Unified-Right-Header-Group-Status-Modified" parent="Uif-Message" p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
+    <!-- Note: This is only here for an example. Each page will need to display a different status / color -->
     <bean id="Unified-Right-Header-Group-Status-Lozenge" parent="KS-Lozenge-Orange-Uif-Message" p:messageText="Detail Status"/>
 </beans>
