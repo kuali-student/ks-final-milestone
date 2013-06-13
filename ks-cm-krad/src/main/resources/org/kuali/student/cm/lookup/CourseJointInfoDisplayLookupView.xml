@@ -173,10 +173,13 @@
 				<bean id="CriteriaFieldSection" parent="Uif-VerticalBoxSection">
 					<property name="items">
 						<list>
-							<bean parent="Uif-LookupCriteriaInputField" p:label="Search By" p:propertyName="searchBy" p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder">
+							<bean parent="Uif-LookupCriteriaInputField" p:label="Search By" p:propertyName="searchBy">
 								<property name="control">
 									<bean parent="Uif-DropdownControl" />
 								</property>
+								<property name="optionsFinder">
+                       	 			<bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder" p:addBlankOption="false"/>
+                   				</property>
 							</bean>
 							<bean parent="Uif-Message" p:messageText="Enter one or more fields" />
 							<bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle" />
