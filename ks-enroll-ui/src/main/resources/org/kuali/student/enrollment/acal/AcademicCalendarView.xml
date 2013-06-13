@@ -30,10 +30,32 @@ limitations under the License.
         2. AcademicCalendarCopyPage.xml
         3. AcademicTermPage.xml
     -->
-    <bean id="KS-AcademicCalendarView" parent="KS-Uif-FormView">
+    <bean id="KS-AcademicCalendarView" parent="KS-Unified-Uif-FormView">
         <property name="id" value="academicCalendarFlowView"/>
-        <!--<property name="headerText" value="Academic Calendar"/>-->
-        <property name="header.render" value="false"/>
+        <property name="headerText" value="@{!#empty(academicCalendarInfo.name) ? academicCalendarInfo.name : 'New Calendar'}"/>
+        <property name="header.rightGroup.items">
+            <list>
+                <ref bean="ksUnifiedHeaderRightGroupActionId"/>
+                <bean parent="Unified-Right-Header-Group-Status">
+                    <property name="items">
+                        <list>
+                            <ref bean="Unified-Right-Header-Group-Status-Modified"/>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="acal_Official" parent="Uif-ActionLink" p:methodToCall="makeAcalOfficial"
+                                              p:actionLabel="Make Official"
+                                              p:render="@{!reload and !#view.readOnly and !officialUI}" />
+                                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
+                                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
         <property name="entryPageId" value="academicCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
         <property name="footer">

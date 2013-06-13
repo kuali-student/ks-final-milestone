@@ -775,7 +775,8 @@ function rgbToHex(r, g, b) {
 
 function addBootstrapImageToLink(containerId) {
     jQuery("#" + containerId).find('img').each(function () {
-        var src = jQuery(this).attr('src');
+        /*Style is used instead of src to prevent errors in krad*/
+        var src = jQuery(this).attr('style');
         var bsImage = '<i class="' + src + '"></i>';
         jQuery(this).replaceWith(bsImage);
     });

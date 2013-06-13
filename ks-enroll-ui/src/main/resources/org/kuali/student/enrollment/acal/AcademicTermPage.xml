@@ -38,7 +38,7 @@
                     <bean parent="Uif-HeaderFour"  p:headerText="@{#empty(#line.parentTerm) ? '' : 'Subterm: '}@{#line.termNameForUI}">
                         <property name="rightGroup">
                             <bean parent="Uif-HorizontalBoxGroup">
-
+                                <!-- Rice Issue Workaround Watch KSENROLL-7408 -->
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-HorizontalBoxGroup">

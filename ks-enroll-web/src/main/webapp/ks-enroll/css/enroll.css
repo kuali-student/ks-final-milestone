@@ -876,6 +876,10 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 
 /*unified header related styles START*/
+
+.ks-unified-header{
+    padding-bottom:15px;
+}
 .ks-unified-header-rightGroup-action{
      float: right;
 }
