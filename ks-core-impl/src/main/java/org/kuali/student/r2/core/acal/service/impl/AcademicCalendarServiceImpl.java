@@ -11,7 +11,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -2134,6 +2133,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 instructionalPeriodKeyDate = new KeyDateInfo(keyDate);
                 break;
             }
+        }
+
+        // If there are no Instructional Days configured for a term, it should be 0.
+        if(instructionalPeriodKeyDate == null){
+            return 0;
         }
         
         int instructionalDaysForTerm = 0;
