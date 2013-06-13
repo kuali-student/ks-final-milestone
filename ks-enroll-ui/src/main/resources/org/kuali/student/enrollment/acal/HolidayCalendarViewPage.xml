@@ -101,12 +101,6 @@
                                   p:required="false"
                                   p:fieldLabel.renderColon="false"/>
                             <bean parent="Uif-InputField"
-                                  p:propertyName="adminOrgName"
-                                  p:label="Organization"
-                                  p:readOnly="true"
-                                  p:required="false"
-                                  p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"
                                   p:readOnly="true"
