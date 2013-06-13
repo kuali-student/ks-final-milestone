@@ -10,3 +10,7 @@ insert into KSEN_TYPE_ATTR (ID, OBJ_ID, ATTR_KEY, ATTR_VALUE, OWNER_ID) values (
 /
 insert into KSEN_TYPE_ATTR (ID, OBJ_ID, ATTR_KEY, ATTR_VALUE, OWNER_ID) values ('E60C65974E2F4047848B374DE60C1B4D', '367C037B46584F5B877785D3D009A256', 'kuali.attribute.type.atp.term.instructional.days', 'MTWHF','kuali.atp.type.Winter')
 /
+insert into KSEN_TYPE_ATTR (ID, OBJ_ID, ATTR_KEY, ATTR_VALUE, OWNER_ID) values ('BC3DC5F775134569AFFAB02A0D31A951', 'DE5373EFA86E43EEABBA52BB8DBF647F', 'kuali.attribute.type.atp.term.instructional.days', 'MTWHF','kuali.atp.type.HalfFall1')
+/
+insert into KSEN_TYPE_ATTR (ID, OBJ_ID, ATTR_KEY, ATTR_VALUE, OWNER_ID) values ('6E8A4ACAAF7D401F9D12BA19B66D618C', 'B642C3018BE64726AA5AE4143D5221D0', 'kuali.attribute.type.atp.term.instructional.days', 'MTWHF','kuali.atp.type.HalfFall2')
+/
