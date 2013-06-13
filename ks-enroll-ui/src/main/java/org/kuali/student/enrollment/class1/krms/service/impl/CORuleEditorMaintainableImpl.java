@@ -93,13 +93,8 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             //Set the name prefix used for agenda and rule names.
             dataObject.setNamePrefix(atpCode.toString() + courseOffering.getCourseOfferingCode());
 
-            //Set the description used on the screen.
-            StringBuilder courseNameBuilder = new StringBuilder();
-            courseNameBuilder.append(atpCode.toString());
-            courseNameBuilder.append(courseOffering.getCourseOfferingCode());
-            courseNameBuilder.append(" - ");
-            courseNameBuilder.append(courseOffering.getCourseOfferingTitle());
-            dataObject.setCluDescription(courseNameBuilder.toString());
+            //Set the description and atp used on the screen.
+            dataObject.setCluDescription(courseOffering.getCourseOfferingCode());
         }
 
         dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());

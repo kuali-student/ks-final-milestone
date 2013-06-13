@@ -136,7 +136,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
         form.getClientStateForSyncing().clear();
 
         RuleEditor ruleEditor = AgendaUtilities.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
-        ruleEditor.setDummy(false);
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
@@ -994,6 +993,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         RuleEditor ruleEditor = getRuleEditor(form);
         if (!(ruleEditor.getProposition() == null && ruleEditor.getPropId() == null)) {
+            ruleEditor.setDummy(false);
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
 
             if (PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor)) {

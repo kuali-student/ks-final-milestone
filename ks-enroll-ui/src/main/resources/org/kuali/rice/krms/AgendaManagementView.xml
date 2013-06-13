@@ -19,8 +19,10 @@
      limitations under the License.
     -->
     <bean id="KRMS-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
-        <property name="headerText" value="Course Offering Requisites"/>
-        <property name="header.style" value="margin-bottom: -2em"/>
+        <property name="headerText" value="@{#dp.cluDescription}"/>
+        <property name="topGroup">
+            <bean id="KRMS-CourseRequisites-ContextBar" parent="KS-Uif-HorizontalBoxGroup-TopGroup"/>
+        </property>
         <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
         <property name="additionalScriptFiles">
             <list>
@@ -68,11 +70,11 @@
     </bean>
 
     <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
+        <property name="headerText" value="Course Offering Requisites"/>
         <property name="header.lowerGroup">
             <bean parent="Uif-VerticalBoxGroup" p:style="margin-bottom: -1em">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PageHeader" p:headerText="@{#dp.cluDescription}"/>
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
@@ -106,6 +108,21 @@
     </bean>
 
     <bean name="KRMS-RuleMaintenance-Page-Parent" parent="Uif-Page">
+        <property name="headerText" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
+        <property name="header.rightGroup">
+            <bean parent="Uif-HeaderRightGroup">
+                <property name="items">
+                    <list>
+                        <ref bean="KRMS-RulePreview-Links"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="breadcrumbItem">
+            <bean parent="Uif-BreadcrumbItem">
+                <property name="label" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <ref bean="KRMS-Rules-ManageSection"/>

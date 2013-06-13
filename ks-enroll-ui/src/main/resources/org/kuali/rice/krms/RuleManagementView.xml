@@ -8,19 +8,7 @@
         <property name="items">
             <list>
 
-                <bean parent="Uif-PageHeader" p:headerText="@{#dp.cluDescription}"/>
-
-                <bean id="KRMS-RuleView-Section" parent="KRMS-VerticalBoxSection" p:style="max-width: 54em;">
-                    <property name="headerText" value="@{#dp.ruleEditor.ruleTypeInfo.description}"/>
-                    <property name="header.rightGroup">
-                        <bean parent="Uif-HeaderRightGroup">
-                            <property name="items">
-                                <list>
-                                    <ref bean="KRMS-RulePreview-Links"/>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
+                <bean id="KRMS-RuleView-Section" parent="Uif-VerticalBoxSection" p:style="max-width: 54em;">
                     <property name="instructionalText" value="@{#dp.ruleEditor.ruleTypeInfo.instruction}"/>
                 </bean>
 
