@@ -367,28 +367,27 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         AgendaItemDefinition rootItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
         AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(rootItem);
-        AgendaItemDefinition.Builder deleteItem = null;
-        AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
+        Map<String, AgendaItemDefinition.Builder> itemMap = new HashMap<String, AgendaItemDefinition.Builder>();
+        this.populateAgendaItemMap(itemMap, rootItemBuilder.getWhenTrue());
 
         if (rules.empty()) {
             rootItemBuilder.setRule(null);
             rootItemBuilder.setRuleId(null);
         }
 
+        AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (!rules.empty()) {
-            RuleEditor rule = rules.pop();
-            itemBuilder.setRule(this.finRule(rule, namePrefix, nameSpace));
+            itemBuilder.setRule(this.finRule(rules.pop(), namePrefix, nameSpace));
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
             if (!rules.empty()) {
-                if (itemBuilder.getWhenTrue() == null) {
+                itemBuilder.setWhenTrue(itemMap.remove(rules.peek().getId()));
+                if (itemBuilder.getWhenTrue()==null){
                     itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
                 }
+                itemBuilder.setWhenTrueId(itemBuilder.getWhenTrue().getId());
                 itemBuilder = itemBuilder.getWhenTrue();
             }
         }
-
-        //Keep the when true if already exist so that we can delete it.
-        deleteItem = itemBuilder.getWhenTrue();
 
         //Set the last leaf item's when true to null;
         itemBuilder.setWhenTrue(null);
@@ -398,16 +397,18 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         AgendaItemDefinition updateItem = rootItemBuilder.build();
         this.getRuleManagementService().updateAgendaItem(updateItem);
 
-        //Recursively delete all orphans.
-        deleteAgendaItems(deleteItem);
+        //Delete all orphans.
+        for(AgendaItemDefinition.Builder item : itemMap.values()){
+            this.getRuleManagementService().deleteAgendaItem(item.getId());
+        }
 
         return updateItem;
     }
 
-    protected void deleteAgendaItems(AgendaItemDefinition.Builder agendaItem) {
-        if (agendaItem != null) {
-            this.getRuleManagementService().deleteAgendaItem(agendaItem.getId());
-            this.deleteAgendaItems(agendaItem.getWhenTrue());
+    protected void populateAgendaItemMap(Map<String, AgendaItemDefinition.Builder> itemMap, AgendaItemDefinition.Builder agendaItem){
+        if(agendaItem!=null){
+            itemMap.put(agendaItem.getRuleId(), agendaItem);
+            populateAgendaItemMap(itemMap, agendaItem.getWhenTrue());
         }
     }
 
