@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
@@ -40,12 +41,9 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * This is the view helper class which takes care of most of the functionalities to load data into the model. All the
@@ -178,6 +176,35 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 socForm.setPublishDuration(getTimeDiffUI(curDate, socInfo.getPublishingStarted(), true)+ ManageSocConstants.DISPLAY_IN_PROGRESS);
                 socForm.setPublishCompleteDate(ManageSocConstants.DISPLAY_PUBLISHING_IN_PROGRESS);
             }
+        }
+
+        setTermDayOfYearOnFormObject( socForm, createContextInfo() );
+    }
+
+    private void setTermDayOfYearOnFormObject( ManageSOCForm formObject, ContextInfo contextInfo ) {
+
+        try {
+            List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm( formObject.getTermInfo().getId(), contextInfo);
+            Date termClassStartDate = null;
+            for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
+                if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
+                        && keyDateInfo.getStartDate() != null
+                        && keyDateInfo.getEndDate() != null )
+                {
+                    termClassStartDate = keyDateInfo.getStartDate();
+
+                    Date avgDate = new Date( termClassStartDate.getTime() + ( (keyDateInfo.getEndDate().getTime() - termClassStartDate.getTime()) /2 ) );
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(avgDate);
+                    formObject.setTermDayOfYear( cal.get(Calendar.DAY_OF_YEAR) );
+                    break;
+                }
+            }
+        } catch( Exception e ) {
+            if( LOG.isDebugEnabled() ) {
+                LOG.debug( "Error trying to calculate the term's day-of-year for ManageSocForm" );
+            }
+            throw convertServiceExceptionsToUI(e);
         }
     }
 

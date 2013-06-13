@@ -49,6 +49,8 @@ public class ManageSOCForm extends UifFormBase {
     private String termCode;
     private List<ManageSOCStatusHistory> statusHistory;
 
+    private int termDayOfYear;
+
     private TermInfo termInfo;
     private SocInfo socInfo;
 
@@ -142,6 +144,14 @@ public class ManageSOCForm extends UifFormBase {
 
     public void setSocPublishingStatus(String socPublishingStatus) {
         this.socPublishingStatus = socPublishingStatus;
+    }
+
+    public int getTermDayOfYear() {
+        return this.termDayOfYear;
+    }
+
+    public void setTermDayOfYear( int termDayOfYear ) {
+        this.termDayOfYear = termDayOfYear;
     }
 
     public TermInfo getTermInfo() {
