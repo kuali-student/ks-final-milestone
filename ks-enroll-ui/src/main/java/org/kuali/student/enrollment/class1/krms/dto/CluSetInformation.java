@@ -44,6 +44,7 @@ public class CluSetInformation implements Serializable {
 
     public CluSetInformation(){
         super();
+        this.cluSetInfo = new CluSetInfo();
     }
 
     public CluSetInformation(CluSetInfo cluSetInfo){
@@ -57,6 +58,14 @@ public class CluSetInformation implements Serializable {
 
     public void setCluSetInfo(CluSetInfo cluSetInfo) {
         this.cluSetInfo = cluSetInfo;
+    }
+
+    public String getName() {
+        return cluSetInfo.getName();
+    }
+
+    public void setName(String name) {
+        this.cluSetInfo.setName(name);
     }
 
     public List<CluInformation> getClus() {

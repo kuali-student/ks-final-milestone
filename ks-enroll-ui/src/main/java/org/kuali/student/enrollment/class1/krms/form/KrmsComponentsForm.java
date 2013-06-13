@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class1.krms.form;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.impl.ui.TermParameter;
+import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
@@ -51,6 +52,8 @@ public class KrmsComponentsForm extends KSUifForm {
     private Tree<TreeNode, String> tree1;
 
     private List<TermParameter> list6 = new ArrayList<TermParameter>();
+
+    private List<TermParameter> list10;
 
     private EnrolRuleEditor rule = new EnrolRuleEditor();
 
@@ -195,5 +198,21 @@ public class KrmsComponentsForm extends KSUifForm {
 
     public void setField5(String field5) {
         this.field5 = field5;
+    }
+
+    public List<TermParameter> getList10() {
+        if(this.list10==null){
+            this.list10 = new ArrayList<TermParameter>();
+            for(int i=0; i<=15; i++){
+                TermParameter parm = new TermParameter();
+                parm.setParameter("ENGL" + i);
+                this.list10.add(parm);
+            }
+        }
+        return this.list10;
+    }
+
+    public void setList10(List<TermParameter> list10) {
+        this.list10 = list10;
     }
 }

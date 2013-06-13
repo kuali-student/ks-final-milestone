@@ -18,6 +18,11 @@ import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -91,8 +96,8 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             }
         } else if ("proposition.cluSet.cluSets".equals(collectionGroup.getPropertyName())){
             //Check if this is a valid clu.
-            CluSetInfo cluSet = (CluSetInfo) addLine;
-            if((cluSet.getId() == null)||(cluSet.getId().isEmpty())){
+            CluSetInformation cluSet = (CluSetInformation) addLine;
+            if((cluSet.getCluSetInfo().getId() == null)||(cluSet.getCluSetInfo().getId().isEmpty())){
                 return false;
             }
 
@@ -100,7 +105,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             RuleEditor ruleEditor = this.getRuleEditor(model);
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
             for(CluSetInformation cluSetInfo : propEditor.getCluSet().getCluSets()){
-                if(cluSetInfo.getCluSetInfo().getId().equals(cluSet.getId())){
+                if(cluSetInfo.getCluSetInfo().getId().equals(cluSet.getCluSetInfo().getId())){
                     return false;
                 }
             }
@@ -121,10 +126,18 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
             Collections.sort(propEditor.getCluSet().getClus());
         } else if ("proposition.cluSet.cluSets".equals(collectionGroup.getPropertyName())){
+            //Set the clus on the wrapper object.
+            CluSetInformation cluSet = (CluSetInformation) addLine;
+            try {
+                cluSet.getCluSetInfo().setCluIds(this.getCluService().getCluIdsFromCluSet(cluSet.getCluSetInfo().getId(), ContextUtils.getContextInfo()));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            cluSet.setClus(this.getCluInfoHelper().getCourseInfos(cluSet.getCluSetInfo().getCluIds()));
+
             //Sort the clus.
             RuleEditor ruleEditor = this.getRuleEditor(model);
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
-
             Collections.sort(propEditor.getCluSet().getCluSets(), new Comparator<CluSetInformation>(){
 
                 @Override
@@ -176,7 +189,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 displays.add(display);
             }
         } catch (Exception e) {
-            //do nothing
+            throw new RuntimeException(e);
         }
 
         return displays;
@@ -216,7 +229,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 displays.add(display);
             }
         } catch (Exception e) {
-            //do nothing
+            throw new RuntimeException(e);
         }
 
         return displays;
@@ -259,7 +272,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 displays.add(display);
             }
         } catch (Exception e) {
-            //do nothing
+            throw new RuntimeException(e);
         }
         return displays;
     }
@@ -298,7 +311,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 displays.add(display);
             }
         } catch (Exception e) {
-            //do nothing
+            throw new RuntimeException(e);
         }
         return displays;
     }

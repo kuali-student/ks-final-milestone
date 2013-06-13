@@ -117,35 +117,12 @@ public class CluInformationHelper {
                         if (resultOption.getResultComponentId() != null) {
                             try {
                                 resultComponentInfo = this.getLrcService().getResultValuesGroup(resultOption.getResultComponentId(), ContextUtils.getContextInfo());
+                                return resultComponentInfo.getName();
                             } catch (Exception e) {
                                 throw new RuntimeException("Could not retrieve result values group for " + resultOption.getResultComponentId());
                             }
-                            resultValues = resultComponentInfo.getResultValueKeys();
-                            creditType = resultComponentInfo.getTypeKey();
-                            break;
                         }
                     }
-                }
-                if (resultValues == null) {
-                    continue;
-                }
-
-                if (!credits.isEmpty()) {
-                    credits = credits + "; ";
-                }
-
-                if (creditType.equals("kuali.result.values.group.type.fixed")) {
-                    credits = credits + resultValues.get(0).substring(33);
-                } else if (creditType.equals("kuali.result.values.group.type.multiple")) {
-                    boolean firstValue = true;
-                    for (String resultValue : resultValues) {
-                        credits = credits + (firstValue ? "" : ", ") + resultValue.substring(33);
-                        firstValue = false;
-                    }
-                } else if (creditType.equals("kuali.result.values.group.type.range")) {
-                    String minCredits = resultComponentInfo.getResultValueRange().getMinValue();
-                    String maxCredits = resultComponentInfo.getResultValueRange().getMaxValue();
-                    credits += minCredits + " - " + maxCredits;
                 }
             }
         }

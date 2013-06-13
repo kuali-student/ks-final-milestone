@@ -17,8 +17,11 @@
 package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.krad.web.controller.UifControllerBase;
+import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.impl.ui.TermParameter;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
 import org.springframework.stereotype.Controller;
@@ -68,5 +71,13 @@ public class KrmsComponentsController extends UifControllerBase {
         proposition.getTermParameter();
 
         return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params="methodToCall=viewCourseRange")
+    public ModelAndView viewCourseRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String dialog = "tablecollection-dialog";
+
+        return showDialog(dialog, form, request, response);
     }
 }

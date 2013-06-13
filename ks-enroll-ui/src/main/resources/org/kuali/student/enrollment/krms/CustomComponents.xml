@@ -142,7 +142,7 @@
                 <entry key="code" value="code"/>
                 <entry key="cluId" value="cluId"/>
                 <entry key="verIndependentId" value="verIndependentId"/>
-                <entry key="shortName" value="title"/>
+                <entry key="shortName" value="shortName"/>
             </map>
         </property>
     </bean>
@@ -152,8 +152,9 @@
         <!--<property name="viewName" value="krmsCourseSetsInfoView"/>-->
         <property name="fieldConversions">
             <map>
-                <entry key="name" value="name"/>
-                <entry key="id" value="id"/>
+                <entry key="name" value="cluSetInfo.name"/>
+                <entry key="id" value="cluSetInfo.id"/>
+                <entry key="cluIds" value="cluSetInfo.cluIds"/>
             </map>
         </property>
     </bean>
@@ -161,7 +162,7 @@
     <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Course Sets">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
-                <property name="summaryFields" value="clusetInfo.name"/>
+                <property name="summaryFields" value="name"/>
                 <property name="addLineGroup">
                     <bean parent="KRMS-CollectionGridItem"
                           p:progressiveRender="#np.proposition.multipleCourseType eq '2'"/>
@@ -170,7 +171,7 @@
         </property>
         <property name="propertyName" value="proposition.cluSet.cluSets"/>
         <property name="collectionObjectClass"
-                  value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
+                  value="org.kuali.student.enrollment.class1.krms.dto.CluSetInformation"/>
         <property name="header">
             <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.cluSetListSize gt 0">
                 <property name="lowerGroup">
@@ -180,7 +181,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.cluSetInfo.name}" p:style="width: 500px; margin: 0px;"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.name}" p:style="width: 500px; margin: 0px;"/>
             </list>
         </property>
         <property name="addLineItems">

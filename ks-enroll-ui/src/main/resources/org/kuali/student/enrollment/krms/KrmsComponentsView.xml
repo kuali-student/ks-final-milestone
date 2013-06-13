@@ -22,6 +22,29 @@
         </property>
         <property name="items">
             <list>
+                <bean parent="Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
+                      p:style="margin-right: 15px;"/>
+                <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3"
+                      p:renderAddLine="false">
+                    <property name="collectionObjectClass" value="org.kuali.rice.krms.impl.ui.TermParameter"/>
+                    <property name="propertyName" value="list10"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="collectionLookup.quickfinderAction.render" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="layoutManager.richTable.templateOptions">
+                        <map>
+                            <entry key="sDom" value="rtip"/>
+                            <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                        </map>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Code" p:propertyName="parameter" p:width="65"/>
+                        </list>
+                    </property>
+                </bean>
                 <ref bean="KRMS-Clu-Components-Section" />
                 <ref bean="KRMS-Org-Components-Section" />
                 <ref bean="KRMS-TestTree-Section"/>
@@ -31,6 +54,7 @@
         <property name="dialogs">
             <list>
                 <bean id="myDropdownLightBox" parent="KRMS-DropDownLightBox"/>
+                <bean id="tablecollection-dialog" parent="lightbox-witha-tablecollection"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -44,6 +68,41 @@
             </list>
         </property>
     </bean>
+
+    <bean id="lightbox-witha-tablecollection" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+        <property name="hidden" value="true"/>
+        <property name="headerText" value="Course Range"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3"
+                      p:renderAddLine="false">
+                    <property name="collectionObjectClass" value="org.kuali.rice.krms.impl.ui.TermParameter"/>
+                    <property name="propertyName" value="list10"/>
+                    <property name="renderLineActions" value="false"/>
+                    <property name="collectionLookup.quickfinderAction.render" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="layoutManager.richTable.templateOptions">
+                        <map>
+                            <entry key="sDom" value="rtip"/>
+                            <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                        </map>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:label="Code" p:propertyName="parameter" p:width="65"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
+                      p:align="right"/>
+            </list>
+        </property>
+    </bean>
+
+
 
     <bean id="KRMS-Clu-Components-Section" parent="Uif-VerticalBoxSection">
         <property name="items">
