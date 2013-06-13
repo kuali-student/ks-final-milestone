@@ -4,7 +4,7 @@ delete from KSST_REF_STMT_REL
 delete from KSST_RSTMT_RTYP_JN_STMT_TYP
 /
 delete from KSST_STMT_JN_REQ_COM
-
+/
 delete from KSST_STMT_JN_STMT
 /
 delete from KSST_STMT
