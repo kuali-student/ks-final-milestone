@@ -21,6 +21,9 @@ import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -29,10 +32,10 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 /**
  * TODO KSCM-820
@@ -41,118 +44,57 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  * 
- * Copy from ks-enroll/ks-enroll-ui/src/main/java/org/kuali/student/enrollment/class1/krms/keyvalues/DurationTypeValueFinder.java
+ * Copy from
+ * ks-enroll/ks-enroll-ui/src/main/java/org/kuali/student/enrollment/class1/krms/
+ * keyvalues/DurationTypeValueFinder.java
  * 
  */
 public class DurationTypeKeyValueFinder extends UifKeyValuesFinderBase {
 
-    private AtpService atpService;
-    private LRCService lrcService;
+    private TypeService typeService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        List<KeyValue> labels = new ArrayList<KeyValue>();
-        labels.add(new ConcreteKeyValue("", ""));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_YEAR_TYPE_KEY, "Year"));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_FOUR_YEARS_TYPE_KEY, "Four Years"));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_HALF_SEMESTER_TYPE_KEY, "Half Semester"));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_SESSION_TYPE_KEY, "Session"));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_PERIOD_TYPE_KEY, "Period"));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_MINI_MESTER_TYPE_KEY, "Mini-Mester"));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_WEEK_TYPE_KEY, "Week"));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_TERM_TYPE_KEY, "Term"));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_SEMESTER_TYPE_KEY, "Semester"));
-        labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_TBD_TYPE_KEY, "TBD"));
 
-        return labels;
-    }
-//    @Override
-//    public List<KeyValue> getKeyValues(ViewModel model) {
-//        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-//        try {
-//            SearchRequestInfo searchRequest = new SearchRequestInfo();
-//            searchRequest.setSearchKey("atp.search.advancedAtpSearch");
-//            List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-//            SearchParamInfo param = new SearchParamInfo();
-//            param.setKey("atp.advancedAtpSearchParam.atpType");  //"atp.advancedAtpSearchParam.optionalAtpIds
-//
-//           List<String> typeValues = new ArrayList<String>();
-//            typeValues.add(AtpServiceConstants.DURATION_YEAR_TYPE_KEY);
-//            typeValues.add(AtpServiceConstants.DURATION_FOUR_YEARS_TYPE_KEY);
-//            typeValues.add(AtpServiceConstants.DURATION_HALF_SEMESTER_TYPE_KEY);
-//            typeValues.add(AtpServiceConstants.DURATION_SESSION_TYPE_KEY);
-//            typeValues.add(AtpServiceConstants.DURATION_PERIOD_TYPE_KEY);
-//            typeValues.add(AtpServiceConstants.DURATION_MONTH_TYPE_KEY);
-//            typeValues.add(AtpServiceConstants.DURATION_TERM_TYPE_KEY);
-//            typeValues.add(AtpServiceConstants.DURATION_HOURS_TYPE_KEY);
-//            typeValues.add(AtpServiceConstants.DURATION_WEEK_TYPE_KEY);
-//            param.setValues(typeValues);
-//            queryParamValueList.add(param);
-//            searchRequest.setParams(queryParamValueList);
-//            SearchResultInfo searchResult = this.getAtpService().search(searchRequest, getContextInfo());
-//
-//            for (SearchResultRowInfo result : searchResult.getRows()) {
-//                List<SearchResultCellInfo> cells = result.getCells();
-//                for (SearchResultCellInfo cell : cells) {
-//                    keyValues.add(new ConcreteKeyValue(cell.getKey(), cell.getValue()));
-//                }
-//
-//            }
-//        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-//        }
-//        return keyValues;
-//    }
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-    private AtpService getAtpService() {
-        if (atpService == null)
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        Predicate predicate = PredicateFactory.in("id",
+                AtpServiceConstants.DURATION_YEAR_TYPE_KEY,
+                AtpServiceConstants.DURATION_FOUR_YEARS_TYPE_KEY,
+                AtpServiceConstants.DURATION_HALF_SEMESTER_TYPE_KEY,
+                AtpServiceConstants.DURATION_SESSION_TYPE_KEY,
+                AtpServiceConstants.DURATION_PERIOD_TYPE_KEY,
+                AtpServiceConstants.DURATION_MINI_MESTER_TYPE_KEY,
+                AtpServiceConstants.DURATION_MONTH_TYPE_KEY,
+                AtpServiceConstants.DURATION_TERM_TYPE_KEY,
+                AtpServiceConstants.DURATION_HOURS_TYPE_KEY,
+                AtpServiceConstants.DURATION_WEEK_TYPE_KEY);
+        qBuilder.setPredicates(predicate);
+        try
         {
-            QName qname = new QName(AtpServiceConstants.NAMESPACE,AtpServiceConstants.SERVICE_NAME_LOCAL_PART);
-            atpService = (AtpService) GlobalResourceLoader.getService(qname);
+            List<TypeInfo> list = this.getTypeService().searchForTypes(qBuilder.build(), getContextInfo());
+
+            if (list != null) {
+                for (TypeInfo info : list) {
+                    keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
+                }
+            }
+        } catch (Exception ex) {
+            throw new RuntimeException("Could not retrieve AptSeasons Duration types: " + ex);
         }
-        return atpService;
+        return keyValues;
     }
-    private LRCService getLRCService() {
-        if (lrcService == null)
+
+    private TypeService getTypeService() {
+        if (typeService == null)
         {
-            QName qname = new QName(LrcServiceConstants.NAMESPACE,LrcServiceConstants.SERVICE_NAME_LOCAL_PART);
-            lrcService = (LRCService) GlobalResourceLoader.getService(qname);
+            QName qname = new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART);
+            typeService = (TypeService) GlobalResourceLoader.getService(qname);
         }
-        return lrcService;
+        return typeService;
     }
-    
-//
-//    private LRCService lrcService;
-//
-//    @Override
-//    public List<KeyValue> getKeyValues() {
-//        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-//        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-//        Predicate predicate = PredicateFactory.equal("type", LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE);
-//        qBuilder.setPredicates(predicate);
-//        try
-//        {
-//            List<ResultScaleInfo> list = this.getLRCService().searchForResultScales(qBuilder.build(), getContextInfo());
-//            if (list != null) {
-//                for (ResultScaleInfo info : list) {
-//                    keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
-//                }
-//            }
-//        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-//        }
-//        return keyValues;
-//    }
-//
-//    private LRCService getLRCService() {
-//        if (lrcService == null)
-//        {
-//            QName qname = new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART);
-//            lrcService = (LRCService) GlobalResourceLoader.getService(qname);
-//        }
-//        return lrcService;
-//    }
-//
+
     private ContextInfo getContextInfo() {
         ContextInfo contextInfo = new ContextInfo();
         contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
