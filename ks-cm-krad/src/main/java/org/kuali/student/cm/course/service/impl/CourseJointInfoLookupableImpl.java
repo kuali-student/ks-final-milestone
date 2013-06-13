@@ -45,13 +45,13 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
             courseTitleParam.getValues().add(courseTitle);
             queryParamValueList.add(courseTitleParam);
         }
-        else if (StringUtils.isNotBlank(subjectArea)){
+        if (StringUtils.isNotBlank(subjectArea)) {
             SearchParamInfo courseCodeParam = new SearchParamInfo();
             courseCodeParam.setKey("lu.queryParam.luOptionalCode");
             courseCodeParam.getValues().add(subjectArea);
             queryParamValueList.add(courseCodeParam);
         }
-        else if (StringUtils.isNotBlank(description) && !description.isEmpty()){
+        if (StringUtils.isNotBlank(description)) {
             SearchParamInfo descriptionParam = new SearchParamInfo();
             descriptionParam.setKey("lu.queryParam.luOptionalDescr");
             descriptionParam.getValues().add(description);
