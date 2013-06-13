@@ -16,19 +16,29 @@
 
 package org.kuali.student.enrollment.roster.service;
 
+import java.util.List;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.roster.dto.LprRosterEntryInfo;
 import org.kuali.student.enrollment.roster.dto.LprRosterInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
 
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import java.util.List;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
+import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
 
 /**
  * The LprRoster service maintains ordered collections of Lprs for
@@ -316,28 +326,6 @@ public interface LprRosterService {
                VersionMismatchException;
 
     /**
-     * Updates the state of an existing LprRoster to another state
-     * provided that it is valid to do so.
-     *
-     * @param lprRosterId        identifier of the LprRoster to be
-     *                           updated
-     * @param nextStateKey       The State Key into which the identified
-     *                           LprRoster will be placed if the
-     *                           operation succeeds.
-     * @param contextInfo        Context information containing the principalId
-     *                           and locale information about the caller of
-     *                           service operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     the identified LprRoster does
-     *                                   not exist
-     * @throws InvalidParameterException the contextInfo object is invalid
-     * @throws MissingParameterException One or more parameters missing
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public StatusInfo changeLprRosterState(@WebParam(name = "lprRosterId") String lprRosterId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
      * Deletes an existing LprRoster.
      *
      * @param lprRosterId the identifier for the LprRoster to be deleted
@@ -436,6 +424,7 @@ public interface LprRosterService {
 
     /**
      * This method returns all the LprRosterEntries for an LprRoster.
+     * The returned list will be ordered by LprRosterEntryInfo.position starting with position 1.
      *
      * @param lprRosterId an identifier for an LprRoster
      * @param contextInfo information containing the principalId and
@@ -566,9 +555,9 @@ public interface LprRosterService {
      * @param validationTypeKey the identifier for the validation Type
      * @param lprRosterId the LprRoster of the LprRosterEntry
      * @param lprId the Lpr of the LprRosterEntry
-     * @param lprRosterTypeKey the identifier for the
+     * @param lprRosterEntryTypeKey the identifier for the
      *        LprRosterEntry Type to be validated
-     * @param lprRosterInfo the LprRosterEntry to be validated
+     * @param lprRosterEntryInfo the LprRosterEntry to be validated
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
      *        operation
@@ -580,20 +569,20 @@ public interface LprRosterService {
      *         is not valid
      * @throws MissingParameterException validationTypeKey,
      *         lprRosterId, lprId, lprRosterTypeKey, lprRosterInfo, or
-     *         contextInfo is missing or null
+     *         lprRosterEntryInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateLprRosterEntry(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                        @WebParam(name = "lprRosterId") String lprRosterId,
-                                                        @WebParam(name = "lprId") String lprId,
-                                                        @WebParam(name = "lprRosterTypeKey") String lprRosterTypeKey,
-                                                        @WebParam(name = "lprRosterInfo") LprRosterInfo lprRosterInfo,
-                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+                                                             @WebParam(name = "lprRosterId") String lprRosterId,
+                                                             @WebParam(name = "lprId") String lprId,
+                                                             @WebParam(name = "lprRosterEntryTypeKey") String lprRosterEntryTypeKey,
+                                                             @WebParam(name = "lprRosterEntryInfo") LprRosterEntryInfo lprRosterEntryInfo,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws DoesNotExistException,
                InvalidParameterException,
-               MissingParameterException, 
-               OperationFailedException, 
+               MissingParameterException,
+               OperationFailedException,
                PermissionDeniedException;
 
     /**
@@ -675,28 +664,6 @@ public interface LprRosterService {
                VersionMismatchException;
 
     /**
-     * Updates the state of an existing LprRosterEntry to another state
-     * provided that it is valid to do so.
-     *
-     * @param lprRosterEntryId   identifier of the LprRosterEntry to be
-     *                           updated
-     * @param nextStateKey       The State Key into which the identified
-     *                           LprRosterEntry will be placed if the
-     *                           operation succeeds.
-     * @param contextInfo        Context information containing the principalId
-     *                           and locale information about the caller of
-     *                           service operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     the identified LprRosterEntry does
-     *                                   not exist
-     * @throws InvalidParameterException the contextInfo object is invalid
-     * @throws MissingParameterException One or more parameters missing
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public StatusInfo changeLprRosterEntryState(@WebParam(name = "lprRosterEntryId") String lprRosterEntryId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
      * Deletes an existing LprRosterEntry.
      *
      * @param lprRosterEntryId the identifier for the LprRosterEntry
@@ -729,7 +696,7 @@ public interface LprRosterService {
      * position within the roster then this method "bumps down" the
      * rest of the roster entries until there is an open position.
      * 
-     * @param lprRosterEntryId
+     * @param lprRosterEntryId the id for the lpr roster entry to be moved.
      * @param position the absolute position in the LprRoster
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
@@ -758,7 +725,7 @@ public interface LprRosterService {
      * This is a bulk method to reset the positions all of the entries
      * in the LprRoster.
      * 
-     * Any entries in the LprRoster that arenot specified in the
+     * Any entries in the LprRoster that are not specified in the
      * supplied list are ordered by their existing position and placed
      * at the end of the LprRosterEntries in the specified list.
      *
