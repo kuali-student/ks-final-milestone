@@ -22,7 +22,7 @@
 
     <bean id="KS-KitchenSink-UnifiedPageHeader-View-Base" parent="KS-Uif-FormView">
         <!--<property name="headerText" value="Toolbar Example"/>-->
-        <property name="headerText" value="Unified Header - View Title"/>
+        <property name="headerText" value="M8 Unified Header - View Title"/>
 
         <!--<property name="header.headerText" value="The Page Title"/>-->
         <!--<property name="header.areaTitleText" value="The View Title"/>-->
