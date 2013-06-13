@@ -19,7 +19,9 @@
 <div class="body">
     <strong>Unified Page Header</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Unified Page Header"
+        <li><portal:portalLink displayTitle="true" title="Unified Page Header M7"
+                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-UnifiedPageHeader-View-Base-M7&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Unified Page Header M8"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-UnifiedPageHeader-View-Base&methodToCall=start" /></li>
     </ul>
 
