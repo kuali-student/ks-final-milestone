@@ -82,8 +82,9 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (courseOffering != null) {
             //Get the atp code.
             StringBuilder atpCode = new StringBuilder();
+            AtpInfo atp = null;
             try {
-                AtpInfo atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
+                atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
                 atpCode.append(atp.getCode());
                 atpCode.append(" - ");
             } catch (Exception e) {
@@ -95,6 +96,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
             //Set the description and atp used on the screen.
             dataObject.setCluDescription(courseOffering.getCourseOfferingCode());
+            dataObject.setAtpCode(atp.getCode());
         }
 
         dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());

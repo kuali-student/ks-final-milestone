@@ -15,6 +15,7 @@ import java.util.List;
 public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     private String cluDescription;
+    private String atpCode;
     private List<CluInformation> clusInRange;
 
     public String getCluDescription() {
@@ -23,6 +24,14 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     public void setCluDescription(String cluDescription) {
         this.cluDescription = cluDescription;
+    }
+
+    public String getAtpCode() {
+        return atpCode;
+    }
+
+    public void setAtpCode(String atpCode) {
+        this.atpCode = atpCode;
     }
 
     public EnrolRuleEditor getEnrolRuleEditor(){

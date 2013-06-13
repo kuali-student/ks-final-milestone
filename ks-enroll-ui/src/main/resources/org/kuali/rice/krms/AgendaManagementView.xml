@@ -21,7 +21,27 @@
     <bean id="KRMS-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
         <property name="headerText" value="@{#dp.cluDescription}"/>
         <property name="topGroup">
-            <bean id="KRMS-CourseRequisites-ContextBar" parent="KS-Uif-HorizontalBoxGroup-TopGroup"/>
+            <bean id="KRMS-CourseRequisites-ContextBar" parent="KS-Uif-HorizontalBoxGroup-TopGroup">
+                <property name="onDocumentReadyScript" value="setSeasonalColor('KRMS-CourseRequisites-ContextBar', '75', '@{#ConfigProperties['application.url']}');"/>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-Label" p:labelText="@{#dp.atpCode}" p:renderColon="false">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ks-topGroup-termCode</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Course Offering Requisites"/>
+                </bean>
+            </list>
         </property>
         <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
         <property name="additionalScriptFiles">
@@ -118,10 +138,26 @@
                 </property>
             </bean>
         </property>
-        <property name="breadcrumbItem">
-            <bean parent="Uif-BreadcrumbItem">
-                <property name="label" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
-            </bean>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Course Offering Requisites"/>
+                    <property name="url.controllerMapping" value="/krmsRuleStudentEditor"/>
+                    <property name="url.viewType" value="MAINTENANCE"/>
+                    <property name="url.methodToCall" value="maintenanceEdit"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper"/>
+                            <entry key="viewName" value="COAgendaManagementView"/>
+                            <entry key="overrideKeys" value="refObjectId"/>
+                            <entry key="refObjectId" value="@{#dp.refObjectId}"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
+                </bean>
+            </list>
         </property>
         <property name="items">
             <list>
