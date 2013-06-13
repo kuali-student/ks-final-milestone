@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.bo.GlobalBusinessObject;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
@@ -27,11 +26,12 @@ import org.kuali.rice.krms.framework.type.ActionTypeService;
 import org.kuali.rice.krms.impl.authorization.AgendaAuthorizationService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
+import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 
 /**
  * This class contains the rules for the AgendaEditor.
  */
-public class RuleEditorBusRule extends MaintenanceDocumentRuleBase {
+public class RuleEditorBusRule extends KsMaintenanceDocumentRuleBase {
 
     @Override
     protected boolean primaryKeyCheck(MaintenanceDocument document) {
