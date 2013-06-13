@@ -59,14 +59,6 @@ public class AcademicTermParentTypeKeyValues extends UifKeyValuesFinderBase impl
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         List<String> availableTermTypes = new ArrayList();
 
-        if (model instanceof AcademicCalendarForm){
-            AcademicCalendarForm acalForm = (AcademicCalendarForm)model;
-
-            for (AcademicTermWrapper termWrapper : acalForm.getTermWrapperList()) {
-                availableTermTypes.add(termWrapper.getTermType());
-            }
-        }
-
         keyValues.add(new ConcreteKeyValue("", "Select Term Type"));
 
         List<TypeInfo> types = null;
@@ -75,12 +67,10 @@ public class AcademicTermParentTypeKeyValues extends UifKeyValuesFinderBase impl
             types = getAcalTermTypes();
 
             for (TypeInfo type : types) {
-                if (!availableTermTypes.contains(type.getKey())){
-                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                    keyValue.setKey(type.getKey());
-                    keyValue.setValue(type.getName());
-                    keyValues.add(keyValue);
-                }
+                ConcreteKeyValue keyValue = new ConcreteKeyValue();
+                keyValue.setKey(type.getKey());
+                keyValue.setValue(type.getName());
+                keyValues.add(keyValue);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -550,7 +550,19 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 return false;
             }
         }
-
+        else if(addLine instanceof AcademicTermWrapper) {
+            //if tries to add a Subterm, the parent term has to exist in the Form
+            AcademicTermWrapper term = (AcademicTermWrapper) addLine;
+            AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
+            if (term.getParentTerm() != null &&
+                    !StringUtils.isBlank(term.getParentTerm())){
+                if(!isParentTermExisting(term.getParentTerm(), acalForm.getTermWrapperList(),
+                        collectionGroup.getId())){
+                    return false;
+                }
+            }
+            return true;
+        }
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
     }
 
@@ -1051,15 +1063,33 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param addLine
      */
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+
         if (addLine instanceof AcademicTermWrapper){
             AcademicTermWrapper newLine = (AcademicTermWrapper)addLine;
+            AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
+            //need to handle Term vs subTerm in different way
             try {
-                TypeInfo termType = getAcalService().getTermType(((AcademicTermWrapper) addLine).getTermType(),createContextInfo());
+                TypeInfo termType = getAcalService().getTermType(newLine.getTermType(),createContextInfo());
+                if (StringUtils.isBlank(newLine.getParentTerm())){ //try to add a term
+                    newLine.setTermNameForUI(termType.getName());
+                    newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
+                    newLine.setTypeInfo(termType);
+                    newLine.setSubTerm(false);
 
-                newLine.setTermNameForUI(termType.getName());
-
-                newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
-                newLine.setTypeInfo(termType);
+                }
+                else {//try to add a subterm
+                    if(isParentTermExisting(newLine.getParentTerm(), acalForm.getTermWrapperList(),null)) {
+                        newLine.setTermNameForUI(termType.getName());
+                        newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
+                        newLine.setTypeInfo(termType);
+                        newLine.setSubTerm(true);
+                        AcademicTermWrapper parentTermWrapper = getParentTermInForm(newLine.getParentTerm(), acalForm.getTermWrapperList());
+                        if(parentTermWrapper != null){
+                            populateParentTermToSubterm(parentTermWrapper, newLine);
+                        }
+                    }
+                    //otherwise, let performAddLineValidation to handle and post validation error
+                }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -1154,7 +1184,37 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             super.processBeforeAddLine(view, collectionGroup, model, addLine);
         }
     }
-    
+
+    private boolean isParentTermExisting(String parentTermType, List<AcademicTermWrapper> termWrapperList, String lineName) {
+       for (AcademicTermWrapper termWrapper : termWrapperList){
+           String termType = termWrapper.getTermType();
+           if (StringUtils.isBlank(termType)){
+               termType = termWrapper.getTermInfo().getTypeKey();
+           }
+           if (parentTermType.equals(termType)){
+               return true;
+           }
+       }
+       if (lineName != null){
+            GlobalVariables.getMessageMap().putErrorForSectionId(lineName,
+               CalendarConstants.MessageKeys.ERROR_NO_PARENT_TERM_FOR_SUBTERM);
+       }
+       return false;
+    }
+
+    private AcademicTermWrapper getParentTermInForm(String parentTermType, List<AcademicTermWrapper> termWrapperList){
+        for (AcademicTermWrapper termWrapper : termWrapperList){
+            String termType = termWrapper.getTermType();
+            if (StringUtils.isBlank(termType)){
+                termType = termWrapper.getTermInfo().getTypeKey();
+            }
+            if (parentTermType.equals(termType)){
+                return termWrapper;
+            }
+        }
+        return null;
+    }
+
     private TermInfo getParentTerm(String acalId, String parentTermTypeKey) throws Exception{
         
         List<TermInfo> termInfoList =  getAcalService().getTermsForAcademicCalendar(acalId, createContextInfo());
@@ -1164,6 +1224,27 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
         }
         return null;
+    }
+
+    private void populateParentTermToSubterm(AcademicTermWrapper parentTermWrapper, AcademicTermWrapper newLine){
+        
+        List<KeyDatesGroupWrapper> newKeyDatesGroupWrappers = new ArrayList<KeyDatesGroupWrapper>();
+        for(KeyDatesGroupWrapper keyDatesGroupWrapper : parentTermWrapper.getKeyDatesGroupWrappers()){
+            KeyDatesGroupWrapper newKeyDatesGroup = 
+                    new KeyDatesGroupWrapper(keyDatesGroupWrapper.getKeyDateGroupType(),
+                                             keyDatesGroupWrapper.getKeyDateGroupNameUI());
+            List<KeyDateWrapper> newKeyDates = newKeyDatesGroup.getKeydates();
+            for(KeyDateWrapper keyDateWrapper: keyDatesGroupWrapper.getKeydates()){
+                KeyDateWrapper newKeyDateWrapper = new KeyDateWrapper();
+                newKeyDateWrapper.setKeyDateType(keyDateWrapper.getKeyDateType());
+                newKeyDateWrapper.setKeyDateNameUI(keyDateWrapper.getKeyDateNameUI());
+                newKeyDateWrapper.setAllDay(keyDateWrapper.isAllDay());
+                newKeyDateWrapper.setDateRange(keyDateWrapper.isDateRange());
+                newKeyDates.add(newKeyDateWrapper);
+            }
+            newKeyDatesGroupWrappers.add(newKeyDatesGroup);
+        }
+        newLine.setKeyDatesGroupWrappers(newKeyDatesGroupWrappers);
     }
 
     public AcademicCalendarService getAcalService() {

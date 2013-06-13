@@ -107,6 +107,7 @@ public class CalendarConstants {
         public static final String ERROR_TERM_NOT_IN_ACAL_RANGE = "error.enroll.term.dateNotInAcal";
         public static final String ERROR_INVALID_DATERANGE_KEYDATE = "error.enroll.keydate.dateNotInTerm";
         public static final String ERROR_CALCULATING_INSTRUCTIONAL_DAYS = "error.enroll.acal.instructionaldays.calculation";
+        public static final String ERROR_NO_PARENT_TERM_FOR_SUBTERM = "error.enroll.acal.term.noParentTermForSubterm";
     }
 
     public static final String GROWL_TITLE="growl.title";
