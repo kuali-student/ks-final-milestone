@@ -7,9 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import javax.jws.WebParam;
-import javax.xml.namespace.QName;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.myplan.academicplan.dao.LearningPlanDao;
 import org.kuali.student.myplan.academicplan.dao.LearningPlanTypeDao;
@@ -39,9 +38,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -54,43 +50,6 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
     private LearningPlanTypeDao learningPlanTypeDao;
     private PlanItemDao planItemDao;
     private PlanItemTypeDao planItemTypeDao;
-    private CourseService courseService;
-    private AtpService atpService;
-
-    /**
-     * This method provides a way to manually provide a CourseService implementation during testing.
-     * @param courseService
-     */
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
-
-    protected synchronized CourseService getCourseService() {
-        if (this.courseService == null) {
-            this.courseService = (CourseService) GlobalResourceLoader
-                    .getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, "CourseService"));
-        }
-        return this.courseService;
-    }
-
-    /**
-     * Provides an instance of the AtpService client.
-     */
-    protected AtpService getAtpService() {
-        if (atpService == null) {
-            // TODO: Namespace should not be hard-coded.
-            atpService = (AtpService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/atp", "AtpService"));
-        }
-        return this.atpService;
-    }
-
-     /**
-     * This method provides a way to manually provide a CourseService implementation during testing.
-     * @param atpService
-     */
-    public void setAtpService(AtpService atpService) {
-        this.atpService = atpService;
-    }
 
     public PlanItemDao getPlanItemDao() {
         return planItemDao;
@@ -579,7 +538,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
          * TODO: Move this validation to the data dictionary.
          */
         try {
-            getCourseService().getCourse(planItemInfo.getRefObjectId(), context);
+        	KsapFrameworkServiceLocator.getCourseService().getCourse(planItemInfo.getRefObjectId(), context);
         } catch (DoesNotExistException e) {
             validationResultInfos.add(makeValidationResultInfo(
                 String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
@@ -681,7 +640,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
     private boolean isValidAtp(String atpId, ContextInfo context) {
         try {
-            getAtpService().getAtp(atpId, context);
+        	KsapFrameworkServiceLocator.getAtpService().getAtp(atpId, context);
         } catch (DoesNotExistException e) {
             return false;
         } catch (Exception e) {

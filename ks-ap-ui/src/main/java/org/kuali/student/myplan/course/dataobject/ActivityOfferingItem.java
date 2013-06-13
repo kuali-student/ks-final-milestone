@@ -20,8 +20,9 @@ public class ActivityOfferingItem implements Serializable {
 
 	private static final long serialVersionUID = -5761634338639381397L;
 
-	private String code;
+    private String code;
     private String campus;
+    private String feeAmount;
     private String activityOfferingType;
     private String credits;
     private List<MeetingDetails> meetingDetailsList;
@@ -37,25 +38,36 @@ public class ActivityOfferingItem implements Serializable {
     private String enrollCount;
     private String enrollMaximum;
     private String enrollEstimate;
+    private String instructor;
+    private String details;
+    private String stateKey;
+
+    private boolean distanceLearning;
+    private boolean honorsSection;
+    private boolean jointOffering;
+    private boolean research;
+    private boolean writingSection;
+    private boolean serviceLearning;
+    private boolean newThisYear;
+    private boolean ineligibleForFinancialAid;
+    private boolean addCodeRequired;
+    private boolean independentStudy;
+    private String gradingOption;
+    private String sectionComments;
+    private String summerTerm;
 
     private String planItemId;
+    private String courseId;
+
     private boolean primary = false;
+    private boolean openForPlanning = false;
+    /*This is used for the add hover text in UI*/
+    private String primaryActivityOfferingCode;
+
+    private String primaryActivityOfferingId;
 
     private String instituteCode;
     private String instituteName;
-
-    private List<ActivityOfferingAdditionalInfo> additionalInfo = new ArrayList<ActivityOfferingAdditionalInfo>();
-
-    public ActivityOfferingItem(){
-        ActivityOfferingAdditionalInfo additionalInfo = new ActivityOfferingAdditionalInfo();
-        this.additionalInfo.add(additionalInfo);
-    }
-    public void setAdditionalInfo(List<ActivityOfferingAdditionalInfo> additionalInfo){
-        this.additionalInfo = additionalInfo;
-    }
-    public List<ActivityOfferingAdditionalInfo> getAdditionalInfo (){
-        return additionalInfo;
-    }
 
 
     public String getCode() {
@@ -70,7 +82,7 @@ public class ActivityOfferingItem implements Serializable {
         return campus;
     }
 
-    public void setCampus( String campus ) {
+    public void setCampus(String campus) {
         this.campus = campus;
     }
 
@@ -91,8 +103,7 @@ public class ActivityOfferingItem implements Serializable {
     }
 
     public List<MeetingDetails> getMeetingDetailsList() {
-        if(meetingDetailsList == null )
-        {
+        if (meetingDetailsList == null) {
             meetingDetailsList = new ArrayList<MeetingDetails>();
         }
         return meetingDetailsList;
@@ -100,63 +111,6 @@ public class ActivityOfferingItem implements Serializable {
 
     public void setMeetingDetailsList(List<MeetingDetails> meetingDetailsList) {
         this.meetingDetailsList = meetingDetailsList;
-    }
-
-    public String getMeetingDetailsListOutput(){
-        List<MeetingDetails> list = meetingDetailsList;
-        String TO_BE_ARRANGED="To be Arranged";
-        StringBuilder sb = new StringBuilder();
-        sb.append( "<div class='meetingdetailslist'>" );
-
-        for( MeetingDetails m : list ) {
-
-            boolean tba = false;
-
-            StringBuilder temp = new StringBuilder();
-            temp.append( "<div class='meetingdetails'>" );
-
-            String days = m.getDays();
-            String time = m.getTime();
-            String building = m.getBuilding();
-            String room = m.getRoom();
-            String campus = m.getCampus();
-
-            // If the days and building are empty, section is TBA
-            if ( ( days == null || days.equals( "" ) ) && ( time == null || time.equals( "" ) ) ) {
-                tba = true;
-            }
-
-            if ( days == null ) days = "";
-            if ( time == null ) time = "";
-            if ( building == null ) building = "";
-            if ( room == null ) room = "";
-            if ( campus == null ) campus = "";
-
-            if ( !tba ) {
-                temp.append( "<span class='meetingdays'>" + days + "</span>" );
-                temp.append( "<span class='meetingtime'>" + time + "</span>" );
-            } else {
-                temp.append( "<span class='meetingtba'>" + TO_BE_ARRANGED + "</span>" );
-            }
-
-            if ( !building.equals( "NOC" ) && !building.startsWith( "*" ) && campus.equalsIgnoreCase( "seattle" ) ) {
-                temp.append( "<span class='meetingbuilding'><a href='http://uw.edu/maps/?" + building + "' target='_blank'>" + building + "</a></span>" );
-            } else {
-                temp.append( "<span class='meetingbuilding'>" + building + "</span>" );
-            }
-
-            temp.append( "<span class='meetingroom'>" + room + "</span>" );
-
-            temp.append( "</div>" );
-
-            sb.append( temp );
-        }
-
-        sb.append( "</div>" );
-
-        String result = sb.toString();
-        result = result.replace( '\'', '\"' );
-        return result;
     }
 
     public String getRegistrationCode() {
@@ -216,19 +170,19 @@ public class ActivityOfferingItem implements Serializable {
     }
 
     public String getInstructor() {
-        return additionalInfo.get(0).getInstructor();
+        return instructor;
     }
 
     public void setInstructor(String instructor) {
-        this.additionalInfo.get(0).setInstructor(instructor);
+        this.instructor = instructor;
     }
 
     public String getDetails() {
-        return  additionalInfo.get(0).getDetails();
+        return details;
     }
 
-    public void setDetails( String details ) {
-        this.additionalInfo.get(0).setDetails(details);
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     /*
@@ -237,75 +191,75 @@ public class ActivityOfferingItem implements Serializable {
      */
 
     public boolean isDistanceLearning() {
-        return additionalInfo.get(0).isDistanceLearning();
+        return distanceLearning;
     }
 
     public void setDistanceLearning(boolean distanceLearning) {
-        this.additionalInfo.get(0).setDistanceLearning(distanceLearning);
+        this.distanceLearning = distanceLearning;
     }
 
     public boolean isHonorsSection() {
-        return  additionalInfo.get(0).isHonorsSection();
+        return honorsSection;
     }
 
     public void setHonorsSection(boolean honorsSection) {
-        this.additionalInfo.get(0).setHonorsSection(honorsSection);
+        this.honorsSection = honorsSection;
     }
 
     public boolean isJointOffering() {
-        return  additionalInfo.get(0).isJointOffering();
+        return jointOffering;
     }
 
     public void setJointOffering(boolean jointOffering) {
-        this.additionalInfo.get(0).setJointOffering(jointOffering);
+        this.jointOffering = jointOffering;
     }
 
     public boolean isResearch() {
-        return  additionalInfo.get(0).isResearch();
+        return research;
     }
 
     public void setResearch(boolean research) {
-        this.additionalInfo.get(0).setResearch(research);
+        this.research = research;
     }
 
     public boolean isWritingSection() {
-        return additionalInfo.get(0).isWritingSection();
+        return writingSection;
     }
 
     public void setWritingSection(boolean writingSection) {
-        this.additionalInfo.get(0).setWritingSection(writingSection);
+        this.writingSection = writingSection;
     }
 
     public boolean isServiceLearning() {
-        return  additionalInfo.get(0).isServiceLearning();
+        return serviceLearning;
     }
 
     public void setServiceLearning(boolean serviceLearning) {
-        this.additionalInfo.get(0).setServiceLearning(serviceLearning);
+        this.serviceLearning = serviceLearning;
     }
 
     public boolean isNewThisYear() {
-        return  additionalInfo.get(0).isNewThisYear();
+        return newThisYear;
     }
 
     public void setNewThisYear(boolean newThisYear) {
-        this.additionalInfo.get(0).setNewThisYear(newThisYear);
+        this.newThisYear = newThisYear;
     }
 
     public boolean isIneligibleForFinancialAid() {
-        return  additionalInfo.get(0).isIneligibleForFinancialAid();
+        return ineligibleForFinancialAid;
     }
 
     public void setIneligibleForFinancialAid(boolean ineligibleForFinancialAid) {
-        this.additionalInfo.get(0).setIneligibleForFinancialAid(ineligibleForFinancialAid);
+        this.ineligibleForFinancialAid = ineligibleForFinancialAid;
     }
 
     public String getGradingOption() {
-        return  additionalInfo.get(0).getGradingOption();
+        return gradingOption;
     }
 
-    public void setGradingOption( String gradingOption ) {
-        this.additionalInfo.get(0).setGradingOption(gradingOption);
+    public void setGradingOption(String gradingOption) {
+        this.gradingOption = gradingOption;
     }
 
 
@@ -317,9 +271,33 @@ public class ActivityOfferingItem implements Serializable {
         this.primary = primary;
     }
 
-    public boolean isStandalone() {
-        return isPrimary();
-//    	return isPrimary() && getSecondaryList().size() == 0;
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public String getStateKey() {
+        return stateKey;
+    }
+
+    public void setStateKey(String stateKey) {
+        this.stateKey = stateKey;
+    }
+
+    //    public boolean isStandalone() {
+//        return isPrimary();
+////    	return isPrimary() && getSecondaryList().size() == 0;
+//    }
+
+    public String getPlanItemId() {
+        return planItemId;
+    }
+
+    public void setPlanItemId(String planItemId) {
+        this.planItemId = planItemId;
     }
 
     public String getAtpId() {
@@ -331,41 +309,38 @@ public class ActivityOfferingItem implements Serializable {
     }
 
     public String getFeeAmount() {
-        return  additionalInfo.get(0).getFeeAmount();
+        return feeAmount;
     }
 
     public void setFeeAmount(String feeAmount) {
-        this.additionalInfo.get(0).setFeeAmount(feeAmount);
+        this.feeAmount = feeAmount;
     }
 
     public boolean isAddCodeRequired() {
-        return  additionalInfo.get(0).isAddCodeRequired();
+        return addCodeRequired;
     }
 
     public void setAddCodeRequired(boolean addCodeRequired) {
-        this.additionalInfo.get(0).setAddCodeRequired(addCodeRequired);
+        this.addCodeRequired = addCodeRequired;
     }
 
     public boolean isIndependentStudy() {
-        return  additionalInfo.get(0).isIndependentStudy();
+        return independentStudy;
     }
 
     public void setIndependentStudy(boolean independentStudy) {
-        this.additionalInfo.get(0).setIndependentStudy(independentStudy);
+        this.independentStudy = independentStudy;
     }
 
     public String getSectionComments() {
-        return  additionalInfo.get(0).getSectionComments();
+        return sectionComments;
     }
 
     public void setSectionComments(String sectionComments) {
-        this.additionalInfo.get(0).setSectionComments(sectionComments);
+        this.sectionComments = sectionComments;
     }
 
     public String getInstituteCode() {
-        if(this.instituteCode == null){
-           this.instituteCode="Defualt";
-        }
         return instituteCode;
     }
 
@@ -374,9 +349,6 @@ public class ActivityOfferingItem implements Serializable {
     }
 
     public String getInstituteName() {
-        if(this.instituteName == null){
-            this.instituteName="Default";
-        }
         return instituteName;
     }
 
@@ -384,25 +356,28 @@ public class ActivityOfferingItem implements Serializable {
         this.instituteName = instituteName;
     }
 
-    public String getActivityDisplayId(){
-        String id = this.getCode()+"-";
-        id=id+this.getQtryr().replace("+","");
-        return id;
-    }
-
-    public String getPlanItemId() {
-        return planItemId;
-    }
-
-    public void setPlanItemId(String planItemId) {
-        this.planItemId = planItemId;
-    }
     public String getSummerTerm() {
-        return this.additionalInfo.get(0).getSummerTerm();
+        return summerTerm;
     }
 
     public void setSummerTerm(String summerTerm) {
-        this.additionalInfo.get(0).setSummerTerm(summerTerm);
+        this.summerTerm = summerTerm;
+    }
+
+    public String getPrimaryActivityOfferingCode() {
+        return primaryActivityOfferingCode;
+    }
+
+    public void setPrimaryActivityOfferingCode(String primaryActivityOfferingCode) {
+        this.primaryActivityOfferingCode = primaryActivityOfferingCode;
+    }
+
+    public boolean isOpenForPlanning() {
+        return openForPlanning;
+    }
+
+    public void setOpenForPlanning(boolean openForPlanning) {
+        this.openForPlanning = openForPlanning;
     }
 
     /*Used to get the Short term name for atp (WI 13 for kuali.uw.atp.2013.1)*/
@@ -414,8 +389,16 @@ public class ActivityOfferingItem implements Serializable {
     public String getLongTermName() {
         return KsapFrameworkServiceLocator.getTermHelper().getYearTerm(this.getAtpId()).getLongName();
     }
-    public String getActivityIdentifier(){
-        String id = this.code+"-"+this.getShortTermName().replace(" ","")+"-"+this.getRegistrationCode()+"sln";
-        return id;
+
+    public ActivityOfferingItem getActivityItem() {
+        return this;
+    }
+
+    public String getPrimaryActivityOfferingId() {
+        return primaryActivityOfferingId;
+    }
+
+    public void setPrimaryActivityOfferingId(String primaryActivityOfferingId) {
+        this.primaryActivityOfferingId = primaryActivityOfferingId;
     }
 }

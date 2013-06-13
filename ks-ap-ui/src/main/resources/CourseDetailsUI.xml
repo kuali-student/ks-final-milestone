@@ -812,9 +812,6 @@
             <list>
                 <bean parent="KSAP-MessageField" p:messageText="@{#line.name}"
                       p:style="margin-top:20px; font-weight:700; font-size: 1.25em;"/>
-                <bean parent="KSAP-MessageField"
-                      p:messageText="For more information about the courses outlined below, visit &lt;a href=&quot;http://pce.uw.edu&quot;&gt;pce.uw.edu&lt;/a&gt;."
-                      p:render="@{#line.code eq 95}" p:style="margin-top:20px;"/>
             </list>
         </property>
         <property name="subCollections">
@@ -852,7 +849,7 @@
             <list>
                 <bean parent="KSAP-MessageField"
                       p:messageText="For more information about the courses outlined below, visit &lt;a href=&quot;http://pce.uw.edu&quot;&gt;pce.uw.edu&lt;/a&gt;."
-                      p:render="@{#line.code eq 95}" p:style="margin-top:20px;"/>
+                      p:render="@{#line.code eq 'TODO'}" p:style="margin-top:20px;"/>
             </list>
         </property>
         <property name="subCollections">
@@ -887,7 +884,7 @@
                 </property>
                 <property name="lineGroupPrototype">
                     <!-- TODO: parentLine expression not available within the lineGroupPrototype, KRAD bug https://jira.kuali.org/browse/KULRICE-9003 -->
-                    <bean p:id="@{#line.instituteCode}_tab-@{#line.yearTerm.toATP().replace('.','-')}"
+                    <bean p:id="@{#line.instituteCode}_tab-@{#line.yearTerm.termId.replace('.','-')}"
                           parent="Uif-CollectionVerticalBoxItem">
                         <property name="footer.render" value="false"/>
                         <property name="validationMessages">
@@ -912,7 +909,7 @@
         <property name="propertyName" value="activityOfferingItemList"/>
         <property name="headerText" value="@{#line.term}"/>
         <property name="onDocumentReadyScript" value="
-            var tableHead = jQuery('table#@{dataObject.courseSummaryDetails.courseId}_@{#line.instituteCode}_@{#line.yearTerm.toATP().replace('.','-')} thead');
+            var tableHead = jQuery('table#@{dataObject.courseSummaryDetails.courseId}_@{#line.instituteCode}_@{#line.yearTerm.termId.replace('.','-')} thead');
             tableHead.find('tr:gt(0)').remove();
             tableHead.before('
                 &lt;col style=&quot;width: 62px;&quot;&gt;
@@ -979,7 +976,7 @@
         <property name="layoutManager">
             <bean parent="Uif-MultiRowTableCollectionLayout">
                 <property name="id"
-                          value="@{dataObject.courseSummaryDetails.courseId}_@{#line.instituteCode}_@{#line.yearTerm.toATP().replace('.','-')}"/>
+                          value="@{dataObject.courseSummaryDetails.courseId}_@{#line.instituteCode}_@{#line.yearTerm.termId.replace('.','-')}"/>
                 <property name="numberOfColumns" value="7"/>
                 <property name="suppressLineWrapping" value="false"/>
                 <property name="renderSequenceField" value="false"/>
@@ -996,8 +993,8 @@
         </property>-->
         <property name="items">
             <list>
-                <bean parent="activityCode" p:render="@{#line.primary AND #line.stateKey EQ 'active'}"/>
-                <bean parent="activityCode" p:render="@{!#line.primary OR #line.stateKey NE 'active'}" p:rowSpan="1"/>
+                <bean parent="activityCode" p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
+                <bean parent="activityCode" p:render="@{!#line.primary OR #line.stateKey NE 'kuali.lui.activity.offering.state.offered'}" p:rowSpan="1"/>
 
                 <bean parent="activityType"/>
 
@@ -1007,11 +1004,11 @@
 
                 <bean parent="activityEnrlRestr"/>
 
-                <bean parent="activityEnrlData" p:render="@{#line.stateKey EQ 'active'}"/>
-                <bean parent="activityEnrlStatus" p:render="@{#line.stateKey NE 'active'}"/>
+                <bean parent="activityEnrlData" p:render="@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
+                <bean parent="activityEnrlStatus" p:render="@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}"/>
 
                 <bean id="activityActionGroup" parent="Uif-VerticalFieldGroup" p:valign="TOP"
-                      p:render="@{#line.primary AND #line.stateKey EQ 'active'}" p:rowSpan="3" p:colSpan="1">
+                      p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" p:rowSpan="3" p:colSpan="1">
                     <property name="label" value="Add"/>
                     <property name="group.validationMessages">
                         <null/>
@@ -1020,26 +1017,26 @@
                         <list>
                             <!-- Add button when active, unplanned, open for planning -->
                             <bean parent="activityActionButton"
-                                  p:render="@{#line.openForPlanning AND #line.planItemId EQ null AND #line.stateKey EQ 'active'}"/>
+                                  p:render="@{#line.openForPlanning AND #line.planItemId EQ null AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
                             <!-- Empty when closed for planning and unplanned or open for planning and not active-->
                             <bean parent="emptyAction"
-                                  p:render="@{(!#line.openForPlanning AND #line.planItemId EQ null) OR (#line.openForPlanning AND #line.stateKey NE 'active' AND #line.planItemId EQ null)}"/>
+                                  p:render="@{(!#line.openForPlanning AND #line.planItemId EQ null) OR (#line.openForPlanning AND #line.stateKey NE 'kuali.lui.activity.offering.state.offered' AND #line.planItemId EQ null)}"/>
                             <!-- Added link when planned -->
                             <bean parent="activityActionLink"
                                   p:render="@{#line.planItemId NE null}"/>
                         </list>
                     </property>
                 </bean>
-                <bean parent="activityActionGroup" p:render="@{!#line.primary OR #line.stateKey NE 'active'}"
+                <bean parent="activityActionGroup" p:render="@{!#line.primary OR #line.stateKey NE 'kuali.lui.activity.offering.state.offered'}"
                       p:rowSpan="1"/>
 
-                <bean parent="activityInstructor" p:render="@{#line.stateKey EQ 'active'}"/>
+                <bean parent="activityInstructor" p:render="@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
 
-                <bean parent="activityOther" p:render="@{#line.primary AND #line.stateKey EQ 'active'}"/>
-                <bean parent="activityOther" p:render="@{!#line.primary AND #line.stateKey EQ 'active'}" p:colSpan="5"/>
+                <bean parent="activityOther" p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
+                <bean parent="activityOther" p:render="@{!#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" p:colSpan="5"/>
 
-                <bean parent="activityAdditionalDetails" p:render="@{#line.primary AND #line.stateKey EQ 'active'}"/>
-                <bean parent="activityAdditionalDetails" p:render="@{!#line.primary AND #line.stateKey EQ 'active'}"
+                <bean parent="activityAdditionalDetails" p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
+                <bean parent="activityAdditionalDetails" p:render="@{!#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"
                       p:colSpan="7"/>
             </list>
         </property>
@@ -1049,8 +1046,8 @@
                       p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
                     <property name="replacement">
                         <list>
-                            <bean parent="activityCode" p:render="@{#line.primary AND #line.stateKey EQ 'active'}"/>
-                            <bean parent="activityCode" p:render="@{!#line.primary OR #line.stateKey NE 'active'}"
+                            <bean parent="activityCode" p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
+                            <bean parent="activityCode" p:render="@{!#line.primary OR #line.stateKey NE 'kuali.lui.activity.offering.state.offered'}"
                                   p:rowSpan="1"/>
 
                             <bean parent="activityType"/>
@@ -1061,11 +1058,11 @@
 
                             <bean parent="activityEnrlRestr"/>
 
-                            <bean parent="activityEnrlData" p:render="@{#line.stateKey EQ 'active'}"/>
-                            <bean parent="activityEnrlStatus" p:render="@{#line.stateKey NE 'active'}"/>
+                            <bean parent="activityEnrlData" p:render="@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
+                            <bean parent="activityEnrlStatus" p:render="@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}"/>
 
                             <bean id="activityActionsCDPAdvisor" parent="Uif-VerticalFieldGroup" p:valign="TOP"
-                                  p:render="@{#line.primary AND #line.stateKey EQ 'active'}" p:rowSpan="3"
+                                  p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" p:rowSpan="3"
                                   p:colSpan="1">
                                 <property name="label" value="Add"/>
                                 <property name="group.validationMessages">
@@ -1081,18 +1078,18 @@
                                 </property>
                             </bean>
                             <bean parent="activityActionsCDPAdvisor"
-                                  p:render="@{!#line.primary OR #line.stateKey NE 'active'}" p:rowSpan="1"/>
+                                  p:render="@{!#line.primary OR #line.stateKey NE 'kuali.lui.activity.offering.state.offered'}" p:rowSpan="1"/>
 
-                            <bean parent="activityInstructor" p:render="@{#line.stateKey EQ 'active'}"/>
+                            <bean parent="activityInstructor" p:render="@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
 
-                            <bean parent="activityOther" p:render="@{#line.primary AND #line.stateKey EQ 'active'}"/>
-                            <bean parent="activityOther" p:render="@{!#line.primary AND #line.stateKey EQ 'active'}"
+                            <bean parent="activityOther" p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
+                            <bean parent="activityOther" p:render="@{!#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"
                                   p:colSpan="5"/>
 
                             <bean parent="activityAdditionalDetails"
-                                  p:render="@{#line.primary AND #line.stateKey EQ 'active'}"/>
+                                  p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
                             <bean parent="activityAdditionalDetails"
-                                  p:render="@{!#line.primary AND #line.stateKey EQ 'active'}" p:colSpan="7"/>
+                                  p:render="@{!#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" p:colSpan="7"/>
                         </list>
                     </property>
                 </bean>
@@ -1116,13 +1113,13 @@
                 if (row.prev('tr').prev('tr').prev('tr').hasClass('primary')) row.addClass('top');
             }
             if (@{#line.planItemId NE null}) row.addClass('myplan-section-planned');
-            if (@{#line.stateKey NE 'active'}) row.addClass('fl-text-lightgray');
+            if (@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}) row.addClass('fl-text-lightgray');
         "/>
         <property name="cssClasses">
             <list merge="true">
                 <value>activityCode</value>
                 <value>fl-text-align-center</value>
-                <value>@{#line.stateKey EQ 'active'?'':'fl-text-gray'}</value>
+                <value>@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'?'':'fl-text-gray'}</value>
             </list>
         </property>
         <property name="items">
@@ -1131,17 +1128,8 @@
                       parent="KSAP-SimpleDataField" p:propertyName="code" p:label="Section"
                       p:style="margin:4px 0; font-size:@{!#line.primary ? '1.75em;':'2.6em; line-height:25px;'}">
                 </bean>
-                <bean parent="KSAP-MessageField" p:messageText="PCE" p:style="margin:0;"
-                      p:title="UW Professional &amp; Continuing Education"
-                      p:render="@{#line.primary AND #line.instituteCode.startsWith('95')}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-font-size-80</value>
-                        </list>
-                    </property>
-                </bean>
                 <bean parent="Uif-ActionLink" p:actionLabel="View more" p:style="margin:0;"
-                      p:render="@{!#line.primary AND #line.stateKey eq 'active'}">
+                      p:render="@{!#line.primary AND #line.stateKey eq 'kuali.lui.activity.offering.state.offered'}">
                     <property name="dataAttributes">
                         <map>
                             <entry key="collapsed" value="true"/>
@@ -1205,7 +1193,7 @@
         <property name="items">
             <list>
                 <bean parent="current_section_status" p:actionLabel="@{#line.registrationCode}"
-                      p:render="@{#line.stateKey EQ 'active'}"/>
+                      p:render="@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
                 <bean parent="KSAP-NoSpanMessage" p:messageText="@{#line.registrationCode}"
                       p:render="@{#line.stateKey EQ 'suspended'}"/>
                 <bean parent="emptyField" p:render="@{#line.stateKey EQ 'withdrawn'}"/>
@@ -1226,15 +1214,15 @@
         <property name="items">
             <list>
                 <bean parent="KSAP-NoSpanMessage" p:messageText="Faculty Code Required"
-                      p:render="@{#line.independentStudy AND #line.stateKey EQ 'active'}" p:style="margin:0;"/>
+                      p:render="@{#line.independentStudy AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" p:style="margin:0;"/>
                 <bean parent="KSAP-NoSpanMessage" p:messageText="Add Code Required"
-                      p:render="@{#line.addCodeRequired AND !#line.independentStudy AND #line.stateKey EQ 'active'}"
+                      p:render="@{#line.addCodeRequired AND !#line.independentStudy AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"
                       p:style="margin:0;"/>
                 <bean parent="current_section_status" p:actionLabel="View restrictions"
-                      p:render="@{#line.enrollRestriction AND !#line.independentStudy AND !#line.addCodeRequired AND #line.stateKey EQ 'active'}"
+                      p:render="@{#line.enrollRestriction AND !#line.independentStudy AND !#line.addCodeRequired AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"
                       p:style="margin:0;"/>
                 <bean parent="KSAP-NoSpanMessage" p:messageText="--"
-                      p:render="@{(!#line.enrollRestriction AND !#line.addCodeRequired  AND !#line.independentStudy) OR #line.stateKey NE 'active'}"
+                      p:render="@{(!#line.enrollRestriction AND !#line.addCodeRequired  AND !#line.independentStudy) OR #line.stateKey NE 'kuali.lui.activity.offering.state.offered'}"
                       p:style="margin:0;"/>
             </list>
         </property>
@@ -1260,7 +1248,7 @@
                 <bean parent="Uif-ImageField" p:style="margin: 0 0 2px 0;"
                       p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
                       p:altText="Section @{#line.code} is @{#line.stateKey}"
-                      p:render="@{#line.stateKey NE 'active'}">
+                      p:render="@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>alert-icon</value>
@@ -1519,7 +1507,7 @@
 		                                              jQuery('body')
 		                                                  .subscribe('SECTION_ITEM_ADDED', function(data){
 		                                                      var link = '&lt;a href=&quot;inquiry?methodToCall=start&amp;viewId=SingleTerm-InquiryView&amp;term_atp_id=' + data.atpId.replace(/-/g,'.') + '&quot;&gt;Added&lt;/a&gt;';
-		                                                      jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).attr('title', data.SectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
+		                                                     jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).attr('title', data.SectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
 		                                                      fnDisplayMessage(link, 'fl-font-size-80 fl-text-align-center', 'button_' + data.atpId + '_' + data.RegistrationCode, false);
 		                                                      var row = jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).parents('tr.row');
 		                                                      row.addClass('myplan-section-planned');

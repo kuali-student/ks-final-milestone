@@ -27,8 +27,6 @@
         <property name="learningPlanTypeDao" ref="learningPlanTypeDao"/>
         <property name="planItemDao" ref="planItemDao"/>
         <property name="planItemTypeDao" ref="planItemTypeDao"/>
-        <property name="courseService" ref="ksLumCourseService"/>
-        <property name="atpService" ref="ksCoreAtpService" />
     </bean>
 
     <bean id="academicPlanServiceValidator" class="org.kuali.student.myplan.academicplan.service.AcademicPlanServiceValidationDecorator">

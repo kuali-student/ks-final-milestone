@@ -12,11 +12,12 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -48,6 +49,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -142,7 +144,10 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				.getStudentId();
 		return retrieveCourseDetails(
 				(String) fieldValues.get(PlanConstants.PARAM_COURSE_ID),
-				studentId);
+				studentId,
+				fieldValues.get(PlanConstants.PARAM_OFFERINGS_FLAG) != null
+						&& Boolean.valueOf(fieldValues.get(
+								PlanConstants.PARAM_OFFERINGS_FLAG).toString()));
 	}
 
 	/**
@@ -315,7 +320,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param studentId
 	 * @return
 	 */
-	public CourseDetails retrieveCourseDetails(String courseId, String studentId) {
+	public CourseDetails retrieveCourseDetails(String courseId,
+			String studentId, boolean loadActivityOffering) {
 		CourseDetails courseDetails = new CourseDetails();
 
 		ContextInfo context = KsapFrameworkServiceLocator.getContext()
@@ -346,50 +352,57 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				studentId));
 
 		// Course offerings
-		ServletRequestAttributes rca = (ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes();
-		HttpServletRequest request = rca == null ? null : rca.getRequest();
-		if (request != null && request.getParameter("section_term") != null) {
-			String termId = KsapFrameworkServiceLocator.getTermHelper()
-					.getTerm(request.getParameter("section_term")).getName();
-			List<String> termList = new ArrayList<String>();
-			termList.add(termId);
-			courseDetails
-					.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
-							course, termList));
-		} else
-			courseDetails
-					.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
-							course, courseDetails.getCourseSummaryDetails()
-									.getScheduledTerms()));
-
-		EnrollmentStatusHelper enrollmentStatusHelper = KsapFrameworkServiceLocator
-				.getEnrollmentStatusHelper();
-		for (CourseOfferingInstitution institution : courseDetails
-				.getCourseOfferingInstitutionList()) {
-			for (CourseOfferingTerm term : institution
-					.getCourseOfferingTermList()) {
-				for (ActivityOfferingItem activity : term
-						.getActivityOfferingItemList()) {
-					YearTerm yt = term.getYearTerm();
-					String year = Integer.toString(yt.getYear());
-					String quarter = yt.getTermName();
-					String curric = courseSummaryDetails.getSubjectArea();
-					String num = courseSummaryDetails.getCourseNumber();
-					String sectionID = activity.getCode();
-					try {
-						String[] enrollmentFields = enrollmentStatusHelper
-								.populateEnrollmentFields(year, quarter,
-										curric, num, sectionID);
-						activity.setEnrollCount(enrollmentFields[0]);
-						activity.setEnrollMaximum(enrollmentFields[1]);
-						activity.setEnrollEstimate(enrollmentFields[2]);
-					} catch (Exception e) {
-						LOG.warn("cannot populate enrollment fields", e);
-					}
-				}
-			}
+		if (loadActivityOffering) {
+			ServletRequestAttributes rca = (ServletRequestAttributes) RequestContextHolder
+					.getRequestAttributes();
+			HttpServletRequest request = rca == null ? null : rca.getRequest();
+			if (request != null && request.getParameter("section_term") != null) {
+				String termId = KsapFrameworkServiceLocator.getTermHelper()
+						.getTerm(request.getParameter("section_term"))
+						.getName();
+				List<String> termList = new ArrayList<String>();
+				termList.add(termId);
+				courseDetails
+						.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
+								course, termList));
+			} else
+				courseDetails
+						.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
+								course, courseDetails.getCourseSummaryDetails()
+										.getScheduledTerms()));
 		}
+
+		// TODO: REVIEW - maybe replaced by /plan/enroll
+		// if (loadActivityOffering) {
+		// EnrollmentStatusHelper enrollmentStatusHelper =
+		// KsapFrameworkServiceLocator
+		// .getEnrollmentStatusHelper();
+		// for (CourseOfferingInstitution institution : courseDetails
+		// .getCourseOfferingInstitutionList()) {
+		// for (CourseOfferingTerm term : institution
+		// .getCourseOfferingTermList()) {
+		// for (ActivityOfferingItem activity : term
+		// .getActivityOfferingItemList()) {
+		// YearTerm yt = term.getYearTerm();
+		// String year = Integer.toString(yt.getYear());
+		// String quarter = yt.getTermName();
+		// String curric = courseSummaryDetails.getSubjectArea();
+		// String num = courseSummaryDetails.getCourseNumber();
+		// String sectionID = activity.getCode();
+		// try {
+		// String[] enrollmentFields = enrollmentStatusHelper
+		// .populateEnrollmentFields(year, quarter,
+		// curric, num, sectionID);
+		// activity.setEnrollCount(enrollmentFields[0]);
+		// activity.setEnrollMaximum(enrollmentFields[1]);
+		// activity.setEnrollEstimate(enrollmentFields[2]);
+		// } catch (Exception e) {
+		// LOG.warn("cannot populate enrollment fields", e);
+		// }
+		// }
+		// }
+		// }
+		// }
 
 		return courseDetails;
 	}
@@ -566,6 +579,60 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	}
 
 	/**
+	 * Loads all plan items for the logged in user. Returns the plan items
+	 * grouped by terms
+	 * 
+	 * @return A Map of term to a Map of refObjectId to planItemId
+	 */
+
+	protected Map<String, Map<String, PlanItem>> loadStudentsPlanItems() {
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
+				.getStudentId();
+		Map<String, Map<String, PlanItem>> planItemsByTerm = new HashMap<String, Map<String, PlanItem>>();
+
+		List<LearningPlanInfo> learningPlanList;
+		try {
+			learningPlanList = getAcademicPlanService()
+					.getLearningPlansForStudentByType(
+							studentId,
+							PlanConstants.LEARNING_PLAN_TYPE_PLAN,
+							KsapFrameworkServiceLocator.getContext()
+									.getContextInfo());
+			for (LearningPlanInfo learningPlan : learningPlanList) {
+				List<PlanItemInfo> planItems = getAcademicPlanService()
+						.getPlanItemsInPlan(
+								learningPlan.getId(),
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo());
+				if (null != planItems) {
+					for (PlanItem item : planItems) {
+						for (String planPeriod : item.getPlanPeriods()) {
+							Map<String, PlanItem> planMap = planItemsByTerm
+									.get(planPeriod);
+							if (null == planMap) {
+								planMap = new HashMap<String, PlanItem>();
+								planItemsByTerm.put(planPeriod, planMap);
+							}
+
+							planMap.put(item.getRefObjectId(), item);
+						}
+					}
+				}
+			}
+		} catch (DoesNotExistException e) {
+			LOG.warn("Student " + studentId + " has not plan", e);
+			return Collections.emptyMap();
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("LP lookup failure ", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalStateException("LP lookup failure ", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("LP lookup failure ", e);
+		}
+		return planItemsByTerm;
+	}
+
+	/**
 	 * Get courseOffering information broken down by institution code across the
 	 * terms requested.
 	 * 
@@ -577,6 +644,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			CourseInfo course, List<String> terms) {
 		List<CourseOfferingInstitution> instituteList = new ArrayList<CourseOfferingInstitution>();
 
+		Map<String, Map<String, PlanItem>> planItemsByTerm = loadStudentsPlanItems();
+
 		Map<YearTerm, String> atpIdByYearTerm = new java.util.HashMap<YearTerm, String>();
 		List<YearTerm> ytList = new ArrayList<YearTerm>();
 		for (String term : terms) {
@@ -587,24 +656,31 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		}
 		Collections.sort(ytList, Collections.reverseOrder());
 		for (YearTerm yt : ytList) {
-			String atp = atpIdByYearTerm.get(yt);
+			String termId = atpIdByYearTerm.get(yt);
 
 			// Load course offering comments
-			List<CourseOfferingInfo> courseOfferingInfoList = null;
+			List<CourseOfferingInfo> courseOfferingInfoList;
 			try {
 				courseOfferingInfoList = getCourseOfferingService()
 						.getCourseOfferingsByCourseAndTerm(
 								course.getId(),
-								atp,
+								termId,
 								KsapFrameworkServiceLocator.getContext()
 										.getContextInfo());
-			} catch (Exception e) {
-				LOG.error(" Could not load course offerings for : "
-						+ course.getCode() + " atp : " + atp);
-				return instituteList;
+			} catch (DoesNotExistException e) {
+				throw new IllegalArgumentException("CO lookup failure " + e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("CO lookup failure " + e);
+			} catch (MissingParameterException e) {
+				throw new IllegalStateException("CO lookup failure " + e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("CO lookup failure " + e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("CO lookup failure " + e);
 			}
 
 			String courseComments = null;
+			String curriculumComments = null;
 			for (CourseOfferingInfo courseInfo : courseOfferingInfoList) {
 
 				if (null != courseComments)
@@ -617,12 +693,17 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 							&& value.length() > 0) {
 						courseComments = value;
 						break;
+					} else if ("CurriculumComments".equalsIgnoreCase(key)
+							&& value.length() > 0) {
+						curriculumComments = value;
+						if (null != courseComments)
+							break;
 					}
 				}
 			}
 
 			List<ActivityOfferingItem> list = getActivityOfferingItems(course,
-					courseOfferingInfoList, atp);
+					courseOfferingInfoList, termId, planItemsByTerm.get(termId));
 			for (ActivityOfferingItem activityOfferingItem : list) {
 				String instituteCode = activityOfferingItem.getInstituteCode();
 				String instituteName = activityOfferingItem.getInstituteName();
@@ -654,6 +735,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 					courseOfferingTerm.setYearTerm(yt);
 					courseOfferingTerm.setTerm(yt.getLongName());
 					courseOfferingTerm.setCourseComments(courseComments);
+					courseOfferingTerm
+							.setCurriculumComments(curriculumComments);
 					courseOfferingTerm
 							.setInstituteCode(courseOfferingInstitution
 									.getCode());
@@ -693,7 +776,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 							KsapFrameworkServiceLocator.getContext()
 									.getContextInfo());
 			activityOfferingItems = getActivityOfferingItems(course,
-					courseOfferingInfoList, termId);
+					courseOfferingInfoList, termId, loadStudentsPlanItems()
+							.get(termId));
 
 		} catch (DoesNotExistException e) {
 			throw new RuntimeException(String.format("Course [%s] not found.",
@@ -714,214 +798,432 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 */
 	public List<ActivityOfferingItem> getActivityOfferingItems(
 			CourseInfo course, List<CourseOfferingInfo> courseOfferingInfoList,
-			String termId) {
+			String termId, Map<String, PlanItem> planItemMap) {
 
+		List<String> plannedSections = new ArrayList<String>();
+		if (planItemMap != null)
+			for (PlanItem planItem : planItemMap.values())
+				if (PlanConstants.SECTION_TYPE.equals(planItem
+						.getRefObjectType())) {
+					String courseCode = KsapFrameworkServiceLocator
+							.getCourseHelper().getCourseCdFromActivityId(
+									planItem.getRefObjectId());
+					if (course.getCode().equalsIgnoreCase(courseCode))
+						plannedSections.add(planItem.getRefObjectId());
+				}
 		List<ActivityOfferingItem> activityOfferingItemList = new ArrayList<ActivityOfferingItem>();
 
-		for (CourseOfferingInfo courseInfo : courseOfferingInfoList) {
+		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
+		boolean published = false;
+		for (Term t : th.getPublishedTerms())
+			published = published || t.getId().equals(termId);
+		if (published) {
+			boolean openForPlanning = th.isPlanning(termId);
+			for (CourseOfferingInfo courseInfo : courseOfferingInfoList) {
 
-			// Activity offerings come back as a list, the first item is
-			// primary, the remaining are secondary
-			String courseOfferingID = courseInfo.getId();
-			List<ActivityOfferingDisplayInfo> aodiList;
-			try {
-				aodiList = getCourseOfferingService()
+				// Activity offerings come back as a list, the first item is
+				// primary, the remaining are secondary
+				String courseOfferingID = courseInfo.getId();
+				List<ActivityOfferingDisplayInfo> aodiList;
+				try {
+					aodiList = getCourseOfferingService()
 							.getActivityOfferingDisplaysForCourseOffering(
 									courseOfferingID,
 									KsapFrameworkServiceLocator.getContext()
 											.getContextInfo());
-			} catch (DoesNotExistException e) {
-				throw new IllegalArgumentException("CO lookup error", e);
-			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("CO lookup error", e);
-			} catch (MissingParameterException e) {
-				throw new IllegalStateException("CO lookup error", e);
-			} catch (OperationFailedException e) {
-				throw new IllegalStateException("CO lookup error", e);
-			} catch (PermissionDeniedException e) {
-				throw new IllegalStateException("CO lookup error", e);
-			}
+				} catch (DoesNotExistException e) {
+					throw new IllegalArgumentException("CO lookup error", e);
+				} catch (InvalidParameterException e) {
+					throw new IllegalArgumentException("CO lookup error", e);
+				} catch (MissingParameterException e) {
+					throw new IllegalStateException("CO lookup error", e);
+				} catch (OperationFailedException e) {
+					throw new IllegalStateException("CO lookup error", e);
+				} catch (PermissionDeniedException e) {
+					throw new IllegalStateException("CO lookup error", e);
+				}
 
-			boolean primary = true;
-
-			for (ActivityOfferingDisplayInfo aodi : aodiList) {
-				ActivityOfferingItem activity = new ActivityOfferingItem();
-				String sectionId = aodi.getActivityOfferingCode();
-				activity.setCode(sectionId);
-
-				String typeName = aodi.getTypeName();
-				activity.setActivityOfferingType(typeName);
-
-				activity.setCredits(courseInfo.getCreditOptionName());
-				activity.setGradingOption(courseInfo.getGradingOptionName());
-				List<MeetingDetails> meetingDetailsList = activity
-						.getMeetingDetailsList();
-				{
-					ScheduleDisplayInfo sdi = aodi.getScheduleDisplay();
-					for (ScheduleComponentDisplay scdi : sdi
-							.getScheduleComponentDisplays()) {
-						MeetingDetails meeting = new MeetingDetails();
-
-						Building building = scdi.getBuilding();
-						if (building != null) {
-							meeting.setCampus(building.getCampusKey());
-							meeting.setBuilding(building.getBuildingCode());
-						}
-
-						Room roomInfo = scdi.getRoom();
-						if (roomInfo != null) {
-							meeting.setRoom(roomInfo.getRoomCode());
-						}
-
-						for (TimeSlot timeSlot : scdi.getTimeSlots()) {
-
-							String days = "";
-							for (int weekday : timeSlot.getWeekdays()) {
-								if (weekday > -1 && weekday < 7) {
-									String letter = WEEKDAYS_FIRST_LETTER[weekday];
-									days += letter;
-								}
-							}
-							if (!"".equals(days)) {
-								meeting.setDays(days);
-							}
-
-							TimeOfDayInfo startInfo = timeSlot.getStartTime();
-							TimeOfDayInfo endInfo = timeSlot.getEndTime();
-							if (startInfo != null && endInfo != null
-									&& startInfo.getMilliSeconds() != null
-									&& endInfo.getMilliSeconds() != null) {
-								long startTimeMillis = startInfo
-										.getMilliSeconds();
-								String startTime = TimeStringMillisConverter
-										.millisToStandardTime(startTimeMillis);
-
-								long endTimeMillis = endInfo.getMilliSeconds();
-								String endTime = TimeStringMillisConverter
-										.millisToStandardTime(endTimeMillis);
-
-								String time = startTime + " - " + endTime;
-
-								meeting.setTime(time);
-							}
-							meetingDetailsList.add(meeting);
+				for (ActivityOfferingDisplayInfo aodi : aodiList) {
+					String planRefObjId = aodi.getId();
+					String planItemId = null;
+					if (null != planItemMap) {
+						PlanItem planItem = planItemMap.get(planRefObjId);
+						if (planItem != null) {
+							planItemId = planItem.getId();
 						}
 					}
+					ActivityOfferingItem activityOfferingItem = getActivityItem(
+							aodi, courseInfo, openForPlanning, termId,
+							planItemId);
+					activityOfferingItemList.add(activityOfferingItem);
+					if (plannedSections.contains(planRefObjId)) {
+						plannedSections.remove(planRefObjId);
+					}
 				}
 
-				String instituteCode = null;
-				String instituteName = null;
-
-				String campus = null;
-				// String enrollCount = null;
-				// String enrollMaximum = null;
-				// String enrollEstimate = null;
-				for (AttributeInfo attrib : aodi.getAttributes()) {
-					String key = attrib.getKey();
-					String value = attrib.getValue();
-					if ("Campus".equalsIgnoreCase(key) && !"".equals(value)) {
-						campus = value;
-						continue;
-					}
-					if ("FeeAmount".equalsIgnoreCase(key) && !"".equals(value)) {
-						activity.setFeeAmount(value);
-						continue;
-					}
-					if ("SLN".equalsIgnoreCase(key)) {
-						activity.setRegistrationCode(value);
-						continue;
-					}
-					if ("instituteCode".equals(key)) {
-						instituteCode = value;
-						continue;
-					}
-					if ("instituteName".equals(key) && !"".equals(value)) {
-						instituteName = value;
-						continue;
-					}
-
-					// if ("currentEnrollment".equals(key) && !"".equals(value))
-					// {
-					// enrollCount = value;
-					// continue;
-					// }
-					//
-					// if ("enrollmentLimit".equals(key) && !"".equals(value)) {
-					// enrollMaximum = value;
-					// continue;
-					// }
-					//
-					// if ("limitEstimate".equals(key) && "E".equals(value)) {
-					// enrollEstimate = value;
-					// continue;
-					// }
-
-					if ("SectionComments".equalsIgnoreCase(key)) {
-						activity.setSectionComments(value);
-						continue;
-					}
-
-					Boolean flag = Boolean.valueOf(value);
-					if ("ServiceLearning".equalsIgnoreCase(key)) {
-						activity.setServiceLearning(flag);
-					} else if ("ResearchCredit".equalsIgnoreCase(key)) {
-						activity.setResearch(flag);
-					} else if ("DistanceLearning".equalsIgnoreCase(key)) {
-						activity.setDistanceLearning(flag);
-					} else if ("JointSections".equalsIgnoreCase(key)) {
-						activity.setJointOffering(flag);
-					} else if ("Writing".equalsIgnoreCase(key)) {
-						activity.setWritingSection(flag);
-					} else if ("FinancialAidEligible".equalsIgnoreCase(key)) {
-						activity.setIneligibleForFinancialAid(flag);
-					} else if ("AddCodeRequired".equalsIgnoreCase(key)) {
-						activity.setAddCodeRequired(flag);
-					} else if ("IndependentStudy".equalsIgnoreCase(key)) {
-						activity.setIndependentStudy(flag);
-					} else if ("EnrollmentRestrictions".equalsIgnoreCase(key)) {
-						activity.setEnrollRestriction(flag);
-					}
-
-				}
-				// activity.setEnrollOpen(true);
-				// activity.setEnrollCount(enrollCount);
-				// activity.setEnrollMaximum(enrollMaximum);
-				// activity.setEnrollEstimate(enrollEstimate);
-				activity.setInstructor(aodi.getInstructorName());
-
-				activity.setHonorsSection(aodi.getIsHonorsOffering());
-				activity.setNewThisYear(false);
-
-				activity.setDetails("View more details");
-
-				// Added this flag to know if the activityoffering is
-				// planned/backup
-				activity.setPlanItemId(getPlanItemId(course.getCode() + " "
-						+ sectionId, termId));
-				activity.setAtpId(termId);
-				YearTerm yt = KsapFrameworkServiceLocator.getTermHelper()
-						.getYearTerm(termId);
-				activity.setQtryr(yt.getTermName().substring(0, 3)
-						.toUpperCase()
-						+ "+" + yt.getYear());
-
-				if (instituteCode == null) {
-					instituteCode = campus;
-				}
-				if (instituteName == null) {
-					instituteName = campus;
-				}
-
-				activity.setInstituteName(instituteName);
-				activity.setInstituteCode(instituteCode);
-
-				activity.setPrimary(primary);
-				primary = false;
-				activityOfferingItemList.add(activity);
+				// TODO: remove
+				// for (ActivityOfferingDisplayInfo aodi : aodiList) {
+				//
+				// ActivityOfferingItem activity = new ActivityOfferingItem();
+				// String sectionId = aodi.getActivityOfferingCode();
+				// activity.setCode(sectionId);
+				//
+				// String typeName = aodi.getTypeName();
+				// activity.setActivityOfferingType(typeName);
+				//
+				// activity.setCredits(courseInfo.getCreditOptionName());
+				// activity.setGradingOption(courseInfo.getGradingOptionName());
+				// List<MeetingDetails> meetingDetailsList = activity
+				// .getMeetingDetailsList();
+				// {
+				// ScheduleDisplayInfo sdi = aodi.getScheduleDisplay();
+				// for (ScheduleComponentDisplay scdi : sdi
+				// .getScheduleComponentDisplays()) {
+				// MeetingDetails meeting = new MeetingDetails();
+				//
+				// Building building = scdi.getBuilding();
+				// if (building != null) {
+				// meeting.setCampus(building.getCampusKey());
+				// meeting.setBuilding(building.getName());
+				// }
+				//
+				// Room roomInfo = scdi.getRoom();
+				// if (roomInfo != null) {
+				// meeting.setRoom(roomInfo.getRoomCode());
+				// }
+				//
+				// for (TimeSlot timeSlot : scdi.getTimeSlots()) {
+				//
+				// String days = "";
+				// for (int weekday : timeSlot.getWeekdays()) {
+				// if (weekday > -1 && weekday < 7) {
+				// String letter = WEEKDAYS_FIRST_LETTER[weekday];
+				// days += letter;
+				// }
+				// }
+				// if (!"".equals(days)) {
+				// meeting.setDays(days);
+				// }
+				//
+				// TimeOfDayInfo startInfo = timeSlot
+				// .getStartTime();
+				// TimeOfDayInfo endInfo = timeSlot.getEndTime();
+				// if (startInfo != null && endInfo != null
+				// && startInfo.getMilliSeconds() != null
+				// && endInfo.getMilliSeconds() != null) {
+				// long startTimeMillis = startInfo
+				// .getMilliSeconds();
+				// String startTime = TimeStringMillisConverter
+				// .millisToStandardTime(startTimeMillis);
+				//
+				// long endTimeMillis = endInfo
+				// .getMilliSeconds();
+				// String endTime = TimeStringMillisConverter
+				// .millisToStandardTime(endTimeMillis);
+				//
+				// String time = startTime + " - " + endTime;
+				//
+				// meeting.setTime(time);
+				// }
+				// meetingDetailsList.add(meeting);
+				// }
+				// }
+				// }
+				//
+				// String instituteCode = null;
+				// String instituteName = null;
+				//
+				// String campus = null;
+				// // String enrollCount = null;
+				// // String enrollMaximum = null;
+				// // String enrollEstimate = null;
+				// for (AttributeInfo attrib : aodi.getAttributes()) {
+				// String key = attrib.getKey();
+				// String value = attrib.getValue();
+				// if ("Campus".equalsIgnoreCase(key) && !"".equals(value)) {
+				// campus = value;
+				// continue;
+				// }
+				// if ("FeeAmount".equalsIgnoreCase(key)
+				// && !"".equals(value)) {
+				// activity.setFeeAmount(value);
+				// continue;
+				// }
+				// if ("SLN".equalsIgnoreCase(key)) {
+				// activity.setRegistrationCode(value);
+				// continue;
+				// }
+				// if ("instituteCode".equals(key)) {
+				// instituteCode = value;
+				// continue;
+				// }
+				// if ("instituteName".equals(key) && !"".equals(value)) {
+				// instituteName = value;
+				// continue;
+				// }
+				//
+				// // if ("currentEnrollment".equals(key) &&
+				// // !"".equals(value))
+				// // {
+				// // enrollCount = value;
+				// // continue;
+				// // }
+				// //
+				// // if ("enrollmentLimit".equals(key) &&
+				// // !"".equals(value)) {
+				// // enrollMaximum = value;
+				// // continue;
+				// // }
+				// //
+				// // if ("limitEstimate".equals(key) && "E".equals(value))
+				// // {
+				// // enrollEstimate = value;
+				// // continue;
+				// // }
+				//
+				// if ("SectionComments".equalsIgnoreCase(key)) {
+				// activity.setSectionComments(value);
+				// continue;
+				// }
+				//
+				// Boolean flag = Boolean.valueOf(value);
+				// if ("ServiceLearning".equalsIgnoreCase(key)) {
+				// activity.setServiceLearning(flag);
+				// } else if ("ResearchCredit".equalsIgnoreCase(key)) {
+				// activity.setResearch(flag);
+				// } else if ("DistanceLearning".equalsIgnoreCase(key)) {
+				// activity.setDistanceLearning(flag);
+				// } else if ("JointSections".equalsIgnoreCase(key)) {
+				// activity.setJointOffering(flag);
+				// } else if ("Writing".equalsIgnoreCase(key)) {
+				// activity.setWritingSection(flag);
+				// } else if ("FinancialAidEligible".equalsIgnoreCase(key)) {
+				// activity.setIneligibleForFinancialAid(flag);
+				// } else if ("AddCodeRequired".equalsIgnoreCase(key)) {
+				// activity.setAddCodeRequired(flag);
+				// } else if ("IndependentStudy".equalsIgnoreCase(key)) {
+				// activity.setIndependentStudy(flag);
+				// } else if ("EnrollmentRestrictions"
+				// .equalsIgnoreCase(key)) {
+				// activity.setEnrollRestriction(flag);
+				// }
+				//
+				// }
+				// // activity.setEnrollOpen(true);
+				// // activity.setEnrollCount(enrollCount);
+				// // activity.setEnrollMaximum(enrollMaximum);
+				// // activity.setEnrollEstimate(enrollEstimate);
+				// activity.setInstructor(aodi.getInstructorName());
+				//
+				// activity.setHonorsSection(aodi.getIsHonorsOffering());
+				// activity.setNewThisYear(false);
+				//
+				// activity.setDetails("View more details");
+				//
+				// // Added this flag to know if the activityoffering is
+				// // planned/backup
+				// activity.setPlanItemId(getPlanItemId(course.getCode() + " "
+				// + sectionId, termId));
+				// activity.setAtpId(termId);
+				// YearTerm yt = KsapFrameworkServiceLocator.getTermHelper()
+				// .getYearTerm(termId);
+				// activity.setQtryr(yt.getTermName().substring(0, 3)
+				// .toUpperCase()
+				// + "+" + yt.getYear());
+				//
+				// if (instituteCode == null) {
+				// instituteCode = campus;
+				// }
+				// if (instituteName == null) {
+				// instituteName = campus;
+				// }
+				//
+				// activity.setInstituteName(instituteName);
+				// activity.setInstituteCode(instituteCode);
+				//
+				// activity.setPrimary(primary);
+				// primary = false;
+				// activityOfferingItemList.add(activity);
+				// }
 			}
 		}
 
 		return activityOfferingItemList;
+	}
+
+	/**
+	 * Used to retrieve a ActivityOffering using the following params
+	 * 
+	 * @param displayInfo
+	 * @param courseOfferingInfo
+	 * @param openForPlanning
+	 * @param termId
+	 * @param planItemId
+	 * @return
+	 */
+	public ActivityOfferingItem getActivityItem(
+			ActivityOfferingDisplayInfo displayInfo,
+			CourseOfferingInfo courseOfferingInfo, boolean openForPlanning,
+			String termId, String planItemId) {
+		ActivityOfferingItem activity = new ActivityOfferingItem();
+		/* Data from ActivityOfferingDisplayInfo */
+		activity.setCourseId(courseOfferingInfo.getCourseId());
+		activity.setCode(displayInfo.getActivityOfferingCode());
+		activity.setStateKey(displayInfo.getStateKey());
+		activity.setActivityOfferingType(displayInfo.getTypeName());
+		List<MeetingDetails> meetingDetailsList = activity
+				.getMeetingDetailsList();
+		{
+			ScheduleDisplayInfo sdi = displayInfo.getScheduleDisplay();
+			for (ScheduleComponentDisplay scdi : sdi
+					.getScheduleComponentDisplays()) {
+				MeetingDetails meeting = new MeetingDetails();
+
+				if (LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY
+						.equals(activity.getStateKey())) {
+					Building building = scdi.getBuilding();
+					if (building != null) {
+						meeting.setCampus(building.getCampusKey());
+						meeting.setBuilding(building.getBuildingCode());
+					}
+					Room roomInfo = scdi.getRoom();
+					if (roomInfo != null) {
+						meeting.setRoom(roomInfo.getRoomCode());
+					}
+				}
+
+				for (TimeSlot timeSlot : scdi.getTimeSlots()) {
+
+					String days = "";
+					for (int weekday : timeSlot.getWeekdays()) {
+						if (weekday > -1 && weekday < 7) {
+							String letter = WEEKDAYS_FIRST_LETTER[weekday];
+							days += letter;
+						}
+					}
+					if (!"".equals(days)) {
+						meeting.setDays(days);
+					}
+
+					TimeOfDayInfo startInfo = timeSlot.getStartTime();
+					TimeOfDayInfo endInfo = timeSlot.getEndTime();
+					if (startInfo != null && endInfo != null) {
+						long startTimeMillis = startInfo.getMilliSeconds();
+						String startTime = TimeStringMillisConverter
+								.millisToStandardTime(startTimeMillis);
+
+						long endTimeMillis = endInfo.getMilliSeconds();
+						String endTime = TimeStringMillisConverter
+								.millisToStandardTime(endTimeMillis);
+
+						String time = startTime + " - " + endTime;
+
+						meeting.setTime(time);
+					}
+					meetingDetailsList.add(meeting);
+				}
+			}
+		}
+		String instituteCode = null;
+		String instituteName = null;
+
+		String campus = null;
+		for (AttributeInfo attrib : displayInfo.getAttributes()) {
+			String key = attrib.getKey();
+			String value = attrib.getValue();
+			if ("Campus".equalsIgnoreCase(key) && !"".equals(value)) {
+				campus = value;
+				continue;
+			}
+			if ("FeeAmount".equalsIgnoreCase(key) && !"".equals(value)) {
+				activity.setFeeAmount(value);
+				continue;
+			}
+			if ("SLN".equalsIgnoreCase(key)) {
+				activity.setRegistrationCode(value);
+				continue;
+			}
+			if ("InstituteCode".equals(key)) {
+				instituteCode = value;
+				continue;
+			}
+			if ("InstituteName".equals(key) && !"".equals(value)) {
+				instituteName = value;
+				continue;
+			}
+
+			if ("SectionComments".equalsIgnoreCase(key)) {
+				activity.setSectionComments(value);
+				continue;
+			}
+
+			if ("SummerTerm".equalsIgnoreCase(key) && !"".equals(value)) {
+				activity.setSummerTerm(value);
+				continue;
+			}
+
+			if ("PrimaryActivityOfferingId".equalsIgnoreCase(key)) {
+				activity.setPrimaryActivityOfferingId(value);
+				continue;
+			}
+
+			/*
+			 * PrimarySectionCode is for the add button hover text in secondary
+			 * sections Which have primary section not planned eg: COM 320
+			 * AA:"Add Section AA and A to Plan"
+			 */
+			if ("PrimaryActivityOfferingCode".equalsIgnoreCase(key)) {
+				activity.setPrimaryActivityOfferingCode(value);
+				activity.setPrimary(value.equalsIgnoreCase(activity.getCode()));
+			}
+
+			Boolean flag = Boolean.valueOf(value);
+			if ("ServiceLearning".equalsIgnoreCase(key)) {
+				activity.setServiceLearning(flag);
+			} else if ("ResearchCredit".equalsIgnoreCase(key)) {
+				activity.setResearch(flag);
+			} else if ("DistanceLearning".equalsIgnoreCase(key)) {
+				activity.setDistanceLearning(flag);
+			} else if ("JointSections".equalsIgnoreCase(key)) {
+				activity.setJointOffering(flag);
+			} else if ("Writing".equalsIgnoreCase(key)) {
+				activity.setWritingSection(flag);
+			} else if ("FinancialAidEligible".equalsIgnoreCase(key)) {
+				activity.setIneligibleForFinancialAid(flag);
+			} else if ("AddCodeRequired".equalsIgnoreCase(key)) {
+				activity.setAddCodeRequired(flag);
+			} else if ("IndependentStudy".equalsIgnoreCase(key)) {
+				activity.setIndependentStudy(flag);
+			} else if ("EnrollmentRestrictions".equalsIgnoreCase(key)) {
+				activity.setEnrollRestriction(flag);
+			}
+
+		}
+		activity.setInstructor(displayInfo.getInstructorName());
+		activity.setHonorsSection(displayInfo.getIsHonorsOffering());
+
+		/* data from CourseOfferingInfo */
+		activity.setCredits(courseOfferingInfo.getCreditOptionName());
+		activity.setGradingOption(courseOfferingInfo.getGradingOptionName());
+
+		/* Data from other params */
+		activity.setNewThisYear(false);
+		activity.setDetails("View more details");
+		activity.setPlanItemId(planItemId);
+		activity.setAtpId(termId);
+		activity.setOpenForPlanning(openForPlanning);
+		YearTerm yt = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(
+				termId);
+		activity.setQtryr(yt.getShortName().replace(' ', '+'));
+		if (instituteCode == null) {
+			instituteCode = campus;
+		}
+		if (instituteName == null) {
+			instituteName = campus;
+		}
+		activity.setInstituteName(instituteName);
+		activity.setInstituteCode(instituteCode);
+		return activity;
 	}
 
 	/**

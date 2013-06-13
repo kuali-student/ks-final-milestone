@@ -3,6 +3,13 @@ package org.kuali.student.ap.framework.context;
 public interface YearTerm extends Comparable<YearTerm> {
 
 	/**
+	 * Get the term ID.
+	 * 
+	 * @return The term ID.
+	 */
+	String getTermId();
+
+	/**
 	 * Get the term, as an ATP type.
 	 * 
 	 * @return The the term, as an ATP type.

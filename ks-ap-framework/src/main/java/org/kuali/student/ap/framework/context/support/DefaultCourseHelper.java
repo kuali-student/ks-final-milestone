@@ -88,7 +88,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 			for (Term t : KsapFrameworkServiceLocator.getTermHelper()
 					.getPublishedTerms())
 				try {
-					// TODO: This is inefficient with institutional override
+					// TODO: This is inefficient without institutional override
 					if (!KsapFrameworkServiceLocator
 							.getCourseOfferingService()
 							.getCourseOfferingsByCourseAndTerm(

@@ -1,10 +1,9 @@
 package org.kuali.student.myplan.course.dataobject;
 
-import org.kuali.student.ap.framework.context.YearTerm;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.ap.framework.context.YearTerm;
 
 /**
  * Created with IntelliJ IDEA.
@@ -17,10 +16,14 @@ public class CourseOfferingTerm {
     private YearTerm yearTerm;
     private String term;
     private String courseComments;
+    private String curriculumComments;
 
     /*NOTE: Added the institute code in this course offering term
     because in UI accessing the parent element is difficult.*/
     private String instituteCode;
+    /*Used to differentiate the course sections color code for this term if they are planned
+    * If planned type : Planned , if backup type : Backup If none : null is returned*/
+    private String coursePlanType;
     private List<ActivityOfferingItem> activityOfferingItemList;
 
 
@@ -67,11 +70,19 @@ public class CourseOfferingTerm {
         this.instituteCode = instituteCode;
     }
 
-    public String getComponentId(){
-        String componentId=instituteCode;
-        componentId=componentId+"_"+yearTerm.getYear();
-        componentId=componentId+"_"+yearTerm.getTermName().replace(" ","");
+    public String getCurriculumComments() {
+        return curriculumComments;
+    }
 
-        return componentId;
+    public void setCurriculumComments(String curriculumComments) {
+        this.curriculumComments = curriculumComments;
+    }
+
+    public String getCoursePlanType() {
+        return coursePlanType;
+    }
+
+    public void setCoursePlanType(String coursePlanType) {
+        this.coursePlanType = coursePlanType;
     }
 }

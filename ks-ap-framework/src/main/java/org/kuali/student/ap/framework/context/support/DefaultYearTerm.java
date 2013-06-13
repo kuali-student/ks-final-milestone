@@ -51,21 +51,30 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 		return termTypes;
 	}
 
+	private final String termId;
 	private final String termType;
 	private final int year;
 
-	public DefaultYearTerm(String termType, int year) {
+	public DefaultYearTerm(String termId, String termType, int year) {
 		if (!Arrays.asList(getTermTypes()).contains(termType))
 			throw new IllegalArgumentException("Term type " + termType
 					+ " not supported");
+		this.termId = termId;
 		this.termType = termType;
 		this.year = year;
 	}
 
+	@Override
+	public String getTermId() {
+		return termId;
+	}
+
+	@Override
 	public String getTermType() {
 		return termType;
 	}
 
+	@Override
 	public int getYear() {
 		return year;
 	}

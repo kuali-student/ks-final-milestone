@@ -130,7 +130,7 @@ public class DefaultTermHelper implements TermHelper {
 		Term lst = getLastScheduledTerm();
 		Calendar c = Calendar.getInstance();
 		c.setTime(lst.getStartDate());
-		return getTerm(new DefaultYearTerm(lst.getTypeKey(),
+		return getTerm(new DefaultYearTerm(lst.getId(), lst.getTypeKey(),
 				c.get(Calendar.YEAR) - 10));
 	}
 
@@ -496,7 +496,7 @@ public class DefaultTermHelper implements TermHelper {
 	public YearTerm getYearTerm(Term term) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(term.getStartDate());
-		return new DefaultYearTerm(term.getTypeKey(), c.get(Calendar.YEAR));
+		return new DefaultYearTerm(term.getId(), term.getTypeKey(), c.get(Calendar.YEAR));
 	}
 
 }

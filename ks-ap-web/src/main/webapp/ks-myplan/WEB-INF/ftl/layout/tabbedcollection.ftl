@@ -46,7 +46,6 @@
         </#list>
     </div>
 
-    <#-- render tabs widget -->
-    <@krad.template component=container.tabsWidget parent=manager/>
+    <@krad.script component=parent value="createTabs('${manager.id}', ${container.tabsWidget.templateOptionsJSString});"/>
 
 </#macro>

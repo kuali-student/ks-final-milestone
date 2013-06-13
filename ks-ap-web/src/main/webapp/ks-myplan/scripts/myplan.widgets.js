@@ -1698,3 +1698,120 @@ function myplanGetSectionEnrollment(url, retrieveOptions, componentId) {
     });
 }
 
+
+function updateHiddenScript(id, script) {
+    jQuery("#" + id).unbind();
+    var input = jQuery("input[data-for='" + id + "'][data-role='script']");
+    input.removeAttr("script").attr("name", "script").val(script);
+    runScriptsForId(id);
+}
+
+function switchFetchAction(actionId, toggleId) {
+    var script = "jQuery('#' + '" + actionId + "').click(function(e){ toggleSections('" + actionId + "', '" + toggleId + "', 'myplan-section-planned', 'Show all scheduled sections', 'Hide non-selected sections'); });";
+    updateHiddenScript(actionId, script);
+    jQuery("#" + actionId).text("Hide non-selected sections").removeAttr("data-hidden").data("hidden", false);
+}
+
+function toggleSections(actionId, toggleId, showClass, showText, hideText) {
+    var group = jQuery("#" + toggleId + " table tbody tr.row").not("." + showClass);
+    var action = jQuery("#" + actionId);
+    if (action.data("hidden")) {
+        group.each(function () {
+            var toggle = jQuery(this).find("a[id^='toggle_']");
+            if (toggle.data("hidden") || typeof toggle.data("hidden") == "undefined") {
+                jQuery(this).show();
+            } else {
+                jQuery(this).show().next("tr.collapsible").show().next("tr.collapsible").show();
+            }
+        });
+        jQuery(".myplan-quarter-detail .activityInstitutionHeading").show();
+        action.text(hideText).data("hidden", false);
+    } else {
+        group.each(function () {
+            var toggle = jQuery(this).find("a[id^='toggle_']");
+            if (toggle.data("hidden") || typeof toggle.data("hidden") == "undefined") {
+                jQuery(this).hide();
+            } else {
+                jQuery(this).hide().next("tr.collapsible").hide().next("tr.collapsible").hide();
+            }
+        });
+        jQuery(".myplan-quarter-detail .activityInstitutionHeading").hide();
+        action.text(showText).data("hidden", true);
+    }
+}
+
+function toggleSectionDetails(sectionRow, obj, expandText, collapseText) {
+    if (typeof obj.data("hidden") == "undefined") {
+        obj.data("hidden", true);
+    }
+    var collapsibleRow = sectionRow.next("tr.collapsible");
+    if (obj.data("hidden")) {
+        sectionRow.find("td").first().attr("rowspan", "3");
+        sectionRow.find("td").last().attr("rowspan", "3");
+        collapsibleRow.show().next("tr.collapsible").show();
+        obj.text(collapseText).data("hidden", false);
+    } else {
+        sectionRow.find("td").first().attr("rowspan", "1");
+        sectionRow.find("td").last().attr("rowspan", "1");
+        collapsibleRow.hide().next("tr.collapsible").hide();
+        obj.text(expandText).data("hidden", true);
+    }
+}
+
+function toggleRegisteredDetails(sectionRow, obj) {
+    var collapsibleRow = sectionRow.next("tr.collapsible");
+    if (collapsibleRow.is(":visible")) {
+        obj.parents("td").attr("rowspan", "1");
+        collapsibleRow.hide();
+        obj.find("img.uif-image").toggleClass("expanded");
+    } else {
+        obj.parents("td").attr("rowspan", "2");
+        collapsibleRow.show();
+        obj.find("img.uif-image").toggleClass("expanded");
+    }
+}
+
+function buildHoverText(obj) {
+    var message = '';
+    var temp = '';
+    // condition to check whether section is primary or secondary
+    if (obj.data("primary")) {
+        // Primary sections
+        // condition to check if planned or not planned
+        if (obj.data("planned")) {
+            var secondarySections = [];
+            // Find list of secondary sections associated
+            jQuery("div[data-courseid='" + obj.data("courseid") + "'][data-primarysection='" + obj.data("coursesection") + "'][data-planned='true'][data-primary='false']").each(function () {
+                secondarySections.push(jQuery(this).data("coursesection"));
+            });
+            // Build string of secondary sections associated
+            if (secondarySections.length > 0) {
+                if (secondarySections.length == 1) {
+                    temp = " and " + secondarySections.join();
+                } else {
+                    // commas separated string of secondary sections
+                    temp = ", " + secondarySections.slice(0, -1).join(", ") + ", and " + secondarySections[secondarySections.length - 1];
+                }
+            }
+            // Text should give "Delete {primary section} {list of secondary sections if any exist}"
+            message = "Delete " + obj.data("coursesection") + temp;
+        } else {
+            // Text should give "Add {primary section}"
+            message = "Add " + obj.data("coursesection");
+        }
+    } else {
+        // Secondary sections
+        // condition to check if planned or not planned
+        if (obj.data("planned")) {
+            // Text should give "Delete {secondary section}"
+            message = "Delete " + obj.data("coursesection");
+        } else {
+            // Text should give "Add {secondary section} and {primary section if not planned}"
+            if (!jQuery("div[data-courseid='" + obj.data("courseid") + "'][data-coursesection='" + obj.data("primarysection") + "']").data("planned")) {
+                temp = " and " + obj.data("primarysection");
+            }
+            message = "Add " + obj.data("coursesection") + temp;
+        }
+    }
+    obj.attr("title", message).find("img.uif-image").attr("alt", message);
+}

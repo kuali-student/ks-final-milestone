@@ -146,36 +146,29 @@
     <bean id="MyPlanTheme-parentBean" parent="Uif-KradTheme">
         <property name="cssFiles">
             <list merge="true">
-                <value>ks-myplan/css/myplan.css</value>
+                <value>ks-myplan/jquery-popover/jquery.popover.css</value>
                 <value>ks-myplan/jquery-ui/jquery-ui.css</value>
+                <value>ks-myplan/css/myplan.css</value>
             </list>
         </property>
         <property name="scriptFiles">
             <list merge="true">
-                <value>ks-myplan/scripts/myplan.widgets.js</value>
-                <value>ks-myplan/scripts/myplan.events.js</value>
-                <value>ks-myplan/plugins/jquery.subscribe.js</value>
-                <value>ks-myplan/plugins/polling.js</value>
+                <value>ks-myplan/scripts/myplan.widgets.js?@{#ConfigProperties['myplan.version']}</value>
+                <value>ks-myplan/scripts/myplan.events.js?@{#ConfigProperties['myplan.version']}</value>
+                <value>ks-myplan/plugins/jquery.subscribe.js?@{#ConfigProperties['myplan.version']}</value>
+                <value>ks-myplan/plugins/polling.js?@{#ConfigProperties['myplan.version']}</value>
+                <value>ks-myplan/jquery-popover/jquery.popover.js?@{#ConfigProperties['myplan.version']}</value>
+                <value>ks-myplan/scripts/myplan.google.js?@{#ConfigProperties['myplan.version']}</value>
             </list>
         </property>
     </bean>
-
-
+    
     <!--Myplan theme with different view-->
     <bean id="MyPlanBaseTheme" abstract="true" parent="MyPlanBaseTheme-parentBean"/>
-    <bean id="MyPlanBaseTheme-parentBean" parent="Uif-KradTheme">
+    <bean id="MyPlanBaseTheme-parentBean" parent="MyPlanTheme">
         <property name="cssFiles">
             <list merge="true">
                 <value>ks-myplan/css/base.css</value>
-                <value>ks-myplan/css/myplan.css</value>
-                <value>ks-myplan/jquery-ui/jquery-ui.css</value>
-            </list>
-        </property>
-        <property name="scriptFiles">
-            <list merge="true">
-                <value>ks-myplan/scripts/myplan.widgets.js</value>
-                <value>ks-myplan/scripts/myplan.events.js</value>
-                <value>ks-myplan/plugins/jquery.subscribe.js</value>
             </list>
         </property>
     </bean>
