@@ -104,7 +104,10 @@ public class ActivityOfferingDisplayTransformer {
         if(aoInfo.getScheduleId()!=null){
             displayInfo.setScheduleDisplay(schedulingService.getScheduleDisplay(aoInfo.getScheduleId(), contextInfo));
         }
-
+        
+        // KSAP-40: Add attributes to support My Plan 1.3.2 CourseDetailsInquiryHelperImpl
+        displayInfo.setAttributes(aoInfo.getAttributes());
+        
         return displayInfo;
     }
 }
