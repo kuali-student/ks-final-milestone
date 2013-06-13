@@ -34,6 +34,9 @@ limitations under the License.
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
+
+
+        <!--
         <property name="header.rightGroup">
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
@@ -45,7 +48,7 @@ limitations under the License.
                 </property>
             </bean>
         </property>
-
+        -->
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem" p:render="@{!#view.readOnly and !newCalendar}">

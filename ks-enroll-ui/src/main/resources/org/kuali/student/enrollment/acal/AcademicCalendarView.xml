@@ -30,36 +30,22 @@ limitations under the License.
         2. AcademicCalendarCopyPage.xml
         3. AcademicTermPage.xml
     -->
-    <bean id="KS-AcademicCalendarView" parent="KS-Unified-Uif-FormView">
+    <bean id="KS-AcademicCalendarView" parent="KS-Uif-FormView">
         <property name="id" value="academicCalendarFlowView"/>
         <property name="headerText" value="@{!#empty(academicCalendarInfo.name) ? academicCalendarInfo.name : 'New Calendar'}"/>
-        <property name="header.rightGroup.items">
-            <list>
-                <ref bean="ksUnifiedHeaderRightGroupActionId"/>
-                <bean parent="Unified-Right-Header-Group-Status">
-                    <property name="items">
-                        <list>
-                            <ref bean="Unified-Right-Header-Group-Status-Modified"/>
-                            <bean parent="Uif-VerticalBoxGroup">
-                                <property name="items">
-                                    <list>
-                                        <bean id="acal_Official" parent="Uif-ActionLink" p:methodToCall="makeAcalOfficial"
-                                              p:actionLabel="Make Official"
-                                              p:render="@{!reload and !#view.readOnly and !officialUI}" />
-                                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
-                                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
-                                    </list>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
         <property name="entryPageId" value="academicCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
+        </property>
+
+        <property name="header.rightGroup">
+            <ref bean="KS-AcademicCalendarView-Header-Right-Group"/>
+        </property>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
         </property>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -92,6 +78,41 @@ limitations under the License.
                 <ref bean="KS-AcademicCalendar-ConfirmCalendarOfficial-Dialog"/>
                 <ref bean="KS-AcademicCalendar-ConfirmTermOfficial-Dialog"/>
                 <ref bean="KS-AcademicCalendar-ConfirmCalendarTermOfficial-Dialog"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-AcademicCalendarView-Header-Right-Group" parent="KS-Unified-Header-Right-Group">
+        <property name="items">
+            <list>
+                <bean id="KS-AcademicCalendarView-ActionGroup" parent="KS-Unified-Header-Action-Group" p:onDocumentReadyScript="addBootstrapImageToLink('KS-AcademicCalendarView-ActionGroup');">
+                    <property name="items">
+                        <list>
+                            <bean id="KS-AcademicCalendarView-ActionGroup-Copy" parent="Unified-Right-Header-Group-Action-Copy" p:methodToCall="toCopy" p:render="@{#view.readOnly}"/>
+                            <bean id="KS-AcademicCalendarView-ActionGroup-Edit" parent="Unified-Right-Header-Group-Action-Edit" p:methodToCall="toEdit" p:render="@{#view.readOnly}"/>
+                            <bean id="KS-AcademicCalendarView-ActionGroup-Delete" parent="Unified-Right-Header-Group-Action-Delete" p:methodToCall="delete" p:render="@{#view.readOnly and !officialUI}" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-Unified-Right-Header-Group-Status">
+                    <property name="items">
+                        <list>
+                            <bean parent="Unified-Right-Header-Group-Status-Modified"  p:messageText="Last modified by @{academicCalendarInfo.meta.updateId} on @{academicCalendarInfo.meta.updateTime}"/>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="acal_Official" parent="Uif-ActionLink" p:methodToCall="makeAcalOfficial"
+                                              p:actionLabel="Make Official"
+                                              p:render="@{!reload and !#view.readOnly and !officialUI}" />
+                                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
+                                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

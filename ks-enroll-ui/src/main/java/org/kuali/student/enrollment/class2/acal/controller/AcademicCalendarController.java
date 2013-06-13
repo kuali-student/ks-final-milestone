@@ -26,16 +26,15 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
-import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
@@ -222,6 +221,12 @@ public class AcademicCalendarController extends UifControllerBase {
                 throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
             }
 
+        }
+
+        // The meta information cannot be null. A standard form variable needs to be created to store this information
+        // but that is scheduled for M8
+        if(acalForm.getAcademicCalendarInfo().getMeta() == null){
+            acalForm.getAcademicCalendarInfo().setMeta(acalForm.getCopyFromAcal().getMeta());
         }
 
         return copy(acalForm, result, request, response);
