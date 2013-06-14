@@ -485,14 +485,22 @@ a {
     color: #a9a9ab;
     font-style: italic;
 }
+
+::-moz-placeholder { /* Firefox 19+ */
+    color: #a9a9ab;
+    font-style: italic;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: #a9a9ab;
+    font-style: italic;
+}
+
 :-ms-input-placeholder {
     color: #a9a9ab;
     font-style: italic;
 }
-:-moz-placeholder {
-    color: #a9a9ab;
-    font-style: italic;
-}
+
 /************************************** END WATERMARK **************************************/
 
 
