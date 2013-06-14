@@ -16,12 +16,12 @@ package org.kuali.student.enrollment.class2.acal.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class AcademicCalendarForm extends UifFormBase {
+public class AcademicCalendarForm extends KSUifForm {
 
     private AcademicCalendarInfo academicCalendarInfo;
     private AcademicCalendarInfo copyFromAcal;

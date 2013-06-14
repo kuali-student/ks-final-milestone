@@ -148,6 +148,7 @@ public class AcademicCalendarController extends UifControllerBase {
         try {
             AcademicCalendarInfo acalInfo = getAcalViewHelperService(acalForm).getLatestAcademicCalendar();
             acalForm.setCopyFromAcal(acalInfo);
+            acalForm.setMeta(acalInfo.getMeta());
         } catch (Exception e) {
             throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
         }
@@ -223,10 +224,9 @@ public class AcademicCalendarController extends UifControllerBase {
 
         }
 
-        // The meta information cannot be null. A standard form variable needs to be created to store this information
-        // but that is scheduled for M8
-        if(acalForm.getAcademicCalendarInfo().getMeta() == null){
-            acalForm.getAcademicCalendarInfo().setMeta(acalForm.getCopyFromAcal().getMeta());
+        // Anything that extends KSUIFForm.java will have meta information
+        if(acalInfo != null){
+            acalForm.setMeta(acalInfo.getMeta());
         }
 
         return copy(acalForm, result, request, response);
@@ -802,6 +802,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         GlobalVariables.getMessageMap().addGrowlMessage("", keyToDisplayOnSave, academicCalendarForm.getAcademicCalendarInfo().getName());
 
+        academicCalendarForm.setMeta(academicCalendarInfo.getMeta());
 
         return getUIFModelAndView(academicCalendarForm);
     }

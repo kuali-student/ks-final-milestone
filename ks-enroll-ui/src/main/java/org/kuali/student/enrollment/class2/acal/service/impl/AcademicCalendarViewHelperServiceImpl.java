@@ -137,6 +137,9 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             List<AcademicTermWrapper> termWrappers = populateTermWrappers(acalId, false,true);
             acalForm.setTermWrapperList(termWrappers);
 
+            // set the meta info on the form
+            acalForm.setMeta(acalInfo.getMeta());
+
         }catch(Exception e){
             if (LOG.isDebugEnabled()){
                 LOG.debug("Error loading academic calendar [id=" + acalId + "] - " + e.getMessage());
@@ -433,6 +436,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
           // 2. copy over terms
           List<AcademicTermWrapper> newTermList = populateTermWrappers(orgAcalInfo.getId(), true,false);
           form.setTermWrapperList(newTermList);
+          form.setMeta(orgAcalInfo.getMeta());
 
     }
 

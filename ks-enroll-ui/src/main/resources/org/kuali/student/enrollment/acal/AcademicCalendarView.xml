@@ -98,7 +98,7 @@ limitations under the License.
                 <bean parent="KS-Unified-Right-Header-Group-Status">
                     <property name="items">
                         <list>
-                            <bean parent="Unified-Right-Header-Group-Status-Modified"  p:messageText="Last modified by @{academicCalendarInfo.meta.updateId} on @{academicCalendarInfo.meta.updateTime}"/>
+                            <bean parent="Unified-Right-Header-Group-Status-Modified"  p:messageText="Last modified by @{getUpdateId()} on @{getUpdateTime()}"/>
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
