@@ -227,3 +227,15 @@ DELETE FROM KRMS_TYP_RELN_T WHERE TO_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHE
 DELETE FROM KRMS_TYP_RELN_T WHERE TO_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.permission.admin.org')
                                   AND FROM_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.recommendedPreparation')
 /
+
+
+--KSENROLL-6994
+DELETE FROM KRMS_TYP_RELN_T WHERE TO_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.no.repeat.course')
+                                  AND FROM_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.credit.repeatable')
+/
+DELETE FROM KRMS_TYP_RELN_T WHERE TO_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.no.repeat.courses')
+                                  AND FROM_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.credit.repeatable')
+/
+DELETE FROM KRMS_TYP_RELN_T WHERE TO_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.no.repeat.course.nof')
+                                  AND FROM_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.credit.repeatable')
+/
