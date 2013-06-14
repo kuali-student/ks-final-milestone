@@ -54,18 +54,18 @@ public class ContextBar implements Serializable {
 
     private static final ContextBar NULL_SAFE_INSTANCE = new ContextBar("", "", 0);
 
-    private String termCode;
+    private String termName;
     private String termSocState;
     private int termDayOfYear;
 
-    private ContextBar( String termCode, String termSocState, int termDayOfYear ) {
-        this.termCode = termCode;
+    private ContextBar( String termName, String termSocState, int termDayOfYear ) {
+        this.termName = termName;
         this.termSocState = termSocState;
         this.termDayOfYear = termDayOfYear;
     }
 
-    public String getTermCode() {
-        return termCode;
+    public String getTermName() {
+        return termName;
     }
 
     public String getTermSocState() {
@@ -78,11 +78,11 @@ public class ContextBar implements Serializable {
 
     public static ContextBar NEW_INSTANCE( TermInfo termInfo, SocInfo socInfo, ContextInfo contextInfo ) throws Exception {
 
-        String termCode = termInfo.getCode();
+        String termName = termInfo.getName();
         String termSocState = STATE_SERVICE.getState( socInfo.getStateKey(), contextInfo ).getName();
         int termDayOfYear = calculateTermDayOfYear( termInfo, contextInfo );
 
-        return new ContextBar( termCode, termSocState, termDayOfYear );
+        return new ContextBar( termName, termSocState, termDayOfYear );
     }
 
     public static ContextBar NULL_SAFE_INSTANCE() {

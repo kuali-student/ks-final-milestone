@@ -70,7 +70,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="@{#dp.contextBar.termCode}" p:renderColon="false" >
+                <bean parent="Uif-Label" p:labelText="@{#dp.contextBar.termName}" p:renderColon="false" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-topGroup-termCode</value>
