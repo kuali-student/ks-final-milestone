@@ -883,24 +883,38 @@ div#Uif-ApplicationHeader-Wrapper{
     left: -100px;
 }
 
-/*unified header related styles START*/
 
-.ks-unified-header{
-    padding-bottom:15px;
+
+
+/************************************** UNIFIED PAGE HEADER **********************/
+
+.ks-unified-header {
+    padding: 15px 0px 20px 15px;
 }
 .ks-unified-header-rightGroup-action{
-     float: right;
+    float: right;
 }
 
 .ks-unified-header-rightGroup-status{
     float: right;
 }
 
+/* Meta Data Info */
+.ks-unified-header-rightGroup-status :not(:last-child){
+    padding-top: 2px;
+    font-style: italic;
+    font-size: 13px;
+}
+
+.ks-unified-header-rightGroup-meta-data {
+    color: black;
+}
+
 .ks-unified-header-rightGroup-container{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 20px;
-    color: #0088cc;
+    padding-top: 25px;
 }
 
 .ks-unified-header-rightGroup-container :not(:last-child){
@@ -924,4 +938,4 @@ div#Uif-ApplicationHeader-Wrapper{
     -moz-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
     box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
 }
-/*unified header related styles END*/
+/************************************** END UNIFIED PAGE HEADER **********************/
