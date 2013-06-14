@@ -785,6 +785,13 @@ public class CourseOfferingTransformer {
                 targetCo.getId(),
                 optionKeys);
     }
+
+    public void deleteExistingRulesOnCourseOffering(CourseOfferingInfo courseOffering) throws InvalidParameterException {
+        if (courseOffering.getId() == null) {
+            throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
+        }
+        krmsRuleManagementCopyMethods.deleteReferenceObjectBindingsCascade("kuali.lui.type.course.offering",courseOffering.getId());
+    }
     
     public List<OfferingInstructorInfo> copyInstructors(List<CluInstructorInfo> cluInstructors) {
         if (cluInstructors == null) {
