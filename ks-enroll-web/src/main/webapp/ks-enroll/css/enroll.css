@@ -554,9 +554,17 @@ a {
     float: right;
 }
 
-.ks-header-list{
+.ks-header-list¨{
     list-style: none;
     float: right;
+}
+
+.navbar .nav > li > a {
+    padding: 10px 7px 10px;
+}
+
+.ks-header-action-list {
+    padding-right: 17px;
 }
 
 .ks-header-list li{
@@ -897,6 +905,7 @@ div#Uif-ApplicationHeader-Wrapper{
 
 .ks-unified-header-rightGroup-status{
     float: right;
+    padding-right: 6px;
 }
 
 /* Meta Data Info */
@@ -927,9 +936,9 @@ div#Uif-ApplicationHeader-Wrapper{
     float: right;
 }
 
-.ks-unified-header-rightGroup-action a{
+.ks-unified-header-rightGroup-action a {
     color: #0088cc;
-    padding-right: 10px;
+    padding-right: 7px;
 }
 
 .uif-viewHeader-contentWrapper {
