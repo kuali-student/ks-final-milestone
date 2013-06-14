@@ -20,6 +20,7 @@ import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
@@ -56,7 +57,6 @@ import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -75,7 +75,6 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -355,8 +354,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
             }
 
-            wrapper.setTermSocState( getStateService().getState( wrapper.getSocInfo().getStateKey(), contextInfo ).getName() );
-            setTermDayOfYearOnFormObject( wrapper, contextInfo );
+            wrapper.setContextBar(ContextBar.NEW_INSTANCE(wrapper.getTerm(), wrapper.getSocInfo(), contextInfo));
 
             //retrieve all the populations for seat pool section client side validation
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -459,26 +457,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     "User '" + ae.getUserId() + "' is not authorized to open view", null);
         }catch (Exception e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private void setTermDayOfYearOnFormObject( ActivityOfferingWrapper formObject, ContextInfo contextInfo ) throws Exception {
-
-        List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm( formObject.getTerm().getId(), contextInfo);
-        Date termClassStartDate = null;
-        for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
-            if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
-                    && keyDateInfo.getStartDate() != null
-                    && keyDateInfo.getEndDate() != null )
-            {
-                termClassStartDate = keyDateInfo.getStartDate();
-
-                Date avgDate = new Date( termClassStartDate.getTime() + ( (keyDateInfo.getEndDate().getTime() - termClassStartDate.getTime()) /2 ) );
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(avgDate);
-                formObject.setTermDayOfYear( cal.get(Calendar.DAY_OF_YEAR) );
-                break;
-            }
         }
     }
 

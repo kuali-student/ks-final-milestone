@@ -145,7 +145,7 @@
      Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
     -->
     <bean id="ActivityOffering-MaintenanceView-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
-          p:onDocumentReadyScript="updateContextBar('ActivityOffering-MaintenanceView-ContextBar', 'ActivityOffering-MaintenanceView-ContextBar-PlaceHolder'); setSeasonalColor('ActivityOffering-MaintenanceView-ContextBar', @{document.newMaintainableObject.dataObject.termDayOfYear}, '@{#ConfigProperties['application.url']}');">
+          p:onDocumentReadyScript="updateContextBar('ActivityOffering-MaintenanceView-ContextBar', 'ActivityOffering-MaintenanceView-ContextBar-PlaceHolder'); setSeasonalColor('ActivityOffering-MaintenanceView-ContextBar', @{document.newMaintainableObject.dataObject.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}');">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-topGroup</value>
@@ -153,14 +153,14 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="@{document.newMaintainableObject.dataObject.term.code}" p:renderColon="false">
+                <bean parent="Uif-Label" p:labelText="@{document.newMaintainableObject.dataObject.contextBar.termCode}" p:renderColon="false">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-topGroup-termCode</value>
                         </list>
                     </property>
                 </bean>
-                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="termSocState" />
+                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState" />
             </list>
         </property>
     </bean>

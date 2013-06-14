@@ -28,6 +28,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
@@ -172,9 +173,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     coWrapper.setShowCatalogLink(false);
                     coWrapper.setShowTermOfferingLink(true);
 
-                    coWrapper.setTermCode(term.getCode());
-                    coWrapper.setTermSocState( getStateService().getState( coWrapper.getSocInfo().getStateKey(), contextInfo ).getName() );
-                    setTermDayOfYearOnFormObject( coWrapper, contextInfo );
+                    coWrapper.setContextBar( ContextBar.NEW_INSTANCE( coWrapper.getTerm(), coWrapper.getSocInfo(), contextInfo ) );
 
                     coWrapper.getExistingTermOfferings().clear();
                     coWrapper.getExistingOfferingsInCurrentTerm().clear();
@@ -244,26 +243,6 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         }
 
         return getUIFModelAndView(form);
-    }
-
-    private void setTermDayOfYearOnFormObject( CourseOfferingCreateWrapper formObject, ContextInfo contextInfo ) throws Exception {
-
-        List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm( formObject.getTerm().getId(), contextInfo);
-        Date termClassStartDate = null;
-        for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
-            if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
-                    && keyDateInfo.getStartDate() != null
-                    && keyDateInfo.getEndDate() != null )
-            {
-                termClassStartDate = keyDateInfo.getStartDate();
-
-                Date avgDate = new Date( termClassStartDate.getTime() + ( (keyDateInfo.getEndDate().getTime() - termClassStartDate.getTime()) /2 ) );
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(avgDate);
-                formObject.setTermDayOfYear( cal.get(Calendar.DAY_OF_YEAR) );
-                break;
-            }
-        }
     }
 
     private String getGradingOption(String gradingOptionId) throws Exception {

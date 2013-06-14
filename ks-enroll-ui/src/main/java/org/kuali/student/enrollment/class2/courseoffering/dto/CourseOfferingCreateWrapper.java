@@ -73,10 +73,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     private SocInfo socInfo;
 
-    private int termDayOfYear;
-    private String termCode;
-    private String termSocState;
-
     private int selectedJointCourseIndex;
     private String selectedJointCourseCode;
     private List<FormatOfferingWrapper> dialogFormatOfferingWrapperList;
@@ -427,30 +423,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     public void setSocInfo(SocInfo socInfo) {
         this.socInfo = socInfo;
-    }
-
-    public int getTermDayOfYear() {
-        return this.termDayOfYear;
-    }
-
-    public void setTermDayOfYear( int termDayOfYear ) {
-        this.termDayOfYear = termDayOfYear;
-    }
-
-    public String getTermCode() {
-        return this.termCode;
-    }
-
-    public void setTermCode( String termCode ) {
-        this.termCode = termCode;
-    }
-
-    public String getTermSocState() {
-        return this.termSocState;
-    }
-
-    public void setTermSocState( String termSocState ) {
-        this.termSocState = termSocState;
     }
 
     /**

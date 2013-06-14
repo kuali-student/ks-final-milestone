@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -178,34 +179,15 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             }
         }
 
-        setTermDayOfYearOnFormObject( socForm, createContextInfo() );
-    }
-
-    private void setTermDayOfYearOnFormObject( ManageSOCForm formObject, ContextInfo contextInfo ) {
-
         try {
-            List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm( formObject.getTermInfo().getId(), contextInfo);
-            Date termClassStartDate = null;
-            for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
-                if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
-                        && keyDateInfo.getStartDate() != null
-                        && keyDateInfo.getEndDate() != null )
-                {
-                    termClassStartDate = keyDateInfo.getStartDate();
-
-                    Date avgDate = new Date( termClassStartDate.getTime() + ( (keyDateInfo.getEndDate().getTime() - termClassStartDate.getTime()) /2 ) );
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(avgDate);
-                    formObject.setTermDayOfYear( cal.get(Calendar.DAY_OF_YEAR) );
-                    break;
-                }
-            }
-        } catch( Exception e ) {
-            if( LOG.isDebugEnabled() ) {
-                LOG.debug( "Error trying to calculate the term's day-of-year for ManageSocForm" );
+            socForm.setContextBar( ContextBar.NEW_INSTANCE( socForm.getTermInfo(), socForm.getSocInfo(), createContextInfo() ) );
+        } catch (Exception e){
+            if (LOG.isDebugEnabled()){
+                LOG.debug( "Error building ContextBar for SocForm" );
             }
             throw convertServiceExceptionsToUI(e);
         }
+
     }
 
     protected void buildStatusHistory(ManageSOCForm socForm){

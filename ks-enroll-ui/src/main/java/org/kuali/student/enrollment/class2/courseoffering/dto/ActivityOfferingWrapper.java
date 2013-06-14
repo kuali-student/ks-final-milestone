@@ -9,8 +9,6 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
@@ -49,8 +47,6 @@ public class ActivityOfferingWrapper implements Serializable{
     private String typeKey;
 
     private String termName;
-    private int termDayOfYear;
-    private String termSocState;
 
     private String formatOfferingName;
 
@@ -111,6 +107,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean isPartOfColoSetOnLoadAlready;
     private boolean isColocatedOnLoadAlready;
     private boolean isSendRDLsToSchedulerAfterMSE;
+
+    private ContextBar contextBar = ContextBar.NULL_SAFE_INSTANCE();
 
     //This is needed to display the cross listed courses
     private CourseInfo course;
@@ -476,22 +474,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setTermName(String termName) {
         this.termName = termName;
-    }
-
-    public int getTermDayOfYear() {
-        return this.termDayOfYear;
-    }
-
-    public void setTermDayOfYear( int termDayOfYear ) {
-        this.termDayOfYear = termDayOfYear;
-    }
-
-    public String getTermSocState() {
-        return this.termSocState;
-    }
-
-    public void setTermSocState( String termSocState ) {
-        this.termSocState = termSocState;
     }
 
     public String getFormatOfferingName() {
@@ -900,6 +882,14 @@ public class ActivityOfferingWrapper implements Serializable{
             }
         }
         return false;
+    }
+
+    public ContextBar getContextBar() {
+        return contextBar;
+    }
+
+    public void setContextBar(ContextBar contextBar) {
+        this.contextBar = contextBar;
     }
 
     /**

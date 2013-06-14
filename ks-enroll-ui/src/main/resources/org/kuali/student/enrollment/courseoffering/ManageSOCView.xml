@@ -101,7 +101,7 @@
      Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
     -->
     <bean id="ManageSOCView-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
-          p:onDocumentReadyScript="updateContextBar( 'ManageSOCView-ContextBar', 'ManageSOCView-ContextBar-PlaceHolder' ); setSeasonalColor( 'ManageSOCView-ContextBar', @{termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
+          p:onDocumentReadyScript="updateContextBar( 'ManageSOCView-ContextBar', 'ManageSOCView-ContextBar-PlaceHolder' ); setSeasonalColor( 'ManageSOCView-ContextBar', @{contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-topGroup</value>
@@ -109,14 +109,14 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="@{termCode}" p:renderColon="false" >
+                <bean parent="Uif-Label" p:labelText="@{contextBar.termCode}" p:renderColon="false" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-topGroup-termCode</value>
                         </list>
                     </property>
                 </bean>
-                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="socStatus" />
+                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState" />
             </list>
         </property>
     </bean>

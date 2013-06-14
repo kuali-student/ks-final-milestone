@@ -61,9 +61,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     // term-info
     private String termStartEnd;
     private String termName;
-    private int termDayOfYear;
-    private String termCode;
-    private String termSocState;
 
     private SocInfo socInfo;
 
@@ -249,30 +246,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public String getTermName(){
         return termName;
-    }
-
-    public int getTermDayOfYear() {
-        return this.termDayOfYear;
-    }
-
-    public void setTermDayOfYear(int termDayOfYear) {
-        this.termDayOfYear = termDayOfYear;
-    }
-
-    public void setTermCode(String termCode) {
-        this.termCode=termCode;
-    }
-
-    public String getTermCode() {
-        return this.termCode;
-    }
-
-    public String getTermSocState() {
-        return this.termSocState;
-    }
-
-    public void setTermSocState(String termSocState) {
-        this.termSocState = termSocState;
     }
 
     public Map<String,String> getAdminOrg(){

@@ -27,6 +27,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
@@ -48,12 +49,10 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -70,10 +69,8 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -496,8 +493,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 }
                 formObject.setOrganizationNames(orgList);
 
-                setTermPropertiesOnFormObject( formObject, coInfo, contextInfo );
-                setTermDayOfYearOnFormObject( formObject, contextInfo );
 
                 // Set socInfo
 //                List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coInfo.getTermId(), ContextUtils.createDefaultContextInfo());
@@ -524,8 +519,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     }
                 }
 
-                // set the SOC's state
-                formObject.setTermSocState( getStateService().getState( formObject.getSocInfo().getStateKey(), contextInfo ).getName() );
+                setTermPropertiesOnFormObject( formObject, coInfo, contextInfo );
+                formObject.setContextBar( ContextBar.NEW_INSTANCE( formObject.getTerm(), formObject.getSocInfo(), contextInfo ) );
 
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);
@@ -560,31 +555,10 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         return null;
     }
 
-    private void setTermDayOfYearOnFormObject( CourseOfferingEditWrapper formObject, ContextInfo contextInfo ) throws Exception {
-
-        List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm( formObject.getTerm().getId(), contextInfo);
-        Date termClassStartDate = null;
-        for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
-            if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
-                && keyDateInfo.getStartDate() != null
-                && keyDateInfo.getEndDate() != null )
-            {
-                termClassStartDate = keyDateInfo.getStartDate();
-
-                Date avgDate = new Date( termClassStartDate.getTime() + ( (keyDateInfo.getEndDate().getTime() - termClassStartDate.getTime()) /2 ) );
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(avgDate);
-                formObject.setTermDayOfYear( cal.get(Calendar.DAY_OF_YEAR) );
-                break;
-            }
-        }
-    }
-
     private void setTermPropertiesOnFormObject( CourseOfferingEditWrapper formObject, CourseOfferingInfo coInfo, ContextInfo contextInfo ) throws Exception {
 
         TermInfo termInfo = getAcalService().getTerm(coInfo.getTermId(), contextInfo);
-        formObject.setTerm( termInfo );
-        formObject.setTermCode(termInfo.getCode());
+        formObject.setTerm(termInfo);
         formObject.setTermName(termInfo.getName());
 
         // Setting term string: Fall 2012 (09/28/2012 to 12/15/2012)

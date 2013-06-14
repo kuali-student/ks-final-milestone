@@ -19,10 +19,9 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
@@ -68,6 +67,8 @@ public class CourseOfferingWrapper implements Serializable{
      * Added as a hack fix - the group dialog is expecting this property
      */
     protected String dialogExplanation;
+
+    private ContextBar contextBar = ContextBar.NULL_SAFE_INSTANCE();
 
     public CourseOfferingWrapper(){
         alternateCOCodes = new ArrayList<String>();
@@ -364,6 +365,14 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setDialogExplanation(String dialogExplanation) {
         this.dialogExplanation = dialogExplanation;
+    }
+
+    public ContextBar getContextBar() {
+        return contextBar;
+    }
+
+    public void setContextBar(ContextBar contextBar) {
+        this.contextBar = contextBar;
     }
 
 }
