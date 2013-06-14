@@ -3,6 +3,7 @@ package org.kuali.student.myplan.course.service;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,7 +26,6 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.lum.common.client.widgets.Calendar;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.infc.LearningPlan;
@@ -890,7 +890,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		List<MeetingDetails> meetingDetailsList = activity
 				.getMeetingDetailsList();
 		{
-			DateFormat tdf = new SimpleDateFormat("hh:mm a");
+			DateFormat tdf = new SimpleDateFormat("h:mm a");
 			ScheduleDisplayInfo sdi = displayInfo.getScheduleDisplay();
 			for (ScheduleComponentDisplay scdi : sdi
 					.getScheduleComponentDisplays()) {
@@ -948,9 +948,9 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 					if (startInfo != null && endInfo != null)
 						meeting.setTime(tdf.format(new Date(startInfo
-								.getMilliSeconds())
+								.getMilliSeconds()))
 								+ " - "
-								+ new Date(endInfo.getMilliSeconds())));
+								+ tdf.format(new Date(endInfo.getMilliSeconds())));
 
 					meetingDetailsList.add(meeting);
 				}
