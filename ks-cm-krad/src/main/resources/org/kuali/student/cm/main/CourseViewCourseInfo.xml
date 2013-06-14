@@ -128,6 +128,7 @@ limitations under the License.
 					p:headerText="Instructor(s)" p:propertyName="instructorDisplays" 
 					p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoDisplay">
 					<property name="layoutManager.summaryTitle" value="Instructor" />
+					<property name="collectionLookup.quickfinderAction.render" value="false" />
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField" p:propertyName="displayName">
@@ -223,6 +224,7 @@ limitations under the License.
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="addBlankLineAction.actionLabel" value="Add Another Course" />
+					<property name="collectionLookup.quickfinderAction.render" value="false" />
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Course Number or Title"
