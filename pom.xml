@@ -71,6 +71,7 @@
                 <module>ks-lum-program</module>
                 <module>ks-lum-ui-common</module>
                 <module>ks-cm-krad</module>
+                <module>ks-cm-web</module>
             </modules>
         </profile>
         <profile>
