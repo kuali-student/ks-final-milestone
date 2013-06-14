@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.codehaus.jackson.node.ObjectNode;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -159,11 +158,6 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 	public void setCreditType(CreditType creditType) {
 		this.creditType = creditType;
-	}
-
-	@Override
-	public ObjectNode toJson(int index) {
-		throw new UnsupportedOperationException("TODO");
 	}
 
 	public String getScheduledAndOfferedTerms() {
