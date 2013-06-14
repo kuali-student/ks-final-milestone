@@ -81,7 +81,7 @@
         <foreign-key foreignTable="KSCO_REFERENCE_TYPE" name="KSCO_REFERENCE_FK1">
             <reference foreign="TYPE_KEY" local="REFERENCE_TYPE"/>
         </foreign-key>
-        <unique name="SYS_C0033779">
+        <unique name="KSCO_REFERENCE_U1">
             <unique-column name="REFERENCE_ID"/>
             <unique-column name="REFERENCE_TYPE"/>
         </unique>
@@ -3229,7 +3229,7 @@
         <foreign-key foreignTable="KSLO_LO" name="KSLO_LO_JN_LOCATEGORY_FK2">
             <reference foreign="ID" local="LO_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011301">
+        <unique name="KSLO_LO_JN_LOCATEGORY_U1">
             <unique-column name="LO_ID"/>
             <unique-column name="LOCATEGORY_ID"/>
         </unique>
@@ -3443,7 +3443,7 @@
         <foreign-key foreignTable="KSLU_CLU_ACCT" name="KSLU_CLU_FK6">
             <reference foreign="ID" local="ACCT_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011370">
+        <unique name="KSLU_CLU_U1">
             <unique-column name="VER_IND_ID"/>
             <unique-column name="SEQ_NUM"/>
         </unique>
@@ -3523,7 +3523,7 @@
         <foreign-key foreignTable="KSLU_RSLT_OPT" name="KSLU_CLURES_JN_RESOPT_FK2">
             <reference foreign="ID" local="RES_OPT_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011378">
+        <unique name="KSLU_CLURES_JN_RESOPT_U1">
             <unique-column name="RES_OPT_ID"/>
         </unique>
         <index name="KSLU_CLURES_JN_RESOPT_I1">
@@ -3837,7 +3837,7 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_ACCRED_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011436">
+        <unique name="KSLU_CLU_JN_ACCRED_U1">
             <unique-column name="CLU_ACCRED_ID"/>
         </unique>
         <index name="KSLU_CLU_JN_ACCRED_I1">
@@ -3866,7 +3866,7 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_CLU_IDENT_FK2">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011441">
+        <unique name="KSLU_CLU_JN_CLU_IDENT_U1">
             <unique-column name="ALT_CLU_ID"/>
         </unique>
         <index name="KSLU_CLU_JN_CLU_IDENT_I2">
@@ -3882,7 +3882,7 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_CLU_JN_CLU_INSTR_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011444">
+        <unique name="KSLU_CLU_JN_CLU_INSTR_U1">
             <unique-column name="CLU_INSTR_ID"/>
         </unique>
         <index name="KSLU_CLU_JN_CLU_INSTR_I1">
@@ -4037,7 +4037,7 @@
     <table name="KSLU_CLU_PUBL_JN_CLU_INSTR">
         <column name="CLU_PUBL_ID" required="true" size="255" type="VARCHAR"/>
         <column name="CLU_INSTR_ID" required="true" size="255" type="VARCHAR"/>
-        <unique name="SYS_C009456">
+        <unique name="KSLU_CLU_PUBL_JN_CLU_INSTR_U1">
             <unique-column name="CLU_INSTR_ID"/>
         </unique>
     </table>
@@ -4074,7 +4074,7 @@
         <foreign-key foreignTable="KSLU_CLU_PUBL" name="KSLU_CLU_PUBL_VARI_FK1">
             <reference foreign="ID" local="OWNER"/>
         </foreign-key>
-        <unique name="SYS_C0011470">
+        <unique name="KSLU_CLU_PUBL_VARI_U1">
             <unique-column name="VARI_KEY"/>
             <unique-column name="OWNER"/>
         </unique>
@@ -4524,7 +4524,7 @@
         <foreign-key foreignTable="KSLU_MEMSHIP" name="KSLU_MEMSHIP_KSLU_SPARAM_FK1">
             <reference foreign="ID" local="KSLU_MEMSHIP_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011543">
+        <unique name="KSLU_MEMSHIP_KSLU_SPARAM_U1">
             <unique-column name="SEARCHPARAMETERS_ID"/>
         </unique>
         <index name="KSLU_MEMSHIP_KSLU_SPARAM_I1">
@@ -4641,7 +4641,7 @@
         <foreign-key foreignTable="KSLU_CLU" name="KSLU_RSRC_FK1">
             <reference foreign="ID" local="CLU_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011561">
+        <unique name="KSLU_RSRC_U1">
             <unique-column name="RSRC_TYPE_ID"/>
             <unique-column name="CLU_ID"/>
         </unique>
@@ -4664,7 +4664,7 @@
         <foreign-key foreignTable="KSLU_SPVALUE" name="KSLU_SPARAM_KSLU_SPVALUE_FK2">
             <reference foreign="ID" local="VALUES_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011566">
+        <unique name="KSLU_SPARAM_KSLU_SPVALUE_U1">
             <unique-column name="VALUES_ID"/>
         </unique>
         <index name="KSLU_SPARAM_KSLU_SPVALUE_I1">
@@ -4884,7 +4884,7 @@
         <foreign-key foreignTable="KSOR_ORG" name="KSOR_ORG_PERS_RELTN_FK1">
             <reference foreign="ID" local="ORG"/>
         </foreign-key>
-        <unique name="SYS_C0011691">
+        <unique name="KSOR_ORG_PERS_RELTN_U1">
             <unique-column name="ORG_PERS_RELTN_TYPE"/>
             <unique-column name="ORG"/>
             <unique-column name="PERS_ID"/>
@@ -4955,7 +4955,7 @@
         <foreign-key foreignTable="KSOR_ORG_PERS_RELTN_TYPE" name="KSOR_ORG_POS_RESTR_FK1">
             <reference foreign="TYPE_KEY" local="PERS_RELTN_TYPE"/>
         </foreign-key>
-        <unique name="SYS_C0011701">
+        <unique name="KSOR_ORG_POS_RESTR_U1">
             <unique-column name="ORG"/>
             <unique-column name="PERS_RELTN_TYPE"/>
         </unique>
@@ -5268,7 +5268,7 @@
         <foreign-key foreignTable="KSST_OBJECT_SUB_TYPE" name="KSST_OBJ_TYP_JN_OBJ_SUBTYP_FK1">
             <reference foreign="TYPE_KEY" local="OBJ_SUB_TYPE_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011792">
+        <unique name="KSST_OBJ_TYP_JN_OBJ_SUB_TYP_U1">
             <unique-column name="OBJ_SUB_TYPE_ID"/>
         </unique>
         <index name="KSST_OBJ_TYP_JN_OBJ_SUBTYP_I2">
@@ -5304,7 +5304,7 @@
         <foreign-key foreignTable="KSST_REQ_COM" name="KSST_RC_JN_RC_FIELD_FK1">
             <reference foreign="ID" local="REQ_COM_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011797">
+        <unique name="KSST_RC_JN_RC_FIELD_U1">
             <unique-column name="REQ_COM_FIELD_ID"/>
         </unique>
         <index name="KSST_RC_JN_RC_FIELD_I1">
@@ -5570,7 +5570,7 @@
         <foreign-key foreignTable="KSST_STMT" name="KSST_STMT_JN_STMT_FK2">
             <reference foreign="ID" local="CHLD_STMT_ID"/>
         </foreign-key>
-        <unique name="SYS_C0011839">
+        <unique name="KSST_STMT_JN_STMT_U1">
             <unique-column name="CHLD_STMT_ID"/>
         </unique>
         <index name="KSST_STMT_JN_STMT_I1">
