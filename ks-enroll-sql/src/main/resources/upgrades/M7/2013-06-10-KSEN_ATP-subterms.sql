@@ -188,8 +188,8 @@ INSERT INTO KSEN_ATPATP_RELTN (ID, OBJ_ID, ATP_TYPE, ATP_STATE, ATP_ID, RELATED_
 
 -- KSENROLL-7282 - want to add typetype_relation term-subterm to be able to distinguish both
 INSERT INTO KSEN_TYPETYPE_RELTN (ID, OBJ_ID, TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE, EFF_DT, EXPIR_DT, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID)
-  VALUES ('kuali.type.type.relation.type.group.kuali.atp.type.Fall.kuali.atp.type.HalfFall1', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.atp.type.Fall', 'kuali.atp.type.HalfFall1', 1, 0, TIMESTAMP '2012-06-13 19:00:00', 'SYSTEMLOADER', null, null)
+  VALUES ('kuali.type.type.relation.type.contains.kuali.atp.type.Fall.kuali.atp.type.HalfFall1', null, 'kuali.type.type.relation.type.contains', 'kuali.type.type.relation.state.active', null, null, 'kuali.atp.type.Fall', 'kuali.atp.type.HalfFall1', 1, 0, TIMESTAMP '2012-06-13 19:00:00', 'SYSTEMLOADER', null, null)
 /
 INSERT INTO KSEN_TYPETYPE_RELTN (ID, OBJ_ID, TYPETYPE_RELTN_TYPE, TYPETYPE_RELTN_STATE, EFF_DT, EXPIR_DT, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID)
-  VALUES ('kuali.type.type.relation.type.group.kuali.atp.type.Fall.kuali.atp.type.HalfFall2', null, 'kuali.type.type.relation.type.group', 'kuali.type.type.relation.state.active', null, null, 'kuali.atp.type.Fall', 'kuali.atp.type.HalfFall2', 1, 0, TIMESTAMP '2012-06-13 19:00:00', 'SYSTEMLOADER', null, null)
+  VALUES ('kuali.type.type.relation.type.contains.kuali.atp.type.Fall.kuali.atp.type.HalfFall2', null, 'kuali.type.type.relation.type.contains', 'kuali.type.type.relation.state.active', null, null, 'kuali.atp.type.Fall', 'kuali.atp.type.HalfFall2', 1, 0, TIMESTAMP '2012-06-13 19:00:00', 'SYSTEMLOADER', null, null)
 /
