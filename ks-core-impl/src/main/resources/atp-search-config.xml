@@ -112,6 +112,13 @@
 		<ref bean="atp.fieldDescriptor.id" />
 	</search:queryParam>
 
+    <search:queryParam id="atp.advancedAtpSearchParam.atpYear"
+                       parent="atp.advancedAtpSearchParam.atpYear-parent" />
+    <search:queryParam id="atp.advancedAtpSearchParam.atpYear-parent"
+                       optional="true" abstract="true">
+        <ref bean="atp.fieldDescriptor.year" />
+    </search:queryParam>
+
 	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDate"
 		parent="atp.advancedAtpSearchParam.atpStartDate-parent" />
 	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDate-parent"
@@ -233,6 +240,16 @@
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 
+    <dict:fieldDescriptor id="atp.fieldDescriptor.year"
+                          parent="atp.fieldDescriptor.year-parent" />
+    <dict:fieldDescriptor id="atp.fieldDescriptor.year-parent"
+                          abstract="true">
+        <dict:name>ATP Year</dict:name>
+        <dict:desc>Four Digit Year String</dict:desc>
+        <dict:dataType>int</dict:dataType>
+        <dict:readOnly>true</dict:readOnly>
+    </dict:fieldDescriptor>
+
 	<dict:fieldDescriptor id="atp.fieldDescriptor.startDate"
 		parent="atp.fieldDescriptor.startDate-parent" />
 	<dict:fieldDescriptor id="atp.fieldDescriptor.startDate-parent"
@@ -309,8 +326,10 @@
 			<ref bean="atp.resultColumn.atpId" />
 			<ref bean="atp.resultColumn.atpShortName" />
 			<ref bean="atp.resultColumn.atpStartDate" />
-			<ref bean="atp.resultColumn.atpTypeName" />
-			<ref bean="atp.resultColumn.atpDescrPlain" />			
+            <ref bean="atp.resultColumn.atpEndDate" />
+            <ref bean="atp.resultColumn.atpTypeName" />
+			<ref bean="atp.resultColumn.atpDescrPlain" />
+            <ref bean="atp.resultColumn.atpState" />
 		</search:resultColumns>
 	</search:searchResultTypeInfo>
 
@@ -407,6 +426,15 @@
 		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 
+    <search:resultColumn id="atp.resultColumn.atpState"
+                         parent="atp.resultColumn.atpState-parent" />
+    <search:resultColumn id="atp.resultColumn.atpState-parent"
+                         abstract="true">
+        <search:name>ATP State</search:name>
+        <search:desc>ATP State Key</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
 	<search:resultColumn id="atp.resultColumn.atpStartDate"
 		parent="atp.resultColumn.atpStartDate-parent" />
 	<search:resultColumn id="atp.resultColumn.atpStartDate-parent"
@@ -415,6 +443,15 @@
 		<search:desc>Start Date of the ATP.</search:desc>
 		<search:dataType>date</search:dataType>
 	</search:resultColumn>
+
+    <search:resultColumn id="atp.resultColumn.atpEndDate"
+                         parent="atp.resultColumn.atpEndDate-parent" />
+    <search:resultColumn id="atp.resultColumn.atpEndDate-parent"
+                         abstract="true">
+        <search:name>End Date</search:name>
+        <search:desc>End Date of the ATP.</search:desc>
+        <search:dataType>date</search:dataType>
+    </search:resultColumn>
 
 	<search:resultColumn id="atp.resultColumn.atpByDateDisplay"
 		parent="atp.resultColumn.atpByDateDisplay-parent" />
@@ -448,6 +485,7 @@
 			<ref bean="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive" />
 			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive" />
 			<ref bean="atp.advancedAtpSearchParam.optionalAtpIds" />
+            <ref bean="atp.advancedAtpSearchParam.atpYear"/>
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -527,8 +565,10 @@
 						atp.id,
 						atp.name,
 						atp.startDate,
+                        atp.endDate,
 						atp.atpType,
-						atp.plain
+						atp.plain,
+                        atp.atpState
                         FROM AtpEntity atp</value>
 				</entry>
 				<entry key="atp.search.atpByDate">
@@ -592,6 +632,10 @@
 				<entry  key="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive">
 					<value>(:atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive IS NULL OR (atp.endDate &lt; (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive)))</value>
 				</entry>
+
+                <entry  key="atp.advancedAtpSearchParam.atpYear">
+                    <value>YEAR(atp.startDate) &lt;= :atp_advancedAtpSearchParam_atpYear AND YEAR(atp.endDate) >= :atp_advancedAtpSearchParam_atpYear</value>
+                </entry>
 			</map>
 		</property>
 	</bean>

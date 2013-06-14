@@ -235,10 +235,23 @@ public class SearchableCrudDaoImpl {
 			    		}
 				      	queryParamValue = longList;
 		            } catch (NumberFormatException e) {
-		                throw new RuntimeException("Failed to parse date value " + searchParam.getValues(),e);
+		                throw new RuntimeException("Failed to parse long value " + searchParam.getValues(),e);
 		            }
 
-			    } else {
+			    } else if ("int".equals(paramDataType)){
+                    try{
+                        List<Integer> intList = new ArrayList<Integer>();
+                        if(searchParam.getValues()!=null){
+                            for(String value:searchParam.getValues()){
+                                intList.add(Integer.parseInt(value));
+                            }
+                        }
+                        queryParamValue = intList;
+                    } catch (NumberFormatException e) {
+                        throw new RuntimeException("Failed to parse int value " + searchParam.getValues(),e);
+                    }
+
+                }  else {
 			        queryParamValue = searchParam.getValues();
 			    }
 			    //Needed to get around Hibernate not supporting IN(:var) where var is null or an empty collection

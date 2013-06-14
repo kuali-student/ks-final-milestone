@@ -3,24 +3,24 @@ package org.kuali.student.common.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.notIn;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
 public class CalendarSearchViewHelperUtil {
 
@@ -45,19 +45,53 @@ public class CalendarSearchViewHelperUtil {
 
     }
 
-    public static List<AcademicCalendarInfo> searchForAcademicCalendars(String name, String year, ContextInfo context, AcademicCalendarService academicCalendarService) throws Exception {
+    public static List<AcademicCalendarInfo> searchForAcademicCalendars(String nameParam, String yearParam, ContextInfo context, AtpService atpService) throws Exception {
 
         List<AcademicCalendarInfo> acalInfoList = new ArrayList<AcademicCalendarInfo>();
 
-        QueryByCriteria.Builder query = buildQueryByCriteria(name, year, AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
+        SearchRequestInfo searchRequest = new SearchRequestInfo("atp.search.advancedAtpSearch");
+        searchRequest.addParam("atp.advancedAtpSearchParam.atpType", AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
+        if(nameParam!=null&&!nameParam.isEmpty()){
+            searchRequest.addParam("atp.advancedAtpSearchParam.atpShortName", nameParam);
+        }
+        if(yearParam!=null&&!yearParam.isEmpty()){
+            searchRequest.addParam("atp.advancedAtpSearchParam.atpYear", yearParam);
+        }
+        SearchResultInfo searchResults = atpService.search(searchRequest, context);
 
-        List<AcademicCalendarInfo> acals = academicCalendarService.searchForAcademicCalendars(query.build(), context);
-        for (AcademicCalendarInfo acal : acals) {
-            acalInfoList.add(acal);
+
+        for(SearchResultRowInfo row : searchResults.getRows()){
+            String id = null;
+            String name = null;
+            String startDate = null;
+            String endDate = null;
+            String stateKey = null;
+
+            for(SearchResultCellInfo cell : row.getCells()){
+                if("atp.resultColumn.atpId".equals(cell.getKey())){
+                    id = cell.getValue();
+                }else if("atp.resultColumn.atpShortName".equals(cell.getKey())){
+                    name = cell.getValue();
+                }else if("atp.resultColumn.atpStartDate".equals(cell.getKey())){
+                    startDate = cell.getValue();
+                }else if("atp.resultColumn.atpEndDate".equals(cell.getKey())){
+                    endDate = cell.getValue();
+                }else if("atp.resultColumn.atpState".equals(cell.getKey())){
+                    stateKey = cell.getValue();
+                }
+            }
+
+            AcademicCalendarInfo acalInfo = new AcademicCalendarInfo();
+            acalInfo.setId(id);
+            acalInfo.setName(name);
+            acalInfo.setStartDate(DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(startDate));
+            acalInfo.setEndDate(DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(endDate));
+            acalInfo.setStateKey(stateKey);
+
+            acalInfoList.add(acalInfo);
         }
 
         return acalInfoList;
-
 
     }
 
