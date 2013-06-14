@@ -353,6 +353,11 @@
                         <ref bean="populationContext"/>
                     </list>
                 </entry>
+                <entry key="kuali.krms.proposition.type.credits.earned.min">
+                    <list>
+                        <ref bean="basicContext"/>
+                    </list>
+                </entry>
             </map>
         </constructor-arg>
     </bean>
