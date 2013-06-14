@@ -1,6 +1,5 @@
 package org.kuali.student.r2.core.class1.search;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -22,8 +21,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -54,6 +54,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForAosByAoIds";
     public static final String FO_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForFOByCoId";
     public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
+    private static final int RESULTROW_AOID_OFFSET = 6;
+    private static final int RESULTROW_SCHED_OFFSET = 9;
 
     public static final class SearchParameters {
         public static final String AO_ID = "id";
@@ -380,26 +382,19 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throw new RuntimeException("Activity Offering id is required");
         }
 
-        List<String> results = Collections.EMPTY_LIST;
-        List<LuiEntity> luis = entityManager.createNamedQuery("Lui.getLuisByLuiId").setParameter("aoId", aoId).getResultList();
-        if(luis != null && !luis.isEmpty()) {
-            LuiEntity lui = luis.get(0);
-            results = new ArrayList<String>();
-            results.addAll(lui.getScheduleIds());
+        LuiEntity entity = entityManager.find(LuiEntity.class, aoId.trim());
+        List<String> results = new ArrayList<String>();
+        if(entity != null && entity.getScheduleIds() != null) {
+            results.addAll(entity.getScheduleIds());
         }
-
         SearchResultInfo resultInfo = new SearchResultInfo();
-        resultInfo.setTotalResults(results.size());
-        resultInfo.setStartAt(0);
 
         for (String result : results) {
             SearchResultRowInfo row = new SearchResultRowInfo();
-            resultInfo.getRows().add(row);
             row.addCell(SearchResultColumns.SCHEDULE_ID, result);
+            resultInfo.getRows().add(row);
         }
-
         return resultInfo;
-
     }
 
     private SearchResultInfo searchForAOsAndClustersByCoId(SearchRequestInfo searchRequestInfo){
@@ -443,8 +438,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "    ao.ID                AS col_6_0_, " +
                 "    ao.LUI_TYPE          AS col_7_0_, " +
                 "    ao.LUI_STATE         AS col_8_0_, " +
-                "    ao.MAX_SEATS         AS col_9_0_, " +
-                "    aoIdent.LUI_CD       AS col_10_0_ " +
+                "    ao2sched.SCHED_ID    AS col_9_0_, " +
+                "    ao.MAX_SEATS         AS col_10_0_, " +
+                "    aoIdent.LUI_CD       AS col_11_0_ " +
                 "FROM " +
                 "    KSEN_LUILUI_RELTN co2fo " +
                 "LEFT OUTER JOIN " +
@@ -471,6 +467,11 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "    KSEN_LUI_IDENT aoIdent " +
                 "ON " +
                 "    ao.ID=aoIdent.LUI_ID " +
+                "LEFT OUTER JOIN" +
+                "   KSEN_LUI_SCHEDULE ao2sched " +
+                "ON " +
+
+                "   ao2sched.LUI_ID = ao.ID " +
                 "AND aoIdent.LUI_ID_TYPE='kuali.lui.identifier.type.official' " +
                 "WHERE " +
                 "    co2fo.LUI_ID= :coId " +
@@ -479,52 +480,38 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         query.setParameter(SearchParameters.CO_ID, coId);
         List<Object[]> results = query.getResultList();
 
+        Map<String, SearchResultRowInfo> aoMap = new HashMap<String, SearchResultRowInfo>();
         for(Object[] resultRow : results){
             int i = 0;
-            SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.FO_NAME, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.FORMAT_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AOC_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AOC_NAME, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AOC_PRIVATE_NAME, (String)resultRow[i++]);
-            String aoId = (String)resultRow[i++];
-            row.addCell(SearchResultColumns.AO_ID, aoId);
-            row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.AO_STATE, (String)resultRow[i++]);
+            String aoId = (String)resultRow[RESULTROW_AOID_OFFSET];
 
-            String strSchedules = "";
-            List<String> scheduleIds = searchForScheduleIdsByAOId(aoId);
-            if(scheduleIds != null && !scheduleIds.isEmpty()) {
-                for(String scheduleId : scheduleIds) {
-                    strSchedules = strSchedules + scheduleId + ",";
-                }
-
-                row.addCell(SearchResultColumns.SCHEDULE_ID, strSchedules.substring(0, strSchedules.lastIndexOf(",")));
+            SearchResultRowInfo row;
+            if((row = aoMap.get(aoId)) == null) {
+                row = new SearchResultRowInfo();
+                row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.FO_NAME, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.FORMAT_ID, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.AOC_ID, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.AOC_NAME, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.AOC_PRIVATE_NAME, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.AO_ID, aoId);
+                row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.AO_STATE, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.SCHEDULE_ID, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i].toString());
+                row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
+                resultInfo.getRows().add(row);
+                aoMap.put(aoId, row);
             } else {
-                row.addCell(SearchResultColumns.SCHEDULE_ID,null);
+                row.addCell(SearchResultColumns.SCHEDULE_ID, (String)resultRow[RESULTROW_SCHED_OFFSET]);
             }
-
-            row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i].toString());
-            i++;
-            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
-            resultInfo.getRows().add(row);
         }
 
         return resultInfo;
     }
 
 
-    private List<String> searchForScheduleIdsByAOId(String aoId) {
-        if( StringUtils.isBlank(aoId) ) return Collections.EMPTY_LIST;
 
-        LuiEntity entity = entityManager.find(LuiEntity.class, aoId.trim());
-        if(entity != null && entity.getScheduleIds() != null) {
-            return entity.getScheduleIds();
-        }
-
-        return Collections.EMPTY_LIST;
-    }
 
     protected SearchResultInfo searchForAOsWithoutClusterByFormatOffering(SearchRequestInfo searchRequestInfo){
         SearchResultInfo resultInfo = new SearchResultInfo();
