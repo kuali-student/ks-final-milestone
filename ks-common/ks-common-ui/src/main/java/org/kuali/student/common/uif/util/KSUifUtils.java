@@ -74,9 +74,11 @@ public class KSUifUtils {
      *
      * @param request - instance of HttpServletRequest
      * @param form - any form that extends KSUifForm
+     * @deprecated Old breadcrumbs are no longer used since Rice 2.3 upgrade
      *
      */
     public static <T extends KSUifForm> void populationPreviousFormsMap (HttpServletRequest request, T form) {
+        /*
         if (request.getParameter(BREADCRUMB_PREVIOUS_CONTROLLER_PATH_KEY)!=null || request.getParameter(BREADCRUMB_PREVIOUS_VIEW_ID_KEY)!=null
                 || request.getParameter(BREADCRUMB_PREVIOUS_HOME_URL_KEY)!=null || request.getParameter(BREADCRUMB_PREVIOUS_FORM_HISTORY_KEY)!=null
                 || request.getParameter(BREADCRUMB_PREVIOUS_FORMKEY_KEY)!=null) {
@@ -107,6 +109,7 @@ public class KSUifUtils {
             form.setPreviousFormsMap(previousFormsMap);
 
         }
+        */
 
     }
 
