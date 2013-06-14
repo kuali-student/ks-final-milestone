@@ -130,7 +130,8 @@ public class TestAcademicCalendarServiceFacadeImpl {
     }
 
     @Test
-    public void simpleTest() throws Exception {
+    public void testMakeTermOfficialCascaded() throws Exception {
+        // KSENROLL-7251 (testing making a term offiical)
         acalServiceFacade.makeTermOfficialCascaded(childTerm.getId(), contextInfo);
         // Refetch all relevant parts
         cal = acalService.getAcademicCalendar(cal.getId(), contextInfo);
@@ -140,6 +141,7 @@ public class TestAcademicCalendarServiceFacadeImpl {
         assertEquals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, cal.getStateKey());
         assertEquals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, parentTerm.getStateKey());
         assertEquals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, childTerm.getStateKey());
+        // The only one that should stay draft
         assertEquals(AtpServiceConstants.ATP_DRAFT_STATE_KEY, childTerm2.getStateKey());
     }
 }

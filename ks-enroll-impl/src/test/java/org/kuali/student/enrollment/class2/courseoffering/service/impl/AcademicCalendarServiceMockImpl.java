@@ -49,10 +49,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     private Map<String, AcademicCalendarInfo> acals = new LinkedHashMap<String, AcademicCalendarInfo>();
     // Maps of IDs to TermInfos
     private Map<String, TermInfo> terms = new LinkedHashMap<String, TermInfo>();
-    // Map of term ID to a set of Acal Ids
+    // Map of term ID to a set of Acal Ids (KSENROLL-7444)
     private Map<String, Set<String>> term2calSet = new LinkedHashMap<String, Set<String>>();
     // Map of term ID to a set of term Ids representing the "parents".  A child, in theory, can
-    // have multiple parent terms.
+    // have multiple parent terms. (KSENROLL-7444)
     private Map<String, Set<String>> subterm2termSet = new LinkedHashMap<String, Set<String>>();
     
     @Override
@@ -65,7 +65,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
 	@Override
     public StatusInfo addTermToAcademicCalendar(String academicCalendarId, String termId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // note only allows term to be in one acal
+        // KSENROLL-7444
         if (!terms.containsKey(termId)) {
             throw new DoesNotExistException("termId=" + termId + " does not exist");
         }
@@ -81,6 +81,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
     @Override
     public StatusInfo addTermToTerm(String parentTermId, String childTermId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // KSENROLL-7444
         if (!terms.containsKey(childTermId)) {
             throw new DoesNotExistException("childTermId=" + childTermId + " does not exist");
         }
@@ -251,6 +252,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
     @Override
     public List<AcademicCalendarInfo> getAcademicCalendarsForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // KSENROLL-7444
         if (!terms.containsKey(termId)) {
             throw new DoesNotExistException("termId=" + termId + " does not exist");
         }
@@ -323,6 +325,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
     @Override
     public List<TermInfo> getContainingTerms(String childTermId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // KSENROLL-7444
         if (!this.terms.containsKey(childTermId)) {
             throw new DoesNotExistException("childTermId=" + childTermId + " does not exists");
         }
