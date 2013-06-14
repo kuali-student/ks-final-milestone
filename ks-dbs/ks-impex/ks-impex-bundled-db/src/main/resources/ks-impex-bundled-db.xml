@@ -5145,10 +5145,10 @@
         <column name="TYPE_ID" size="255" type="VARCHAR"/>
         <column name="LPR_ID" size="255" type="VARCHAR"/>
         <column name="RESULT_VALUE_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_RICH_TEXT_T" name="FK1BE15Q7B1D2EA121">
+        <foreign-key foreignTable="KSEN_RICH_TEXT_T" name="KSEN_LRR_FK1">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
-        <foreign-key foreignTable="KSEN_LRR_TYPE" name="FK1BE15Q7B1D2EF131">
+        <foreign-key foreignTable="KSEN_LRR_TYPE" name="KSEN_LRR_FK2">
             <reference foreign="TYPE_KEY" local="TYPE_ID"/>
         </foreign-key>
     </table>
@@ -5158,7 +5158,7 @@
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="2000" type="VARCHAR"/>
         <column name="OWNER_ID" size="255" type="VARCHAR"/>
-        <foreign-key foreignTable="KSEN_LRR" name="FKSF4BE635DC3CD510">
+        <foreign-key foreignTable="KSEN_LRR" name="KSEN_LRR_ATTR_FK1">
             <reference foreign="ID" local="OWNER_ID"/>
         </foreign-key>
     </table>
