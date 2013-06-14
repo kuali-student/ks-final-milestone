@@ -92,6 +92,7 @@ limitations under the License.
                             <bean id="KS-AcademicCalendarView-ActionGroup-Copy" parent="Unified-Right-Header-Group-Action-Copy" p:methodToCall="toCopy" p:render="@{#view.readOnly}"/>
                             <bean id="KS-AcademicCalendarView-ActionGroup-Edit" parent="Unified-Right-Header-Group-Action-Edit" p:methodToCall="toEdit" p:render="@{#view.readOnly}"/>
                             <bean id="KS-AcademicCalendarView-ActionGroup-Delete" parent="Unified-Right-Header-Group-Action-Delete" p:methodToCall="delete" p:render="@{#view.readOnly and !officialUI}" />
+                            <bean id="acal_Official" parent="Unified-Right-Header-Group-Action-MakeOfficial" p:methodToCall="makeAcalOfficial" p:actionLabel="Make Official" p:render="@{!newCalendar and !reload and !#view.readOnly and !officialUI}" />
                         </list>
                     </property>
                 </bean>
@@ -102,9 +103,6 @@ limitations under the License.
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean id="acal_Official" parent="Uif-ActionLink" p:methodToCall="makeAcalOfficial"
-                                              p:actionLabel="Make Official"
-                                              p:render="@{!newCalendar and !reload and !#view.readOnly and !officialUI}" />
                                         <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
                                         <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
                                     </list>
