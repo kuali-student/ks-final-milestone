@@ -4227,7 +4227,7 @@
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <unique name="SYS_C00285110">
+        <unique name="KSEM_CTX_T_U1">
             <unique-column name="CTX_KEY"/>
             <unique-column name="CTX_VAL"/>
         </unique>
