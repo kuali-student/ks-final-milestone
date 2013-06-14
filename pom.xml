@@ -56,17 +56,6 @@
             </modules>
         </profile>
         <profile>
-            <id>skip-developer-wars</id>
-            <modules>
-                <module>ks-lum-sql</module>
-                <module>ks-lum-impl</module>
-                <module>ks-lum-rice</module>
-                <module>ks-lum-ui</module>
-                <module>ks-lum-program</module>
-                <module>ks-lum-ui-common</module>
-            </modules>
-        </profile>
-        <profile>
             <id>skip-all-wars</id>
             <modules>
                 <module>ks-lum-sql</module>
