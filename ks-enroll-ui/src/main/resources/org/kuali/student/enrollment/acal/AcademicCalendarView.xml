@@ -86,7 +86,7 @@ limitations under the License.
     <bean id="KS-AcademicCalendarView-Header-Right-Group" parent="KS-Unified-Header-Right-Group">
         <property name="items">
             <list>
-                <bean id="KS-AcademicCalendarView-ActionGroup" parent="KS-Unified-Header-Action-Group" p:onDocumentReadyScript="addBootstrapImageToLink('KS-AcademicCalendarView-ActionGroup');">
+                <bean parent="KS-Unified-Header-Action-Group">
                     <property name="items">
                         <list>
                             <bean id="KS-AcademicCalendarView-ActionGroup-Copy" parent="Unified-Right-Header-Group-Action-Copy" p:methodToCall="toCopy" p:render="@{#view.readOnly}"/>
@@ -104,7 +104,7 @@ limitations under the License.
                                     <list>
                                         <bean id="acal_Official" parent="Uif-ActionLink" p:methodToCall="makeAcalOfficial"
                                               p:actionLabel="Make Official"
-                                              p:render="@{!reload and !#view.readOnly and !officialUI}" />
+                                              p:render="@{!newCalendar and !reload and !#view.readOnly and !officialUI}" />
                                         <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
                                         <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
                                     </list>

@@ -34,21 +34,6 @@ limitations under the License.
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
-
-
-        <!--
-        <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
-                        <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;" p:render="@{#view.readOnly}"/>
-                        <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;" p:render="@{#view.readOnly and !officialUI}"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        -->
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem" p:render="@{!#view.readOnly and !newCalendar}">
@@ -194,7 +179,7 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official" />
+                <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official" p:render="@{!#line.official}" />
                 <!--<bean id="term_delete_link" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Term" />-->
             </list>
         </property>

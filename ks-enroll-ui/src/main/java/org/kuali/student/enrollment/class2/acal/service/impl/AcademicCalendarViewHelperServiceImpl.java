@@ -400,7 +400,17 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             return null;
         }
         else {
-            return academicCalendarInfoList.get(academicCalendarInfoList.size() - 1);
+            // If Calendars are found search through them to find the most recently created.
+            // The number of calendars should be small so naive search possible.
+            AcademicCalendarInfo newestCalendar =  academicCalendarInfoList.get(0);
+            for(AcademicCalendarInfo calendarTemp: academicCalendarInfoList){
+                // Compare the time when the calendars are created and pick the higher one (most recent).
+                if(calendarTemp.getMeta().getCreateTime().compareTo(newestCalendar.getMeta().getCreateTime())>0){
+                    newestCalendar = calendarTemp;
+                }
+            }
+
+            return newestCalendar;
         }
     }
 
