@@ -848,6 +848,11 @@ label:not(.uif-labelBlock) {
     float: none;
 }
 
+[class*="uif-headerText-span"] {
+    float: left;
+    margin-bottom: 5px;
+}
+
 button {
     line-height: normal;
 }

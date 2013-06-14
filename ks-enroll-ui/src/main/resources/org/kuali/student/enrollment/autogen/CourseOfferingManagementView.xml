@@ -34,16 +34,12 @@
             <bean  id="KS-CourseOfferingManagement-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup"/>
         </property>
 
-        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
-            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
-        </property>
-
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
 
         <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="Manage Course Offerings" p:style="display: none; padding-left:15px;"/>
+            <bean parent="Uif-HeaderThree" p:headerText="" p:style="display: none; padding-left:15px; line-height: 200%; float: left; margin-bottom: 20px; "/>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>

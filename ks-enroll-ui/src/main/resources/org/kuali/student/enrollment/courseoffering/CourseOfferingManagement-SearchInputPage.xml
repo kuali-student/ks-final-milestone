@@ -22,7 +22,11 @@
 
     <bean id="KS-CourseOfferingManagement-SearchInputPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="searchInputPage">
-
+        <property name="headerText" value="Manage Course Offerings"/>
+        <property name="header.style" value="line-height: 200%"/>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
+        </property>
 
         <property name="items">
             <list>
@@ -34,6 +38,21 @@
                     </property>
                 </bean>
             </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-ManageCo-Landing" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Manage Course Offerings"/>
+        <property name="url.viewId" value="courseOfferingManagementView"/>
+        <property name="url.controllerMapping" value="courseOfferingManagement"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="start"/>
+                <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                <entry key="hideReturnLink" value="true"/>
+                <entry key="pageId" value="searchInputPage"/>
+                <entry key="viewName" value="Manage Course Offerings"/>
+            </map>
         </property>
     </bean>
 

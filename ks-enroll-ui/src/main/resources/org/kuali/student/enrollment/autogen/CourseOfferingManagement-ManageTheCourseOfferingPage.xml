@@ -24,8 +24,18 @@
 
     <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="manageTheCourseOfferingPage">
+        <property name="headerText" value="@{currentCourseOfferingWrapper.ownerCode}" />
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManageCo-Landing"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Search-Subject"/>
+            </util:list>
+         </property>
         <property name="items">
             <list>
+                <ref bean="KS-CourseOfferingManagement-TheCourseOfferingLinks"/>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-AliasMessageSection" />
                 <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingSection"/>
@@ -34,6 +44,23 @@
                 <ref bean="KS-CourseOfferingManagement-MoveAOCPopupContainer"/>
                 <ref bean="KS-CourseOfferingManagement-ContextBar"/>
             </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-ManageOneCo-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{currentCourseOfferingWrapper.ownerCode}"/>
+        <property name="url.viewId" value="courseOfferingManagementView"/>
+        <property name="url.controllerMapping" value="courseOfferingManagement"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="show"/>
+                <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                <entry key="hideReturnLink" value="true"/>
+                <entry key="inputCode" value="@{currentCourseOfferingWrapper.ownerCode}"/>
+                <entry key="formKey" value="@{formKey}"/>
+                <entry key="pageId" value="manageTheCourseOfferingPage"/>
+                <entry key="viewName" value="@{currentCourseOfferingWrapper.ownerCode}"/>
+            </map>
         </property>
     </bean>
 
@@ -58,7 +85,9 @@
 
     <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingSection" p:id="ActivityOfferingResultSection" parent="Uif-VerticalBoxSection">
         <property name="componentSecurity.viewAuthz" value="true"/>
+<!--
         <property name="headerText" value="@{currentCourseOfferingWrapper.ownerCode} - @{currentCourseOfferingWrapper.courseOfferingDesc} (@{currentCourseOfferingWrapper.creditCnt} Credits, SOC State: @{socState})" />
+-->
         <property name="disclosure.render" value="false"/>
         <property name="header.cssClasses">
             <list merge="true">
@@ -68,7 +97,9 @@
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.ownerAliasesUIList}" p:render="@{currentCourseOfferingWrapper.ownerAliasesUIList != ''}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+<!--
                 <ref bean="KS-CourseOfferingManagement-TheCourseOfferingLinks"/>
+-->
                 <!--<ref bean="KS-CourseOfferingManagement-TheCourseOfferingTabs"/>-->
                 <bean id="KS-Tab-Hidden-Input" parent="Uif-InputField" p:defaultValue="0" p:showLabel="false" p:propertyName="selectedTabId" p:hidden="true">
                     <property name="control">

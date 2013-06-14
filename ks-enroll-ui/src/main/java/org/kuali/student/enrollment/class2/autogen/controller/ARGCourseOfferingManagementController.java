@@ -84,7 +84,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
         //clean up termCode, inputCode, and theCourseOffering value in the form to prevent the
         //side effect of the authorization.
-        form.setTermCode(null);
+        //form.setTermCode(null);
         form.setInputCode(null);
 
         //TODO: Workaround for KRMS return
