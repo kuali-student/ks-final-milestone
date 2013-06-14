@@ -505,6 +505,11 @@
             <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:style="icon-wrench"/>
         </property>
     </bean>
+    <bean id="Unified-Right-Header-Group-Action-MakeOfficial" parent="Uif-ActionLink" p:actionLabel="Make Official" p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Make Official" p:title="Make Official" p:style="icon-check"/>
+        </property>
+    </bean>
 
     <!-- Note: The static text is only here as an example. In the future we will have standard context variables for the User and the Update Date -->
     <bean id="Unified-Right-Header-Group-Status-Modified" parent="Uif-Message" p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
