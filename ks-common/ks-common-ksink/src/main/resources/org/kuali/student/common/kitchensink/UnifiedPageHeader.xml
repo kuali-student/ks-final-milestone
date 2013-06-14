@@ -24,8 +24,11 @@
         <!--<property name="headerText" value="Toolbar Example"/>-->
         <property name="headerText" value="M8 Unified Header - View Title"/>
 
-        <!--<property name="header.headerText" value="The Page Title"/>-->
-        <!--<property name="header.areaTitleText" value="The View Title"/>-->
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
 
         <property name="header.rightGroup">
             <bean parent="Uif-VerticalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-container">
