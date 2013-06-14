@@ -35,4 +35,52 @@
         <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
     </util:list>
 
+<!-- START: CONTEXT-BAR BEANS
+        Because the 'topGroup' is static after the initial view is loaded, a 'placeholder' gets added to the view's
+        'topGroup' and then the actual 'contextbar' gets added to dynamic part of the page in question.  Javascript on
+        the 'contextbar' will then be called on page-ready to move it into the 'placeholder'; additionally, the JS
+        configures the 'seasonal color' widget.
+
+        To implement:
+            1) inherit your view with one of the appropriately overridden ones below (these include the 'placeholder')
+            2) add the 'contextbar'-bean as one of the 'items' in your view
+            3) ensure your model includes a reference to org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar
+-->
+    <bean id="KS-Uif-MaintenanceViewWithTermContextBarPlaceholder" parent="KS-Uif-MaintenanceView">
+        <property name="topGroup">
+            <ref bean="View-ContextBar-PlaceHolder" />
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-FormViewWithTermContextBarPlaceholder" parent="KS-Uif-FormView" >
+        <property name="topGroup">
+            <ref bean="View-ContextBar-PlaceHolder" />
+        </property>
+    </bean>
+
+    <bean id="View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
+
+    <!-- Note: due to the way breadcrumbs are implemented, EC found that we need to initially set the CSS display to none -->
+    <bean id="KS-Uif-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
+          p:onDocumentReadyScript="updateContextBar( 'KS-Uif-ContextBar', 'View-ContextBar-PlaceHolder' ); setSeasonalColor( 'KS-Uif-ContextBar', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-topGroup</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{#dp.contextBar.termCode}" p:renderColon="false" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-topGroup-termCode</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState" />
+            </list>
+        </property>
+    </bean>
+<!-- END: CONTEXT-BAR BEANS -->
+
 </beans>

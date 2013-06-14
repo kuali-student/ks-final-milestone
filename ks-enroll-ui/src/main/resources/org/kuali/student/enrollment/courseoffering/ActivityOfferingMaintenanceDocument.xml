@@ -49,7 +49,8 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-MaintenanceView" parent="KS-Uif-MaintenanceView" p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+    <bean id="ActivityOffering-MaintenanceView" parent="KS-Uif-MaintenanceViewWithTermContextBarPlaceholder"
+          p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
@@ -59,9 +60,6 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
         <property name="onLoadScript" value="activityEditDocumentOnLoad();"/>
-        <property name="topGroup">
-            <bean id="ActivityOffering-MaintenanceView-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
-        </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -102,7 +100,7 @@
         </property>
         <property name="page.items">
             <list>
-                <ref bean="ActivityOffering-MaintenanceView-ContextBar" />
+                <ref bean="KS-Uif-ContextBar" />
 
                 <bean parent="Uif-HeaderFour" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.credits} Credits)"/>
                 <bean parent="Uif-HeaderThree" p:headerText="Edit @{document.newMaintainableObject.dataObject.activityCode} (@{document.newMaintainableObject.dataObject.abbreviatedCourseType})"/>
@@ -136,32 +134,6 @@
                   <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelperImpl</value>
                   </entry>
             </map>
-        </property>
-    </bean>
-
-    <!--
-     This is the context bar that will be put into the static context bar placeholder on page load. It does this via the
-     "updateContextBar" javascript.
-     Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
-    -->
-    <bean id="ActivityOffering-MaintenanceView-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
-          p:onDocumentReadyScript="updateContextBar('ActivityOffering-MaintenanceView-ContextBar', 'ActivityOffering-MaintenanceView-ContextBar-PlaceHolder'); setSeasonalColor('ActivityOffering-MaintenanceView-ContextBar', @{document.newMaintainableObject.dataObject.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}');">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-topGroup</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Label" p:labelText="@{document.newMaintainableObject.dataObject.contextBar.termCode}" p:renderColon="false">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-topGroup-termCode</value>
-                        </list>
-                    </property>
-                </bean>
-                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState" />
-            </list>
         </property>
     </bean>
 

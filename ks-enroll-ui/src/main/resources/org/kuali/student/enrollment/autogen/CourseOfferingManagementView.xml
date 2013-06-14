@@ -31,7 +31,7 @@
         bar. Then, we create an "updating" bean in the page. In this case:  KS-CourseOfferingManagement-ContextBar
         -->
         <property name="topGroup">
-            <bean  id="KS-CourseOfferingManagement-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup"/>
+            <bean  id="View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup"/>
         </property>
 
         <property name="authorizer">
@@ -90,7 +90,7 @@
      Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
     -->
     <bean id="KS-CourseOfferingManagement-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
-          p:onDocumentReadyScript="updateContextBar('KS-CourseOfferingManagement-ContextBar', 'KS-CourseOfferingManagement-ContextBar-PlaceHolder'); setSeasonalColor('KS-CourseOfferingManagement-ContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');">
+          p:onDocumentReadyScript="updateContextBar('KS-CourseOfferingManagement-ContextBar', 'View-ContextBar-PlaceHolder'); setSeasonalColor('KS-CourseOfferingManagement-ContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-topGroup</value>

@@ -30,7 +30,7 @@
         This is a single page view with all the required beans defined only here.
     -->
 
-    <bean id="ManageSOCView" parent="KS-Uif-FormView">
+    <bean id="ManageSOCView" parent="KS-Uif-FormViewWithTermContextBarPlaceholder">
    	  <property name="id" value="ManageSOCView"/>
       <property name="headerText" value="Set of Courses" />
 	  <property name="singlePageView" value="true"/>
@@ -47,15 +47,6 @@
               <!-- Prevent the page breadcrumb from being rendered -->
               <property name="breadcrumbItem.render" value="false" />
           </bean>
-      </property>
-
-      <!--
-      Because the topGroup is static after the initial view load we needed to create a generic way to update the data
-      via javascript. So, we create a placeholder bean (KS-CourseOfferingEditWrapper-ContextBar-PlaceHolder) in the static context
-      bar. Then, we create an "updating" bean in the page. In this case:  KS-CourseOfferingEditWrapper-ContextBar
-      -->
-      <property name="topGroup">
-          <bean  id="ManageSOCView-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup"/>
       </property>
 
       <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -94,32 +85,6 @@
 		</map>
       </property>
    </bean>
-
-    <!--
-     This is the context bar that will be put into the static context bar placeholder on page load. It does this via the
-     "updateContextBar" javascript.
-     Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
-    -->
-    <bean id="ManageSOCView-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
-          p:onDocumentReadyScript="updateContextBar( 'ManageSOCView-ContextBar', 'ManageSOCView-ContextBar-PlaceHolder' ); setSeasonalColor( 'ManageSOCView-ContextBar', @{contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-topGroup</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Label" p:labelText="@{contextBar.termCode}" p:renderColon="false" >
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-topGroup-termCode</value>
-                        </list>
-                    </property>
-                </bean>
-                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState" />
-            </list>
-        </property>
-    </bean>
 
     <bean id="lockConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
           p:promptText="When Set of Courses is in Locked state, Departmental users will be unable to make changes." >
@@ -197,13 +162,13 @@
 
 
     <bean id="ManageSOCView-GoButton" parent="Uif-SecondaryActionButton-Small"
-          p:onClickScript="updateContextBar( null, 'ManageSOCView-ContextBar-PlaceHolder' );"
+          p:onClickScript="updateContextBar( null, 'View-ContextBar-PlaceHolder' );"
           p:actionLabel="Go" p:methodToCall="buildModel" p:valign="bottom"/>
 
     <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
         <property name="items">
             <list>
-                <ref bean="ManageSOCView-ContextBar" />
+                <ref bean="KS-Uif-ContextBar" />
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
                 <ref bean="ManageSOCView-SchedulingDetails-Section"/>
             </list>
