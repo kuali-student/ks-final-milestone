@@ -88,6 +88,8 @@ public class CalendarConstants {
         public static final String INFO_HOLIDAY_CALENDAR_OFFICIAL = "info.enroll.holidaycalendar.official";
         public static final String INFO_HOLIDAY_CALENDAR_SAVED = "info.enroll.holidaycalendar.saved";
         public static final String INFO_SEARCH_DELETE_SUCCESS = "info.enroll.search.delete.success";
+        public static final String INFO_SUBTERM_KEYDATE_EMPTY = "info.enroll.keydate.subterm.empty";
+        public static final String INFO_SUBTERM_KEYDATE_OUTOFRANGE = "info.enroll.keydate.subterm.outofrange";
         public static final String ERROR_DELETING = "error.enroll.search.delete.failed";
         public static final String ERROR_DATE_END_REQUIRED = "error.enroll.date.end.required";
         public static final String ERROR_TIME_START_AMPM_REQUIRED = "error.enroll.time.start.ampm.required";

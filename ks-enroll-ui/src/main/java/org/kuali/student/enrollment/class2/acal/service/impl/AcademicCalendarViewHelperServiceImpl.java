@@ -538,15 +538,36 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 sb.append("\"key_date_type\":\"Required\"");
                 isValid = false;
             }
-            if(keydate.getStartDate() == null || StringUtils.isEmpty(keydate.getStartDate().toString())){
-                KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED);
-
-                //{"key1" : "value1", "key1" : "value1", ... }
-                if(!StringUtils.isEmpty(sb.toString())){
-                   sb.append(",");
+            //identify termWrapper for keydates
+            String selectedCollectionPath = form.getActionParamaterValue("selectedCollectionPath");
+            int selectedTermWrapperIndex = Integer.parseInt(selectedCollectionPath.substring(selectedCollectionPath.indexOf("[")+1, selectedCollectionPath.indexOf("]")));
+            AcademicTermWrapper termWrapper = form.getTermWrapperList().get(selectedTermWrapperIndex);
+            if (!termWrapper.isSubTerm()) { //regular term
+                if(keydate.getStartDate() == null || StringUtils.isEmpty(keydate.getStartDate().toString())){
+                    KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED);
+                    //{"key1" : "value1", "key1" : "value1", ... }
+                    if(!StringUtils.isEmpty(sb.toString())){
+                       sb.append(",");
+                    }
+                    sb.append("\"key_date_start_date\":\"Required\"");
+                    isValid = false;
                 }
-                sb.append("\"key_date_start_date\":\"Required\"");
-                isValid = false;
+            } else { //sub-terms
+                if(keydate.getStartDate() == null || StringUtils.isEmpty(keydate.getStartDate().toString())){  //null is fine > warn
+                    KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CalendarConstants.MessageKeys.INFO_SUBTERM_KEYDATE_EMPTY);
+                } else {  //startDate != null > check date range > warn
+                    if (keydate.getEndDate() != null && !StringUtils.isEmpty(keydate.getEndDate().toString())){  //endDate != null
+                        if (!CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getStartDate()) ||
+                            !CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getEndDate())){
+                            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CalendarConstants.MessageKeys.INFO_SUBTERM_KEYDATE_OUTOFRANGE);
+                        }
+                    } else { //endDate == null (depending on key date type)
+                        if (!CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getStartDate())){
+                            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CalendarConstants.MessageKeys.INFO_SUBTERM_KEYDATE_OUTOFRANGE);
+                        }
+                    }
+                }
+                isValid = true;
             }
             if(!isValid){
                 form.setValidationJSONString("{"+sb.toString()+"}");
@@ -824,14 +845,26 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapperToValidate.getKeyDatesGroupWrappers()){
             for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
+                if (!termWrapperToValidate.isSubTerm()) {  //term
+                    if (keyDateWrapper.isDateRange() && !CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
+                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
+                    }
 
-                if (keyDateWrapper.isDateRange() && !CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
-                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
-                }
+                    if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
+                        !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
+                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
+                    }
+                } else { //sub-term
+                    if ( keyDateWrapper.getStartDate() == null || !StringUtils.isEmpty(keyDateWrapper.getStartDate().toString())) { //sub-term is fine with blank, but warn
+                        if (keyDateWrapper.isDateRange() && !CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
+                            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
+                        }
 
-                if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
-                    !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
-                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
+                        if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
+                            !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
+                            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", CalendarConstants.MessageKeys.INFO_SUBTERM_KEYDATE_OUTOFRANGE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
+                        }
+                    }
                 }
             }
         }
