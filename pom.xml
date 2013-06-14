@@ -35,18 +35,6 @@
             </modules>
         </profile>
         <profile>
-            <id>skip-developer-wars</id>
-            <modules>
-                <module>ks-common</module>
-                <module>ks-security</module>
-                <module>ks-core-impl</module>
-                <module>ks-core-sql</module>
-                <module>ks-rice-sql</module>
-                <module>ks-core-ui</module>
-                <module>ks-core-krms</module>
-            </modules>
-        </profile>
-        <profile>
             <id>skip-all-wars</id>
             <modules>
                 <module>ks-common</module>
