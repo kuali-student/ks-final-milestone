@@ -8,6 +8,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
@@ -17,6 +18,7 @@ import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelper
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.common.util.CalendarSearchViewHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
     private final static Logger LOG = Logger.getLogger(CalendarSearchViewHelperServiceImpl.class);
     private static final long serialVersionUID = 1L;
     private transient AcademicCalendarService academicCalendarService;
+    private transient AtpService atpService;
 
     /**
      * This method search terms based on the input name and the input year
@@ -49,7 +52,7 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
      * @throws Exception
      */
     public List<AcademicCalendarInfo> searchForAcademicCalendars(String name, String year,ContextInfo context)throws Exception {
-        return CalendarSearchViewHelperUtil.searchForAcademicCalendars(name,year,context,getAcademicCalendarService());
+        return CalendarSearchViewHelperUtil.searchForAcademicCalendars(name,year,context,getAtpService());
     }
 
     /**
@@ -176,5 +179,12 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
              academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.academicCalendarService;
+    }
+
+    protected AtpService getAtpService() {
+        if(atpService == null) {
+            atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.atpService;
     }
 }
