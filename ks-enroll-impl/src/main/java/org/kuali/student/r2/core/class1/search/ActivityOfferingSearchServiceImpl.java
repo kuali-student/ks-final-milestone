@@ -494,11 +494,12 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 row.addCell(SearchResultColumns.AOC_ID, (String)resultRow[i++]);
                 row.addCell(SearchResultColumns.AOC_NAME, (String)resultRow[i++]);
                 row.addCell(SearchResultColumns.AOC_PRIVATE_NAME, (String)resultRow[i++]);
-                row.addCell(SearchResultColumns.AO_ID, aoId);
+                row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
                 row.addCell(SearchResultColumns.AO_TYPE, (String)resultRow[i++]);
                 row.addCell(SearchResultColumns.AO_STATE, (String)resultRow[i++]);
                 row.addCell(SearchResultColumns.SCHEDULE_ID, (String)resultRow[i++]);
                 row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i].toString());
+                i++; // increment from previous row
                 row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
                 resultInfo.getRows().add(row);
                 aoMap.put(aoId, row);
