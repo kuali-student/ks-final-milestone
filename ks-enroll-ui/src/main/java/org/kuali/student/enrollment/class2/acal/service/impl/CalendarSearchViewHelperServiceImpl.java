@@ -40,7 +40,7 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
      * @throws Exception
      */
     public List<TermInfo> searchForTerms(String name, String year,ContextInfo context)throws Exception {
-    	return CalendarSearchViewHelperUtil.searchForTerms(name,year,context,getAcademicCalendarService());
+    	return CalendarSearchViewHelperUtil.searchForTerms(name, year, context, getAtpService(), getTypeService());
     }
 
     /**
@@ -64,7 +64,7 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
      * @throws Exception
      */
     public List<HolidayCalendarInfo> searchForHolidayCalendars(String name, String year,ContextInfo context)throws Exception {
-        return CalendarSearchViewHelperUtil.searchForHolidayCalendars(name,year,context,getAcademicCalendarService());
+        return CalendarSearchViewHelperUtil.searchForHolidayCalendars(name, year, context, getAtpService());
     }
 
     /**
