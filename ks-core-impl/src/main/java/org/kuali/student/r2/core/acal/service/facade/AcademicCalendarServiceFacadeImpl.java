@@ -55,7 +55,13 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
     public void makeTermOfficialCascaded(String termId, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
                    OperationFailedException, DoesNotExistException {
+        // KSENROLL-7251 Implement a new servies process ot change the state of the Academic Calendar
+        // from draft to official
         TermInfo termInfo = acalService.getTerm(termId, contextInfo);
+        if (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(termInfo.getStateKey())) {
+            // If official, then should have already cascaded.
+            return;
+        }
         // Assumes state propagation not wired in yet.
         Map<String, TermInfo> termIdToTermInfoProcessed = new HashMap<String, TermInfo>();
         Map<String, TermInfo> termIdToTermInfoToBeProcessed = new HashMap<String, TermInfo>();
@@ -80,7 +86,9 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
                 parentTermIds.add(nextTermId);
             } else {
                 for (TermInfo term: terms) {
-                    if (!termIdToTermInfoProcessed.keySet().contains(term.getId())) {
+                    if (!termIdToTermInfoProcessed.keySet().contains(term.getId()) &&
+                            AtpServiceConstants.ATP_DRAFT_STATE_KEY.equals(term.getStateKey())) {
+                        // Only add if still draft and not yet processed
                         termIdToTermInfoToBeProcessed.put(term.getId(), term);
                     }
                 }
@@ -96,7 +104,10 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         }
         // Now iterate over all calendars and make them official
         for (String id: idToCalendar.keySet()) {
-            acalService.changeAcademicCalendarState(id, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+            if (AtpServiceConstants.ATP_DRAFT_STATE_KEY.equals(idToCalendar.get(id).getStateKey())) {
+                // Only set it if it's still draft
+                acalService.changeAcademicCalendarState(id, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+            }
         }
     }
 
