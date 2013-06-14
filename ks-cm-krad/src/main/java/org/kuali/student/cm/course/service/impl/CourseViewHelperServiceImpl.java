@@ -16,24 +16,11 @@
 package org.kuali.student.cm.course.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.KimConstants.EntityTypes;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.entity.EntityDefault;
-import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
 import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
@@ -45,6 +32,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
@@ -57,87 +45,57 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 
 	private static final long serialVersionUID = 1338662637708570500L;
 
-	private IdentityService identityService;
+	private SearchService searchService;
 
 	private SubjectCodeService subjectCodeService;
 
 	private CluService cluService;
 
-	private List<Person> findPeople(String principalName) {
-		List<Person> people = new ArrayList<Person>();
-
-		String searchString = "";
-		if (principalName != null) {
-			if (principalName.indexOf("%") == -1
-					&& principalName.indexOf("*") == -1) {
-				searchString = "*" + principalName + "*";
-			}
-		}
-
-		QueryByCriteria.Builder queryBuilder = QueryByCriteria.Builder.create();
-		
-		Predicate staticPredicate = PredicateFactory.and(PredicateFactory
-				.equalIgnoreCase("entityTypeContactInfos.active", "Y"),
-				PredicateFactory.equalIgnoreCase("principals.active", "Y"),
-				PredicateFactory.equalIgnoreCase("active", "Y"),
-				PredicateFactory.equalIgnoreCase("names.defaultValue", "Y"),
-				PredicateFactory.equalIgnoreCase("names.active", "Y"),
-				PredicateFactory.or(PredicateFactory.equalIgnoreCase(
-						"entityTypeContactInfos.entityTypeCode", "PERSON"),
-						PredicateFactory.equalIgnoreCase(
-								"entityTypeContactInfos.entityTypeCode",
-								"SYSTEM")));
-
-		Predicate namePredicate = PredicateFactory
-				.or(PredicateFactory.like("principals.principalName",
-						searchString), PredicateFactory.like("names.firstName",
-						searchString), PredicateFactory.like(
-						"names.middleName", searchString), PredicateFactory
-						.like("names.lastName", searchString));
-		
-		queryBuilder.setPredicates(staticPredicate, namePredicate);
-
-		EntityDefaultQueryResults results = getIdentityService()
-				.findEntityDefaults(queryBuilder.build());
-		List<EntityDefault> entities = results.getResults();
-		if (entities != null) {
-			for (EntityDefault entity : entities) {
-				for (Principal principal : entity.getPrincipals()) {
-					PersonImpl personImpl = new PersonImpl(principal, entity,
-							EntityTypes.PERSON);
-					people.add(personImpl);
-				}
-			}
-		}
-
-		Collections.sort(people, new Comparator<Person>() {
-
-			@Override
-			public int compare(Person person1, Person person2) {
-				return person1.getName().compareToIgnoreCase(person2.getName());
-			}
-		});
-
-		return people;
-	}
-
 	public List<CluInstructorInfoDisplay> getInstructorsForSuggest(
 			String instructorName) {
-		List<CluInstructorInfoDisplay> instructors = new ArrayList<CluInstructorInfoDisplay>();
-
-		List<Person> people = findPeople(instructorName);
-		if (!people.isEmpty()) {
-			for (Person person : people) {
-				CluInstructorInfoDisplay instructorDisplay = new CluInstructorInfoDisplay();
-				instructorDisplay.setId(person.getEntityId());
-				instructorDisplay.setPersonId(person.getPrincipalId());
-				instructorDisplay.setDisplayName(person.getName() + " ("
-						+ person.getPrincipalName() + ")");
-				instructors.add(instructorDisplay);
-			}
+		List<CluInstructorInfoDisplay> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoDisplay>();
+		
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        
+        SearchParamInfo displayNameParam = new SearchParamInfo();
+        displayNameParam.setKey("person.queryParam.personGivenName");
+        displayNameParam.getValues().add(instructorName);
+        queryParamValueList.add(displayNameParam);
+        
+    	SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
+        searchRequest.setParams(queryParamValueList);
+        searchRequest.setStartAt(0);
+        searchRequest.setMaxResults(10);
+        searchRequest.setNeededTotalResults(false);
+        searchRequest.setSortColumn("person.resultColumn.DisplayName");
+        
+        SearchResultInfo searchResult = null;
+        try {
+        	searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+        	for (SearchResultRowInfo result : searchResult.getRows()) {
+                List<SearchResultCellInfo> cells = result.getCells();
+                CluInstructorInfoDisplay cluInstructorInfoDisplay = new CluInstructorInfoDisplay();
+                for (SearchResultCellInfo cell : cells) {
+                    if ("person.resultColumn.GivenName".equals(cell.getKey())) {
+                    	cluInstructorInfoDisplay.setGivenName(cell.getValue());
+                    } else if ("person.resultColumn.PersonId".equals(cell.getKey())) {
+                    	cluInstructorInfoDisplay.setPersonId(cell.getValue());
+                    } else if ("person.resultColumn.EntityId".equals(cell.getKey())) {
+                    	cluInstructorInfoDisplay.setId(cell.getValue());
+                    } else if ("person.resultColumn.PrincipalName".equals(cell.getKey())) {
+                    	cluInstructorInfoDisplay.setPrincipalName(cell.getValue());
+                    } else if ("person.resultColumn.DisplayName".equals(cell.getKey())) {
+                    	cluInstructorInfoDisplay.setDisplayName(cell.getValue());
+                    }
+                }
+                cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
+        	}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		return instructors;
+        
+		return cluInstructorInfoDisplays;
 	}
 	
 	public List<SubjectCodeDisplay> getSubjectCodesForSuggest(String subjectCode) {
@@ -236,11 +194,11 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		return courseJoints;
 	}
 	
-	private IdentityService getIdentityService() {
-		if (identityService == null) {
-			identityService = KimApiServiceLocator.getIdentityService();
+	private SearchService getSearchService() {
+		if (searchService == null) {
+			searchService = GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/personsearch", "PersonSearchService"));
 		}
-		return identityService;
+		return searchService;
 	}
 	
 	private SubjectCodeService getSubjectCodeService() {
@@ -255,7 +213,6 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 			cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
 		}
 		return cluService;
-	}
-	
+	}	
 
 }
