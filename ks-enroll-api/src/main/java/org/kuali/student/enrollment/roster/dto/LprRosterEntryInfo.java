@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
                 "lprRosterId", "lprId", "position", 
                 "meta", "attributes", "_futureElements"})
 
-public class LprRosterEntryInfo 
+public class LprRosterEntryInfo
     extends RelationshipInfo 
     implements LprRosterEntry, Serializable {
 
@@ -68,7 +68,7 @@ public class LprRosterEntryInfo
      *  @param entry the LprRosterEntry to copy
      */
     public LprRosterEntryInfo(LprRosterEntry entry) {
-        super();
+        super(entry);
         
         if (entry != null) {
             this.lprRosterId = entry.getLprRosterId();
