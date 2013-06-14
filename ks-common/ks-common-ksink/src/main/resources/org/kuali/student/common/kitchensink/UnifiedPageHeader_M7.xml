@@ -53,6 +53,31 @@
                                     </bean>
                                 </property>
                             </bean>
+                            <ref bean="KS-KitchenSink-UnifiedPageHeader-Links-M7"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-UnifiedPageHeader-Links-M7" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/UnifiedPageHeader_M7.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/UnifiedPageHeader_M7.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+
                         </list>
                     </property>
                 </bean>
