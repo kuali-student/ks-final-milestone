@@ -969,6 +969,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             String foId = null;
             String formatId = null;
             String foName = null;
+            List<String>  scheduleIds = new ArrayList<String>();
 
             for (SearchResultCellInfo cell : row.getCells()) {
 
@@ -993,19 +994,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         aoWrapper.setTypeName(typeInfo.getName());
                     }
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.SCHEDULE_ID.equals(cell.getKey())) {
-                    if(cell.getValue()!=null){
-                        List<String> scheduleIds = Arrays.asList(cell.getValue().split(","));
-                        aoWrapper.getAoInfo().setScheduleIds(scheduleIds);
 
-                        for(String scheduleId : scheduleIds){
-                            List<ActivityOfferingWrapper> list = sch2aoMap.get(scheduleId);
-                            if(list == null){
-                                list = new ArrayList<ActivityOfferingWrapper>();
-                                sch2aoMap.put(scheduleId, list);
-                            }
-                            list.add(aoWrapper);//Add to schedule map
-                        }
+                    if(cell.getValue()!=null){
+                        scheduleIds.add(cell.getValue());
+
                     }
+
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())) {
                     aoWrapper.getAoInfo().setFormatOfferingId(cell.getValue());
                     foId = cell.getValue();
@@ -1022,6 +1016,16 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AOC_PRIVATE_NAME.equals(cell.getKey())) {
                     aocPrivateName = cell.getValue();
                 }
+            }
+
+            aoWrapper.getAoInfo().setScheduleIds(scheduleIds);
+            for(String scheduleId : scheduleIds){
+                List<ActivityOfferingWrapper> list = sch2aoMap.get(scheduleId);
+                if(list == null){
+                    list = new ArrayList<ActivityOfferingWrapper>();
+                    sch2aoMap.put(scheduleId, list);
+                }
+                list.add(aoWrapper);//Add to schedule map
             }
             if (aoWrapper.getAoClusterID() != null) {
                 ActivityOfferingClusterWrapper aoClusterWrapper = clusterMap.get(aoWrapper.getAoClusterID());
@@ -1065,6 +1069,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
 
         }
+
         return activityOfferingWrappers;
     }
 
