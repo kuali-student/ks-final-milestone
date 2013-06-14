@@ -41,7 +41,6 @@
 
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-CoDeleteConfirmationResultSection"/>
             </list>
         </property>
@@ -62,9 +61,7 @@
     <bean id="KS-CourseOfferingManagement-CoDeleteConfirmationResultSection" parent="Uif-VerticalBoxSection"
           p:disclosure.render="false"
           p:id="coDeleteConfirmationResultSection"
-          p:colSpan="3"
-          p:style="underline"
-          p:headerText="Confirm Deletion of Course Offering(s)">
+          p:colSpan="3">
         <property name="items">
             <list>
                 <bean id="KS-coDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
@@ -74,7 +71,7 @@
                     <property name="disclosure.render" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="termCode"
+                            <bean parent="Uif-DataField"  p:propertyName="subjectCode"
                                   p:fieldLabel.renderColon="false"  p:readOnly="true"/>
                         </list>
                     </property>

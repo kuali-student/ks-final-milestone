@@ -39,7 +39,6 @@
 
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-ConfirmationResultSection"/>
             </list>
         </property>
@@ -55,7 +54,7 @@
             <list>
                 <bean id="KS-SelectedAoDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
                     <property name="headerText"
-                              value="@{currentCourseOfferingWrapper.courseOfferingCode} - @{currentCourseOfferingWrapper.courseOfferingTitle}"/>
+                              value="@{currentCourseOfferingWrapper.courseOfferingCode}"/>
                     <property name="header">
                         <bean parent="Uif-HeaderFour"/>
                     </property>
@@ -63,7 +62,6 @@
                     <property name="items" >
                         <list>
                             <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{currentCourseOfferingWrapper.alternateCOCodesUITooltip}" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
-                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="currentCourseOfferingWrapper.term.name" p:fieldLabel.renderColon="false" p:readOnly="true"/>
                          </list>
                     </property>
                 </bean>
