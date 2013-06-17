@@ -28,12 +28,12 @@ import org.kuali.rice.krad.web.form.KsUifFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
-import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.HolidayCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
@@ -45,8 +45,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 
 /**
@@ -450,9 +456,8 @@ public class HolidayCalendarController extends UifControllerBase {
         getHolidayCalendarFormHelper(hcForm).deleteHolidayCalendar(hcForm.getHolidayCalendarInfo().getId());
         Properties urlParameters = new  Properties();
         urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
-        urlParameters.put("methodToCall", "search");
+        urlParameters.put("methodToCall", KRADConstants.START_METHOD);
         urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
-
         HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
         urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED);
         urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS, hCalInfo.getName());
