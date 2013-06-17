@@ -15,6 +15,7 @@
  */
 package org.kuali.student.r2.core.acal.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -55,7 +56,7 @@ public class TermCodeGeneratorImpl implements TermCodeGenerator {
             return term.getCode();
         }
 
-        if(term.getTypeKey() == null || term.getTypeKey().equals("")) {
+        if(term.getTypeKey() == null || StringUtils.isBlank(term.getTypeKey())) {
             return null;
         }
 
