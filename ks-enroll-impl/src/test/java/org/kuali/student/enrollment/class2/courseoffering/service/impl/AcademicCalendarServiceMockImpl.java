@@ -194,7 +194,28 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     }
 
     @Override
-    public StatusInfo deleteTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // Note: milestones not yet handled
+        // Will only permit a delete if the term has no subterms.  Will also remove from calendar if there are any calendars
+        // associated with it
+        if (!terms.containsKey(termId)) {
+            throw new DoesNotExistException("termId=" + termId + " does not exist");
+        }
+        List<TermInfo> childTerms = getIncludedTermsInTerm(termId, contextInfo);
+        // For each of the child terms, remove its link to termId (which may make it "stranded")
+        for (TermInfo child: childTerms) {
+            subterm2termSet.get(child.getId()).remove(termId);
+        }
+        // Remove term from any parent terms
+        if (subterm2termSet.containsKey(termId)) {
+            subterm2termSet.remove(termId);
+        }
+        // Check if it's attached to a calendar, and remove if so.
+        if (term2calSet.containsKey(termId)) {
+            term2calSet.remove(termId);
+        }
+        // Finally, remove the term itself
         this.getTerm(termId, contextInfo);
         terms.remove(termId);
         StatusInfo status = new StatusInfo();
@@ -459,8 +480,25 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     }
 
     @Override
-    public List<TermInfo> getIncludedTermsInTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<TermInfo> getIncludedTermsInTerm(String parentTermId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+                   OperationFailedException, PermissionDeniedException {
+        Set<String> childIds = new HashSet<String>();
+        for (Map.Entry<String, Set<String>> entry: subterm2termSet.entrySet()) {
+            Set<String> parentTerms = entry.getValue();
+            String childId = entry.getKey();
+            if (parentTerms.contains(parentTermId)) {
+                childIds.add(childId);
+            }
+        }
+        List<TermInfo> result = new ArrayList<TermInfo>();
+        for (String childId: childIds) {
+            if (!terms.containsKey(childId)) {
+                throw new DoesNotExistException("termId=" + childId + "does not exist");
+            }
+            result.add(terms.get(childId));
+        }
+        return result;
     }
 
     @Override

@@ -25,6 +25,9 @@ import org.kuali.student.enrollment.class2.courseoffering.service.adapter.Autoge
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -143,5 +146,71 @@ public class TestAcademicCalendarServiceFacadeImpl {
         assertEquals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, childTerm.getStateKey());
         // The only one that should stay draft
         assertEquals(AtpServiceConstants.ATP_DRAFT_STATE_KEY, childTerm2.getStateKey());
+    }
+
+    @Test
+    public void testDeleteTermSucceed() throws Exception {
+        StatusInfo statusInfo = acalServiceFacade.deleteTermCascaded(parentTerm.getId(), contextInfo);
+        assert(statusInfo.getIsSuccess());
+        boolean threwException = false;
+        try {
+            acalService.getTerm(parentTerm.getId(), contextInfo);
+        } catch (DoesNotExistException e) {
+            threwException = true;
+        }
+        assert(threwException);
+
+        threwException = false;
+        try {
+            acalService.getTerm(childTerm.getId(), contextInfo);
+        } catch (DoesNotExistException e) {
+            threwException = true;
+        }
+        assert(threwException);
+
+        threwException = false;
+        try {
+            acalService.getTerm(childTerm2.getId(), contextInfo);
+        } catch (DoesNotExistException e) {
+            threwException = true;
+        }
+        assert(threwException);
+    }
+
+    @Test
+    public void testDeleteTermFailed() throws Exception {
+        boolean threwException = false;
+
+        acalServiceFacade.makeTermOfficialCascaded(parentTerm.getId(), contextInfo);
+        try {
+            StatusInfo statusInfo = acalServiceFacade.deleteTermCascaded(parentTerm.getId(), contextInfo);
+        } catch (OperationFailedException e) {
+            threwException = true;
+        }
+        assert(threwException);
+
+        threwException = false;
+        try {
+            acalService.getTerm(parentTerm.getId(), contextInfo);
+        } catch (DoesNotExistException e) {
+            threwException = true;
+        }
+        assert(!threwException);
+
+        threwException = false;
+        try {
+            acalService.getTerm(childTerm.getId(), contextInfo);
+        } catch (DoesNotExistException e) {
+            threwException = true;
+        }
+        assert(!threwException);
+
+        threwException = false;
+        try {
+            acalService.getTerm(childTerm2.getId(), contextInfo);
+        } catch (DoesNotExistException e) {
+            threwException = true;
+        }
+        assert(!threwException);
     }
 }
