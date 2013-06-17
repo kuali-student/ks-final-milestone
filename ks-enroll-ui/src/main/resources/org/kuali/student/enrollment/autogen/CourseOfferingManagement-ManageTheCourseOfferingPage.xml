@@ -42,7 +42,7 @@
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-MoveAOCPopupContainer"/>
-                <ref bean="KS-CourseOfferingManagement-ContextBar"/>
+                <ref bean="KS-Uif-ContextBar"/>
             </list>
         </property>
     </bean>

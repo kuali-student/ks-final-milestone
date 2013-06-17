@@ -39,6 +39,7 @@ import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingMana
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
@@ -206,11 +207,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
                     if (keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY) && keyDateInfo.getStartDate() != null && keyDateInfo.getEndDate() != null) {
                         termClassStartDate = keyDateInfo.getStartDate();
-
-                        Date avgDate = new Date(termClassStartDate.getTime() + ((keyDateInfo.getEndDate().getTime() - termClassStartDate.getTime())/2));
-                        Calendar cal = Calendar.getInstance();
-                        cal.setTime(avgDate);
-                        form.setTermDayOfYear(cal.get(Calendar.DAY_OF_YEAR));
                         break;
                     }
                 }
@@ -218,6 +214,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
         }
 
+        form.setContextBar( ContextBar.NEW_INSTANCE( form.getTermInfo(), form.getSocStateKey(), createContextInfo() ) );
     }
 
     /**

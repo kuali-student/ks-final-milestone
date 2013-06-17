@@ -77,9 +77,13 @@ public class ContextBar implements Serializable {
     }
 
     public static ContextBar NEW_INSTANCE( TermInfo termInfo, SocInfo socInfo, ContextInfo contextInfo ) throws Exception {
+        return NEW_INSTANCE( termInfo, socInfo.getStateKey(), contextInfo );
+    }
+
+    public static ContextBar NEW_INSTANCE( TermInfo termInfo, String socStateKey, ContextInfo contextInfo ) throws  Exception {
 
         String termName = termInfo.getName();
-        String termSocState = STATE_SERVICE.getState( socInfo.getStateKey(), contextInfo ).getName();
+        String termSocState = STATE_SERVICE.getState( socStateKey, contextInfo ).getName();
         int termDayOfYear = calculateTermDayOfYear( termInfo, contextInfo );
 
         return new ContextBar( termName, termSocState, termDayOfYear );

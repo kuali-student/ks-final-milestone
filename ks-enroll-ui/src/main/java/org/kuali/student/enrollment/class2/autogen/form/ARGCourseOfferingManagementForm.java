@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.autogen.form;
 
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
@@ -181,7 +182,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     //TODO: do we still need this parameter?
     private boolean hasAOCluster;
 
-    private int termDayOfYear; // this is used in the context bar to determine term color
+    private ContextBar contextBar = ContextBar.NULL_SAFE_INSTANCE();
 
     public boolean getHasAOCluster() {
         return hasAOCluster;
@@ -744,11 +745,12 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.selectedTabId = selectedTabId;
     }
 
-    public int getTermDayOfYear() {
-        return termDayOfYear;
+    public ContextBar getContextBar() {
+        return contextBar;
     }
 
-    public void setTermDayOfYear(int termDayOfYear) {
-        this.termDayOfYear = termDayOfYear;
+    public void setContextBar(ContextBar contextBar) {
+        this.contextBar = contextBar;
     }
+
 }
