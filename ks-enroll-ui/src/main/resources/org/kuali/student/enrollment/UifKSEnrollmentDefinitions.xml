@@ -70,14 +70,20 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="@{#dp.contextBar.termName}" p:renderColon="false" >
+                <bean parent="Uif-DataField" p:propertyName="contextBar.termName">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ks-topGroup-termCode</value>
+                            <value>ks-topGroup-courseOffering-termName</value>
                         </list>
                     </property>
                 </bean>
-                <bean id="courseOfferingContextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState" />
+                <bean parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-topGroup-courseOffering-socState</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

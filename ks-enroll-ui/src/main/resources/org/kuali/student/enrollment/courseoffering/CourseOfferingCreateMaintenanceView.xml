@@ -173,7 +173,6 @@
     <bean id="KS-CourseOffering-NewCourseOffering" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true">
         <property name="items">
             <list>
-                <ref bean="KS-CourseOffering-ContextBar" />
                 <ref bean="KS-CourseOffering-LinkSection"/>
                 <ref bean="KS-CreateFromCatalog"/>
                 <ref bean="KS-CreateFromExistingOffering"/>
@@ -202,6 +201,7 @@
         </property>
         <property name="items">
             <list>
+                <ref bean="KS-CourseOffering-ContextBar" />
                 <bean parent="Uif-ActionLink" p:methodToCall="createFromCatalog" p:style="font-weight:bold;" p:actionLabel="Create from Catalog" p:render="@{#showCatalogLink}"/>
                 <bean parent="Uif-Message" p:messageText="Create from Catalog" p:style="font-weight:bold;" p:render="@{!#showCatalogLink}"/>
                 <bean parent="Uif-Message" p:messageText="  |  " p:style="font-weight:bold;"/>
@@ -241,7 +241,7 @@
                 </bean>
 
                 <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="loadCourseCatalog" p:actionLabel="Show"
-                      p:onClickScript="updateContextBar( null, 'KS-CourseOffering-Create-ContextBar-PlaceHolder' );"
+                      p:onClickScript="updateContextBar( null, 'KS-CourseOffering-View-ContextBar-PlaceHolder' );"
                       p:jumpToIdAfterSubmit="TOP" p:performClientSideValidation="true" p:style="margin-top:15px;" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 
             </list>

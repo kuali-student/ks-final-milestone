@@ -625,74 +625,40 @@ a {
 
 /************************************** CONTEXT BAR ***********************/
 .ks-topGroup {
-    /* background-image:url('../images/context-bar/bg_context_bar.png');    */
     height: 40px;
     background-color: #555;
     width: 100%;
-    /* border-left: 8px solid #808080; */
 }
 
-.ks-topGroup label{
+.ks-topGroup label {
     padding-right: 20px;
     color: white;
     cursor: default;
 }
 
-#contextBarTermCode {
-    padding-top: 10px;
-    padding-left: 15px;
-    color: rgb(231, 231, 231)
+.ks-topGroup span {
+    padding-right: 20px;
+    color: white;
+    cursor: default;
 }
 
-#contextBarSocState {
-    margin-top: 8px;
-}
-
-.ks-topGroup-termCode{
+.ks-topGroup-courseOffering-termName {
     padding-top: 10px;
     padding-left: 8px;
+    font-size: 14px;
 }
 
-.ks-topGroup-termCode label{
+.ks-topGroup-courseOffering-termName span {
     font-weight: normal;
 }
 
-.ks-topGroup-socState{
+.ks-topGroup-courseOffering-socState {
     padding-top: 10px;
 }
 
-.ks-topGroup-socState label{
+.ks-topGroup-courseOffering-socState span {
     font-weight: normal;
 }
-/*
-
-.ks-topGroup-fall {
-    background-color: #FF7800;
-    width: 7px;
-    height: 37px;
-}
-
-
-.ks-topGroup-winter {
-    background-color: #88D4FF;
-    width: 7px;
-    height: 37px;
-}
-
-
-.ks-topGroup-spring {
-    background-color: #95E28E;
-    width: 7px;
-    height: 37px;
-}
-
-
-.ks-topGroup-sumnmer {
-    background-color: #FCFF00;
-    width: 7px;
-    height: 37px;
-}
-*/
 /************************************** END CONTEXT BAR ***********************/
 
 
