@@ -448,6 +448,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     aoInfos.add(aoWrapper.getAoInfo());
                 }
                 _validateRegistrationGroupsPerCluster(rgInfos, aoInfos, cluster, form, i, ao2sch, ao2schReq, aoMap);
+
+                // Test the Cluster for Multiple AO types and Term types
+                _validateMulitpleTermsPerCluster(form.getFoId2aoTypeMap().get(cluster.getFormatOfferingId()).getActivityOfferingTypeKeys(),cluster, i);
+
                 i++;
             }
             Date endOfValidation = new Date();
@@ -458,6 +462,30 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         //List<KeyValue>
 
 
+    }
+
+    private void _validateMulitpleTermsPerCluster(List<String> aoTypeKeys,ActivityOfferingClusterWrapper cluster, int clusterIndex ){
+        // Test the Cluster for Multiple AO types and Term types
+        if(aoTypeKeys.size()>1){
+            List<String> termIds = new ArrayList<String>();
+            for(ActivityOfferingWrapper aoWrapper : cluster.getAoWrapperList()){
+                if(termIds.size()==0){
+                    termIds.add(aoWrapper.getTermId());
+                    continue;
+                }
+                boolean newTerm = false;
+                for(String id : termIds){
+                    if(id == null) continue;
+                    if(aoWrapper.getTermId().compareTo(id)!=0){
+                        newTerm=true;
+                    }
+                }
+                if(newTerm) termIds.add(aoWrapper.getTermId());
+            }
+            if(termIds.size()>1){
+                GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line" + clusterIndex, RegistrationGroupConstants.MSG_ERROR_CLUSTER_MULTIPLE_TERMS, cluster.getAoCluster().getPrivateName());
+            }
+        }
     }
 
     private void processRelatedTypeKeysForFos(String coId, Map<String, FormatOfferingInfo> foIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {

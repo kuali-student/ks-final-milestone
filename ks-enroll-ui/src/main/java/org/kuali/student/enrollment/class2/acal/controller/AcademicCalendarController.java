@@ -360,7 +360,7 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
 
-        StatusInfo statusInfo = null;
+        StatusInfo statusInfo;
         try {
             statusInfo = getAcalService().deleteAcademicCalendar(acalForm.getAcademicCalendarInfo().getId(), getAcalViewHelperService(acalForm).createContextInfo());
         } catch (Exception e) {
@@ -781,7 +781,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         if (isOfficial){
-            StatusInfo statusInfo = null;
+            StatusInfo statusInfo;
             try {
                 statusInfo = getAcalService().changeAcademicCalendarState(academicCalendarForm.getAcademicCalendarInfo().getId(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,viewHelperService.createContextInfo());
                 if (!statusInfo.getIsSuccess()){
