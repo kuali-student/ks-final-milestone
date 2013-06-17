@@ -61,8 +61,6 @@ public class AcademicTermParentTypeKeyValues extends UifKeyValuesFinderBase impl
             }
         }
 
-        keyValues.add(new ConcreteKeyValue("", "Select Term Type"));
-
         if (childTermType != null && !childTermType.equals("")) {
             List<TypeInfo> types = new ArrayList<TypeInfo>();
             try {
@@ -82,6 +80,10 @@ public class AcademicTermParentTypeKeyValues extends UifKeyValuesFinderBase impl
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
+        }
+
+        if (keyValues.isEmpty()) {
+            keyValues.add(new ConcreteKeyValue("", "No parent term"));
         }
 
         return keyValues;
