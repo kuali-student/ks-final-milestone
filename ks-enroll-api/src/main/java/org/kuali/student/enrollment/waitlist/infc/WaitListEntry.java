@@ -24,7 +24,8 @@ import java.util.List;
 /**
  * Relates a Student to a WaitList.  Essentially these entries are used to represent all students on a WaitList
  *
- * These entries are assigned a well defined priority that may be changed at a later time.
+ * These entries are assigned a well defined position that may be changed at a later time.
+ * The lowest position is one.  The highest position is equal to the number of entries on the associated WaitList.
  */
 public interface WaitListEntry extends Relationship {
 
@@ -47,12 +48,12 @@ public interface WaitListEntry extends Relationship {
     String getStudentId();
 
     /**
-     * This value should match one of the LUIs that the associated wait list is attached to
-     * @return  the idea of the Louis that this entry is associated with.
-     * @name Lui Id
+     * This value should match one of the offerings that the associated wait list is attached to
+     * @return  the idea of the Offering that this entry is associated with.
+     * @name Offering Id
      * @required
      */
-    String getLuiId();
+    String getOfferingId();
 
     /**
      * This field is considered read-only
@@ -72,7 +73,7 @@ public interface WaitListEntry extends Relationship {
     /**
      *
      * @return A reference to any rules that this entry was not able to pass
-     * @name Blocking Rule Ids
+     * @name Hold List Rule Ids
      */
-    List<String> getBlockingRuleIds();
+    List<String> getHoldListRuleIds();
 }

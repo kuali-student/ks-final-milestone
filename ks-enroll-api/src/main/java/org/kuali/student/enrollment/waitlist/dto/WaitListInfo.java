@@ -32,9 +32,9 @@ import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "OrgInfo", propOrder = {
-        "id", "typeKey", "stateKey","associatedLuiIds",
-        "luiRefObjectUri", "waitListProcessingType", "maxSize",
+@XmlType(name = "WaitListInfo", propOrder = {
+        "id", "typeKey", "stateKey","associatedOfferingIds",
+        "offeringTypeKey", "waitListProcessingTypeKey", "maxSize",
         "checkInRequired", "checkInFrequency", "allowBlockedEntries", "effectiveDate", "expirationDate",
         "meta", "attributes", "_futureElements" })
 public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Serializable {
@@ -42,11 +42,11 @@ public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Seri
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private List<String> associatedLuiIds;
+    private List<String> associatedOfferingIds;
     @XmlElement
-    private String luiRefObjectUri;
+    private String offeringTypeKey;
     @XmlElement
-    private String waitListProcessingType;
+    private String waitListProcessingTypeKey;
     @XmlElement
     private Integer maxSize;
     @XmlElement
@@ -70,11 +70,11 @@ public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Seri
         super(waitList);
 
         if(waitList != null) {
-            if(waitList.getAssociatedLuiIds() != null) {
-                setAssociatedLuiIds(new ArrayList<String>(waitList.getAssociatedLuiIds()));
+            if(waitList.getAssociatedOfferingIds() != null) {
+                setAssociatedOfferingIds(new ArrayList<String>(waitList.getAssociatedOfferingIds()));
             }
-            setLuiRefObjectUri(waitList.getLuiRefObjectUri());
-            setWaitListProcessingType(waitList.getWaitListProcessingType());
+            setOfferingTypeKey(waitList.getOfferingTypeKey());
+            setWaitListProcessingTypeKey(waitList.getWaitListProcessingTypeKey());
             setMaxSize(waitList.getMaxSize());
             setCheckInRequired(waitList.getCheckInRequired());
             if(waitList.getCheckInFrequency() != null) {
@@ -91,33 +91,33 @@ public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Seri
     }
 
     @Override
-    public List<String> getAssociatedLuiIds() {
-        if(associatedLuiIds == null) {
-            associatedLuiIds = new ArrayList<String>();
+    public List<String> getAssociatedOfferingIds() {
+        if(associatedOfferingIds == null) {
+            associatedOfferingIds = new ArrayList<String>();
         }
-        return associatedLuiIds;
+        return associatedOfferingIds;
     }
 
-    public void setAssociatedLuiIds(List<String> associatedLuiIds) {
-        this.associatedLuiIds = associatedLuiIds;
-    }
-
-    @Override
-    public String getLuiRefObjectUri() {
-        return luiRefObjectUri;
-    }
-
-    public void setLuiRefObjectUri(String luiRefObjectUri) {
-        this.luiRefObjectUri = luiRefObjectUri;
+    public void setAssociatedOfferingIds(List<String> associatedOfferingIds) {
+        this.associatedOfferingIds = associatedOfferingIds;
     }
 
     @Override
-    public String getWaitListProcessingType() {
-        return waitListProcessingType;
+    public String getOfferingTypeKey() {
+        return offeringTypeKey;
     }
 
-    public void setWaitListProcessingType(String waitListProcessingType) {
-        this.waitListProcessingType = waitListProcessingType;
+    public void setOfferingTypeKey(String offeringTypeKey) {
+        this.offeringTypeKey = offeringTypeKey;
+    }
+
+    @Override
+    public String getWaitListProcessingTypeKey() {
+        return waitListProcessingTypeKey;
+    }
+
+    public void setWaitListProcessingTypeKey(String waitListProcessingTypeKey) {
+        this.waitListProcessingTypeKey = waitListProcessingTypeKey;
     }
 
     @Override

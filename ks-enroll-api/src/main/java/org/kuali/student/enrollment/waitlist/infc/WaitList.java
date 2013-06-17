@@ -22,7 +22,7 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 import java.util.List;
 
 /**
- * Represents a wait list that is attached to a specific LUI.
+ * Represents a wait list that is attached to a specific offering (AO, FO, PO...).
  * A set of WaitListEntries may be attached to this WaitList.
  * These entries represent the students that are on the wait list.
  *
@@ -31,18 +31,18 @@ public interface WaitList extends IdNamelessEntity, HasEffectiveDates {
 
     /**
      *
-     * @return The LUI Ids associated with this WaitList.
-     * @name Associated Lui Ids
+     * @return The Offering (Activity Offering, Format Offering, Program Offering...) Ids associated with this WaitList.
+     * @name Associated Offering Ids
      */
-    List<String> getAssociatedLuiIds();
+    List<String> getAssociatedOfferingIds();
 
 
     /**
-     *
-     * @return The ref object URI of LUI that this WaitList is attached to.
-     * @name Lui Reference Object Uri
+     * The types of offerings that may be attached to this WaitList are limited based on this property
+     * @return The Offering type key associated with this WaitList
+     * @name Offering Type Key
      */
-    String getLuiRefObjectUri();
+    String getOfferingTypeKey();
 
     /**
      *
@@ -53,10 +53,10 @@ public interface WaitList extends IdNamelessEntity, HasEffectiveDates {
 
     /**
      *
-     * @return The processing type for this WaitList. For example, automatic, semi-automatic, manual...
-     * @name Wait List Processing Type
+     * @return The processing type key for this WaitList. For example, automatic, semi-automatic, manual...
+     * @name Wait List Processing Type Key
      */
-    String getWaitListProcessingType();
+    String getWaitListProcessingTypeKey();
 
 
     /**

@@ -32,9 +32,9 @@ import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprRosterEntryInfo", propOrder = {
+@XmlType(name = "WaitListEntryInfo", propOrder = {
         "id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "waitListId", "studentId", "luiId", "position", "lastCheckIn", "blockingRuleIds",
+        "waitListId", "studentId", "offeringId", "position", "lastCheckIn", "holdListRuleIds",
         "meta", "attributes", "_futureElements"})
 
 public class WaitListEntryInfo extends RelationshipInfo implements WaitListEntry, Serializable {
@@ -46,13 +46,13 @@ public class WaitListEntryInfo extends RelationshipInfo implements WaitListEntry
     @XmlElement
     private String studentId;
     @XmlElement
-    private String luiId;
+    private String offeringId;
     @XmlElement
     private Integer position;
     @XmlElement
     private Date lastCheckIn;
     @XmlElement
-    private List<String> blockingRuleIds;
+    private List<String> holdListRuleIds;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -60,19 +60,19 @@ public class WaitListEntryInfo extends RelationshipInfo implements WaitListEntry
     }
 
     public WaitListEntryInfo(WaitListEntry entry) {
-        super();
+        super(entry);
 
         if(entry != null) {
             setWaitListId(entry.getWaitListId());
             setStudentId(entry.getStudentId());
             setPosition(entry.getPosition());
-            setLuiId(entry.getLuiId());
+            setOfferingId(entry.getOfferingId());
             if(entry.getLastCheckIn() != null) {
                 setLastCheckIn(new Date(entry.getLastCheckIn().getTime()));
             }
 
-            if(entry.getBlockingRuleIds() != null) {
-                setBlockingRuleIds(new ArrayList<String>(blockingRuleIds));
+            if(entry.getHoldListRuleIds() != null) {
+                setHoldListRuleIds(new ArrayList<String>(entry.getHoldListRuleIds()));
             }
 
         }
@@ -97,12 +97,12 @@ public class WaitListEntryInfo extends RelationshipInfo implements WaitListEntry
     }
 
     @Override
-    public String getLuiId() {
-        return luiId;
+    public String getOfferingId() {
+        return offeringId;
     }
 
-    public void setLuiId(String luiId) {
-        this.luiId = luiId;
+    public void setOfferingId(String offeringId) {
+        this.offeringId = offeringId;
     }
 
     @Override
@@ -124,14 +124,14 @@ public class WaitListEntryInfo extends RelationshipInfo implements WaitListEntry
     }
 
     @Override
-    public List<String> getBlockingRuleIds() {
-        if(blockingRuleIds == null) {
-            blockingRuleIds = new ArrayList<String>();
+    public List<String> getHoldListRuleIds() {
+        if(holdListRuleIds == null) {
+            holdListRuleIds = new ArrayList<String>();
         }
-        return blockingRuleIds;
+        return holdListRuleIds;
     }
 
-    public void setBlockingRuleIds(List<String> blockingRuleIds) {
-        this.blockingRuleIds = blockingRuleIds;
+    public void setHoldListRuleIds(List<String> holdListRuleIds) {
+        this.holdListRuleIds = holdListRuleIds;
     }
 }
