@@ -439,9 +439,9 @@ public class AcademicCalendarController extends UifControllerBase {
 
         String dialog=null;
         if(academicCalendarForm.isOfficialCalendar()){
-            dialog = CalendarConstants.ACADEMIC_TERM_OFFICIAL_CONFIRMATION_DIALOG;
+            dialog = CalendarConstants.ACADEMIC_TERM_OFFICIAL_CONFIRMATION_DIALOG;      //KS-AcademicCalendar-ConfirmTermOfficial-Dialog
         }else{
-            dialog = CalendarConstants.ACADEMIC_TERM_AND_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;
+            dialog = CalendarConstants.ACADEMIC_TERM_AND_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;  //KS-AcademicCalendar-ConfirmCalendarTermOfficial-Dialog
         }
 
         // Dialog confirmation to make terms official
@@ -917,6 +917,24 @@ public class AcademicCalendarController extends UifControllerBase {
             for (KeyDatesGroupWrapper groupWrapper : term.getKeyDatesGroupWrappers()){
                 for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
                     keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),viewHelperService.createContextInfo()));
+                }
+            }
+            if (term.isSubTerm()) {
+                List<TermInfo> perentTermInfos = getAcalService().getContainingTerms(term.getTermInfo().getId(), viewHelperService.createContextInfo());
+                // See if there is a parent term with state Official
+                boolean hasOfficialParentTerm = false;
+                for (TermInfo parentTermInfo : perentTermInfos) {
+                    if (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(parentTermInfo.getStateKey())) {
+                        hasOfficialParentTerm = true;
+                        break;
+                    }
+                }
+                String parentCalenddarStateKey = acalForm.getAcademicCalendarInfo().getStateKey();
+                String status = term.getTermInfo().getStateKey();
+                boolean shouldChangeSubtermStatus = (hasOfficialParentTerm && AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(parentCalenddarStateKey) && !AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(status));
+                if (shouldChangeSubtermStatus) {
+                    term.getTermInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+                    getAcalService().changeTermState(term.getTermInfo().getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, viewHelperService.createContextInfo());
                 }
             }
         } catch (Exception e) {
