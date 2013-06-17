@@ -27,7 +27,7 @@
 
         <property name="items">
             <list>
-                <ref bean="KS-Uif-ContextBar" />
+                <ref bean="KS-CourseOffering-ContextBar" />
                 <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingsSection"/>
                 <ref bean="KS-CourseOfferingManagement-ConfigureCourseOfferingCopySection"/>

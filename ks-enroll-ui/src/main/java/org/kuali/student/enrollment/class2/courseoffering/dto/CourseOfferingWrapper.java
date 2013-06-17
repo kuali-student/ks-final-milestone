@@ -68,7 +68,7 @@ public class CourseOfferingWrapper implements Serializable{
      */
     protected String dialogExplanation;
 
-    private ContextBar contextBar = ContextBar.NULL_SAFE_INSTANCE();
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE();
 
     public CourseOfferingWrapper(){
         alternateCOCodes = new ArrayList<String>();
@@ -367,11 +367,11 @@ public class CourseOfferingWrapper implements Serializable{
         this.dialogExplanation = dialogExplanation;
     }
 
-    public ContextBar getContextBar() {
+    public CourseOfferingContextBar getContextBar() {
         return contextBar;
     }
 
-    public void setContextBar(ContextBar contextBar) {
+    public void setContextBar(CourseOfferingContextBar contextBar) {
         this.contextBar = contextBar;
     }
 

@@ -49,7 +49,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOffering-MaintenanceView" parent="KS-Uif-MaintenanceViewWithTermContextBarPlaceholder"
+    <bean id="ActivityOffering-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder"
           p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
@@ -100,7 +100,7 @@
         </property>
         <property name="page.items">
             <list>
-                <ref bean="KS-Uif-ContextBar" />
+                <ref bean="KS-CourseOffering-ContextBar" />
 
                 <bean parent="Uif-HeaderFour" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.credits} Credits)"/>
                 <bean parent="Uif-HeaderThree" p:headerText="Edit @{document.newMaintainableObject.dataObject.activityCode} (@{document.newMaintainableObject.dataObject.abbreviatedCourseType})"/>

@@ -21,10 +21,10 @@ import org.apache.commons.lang.time.DurationFormatUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
@@ -42,8 +42,10 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.*;
 
 /**
@@ -58,6 +60,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     private transient AcademicCalendarService acalService;
     private transient CourseOfferingSetService courseOfferingSetService;
+    private transient StateService stateService;
 
     public TermInfo getTermByCode(String termCode) {
 
@@ -180,10 +183,11 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         }
 
         try {
-            socForm.setContextBar( ContextBar.NEW_INSTANCE( socForm.getTermInfo(), socForm.getSocInfo(), createContextInfo() ) );
+            socForm.setContextBar( CourseOfferingContextBar.NEW_INSTANCE(socForm.getTermInfo(), socForm.getSocInfo(),
+                    getStateService(), getAcalService(), createContextInfo()) );
         } catch (Exception e){
             if (LOG.isDebugEnabled()){
-                LOG.debug( "Error building ContextBar for SocForm" );
+                LOG.debug( "Error building CourseOfferingContextBar for SocForm" );
             }
             throw convertServiceExceptionsToUI(e);
         }
@@ -488,6 +492,14 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             acalService = CourseOfferingResourceLoader.loadAcademicCalendarService();
         }
         return acalService;
+    }
+
+
+    protected StateService getStateService() {
+        if( stateService == null ) {
+            stateService = (StateService) GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return stateService;
     }
 
     protected CourseOfferingSetService getCourseOfferingSetService(){

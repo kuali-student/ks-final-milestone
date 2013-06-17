@@ -178,7 +178,7 @@
     </bean>
 
     <!-- Edit a Course Offering MaintenanceView -->
-    <bean id="KS-CourseOfferingEditWrapper-EditMaintenanceView" parent="KS-Uif-MaintenanceViewWithTermContextBarPlaceholder">
+    <bean id="KS-CourseOfferingEditWrapper-EditMaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder">
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
@@ -205,7 +205,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
-                <ref bean="KS-Uif-ContextBar" />
+                <ref bean="KS-CourseOffering-ContextBar" />
                 <ref bean="KS-EditCourseOffering-AliasMessageSection" />
                 <ref bean="KS-CourseOfferingEdit-Term"/>
                 <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>

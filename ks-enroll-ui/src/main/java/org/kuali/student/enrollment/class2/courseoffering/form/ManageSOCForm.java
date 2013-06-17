@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
@@ -53,7 +53,7 @@ public class ManageSOCForm extends UifFormBase {
     private TermInfo termInfo;
     private SocInfo socInfo;
 
-    private ContextBar contextBar = ContextBar.NULL_SAFE_INSTANCE();
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE();
 
     public ManageSOCForm()  {
         statusHistory = new ArrayList<ManageSOCStatusHistory> ();
@@ -331,11 +331,11 @@ public class ManageSOCForm extends UifFormBase {
         setSocSchedulingStatus(StringUtils.EMPTY);
     }
 
-    public ContextBar getContextBar() {
+    public CourseOfferingContextBar getContextBar() {
         return contextBar;
     }
 
-    public void setContextBar(ContextBar contextBar) {
+    public void setContextBar(CourseOfferingContextBar contextBar) {
         this.contextBar = contextBar;
     }
 

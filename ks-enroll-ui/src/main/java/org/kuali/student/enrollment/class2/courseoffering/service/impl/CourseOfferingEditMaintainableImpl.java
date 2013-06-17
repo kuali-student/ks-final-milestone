@@ -27,7 +27,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
@@ -520,7 +520,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 }
 
                 setTermPropertiesOnFormObject( formObject, coInfo, contextInfo );
-                formObject.setContextBar( ContextBar.NEW_INSTANCE( formObject.getTerm(), formObject.getSocInfo(), contextInfo ) );
+                formObject.setContextBar( CourseOfferingContextBar.NEW_INSTANCE(formObject.getTerm(), formObject.getSocInfo(),
+                        getStateService(), getAcalService(), contextInfo) );
 
                 document.getNewMaintainableObject().setDataObject(formObject);
                 document.getOldMaintainableObject().setDataObject(formObject);

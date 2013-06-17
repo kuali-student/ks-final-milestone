@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-CourseOfferingManagement-View" parent="KS-Uif-FormViewWithTermContextBarPlaceholder" p:applyDirtyCheck="true"
+    <bean id="KS-CourseOfferingManagement-View" parent="KS-CourseOffering-FormViewWithTermContextBarPlaceholder" p:applyDirtyCheck="true"
           p:id="courseOfferingManagementView"
           p:entryPageId="searchInputPage"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl"

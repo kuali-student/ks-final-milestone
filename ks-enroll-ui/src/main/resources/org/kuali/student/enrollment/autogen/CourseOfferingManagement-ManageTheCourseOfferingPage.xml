@@ -20,7 +20,7 @@
      limitations under the License.
     -->
 
-    <!--p:onDocumentReadyScript="updateContextBar(); setSeasonalColor('KS-CourseOfferingManagement-ContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');"-->
+    <!--p:onDocumentReadyScript="updateContextBar(); setSeasonalColor('KS-CourseOfferingManagement-CourseOfferingContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');"-->
 
     <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="manageTheCourseOfferingPage">
@@ -42,7 +42,7 @@
                 <ref bean="KS-CourseOfferingManagement-AddActivityOfferingPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-AddAOCPopupForm"/>
                 <ref bean="KS-CourseOfferingManagement-MoveAOCPopupContainer"/>
-                <ref bean="KS-Uif-ContextBar"/>
+                <ref bean="KS-CourseOffering-ContextBar"/>
             </list>
         </property>
     </bean>

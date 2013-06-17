@@ -45,7 +45,7 @@
             https://wiki.kuali.org/display/STUDENT/KS+ENR+HLDS+-+Manage+Complex+Course+Offerings+%28Part+1%29
     -->
 
-    <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KS-Uif-MaintenanceViewWithTermContextBarPlaceholder">
+    <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder">
         <property name="id" value="createCourseOfferingPage"/>
  <!--       <property name="headerText" value="Create Course Offering"/>-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
@@ -173,7 +173,7 @@
     <bean id="KS-CourseOffering-NewCourseOffering" parent="Uif-VerticalBoxSection" p:componentSecurity.viewAuthz="true">
         <property name="items">
             <list>
-                <ref bean="KS-Uif-ContextBar" />
+                <ref bean="KS-CourseOffering-ContextBar" />
                 <ref bean="KS-CourseOffering-LinkSection"/>
                 <ref bean="KS-CreateFromCatalog"/>
                 <ref bean="KS-CreateFromExistingOffering"/>

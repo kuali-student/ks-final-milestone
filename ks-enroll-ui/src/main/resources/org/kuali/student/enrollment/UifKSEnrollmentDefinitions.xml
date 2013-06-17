@@ -44,25 +44,25 @@
         To implement:
             1) inherit your view with one of the appropriately overridden ones below (these include the 'placeholder')
             2) add the 'contextbar'-bean as one of the 'items' in your view
-            3) ensure your model includes a reference to org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar
+            3) ensure your model includes a reference to org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBarringContextBar
 -->
-    <bean id="KS-Uif-MaintenanceViewWithTermContextBarPlaceholder" parent="KS-Uif-MaintenanceView">
+    <bean id="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder" parent="KS-Uif-MaintenanceView">
         <property name="topGroup">
-            <ref bean="View-ContextBar-PlaceHolder" />
+            <ref bean="KS-CourseOffering-View-ContextBar-PlaceHolder" />
         </property>
     </bean>
 
-    <bean id="KS-Uif-FormViewWithTermContextBarPlaceholder" parent="KS-Uif-FormView" >
+    <bean id="KS-CourseOffering-FormViewWithTermContextBarPlaceholder" parent="KS-Uif-FormView" >
         <property name="topGroup">
-            <ref bean="View-ContextBar-PlaceHolder" />
+            <ref bean="KS-CourseOffering-View-ContextBar-PlaceHolder" />
         </property>
     </bean>
 
-    <bean id="View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
+    <bean id="KS-CourseOffering-View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
 
     <!-- Note: due to the way breadcrumbs are implemented, EC found that we need to initially set the CSS display to none -->
-    <bean id="KS-Uif-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
-          p:onDocumentReadyScript="updateContextBar( 'KS-Uif-ContextBar', 'View-ContextBar-PlaceHolder' ); setSeasonalColor( 'KS-Uif-ContextBar', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
+    <bean id="KS-CourseOffering-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
+          p:onDocumentReadyScript="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder' ); setSeasonalColor( 'KS-CourseOffering-ContextBar', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-topGroup</value>
@@ -77,7 +77,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState" />
+                <bean id="courseOfferingContextBarSocState" parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState" />
             </list>
         </property>
     </bean>

@@ -108,7 +108,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean isColocatedOnLoadAlready;
     private boolean isSendRDLsToSchedulerAfterMSE;
 
-    private ContextBar contextBar = ContextBar.NULL_SAFE_INSTANCE();
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE();
 
     //This is needed to display the cross listed courses
     private CourseInfo course;
@@ -884,11 +884,11 @@ public class ActivityOfferingWrapper implements Serializable{
         return false;
     }
 
-    public ContextBar getContextBar() {
+    public CourseOfferingContextBar getContextBar() {
         return contextBar;
     }
 
-    public void setContextBar(ContextBar contextBar) {
+    public void setContextBar(CourseOfferingContextBar contextBar) {
         this.contextBar = contextBar;
     }
 

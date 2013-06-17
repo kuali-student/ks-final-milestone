@@ -30,7 +30,7 @@
         This is a single page view with all the required beans defined only here.
     -->
 
-    <bean id="ManageSOCView" parent="KS-Uif-FormViewWithTermContextBarPlaceholder">
+    <bean id="ManageSOCView" parent="KS-CourseOffering-FormViewWithTermContextBarPlaceholder">
    	  <property name="id" value="ManageSOCView"/>
       <property name="headerText" value="Set of Courses" />
 	  <property name="singlePageView" value="true"/>
@@ -168,7 +168,7 @@
     <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
         <property name="items">
             <list>
-                <ref bean="KS-Uif-ContextBar" />
+                <ref bean="KS-CourseOffering-ContextBar" />
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
                 <ref bean="ManageSOCView-SchedulingDetails-Section"/>
             </list>

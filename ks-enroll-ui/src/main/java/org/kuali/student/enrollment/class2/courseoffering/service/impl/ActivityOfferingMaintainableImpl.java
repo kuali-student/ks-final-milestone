@@ -20,7 +20,7 @@ import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ContextBar;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
@@ -354,7 +354,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
             }
 
-            wrapper.setContextBar(ContextBar.NEW_INSTANCE(wrapper.getTerm(), wrapper.getSocInfo(), contextInfo));
+            wrapper.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(wrapper.getTerm(), wrapper.getSocInfo(),
+                    getStateService(), getAcademicCalendarService(), contextInfo));
 
             //retrieve all the populations for seat pool section client side validation
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
