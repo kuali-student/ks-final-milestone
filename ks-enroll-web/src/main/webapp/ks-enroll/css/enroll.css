@@ -941,6 +941,14 @@ div#Uif-ApplicationHeader-Wrapper{
     padding-right: 7px;
 }
 
+.ks-unified-header-rightGroup-action a i {
+    opacity: .5;
+}
+
+.ks-unified-header-rightGroup-action a:hover i  {
+    opacity: 1;
+}
+
 .uif-viewHeader-contentWrapper {
     padding-bottom: 1px;
     -webkit-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
