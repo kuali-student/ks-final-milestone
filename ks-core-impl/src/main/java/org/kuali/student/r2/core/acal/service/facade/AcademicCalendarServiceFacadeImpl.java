@@ -16,8 +16,10 @@
  */
 package org.kuali.student.r2.core.acal.service.facade;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -112,11 +114,53 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
     }
 
     @Override
-    public void deleteTermCascaded(String termId, ContextInfo context)
+    public StatusInfo deleteTermCascaded(String termId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
                    OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("deleteTermCascaded not yet implemented");
+        List<String> toDeleteTermIdList = new ArrayList<String>();
+        if (buildToDeleteTermIdList(termId, toDeleteTermIdList, context)) {
+            for (String toDeleteTermId : toDeleteTermIdList) {
+                StatusInfo status = acalService.deleteTerm(toDeleteTermId, context);
+                if (!status.getIsSuccess()){
+                    throw new OperationFailedException("Deleting term failed - term id:" + toDeleteTermId);
+                }
+            }
+            StatusInfo statusInfo = new StatusInfo();
+            statusInfo.setSuccess(true);
+            return statusInfo;
+        } else {
+            throw new OperationFailedException("term in official state can't be deleted");
+        }
     }
+
+    private boolean buildToDeleteTermIdList (String termId, List<String> toDeleteTermIdList, ContextInfo context) {
+        try {
+            TermInfo termInfo = acalService.getTerm(termId, context);
+            if (StringUtils.equals(termInfo.getStateKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
+                return false;
+            } else {
+                toDeleteTermIdList.add(termInfo.getId());
+            }
+
+            List<TermInfo> subTermInfos = acalService.getIncludedTermsInTerm(termId, context);
+            if (subTermInfos == null || subTermInfos.isEmpty()) {
+                return true;
+            } else {
+                for (TermInfo subTermInfo : subTermInfos) {
+                    if (!buildToDeleteTermIdList(subTermInfo.getId(), toDeleteTermIdList, context)) {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
 
     @Override
     public void deleteCalendarCascaded(String academicCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

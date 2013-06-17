@@ -17,6 +17,7 @@
 package org.kuali.student.r2.core.acal.service.facade;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -40,12 +41,14 @@ public interface AcademicCalendarServiceFacade {
             OperationFailedException, DoesNotExistException;
 
     /**
-     * Cascaded version of delete.  (We need to define this more formally).  We don't delete non-official terms
-     * since they could have COs.
+     * Cascaded version of delete. This method will delete the given term and all its sub terms (if any sub term also has
+     * sub terms, they will be deleted as well ) only if all the term/sub terms have the draft state. As long as there is
+     * one term or sub term with the official state, none of the term or sub term in the tree will be deleted.
      * @param termId
      * @param context
+     * @return the status of the operation. This must always be true.
      */
-    void deleteTermCascaded(String termId, ContextInfo context) throws
+    StatusInfo deleteTermCascaded(String termId, ContextInfo context) throws
         DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
         PermissionDeniedException;
 
