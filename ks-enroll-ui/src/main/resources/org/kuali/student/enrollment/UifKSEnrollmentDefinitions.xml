@@ -77,7 +77,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="KS-Lozenge-Grey-Uif-DataField" p:readOnly="true" p:propertyName="contextBar.termSocState">
+                <bean parent="KS-Lozenge-Grey-Uif-DataField" p:propertyName="contextBar.termSocState">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-topGroup-courseOffering-socState</value>
