@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.acal.keyvalue;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -61,7 +62,7 @@ public class AcademicTermParentTypeKeyValues extends UifKeyValuesFinderBase impl
             }
         }
 
-        if (childTermType != null && !childTermType.equals("")) {
+        if (childTermType != null && !StringUtils.isBlank(childTermType)) {
             List<TypeInfo> types = new ArrayList<TypeInfo>();
             try {
                 ContextInfo context = new ContextInfo();
