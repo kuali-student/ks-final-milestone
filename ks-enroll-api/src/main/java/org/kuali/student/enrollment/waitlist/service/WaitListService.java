@@ -38,7 +38,7 @@ import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
- * Wait lists provide a mechanism to queue and prioritize students with respect to a LUI.
+ * Wait lists provide a mechanism to queue and prioritize students with respect to an Offering (Activity Offering, Format Offering...).
  * For example, students who are unable register for a course due to availability or student based course restrictions.
  */
 @WebService(name = "WaitListService", targetNamespace = WaitListServiceConstants.NAMESPACE)
@@ -92,7 +92,7 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of WaitList Ids by WaitList Type.
+     * Retrieves a list of WaitList Ids by WaitList type.
      *
      * @param waitListTypeKey an identifier for the WaitList
      *                        type
@@ -114,20 +114,20 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves all WaitLists attached to the given Lui Id.
+     * Retrieves all WaitLists attached to the given offering Id.
      *
-     * @param luiId       the identifier for the attached Lui
+     * @param offeringId the identifier for the attached offering
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return a list of WaitLists associated to the given Lui Id or an empty list if
-     *         none found
+     * @return a list of WaitLists associated to the given offering Id or an empty list if
+     *         none are found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException waitListId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListInfo> getWaitListsByLui(@WebParam(name = "luiId") String luiId,
+    public List<WaitListInfo> getWaitListsByOffering(@WebParam(name = "offeringId") String offeringId,
                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -135,21 +135,21 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves the WaitLists associated with the given waitListTypeKey and luiId.
+     * Retrieves the WaitLists associated with the given WaitList type and offering Id.
      *
      * @param waitListTypeKey an identifier for the WaitList type
-     * @param luiId       the identifier for the attached Lui
+     * @param offeringId       the identifier for the attached offering
      * @param contextInfo     information containing the principalId and
      *                        locale information about the caller of service operation
-     * @return The WaitLists associated with the given WaitListTypeKey and luiId
+     * @return The WaitLists associated with the given WaitListTypeKey and offeringId
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListTypeKey luiId or contextInfo is
+     * @throws MissingParameterException waitListTypeKey, offeringId, or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListInfo> getWaitListsByTypeAndLui(@WebParam(name = "waitListTypeKey") String waitListTypeKey,
-                                                       @WebParam(name = "luiId") String luiId,
+    public List<WaitListInfo> getWaitListsByTypeAndOffering(@WebParam(name = "waitListTypeKey") String waitListTypeKey,
+                                                       @WebParam(name = "offeringId") String offeringId,
                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -238,7 +238,7 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Creates a new WaitList. The Meta information may not be set
+     * Creates a new WaitList. The WaitList type key and Meta information may not be set
      * in the supplied data object.
      *
      * @param waitListTypeKey a unique identifier for the Type of
@@ -546,7 +546,7 @@ public interface WaitListService {
      * existing entries at position three and greater to have their positions
      * increased by one.
      * <p/>
-     * The Meta information may not be set in the supplied data object.
+     * The WaitList Id, student Id, WaitListEntry type key, and Meta information may not be set in the supplied data object.
      *
      * @param waitListId The WaitList that this entry belongs to
      * @param studentId The student that will be on the WaitList.
@@ -581,7 +581,7 @@ public interface WaitListService {
             ReadOnlyException;
 
     /**
-     * Updates an existing WaitListEntry. The WaitListEntry id, Type, WaitList id, Position,
+     * Updates an existing WaitListEntry. The WaitListEntry id, Type, WaitList id,
      * and Meta information may not be changed.
      *
      * To update the position please use the operation reorderWaitListEntries
