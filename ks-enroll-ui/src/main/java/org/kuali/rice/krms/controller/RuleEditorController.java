@@ -33,7 +33,6 @@ import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.AlphaIterator;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
@@ -48,7 +47,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -31,12 +31,12 @@ limitations under the License.
                     <property name="forceSessionPersistence" value="true"/>
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-EditWithObject-EditSection"/>
-                            <bean parent="KRMS-EditWithLogic-EditSection"/>
+                            <bean id="KRMS-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent"/>
+                            <bean id="KRMS-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent"/>
                         </list>
                     </property>
                     <property name="tabsWidget">
-                        <bean parent="Uif-Tabs">
+                        <bean id="KRMS-TabsWidget" parent="Uif-Tabs">
                             <property name="templateOptions">
                                 <map>
                                     <entry key="selected" value="0"/>
@@ -51,7 +51,7 @@ limitations under the License.
 
     </bean>
 
-    <bean id="KRMS-EditWithObject-EditSection" parent="Uif-VerticalBoxSection"
+    <bean id="KRMS-EditWithObject-EditSection-parent" parent="Uif-VerticalBoxSection"
           p:headerText="Edit Rule" p:header.render="false">
         <property name="items">
             <list>
@@ -60,7 +60,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-EditWithLogic-EditSection" parent="Uif-VerticalBoxSection"
+    <bean id="KRMS-EditWithLogic-EditSection-parent" parent="Uif-VerticalBoxSection"
           p:headerText="Edit Rule Logic" p:header.render="false">
         <property name="validationMessages.displayMessages" value="true"/>
         <property name="items">

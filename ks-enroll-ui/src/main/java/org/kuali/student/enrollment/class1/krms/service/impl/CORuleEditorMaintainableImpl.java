@@ -130,7 +130,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             try {
                 populateContextBar(dataObject, atp.getCode());
             } catch (Exception e) {
-                //TODO: Add Exception handling.
+                throw new RuntimeException("Could not populate context bar.");
             }
         }
 
