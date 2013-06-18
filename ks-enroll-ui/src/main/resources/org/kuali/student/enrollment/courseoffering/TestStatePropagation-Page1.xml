@@ -81,6 +81,9 @@
                                               p:label="AO To"
                                               p:propertyName="aoTo"/>
                                         <bean parent="Uif-DataField"
+                                              p:label="2nd AO State"
+                                              p:propertyName="secondAoState"/>
+                                        <bean parent="Uif-DataField"
                                               p:label="Expected"
                                               p:propertyName="expected"/>
                                         <bean parent="Uif-DataField"
@@ -136,6 +139,9 @@
                                                   p:label="AO To"
                                                   p:propertyName="aoTo"/>
                                             <bean parent="Uif-DataField"
+                                                  p:label="2nd AO State"
+                                                  p:propertyName="secondAoState"/>
+                                            <bean parent="Uif-DataField"
                                                   p:label="Expected"
                                                   p:propertyName="expected"/>
                                             <bean parent="Uif-DataField"
@@ -190,6 +196,9 @@
                                             <bean parent="Uif-DataField"
                                                   p:label="AO To"
                                                   p:propertyName="aoTo"/>
+                                            <bean parent="Uif-DataField"
+                                                  p:label="2nd AO State"
+                                                  p:propertyName="secondAoState"/>
                                             <bean parent="Uif-DataField"
                                                   p:label="Expected"
                                                   p:propertyName="expected"/>

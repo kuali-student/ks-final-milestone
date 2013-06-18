@@ -464,7 +464,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
                 System.err.println("======================= SOC state = " + socState + " (Second AO state: " + secondAoState + ")");
                 Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid =
                         testAoStateTransitionsInSocState(aoId, socInfo.getId(), socState, secondaryAoState);
-                _compareGrids(gridTypeToGrid, socState, form);
+                _compareGrids(gridTypeToGrid, socState, secondaryAoState, form);
                 _resetSocOnly(); // Make sure to reset the SOC
             }
         }
@@ -570,7 +570,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     private void _compareGrids(Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid,
-                               String socState, TestStatePropagationForm form) {
+                               String socState, String secondAoState, TestStatePropagationForm form) {
         List<Map<String, String>> aoResults = gridTypeToGrid.get("ao").compare();
         System.err.println("---------------------- AO state results (SOC: " + socState + ")");
         for (int i = 0; i < aoResults.size(); i++) {
@@ -592,7 +592,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String message = "(AO) " + transition +
                     " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             System.err.println(message);
-            StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, expectedVal, actualVal, passFail);
+            StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, secondAoState, expectedVal, actualVal, passFail);
             if(statePropagationWrapper.getStatus().equals("pass")){
                 form.setPassCount(form.getPassCount()+1);
             } else if(statePropagationWrapper.getStatus().equals("fail")){
@@ -628,7 +628,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String transition = _computeDisplayString(aoFromState, aoToState, 30);
             String message = "(FO) " + transition +
                     " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
-            StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, expectedVal, actualVal, passFail);
+            StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, secondAoState, expectedVal, actualVal, passFail);
             if(statePropagationWrapper.getStatus().equals("pass")){
                 form.setPassCount(form.getPassCount()+1);
             } else if(statePropagationWrapper.getStatus().equals("fail")){
@@ -664,7 +664,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             String message = "(CO) " + transition +
                     " expected/actual = " + _computeExpectedActual(expectedVal, actualVal, 15) + " " + color;
             System.err.println(message);
-            StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, expectedVal, actualVal, passFail);
+            StatePropagationWrapper statePropagationWrapper = new StatePropagationWrapper(socState, aoFromState, aoToState, secondAoState, expectedVal, actualVal, passFail);
             if(statePropagationWrapper.getStatus().equals("pass")){
                 form.setPassCount(form.getPassCount()+1);
             } else if(statePropagationWrapper.getStatus().equals("fail")){
