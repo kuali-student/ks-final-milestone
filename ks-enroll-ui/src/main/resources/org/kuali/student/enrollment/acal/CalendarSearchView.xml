@@ -153,8 +153,8 @@
 
     <bean id="KS-CalendarSearch-HcResultSection" parent="Uif-TableCollectionSection"
 		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'HolidayCalendar'" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo" />
-		<property name="propertyName" value="holidayCalendars" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
+		<property name="propertyName" value="searchResults" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
@@ -176,14 +176,9 @@
                 <bean parent="Uif-DataField"
                   p:label="End Date"
                   p:propertyName="endDate"/>
-                <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" />
-                    </property>
-                    <property name="optionsFinder">
-                        <ref bean="AtpStates" />
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField"
+                  p:label="Status"
+                  p:propertyName="stateKeyDisplay"/>
             </list>
 		</property>
         <property name="layoutManager.actionFieldPrototype">
@@ -201,8 +196,8 @@
 
     <bean id="KS-CalendarSearch-AcalResultSection" parent="Uif-TableCollectionSection"
 		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'AcademicCalendar'" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo" />
-		<property name="propertyName" value="academicCalendars" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
+		<property name="propertyName" value="searchResults" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
@@ -224,14 +219,9 @@
                 <bean parent="Uif-DataField"
                   p:label="End Date"
                   p:propertyName="endDate"/>
-                <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" />
-                    </property>
-                    <property name="optionsFinder">
-                        <ref bean="AtpStates" />
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField"
+                  p:label="Status"
+                  p:propertyName="stateKeyDisplay"/>
             </list>
 		</property>
         <property name="layoutManager.actionFieldPrototype">
@@ -249,8 +239,8 @@
 
     <bean id="KS-CalendarSearch-TermResultSection" parent="Uif-TableCollectionSection"
 		p:layoutManager.numberOfColumns="1" p:progressiveRender="calendarType eq 'AcademicTerm'" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.r2.core.acal.dto.TermInfo" />
-		<property name="propertyName" value="terms" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
+		<property name="propertyName" value="searchResults" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
@@ -272,14 +262,9 @@
                 <bean parent="Uif-DataField"
                   p:label="End Date"
                   p:propertyName="endDate"/>
-                <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" />
-                    </property>
-                    <property name="optionsFinder">
-                        <ref bean="AtpStates" />
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField"
+                  p:label="Status"
+                  p:propertyName="stateKeyDisplay"/>
             </list>
 		</property>
         <property name="layoutManager.actionFieldPrototype">

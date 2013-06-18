@@ -8,17 +8,22 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult;
 import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.common.util.CalendarSearchViewHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -32,39 +37,81 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
     private transient AtpService atpService;
 
     /**
-     * This method search terms based on the input name and the input year
-     * @param name
-     * @param year
-     * @param context
-     * @return
-     * @throws Exception
+     * This method searches for academic calendars, terms, and holiday calendars based on the input name and the input year
+     * @param nameParam name being searched on
+     * @param yearParam year (four digit string)
+     * @param calendarType Holiday, Term or Acal
+     * @param contextInfo context of the service call
+     * @return list of search results
      */
-    public List<TermInfo> searchForTerms(String name, String year,ContextInfo context)throws Exception {
-    	return CalendarSearchViewHelperUtil.searchForTerms(name, year, context, getAtpService(), getTypeService());
-    }
+    @Override
+    public List<AcalSearchResult> searchForCalendars(String nameParam, String yearParam, String calendarType, ContextInfo contextInfo) throws Exception {
 
-    /**
-     * This method search AcademicCalendars based on the input name and the input year
-     * @param name
-     * @param year
-     * @param context
-     * @return
-     * @throws Exception
-     */
-    public List<AcademicCalendarInfo> searchForAcademicCalendars(String name, String year,ContextInfo context)throws Exception {
-        return CalendarSearchViewHelperUtil.searchForAcademicCalendars(name,year,context,getAtpService());
-    }
+        List<AcalSearchResult> acalResults = new ArrayList<AcalSearchResult>();
 
-    /**
-     * This method search HolidayCalendars based on the input name and the input year
-     * @param name
-     * @param year
-     * @param context
-     * @return
-     * @throws Exception
-     */
-    public List<HolidayCalendarInfo> searchForHolidayCalendars(String name, String year,ContextInfo context)throws Exception {
-        return CalendarSearchViewHelperUtil.searchForHolidayCalendars(name, year, context, getAtpService());
+        SearchRequestInfo searchRequest = new SearchRequestInfo("atp.search.advancedAtpSearch");
+
+        //Add type param based on the calendar type being searched for
+        if(CalendarConstants.TERM.equals(calendarType)){
+            List<TypeTypeRelationInfo> typeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.atp.type.group.term", "kuali.type.type.relation.type.group", contextInfo);
+            List<String> termTypeKeys = new ArrayList<String>(typeRelations.size());
+            for(TypeTypeRelationInfo typeRelation:typeRelations){
+                termTypeKeys.add(typeRelation.getRelatedTypeKey());
+            }
+            searchRequest.addParam("atp.advancedAtpSearchParam.atpType", termTypeKeys);
+        }else if(CalendarConstants.HOLIDAYCALENDER.equals(calendarType)){
+            searchRequest.addParam("atp.advancedAtpSearchParam.atpType", AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
+        }else if(CalendarConstants.ACADEMICCALENDER.equals(calendarType)){
+            searchRequest.addParam("atp.advancedAtpSearchParam.atpType", AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
+        }
+
+        //Add the year and name params if they are set
+        if(nameParam!=null&&!nameParam.isEmpty()){
+            searchRequest.addParam("atp.advancedAtpSearchParam.atpShortName", nameParam);
+        }
+        if(yearParam!=null&&!yearParam.isEmpty()){
+            searchRequest.addParam("atp.advancedAtpSearchParam.atpYear", yearParam);
+        }
+
+        //Perform the search
+        SearchResultInfo searchResults = getAtpService().search(searchRequest, contextInfo);
+
+        //Parse the search results
+        for(SearchResultRowInfo row : searchResults.getRows()){
+            String id = null;
+            String name = null;
+            String startDate = null;
+            String endDate = null;
+            String stateKey = null;
+
+            for(SearchResultCellInfo cell : row.getCells()){
+                if("atp.resultColumn.atpId".equals(cell.getKey())){
+                    id = cell.getValue();
+                }else if("atp.resultColumn.atpShortName".equals(cell.getKey())){
+                    name = cell.getValue();
+                }else if("atp.resultColumn.atpStartDate".equals(cell.getKey())){
+                    startDate = cell.getValue();
+                }else if("atp.resultColumn.atpEndDate".equals(cell.getKey())){
+                    endDate = cell.getValue();
+                }else if("atp.resultColumn.atpState".equals(cell.getKey())){
+                    stateKey = cell.getValue();
+                }
+            }
+
+            AcalSearchResult acalResult = new AcalSearchResult();
+            acalResult.setId(id);
+            acalResult.setName(name);
+            acalResult.setStartDate(DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(startDate));
+            acalResult.setEndDate(DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(endDate));
+            acalResult.setStateKey(stateKey);
+            acalResult.setStateKeyDisplay(getStateService().getState(stateKey, contextInfo).getName());
+            acalResult.setAcalSearchTypeKey(calendarType);
+
+            acalResults.add(acalResult);
+        }
+
+        return acalResults;
+
     }
 
     /**
@@ -75,14 +122,13 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
      * @param context
      * @return
      */
-
-    public Properties buildTermURLParameters(TermInfo term, String methodToCall, boolean readOnlyView, ContextInfo context){
+    public Properties buildTermURLParameters(AcalSearchResult term, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         String acalId = null;
         try {
             // check if it's a subterm
             List<TermInfo> parentTerms = getAcademicCalendarService().getContainingTerms(term.getId(), context);
-            List<AcademicCalendarInfo> atps = new ArrayList<AcademicCalendarInfo>();
+            List<AcademicCalendarInfo> atps;
             if(parentTerms.isEmpty()) {
                 atps = getAcademicCalendarService().getAcademicCalendarsForTerm(term.getId(), context);
             } else {
@@ -124,7 +170,7 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
      * @param context
      * @return
      */
-    public Properties buildACalURLParameters(AcademicCalendarInfo acal, String methodToCall, boolean readOnlyView, ContextInfo context){
+    public Properties buildACalURLParameters(AcalSearchResult acal, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
@@ -154,7 +200,7 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
      * @param context
      * @return
      */
-    public Properties buildHCalURLParameters(HolidayCalendarInfo hcInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
+    public Properties buildHCalURLParameters(AcalSearchResult hcInfo, String methodToCall, boolean readOnlyView, ContextInfo context){
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
