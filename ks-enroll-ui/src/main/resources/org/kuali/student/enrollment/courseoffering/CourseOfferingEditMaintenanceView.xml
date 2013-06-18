@@ -39,9 +39,7 @@
     <bean id="KS-CourseOfferingEditWrapper-InquiryView" parent="KS-Uif-InquiryView"
           p:headerText="Course Offering Inquiry"
           p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditInquirableImpl"
-            >
-
+          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditInquirableImpl">
 
         <property name="page.header">
             <!-- suppress Expand/Collapse buttons -->
@@ -182,13 +180,23 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
+<!--
         <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>
+-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
         <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
-            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
+            <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManageCo-Landing"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-EditCo-Search-Subject"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-EditCo-TheCO-Page"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-EditCo-Page"/>
+            </util:list>
         </property>
 
+<!--
         <property name="header.lowerGroup">
             <bean parent="Uif-HeaderLowerGroup">
                 <property name="style" value="margin-bottom:px;"/>
@@ -199,13 +207,25 @@
                 </property>
             </bean>
         </property>
-        <!--<property name="viewLabelFieldPropertyName" value="Edit @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>-->
-        <!--<property name="breadcrumbTitleDisplayOption" value="replace"/>-->
+-->
+
+        <property name="page.header.lowerGroup.render" value="false"/>
+        <property name="header.cssClasses">
+            <list >
+                <value>ks-borderBottom4</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-enroll/css/acal.css</value>
+            </list>
+        </property>
 
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
                 <ref bean="KS-CourseOffering-ContextBar" />
+                <ref bean="KS-CourseOffering-EditCo-Page-Header"/>
                 <ref bean="KS-EditCourseOffering-AliasMessageSection" />
                 <ref bean="KS-CourseOfferingEdit-Term"/>
                 <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
@@ -221,6 +241,53 @@
             <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel" />
         </property>
     </bean>
+
+    <bean id="KS-CourseOffering-EditCo-Page-Header" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderThree" p:headerText="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}"/>
+                <bean parent="Uif-HeaderFour" p:headerText="Edit Course Offering"/>
+                <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodesUIList}" p:render="@{!#dp.alternateCourseCodesSuffixStripped.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-EditCo-Search-Subject" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.subjectArea}"/>
+        <property name="url.viewId" value="courseOfferingManagementView"/>
+        <property name="url.controllerMapping" value="courseOfferingManagement"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="start"/>
+                <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                <entry key="hideReturnLink" value="true"/>
+                <entry key="inputCode" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.subjectArea}"/>
+                <entry key="pageId" value="manageCourseOfferingsPage"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-EditCo-TheCO-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}"/>
+        <property name="url.viewId" value="courseOfferingManagementView"/>
+        <property name="url.controllerMapping" value="courseOfferingManagement"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="show"/>
+                <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                <entry key="hideReturnLink" value="true"/>
+                <entry key="inputCode" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}"/>
+                <entry key="termCode" value="@{document.oldMaintainableObject.dataObject.term.code}"/>
+                <entry key="pageId" value="manageTheCourseOfferingPage"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-EditCo-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{(document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode eq null)? '' : 'Edit '}  @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}"/>
+    </bean>
+
 
     <bean id="KS-EditCourseOffering-AliasMessageSection" parent="Uif-HorizontalBoxSection">
         <property name="render" value="@{document.newMaintainableObject.dataObject.editCrossListedCoAlias}"/>

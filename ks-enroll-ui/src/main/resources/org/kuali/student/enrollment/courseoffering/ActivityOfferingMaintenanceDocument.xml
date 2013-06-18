@@ -54,8 +54,10 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
-        <property name="headerText" value="Edit Activity Offering"/>
+<!--
+        <property name="headerText" value="Edit @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode}"/>
         <property name="header.render" value="false"/>
+-->
         <!--<property name="viewLabelFieldPropertyName" value="aoInfo.activityCode"/>-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
@@ -64,16 +66,10 @@
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Manage Course Offerings"/>
-                    <property name="url.viewId" value="courseOfferingManagementView"/>
-                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
-                    <property name="url.requestParameters">
-                        <map key-type="java.lang.String" merge="true">
-                            <entry key="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.activityCode})" value=""/>
-                        </map>
-                    </property>
-                </bean>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManageCo-Landing"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-EditAo-Search-Subject"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-EditAo-TheCO-Page"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-EditAo-Page"/>
             </list>
         </property>
 
@@ -102,8 +98,8 @@
             <list>
                 <ref bean="KS-CourseOffering-ContextBar" />
 
-                <bean parent="Uif-HeaderFour" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.courseOfferingTitle} (@{document.newMaintainableObject.dataObject.credits} Credits)"/>
-                <bean parent="Uif-HeaderThree" p:headerText="Edit @{document.newMaintainableObject.dataObject.activityCode} (@{document.newMaintainableObject.dataObject.abbreviatedCourseType})"/>
+                <bean parent="Uif-HeaderThree" p:headerText="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode} "/>
+                <bean parent="Uif-HeaderFour" p:headerText="Edit Activity Offering"/>
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-bottom:8px;"/>
 
                 <ref bean="ActivityOfferingEdit-section1"/>
@@ -128,6 +124,12 @@
               <!--<bean id="colocateDialog" parent="Colocate-DialogGroup"/>-->
           </list>
         </property>
+        <property name="header.cssClasses">
+            <list >
+                <value>ks-borderBottom4</value>
+            </list>
+        </property>
+
         <property name="viewHelperService.helperClasses">
               <map>
                 <entry key="scheduleHelper">
@@ -135,6 +137,43 @@
                   </entry>
             </map>
         </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-EditAo-Search-Subject" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{document.newMaintainableObject.dataObject.course.subjectArea}"/>
+        <property name="url.viewId" value="courseOfferingManagementView"/>
+        <property name="url.controllerMapping" value="courseOfferingManagement"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="show"/>
+                <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                <entry key="hideReturnLink" value="true"/>
+                <entry key="inputCode" value="@{document.newMaintainableObject.dataObject.course.subjectArea}"/>
+                <entry key="termCode" value="@{document.newMaintainableObject.dataObject.term.code}"/>
+                <entry key="pageId" value="manageCourseOfferingsPage"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-EditAo-TheCO-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{document.newMaintainableObject.dataObject.courseOfferingCode}"/>
+        <property name="url.viewId" value="courseOfferingManagementView"/>
+        <property name="url.controllerMapping" value="courseOfferingManagement"/>
+        <property name="url.requestParameters">
+            <map key-type="java.lang.String" merge="true">
+                <entry key="methodToCall" value="show"/>
+                <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                <entry key="hideReturnLink" value="true"/>
+                <entry key="inputCode" value="@{document.newMaintainableObject.dataObject.courseOfferingCode}"/>
+                <entry key="termCode" value="@{document.newMaintainableObject.dataObject.term.code}"/>
+                <!--<entry key="formKey" value="@{formKey}"/>-->
+                <entry key="pageId" value="manageTheCourseOfferingPage"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-EditAo-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{(document.newMaintainableObject.dataObject.activityCode eq null)? '' : 'Edit '}  @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode}"/>
     </bean>
 
     <bean id="deleteScheduleConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
