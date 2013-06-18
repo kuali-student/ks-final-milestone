@@ -60,6 +60,22 @@ import java.util.List;
 public class RuleEditorController extends MaintenanceDocumentController {
 
     /**
+     * Setups a new <code>MaintenanceDocumentView</code> with the edit maintenance
+     * action
+     */
+    @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_EDIT)
+    public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+
+        return getUIFModelAndView(form);
+    }
+
+    /**
      * Method used to invoke the CO inquiry view from Manage Course Offering screen while search input is Course Offering
      * Code (04a screen)
      *
@@ -112,6 +128,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
 
             RuleEditor dummyRule = new RuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+            dummyRule.setParent(ruleEditor.getParent());
             agenda.getRuleEditors().put(ruleEditor.getKey(), dummyRule);
         }
 
@@ -968,7 +985,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //Compare CO to CLU and display info message
         if(ruleEditor.getProposition() != null) {
-            if(!this.getViewHelper(form).compareRules(ruleWrapper.getRuleEditor(), ruleWrapper.getRefObjectId())) {
+            if(!this.getViewHelper(form).compareRules(ruleWrapper.getRuleEditor())) {
                 GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "info.krms.tree.rule.changed");
             } else if(GlobalVariables.getMessageMap().containsMessageKey(KRADConstants.GLOBAL_INFO)){
                 GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_INFO);

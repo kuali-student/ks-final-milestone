@@ -1,6 +1,7 @@
 package org.kuali.rice.krms.service;
 
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -30,15 +31,13 @@ public interface RuleViewHelperService {
 
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, String refObjectId) throws Exception;
 
-    public Boolean compareRules(RuleEditor original, String refObjectId) throws Exception;
+    public Boolean compareRules(RuleEditor original);
 
     public PropositionEditor copyProposition(PropositionEditor proposition);
 
     public PropositionEditor createCompoundPropositionBoStub(PropositionEditor existing, boolean addNewChild);
 
     public PropositionEditor createSimplePropositionBoStub(PropositionEditor sibling);
-
-    public String getParentRefOjbectId(String refObjectId) throws Exception;
 
     public Boolean compareProposition(PropositionEditor original, PropositionEditor compare);
 

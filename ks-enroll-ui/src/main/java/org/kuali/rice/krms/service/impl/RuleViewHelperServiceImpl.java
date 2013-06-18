@@ -141,31 +141,10 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     /**
-     * finds the term resolver with the fewest parameters that resolves the given term specification
      *
-     * @param termSpecId the id of the term specification
-     * @param namespace  the  namespace of the term specification
-     * @return the simples {@link org.kuali.rice.krms.api.repository.term.TermResolverDefinition} found, or null if none was found
+     * @param prop
+     * @return
      */
-    // public access so that AgendaEditorController can use it too
-    public static TermResolverDefinition getSimplestTermResolver(String termSpecId,
-                                                                 String namespace) {// Get the term resolver for the term spec
-
-        List<TermResolverDefinition> resolvers =
-                KrmsRepositoryServiceLocator.getTermBoService().findTermResolversByOutputId(termSpecId, namespace);
-
-        TermResolverDefinition simplestResolver = null;
-
-        for (TermResolverDefinition resolver : resolvers) {
-            if (simplestResolver == null ||
-                    simplestResolver.getParameterNames().size() < resolver.getParameterNames().size()) {
-                simplestResolver = resolver;
-            }
-        }
-
-        return simplestResolver;
-    }
-
     public String resetDescription(PropositionEditor prop) {
 
         //If proposition type is null, set description and term null
@@ -312,10 +291,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         //Get the CLU Tree.
         RuleEditor compare = original.getParent();
-        if (compare == null) {
-            compare = this.getCompareRule(refObjectId, original.getTypeId());
-            original.setParent(compare);
-        }
         this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compare.getPropositionEditor(), this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
 
         //Build the Tree
@@ -331,27 +306,22 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
      * the comparison.     *
      *
      * @param original
-     * @param refObjectId - the current editing ref object id.
-     * @return
+     * @return boolean
      * @throws Exception
      */
     @Override
-    public Boolean compareRules(RuleEditor original, String refObjectId) throws Exception {
-
-        //Get the rule to compare with.
-        RuleEditor compareEditor = original.getParent();
-        if (compareEditor == null) {
-            compareEditor = this.getCompareRule(refObjectId, original.getTypeId());
-            original.setParent(compareEditor);
-        }
+    public Boolean compareRules(RuleEditor original) {
 
         //Do null check on propositions.
-        if(compareEditor.getProposition()==null){
+        RuleEditor compareEditor = original.getParent();
+        if((compareEditor==null)||(compareEditor.getProposition()==null)){
             if(original.getProposition()!=null){
                 return false; //if compare is null and original is not, they differ.
             } else {
                 return true; //both of them are null.
             }
+        } else if(original.getProposition()==null){
+            return false;
         }
 
         //Compare Root Proposition Type and if the same test recursively
@@ -547,71 +517,9 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
     }
 
-    /**
-     * Override this method to return the reference object id of the parent object.
-     *
-     * @param refObjectId
-     * @return
-     */
-    @Override
-    public String getParentRefOjbectId(String refObjectId) throws Exception  {
-        return null;
-    }
 
-    /**
-     * Retrieves the rule of the same type from the agenda linked to the given reference object id.
-     *
-     * @param refObjectId
-     * @param typeId
-     * @return
-     */
-    public RuleEditor getCompareRule(String refObjectId, String typeId) throws Exception {
 
-        String parentRefObjectId = this.getParentRefOjbectId(refObjectId);
-        List<ReferenceObjectBinding> referenceObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lu.type.CreditCourse", parentRefObjectId);
 
-        RuleEditor compareRule = null;
-        for (ReferenceObjectBinding referenceObject : referenceObjects) {
-            AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(referenceObject.getKrmsObjectId());
-            compareRule = this.getRuleFromTree(agendaTree.getEntries(), typeId);
-
-            if (compareRule != null) {
-                return compareRule;
-            }
-        }
-
-        return new RuleEditor();
-    }
-
-    /**
-     * Retrieves the rule of the same type from the rule linked to the given reference object id.
-     *
-     * @param agendaTreeEntries
-     * @param typeId
-     * @return
-     */
-    private RuleEditor getRuleFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries, String typeId) {
-
-        for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
-            if (treeEntry instanceof AgendaTreeRuleEntry) {
-                AgendaTreeRuleEntry treeRuleEntry = (AgendaTreeRuleEntry) treeEntry;
-                AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
-                if (agendaItem.getRule().getTypeId().equals(typeId)) {
-                    RuleEditor rule = new RuleEditor(agendaItem.getRule());
-                    return rule;
-                }
-
-                if (treeRuleEntry.getIfTrue() != null) {
-                    RuleEditor childRule = getRuleFromTree(treeRuleEntry.getIfTrue().getEntries(), typeId);
-                    if (childRule != null) {
-                        return childRule;
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
 
     /**
      * Override this method to return a different class type if you need to use a different propositoin editor class.

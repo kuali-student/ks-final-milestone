@@ -22,9 +22,13 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
@@ -33,6 +37,7 @@ import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -43,6 +48,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.krms.util.KSKRMSConstants;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -53,6 +59,8 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -96,7 +104,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             try {
                 courseOffering = this.getCourseOfferingService().getCourseOffering(coId, ContextUtils.createDefaultContextInfo());
             } catch (Exception e) {
-                //TODO: Add Exception handling.
+                throw new RuntimeException("Could not retrieve course offering for " + coId);
             }
         }
 
@@ -110,7 +118,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 atpCode.append(atp.getCode());
                 atpCode.append(" - ");
             } catch (Exception e) {
-                //TODO: Add Exception handling.
+                throw new RuntimeException("Could not retrieve atp for " + courseOffering.getTermId());
             }
 
             //Set the name prefix used for agenda and rule names.
@@ -150,7 +158,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     }
 
     @Override
-    protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries) {
+    protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries, boolean initProp) {
 
         List<RuleEditor> rules = new ArrayList<RuleEditor>();
         for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
@@ -164,16 +172,18 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     RuleEditor ruleEditor = new EnrolRuleEditor(agendaItem.getRule());
 
                     //Initialize the Proposition tree
-                    this.initPropositionEditor(ruleEditor.getPropositionEditor());
-                    this.getNLHelper().setNaturalLanguageTreeForUsage(ruleEditor.getPropositionEditor(), this.getViewTreeBuilder().getNaturalLanguageUsageKey());
-                    ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
+                    if(initProp){
+                        this.initPropositionEditor(ruleEditor.getPropositionEditor());
+                        this.getNLHelper().setNaturalLanguageTreeForUsage(ruleEditor.getPropositionEditor(), this.getViewTreeBuilder().getNaturalLanguageUsageKey());
+                        ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
+                    }
 
                     //Add rule to list on agenda
                     rules.add(ruleEditor);
                 }
 
                 if (treeRuleEntry.getIfTrue() != null) {
-                    rules.addAll(getRuleEditorsFromTree(treeRuleEntry.getIfTrue().getEntries()));
+                    rules.addAll(getRuleEditorsFromTree(treeRuleEntry.getIfTrue().getEntries(), initProp));
                 }
             }
 
@@ -181,6 +191,24 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
 
         return rules;
+    }
+
+    /**
+     * Return the clu id from the canonical course that is linked to the given course offering id.
+     *
+     * @param refObjectId - the course offering id.
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
+        CourseOfferingInfo courseOffering = null;
+        try {
+            courseOffering = this.getCourseOfferingService().getCourseOffering(refObjectId, ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException("Could not retrieve course offering for " + refObjectId);
+        }
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lu.type.CreditCourse", courseOffering.getCourseId());
     }
 
     /**

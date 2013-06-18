@@ -66,7 +66,7 @@ import javax.xml.namespace.QName;
 import java.util.*;
 
 /**
- * {@link org.kuali.rice.krad.maintenance.Maintainable} for the {@link org.kuali.student.rice.krms.impl.ui.AgendaEditor}
+ * {@link org.kuali.rice.krad.maintenance.Maintainable}
  *
  * @author Kuali Student Team (rice.collab@kuali.org)
  */
@@ -117,11 +117,18 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         // Initialize new array lists.
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
         List<AgendaEditor> sortedAgendas = new ArrayList<AgendaEditor>();
+        List<AgendaEditor> parentAgendas = new ArrayList<AgendaEditor>();
 
         // Get the list of existing agendas
         List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(discriminatorType, refObjectId);
         for(ReferenceObjectBinding referenceObjectBinding : refObjectsBindings){
             agendas.add(this.getAgendaEditor(referenceObjectBinding.getKrmsObjectId()));
+        }
+
+        // Get the list of parent agendas
+        List<ReferenceObjectBinding> parentRefObjects = this.getParentRefOjbects(refObjectId);
+        for (ReferenceObjectBinding referenceObject : parentRefObjects) {
+            parentAgendas.add(this.getAgendaEditor(referenceObject.getKrmsObjectId()));
         }
 
         // Lookup existing agenda by type
@@ -137,6 +144,15 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 agenda = new AgendaEditor();
                 agenda.setTypeId(agendaTypeInfo.getId());
             }
+
+            //Set the parent agenda.
+            for(AgendaEditor parent : parentAgendas){
+                if (agenda.getTypeId().equals(agenda.getTypeId())){
+                    agenda.setParent(parent);
+                    break;
+                }
+            }
+
             agenda.setAgendaTypeInfo(agendaTypeInfo);
             agenda.setRuleEditors(this.getRulesForAgendas(agenda));
             sortedAgendas.add(agenda);
@@ -156,35 +172,47 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         List<RuleEditor> existingRules = null;
         if(agenda.getId()!=null){
             AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(agenda.getId());
-            existingRules = getRuleEditorsFromTree(agendaTree.getEntries());
+            existingRules = getRuleEditorsFromTree(agendaTree.getEntries(), true);
+        }
+
+        //Get the parent rules
+        List<RuleEditor> parentRules = null;
+        if(agenda.getParent()!=null){
+            AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(agenda.getParent().getId());
+            parentRules = getRuleEditorsFromTree(agendaTree.getEntries(), false);
         }
 
         //Add dummy RuleEditors for empty rule types.
         Map<String, RuleEditor> ruleEditors = new LinkedHashMap<String, RuleEditor>();
         for (RuleTypeInfo ruleType : agenda.getAgendaTypeInfo().getRuleTypes()) {
+            RuleEditor ruleEditor = null;
 
             // Add all existing rules of this type.
-            boolean exist = false;
             if (existingRules != null) {
                 for (RuleEditor rule : existingRules) {
                     if (rule.getTypeId().equals(ruleType.getId()) && (!rule.isDummy())) {
-                        rule.setKey((String)alphaIterator.next());
-                        rule.setRuleTypeInfo(ruleType);
-                        exist = true;
-
-                        ruleEditors.put(rule.getKey(), rule);
+                        ruleEditor = rule;
                     }
                 }
             }
 
             // If the ruletype does not exist, add an empty rule section
-            if (!exist) {
-                RuleEditor ruleEditor = new RuleEditor();
-                ruleEditor.setKey((String)alphaIterator.next());
+            if (ruleEditor==null) {
+                ruleEditor = new RuleEditor();
                 ruleEditor.setDummy(true);
                 ruleEditor.setTypeId(ruleType.getId());
-                ruleEditor.setRuleTypeInfo(ruleType);
-                ruleEditors.put(ruleEditor.getKey(), ruleEditor);
+            }
+
+            ruleEditor.setKey((String)alphaIterator.next());
+            ruleEditor.setRuleTypeInfo(ruleType);
+            ruleEditors.put(ruleEditor.getKey(), ruleEditor);
+
+            //Set the parent agenda.
+            for(RuleEditor parent : parentRules){
+                if (ruleEditor.getTypeId().equals(parent.getTypeId())){
+                    ruleEditor.setParent(parent);
+                    break;
+                }
             }
 
         }
@@ -192,27 +220,40 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         return ruleEditors;
     }
 
-    protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries) {
+    protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries, boolean initProps) {
 
         List<RuleEditor> rules = new ArrayList<RuleEditor>();
         for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
             if (treeEntry instanceof AgendaTreeRuleEntry) {
-                AgendaTreeRuleEntry treeRuleEntry = (AgendaTreeRuleEntry) treeEntry;
-                AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
 
+                AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
                 if (agendaItem.getRule() != null) {
                     RuleEditor ruleEditor = new RuleEditor(agendaItem.getRule());
-                    this.initPropositionEditor(ruleEditor.getPropositionEditor());
-                    ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
+                    if(initProps){
+                        this.initPropositionEditor(ruleEditor.getPropositionEditor());
+                        ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
+                    }
                     rules.add(ruleEditor);
                 }
 
+                AgendaTreeRuleEntry treeRuleEntry = (AgendaTreeRuleEntry) treeEntry;
                 if (treeRuleEntry.getIfTrue() != null) {
-                    rules.addAll(getRuleEditorsFromTree(treeRuleEntry.getIfTrue().getEntries()));
+                    rules.addAll(getRuleEditorsFromTree(treeRuleEntry.getIfTrue().getEntries(), initProps));
                 }
             }
         }
         return rules;
+    }
+
+    /**
+     * Override this method to return the reference object id of the parent object.
+     *
+     * @param refObjectId
+     * @return
+     */
+    @Override
+    public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
+        return null;
     }
 
     protected RuleViewTreeBuilder getViewTreeBuilder(){

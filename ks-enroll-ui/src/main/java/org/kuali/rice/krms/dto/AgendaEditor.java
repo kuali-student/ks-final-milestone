@@ -32,6 +32,8 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
     private Map<String, RuleEditor> ruleEditors;
     private List<RuleEditor> deletedRules;
 
+    private AgendaEditor parent;
+
     public AgendaEditor() {
         super();
     }
@@ -144,6 +146,14 @@ public class AgendaEditor extends UifFormBase implements AgendaDefinitionContrac
 
     public void setAgendaTypeInfo(AgendaTypeInfo agendaTypeInfo) {
         this.agendaTypeInfo = agendaTypeInfo;
+    }
+
+    public AgendaEditor getParent() {
+        return parent;
+    }
+
+    public void setParent(AgendaEditor parent) {
+        this.parent = parent;
     }
 
     public boolean isDummyAgenda(){

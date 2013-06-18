@@ -9,6 +9,7 @@ import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.service.RuleViewHelperService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,9 @@ public class AgendaSection extends Group {
         // get the collection for this group from the model
         List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
                 this.getBindingInfo().getBindingPath());
+
+        //Set the ruleviewhelperservice on the agendabuilder.
+        this.getAgendaBuilder().setViewHelperService((RuleViewHelperService) view.getViewHelperService());
 
         // create agenda sections for each agenda
         List<Component> items = new ArrayList<Component>();

@@ -8,9 +8,13 @@ import org.kuali.rice.krad.uif.container.TreeGroup;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.field.DataField;
 import org.kuali.rice.krad.uif.field.MessageField;
+import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.dto.*;
+import org.kuali.rice.krms.service.RuleViewHelperService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +30,8 @@ public class AgendaBuilder {
 
     public static final String AGENDA = "_agenda";
     public static final String RULE = "_rule";
+
+    private RuleViewHelperService viewHelperService;
 
     /**
      * This method dynamically build the components on the screen to render an angenda.
@@ -67,22 +73,37 @@ public class AgendaBuilder {
         }
 
         ComponentUtils.updateContextForLine(group, rule, 0, ruleSuffix);
-        this.setPropertyBindingPaths(group, bindingPrefix, rule.getKey());
+
+        String bindingPath = bindingPrefix + "ruleEditors[" + rule.getKey() + "].";
+        this.setPropertyBindingPaths(group, bindingPath);
+
+        if (rule.isDummy() && rule.getParent() != null) {
+            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.hasparent");
+        } else if (!this.getViewHelperService().compareRules(rule)) {
+            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.changed");
+        }
 
         return group;
     }
 
-    protected void setPropertyBindingPaths(Group group, String bindingPrefix, String ruleKey){
-        String prefix = bindingPrefix + "ruleEditors[" + ruleKey + "].";
+    protected void setPropertyBindingPaths(Group group, String bindingPath) {
 
         List<DataField> dataFields = ComponentUtils.getComponentsOfTypeDeep(group.getItems(), DataField.class);
         for (DataField collectionField : dataFields) {
-            collectionField.getBindingInfo().setBindingName(prefix + collectionField.getBindingInfo().getBindingName());
+            collectionField.getBindingInfo().setBindingName(bindingPath + collectionField.getBindingInfo().getBindingName());
         }
 
         List<TreeGroup> treeFields = ComponentUtils.getComponentsOfTypeDeep(group.getItems(), TreeGroup.class);
         for (TreeGroup collectionField : treeFields) {
-            collectionField.getBindingInfo().setBindingName(prefix + collectionField.getBindingInfo().getBindingName());
+            collectionField.getBindingInfo().setBindingName(bindingPath + collectionField.getBindingInfo().getBindingName());
         }
+    }
+
+    public RuleViewHelperService getViewHelperService() {
+        return viewHelperService;
+    }
+
+    public void setViewHelperService(RuleViewHelperService viewHelperService) {
+        this.viewHelperService = viewHelperService;
     }
 }

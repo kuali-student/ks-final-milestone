@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilder;
@@ -39,6 +40,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -81,10 +83,6 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
 
         //Build the Tree
         RuleEditor compareEditor = original.getParent();
-        if(compareEditor == null){
-            compareEditor = this.getCompareRule(refObjectId, original.getTypeId());
-            original.setParent(compareEditor);
-        }
         if(compareEditor.getProposition()!=null){
             this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compareEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         }
@@ -189,19 +187,6 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         }
 
         return termParameters;
-    }
-
-    /**
-     * Return the clu id from the canonical course that is linked to the given course offering id.
-     *
-     * @param refObjectId - the course offering id.
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public String getParentRefOjbectId(String refObjectId) throws Exception {
-        CourseOfferingInfo courseOffering = this.getCourseOfferingService().getCourseOffering(refObjectId, ContextUtils.createDefaultContextInfo());
-        return courseOffering.getCourseId();
     }
 
     @Override
