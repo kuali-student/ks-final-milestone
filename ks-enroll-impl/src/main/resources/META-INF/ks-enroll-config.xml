@@ -56,6 +56,7 @@
     <param name="ks.enroll.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>
     <param name="ks.enroll.jpa.JpaProperties.hibernate.connection.release_mode">after_statement</param>
     <param name="ks.enroll.jpa.JpaProperties.hibernate.connection.autocommit">false</param>
+    <param name="ks.enroll.jpa.JpaProperties.hibernate.default_batch_fetch_size">64</param>
 
     <!-- Instructional days have a system default set here. It can be individually overridden per term via the term type attributes -->
     <!-- MTWHF equates to Mon->Friday. The full week would be MTWHFSU-->

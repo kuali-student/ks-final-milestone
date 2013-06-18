@@ -23,6 +23,8 @@
                        value="${ks.enroll.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
                 <entry key="hibernate.connection.release_mode"
                        value="${ks.enroll.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+                <entry key="hibernate.default_batch_fetch_size"
+                       value="${ks.enroll.jpa.JpaProperties.hibernate.default_batch_fetch_size}"/>
             </map>
         </property>
     </bean>
