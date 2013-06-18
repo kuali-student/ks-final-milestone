@@ -74,7 +74,7 @@ limitations under the License.
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules"/>
             </list>
         </property>
     </bean>

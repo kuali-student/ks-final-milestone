@@ -94,6 +94,16 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     if (counter==prop.getCompoundEditors().size()-1){
                         childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.LAST_IN_GROUP);
                     }
+                    if((leaf.getData().getProposition().getCompoundEditors().size() - 1) != counter) {
+                        if(!leaf.getData().getProposition().getCompoundEditors().get(leaf.getData().getProposition().getCompoundEditors().indexOf(child) + 1).getPropositionTypeCode().equals("C")) {
+                            childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_IN);
+                        }
+                    } else {
+                        childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_IN);
+                    }
+                    if(leaf.equals(getRootChild(sprout))) {
+                        childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_OUT);
+                    }
                     counter++;
                 }
             }
@@ -131,5 +141,12 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
 
     public String getNaturalLanguageUsageKey(){
         return  KsKrmsConstants.KRMS_NL_RULE_EDIT;
+    }
+
+    private Node getRootChild(Node root) {
+        for(Object child : root.getChildren()) {
+            return (Node) child;
+        }
+        return null;
     }
 }

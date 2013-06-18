@@ -27,6 +27,10 @@ public class RuleEditorTreeNode implements Serializable {
 
     public static final String COMPOUND_OP_NODE_TYPE = RuleEditorTreeNode.NODE_TYPE + " compoundOpCodeNode";
 
+    public static final String MOVE_IN = "disableMoveRight";
+
+    public static final String MOVE_OUT = "disableMoveLeft";
+
     protected PropositionEditor proposition;
 
     public RuleEditorTreeNode(){}

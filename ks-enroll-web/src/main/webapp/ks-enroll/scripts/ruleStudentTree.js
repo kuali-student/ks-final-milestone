@@ -195,6 +195,14 @@ function markNodeAsSelected(parentLiNode) {
     if (jq(parentLiNode).hasClass('lastInGroup')) {
         disableDownButton();
     }
+
+    if(jq(parentLiNode).hasClass('disableMoveRight')) {
+        disableRightButton();
+    }
+
+    if(jq(parentLiNode).hasClass('disableMoveLeft')) {
+        disableLeftButton();
+    }
 }
 
 
