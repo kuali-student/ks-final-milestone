@@ -249,7 +249,7 @@
                 <value>classpath:org/kuali/student/common/kitchensink/ContainerExpandable.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/DateField.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/Growls.xml</value>
-                <!--<value>classpath:org/kuali/student/common/kitchensink/Lightbox.xml</value>-->
+                <value>classpath:org/kuali/student/common/kitchensink/Lightbox.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/LinkFields.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/LookupCombobox.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/LookupSuggest.xml</value>
