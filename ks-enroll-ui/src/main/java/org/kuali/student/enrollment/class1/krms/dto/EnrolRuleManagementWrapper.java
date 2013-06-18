@@ -24,7 +24,7 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     private String cluDescription;
     private List<CluInformation> clusInRange;
-    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE();
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
     private String socStateKey;
 
     public String getCluDescription() {

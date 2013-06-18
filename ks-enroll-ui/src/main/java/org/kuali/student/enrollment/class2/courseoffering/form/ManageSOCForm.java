@@ -53,7 +53,7 @@ public class ManageSOCForm extends UifFormBase {
     private TermInfo termInfo;
     private SocInfo socInfo;
 
-    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE();
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
     public ManageSOCForm()  {
         statusHistory = new ArrayList<ManageSOCStatusHistory> ();

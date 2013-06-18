@@ -39,8 +39,12 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -58,8 +62,10 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -420,4 +426,42 @@ public class CourseOfferingViewHelperUtil {
         // Finally, set the ao types for this fo
         fo.setActivityOfferingTypeKeys(aoTypeKeys);
     }
+
+    /**
+     * Returns the day-of-the-year represented by the supplied term.
+     *
+     * @param termInfo
+     * @param academicCalendarService
+     * @param contextInfo
+     * @return int of the day-of-the-year that represents the term
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public static int calculateTermDayOfYear( TermInfo termInfo, AcademicCalendarService academicCalendarService, ContextInfo contextInfo )
+        throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        int termDayOfYear = 0; // default to 1st day of the year
+
+        List<KeyDateInfo> keyDateInfoList = academicCalendarService.getKeyDatesForTerm( termInfo.getId(), contextInfo );
+        for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
+            if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
+                    && keyDateInfo.getStartDate() != null
+                    && keyDateInfo.getEndDate() != null )
+            {
+                Date termClassStartDate = keyDateInfo.getStartDate();
+                Date termClassEndDate = keyDateInfo.getEndDate();
+                Date avgDate = new Date( termClassStartDate.getTime() + ( (termClassEndDate.getTime() - termClassStartDate.getTime()) /2 ) );
+                Calendar cal = Calendar.getInstance();
+                cal.setTime( avgDate) ;
+                termDayOfYear = cal.get( Calendar.DAY_OF_YEAR );
+                break;
+            }
+        }
+
+        return termDayOfYear;
+    }
+
 }

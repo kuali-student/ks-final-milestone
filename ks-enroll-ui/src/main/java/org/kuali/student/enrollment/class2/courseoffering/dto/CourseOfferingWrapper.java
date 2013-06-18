@@ -68,7 +68,7 @@ public class CourseOfferingWrapper implements Serializable{
      */
     protected String dialogExplanation;
 
-    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE();
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
     public CourseOfferingWrapper(){
         alternateCOCodes = new ArrayList<String>();

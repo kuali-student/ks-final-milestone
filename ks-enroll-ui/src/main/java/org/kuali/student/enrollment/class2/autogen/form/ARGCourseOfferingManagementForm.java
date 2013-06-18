@@ -182,7 +182,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     //TODO: do we still need this parameter?
     private boolean hasAOCluster;
 
-    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE();
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
     public boolean getHasAOCluster() {
         return hasAOCluster;

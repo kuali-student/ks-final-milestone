@@ -16,18 +16,14 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 /**
  * Holds properties for the Context-bar that appears on several different CourseOffering-views.
@@ -36,13 +32,15 @@ import java.util.List;
  */
 public class CourseOfferingContextBar implements Serializable {
 
-    private static final CourseOfferingContextBar NULL_SAFE_INSTANCE = new CourseOfferingContextBar("", "", 0);
+    public static final CourseOfferingContextBar NULL_SAFE_INSTANCE = new CourseOfferingContextBar("", "", 0);
 
     private String termName;
     private String termSocState;
     private int termDayOfYear;
 
-    private CourseOfferingContextBar(String termName, String termSocState, int termDayOfYear) {
+    public CourseOfferingContextBar() { }
+
+    public CourseOfferingContextBar(String termName, String termSocState, int termDayOfYear) {
         this.termName = termName;
         this.termSocState = termSocState;
         this.termDayOfYear = termDayOfYear;
@@ -60,6 +58,15 @@ public class CourseOfferingContextBar implements Serializable {
     }
 
     /**
+     * Sets the term-name to be displayed in the context-bar xml.
+     * (ie: "Spring 2013")
+     */
+    @SuppressWarnings("unused")
+    public void setTermName( String termName ) {
+        this.termName = termName;
+    }
+
+    /**
      * Gets the soc-state to be displayed in the context-bar xml.
      * (ie: "Open")
      *
@@ -68,6 +75,15 @@ public class CourseOfferingContextBar implements Serializable {
     @SuppressWarnings("unused")
     public String getTermSocState() {
         return termSocState;
+    }
+
+    /**
+     * Sets the soc-state to be displayed in the context-bar xml.
+     * (ie: "Open")
+     */
+    @SuppressWarnings("unused")
+    public void setTermSocState( String termSocState ) {
+        this.termSocState = termSocState;
     }
 
     /**
@@ -80,44 +96,52 @@ public class CourseOfferingContextBar implements Serializable {
         return termDayOfYear;
     }
 
+    /**
+     * Sets the term-day-of-the-year for use in determining the color of the side-bar in the context-bar xml.
+     */
+    @SuppressWarnings("unused")
+    public void setTermDayOfYear( int termDayOfYear ) {
+        this.termDayOfYear = termDayOfYear;
+    }
+
+    /**
+     * Convenience-method to build an instance of CourseOfferingContextBar
+     *
+     * @param termInfo
+     * @param socInfo
+     * @param stateService
+     * @param academicCalendarService
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
     public static CourseOfferingContextBar NEW_INSTANCE( TermInfo termInfo, SocInfo socInfo, StateService stateService, AcademicCalendarService academicCalendarService, ContextInfo contextInfo ) throws Exception {
         return NEW_INSTANCE( termInfo, socInfo.getStateKey(), stateService, academicCalendarService, contextInfo );
     }
 
+    /**
+     * Convenience-method to build an instance of CourseOfferingContextBar
+     *
+     * @param termInfo
+     * @param socStateKey a String representing the SOC's state (ie: "Open")
+     * @param stateService
+     * @param academicCalendarService
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
     public static CourseOfferingContextBar NEW_INSTANCE( TermInfo termInfo, String socStateKey, StateService stateService, AcademicCalendarService academicCalendarService, ContextInfo contextInfo ) throws  Exception {
 
         String termName = termInfo.getName();
         String termSocState = stateService.getState( socStateKey, contextInfo ).getName();
-        int termDayOfYear = calculateTermDayOfYear( termInfo, academicCalendarService, contextInfo );
+        int termDayOfYear = CourseOfferingViewHelperUtil.calculateTermDayOfYear(termInfo, academicCalendarService, contextInfo);
 
-        return new CourseOfferingContextBar( termName, termSocState, termDayOfYear );
-    }
+        CourseOfferingContextBar instance = new CourseOfferingContextBar();
+        instance.setTermName( termName );
+        instance.setTermSocState( termSocState );
+        instance.setTermDayOfYear( termDayOfYear );
 
-    public static CourseOfferingContextBar NULL_SAFE_INSTANCE() {
-        return NULL_SAFE_INSTANCE;
-    }
-
-    private static int calculateTermDayOfYear( TermInfo termInfo, AcademicCalendarService academicCalendarService, ContextInfo contextInfo ) throws Exception {
-
-        int termDayOfYear = 0; // default to 1st day of the year
-
-        List<KeyDateInfo> keyDateInfoList = academicCalendarService.getKeyDatesForTerm( termInfo.getId(), contextInfo );
-        for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
-            if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
-                    && keyDateInfo.getStartDate() != null
-                    && keyDateInfo.getEndDate() != null )
-            {
-                Date termClassStartDate = keyDateInfo.getStartDate();
-                Date termClassEndDate = keyDateInfo.getEndDate();
-                Date avgDate = new Date( termClassStartDate.getTime() + ( (termClassEndDate.getTime() - termClassStartDate.getTime()) /2 ) );
-                Calendar cal = Calendar.getInstance();
-                cal.setTime( avgDate) ;
-                termDayOfYear = cal.get( Calendar.DAY_OF_YEAR );
-                break;
-            }
-        }
-
-        return termDayOfYear;
+        return instance;
     }
 
 }
