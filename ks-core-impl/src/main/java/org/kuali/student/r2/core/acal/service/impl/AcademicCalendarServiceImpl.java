@@ -2136,9 +2136,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         // If there are no Instructional Days configured for a term, it should be 0.
-        if(instructionalPeriodKeyDate == null &&
-                instructionalPeriodKeyDate.getStartDate() != null &&
-                instructionalPeriodKeyDate.getEndDate() != null ){
+        if(instructionalPeriodKeyDate == null ||
+                instructionalPeriodKeyDate.getStartDate() == null ||
+                instructionalPeriodKeyDate.getEndDate() == null ){
             return 0;
         }
         
