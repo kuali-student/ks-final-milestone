@@ -89,4 +89,6 @@
     </bean>
 <!-- END: CONTEXT-BAR BEANS -->
 
+    <bean id="KS-View-Header-RightGroup-PlaceHolder" parent="KS-Unified-Header-Right-Group" />
+
 </beans>

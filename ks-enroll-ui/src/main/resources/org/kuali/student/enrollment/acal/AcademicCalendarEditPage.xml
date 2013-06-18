@@ -120,6 +120,7 @@ limitations under the License.
                 <ref bean="KS-AcademicCalendar-MetaSubSection"/>
                 <ref bean="KS-AcademicCalendar-EventSubSection"/>
                 <ref bean="KS-AcademicCalendar-HolidaySubSection"/>
+                <ref bean="KS-AcademicCalendarView-Header-Right-Group"/>
             </list>
         </property>
     </bean>

@@ -689,6 +689,7 @@ a {
 #Uif-BreadcrumbWrapper {
     display: block !important;         /* It is overriding the KRMS display: none; */
     visibility: visible !important;;    /* It is overriding the KRMS visibility: hidden; */
+    /*margin-top: -5px !important;        *//* offset the space that the krad adds when it redraws the page when the scrollbar is moved */
     background-image: url('../images/breadcrumb/bg_breadcrumb.png');
 }
 

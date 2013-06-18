@@ -736,6 +736,19 @@ function updateContextBar(srcId, contextBarId){
     }
 }
 
+
+
+function updateHeaderRightGroup(srcId, rightGroupId){
+
+    if( rightGroupId == null ) return;
+
+    var rightGroup = jQuery("#" + rightGroupId);    // grab the placeholder
+    if( rightGroup ) {
+        var src = jQuery("#" + srcId);                  // grab the new header right group
+        jQuery(rightGroup).html(jQuery(src).html());         // copy the content of the right group to the place holder
+    }
+}
+
 /*
 The users wanted to have a small strip of color that coincides with the term. If the user hasn't configured
 an explicit color then use the default coloring from a gradient.

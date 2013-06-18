@@ -39,8 +39,10 @@ limitations under the License.
             <bean parent="Uif-FooterBase"/>
         </property>
 
+        <!--KS-AcademicCalendarView-Header-Right-Group-->
+        <!--KS-View-Header-RightGroup-PlaceHolder-->
         <property name="header.rightGroup">
-            <ref bean="KS-AcademicCalendarView-Header-Right-Group"/>
+            <ref bean="KS-View-Header-RightGroup-PlaceHolder"/>
         </property>
         <property name="header.cssClasses">
             <list merge="true">
@@ -82,8 +84,9 @@ limitations under the License.
         </property>
     </bean>
 
-
-    <bean id="KS-AcademicCalendarView-Header-Right-Group" parent="KS-Unified-Header-Right-Group">
+    <!--<bean id="KS-AcademicCalendarView-Header-Right-Group" parent="KS-Unified-Header-Right-Group">-->
+    <bean id="KS-AcademicCalendarView-Header-Right-Group" parent="KS-Unified-Header-Right-Group" p:style="display: none"
+          p:onDocumentReadyScript="updateHeaderRightGroup('KS-AcademicCalendarView-Header-Right-Group', 'KS-View-Header-RightGroup-PlaceHolder');">
         <property name="items">
             <list>
                 <bean parent="KS-Unified-Header-Action-Group">
