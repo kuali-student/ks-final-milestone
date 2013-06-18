@@ -47,22 +47,14 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOfferingEdit-section1" parent="Uif-GridGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" id="status" p:label="Status" p:propertyName="stateName"/>
                 <bean parent="Uif-DataField" id="term" p:label="Term" p:propertyName="termDisplayString" p:readOnly="true" />
 
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-                            <!-- <bean parent="Uif-DataField" p:label="Activity Type" p:propertyName="aoInfo.typeKey" p:readOnly="true"/> -->
-                            <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:propertyName="typeName" p:readOnly="true"/>
-                            <bean parent="Uif-DataField" id="format_offering_name" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
-                            <!-- <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true" p:defaultValue="Lecture"/> -->
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:propertyName="typeName" p:readOnly="true"/>
+                <bean parent="Uif-DataField" id="format_offering_name" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
 
                 <ref bean="ActivityOfferingEdit-submitSection"/>
 
