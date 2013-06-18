@@ -861,16 +861,49 @@ div#Uif-ApplicationHeader-Wrapper{
 
 
 /************************************** UNIFIED PAGE HEADER **********************/
-
+/* Attributes of the right side */
 .ks-unified-header {
     padding: 15px 0px 20px 15px;
 }
-.ks-unified-header-rightGroup-action{
+
+/* Attributes of the left side */
+.ks-unified-header-rightGroup-container {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    padding-top: 25px;
+}
+
+/* Attributes of the Action area */
+.ks-unified-header-rightGroup-action {
+    list-style: none;
     float: right;
 }
 
-.ks-unified-header-rightGroup-status{
-    float: right;
+/* Setting the Action Links colour */
+.ks-unified-header-rightGroup-action a {
+    color: #0088cc;
+    padding-right: 7px;
+}
+
+/* Setting the Action Link icons' opacity */
+.ks-unified-header-rightGroup-action a i {
+    opacity: .5;
+}
+
+/* Setting the Action Link icons' opacity on hover */
+.ks-unified-header-rightGroup-action a:hover i {
+    opacity: 1;
+}
+
+/* Attributes of the left side Meta + lozenge area */
+.ks-unified-header-rightGroup-container :not(:last-child){
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+/* Meta + lozenge area */
+.ks-unified-header-rightGroup-status {
     padding-right: 6px;
 }
 
@@ -879,42 +912,10 @@ div#Uif-ApplicationHeader-Wrapper{
     padding-top: 2px;
     font-style: italic;
     font-size: 13px;
-}
-
-.ks-unified-header-rightGroup-meta-data {
     color: black;
 }
 
-.ks-unified-header-rightGroup-container{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    padding-top: 25px;
-}
-
-.ks-unified-header-rightGroup-container :not(:last-child){
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-}
-
-.ks-unified-header-rightGroup-action{
-    list-style: none;
-    float: right;
-}
-
-.ks-unified-header-rightGroup-action a {
-    color: #0088cc;
-    padding-right: 7px;
-}
-
-.ks-unified-header-rightGroup-action a i {
-    opacity: .5;
-}
-
-.ks-unified-header-rightGroup-action a:hover i  {
-    opacity: 1;
-}
-
+/* Setting a drop shadow on the entire header */
 .uif-viewHeader-contentWrapper {
     padding-bottom: 1px;
     -webkit-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
