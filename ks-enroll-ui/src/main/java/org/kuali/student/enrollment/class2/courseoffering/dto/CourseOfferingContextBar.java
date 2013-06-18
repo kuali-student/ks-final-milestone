@@ -32,9 +32,7 @@ import java.util.List;
 /**
  * Holds properties for the Context-bar that appears on several different CourseOffering-views.
  *
- * Similarly as all the other wrappers, meant to hold the details used at the presentation layer,
- * but intended to be a property of wrappers/forms rather than a wrapper-type object in it's
- * own right.
+ * This is intended to be a property of wrappers/forms to hold context-bar details used only at the presentation layer.
  */
 public class CourseOfferingContextBar implements Serializable {
 
@@ -50,14 +48,34 @@ public class CourseOfferingContextBar implements Serializable {
         this.termDayOfYear = termDayOfYear;
     }
 
+    /**
+     * Gets the term-name to be displayed in the context-bar xml.
+     * (ie: "Spring 2013")
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
     public String getTermName() {
         return termName;
     }
 
+    /**
+     * Gets the soc-state to be displayed in the context-bar xml.
+     * (ie: "Open")
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
     public String getTermSocState() {
         return termSocState;
     }
 
+    /**
+     * Gets the term-day-of-the-year for use in determining the color of the side-bar in the context-bar xml.
+     *
+     * @return
+     */
+    @SuppressWarnings("unused")
     public int getTermDayOfYear() {
         return termDayOfYear;
     }
