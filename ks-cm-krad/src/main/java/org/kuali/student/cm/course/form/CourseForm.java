@@ -45,6 +45,10 @@ public class CourseForm extends UifFormBase {
 	private List<CourseJointInfoDisplay> courseJointDisplays;
 	
 	private List<ResultValuesGroupInfoDisplay> creditOptionsDisplay;
+	
+	private String finalExamStatus;
+	
+	private String finalExamRationale;
 
 	public CourseForm() {
 		this.courseInfo = new CourseInfo();
@@ -112,5 +116,20 @@ public class CourseForm extends UifFormBase {
         this.courseJointDisplays = courseJointDisplays;
     }
 
-   
+    public String getFinalExamStatus() {
+        return finalExamStatus;
+    }
+    
+    public void setFinalExamStatus(String finalExamStatus) {
+        this.finalExamStatus = finalExamStatus;
+    }
+
+    public String getFinalExamRationale() {
+        return finalExamRationale;
+    }
+
+    public void setFinalExamRationale(String finalExamRationale) {
+        this.finalExamRationale = finalExamRationale;
+    }
+
 }

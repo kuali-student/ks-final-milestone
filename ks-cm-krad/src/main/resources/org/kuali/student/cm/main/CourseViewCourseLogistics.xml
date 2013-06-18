@@ -33,8 +33,7 @@
 					bean="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets" />
 				<ref bean="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets" />
 				<ref bean="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" />
-				<!-- <ref bean="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" 
-					/> -->
+<!-- 				<ref bean="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" /> -->
 			</list>
 		</property>
 		<property name="footer">
@@ -141,14 +140,23 @@
 		parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.pilotCourse"
-					p:label="Final Exam Status" p:width="auto" p:required="true">
+<!-- 			p:width="auto" -->
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamStatus" 
+					p:label="Final Exam Status" p:required="true">
 					<property name="control">
 						<bean parent="Uif-VerticalRadioControl" />
 					</property>
 					<property name="optionsFinder">
 						<bean
 							class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder" />
+					</property>
+				</bean>
+				<bean id="KS-FinalExamRationale" parent="Uif-InputField-LabelTop" p:label="Final Exam Rationale" 
+				p:progressiveRender="#dp.finalExamStatus eq 'NONE'"
+					p:propertyName="finalExamRationale">
+					<property name="control">
+						<bean parent="Uif-LargeTextAreaControl" p:maxLength="255" p:width="400"
+							p:onDocumentReadyScript="jQuery('#KS-FinalExamRationale_control').jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});" />
 					</property>
 				</bean>
 			</list>
@@ -194,22 +202,47 @@
 			</list>
 		</property>
 		<property name="subCollections">
-					<list>
-						<bean parent="Uif-StackedCollectionSubSection"
-							p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysDisplay"
-							p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.multiple'"
-							p:propertyName="resultValueKeysDisplay">
-							<property name="renderAddBlankLineButton" value="true" />
-							<property name="addLinePlacement" value="BOTTOM" />
-							<property name="addBlankLineAction.actionLabel" value="Add" />
-							<property name="items">
-								<list>
-									<bean parent="Uif-InputField-LabelTop" p:label="Credit Value"
-									p:propertyName="creditValueDisplay" />
-								</list>
-							</property>
-						</bean>
-					</list>
-				</property>
+			<list>
+				<bean parent="Uif-StackedCollectionSubSection"
+					p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysDisplay"
+					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.multiple'"
+					p:propertyName="resultValueKeysDisplay">
+					<property name="renderAddBlankLineButton" value="true" />
+					<property name="addLinePlacement" value="BOTTOM" />
+					<property name="addBlankLineAction.actionLabel" value="Add" />
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField-LabelTop" p:label="Credit Value"
+								p:propertyName="creditValueDisplay" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
 	</bean>
+<!-- 	<bean id="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" -->
+<!-- 		parent="Uif-StackedCollectionSubSection" p:headerText="Course Format(s)" -->
+<!-- 		p:propertyName="creditOptionsDisplay" p:collectionObjectClass="couseinfo.formats"> -->
+<!-- 		<property name="layoutManager.summaryTitle" value="Outcome" /> -->
+<!-- 		<property name="renderAddBlankLineButton" value="true" /> -->
+<!-- 		<property name="addLinePlacement" value="BOTTOM" /> -->
+<!-- 		<property name="addBlankLineAction.actionLabel" value="Add Another Outcome" /> -->
+<!-- 		<property name="subCollections"> -->
+<!-- 			<list> -->
+<!-- 				<bean parent="Uif-StackedCollectionSubSection" -->
+<!-- 					p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo" -->
+<!-- 					p:propertyName="resultValueKeysDisplay"> -->
+<!-- 					<property name="renderAddBlankLineButton" value="true" /> -->
+<!-- 					<property name="addLinePlacement" value="BOTTOM" /> -->
+<!-- 					<property name="addBlankLineAction.actionLabel" value="Add" /> -->
+<!-- 					<property name="items"> -->
+<!-- 						<list> -->
+<!-- 							<bean parent="Uif-InputField-LabelTop" p:label="Credit Value" -->
+<!-- 								p:propertyName="creditValueDisplay" /> -->
+<!-- 						</list> -->
+<!-- 					</property> -->
+<!-- 				</bean> -->
+<!-- 			</list> -->
+<!-- 		</property> -->
+<!-- 	</bean> -->
 </beans>

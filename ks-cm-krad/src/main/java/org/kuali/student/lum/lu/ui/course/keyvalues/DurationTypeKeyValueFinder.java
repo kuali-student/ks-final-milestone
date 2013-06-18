@@ -81,7 +81,7 @@ public class DurationTypeKeyValueFinder extends UifKeyValuesFinderBase {
                 }
             }
         } catch (Exception ex) {
-            throw new RuntimeException("Could not retrieve AptSeasons Duration types: " + ex);
+            throw new RuntimeException("Could not retrieve Apt Duration types: " + ex);
         }
         return keyValues;
     }
