@@ -716,4 +716,18 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         return show(theForm);
     }
 
+    /**
+     * This is mapped to the <i>List All</i> link.
+     * <p/>
+     * <b>Usage at:</b> CourseOfferingManagement-ManageTheCourseOfferingPage.xml
+     *
+     * @param form model
+     * @return ModelAndView
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=manageAORules")
+    public ModelAndView manageAORules(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
+        return getUIFModelAndView(form, "AOAgendaManagementView");
+    }
+
 }

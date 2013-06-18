@@ -204,12 +204,13 @@
                 <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
                     <!--<property name="seperatedActions">-->
                         <!--<list>-->
-                            <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"
-                                  p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"/>
-                            <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
-                                  p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
-                            </bean>
-                        <!--</list>-->
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"
+                      p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
+                      p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
+                </bean>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Manage AO Requisites " />
+                <!--</list>-->
                     <!--</property>-->
                 <!--</bean>-->
             </list>
