@@ -26,13 +26,14 @@
     <bean id="KS-KitchenSink-MessageBox-View-Base" parent="KS-KitchenSink-FormView">
         <property name="dialogs">
             <list>
-                <bean id="dialogButton1" parent="KS-KitchenSink-DialogButtonConfirm"/>
+                <bean id="messageBoxDialog"
+                      parent="KS-KitchenSink-MessageBox-DialogButtonConfirm-parent"/>
             </list>
         </property>
     </bean>
 
-    <!--<bean id="KS-KitchenSink-DialogButtonConfirm" parent="Uif-OK-Cancel-DialogGroup"/>-->
-    <bean id="KS-KitchenSink-DialogButtonConfirm" parent="Uif-DialogGroup">
+    <!--<bean id="KS-KitchenSink-MessageBox-DialogButtonConfirm-parent" parent="Uif-OK-Cancel-DialogGroup"/>-->
+    <bean id="KS-KitchenSink-MessageBox-DialogButtonConfirm-parent" parent="Uif-DialogGroup">
         <property name="header.render" value="false"/>
         <!--<property name="headerText" value="headerText (hidden)"/>-->
         <property name="promptText" value="Did you mean to click on the button?"/>
@@ -71,7 +72,6 @@
                                 <property name="messageText">
                                     <value>
                                         Dialog confirmation popup.
-                                        (Currently doesn't work inside an iframe.)
                                     </value>
                                 </property>
                             </bean>
@@ -137,8 +137,8 @@
                             <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/MessageBox.xml"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/MessageBox.xml"/>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MessageBox.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MessageBox.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -207,7 +207,7 @@
         </property>
         <property name="dialogs">
             <list>
-                <bean id="dialogButton1" parent="Uif-OK-Cancel-DialogGroup"/>
+                <bean id="messageBoxDialog1" parent="Uif-OK-Cancel-DialogGroup"/>
             </list>
         </property>
     </bean>

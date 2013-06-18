@@ -21,42 +21,50 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <!--
+        KRAD lightbox/dialog still has some issues when trying to use as a form, as of 2.3.0-M2
+    -->
+
     <!-- The Interesting Bits -->
 
     <bean id="KS-KitchenSink-Lightbox" parent="KS-KitchenSink-VerticalBoxSection">
         <property name="items">
             <list>
+                <bean parent="Uif-DataField" p:label="Field #1" p:propertyName="stringField1"/>
                 <bean parent="Uif-PrimaryActionButton">
                     <property name="actionLabel" value="Form In A Lightbox"/>
                     <property name="actionScript" value="showLightboxComponent('lightboxDialog1');"/>
                     <!-- from separate view
                     <property name="actionScript"
                               value="showLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/kitchensink?viewId=KS-KitchenSink-Lightbox-Dialog1&amp;methodToCall=start');"/>
-                              -->
+                    -->
                 </bean>
+                <bean parent="Uif-PrimaryActionButton"
+                      p:methodToCall="customDialog" p:actionLabel="Form In A Lightbox 2"/>
                 <bean parent="Uif-PrimaryActionButton">
                     <property name="actionLabel" value="MaintenanceView In A Lightbox"/>
                     <property name="actionScript"
                               value="showLightboxUrl('@{#ConfigProperties['application.url']}/kr-krad/population?viewTypeName=MAINTENANCE&amp;returnLocation=http%3A%2F%2Flocalhost%3A8081%2Fks-with-rice-bundled-dev%2Fportal.do&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper');"/>
                 </bean>
-                <!--
-                /kr-krad/population?viewTypeName=MAINTENANCE&returnLocation=http%3A%2F%2Flocalhost%3A8081%2Fks-with-rice-bundled-dev%2Fportal.do&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper
-                -->
             </list>
         </property>
     </bean>
 
+
     <bean id="KS-KitchenSink-Lightbox-View-Base" parent="KS-KitchenSink-FormView">
         <property name="dialogs">
             <list>
-                <bean id="lightboxDialog1" parent="KS-KitchenSink-DialogButtonConfirm"/>
+                <bean id="lightboxDialog1" parent="KS-KitchenSink-Lightbox-DialogButtonConfirm"/>
+                <bean id="lightboxDialog2" parent="KS-KitchenSink-Lightbox-DialogButtonConfirm-2"/>
             </list>
         </property>
     </bean>
-    <bean id="KS-KitchenSink-DialogButtonConfirm" parent="Uif-VerticalBoxSection">
+
+
+    <bean id="KS-KitchenSink-Lightbox-DialogButtonConfirm" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true"/>
         <property name="header.render" value="false"/>
-        <property name="style" value="width:250px;"/>
+        <property name="style" value="width:300px;"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-uif-lightbox-form</value>
@@ -114,8 +122,10 @@
                                 <property name="actionLabel" value="Save"/>
                             </bean>
                             <bean parent="Uif-ActionLink">
-                                <property name="methodToCall" value="cancelLightboxForm"/>
+                                <!--<property name="methodToCall" value="cancelLightboxForm"/>-->
                                 <property name="actionLabel" value="cancel"/>
+                                <!--<property name="actionScript" value="closeLightbox();"/>-->
+                                <property name="actionScript" value="jQuery.fancybox.close();"/>
                             </bean>
                         </list>
                     </property>
@@ -124,7 +134,29 @@
         </property>
     </bean>
 
+
+    <bean id="KS-KitchenSink-Lightbox-DialogButtonConfirm-2" parent="Uif-VerticalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="header.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelTop" p:label="Field 3" p:propertyName="stringField3"/>
+                <bean parent="Uif-InputField-LabelTop" p:label="Field 4" p:propertyName="stringField4"/>
+                <bean parent="Uif-PrimaryActionButton-Small">
+                    <property name="actionScript" value="jQuery.fancybox.close();ajaxSubmitForm('saveLightboxForm')"/>
+                    <property name="actionLabel" value="Save"/>
+                </bean>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionScript" value="jQuery.fancybox.close();"/>
+                    <property name="actionLabel" value="cancel"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
     <!-- POC with separate view -->
+    <!--
     <bean id="KS-KitchenSink-Lightbox-Dialog1" parent="KS-KitchenSink-Lightbox-View-Base"
           p:breadcrumbs.render="false">
         <property name="items">
@@ -132,7 +164,7 @@
                 <bean parent="KS-KitchenSink-Page" p:header.render="false">
                     <property name="items">
                         <list>
-                            <bean parent="KS-KitchenSink-DialogButtonConfirm">
+                            <bean parent="KS-KitchenSink-Lightbox-DialogButtonConfirm">
                                 <property name="hidden" value="false"/>
                             </bean>
                         </list>
@@ -141,74 +173,30 @@
             </list>
         </property>
     </bean>
-
-<!--
-    <bean id="Y-KS-KitchenSink-DialogButtonConfirm" parent="Uif-DialogGroup"
-          p:style="width:300px;overflow:hidden">
-        <property name="id" value="lightboxDialog1" />
-        <!==<property name="hidden" value="true"/>==>
-        <property name="disclosure.render" value="false"/>
-        <property name="headerText" value="Create New Cluster..."/>
-        <property name="promptText" value=""/>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="stringField1" p:label="Field-1">
-                    <!==
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="15" p:maxLength="15"/>
-                    </property>
-                    ==>
-                </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="stringField2" p:label="Field-2">
-                    <!==
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="15" p:maxLength="15"/>
-                    </property>
-                    ==>
-                </bean>
-            </list>
-        </property>
-        <property name="availableResponses">
-            <list>
-                <!== Rice 2.2.0 bug, these still show as Yes/No ==>
-                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Submit"/>
-                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
-            </list>
-        </property>
-    </bean>
-    <!==<bean id="KS-KitchenSink-DialogButtonConfirm" parent="Uif-OK-Cancel-DialogGroup"/>==>
-    <bean id="X-KS-KitchenSink-DialogButtonConfirm" parent="Uif-DialogGroup">
-        <property name="header.render" value="false"/>
-        <!==<property name="headerText" value="headerText (hidden)"/>==>
-        <property name="promptText" value="Did you mean to click on the button?"/>
-        <property name="availableResponses">
-            <list>
-                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Yes"/>
-                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="No"/>
-            </list>
-        </property>
-    </bean>
--->
+    -->
 
 
     <!-- just the various containers for the interesting bits -->
+    <bean id="KS-Uif-Message-Test" parent="Uif-Message" abstract="true"
+          p:style="margin-bottom:1em;font-size:125%"/>
 
     <bean id="KS-KitchenSink-Lightbox-View" parent="KS-KitchenSink-Lightbox-View-Base">
         <property name="headerText" value="Other Examples"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-Page" p:headerText="Lightboxes">
+                <bean parent="KS-KitchenSink-Page" p:headerText="Lightboxes (in progress)">
                     <property name="items">
                         <list>
                             <bean parent="KS-KitchenSink-Page-Summary">
                                 <property name="messageText">
                                     <value>
-                                        [ page summary goes here ]
+                                        There are still KRAD issues with dialogs &amp; lightboxes as of Rice 2.3.0-M2.
                                     </value>
                                 </property>
                             </bean>
                             <ref bean="KS-KitchenSink-Lightbox-Content"/>
                             <ref bean="KS-KitchenSink-Lightbox-Links"/>
+                            <ref bean="KS-KitchenSink-Lightbox-DialogButtonConfirm"/>
                         </list>
                     </property>
                 </bean>
@@ -221,14 +209,20 @@
         <property name="items">
             <list>
                 <bean parent="KS-KitchenSink-Lightbox-Section">
-                    <!--
                     <property name="items">
                         <list merge="true">
-                            <bean parent="KS-KitchenSink-MessageField"
-                                  p:messageText="Click on the button to see a message box confirmation."/>
+                            <bean parent="KS-KitchenSink-MessageField">
+                                <property name="messageText">
+                                    <value>
+                                        To test the MaintenanceView lightbox, click the "By Using Populations"
+                                        link, click the small round magnifying glass button in the "Population(s)"
+                                        section, and then "return value" on any result from a search.  The
+                                        lightbox disappears and a new tab is opened.
+                                    </value>
+                                </property>
+                            </bean>
                         </list>
                     </property>
-                    -->
                 </bean>
             </list>
         </property>
@@ -271,8 +265,8 @@
                             <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/Lightbox.xml"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/Lightbox.xml"/>
+                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Lightbox.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/Lightbox.xml"/>
                                     </map>
                                 </property>
                             </bean>

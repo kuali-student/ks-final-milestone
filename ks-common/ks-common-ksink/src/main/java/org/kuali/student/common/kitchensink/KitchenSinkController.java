@@ -212,7 +212,7 @@ public class KitchenSinkController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=dialogButtonConfirm")
     public ModelAndView dialogButtonConfirm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String dialogId = "dialogButton1";
+        String dialogId = "messageBoxDialog";
 
         if (!hasDialogBeenAnswered(dialogId, form)) {
             return showDialog(dialogId, form, request, response);
@@ -232,6 +232,22 @@ public class KitchenSinkController extends UifControllerBase {
 
         return getUIFModelAndView(form);
     }
+
+
+    @RequestMapping(params = "methodToCall=customDialog")
+    public ModelAndView customDialog(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String dialogId = "lightboxDialog2";
+
+        if (!hasDialogBeenAnswered(dialogId, form)) {
+            return showDialog(dialogId, form, request, response);
+        }
+
+        // clear dialog history so user can press the button again
+        form.getDialogManager().resetDialogStatus(dialogId);
+        return getUIFModelAndView(form);
+    }
+
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveForm")
     public ModelAndView saveForm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
@@ -256,9 +272,10 @@ public class KitchenSinkController extends UifControllerBase {
         form.setStringField1("Lightbox Form Saved");
 
         KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, "kitchensink.custom", "Lightbox form saved.");
-        //return getUIFModelAndView(form);
-        return returnFromLightbox(form, result, request, response);
-        //return refresh(form, result, request, response);
+        // growl doesn't show because returnFromLightbox() executes performRedirect(), w/o growl params:
+        return returnFromLightbox(form, result, request, response); //also, hidden bean briefly shows
+        //return getUIFModelAndView(form);//shows growl,lightbox remains,hidden bean displays
+        //return refresh(form, result, request, response);//same as getUIFModelAndView
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=processFormRowSelection")
