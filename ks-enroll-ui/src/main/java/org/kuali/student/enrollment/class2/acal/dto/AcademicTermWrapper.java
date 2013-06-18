@@ -92,6 +92,7 @@ public class AcademicTermWrapper {
         this.termType = termInfo.getTypeKey();
         this.keyDatesGroupWrappers = new ArrayList();
         this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+        this.subterms = new ArrayList<AcademicTermWrapper>();
 
         if (isCopy){
             setTermInfo(new TermInfo());
