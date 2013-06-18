@@ -928,9 +928,17 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     private boolean makeTermOfficial(AcademicTermWrapper term, AcademicCalendarForm acalForm){
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
-        try{
-            StatusInfo statusInfo = getAcalService().changeTermState(term.getTermInfo().getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,viewHelperService.createContextInfo());
-            if (!statusInfo.getIsSuccess()){
+        StatusInfo statusInfo;
+        try {
+            if (term.isSubTerm()) {
+                getAcademicCalendarServiceFacade().makeTermOfficialCascaded(term.getTermInfo().getId(), viewHelperService.createContextInfo());
+                // TOTDO: make the makeTermOfficialCascaded to return StatusInfo instead of void
+                statusInfo = new StatusInfo();
+                statusInfo.setSuccess(Boolean.TRUE);
+            } else {
+                statusInfo = getAcalService().changeTermState(term.getTermInfo().getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, viewHelperService.createContextInfo());
+            }
+            if (!statusInfo.getIsSuccess()) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
                 return false;
             }
