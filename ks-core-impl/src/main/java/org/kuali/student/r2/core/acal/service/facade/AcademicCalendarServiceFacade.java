@@ -54,10 +54,10 @@ public interface AcademicCalendarServiceFacade {
 
     /**
      * deleteCalendarCascaded
-     * @param academicCalendarKey ID for academic calendar
+     * @param academicCalendarId ID for academic calendar
      * @param context
      */
-    void deleteCalendarCascaded(String academicCalendarKey, ContextInfo context) throws
+    StatusInfo deleteCalendarCascaded(String academicCalendarId, ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
 }
