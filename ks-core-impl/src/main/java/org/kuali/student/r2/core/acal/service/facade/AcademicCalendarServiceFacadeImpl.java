@@ -133,9 +133,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
             statusInfo.setSuccess(Boolean.TRUE);
             return statusInfo;
         } else {
-            statusInfo.setSuccess(Boolean.FALSE);
-            statusInfo.setMessage("Term can't be deleted in official state");
-            return statusInfo;
+            throw new OperationFailedException("Term can't be deleted in official state or having sub terms in official state - Term id:" + termId);
         }
 
     }
@@ -148,22 +146,18 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
         //if the calendar in official state, not to delete anything
         if (StringUtils.equals(acalInfo.getStateKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
-            statusInfo.setSuccess(Boolean.FALSE);
-            statusInfo.setMessage("Calendar can't be deleted in official state");
-            return statusInfo;
+            throw new OperationFailedException("Calendar can't be deleted in official state - Calendar id:" + academicCalendarId);
         } else {
             List<TermInfo> termInfos = acalService.getTermsForAcademicCalendar(acalInfo.getId(), context);
 
             //iterate terms/sub terms of the given calendar to build the list of term ids to be deleted
-            //If there is any term/sub term with offcial state, return status false and won't delete anything
+            //If there is any term/sub term with offcial state, throw exception
             for (TermInfo termInfo : termInfos) {
                 Set<String> toDeleteTermIdsPerTerm = new HashSet<String>();
                 if (buildToDeleteTermIdList(termInfo.getId(), toDeleteTermIdsPerTerm, context)) {
                     toDeleteTermIds.addAll(toDeleteTermIdsPerTerm);
                 } else {
-                    statusInfo.setSuccess(Boolean.FALSE);
-                    statusInfo.setMessage("Calendar can't be deleted with term(s) in official state");
-                    return statusInfo;
+                    throw new OperationFailedException("Calendar can't be deleted with term(s) in official state - Calendar id:" + academicCalendarId);
                 }
             }
 
@@ -190,7 +184,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
      * @param toDeleteTermIds: Set of all the term and sub term ids to be deleted
      * @param context
      * @return true: none of the term/sub term has the official state (they can be deleted)
-     *         false: any term/sub term id(s) have the state official (none of the term/sub term can be deleted)
+     *
      */
     private boolean buildToDeleteTermIdList (String termId, Set<String> toDeleteTermIds, ContextInfo context) {
         try {
