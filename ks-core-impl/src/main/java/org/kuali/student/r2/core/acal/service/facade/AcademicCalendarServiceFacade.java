@@ -60,4 +60,27 @@ public interface AcademicCalendarServiceFacade {
     StatusInfo deleteCalendarCascaded(String academicCalendarId, ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Determines if a term and its descendants are valid.  The rule for validity is if a term is draft,
+     * its descendant tree must be draft.  If any terms in the descendant tree is official, then it's
+     * not a valid.  In particular, this code attempts to find parent-child where parent is draft and
+     * child is official.
+     * @param termId The term to verify
+     * @param context
+     * @return true, if term and descendants are valid
+     */
+    boolean validateTerm(String termId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
+
+    /**
+     * Determines if a calendar and its descendants are valid.  The rule for validity is if a calendar is draft,
+     * its descendant tree must be draft.  If any terms in the descendant tree is official, then it's
+     * not a valid.  In particular, this code attempts to find parent-child where parent is draft and
+     * child is official.
+     * @param acalId The term to verify
+     * @param context
+     * @return true, if term and descendants are valid
+     */
+    boolean validateCalendar(String acalId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
+
 }

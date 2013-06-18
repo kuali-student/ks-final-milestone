@@ -177,6 +177,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         }
     }
 
+
     /**
      * build the list of term and sub term ids for the given term recursively. The state of the term and all the sub terms
      * will be checked. If any term/sub term id(s) have the state official, no term or sub term can't be deleted
@@ -215,9 +216,60 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
     }
 
+    @Override
+    public boolean validateTerm(String termId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        Set<String> processedTermIds = new HashSet<String>();
+        processedTermIds.add(termId);
+        return _validateTermRecursive(termId, processedTermIds, context);
+    }
 
+    private boolean _validateTermRecursive(String termId, Set<String> processedTermIds, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        List<TermInfo> childTerms = acalService.getIncludedTermsInTerm(termId, context);
+        TermInfo term = acalService.getTerm(termId, context);
+
+        if (AtpServiceConstants.ATP_DRAFT_STATE_KEY.equals(term.getStateKey())) {
+            for (TermInfo subterm: childTerms) {
+                // Worth checking all subterms regardless of whether it's been processed or not
+                if (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(subterm.getStateKey())) {
+                    return false; // Automatically false
+                }
+            }
+        }
+        // Otherwise recurse
+        for (TermInfo subterm: childTerms) {
+            if (processedTermIds.contains(subterm.getId())) { // To prevent accidental infinite recursion
+                continue;
+            }
+            processedTermIds.add(subterm.getId()); // Add this to processed
+            boolean result = _validateTermRecursive(subterm.getId(), processedTermIds, context);
+            if (!result) {
+                return result; // Validation failed, so return false
+            }
+        }
+        // If we got here, then must be true
+        return true;
+    }
+
+    @Override
+    public boolean validateCalendar(String acalId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        AcademicCalendarInfo cal = acalService.getAcademicCalendar(acalId, context);
+        List<TermInfo> parentTerms = acalService.getTermsForAcademicCalendar(acalId, context);
+        if (AtpServiceConstants.ATP_DRAFT_STATE_KEY.equals(cal.getStateKey())) {
+            for (TermInfo term: parentTerms) {
+                if (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(term.getStateKey())) {
+                    return false;
+                }
+            }
+        }
+        // If we get here, then recursively validate each term
+        for (TermInfo term: parentTerms) {
+            boolean result = validateTerm(term.getId(), context);
+            if (!result) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
