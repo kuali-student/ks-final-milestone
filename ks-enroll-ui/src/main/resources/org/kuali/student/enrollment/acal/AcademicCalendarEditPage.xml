@@ -111,13 +111,12 @@ limitations under the License.
     </bean>
 
     <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
-        <property name="headerText" value="Information" />
+        <property name="headerText" value="Calendar" />
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="Last saved at @{lastUpdatedTime}" p:cssClasses="font-light12"/>
+                <!--<bean parent="Uif-Message" p:messageText="Last saved at @{lastUpdatedTime}" p:cssClasses="font-light12"/>-->
                 <ref bean="KS-AcademicCalendar-Overview" />
-                <ref bean="KS-AcademicTerm-Overview" />
                 <ref bean="KS-AcademicCalendar-MetaSubSection"/>
                 <ref bean="KS-AcademicCalendar-EventSubSection"/>
                 <ref bean="KS-AcademicCalendar-HolidaySubSection"/>
@@ -128,16 +127,30 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-Overview" parent="Uif-VerticalBoxSubSection">
         <property name="headerText" value="Calendar Overview" />
         <property name="disclosure.render" value="false"/>
+        <!--<property name="hidden" value="@{#view.readOnly}"/>-->
+        <property name="items">
+            <list>
+                <ref bean="KS-AcademicCalendar-AcalOverview"/>
+                <ref bean="KS-AcademicTerm-Overview" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AcademicCalendar-AcalOverview" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.name"
-                      p:label="Academic Calendar Name" p:labelPlacement="LEFT" />
+                      p:label="Academic Calendar Name" p:labelPlacement="LEFT"
+                      p:fieldLabel.renderColon="false"/>
                 <bean parent="Uif-DataField" p:propertyName="adminOrgName"
-                      p:label="Organization" p:labelPlacement="LEFT"/>
+                      p:label="Organization" p:labelPlacement="LEFT"
+                      p:fieldLabel.renderColon="false"/>
                 <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
-                      p:label="Start Date" p:labelPlacement="LEFT" />
+                      p:label="Start Date" p:labelPlacement="LEFT"
+                      p:fieldLabel.renderColon="false"/>
                 <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.endDate"
-                      p:label="End Date" p:labelPlacement="LEFT" />
+                      p:label="End Date" p:labelPlacement="LEFT"
+                      p:fieldLabel.renderColon="false"/>
             </list>
         </property>
     </bean>
@@ -145,6 +158,7 @@ limitations under the License.
     <bean id="KS-AcademicTerm-Overview" parent="Uif-TableCollectionSection"
           p:renderAddLine="false"  >
         <!--<property name="hidden" value="true"/> p:render="@{(termWrapperList.size()>0)?'true':'false'}"-->
+        <property name="hidden" value="@{#view.readOnly or termWrapperList.size()==0}"/>
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="headerText" value="Terms/Subterms"/>

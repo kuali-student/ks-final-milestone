@@ -40,6 +40,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
@@ -75,6 +76,7 @@ public class AcademicCalendarController extends UifControllerBase {
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(AcademicCalendarController.class);
 
     private AcademicCalendarService acalService;
+    private AcademicCalendarServiceFacade academicCalendarServiceFacade;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -404,7 +406,13 @@ public class AcademicCalendarController extends UifControllerBase {
 
         if (termWrapper.isNew()){
            academicCalendarForm.getTermWrapperList().remove(selectedLineIndex);
-        }else{
+           if (termWrapper.isHasSubterm()){
+               List<AcademicTermWrapper> subTerms = termWrapper.getSubterms();
+               for(AcademicTermWrapper subTerm : subTerms){
+                    academicCalendarForm.getTermWrapperList().remove(subTerm);
+               }
+           }
+        }else{  //this part will not be called since cancel Term link does not show up after a term is persisted in DB.
             try {
                 TermInfo termInfo = getAcalService().getTerm(termWrapper.getTermInfo().getId(), viewHelperService.createContextInfo());
                 boolean calculateInstrDays = !academicCalendarForm.getHolidayCalendarList().isEmpty();
@@ -439,9 +447,9 @@ public class AcademicCalendarController extends UifControllerBase {
 
         String dialog=null;
         if(academicCalendarForm.isOfficialCalendar()){
-            dialog = CalendarConstants.ACADEMIC_TERM_OFFICIAL_CONFIRMATION_DIALOG;      //KS-AcademicCalendar-ConfirmTermOfficial-Dialog
+            dialog = CalendarConstants.ACADEMIC_TERM_OFFICIAL_CONFIRMATION_DIALOG;
         }else{
-            dialog = CalendarConstants.ACADEMIC_TERM_AND_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;  //KS-AcademicCalendar-ConfirmCalendarTermOfficial-Dialog
+            dialog = CalendarConstants.ACADEMIC_TERM_AND_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;
         }
 
         // Dialog confirmation to make terms official
@@ -557,14 +565,18 @@ public class AcademicCalendarController extends UifControllerBase {
 
         int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
-        AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
-
-        if (!termWrapper.isNew()){
-            academicCalendarForm.getTermsToDeleteOnSave().add(termWrapper);
+        AcademicTermWrapper theTermWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
+        if (!theTermWrapper.isNew()){
+            academicCalendarForm.getTermsToDeleteOnSave().add(theTermWrapper);
         }
-
         academicCalendarForm.getTermWrapperList().remove(selectedLineIndex);
-
+        
+        if(theTermWrapper.isHasSubterm())  { //get all subterms and remove them as well
+            List<AcademicTermWrapper> subTerms = theTermWrapper.getSubterms();
+            for(AcademicTermWrapper subTerm : subTerms){
+                academicCalendarForm.getTermWrapperList().remove(subTerm);
+            }
+        }
         return getUIFModelAndView(academicCalendarForm);
     }
 
@@ -702,8 +714,10 @@ public class AcademicCalendarController extends UifControllerBase {
         // If validation succeeds, continue save
         try {
             if (StringUtils.isNotBlank(academicCalendarInfo.getId())) { // update existing ACAL
-                // 1. update acal and AC-HC relationships
+                //0. update AC-HC relationships
                 academicCalendarInfo = processHolidayCalendars(academicCalendarForm);
+
+                // 1. update acal
                 AcademicCalendarInfo acalInfo = getAcalService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, viewHelperService.createContextInfo());
                 academicCalendarForm.setAcademicCalendarInfo(acalInfo);
 
@@ -735,7 +749,8 @@ public class AcademicCalendarController extends UifControllerBase {
         for (AcademicTermWrapper termWrapper : academicCalendarForm.getTermsToDeleteOnSave()){
             String termId = termWrapper.getTermInfo().getId();
             try {
-                getAcalService().deleteTerm(termId, viewHelperService.createContextInfo());
+//                getAcalService().deleteTerm(termId, viewHelperService.createContextInfo());
+                getAcademicCalendarServiceFacade().deleteTermCascaded(termId, viewHelperService.createContextInfo());
             } catch(Exception e) {
                 LOG.error(String.format("Unable to delete term [%s].", termId), e);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED);
@@ -780,7 +795,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         if (isOfficial){
-            StatusInfo statusInfo;
+            StatusInfo statusInfo = null;
             try {
                 statusInfo = getAcalService().changeAcademicCalendarState(academicCalendarForm.getAcademicCalendarInfo().getId(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,viewHelperService.createContextInfo());
                 if (!statusInfo.getIsSuccess()){
@@ -876,6 +891,13 @@ public class AcademicCalendarController extends UifControllerBase {
         return this.acalService;
     }
 
+    public AcademicCalendarServiceFacade getAcademicCalendarServiceFacade() {
+        if (academicCalendarServiceFacade == null) {
+            academicCalendarServiceFacade = (AcademicCalendarServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acalServiceFacade", "AcademicCalendarServiceFacade"));
+        }
+        return academicCalendarServiceFacade;
+    }
+
     protected AcademicCalendarViewHelperService getAcalViewHelperService(AcademicCalendarForm acalForm){
         AcademicCalendarViewHelperService viewHelperService = (AcademicCalendarViewHelperService) KSControllerHelper.getViewHelperService(acalForm);
         return viewHelperService;
@@ -916,24 +938,6 @@ public class AcademicCalendarController extends UifControllerBase {
             for (KeyDatesGroupWrapper groupWrapper : term.getKeyDatesGroupWrappers()){
                 for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
                     keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),viewHelperService.createContextInfo()));
-                }
-            }
-            if (term.isSubTerm()) {
-                List<TermInfo> perentTermInfos = getAcalService().getContainingTerms(term.getTermInfo().getId(), viewHelperService.createContextInfo());
-                // See if there is a parent term with state Official
-                boolean hasOfficialParentTerm = false;
-                for (TermInfo parentTermInfo : perentTermInfos) {
-                    if (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(parentTermInfo.getStateKey())) {
-                        hasOfficialParentTerm = true;
-                        break;
-                    }
-                }
-                String parentCalenddarStateKey = acalForm.getAcademicCalendarInfo().getStateKey();
-                String status = term.getTermInfo().getStateKey();
-                boolean shouldChangeSubtermStatus = (hasOfficialParentTerm && AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(parentCalenddarStateKey) && !AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(status));
-                if (shouldChangeSubtermStatus) {
-                    term.getTermInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-                    getAcalService().changeTermState(term.getTermInfo().getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, viewHelperService.createContextInfo());
                 }
             }
         } catch (Exception e) {

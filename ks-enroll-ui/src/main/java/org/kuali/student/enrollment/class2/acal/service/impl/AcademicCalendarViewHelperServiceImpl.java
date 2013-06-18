@@ -265,12 +265,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     //add the sub terms into the term wrapper list
                     for (TermInfo subTermInfo : subTermInfos) {
                         AcademicTermWrapper subTermWrapper = populateTermWrapper(subTermInfo, isCopy,calculateInstrDays);
-                        if (isCopy){  //if copy - terms will have IDs after persisting (auto generated)
-                            subTermWrapper.setParentTerm(termInfo.getTypeKey());
-                            subTermWrapper.setSubTerm(true);
-                        } else {
-                            subTermWrapper.setParentTerm(termInfo.getId());
-                            subTermWrapper.setSubTerm(true);
+                        subTermWrapper.setParentTerm(termInfo.getTypeKey());
+                        subTermWrapper.setSubTerm(true);
+                        termWrapper.setHasSubterm(true);
+                        termWrapper.getSubterms().add(subTermWrapper);
+                        if (!isCopy){
+                            subTermWrapper.setParentTermInfo(termInfo);
                         }
                         termWrappers.add(subTermWrapper);
                     }
@@ -1134,6 +1134,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                         if(parentTermWrapper != null){
                             populateParentTermToSubterm(parentTermWrapper, newLine);
                         }
+                        parentTermWrapper.setHasSubterm(true);
+                        parentTermWrapper.getSubterms().add(newLine);
                     }
                     //otherwise, let performAddLineValidation to handle and post validation error
                 }

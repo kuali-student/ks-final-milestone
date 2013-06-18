@@ -43,7 +43,6 @@ public class AcademicTermWrapper {
     private String name;
     private int instructionalDays;
     private String termType;
-    private String parentTerm;
     private Date startDate;
     private Date endDate;
 
@@ -58,8 +57,13 @@ public class AcademicTermWrapper {
     private String instructionalDayConfig = "cars";
 
     private boolean makeOfficial;
+
+    private String parentTerm;
     private TermInfo parentTermInfo;
     private boolean subTerm = false;
+
+    private boolean hasSubterm = false;
+    private List<AcademicTermWrapper> subterms;
 
     /**
      * This constructor sets all the default values.
@@ -72,6 +76,7 @@ public class AcademicTermWrapper {
         RichTextInfo desc = new RichTextInfo();
         desc.setPlain("Test");
         termInfo.setDescr(desc);
+        subterms = new ArrayList<AcademicTermWrapper>();
     }
 
     /**
@@ -466,5 +471,21 @@ public class AcademicTermWrapper {
 
     public void setSubTerm(boolean subTerm) {
         this.subTerm = subTerm;
+    }
+
+    public boolean isHasSubterm() {
+        return hasSubterm;
+    }
+
+    public void setHasSubterm(boolean hasSubterm) {
+        this.hasSubterm = hasSubterm;
+    }
+
+    public List<AcademicTermWrapper> getSubterms() {
+        return subterms;
+    }
+
+    public void setSubterms(List<AcademicTermWrapper> subterms) {
+        this.subterms = subterms;
     }
 }
