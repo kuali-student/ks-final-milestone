@@ -170,7 +170,6 @@
         <property name="page">
             <bean id="KS-KitchenSink-LookupDefaultAction-Page" parent="Uif-LookupPage">
                 <property name="headerText" value="Lookup with Default Action" />
-                <property name="header.style" value="border-bottom:solid 1px black;margin-bottom:15px;"/>
                 <property name="header">
                     <bean parent="Uif-PageHeader">
                         <!-- suppress "Create New" link by removing header's lowerGroup: -->
