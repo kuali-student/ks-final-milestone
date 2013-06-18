@@ -705,20 +705,19 @@ public class AcademicCalendarController extends UifControllerBase {
                 // 1. update acal and AC-HC relationships
                 academicCalendarInfo = processHolidayCalendars(academicCalendarForm);
                 AcademicCalendarInfo acalInfo = getAcalService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, viewHelperService.createContextInfo());
-                //academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), viewHelperService.createContextInfo()));
                 academicCalendarForm.setAcademicCalendarInfo(acalInfo);
 
                 // 2. update acalEvents if any
                 List<AcalEventWrapper> events = academicCalendarForm.getEvents();
                 processEvents(academicCalendarForm, events, acalInfo.getId());
             } else {  //create a new ACAL
-                AcademicCalendarInfo acalInfo = null;
                 // 1. create  a new acalInfo with a list of HC Ids
                 processHolidayCalendars(academicCalendarForm);
-                acalInfo = viewHelperService.createAcademicCalendar(academicCalendarForm);
-                academicCalendarForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalInfo.getId(), viewHelperService.createContextInfo()));
+                academicCalendarInfo = viewHelperService.createAcademicCalendar(academicCalendarForm);
+                academicCalendarForm.setAcademicCalendarInfo(academicCalendarInfo);
+
                 // 2. create new events if any
-                createEvents(acalInfo.getId(), academicCalendarForm);
+                createEvents(academicCalendarInfo.getId(), academicCalendarForm);
             }
         } catch (VersionMismatchException e){
             academicCalendarForm.setReload(true);
