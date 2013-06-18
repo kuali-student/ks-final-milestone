@@ -616,7 +616,20 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
     @Override
     public List<TermInfo> getTermsForAcademicCalendar(String academicCalendarId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (!acals.containsKey(academicCalendarId)) {
+            throw new OperationFailedException("acalId=" + academicCalendarId + " does not exist");
+        }
+        Set<String> resultSet = new HashSet<String>();
+        for (String termId: term2calSet.keySet()) {
+            if (term2calSet.get(termId).contains(academicCalendarId)) {
+                resultSet.add(termId);
+            }
+        }
+        List<TermInfo> termInfos = new ArrayList<TermInfo>();
+        for (String termId: resultSet) {
+            termInfos.add(terms.get(termId));
+        }
+        return termInfos;
     }
 
     @Override

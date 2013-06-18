@@ -26,8 +26,12 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOff
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -45,6 +49,8 @@ import javax.annotation.Resource;
 import java.util.Date;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
 
 /**
  * Tests AcademicCalendarServiceFacadeImpl
@@ -212,5 +218,99 @@ public class TestAcademicCalendarServiceFacadeImpl {
             threwException = true;
         }
         assert(!threwException);
+    }
+
+    private TermInfo _setup2(int level) throws Exception {
+        // Initial data setup
+        TermInfo subSubTerm = new TermInfo();
+        subSubTerm.setTypeKey(AtpServiceConstants.ATP_HALF_FALL_2_TYPE_KEY);
+        subSubTerm.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        subSubTerm = acalService.createTerm(subSubTerm.getTypeKey(), subSubTerm, contextInfo);
+        acalService.addTermToTerm(childTerm2.getId(), subSubTerm.getId(), contextInfo);
+        if (level == 0) {
+            acalService.changeTermState(parentTerm.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+        } else if (level == 1) {
+            acalService.changeTermState(childTerm.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+        } else if (level == 2) {
+            acalService.changeTermState(childTerm2.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+        } else if (level == 3) {
+            acalService.changeTermState(subSubTerm.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+        }
+        return subSubTerm;
+    }
+
+    @Test
+    public void testValidateTerm0() throws Exception {
+        _setup2(0);
+        // Now test for invalidity
+        assertTrue(acalServiceFacade.validateTerm(parentTerm.getId(), contextInfo));
+
+    }
+
+    @Test
+    public void testValidateTerm1() throws Exception {
+        _setup2(1);
+        // Now test for invalidity
+        assertFalse(acalServiceFacade.validateTerm(parentTerm.getId(), contextInfo));
+    }
+
+    @Test
+    public void testValidateTerm2() throws Exception {
+        _setup2(2);
+        // Now test for invalidity
+        assertFalse(acalServiceFacade.validateTerm(parentTerm.getId(), contextInfo));
+    }
+
+    @Test
+    public void testValidateTerm3() throws Exception {
+        _setup2(3);
+        // Now test for invalidity
+        assertFalse(acalServiceFacade.validateTerm(parentTerm.getId(), contextInfo));
+    }
+
+    @Test
+    public void testValidateCalendar0() throws Exception {
+        _setup2(0);
+
+        // Now test for invalidity
+        assertFalse(acalServiceFacade.validateCalendar(cal.getId(), contextInfo));
+        acalService.changeAcademicCalendarState(cal.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+        assertTrue(acalServiceFacade.validateCalendar(cal.getId(), contextInfo));
+    }
+
+    @Test
+    public void testValidateCalendar1() throws Exception {
+        _setup2(1);
+        // Now test for invalidity
+        assertFalse(acalServiceFacade.validateTerm(parentTerm.getId(), contextInfo));
+        acalService.changeAcademicCalendarState(cal.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+        assertFalse(acalServiceFacade.validateCalendar(cal.getId(), contextInfo));
+    }
+
+    @Test
+    public void testValidateCalendar2() throws Exception {
+        _setup2(2);
+        // Now test for invalidity
+        assertFalse(acalServiceFacade.validateTerm(parentTerm.getId(), contextInfo));
+        acalService.changeAcademicCalendarState(cal.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+        assertFalse(acalServiceFacade.validateCalendar(cal.getId(), contextInfo));
+    }
+
+    @Test
+    public void testValidateCalendar3() throws Exception {
+        _setup2(3);
+        // Now test for invalidity
+        assertFalse(acalServiceFacade.validateTerm(parentTerm.getId(), contextInfo));
+        acalService.changeAcademicCalendarState(cal.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+        assertFalse(acalServiceFacade.validateCalendar(cal.getId(), contextInfo));
+    }
+
+    @Test
+    public void testValidateCalendar4() throws Exception {
+        _setup2(4);  // all terms draft
+        // Now test for invalidity
+        assertTrue(acalServiceFacade.validateTerm(parentTerm.getId(), contextInfo));
+        acalService.changeAcademicCalendarState(cal.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+        assertTrue(acalServiceFacade.validateCalendar(cal.getId(), contextInfo));
     }
 }
