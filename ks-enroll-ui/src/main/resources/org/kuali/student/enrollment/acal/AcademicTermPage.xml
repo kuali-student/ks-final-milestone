@@ -75,7 +75,11 @@
                 <bean parent="Uif-AddLineAction" p:focusOnIdAfterSubmit="SELF"/>
             </list>
         </property>
-
+        <property name="lineActions">
+            <list>
+                <!-- Empty to override defaults-->
+            </list>
+        </property>
         <property name="addLineItems">
             <list>
                 <bean id="term_type_add" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
