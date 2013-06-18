@@ -624,6 +624,7 @@ a {
 
 
 /************************************** CONTEXT BAR ***********************/
+/* Attributes of the Context Bar */
 .ks-topGroup {
     height: 40px;
     background-color: #555;
@@ -631,11 +632,12 @@ a {
 }
 
 .ks-topGroup label {
-    padding-right: 20px;
+    padding-right: 2px;
     color: white;
     cursor: default;
 }
 
+/* Attributes of Term */
 .ks-topGroup span {
     padding-right: 20px;
     color: white;
@@ -652,6 +654,7 @@ a {
     font-weight: normal;
 }
 
+/* Attributes of the SOC State */
 .ks-topGroup-courseOffering-socState {
     padding-top: 10px;
 }
