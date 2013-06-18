@@ -1,22 +1,31 @@
+/**
+ * Copyright 2013 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2013/04/04
- * Time: 1:34 PM
- * To change this template use File | Settings | File Templates.
- */
 public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     private String cluDescription;
-    private String atpCode;
     private List<CluInformation> clusInRange;
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE();
+    private String socStateKey;
 
     public String getCluDescription() {
         return cluDescription;
@@ -24,14 +33,6 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     public void setCluDescription(String cluDescription) {
         this.cluDescription = cluDescription;
-    }
-
-    public String getAtpCode() {
-        return atpCode;
-    }
-
-    public void setAtpCode(String atpCode) {
-        this.atpCode = atpCode;
     }
 
     public EnrolRuleEditor getEnrolRuleEditor(){
@@ -49,4 +50,11 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
         this.clusInRange = clusInRange;
     }
 
+    public CourseOfferingContextBar getContextBar() {
+        return contextBar;
+    }
+
+    public void setContextBar(CourseOfferingContextBar contextBar) {
+        this.contextBar = contextBar;
+    }
 }
