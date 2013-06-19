@@ -695,7 +695,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             String termCode = existingAtp.getCode();
 
             AtpInfo toUpdate = termAssembler.disassemble(termInfo, context);
-            if(termCode.equals(toUpdate.getCode()) || (!termCode.equals(toUpdate.getCode()) && !hasTermCode(toUpdate.getTypeKey(), toUpdate.getCode(), context))){
+            if((termCode == null && toUpdate.getCode() == null) || termCode.equals(toUpdate.getCode()) || (!termCode.equals(toUpdate.getCode()) && !hasTermCode(toUpdate.getTypeKey(), toUpdate.getCode(), context))){
 
                 if (!StringUtils.equals(existingAtp.getStateKey(),termInfo.getStateKey())){
                      throw new OperationFailedException("State cant be updated with this call. Please use changeTermState() instead.");
