@@ -25,7 +25,7 @@ import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
  * @author Kuali Student Team
  */
 public class RuleEditTreeBuilder extends AbstractTreeBuilder{
-
+                          sa
     private static final long serialVersionUID = 1L;
 
     public Tree buildTree(RuleEditor rule) {
@@ -94,13 +94,16 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     if (counter==prop.getCompoundEditors().size()-1){
                         childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.LAST_IN_GROUP);
                     }
+                    //Add flag to identify if child can move right, if child has sibling after it
                     if((leaf.getData().getProposition().getCompoundEditors().size() - 1) != counter) {
                         if(!leaf.getData().getProposition().getCompoundEditors().get(leaf.getData().getProposition().getCompoundEditors().indexOf(child) + 1).getPropositionTypeCode().equals("C")) {
                             childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_IN);
                         }
-                    } else {
+                    } //Set flag for last child in leaf
+                    else {
                         childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_IN);
                     }
+                    //Set move left disabled flag for children in sprout (root)
                     if(leaf.equals(getRootChild(sprout))) {
                         childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_OUT);
                     }
