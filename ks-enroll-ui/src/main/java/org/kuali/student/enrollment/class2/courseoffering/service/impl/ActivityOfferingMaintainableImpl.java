@@ -56,8 +56,10 @@ import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImp
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
@@ -291,12 +293,34 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
-            TermInfo term = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
+            // Now have to deal with subterms: have to check if it's subterm or term
+            TermInfo term = null;
+            TermInfo subTerm = null;
+            wrapper.setHasSubTerms(false);
+            // termCode for subTerms is null. If it's changed in future - need to change logic to see if there is any parent term, now it saves us extra service call.
+            if (info.getTermCode() != null && !StringUtils.isBlank(info.getTermCode())) {
+                term = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
+                // checking if we can have subterms for giving term
+                List<TypeTypeRelationInfo> subTerms = getTypeService().getTypeTypeRelationsByOwnerAndType(term.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+                if(!subTerms.isEmpty()) {
+                    wrapper.setHasSubTerms(true);
+                }
+            } else {
+                subTerm = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
+                term = getAcademicCalendarService().getContainingTerms(info.getTermId(), contextInfo).get(0);
+                wrapper.setHasSubTerms(true);
+            }
             wrapper.setTerm(term);
+            wrapper.setSubTerm(subTerm);
             if (term != null) {
                 wrapper.setTermName(term.getName());
             }
             wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
+            if (subTerm != null) {
+                wrapper.setSubTermName(subTerm.getName());
+            } else {
+                wrapper.setSubTermName("None");
+            }
 
             List<TypeInfo> regPeriods = getTypeService().getTypesForGroupType("kuali.milestone.type.group.appt.regperiods", contextInfo);
             List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(info.getTermId(), contextInfo);
