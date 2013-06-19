@@ -44,18 +44,19 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection">
+    <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" id="status" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="stateName"/>
-                <bean parent="Uif-DataField" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termDisplayString" p:readOnly="true" />
-
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean  parent="Uif-GridGroup"  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-greyed-background ks-small-grid-line">
                     <property name="items">
                         <list>
+                            <bean parent="Uif-DataField" p:colSpan="3"  id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termDisplayString" p:readOnly="true"/>
                             <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName" p:readOnly="true"/>
-                            <bean parent="Uif-NavigationActionLink" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms}"
+                            <bean parent="Uif-NavigationActionLink" p:colSpan="2" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms}"
                                   p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"/>
+                            <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" p:readOnly="true"/>
+                            <bean parent="Uif-DataField" id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
                         </list>
                     </property>
                 </bean>
@@ -79,12 +80,7 @@
                         </list>
                     </property>
                 </bean>
-
-                <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" p:readOnly="true"/>
-                <bean parent="Uif-DataField" id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
-
                 <ref bean="ActivityOfferingEdit-submitSection"/>
-
             </list>
         </property>
     </bean>
