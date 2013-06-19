@@ -727,7 +727,15 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=manageAORules")
     public ModelAndView manageAORules(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
-        return getUIFModelAndView(form, "AOAgendaManagementView");
+
+        Object selectedObject = ARGUtil.getSelectedObject(form, "manageAORules");
+
+     if (selectedObject instanceof ActivityOfferingWrapper) {
+            Properties urlParameters = ARGActivityOfferingClusterHandler.manageAO(form, ((ActivityOfferingWrapper) selectedObject).getAoInfo().getId());
+            return super.performRedirect(form, "krmsRuleStudentEditor", urlParameters);
+        } else {
+            throw new RuntimeException("Invalid type. Does not support for now");
+        }
     }
 
 }

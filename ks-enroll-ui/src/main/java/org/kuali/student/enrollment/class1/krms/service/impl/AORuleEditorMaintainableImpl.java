@@ -37,6 +37,7 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.krms.util.KSKRMSConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -80,7 +81,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             try {
                 activityOffering = this.getCourseOfferingService().getActivityOffering(aoId, ContextUtils.createDefaultContextInfo());
             } catch (Exception e) {
-                //TODO: Add Exception handling.
+                throw new RuntimeException("Could not retrieve activity offering for " + aoId);
             }
         }
 
@@ -113,9 +114,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
      */
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
-        AgendaEditor agendaEditor = new EnrolAgendaEditor(agenda);
-
-        return agendaEditor;
+        return new EnrolAgendaEditor(agenda);
     }
 
     /**
@@ -126,7 +125,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
      * @param agendaTreeEntries
      * @return
      */
-    protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries) {
+    protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries, boolean initProp) {
 
         //Create NLHelper to populate Natural language on propositions.
         NaturalLanguageHelper nlHelper = new NaturalLanguageHelper();
@@ -144,16 +143,18 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     RuleEditor ruleEditor = new EnrolRuleEditor(agendaItem.getRule());
 
                     //Initialize the Proposition tree
+                    if(initProp){
                     this.initPropositionEditor(ruleEditor.getPropositionEditor());
-                    nlHelper.setNaturalLanguageTreeForUsage(ruleEditor.getPropositionEditor(), this.getViewTreeBuilder().getNaturalLanguageUsageKey());
+                    this.getNLHelper().setNaturalLanguageTreeForUsage(ruleEditor.getPropositionEditor(), this.getViewTreeBuilder().getNaturalLanguageUsageKey());
                     ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
+                    }
 
                     //Add rule to list on agenda
                     rules.add(ruleEditor);
                 }
 
                 if (treeRuleEntry.getIfTrue() != null) {
-                    rules.addAll(getRuleEditorsFromTree(treeRuleEntry.getIfTrue().getEntries()));
+                    rules.addAll(getRuleEditorsFromTree(treeRuleEntry.getIfTrue().getEntries(), initProp));
                 }
             }
 
@@ -161,6 +162,26 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
 
         return rules;
+    }
+
+    /**
+     * Return the clu id from the canonical course that is linked to the given Activity offering id.
+     *
+     * @param refObjectId - the Activity offering id.
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
+        List<ReferenceObjectBinding> list = new ArrayList<ReferenceObjectBinding>();
+      // TODO: get the Activity offering  for the given refobject and find the Parent   reference
+        ActivityOfferingInfo activityOfferingInfo = null;
+        try {
+            activityOfferingInfo = this.getCourseOfferingService().getActivityOffering(refObjectId, ContextUtils.createDefaultContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException("Could not retrieve course offering for " + refObjectId);
+        }
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lu.type.CreditCourse", activityOfferingInfo.getActivityId());
     }
 
     protected RuleViewTreeBuilder getViewTreeBuilder(){
@@ -192,4 +213,6 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
         return courseOfferingService;
     }
+
+
 }

@@ -57,11 +57,23 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     private RuleViewTreeBuilder viewTreeBuilder;
     private RuleCompareTreeBuilder compareTreeBuilder;
 
+    /**
+     *
+     * @return
+     */
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
         return EnrolPropositionEditor.class;
     }
 
+    /**
+     * Builds compare tree for the compare AO and CLU lightbox links.
+     *
+     * @param original
+     * @param refObjectId
+     * @return
+     * @throws Exception
+     */
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, String refObjectId) throws Exception {
 
@@ -106,6 +118,11 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         return true;
     }
 
+    /**
+     * Initializes the proposition, populating the type and terms.
+     *
+     * @param propositionEditor
+     */
     protected void initPropositionEditor(PropositionEditor propositionEditor) {
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
 
