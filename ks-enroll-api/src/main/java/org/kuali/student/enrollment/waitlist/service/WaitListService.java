@@ -500,18 +500,19 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Validates a WaitListEntry. Depending on the value of
-     * validationType, this validation could be limited to tests on
-     * just the current object and its directly contained sub-objects
-     * or expanded to perform all tests related to this
-     * WaitListEntry. If an identifier is present for the WaitListEntry
-     * (and/or one of its contained sub-objects) and a record is found
-     * for that identifier, the validation checks if the WaitListEntry
-     * can be shifted to the new values. If a an identifier is not
-     * present or a record does not exist, the validation checks if
-     * the WaitListEntry with the given data can be created.
+     * Validates a WaitListEntry. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current Relationship
+     * and its directly contained sub-objects or expanded to perform all tests
+     * related to this Relationship. If an identifier is present for the
+     * Relationship (and/or one of its contained sub-objects) and a record is
+     * found for that identifier, the validation checks if the Relationship
+     * can be updated to the new values. If an identifier is not
+     * present or a record does not exist, the validation checks if the
+     * object with the given data can be created.
      *
      * @param validationTypeKey    the identifier for the validation Type
+     * @param waitListId the identifier for the WaitList that this entry is attached to.
+     * @param studentId the identifier for the student that this entry is attached to.
      * @param waitListEntryTypeKey the identifier for the WaitListEntry
      *                             Type to be validated
      * @param waitListEntryInfo    the WaitListEntry to be validated
@@ -519,7 +520,7 @@ public interface WaitListService {
      *                             locale information about the caller of service operation
      * @return a list of validation results or an empty list if
      *         validation succeeded
-     * @throws DoesNotExistException     validationTypeKey or
+     * @throws DoesNotExistException     validationTypeKey, waitListId, studentId, or
      *                                   waitListEntryTypeKey is not found
      * @throws InvalidParameterException waitListEntryInfo or
      *                                   contextInfo is not valid
@@ -530,6 +531,8 @@ public interface WaitListService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateWaitListEntry(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                            @WebParam(name = "waitListId") String waitListId,
+                                                            @WebParam(name = "studentId") String studentId,
                                                             @WebParam(name = "waitListEntryTypeKey") String waitListEntryTypeKey,
                                                             @WebParam(name = "waitListEntryInfo") WaitListEntryInfo waitListEntryInfo,
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)

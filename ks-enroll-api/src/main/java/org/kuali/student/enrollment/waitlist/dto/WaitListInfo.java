@@ -35,7 +35,7 @@ import java.util.List;
 @XmlType(name = "WaitListInfo", propOrder = {
         "id", "typeKey", "stateKey","associatedOfferingIds",
         "offeringTypeKey", "waitListProcessingTypeKey", "maxSize",
-        "checkInRequired", "checkInFrequency", "allowBlockedEntries", "effectiveDate", "expirationDate",
+        "checkInRequired", "checkInFrequency", "allowHoldListEntries", "effectiveDate", "expirationDate",
         "meta", "attributes", "_futureElements" })
 public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Serializable {
 
@@ -54,7 +54,7 @@ public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Seri
     @XmlElement
     private TimeAmountInfo checkInFrequency;
     @XmlElement
-    private Boolean allowBlockedEntries;
+    private Boolean allowHoldListEntries;
     @XmlElement
     private Date effectiveDate;
     @XmlElement
@@ -80,7 +80,7 @@ public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Seri
             if(waitList.getCheckInFrequency() != null) {
                 setCheckInFrequency(new TimeAmountInfo(waitList.getCheckInFrequency()));
             }
-            setAllowBlockedEntries(waitList.getAllowBlockedEntries());
+            setAllowHoldListEntries(waitList.getAllowHoldListEntries());
             if(waitList.getEffectiveDate() != null) {
                 setEffectiveDate(new Date(waitList.getEffectiveDate().getTime()));
             }
@@ -148,12 +148,12 @@ public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Seri
     }
 
     @Override
-    public Boolean getAllowBlockedEntries() {
-        return allowBlockedEntries;
+    public Boolean getAllowHoldListEntries() {
+        return allowHoldListEntries;
     }
 
-    public void setAllowBlockedEntries(Boolean allowBlockedEntries) {
-        this.allowBlockedEntries = allowBlockedEntries;
+    public void setAllowHoldListEntries(Boolean allowHoldListEntries) {
+        this.allowHoldListEntries = allowHoldListEntries;
     }
 
     @Override

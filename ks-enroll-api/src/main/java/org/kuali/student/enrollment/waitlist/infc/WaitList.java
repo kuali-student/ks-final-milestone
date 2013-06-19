@@ -77,8 +77,8 @@ public interface WaitList extends IdNamelessEntity, HasEffectiveDates {
 
 
     /**
-     * @return true if blocked entries are allowed on this wait list.  An entry is considered blocked if it has any associated blocking rule ids attached to it.
-     * @name Allow Blocked Entries
+     * @return true if hold list entries are allowed on this wait list.  An entry is considered a hold list entry if it has any associated hold list rule ids attached to it.
+     * @name Allow Hold List Entries
      */
-    Boolean getAllowBlockedEntries();
+    Boolean getAllowHoldListEntries();
 }
