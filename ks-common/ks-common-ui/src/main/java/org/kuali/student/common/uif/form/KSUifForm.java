@@ -18,9 +18,13 @@ package org.kuali.student.common.uif.form;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * KS form class that extends UifFormBase. It contains properties that are shared
@@ -93,6 +97,26 @@ public class KSUifForm extends UifFormBase {
             return meta.getUpdateId();
         }
 
+    }
+
+    @Override
+    public void postBind(HttpServletRequest request) {
+
+        String growlMessage = request.getParameter("growl.message");
+        String temp = request.getParameter("growl.message.params");
+        String[] growlMessageParams;
+        if(temp!=null){
+            growlMessageParams = temp.split(",");
+        }
+        else{
+            growlMessageParams=new String[0];
+        }
+
+        if (growlMessage != null) {
+              KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessage, growlMessageParams);
+        }
+
+        super.postBind(request);
     }
 
 }
