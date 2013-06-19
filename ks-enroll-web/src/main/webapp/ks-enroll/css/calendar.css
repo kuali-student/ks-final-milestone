@@ -13,3 +13,4 @@ td.col2, td.col4, th.col1, th.col3 { padding-bottom:0; padding-left:0; padding-r
 .ks-calendar-copy-to { border:solid 1px #aaa; padding:5px 10px 5px 10px; width:500px; }
 .ks-calendar-copy-to-table th { vertical-align:middle; white-space:nowrap; }
 /*-- End of Create New Calendar ---------------------------------------------------------*/
+.ks-calendar-overview { background-color:#eee; border:solid 1px #aaa; padding:5px 10px 5px 10px; width:700px; }

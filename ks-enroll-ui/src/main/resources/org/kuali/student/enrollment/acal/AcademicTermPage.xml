@@ -11,8 +11,33 @@
         <property name="header.style" value="margin-bottom:0"/>
         <property name="items">
             <list>
-                <ref bean="KS-AcademicCalendar-Overview" />
+                <ref bean="KS-AcademicCalendar-Overview-WithoutTerms" />
                 <ref bean="KS-AcademicTerm-EditSection-Main"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-AcademicCalendar-Overview-WithoutTerms" parent="Uif-VerticalBoxSubSection">
+        <property name="headerText" value="Calendar Overview" />
+        <property name="disclosure.render" value="false"/>
+        <!--<property name="hidden" value="@{#view.readOnly}"/>-->
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-AcademicCalendar-AcalOverview"/>
+                        </list>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-calendar-overview</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

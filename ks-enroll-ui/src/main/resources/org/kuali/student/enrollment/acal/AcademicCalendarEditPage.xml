@@ -129,10 +129,24 @@ limitations under the License.
         <property name="headerText" value="Calendar Overview" />
         <property name="disclosure.render" value="false"/>
         <!--<property name="hidden" value="@{#view.readOnly}"/>-->
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
         <property name="items">
             <list>
-                <ref bean="KS-AcademicCalendar-AcalOverview"/>
-                <ref bean="KS-AcademicTerm-Overview" />
+                <bean parent="Uif-VerticalBoxGroup">
+                  <property name="items">
+                    <list>
+                        <ref bean="KS-AcademicCalendar-AcalOverview"/>
+                        <ref bean="KS-AcademicTerm-Overview" />
+                    </list>
+                  </property>
+                  <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-calendar-overview</value>
+                    </list>
+                  </property>
+                </bean>
             </list>
         </property>
     </bean>
