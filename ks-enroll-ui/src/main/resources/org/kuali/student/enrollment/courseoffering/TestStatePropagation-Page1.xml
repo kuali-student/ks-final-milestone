@@ -225,7 +225,7 @@
                             </property>
                         </bean>
 
-                        <bean parent="Uif-HorizontalBoxSection" id="rgTestResultsSection">
+                        <bean parent="Uif-HorizontalBoxSection" id="rgAoListTestResultsSection">
                             <property name="headerText" value="RG State Propagation Test Using AO List Results" />
                             <property name="items">
                                 <list>
@@ -281,7 +281,7 @@
                             </property>
                         </bean>
 
-                        <bean parent="Uif-HorizontalBoxSection" id="rgTestResultsSection">
+                        <bean parent="Uif-HorizontalBoxSection" id="rgInvalidTestResultsSection">
                             <property name="headerText" value="RG State Propagation Test Using Invalid Transitions Results" />
                             <property name="items">
                                 <list>
