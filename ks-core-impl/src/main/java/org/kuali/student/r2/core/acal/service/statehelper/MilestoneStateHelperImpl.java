@@ -35,6 +35,7 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.xml.namespace.QName;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -47,7 +48,17 @@ public class MilestoneStateHelperImpl implements StateHelper{
     private AtpService atpService;
     private AcademicCalendarService academicCalendarService;
     private TypeService typeService;
-    
+
+    private static String _processOwnerTypeKey(String ownerTypeKey) {
+        if (StringUtils.equals(ownerTypeKey, AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY)) {
+            return ownerTypeKey;
+        } else if (StringUtils.equals(ownerTypeKey, AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY)) {
+            return ownerTypeKey;
+        } else {
+            return "keydateType";
+        }
+    }
+
     @Override
     public StatusInfo updateState(String entityId, String nextStateKey, ContextInfo context) {
         StatusInfo statusInfo = new StatusInfo();
@@ -61,16 +72,24 @@ public class MilestoneStateHelperImpl implements StateHelper{
             }
 
             //For calendar, we never have a type related with multiple types.. but just a check to make sure we're not having multiple entries
-            if (typeTypeRelationInfos.size() > 1){
-                throw new RuntimeException("Multiple Type Type relations exists for " + milestoneInfo.getTypeKey() + ", which is causing issue with state propagation.");
+            // KSENROLL-7428 Just check for inconsistencies (also KSENROLL-7506)
+            String groupType = _processOwnerTypeKey(typeTypeRelationInfos.get(0).getOwnerTypeKey());
+            for (int i = 1; i < typeTypeRelationInfos.size(); i++) {
+                String nextGroupType = _processOwnerTypeKey(typeTypeRelationInfos.get(i).getOwnerTypeKey());
+                if (!StringUtils.equals(groupType, nextGroupType)) {
+                    throw new RuntimeException("Inconsistent group type for " + milestoneInfo.getTypeKey() + "(" + groupType + ", " +
+                            nextGroupType + ") causing state propagation issues");
+                }
             }
+//            if (typeTypeRelationInfos.size() > 1){
+//                throw new RuntimeException("Multiple Type Type relations exists for " + milestoneInfo.getTypeKey() + ", which is causing issue with state propagation.");
+//            }
 
-            String groupType = typeTypeRelationInfos.get(0).getOwnerTypeKey();
             if (StringUtils.equals(groupType,AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY)){
                 return getAcademicCalendarService().changeAcalEventState(entityId,nextStateKey,context);
             } else if (StringUtils.equals(groupType,AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY)){
                 return getAcademicCalendarService().changeHolidayState(entityId,nextStateKey,context);
-            } else {//It must be a keydate
+            } else { //It must be a keydate
                 return getAcademicCalendarService().changeKeyDateState(entityId,nextStateKey,context);
             }
         } catch (Exception e) {
