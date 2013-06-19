@@ -322,8 +322,8 @@
                                     <version>${maven.min.version}</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
-                                    <message>To build this project, java ${jdk.min.version} (or higher) is required. Please install the specified version.</message>
-                                    <version>${jdk.min.version}</version>
+                                    <message>To build this project, java ${jdk.min.version} (or higher, but not 1.7) is required. Please install the specified version.</message>
+                                    <version>(${jdk.min.version},1.7]</version>
                                 </requireJavaVersion>
                                 <requirePluginVersions>
                                     <message>Build reproducibility: It is a best practice to explicitly specify plugin versions!</message>
