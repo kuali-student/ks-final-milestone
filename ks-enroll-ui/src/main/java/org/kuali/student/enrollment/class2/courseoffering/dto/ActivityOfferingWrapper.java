@@ -113,6 +113,12 @@ public class ActivityOfferingWrapper implements Serializable{
     //This is needed to display the cross listed courses
     private CourseInfo course;
 
+    // Subterms
+    private TermInfo subTerm;
+    private String subTermName = "";
+    private String subTermType;
+    private boolean hasSubTerms;
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -960,6 +966,39 @@ public class ActivityOfferingWrapper implements Serializable{
         public void setScheduleEditInProgress(boolean scheduleEditInProgress) {
             this.scheduleEditInProgress = scheduleEditInProgress;
         }
+    }
+
+    // subterms
+    public TermInfo getSubTerm() {
+        return subTerm;
+    }
+
+    public void setSubTerm(TermInfo subTerm) {
+        this.subTerm = subTerm;
+    }
+
+    public String getSubTermName() {
+        return subTermName;
+    }
+
+    public void setSubTermName(String subTermName) {
+        this.subTermName = subTermName;
+    }
+
+    public boolean getHasSubTerms() {
+        return hasSubTerms;
+    }
+
+    public void setHasSubTerms(boolean hasSubTerms) {
+        this.hasSubTerms = hasSubTerms;
+    }
+
+    public String getSubTermType() {
+        return subTermType;
+    }
+
+    public void setSubTermType(String subTermType) {
+        this.subTermType = subTermType;
     }
 
 }
