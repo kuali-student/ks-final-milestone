@@ -25,7 +25,7 @@ import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
  * @author Kuali Student Team
  */
 public class RuleEditTreeBuilder extends AbstractTreeBuilder{
-                          sa
+
     private static final long serialVersionUID = 1L;
 
     public Tree buildTree(RuleEditor rule) {
