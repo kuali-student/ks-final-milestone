@@ -42,6 +42,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Kuali Student Team
+ */
 public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropositionEditor> {
 
     private CluService cluService;

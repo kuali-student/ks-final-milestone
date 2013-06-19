@@ -27,6 +27,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Kuali Student Team
+ */
 public class CluSetInformation implements Serializable {
 
     private static final long serialVersionUID = 1123124L;

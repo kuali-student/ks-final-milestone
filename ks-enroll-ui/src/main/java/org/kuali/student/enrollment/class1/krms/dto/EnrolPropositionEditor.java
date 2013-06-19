@@ -25,6 +25,9 @@ import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 
 import java.util.Map;
 
+/**
+ * @author Kuali Student Team
+ */
 public class EnrolPropositionEditor extends PropositionEditor {
 
     private static final long serialVersionUID = 1L;
