@@ -208,13 +208,14 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             ruleEditors.put(ruleEditor.getKey(), ruleEditor);
 
             //Set the parent agenda.
-            for(RuleEditor parent : parentRules){
-                if (ruleEditor.getTypeId().equals(parent.getTypeId())){
-                    ruleEditor.setParent(parent);
-                    break;
+            if(parentRules!=null){
+                for(RuleEditor parent : parentRules){
+                    if (ruleEditor.getTypeId().equals(parent.getTypeId())){
+                        ruleEditor.setParent(parent);
+                        break;
+                    }
                 }
             }
-
         }
 
         return ruleEditors;
