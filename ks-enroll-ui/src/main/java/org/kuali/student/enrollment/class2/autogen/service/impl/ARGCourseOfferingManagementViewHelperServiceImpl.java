@@ -1081,6 +1081,11 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
                     }
 
+                    //set term or sub-term info
+                    FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(foId, contextInfo);
+                    TermInfo termInfo = getAcalService().getTerm(foInfo.getTermId(), contextInfo);
+                    aoWrapper.setTerm(termInfo);
+                    aoWrapper.setTermName(termInfo.getName());
                     activityOfferingWrappers.add(aoWrapper);
                 }
             }

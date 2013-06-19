@@ -142,6 +142,13 @@
                                     <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
                                 </property>
                             </bean>
+                            <bean parent="Uif-ImageField" p:hidden="@{#lp.term.code eq termCode}"
+                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/subterm_icon.png">
+                                <property name="style" value="padding-left:5px"/>
+                                <property name="toolTip">
+                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.termName}"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
