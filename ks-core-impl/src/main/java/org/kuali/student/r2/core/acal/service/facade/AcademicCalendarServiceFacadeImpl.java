@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -126,6 +127,16 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         if (buildToDeleteTermIdList(termId, toDeleteTermIds, context)) {
             //delete terms and sub terms
             for (String toDeleteTermId : toDeleteTermIds) {
+                //delete associated key dates
+                List<KeyDateInfo> keyDateInfos = acalService.getKeyDatesForTerm(toDeleteTermId, context);
+                if (keyDateInfos!=null && !keyDateInfos.isEmpty()) {
+                    for (KeyDateInfo keyDateInfo : keyDateInfos) {
+                        if (!acalService.deleteKeyDate(keyDateInfo.getId(), context).getIsSuccess()){
+                            throw new OperationFailedException("Deleting key date failed - key date id:" + keyDateInfo.getId());
+                        }
+                    }
+                }
+                //delete term/sub term
                 if (!acalService.deleteTerm(toDeleteTermId, context).getIsSuccess()){
                     throw new OperationFailedException("Deleting term failed - term id:" + toDeleteTermId);
                 }
@@ -163,6 +174,16 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
             //delete terms and sub terms
             for (String toDeleteTermId : toDeleteTermIds) {
+                //delete associated key dates
+                List<KeyDateInfo> keyDateInfos = acalService.getKeyDatesForTerm(toDeleteTermId, context);
+                if (keyDateInfos!=null && !keyDateInfos.isEmpty()) {
+                    for (KeyDateInfo keyDateInfo : keyDateInfos) {
+                        if (!acalService.deleteKeyDate(keyDateInfo.getId(), context).getIsSuccess()){
+                            throw new OperationFailedException("Deleting key date failed - key date id:" + keyDateInfo.getId());
+                        }
+                    }
+                }
+
                 if (!acalService.deleteTerm(toDeleteTermId, context).getIsSuccess()){
                     throw new OperationFailedException("Deleting term failed - term id:" + toDeleteTermId);
                 }
