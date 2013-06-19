@@ -515,4 +515,13 @@
     <bean id="Unified-Right-Header-Group-Status-Modified" parent="Uif-Message" p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
     <!-- Note: This is only here for an example. Each page will need to display a different status / color -->
     <bean id="Unified-Right-Header-Group-Status-Lozenge" parent="KS-Lozenge-Orange-Uif-Message" p:messageText="Detail Status"/>
+
+    <bean id="KS-Uif-ContextBar" parent="Uif-HorizontalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-topGroup</value>
+            </list>
+        </property>
+    </bean>
+
 </beans>
