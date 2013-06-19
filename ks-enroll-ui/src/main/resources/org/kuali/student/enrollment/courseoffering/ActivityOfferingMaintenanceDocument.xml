@@ -54,10 +54,10 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
-<!--
-        <property name="headerText" value="Edit @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode}"/>
+
+        <property name="headerText" value="Edit Activity Offering"/>
         <property name="header.render" value="false"/>
--->
+
         <!--<property name="viewLabelFieldPropertyName" value="aoInfo.activityCode"/>-->
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
