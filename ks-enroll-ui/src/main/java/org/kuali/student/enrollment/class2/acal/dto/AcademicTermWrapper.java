@@ -483,6 +483,9 @@ public class AcademicTermWrapper {
     }
 
     public List<AcademicTermWrapper> getSubterms() {
+        if (subterms == null) {
+            subterms = new ArrayList<AcademicTermWrapper>();
+        }
         return subterms;
     }
 
