@@ -82,6 +82,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String RG_NAME = "rgId";
         public static final String RG_ID = "rgName";
         public static final String RG_STATE = "rgState";
+        public static final String ATP_ID = "atpId";
     }
 
 
@@ -440,7 +441,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "    ao.LUI_STATE         AS col_8_0_, " +
                 "    ao2sched.SCHED_ID    AS col_9_0_, " +
                 "    ao.MAX_SEATS         AS col_10_0_, " +
-                "    aoIdent.LUI_CD       AS col_11_0_ " +
+                "    aoIdent.LUI_CD       AS col_11_0_, " +
+                "    ao.ATP_ID            AS col_12_0_ " +
                 "FROM " +
                 "    KSEN_LUILUI_RELTN co2fo " +
                 "LEFT OUTER JOIN " +
@@ -501,6 +503,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 row.addCell(SearchResultColumns.AO_MAX_SEATS, resultRow[i]==null?null:resultRow[i].toString());
                 i++; // increment from previous row
                 row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
+                row.addCell(SearchResultColumns.ATP_ID, resultRow[i]==null?null:resultRow[i].toString());
+                i++; // increment from previous row
                 resultInfo.getRows().add(row);
                 aoMap.put(aoId, row);
             } else {

@@ -127,9 +127,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -1041,6 +1043,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     aoWrapper.setAoClusterName(cell.getValue());
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AOC_PRIVATE_NAME.equals(cell.getKey())) {
                     aocPrivateName = cell.getValue();
+                } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.ATP_ID.equals(cell.getKey())) {
+                    aoWrapper.getAoInfo().setTermId(cell.getValue());
                 }
             }
 
@@ -1081,11 +1085,35 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         aoIdsWithoutSch.add(aoWrapper.getAoInfo().getId());
                     }
 
-                    //set term or sub-term info
-                    FormatOfferingInfo foInfo = getCourseOfferingService().getFormatOffering(foId, contextInfo);
-                    TermInfo termInfo = getAcalService().getTerm(foInfo.getTermId(), contextInfo);
-                    aoWrapper.setTerm(termInfo);
-                    aoWrapper.setTermName(termInfo.getName());
+                    //Check for sub-term or term and populate accordingly
+                    TermInfo term = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+                    TermInfo subTerm = null;
+                    aoWrapper.getAoInfo().setTermCode(term.getCode());
+                    aoWrapper.setHasSubTerms(false);
+                    // termCode for subTerms is null. If it's changed in future - need to change logic to see if there is any parent term, now it saves us extra service call.
+                    if (aoWrapper.getAoInfo().getTermCode() != null && !StringUtils.isBlank(aoWrapper.getAoInfo().getTermCode())) {
+                        // checking if we can have sub-terms for given term
+                        List<TypeTypeRelationInfo> subTerms = getTypeService().getTypeTypeRelationsByOwnerAndType(term.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+                        if(!subTerms.isEmpty()) {
+                            aoWrapper.setHasSubTerms(true);
+                        }
+                    } else {
+                        subTerm = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+                        term = getAcalService().getContainingTerms(aoWrapper.getAoInfo().getTermId(), contextInfo).get(0);
+                        aoWrapper.setHasSubTerms(true);
+                    }
+                    aoWrapper.setTerm(term);
+                    aoWrapper.setSubTerm(subTerm);
+                    if (term != null) {
+                        aoWrapper.setTermName(term.getName());
+                    }
+                    aoWrapper.setTermDisplayString(getTermDisplayString(aoWrapper.getAoInfo().getTermId(), term));
+                    if (subTerm != null) {
+                        aoWrapper.setSubTermName(subTerm.getName());
+                    } else {
+                        aoWrapper.setSubTermName("None");
+                    }
+
                     activityOfferingWrappers.add(aoWrapper);
                 }
             }
@@ -1102,6 +1130,21 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
 
         return activityOfferingWrappers;
+    }
+
+    private String getTermDisplayString(String termId, TermInfo term) {
+        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
+        StringBuilder stringBuilder = new StringBuilder();
+        Formatter formatter = new Formatter(stringBuilder, Locale.US);
+        String displayString = termId; // use termId as a default.
+        if (term != null) {
+            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
+            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
+            String termType = term.getName();
+            formatter.format("%s (%s to %s)", termType, startDate, endDate);
+            displayString = stringBuilder.toString();
+        }
+        return displayString;
     }
 
     protected EntityDefaultQueryResults getInstructorsInfoFromKim(List<String> principalIds, ContextInfo contextInfo) {
