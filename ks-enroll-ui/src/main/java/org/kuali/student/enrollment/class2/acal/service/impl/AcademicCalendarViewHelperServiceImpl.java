@@ -533,42 +533,99 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             StringBuilder sb = new StringBuilder();
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             boolean isValid = true;
+
+            //identify termWrapper for keydates
+            String selectedCollectionPath = form.getActionParamaterValue("selectedCollectionPath");
+            int selectedTermWrapperIndex = Integer.parseInt(selectedCollectionPath.substring(selectedCollectionPath.indexOf("[")+1, selectedCollectionPath.indexOf("]")));
+            AcademicTermWrapper termWrapper = form.getTermWrapperList().get(selectedTermWrapperIndex);
+
+            // The Key Date Type should not be null
             if(StringUtils.isEmpty(keydate.getKeyDateType())) {
                 GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
                 sb.append("\"key_date_type\":\"Required\"");
                 isValid = false;
             }
-            //identify termWrapper for keydates
-            String selectedCollectionPath = form.getActionParamaterValue("selectedCollectionPath");
-            int selectedTermWrapperIndex = Integer.parseInt(selectedCollectionPath.substring(selectedCollectionPath.indexOf("[")+1, selectedCollectionPath.indexOf("]")));
-            AcademicTermWrapper termWrapper = form.getTermWrapperList().get(selectedTermWrapperIndex);
-            if (!termWrapper.isSubTerm()) { //regular term
-                if(keydate.getStartDate() == null || StringUtils.isEmpty(keydate.getStartDate().toString())){
-                    KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED);
-                    //{"key1" : "value1", "key1" : "value1", ... }
+
+            // Start Date should not be null
+            if(keydate.getStartDate()==null){
+                if(termWrapper.isSubTerm()){
+                    GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, keydate.getKeyDateNameUI());
+                }else{
+                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, keydate.getKeyDateNameUI());
+                    isValid = false;
                     if(!StringUtils.isEmpty(sb.toString())){
-                       sb.append(",");
+                        sb.append(",");
                     }
                     sb.append("\"key_date_start_date\":\"Required\"");
-                    isValid = false;
                 }
-            } else { //sub-terms
-                if(keydate.getStartDate() == null || StringUtils.isEmpty(keydate.getStartDate().toString())){  //null is fine > warn
-                    KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CalendarConstants.MessageKeys.INFO_SUBTERM_KEYDATE_EMPTY);
-                } else {  //startDate != null > check date range > warn
-                    if (keydate.getEndDate() != null && !StringUtils.isEmpty(keydate.getEndDate().toString())){  //endDate != null
-                        if (!CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getStartDate()) ||
-                            !CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getEndDate())){
-                            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CalendarConstants.MessageKeys.INFO_SUBTERM_KEYDATE_OUTOFRANGE);
+            }
+
+            // If Date Range is checked
+            if(keydate.isDateRange()){
+                // End date should not be null
+                if(keydate.getEndDate()==null){
+                    if(termWrapper.isSubTerm()){
+                        GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_END_DATE_REQUIRED,keydate.getKeyDateNameUI());
+                    }else{
+                        GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_END_DATE_REQUIRED,keydate.getKeyDateNameUI());
+                        isValid = false;
+                        if(!StringUtils.isEmpty(sb.toString())){
+                            sb.append(",");
                         }
-                    } else { //endDate == null (depending on key date type)
-                        if (!CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getStartDate())){
-                            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CalendarConstants.MessageKeys.INFO_SUBTERM_KEYDATE_OUTOFRANGE);
-                        }
+                        sb.append("\"key_date_end_date\":\"Required\"");
+                    }
+                }else{
+                    // The start date should come before the end date
+                    if (!CommonUtils.isValidDateRange(keydate.getStartDate(),keydate.getEndDate())){
+                        GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keydate.getKeyDateNameUI(),CommonUtils.formatDate(keydate.getStartDate()),CommonUtils.formatDate(keydate.getEndDate()));
                     }
                 }
-                isValid = true;
             }
+
+            // Key Dates start and end dates should be within the start and end dates of the term
+            if (!CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getStartDate()) ||
+                    !CommonUtils.isDateWithinRange(termWrapper.getStartDate(),termWrapper.getEndDate(),keydate.getEndDate())){
+                GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keydate.getKeyDateNameUI(),termWrapper.getName());
+            }
+
+            // If All Day is not checked, Times should not be null.
+            if(!keydate.isAllDay()){
+                if(StringUtils.isEmpty(keydate.getStartTime())){
+                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_TIME_REQUIRED,keydate.getKeyDateNameUI());
+                    isValid = false;
+                    if(!StringUtils.isEmpty(sb.toString())){
+                        sb.append(",");
+                    }
+                    sb.append("\"key_date_start_time\":\"Required\"");
+                }else{
+                    if(StringUtils.isEmpty(keydate.getStartTimeAmPm())){
+                        GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_TIME_START_AMPM_REQUIRED,keydate.getKeyDateNameUI());
+                        isValid = false;
+                        if(!StringUtils.isEmpty(sb.toString())){
+                            sb.append(",");
+                        }
+                        sb.append("\"key_date_start_time_ampm\":\"Required\"");
+                    }
+                }
+                if(StringUtils.isEmpty(keydate.getEndTime())){
+                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_END_TIME_REQUIRED,keydate.getKeyDateNameUI());
+                    isValid = false;
+                    if(!StringUtils.isEmpty(sb.toString())){
+                        sb.append(",");
+                    }
+                    sb.append("\"key_date_end_time\":\"Required\"");
+                }else{
+                    if(StringUtils.isEmpty(keydate.getEndTimeAmPm())){
+                        GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_TIME_END_AMPM_REQUIRED,keydate.getKeyDateNameUI());
+                        isValid = false;
+                        if(!StringUtils.isEmpty(sb.toString())){
+                            sb.append(",");
+                        }
+                        sb.append("\"key_date_end_time_ampm\":\"Required\"");
+                    }
+                }
+            }
+
             if(!isValid){
                 form.setValidationJSONString("{"+sb.toString()+"}");
                 form.setAddLineValid(false);
@@ -845,26 +902,51 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapperToValidate.getKeyDatesGroupWrappers()){
             for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
-                if (!termWrapperToValidate.isSubTerm()) {  //term
-                    if (keyDateWrapper.isDateRange() && !CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
-                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
-                    }
 
-                    if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
-                        !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
-                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
-                    }
-                } else { //sub-term
-                    if ( keyDateWrapper.getStartDate() == null || !StringUtils.isEmpty(keyDateWrapper.getStartDate().toString())) { //sub-term is fine with blank, but warn
-                        if (keyDateWrapper.isDateRange() && !CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
+                // Start Date should not be null
+                if(keyDateWrapper.getStartDate()==null){
+                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, keyDateWrapper.getKeyDateNameUI());
+                }
+
+                // If Date Range is checked
+                if(keyDateWrapper.isDateRange()){
+                    // End date should not be null
+                    if(keyDateWrapper.getEndDate()==null){
+                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_DATE_END_REQUIRED,keyDateWrapper.getKeyDateNameUI());
+                    }else{
+                        // The start date should come before the end date
+                        if (!CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
                             GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
                         }
+                    }
+                }
 
-                        if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
-                            !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
-                            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydates", CalendarConstants.MessageKeys.INFO_SUBTERM_KEYDATE_OUTOFRANGE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
+                // If All Day is not checked
+                if(!keyDateWrapper.isAllDay()){
+                    // Start time should not be null
+                    if(StringUtils.isEmpty(keyDateWrapper.getStartTime())){
+                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED,keyDateWrapper.getKeyDateNameUI());
+                    }else{
+                        // If start date is entered Am or Pm should be selected
+                        if(StringUtils.isEmpty(keyDateWrapper.getStartTimeAmPm())){
+                            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_TIME_START_AMPM_REQUIRED,keyDateWrapper.getKeyDateNameUI());
                         }
                     }
+                    // End time should not be null
+                    if(StringUtils.isEmpty(keyDateWrapper.getEndTime())){
+                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_KEY_DATE_END_DATE_REQUIRED,keyDateWrapper.getKeyDateNameUI());
+                    }else{
+                        // If end date is entered Am or Pm should be selected
+                        if(StringUtils.isEmpty(keyDateWrapper.getEndTimeAmPm())){
+                            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_TIME_END_AMPM_REQUIRED,keyDateWrapper.getKeyDateNameUI());
+                        }
+                    }
+                }
+
+                // Start and End Dates of the key date entry should be within the start and end dates of the term.
+                if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
+                        !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
+                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
                 }
             }
         }
