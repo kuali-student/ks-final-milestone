@@ -937,19 +937,9 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 getAcalService().addTermToTerm(termWrapper.getParentTermInfo().getId(), termWrapper.getTermInfo().getId(), createContextInfo());
             }
         }else {
-            //assume when update a subterm, its parent term id won't change
-            AtpInfo existingAtp = getAtpService().getAtp(term.getId(), createContextInfo());
-            if(existingAtp!=null){
-                if(existingAtp.getCode()== null){
-                    throw new Exception("Unable to find term code.");
-                }
-            }
-
+            //Update the term
             TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,createContextInfo());
             termWrapper.setTermInfo(updatedTerm);
-           /* if (!isOfficial){
-                termWrapper.setTermInfo(getAcalService().getTerm(updatedTerm.getId(),createContextInfo()));
-            }*/
         }
 
         for (KeyDateWrapper keyDateWrapper : termWrapper.getKeyDatesToDeleteOnSave()) {
