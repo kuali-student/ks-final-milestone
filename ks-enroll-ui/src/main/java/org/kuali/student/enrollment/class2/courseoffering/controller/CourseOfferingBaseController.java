@@ -8,7 +8,9 @@ import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Properties;
 
 @Controller
 @RequestMapping(value = "/courseOffering")
@@ -69,13 +72,6 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        // If it's Create CO Maintenance document, stay on the same view
-        if (this instanceof CourseOfferingCreateController) {
-            return super.route(form, result, request, response);
-        }
-
-        // For Edit CO, navigate back to Manage CO unless there's an error
-
         super.route(form, result, request, response);
 
         // If Edit CO has errors, don't navigate back to Manage screen, display errors instead.
@@ -85,7 +81,19 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
 
         String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
         form.setReturnLocation(url);
-        return back(form,result,request,response);
+
+        Properties urlParameters = new Properties();
+
+        if (!(this instanceof CourseOfferingCreateController))   {
+            CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+            urlParameters.put(CalendarConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS);
+            urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,dataObject.getCourseOfferingCode());
+        }
+
+        // clear current form from session
+        GlobalVariables.getUifFormManager().removeSessionForm(form);
+
+        return performRedirect(form, form.getReturnLocation(), urlParameters);
     }
 
 
@@ -97,12 +105,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         DocumentFormBase documentForm = (DocumentFormBase) form;
         performWorkflowAction(documentForm, UifConstants.WorkflowAction.CANCEL, false);
 
-        if (!(this instanceof CourseOfferingCreateController)){
-            String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
-            form.setReturnLocation(url);
-        }
-
-        return back(form, result, request, response);
+        return back(form,result,request,response);
     }
 
 }

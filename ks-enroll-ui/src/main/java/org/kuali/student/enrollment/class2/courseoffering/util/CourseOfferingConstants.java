@@ -135,6 +135,8 @@ public class CourseOfferingConstants {
     public static final String COLOCATION_MAX_ENR_SHARED="info.enroll.courseoffering.colocation.enr.shared";
     public static final String COLOCATION_MAX_ENR_SEPARATED="info.enroll.courseoffering.colocation.enr.separated";
 
+    public static final String COURSE_OFFERING_EDIT_SUCCESS = "info.enroll.courseoffering.edit.success";
+
     /**
          * These are the confirm dialog bean ids used in Manage CO/AO view.
          */
