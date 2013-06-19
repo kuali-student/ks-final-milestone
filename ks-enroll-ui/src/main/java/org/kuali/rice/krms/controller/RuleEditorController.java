@@ -32,7 +32,6 @@ import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.util.AgendaUtilities;
-import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
 import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
@@ -872,11 +871,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         // what if it is the root?
         if(parentNode.getNodeType().contains("treeRoot") && parentNode.getChildren().size() == 1) {
             parentNode.getChildren().clear();
-            ruleEditor.getEditTree().setRootElement(null);
-            ruleEditor.setPropId(null);
-            ruleEditor.setProposition(null);
-            ruleEditor.setAlpha(new AlphaIterator());
-            ruleEditor.setSelectedKey(StringUtils.EMPTY);
+            ruleEditor.reset();
         } else if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
             PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null) {
@@ -895,11 +890,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
         } else { // no parent, it is the root
             parentNode.getChildren().clear();
-            ruleEditor.getEditTree().setRootElement(null);
-            ruleEditor.setPropId(null);
-            ruleEditor.setProposition(null);
-            ruleEditor.setAlpha(new AlphaIterator());
-            ruleEditor.setSelectedKey(StringUtils.EMPTY);
+            ruleEditor.reset();
         }
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
@@ -1023,7 +1014,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
         AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleEditor.getKey());
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-AgendaMaintenance-Page");
+        if(!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)){
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-AgendaMaintenance-Page");
+        }
         return super.navigate(form, result, request, response);
     }
 
@@ -1122,9 +1115,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //If first proposition and not yet updated, clear rule proposition
         if(proposition.getPropositionTypeCode().equals("S") && proposition.getCompoundEditors() == null && proposition.getTerm().getParameters() == null) {
-            ruleEditor.setProposition(null);
-            ruleEditor.setSelectedKey(StringUtils.EMPTY);
-            ruleEditor.setAlpha(new AlphaIterator());
+            ruleEditor.reset();
             form.getView().setOnDocumentReadyScript("loadControlsInit();");
         } else {
             //Reset the editing tree.
@@ -1176,7 +1167,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-AgendaMaintenance-Page");
+        if(!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)){
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-AgendaMaintenance-Page");
+        }
         return super.navigate(form, result, request, response);
     }
 

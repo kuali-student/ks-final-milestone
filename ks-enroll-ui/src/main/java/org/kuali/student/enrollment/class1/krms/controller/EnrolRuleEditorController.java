@@ -21,6 +21,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
+import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
@@ -165,6 +166,44 @@ public class EnrolRuleEditorController extends RuleEditorController {
         prop.getCluSet().setClusInRange(this.getViewHelper(form).getCoursesInRange(membershipQueryInfo));
 
         return getUIFModelAndView(form);
+    }
+
+    /**
+     * Reverts rule to previous state and navigates to agenda maintenance page.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=cancelEditRule")
+    public ModelAndView cancelEditRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KSCO-AgendaMaintenance-Page");
+        return super.cancelEditRule(form, result, request, response);
+    }
+
+    /**
+     * Updates rule and redirects to agenda maintenance page.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=updateRule")
+    public ModelAndView updateRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KSCO-AgendaMaintenance-Page");
+        return super.updateRule(form, result, request, response);
     }
 
     /**
