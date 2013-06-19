@@ -100,15 +100,6 @@ limitations under the License.
 
     <bean name="KRMS-RuleMaintenance-Page-Parent" parent="Uif-Page">
         <property name="headerText" value="@{#dp.cluDescription}"/>
-        <property name="header.rightGroup">
-            <bean parent="Uif-HeaderRightGroup">
-                <property name="items">
-                    <list>
-                        <ref bean="KRMS-RulePreview-Links"/>
-                    </list>
-                </property>
-            </bean>
-        </property>
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem">

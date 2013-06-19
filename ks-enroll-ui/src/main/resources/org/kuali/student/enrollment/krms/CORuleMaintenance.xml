@@ -150,7 +150,7 @@
         </property>
     </bean>
 
-    <bean id="KS-RulePreview-Links" parent="Uif-LinkGroup">
+    <bean id="KRMS-RulePreview-Links" parent="Uif-LinkGroup">
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>

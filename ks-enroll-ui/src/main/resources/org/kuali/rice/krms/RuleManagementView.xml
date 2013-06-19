@@ -23,8 +23,15 @@ limitations under the License.
         <property name="items">
             <list>
 
-                <bean id="KRMS-RuleView-Section" parent="Uif-VerticalBoxSection" p:style="max-width: 54em;">
-                    <property name="instructionalText" value="@{#dp.ruleEditor.ruleTypeInfo.instruction}"/>
+                <bean parent="Uif-HorizontalBoxSection" p:width="90%">
+                    <property name="items">
+                        <list>
+                            <bean id="KRMS-RuleView-Section" parent="Uif-VerticalBoxSection" p:style="max-width: 54em%;">
+                                <property name="instructionalText" value="@{#dp.ruleEditor.ruleTypeInfo.instruction}"/>
+                            </bean>
+                            <bean parent="KRMS-RulePreview-Links" p:id="KRMS-RulePreview-ActionLinks" p:style="float: right"/>
+                        </list>
+                    </property>
                 </bean>
 
                 <bean id="KRMS-RuleEdit-TabSection" parent="Uif-TabSection">
