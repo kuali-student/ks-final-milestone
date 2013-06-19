@@ -871,7 +871,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
         // what if it is the root?
         if(parentNode.getNodeType().contains("treeRoot") && parentNode.getChildren().size() == 1) {
             parentNode.getChildren().clear();
-            ruleEditor.reset();
+            ruleEditor.getEditTree().setRootElement(null);
+            ruleEditor.setPropId(null);
+            ruleEditor.setProposition(null);
+            ruleEditor.setAlpha(new AlphaIterator());
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
         } else if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
             PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null) {
@@ -890,7 +894,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
         } else { // no parent, it is the root
             parentNode.getChildren().clear();
-            ruleEditor.reset();
+            ruleEditor.getEditTree().setRootElement(null);
+            ruleEditor.setPropId(null);
+            ruleEditor.setProposition(null);
+            ruleEditor.setAlpha(new AlphaIterator());
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
         }
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
@@ -1115,7 +1123,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //If first proposition and not yet updated, clear rule proposition
         if(proposition.getPropositionTypeCode().equals("S") && proposition.getCompoundEditors() == null && proposition.getTerm().getParameters() == null) {
-            ruleEditor.reset();
+            ruleEditor.setProposition(null);
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
+            ruleEditor.setAlpha(new AlphaIterator());
             form.getView().setOnDocumentReadyScript("loadControlsInit();");
         } else {
             //Reset the editing tree.
