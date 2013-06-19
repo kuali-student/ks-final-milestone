@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.pom</groupId>
         <artifactId>kuali-common</artifactId>
-        <version>2.0.16</version>
+        <version>3.0.17</version>
     </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
@@ -121,6 +121,8 @@
         <junit.version>4.10</junit.version>
         <ks-contract-docs.plugin.version>1.0.4</ks-contract-docs.plugin.version>
         <kuali.rice.version>2.2.0</kuali.rice.version>
+        <!-- added as result of KSCM-840 - no need to merge to trunk -->
+        <kuali-deploy.version>1.2.17</kuali-deploy.version>
         <log4j.version>1.2.16</log4j.version>
         <log4j.javadoc.version>1.2</log4j.javadoc.version>
         <logkit.version>2.0</logkit.version>
@@ -136,6 +138,8 @@
         <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
         <plugin.impex.version>1.0.31</plugin.impex.version>
         <plugin.enforcer.version>1.1.1</plugin.enforcer.version>
+        <!-- added as result of KSCM-840 - no need to merge to trunk -->
+        <properties.resolve>false</properties.resolve>
         <selenium.version>2.7.0</selenium.version>
         <servlet.api.version>2.5</servlet.api.version>
         <slf4j.version>1.6.2</slf4j.version>
