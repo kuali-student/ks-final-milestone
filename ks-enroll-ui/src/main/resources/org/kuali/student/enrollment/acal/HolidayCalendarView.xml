@@ -34,10 +34,16 @@
         <property name="id" value="holidayCalendarFlowView"/>
         <property name="entryPageId" value="holidayCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarViewHelperServiceImpl"/>
-        <property name="header.render" value="false"/>
+        <property name="headerText" value="@{!#empty(holidayCalendarInfo.name) ? holidayCalendarInfo.name : 'New Holiday Calendar'}"/>
         <!--<property name="headerText" value="@{holidayCalendarInfo.name != null? holidayCalendarInfo.name : 'New Holiday Calendar'}"/>-->
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
+        </property>
+
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
         </property>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">

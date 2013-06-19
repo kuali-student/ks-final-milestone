@@ -30,7 +30,10 @@
     -->
 
     <bean id="KS-HolidayCalendar-ViewPage" parent="Uif-Page"
-          p:id="holidayCalendarViewPage" >
+          p:id="holidayCalendarViewPage"
+          p:headerText="View Holiday Calendar"
+            >
+
 
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>

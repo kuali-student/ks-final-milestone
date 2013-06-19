@@ -33,6 +33,7 @@
     <bean id="KS-HolidayCalendar-EditPage" parent="Uif-Page"
           p:id="holidayCalendarEditPage"
           p:disclosure.render="false"
+          p:headerText="Edit Holiday Calendar"
           p:header.id="KS-HolidayCalendar-EditPage-header">
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
