@@ -22,9 +22,6 @@
     <bean id="ActivityOfferingEdit-submitSection" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <!--<bean parent="Uif-Message" p:hidden="true" p:cssClasses="unprocessed_changes_message"
-                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  There are unprocessed changes with the requested delivery logistics for this activity."
-                      p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;font-size: 110%;border: 1px solid rgb(9, 172, 248);" p:colSpan="2"/>-->
                 <bean parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}" p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
@@ -47,14 +44,44 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-section1" parent="Uif-GridGroup">
+    <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" id="status" p:label="Status" p:propertyName="stateName"/>
-                <bean parent="Uif-DataField" id="term" p:label="Term" p:propertyName="termDisplayString" p:readOnly="true" />
+                <bean parent="Uif-DataField" id="status" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="stateName"/>
+                <bean parent="Uif-DataField" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termDisplayString" p:readOnly="true" />
 
-                <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:propertyName="typeName" p:readOnly="true"/>
-                <bean parent="Uif-DataField" id="format_offering_name" p:label="Format" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName" p:readOnly="true"/>
+                            <bean parent="Uif-NavigationActionLink" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms}"
+                                  p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="KS-ActivityOfferingEdit-SubtermsPopupForm" parent="Uif-HorizontalBoxSection">
+                    <property name="hidden" value="true"/>
+                    <property name="cssClasses">
+                        <list>
+                            <value>uif-bubblepopup-content</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean id="subterm_type" parent="Uif-InputField-LabelTop" p:propertyName="subTermType" p:label="Choose a subterm">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:onChangeScript="displayAOsubTerm();"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingSubtermKeyValues" p:addBlankOption="false"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" p:readOnly="true"/>
+                <bean parent="Uif-DataField" id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
 
                 <ref bean="ActivityOfferingEdit-submitSection"/>
 
@@ -184,19 +211,6 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
-                    <!--<property name="suggest">
-                        <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
-                          <property name="suggestQuery">
-                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveActivityOfferingCode"
-                                  p:queryMethodArgumentFieldList="document.newMaintainableObject.dataObject.termId,newCollectionLines['document.newMaintainableObject.dataObject.colocatedActivities'].courseOfferingCode" p:renderNotFoundMessage="true" p:returnMessageText="Please enter valid course/activity offering code."/>
-                          </property>
-                          <property name="templateOptions">
-                            <map merge="true">
-                              <entry key="minLength" value="1"/>
-                            </map>
-                          </property>
-                        </bean>
-                    </property>-->
                     <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="quickfinder.quickfinderAction">
                         <bean parent="Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
