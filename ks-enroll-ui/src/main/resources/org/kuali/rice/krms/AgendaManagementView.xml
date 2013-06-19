@@ -20,7 +20,6 @@ limitations under the License.
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="KRMS-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
-        <property name="headerText" value="@{#dp.cluDescription}"/>
         <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
         <property name="additionalScriptFiles">
             <list>
@@ -67,46 +66,40 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
-        <property name="headerText" value="Course Offering Requisites"/>
-        <property name="header.lowerGroup">
-            <bean parent="Uif-VerticalBoxGroup" p:style="margin-bottom: -1em">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-HorizontalBoxGroup">
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-ActionLink" p:actionScript="expandDisclosures();"
-                                          p:actionLabel="[+] expand all">
-                                        <property name="actionImage">
-                                            <null/>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-ActionLink" p:actionScript="collapseDisclosures();"
-                                          p:actionLabel="[-] collapse all" p:style="margin-left:1em">
-                                        <property name="actionImage">
-                                            <null/>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
+    <bean id="KRMS-AgendaMaintenance-DisclosureLinks" parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
+                <bean parent="Uif-ActionLink" p:actionScript="expandDisclosures();"
+                      p:actionLabel="[+] expand all">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionScript="collapseDisclosures();"
+                      p:actionLabel="[-] collapse all" p:style="margin-left:1em">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
+        <property name="headerText" value="Requisites"/>
+        <property name="items">
+            <list>
+                <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
                 <bean parent="KRMS-AgendaManage-Section"/>
             </list>
         </property>
         <property name="footer">
-            <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
+            <ref bean="Uif-DocumentPageFooter"/>
         </property>
     </bean>
 
     <bean name="KRMS-RuleMaintenance-Page-Parent" parent="Uif-Page">
-        <property name="headerText" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
+        <property name="headerText" value="@{#dp.cluDescription}"/>
         <property name="header.rightGroup">
             <bean parent="Uif-HeaderRightGroup">
                 <property name="items">
@@ -125,7 +118,8 @@ limitations under the License.
                     <property name="url.methodToCall" value="maintenanceEdit"/>
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
-                            <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper"/>
+                            <entry key="dataObjectClassName"
+                                   value="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper"/>
                             <entry key="viewName" value="COAgendaManagementView"/>
                             <entry key="overrideKeys" value="refObjectId"/>
                             <entry key="refObjectId" value="@{#dp.refObjectId}"/>
@@ -133,12 +127,14 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
+                    <property name="label"
+                              value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
                 </bean>
             </list>
         </property>
         <property name="items">
             <list>
+                <bean parent="Uif-HeaderFour" p:headerText="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
                 <ref bean="KRMS-Rules-ManageSection"/>
             </list>
         </property>
