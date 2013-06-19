@@ -131,15 +131,11 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
                 List<KeyDateInfo> keyDateInfos = acalService.getKeyDatesForTerm(toDeleteTermId, context);
                 if (keyDateInfos!=null && !keyDateInfos.isEmpty()) {
                     for (KeyDateInfo keyDateInfo : keyDateInfos) {
-                        if (!acalService.deleteKeyDate(keyDateInfo.getId(), context).getIsSuccess()){
-                            throw new OperationFailedException("Deleting key date failed - key date id:" + keyDateInfo.getId());
-                        }
+                        acalService.deleteKeyDate(keyDateInfo.getId(), context);
                     }
                 }
                 //delete term/sub term
-                if (!acalService.deleteTerm(toDeleteTermId, context).getIsSuccess()){
-                    throw new OperationFailedException("Deleting term failed - term id:" + toDeleteTermId);
-                }
+                acalService.deleteTerm(toDeleteTermId, context);
             }
             statusInfo.setSuccess(Boolean.TRUE);
             return statusInfo;
@@ -178,21 +174,15 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
                 List<KeyDateInfo> keyDateInfos = acalService.getKeyDatesForTerm(toDeleteTermId, context);
                 if (keyDateInfos!=null && !keyDateInfos.isEmpty()) {
                     for (KeyDateInfo keyDateInfo : keyDateInfos) {
-                        if (!acalService.deleteKeyDate(keyDateInfo.getId(), context).getIsSuccess()){
-                            throw new OperationFailedException("Deleting key date failed - key date id:" + keyDateInfo.getId());
-                        }
+                        acalService.deleteKeyDate(keyDateInfo.getId(), context);
                     }
                 }
-
-                if (!acalService.deleteTerm(toDeleteTermId, context).getIsSuccess()){
-                    throw new OperationFailedException("Deleting term failed - term id:" + toDeleteTermId);
-                }
+                //delete term
+                acalService.deleteTerm(toDeleteTermId, context);
             }
 
             //delete calendar
-            if (!acalService.deleteAcademicCalendar(academicCalendarId, context).getIsSuccess()) {
-                throw new OperationFailedException("Deleting academic calendar failed - academic calendar id:" + academicCalendarId);
-            }
+            acalService.deleteAcademicCalendar(academicCalendarId, context);
             statusInfo.setSuccess(Boolean.TRUE);
             return statusInfo;
         }
