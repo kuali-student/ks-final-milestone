@@ -24,17 +24,11 @@
         <!--<property name="headerText" value="Toolbar Example"/>-->
         <property name="headerText" value="M8 Unified Header - View Title"/>
 
-        <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-unified-header</value>
-            </list>
-        </property>
-
         <property name="header.rightGroup">
-            <bean parent="Uif-VerticalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-container">
+            <bean parent="KS-Unified-Header-Right-Group">
                 <property name="items">
                     <list>
-                        <bean id="KS-KS-ViewHeader-ActionGroup" parent="KS-Unified-Header-Action-Group" p:onDocumentReadyScript="addBootstrapImageToLink('KS-KS-ViewHeader-ActionGroup');">
+                        <bean id="KS-KS-ViewHeader-ActionGroup" parent="KS-Unified-Header-Action-Group">
                             <property name="items">
                                 <list>
                                     <ref bean="Unified-Right-Header-Group-Action-Copy"/>
@@ -43,13 +37,14 @@
                                     <ref bean="Unified-Right-Header-Group-Action-Delete"/>
                                     <ref bean="Unified-Right-Header-Group-Action-Edit"/>
                                     <ref bean="Unified-Right-Header-Group-Action-Manage"/>
+                                    <ref bean="Unified-Right-Header-Group-Action-MakeOfficial"/>
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-unified-header-rightGroup-status">
+                        <bean parent="KS-Unified-Right-Header-Group-Status">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-Message" p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
+                                    <bean parent="Unified-Right-Header-Group-Status-Modified" p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
                                     <bean parent="KS-Lozenge-Orange-Uif-Message" p:messageText="Detail Status"/>
                                 </list>
                             </property>

@@ -58,6 +58,11 @@
                   p:template="/ks-enroll/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
                   p:templateName="ks_applicationHeader"/>
         </property>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
         <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
@@ -438,11 +443,6 @@
 
     <bean id="KS-Unified-Uif-FormView" parent="KS-Uif-FormView">
         <property name="headerText" value="Unified Header - View Title"/>
-        <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-unified-header</value>
-            </list>
-        </property>
         <property name="header.rightGroup">
             <ref bean="KS-Unified-Header-Right-Group"/>
         </property>
