@@ -91,16 +91,6 @@
             <bean parent="KSTheme"/>
         </property>
 
-        <property name="stickyHeader" value="true"/>
-        <property name="stickyTopGroup" value="false"/>
-        <property name="stickyBreadcrumbs" value="false"/>
-        <property name="stickyApplicationHeader" value="false"/>
-        <property name="applicationHeader">
-            <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-enroll/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
-                  p:templateName="ks_applicationHeader"/>
-        </property>
-
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
         <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
