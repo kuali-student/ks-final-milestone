@@ -926,6 +926,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 rgWrapper.setRoomName("");
                 rgWrapper.setBuildingName("");
                 rgWrapper.setAoInstructorText("");
+                rgWrapper.setSubTermName("None");
 
                 rgMap.put(rgId, rgWrapper);
                 clusterWrapper.getRgWrapperList().add(rgWrapper);
@@ -942,6 +943,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName());
             rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName());
             rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()));
+            //sub-term icon and tooltip setup
+            if(!aoWrapper.getSubTermName().equals("None")){
+                rgWrapper.setSubTermName(aoWrapper.getSubTermName());
+                rgWrapper.setSubTermStartDate(aoWrapper.getSubTermStartDate());
+                rgWrapper.setSubTermEndDate(aoWrapper.getSubTermEndDate());
+            }
         }
 
         return new ArrayList<RegistrationGroupWrapper>(rgMap.values());
@@ -1106,6 +1113,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         aoWrapper.setSubTermId(subTerm.getId());
                         TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                         aoWrapper.setSubTermName(subTermType.getName());
+                        aoWrapper.setSubTermStartDate(subTerm.getStartDate().toString().substring(0, 10));
+                        aoWrapper.setSubTermEndDate(subTerm.getEndDate().toString().substring(0, 10));
                     }
                     aoWrapper.setTerm(term);
                     if (term != null) {
