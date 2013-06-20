@@ -74,12 +74,24 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
                 wrapper.setToolTipText("Each Activity Offering has its own wait list.");
             }
 
-            // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
-            TermInfo term = getAcalService().getTerm(info.getTermId(), contextInfo);
+            // Now have to deal with subterms: have to check if it's subterm or term
+            TermInfo term = null;
+            wrapper.setSubTermName("None");
+            List<TermInfo> terms = getAcalService().getContainingTerms(info.getTermId(), contextInfo);
+            if (terms == null || terms.isEmpty()) {
+                term = getAcalService().getTerm(info.getTermId(), contextInfo);
+            } else {
+                TermInfo subTerm = getAcalService().getTerm(info.getTermId(), contextInfo);
+                term = terms.get(0);
+                TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
+                wrapper.setSubTermName(subTermType.getName());
+            }
+            wrapper.setTerm(term);
             if (term != null) {
                 wrapper.setTermName(term.getName());
             }
             wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
+            // end subterms
 
             wrapper.setCourseOfferingCode(info.getCourseOfferingCode());
             wrapper.setCourseOfferingTitle(info.getCourseOfferingTitle());
