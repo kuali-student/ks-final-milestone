@@ -790,8 +790,11 @@ function addBootstrapImageToLink(containerId) {
     jQuery("#" + containerId).find('img').each(function () {
         /*Style is used instead of src to prevent errors in krad*/
         var src = jQuery(this).attr('style');
-        var bsImage = '<i class="' + src + '"></i>';
-        jQuery(this).replaceWith(bsImage);
+        var anchor = jQuery(this).parent();
+        var aText = anchor.text();
+        anchor.text("");
+        var bsImage = '<i class="' + src + '"></i>' + jQuery.trim(aText);
+        jQuery(anchor).append(bsImage);
     });
 }
 
