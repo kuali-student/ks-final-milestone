@@ -78,7 +78,7 @@ public class AtpTestDataLoader {
         loadAtp("testEdgeAtpId8", "testEdgeAtpId8", "1980-06-01 00:00:00.0", "1980-12-31 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc 2008");
         loadAtp("testEdgeAtpId9", "testEdgeAtpId9", "1979-12-01 00:00:00.0", "1979-12-31 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Desc 2009");
 
-        loadMilestone("testId", "testId", "2011-07-10 00:00:00.0", "2011-07-20 00:00:00.0", "kuali.atp.milestone.AdvanceRegistrationPeriod", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, false, true, false, null, "Desc 105");
+        loadMilestone("testId", "testId", "2011-07-10 00:00:00.0", "2011-07-20 00:00:00.0", "kuali.atp.milestone.AdvancedRegistrationPeriod", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, false, true, false, null, "Desc 105");
         loadMilestone("testId2", "testId2", "2011-08-01 00:00:00.0", "2011-10-01 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, false, true, false, null, "Desc 106");
         loadMilestone("testId3", "testId3", "2011-11-01 00:00:00.0", "2011-11-01 00:00:00.0", "kuali.atp.milestone.DropDate", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, true, false, false, null, "Desc 107");
         loadMilestone("testDeleteId", "testDeleteId", "2011-11-01 00:00:00.0", "2011-12-01 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, false, false, false, null, "Desc 108");
@@ -95,7 +95,7 @@ public class AtpTestDataLoader {
         loadMilestone("FALLTERM1990FINALS", "Fall Finals", "1990-12-10 00:00:00.0", "1990-12-15 00:00:00.0", "kuali.atp.milestone.FinalExamPeriod", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, true, true, false, null, "Fall Finals");
         loadMilestone("FALLTERM1990GRADESDUE", "Fall Grades Due", "1990-12-15 00:00:00.0", "1990-12-22 00:00:00.0", "kuali.atp.milestone.GradesDue", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, true, true, false, null, "Grades Due");
         loadMilestone("FALLTERM1990INSTRUCTIONPERIOD", "Fall Term Instructional Period", "1990-09-03 00:00:00.0", "1990-12-01 00:00:00.0", "kuali.atp.milestone.InstructionalPeriod", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, true, true, false, null, "Instruction Period");
-        loadMilestone("testKeyDate1", "testKeyDate1", "2001-09-10 00:00:00.0", "2001-09-20 00:00:00.0", "kuali.atp.milestone.AdvanceRegistrationPeriod", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, false, true, false, null, "Desc term rich text 5");
+        loadMilestone("testKeyDate1", "testKeyDate1", "2001-09-10 00:00:00.0", "2001-09-20 00:00:00.0", "kuali.atp.milestone.AdvancedRegistrationPeriod", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, false, true, false, null, "Desc term rich text 5");
         loadMilestone("testKeyDate2", "testKeyDate2", "2001-08-01 00:00:00.0", "2001-10-01 00:00:00.0", "kuali.atp.milestone.RegistrationPeriod", AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, false, false, true, false, null, "Desc term rich text 6");
         loadMilestone("THANKSGIVING1990", "Thanksgiving 1990", "1990-11-21 00:00:00.0", "1990-11-26 00:00:00.0", "kuali.atp.milestone.ThanksgivingBreak", AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY, false, true, true, false, null, "Thanksgiving Break");
 

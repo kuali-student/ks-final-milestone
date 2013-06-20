@@ -156,7 +156,7 @@ public class TestAtpServiceJpaPersistenceImpl {
         // test milestone create
         MilestoneInfo origM = new MilestoneInfo();
         origM.setName("new Milestone");
-        origM.setTypeKey(AtpServiceConstants.MILESTONE_ADVANCE_REGISTRATION_PERIOD_TYPE_KEY);
+        origM.setTypeKey(AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY);
         origM.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         origM.setStartDate(new Date());
         origM.setEndDate(new Date(new Date().getTime() + 1000));
@@ -363,7 +363,7 @@ public class TestAtpServiceJpaPersistenceImpl {
 
         MilestoneInfo m1 = new MilestoneInfo();
         m1.setName("new Milestone1");
-        m1.setTypeKey(AtpServiceConstants.MILESTONE_ADVANCE_REGISTRATION_PERIOD_TYPE_KEY);
+        m1.setTypeKey(AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY);
         m1.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         m1.setStartDate(new Date());
         m1.setEndDate(new Date(new Date().getTime() + 1000));
@@ -376,7 +376,7 @@ public class TestAtpServiceJpaPersistenceImpl {
 
         MilestoneInfo m2 = new MilestoneInfo();
         m2.setName("new Milestone2");
-        m2.setTypeKey(AtpServiceConstants.MILESTONE_ADVANCE_REGISTRATION_PERIOD_TYPE_KEY);
+        m2.setTypeKey(AtpServiceConstants.MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY);
         m2.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         m2.setStartDate(new Date());
         m2.setEndDate(new Date(new Date().getTime() + 1000));

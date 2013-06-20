@@ -405,7 +405,7 @@ public class TestAtpServiceImpl {
         assertEquals("testId", milestoneInfo.getName());
         assertEquals("Desc 105", milestoneInfo.getDescr().getPlain());
         assertEquals(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, milestoneInfo.getStateKey());
-        assertEquals("kuali.atp.milestone.AdvanceRegistrationPeriod", milestoneInfo.getTypeKey());
+        assertEquals("kuali.atp.milestone.AdvancedRegistrationPeriod", milestoneInfo.getTypeKey());
 
         MilestoneInfo fakeMilestone = null;
         try {
