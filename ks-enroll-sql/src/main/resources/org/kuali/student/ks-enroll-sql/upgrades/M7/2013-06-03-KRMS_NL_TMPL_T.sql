@@ -40,5 +40,36 @@ update KRMS_NL_TMPL_T
     set TMPL = 'Must not be in a class standing of $classStanding.name'
   where NL_TMPL_ID IN ('KS-KRMS-NL-TMPL-1345', 'KS-KRMS-NL-TMPL-1384')
 /
+----KSENROLL-7046
+
+update KRMS_NL_TMPL_T
+    set TMPL = 'Must have been admitted to the <program> program'
+  where NL_TMPL_ID = 'KS-KRMS-NL-TMPL-1114'
+/
+
+update KRMS_NL_TMPL_T
+    set TMPL = 'Must be admitted to any program offered at the course campus location'
+  where NL_TMPL_ID = 'KS-KRMS-NL-TMPL-1115'
+/
+
+update KRMS_NL_TMPL_T
+    set TMPL = 'Must not have been admitted to the <program> program'
+  where NL_TMPL_ID = 'KS-KRMS-NL-TMPL-1116'
+/
+
+update KRMS_NL_TMPL_T
+    set TMPL = 'Must not have been admitted to the <program> program with a class standing of <class standing>'
+  where NL_TMPL_ID = 'KS-KRMS-NL-TMPL-1117'
+/
+update KRMS_NL_TMPL_T
+    set TMPL = 'Must have been admitted to a program offered by <org>'
+  where NL_TMPL_ID = 'KS-KRMS-NL-TMPL-1118'
+/
+
+update KRMS_NL_TMPL_T
+    set TMPL = 'Must have earned a minimum cumulative GPA of <GPA> in <duration><durationType>'
+  where NL_TMPL_ID = 'KS-KRMS-NL-TMPL-1095'
+/
+
 
 
