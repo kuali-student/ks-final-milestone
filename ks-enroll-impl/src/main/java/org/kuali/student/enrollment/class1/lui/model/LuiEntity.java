@@ -128,6 +128,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.setEffectiveDate(lui.getEffectiveDate());
         this.setExpirationDate(lui.getExpirationDate());
         this.scheduleIds = new ArrayList<String>(lui.getScheduleIds());
+        this.setAtpId(lui.getAtpId());
 
         if (lui.getDescr() == null) {
             this.setDescrFormatted(null);
