@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <!--
      Copyright 2007-2012 The Kuali Foundation
 
@@ -47,21 +47,22 @@
     <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-                <bean  parent="Uif-GridGroup"  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-greyed-background ks-small-grid-line">
+                <bean  parent="Uif-GridGroup"  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-gray-background,ks-no-margins">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:colSpan="3"  id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
                             <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termDisplayString" p:readOnly="true"/>
                             <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName" p:readOnly="true"/>
-                            <bean parent="Uif-NavigationActionLink" p:colSpan="2" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms}"
-                                  p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"/>
+                            <bean parent="Uif-HorizontalBoxSection" p:colSpan="2">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-NavigationActionLink"  id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms}"
+                                              p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"/>
+                                    </list>
+                                </property  >
+                            </bean>
                             <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" p:readOnly="true"/>
                             <bean parent="Uif-DataField" id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
-                        </list>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-gray-background</value>
                         </list>
                     </property>
                 </bean>

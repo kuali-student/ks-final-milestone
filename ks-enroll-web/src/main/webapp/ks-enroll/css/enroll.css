@@ -922,4 +922,19 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 /************************************** END UNIFIED PAGE HEADER **********************/
 /*define a gray box as background*/
-.ks-gray-background { background-color:#eee; border:solid 1px #aaa; padding:5px 10px 5px 10px; width:700px; }
+.ks-gray-background {
+    background-color:#eee;
+    border:solid 1px #aaa;
+    padding:5px 10px 5px 10px;
+    width:700px;
+}
+
+.ks-no-margins,
+.ks-no-margins label,
+.ks-no-margins a {
+    margin-bottom: 0px;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
