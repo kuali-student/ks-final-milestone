@@ -122,6 +122,20 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
              * just accepts the ao id as param and fetches the DTO from the DB.)
              */
             try {
+                // check if subterm is assigned to AO
+                String subTermId = activityOfferingWrapper.getSubTermId();
+                String aoTermId = activityOfferingWrapper.getAoInfo().getTermId();
+                String termId = activityOfferingWrapper.getTerm().getId();
+                if (!aoTermId.equals(subTermId)) {
+                    if((subTermId == null || StringUtils.isBlank(subTermId))) {
+                        if(!aoTermId.equals(termId)) {
+                            activityOfferingWrapper.getAoInfo().setTermId(termId);
+                        }
+                    } else {
+                        activityOfferingWrapper.getAoInfo().setTermId(subTermId);
+                    }
+                }
+
                 activityOfferingInfo = getCourseOfferingService().updateActivityOffering(activityOfferingWrapper.getAoInfo().getId(), activityOfferingWrapper.getAoInfo(), contextInfo);
                 activityOfferingWrapper.setAoInfo(activityOfferingInfo);
             } catch (Exception e) {
@@ -297,30 +311,30 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             TermInfo term = null;
             TermInfo subTerm = null;
             wrapper.setHasSubTerms(false);
-            // termCode for subTerms is null. If it's changed in future - need to change logic to see if there is any parent term, now it saves us extra service call.
-            if (info.getTermCode() != null && !StringUtils.isBlank(info.getTermCode())) {
+            wrapper.setSubTermName("None");
+            wrapper.setSubTermId("");
+            List<TermInfo> terms = getAcademicCalendarService().getContainingTerms(info.getTermId(), contextInfo);
+            if (terms == null || terms.isEmpty()) {
                 term = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
                 // checking if we can have subterms for giving term
-                List<TypeTypeRelationInfo> subTerms = getTypeService().getTypeTypeRelationsByOwnerAndType(term.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+                List<TermInfo> subTerms = getAcademicCalendarService().getIncludedTermsInTerm(info.getTermId(), contextInfo);
                 if(!subTerms.isEmpty()) {
                     wrapper.setHasSubTerms(true);
                 }
             } else {
                 subTerm = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
-                term = getAcademicCalendarService().getContainingTerms(info.getTermId(), contextInfo).get(0);
+                term = terms.get(0);
                 wrapper.setHasSubTerms(true);
+                wrapper.setSubTermId(subTerm.getId());
+                TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
+                wrapper.setSubTermName(subTermType.getName());
             }
             wrapper.setTerm(term);
-            wrapper.setSubTerm(subTerm);
             if (term != null) {
                 wrapper.setTermName(term.getName());
             }
             wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
-            if (subTerm != null) {
-                wrapper.setSubTermName(subTerm.getName());
-            } else {
-                wrapper.setSubTermName("None");
-            }
+            // end subterms
 
             List<TypeInfo> regPeriods = getTypeService().getTypesForGroupType("kuali.milestone.type.group.appt.regperiods", contextInfo);
             List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(info.getTermId(), contextInfo);
@@ -368,7 +382,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
             //Set socInfo
-            List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(info.getTermId(), ContextUtils.createDefaultContextInfo());
+            List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(term.getId(), ContextUtils.createDefaultContextInfo());
             if (socIds != null && !socIds.isEmpty()) {
                 List<SocInfo> targetSocs = getCourseOfferingSetService().getSocsByIds(socIds, ContextUtils.createDefaultContextInfo());
                 for (SocInfo soc: targetSocs) {
