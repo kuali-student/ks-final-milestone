@@ -597,3 +597,9 @@ function calculatePercent(jqObject){
 function setRequestedDeliveryLogisticsFieldRequired(jqObject,required){
 
 }
+
+function displayAOsubTerm(subTermNameId, subTermTypeId, popoverId) {
+    jQuery("#"+subTermNameId+"_control").text(jQuery("#"+subTermTypeId+"_control").find(":selected").text());
+/*    alert("subTerm type value " + jQuery("#"+subTermTypeId+"_control").val()); */
+    jQuery("#"+popoverId).HideBubblePopup();
+}
