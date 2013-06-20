@@ -56,7 +56,7 @@
                             <bean parent="Uif-HorizontalBoxSection" p:colSpan="2">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-NavigationActionLink"  id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms}"
+                                        <bean parent="Uif-NavigationActionLink"  id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
                                               p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"/>
                                     </list>
                                 </property  >
