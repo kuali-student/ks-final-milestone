@@ -81,12 +81,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     leaf.setData(pNode);
                 }
 
-                //Set move left disabled flag if simple proposition in the root compound
-                if(sprout.getData() != null) {
-                    if(((RuleEditorTreeNode) sprout.getData()).getProposition().equals((getRootChild(rule.getEditTree().getRootElement().getChildren()).getData().getProposition()))) {
-                        leaf.setNodeType(leaf.getNodeType() + " " + RuleEditorTreeNode.MOVE_OUT);
-                    }
-                }
+
                 sprout.getChildren().add(leaf);
             } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
                 // Compound Proposition: editMode has description as an editable field
@@ -94,13 +89,6 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                 leaf.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
                 RuleEditorTreeNode pNode = new RuleEditorTreeNode(prop);
                 leaf.setData(pNode);
-
-                //Set move left disabled flag for compound proposition if in the root compound
-                if(sprout.getData() != null) {
-                    if(((RuleEditorTreeNode) sprout.getData()).getProposition().equals((getRootChild(rule.getEditTree().getRootElement().getChildren()).getData().getProposition()))) {
-                        leaf.setNodeType(leaf.getNodeType() + " " + RuleEditorTreeNode.MOVE_OUT);
-                    }
-                }
 
                 sprout.getChildren().add(leaf);
 
@@ -121,13 +109,19 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     //Add flag to identify if child can move right, if child has sibling after it
                     if((leaf.getData().getProposition().getCompoundEditors().size() - 1) != counter) {
                         if(!leaf.getData().getProposition().getCompoundEditors().get(leaf.getData().getProposition().getCompoundEditors().indexOf(child) + 1).getPropositionTypeCode().equals("C")) {
-                            childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_IN);
+                            childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.DISABLE_MOVE_IN);
                         }
                     } //Set flag for last child in leaf
                     else {
-                        childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_IN);
+                        childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.DISABLE_MOVE_IN);
                     }
                     counter++;
+                }
+            }
+            //Set move left disabled flag if simple proposition in the root compound
+            if(sprout.getData() != null) {
+                if(((RuleEditorTreeNode) sprout.getData()).getProposition().equals(rule.getProposition())) {
+                    leaf.setNodeType(leaf.getNodeType() + " " + RuleEditorTreeNode.DISABLE_MOVE_OUT);
                 }
             }
             return leaf;
@@ -166,10 +160,4 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         return  KsKrmsConstants.KRMS_NL_RULE_EDIT;
     }
 
-    private Node<RuleEditorTreeNode, String> getRootChild(List<Node<RuleEditorTreeNode, String>> children) {
-        for(Node<RuleEditorTreeNode, String> child : children) {
-            return child;
-        }
-        return null;
-    }
 }
