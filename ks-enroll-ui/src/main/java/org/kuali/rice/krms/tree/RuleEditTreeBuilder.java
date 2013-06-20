@@ -27,6 +27,8 @@ import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNod
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
+import java.util.List;
+
 /**
  *
  * @author Kuali Student Team
@@ -78,6 +80,13 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     KSSimplePropositionNode pNode = new KSSimplePropositionNode(prop);
                     leaf.setData(pNode);
                 }
+
+                //Set move left disabled flag if simple proposition in the root compound
+                if(sprout.getData() != null) {
+                    if(((RuleEditorTreeNode) sprout.getData()).getProposition().equals((getRootChild(rule.getEditTree().getRootElement().getChildren()).getData().getProposition()))) {
+                        leaf.setNodeType(leaf.getNodeType() + " " + RuleEditorTreeNode.MOVE_OUT);
+                    }
+                }
                 sprout.getChildren().add(leaf);
             } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
                 // Compound Proposition: editMode has description as an editable field
@@ -85,6 +94,14 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                 leaf.setNodeType(RuleEditorTreeNode.COMPOUND_NODE_TYPE);
                 RuleEditorTreeNode pNode = new RuleEditorTreeNode(prop);
                 leaf.setData(pNode);
+
+                //Set move left disabled flag for compound proposition if in the root compound
+                if(sprout.getData() != null) {
+                    if(((RuleEditorTreeNode) sprout.getData()).getProposition().equals((getRootChild(rule.getEditTree().getRootElement().getChildren()).getData().getProposition()))) {
+                        leaf.setNodeType(leaf.getNodeType() + " " + RuleEditorTreeNode.MOVE_OUT);
+                    }
+                }
+
                 sprout.getChildren().add(leaf);
 
                 int counter = 0;
@@ -109,10 +126,6 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                     } //Set flag for last child in leaf
                     else {
                         childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_IN);
-                    }
-                    //Set move left disabled flag for children in sprout (root)
-                    if(leaf.equals(getRootChild(sprout))) {
-                        childNode.setNodeType(childNode.getNodeType() + " " + RuleEditorTreeNode.MOVE_OUT);
                     }
                     counter++;
                 }
@@ -153,9 +166,9 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
         return  KsKrmsConstants.KRMS_NL_RULE_EDIT;
     }
 
-    private Node getRootChild(Node root) {
-        for(Object child : root.getChildren()) {
-            return (Node) child;
+    private Node<RuleEditorTreeNode, String> getRootChild(List<Node<RuleEditorTreeNode, String>> children) {
+        for(Node<RuleEditorTreeNode, String> child : children) {
+            return child;
         }
         return null;
     }
