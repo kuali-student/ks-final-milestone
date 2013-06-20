@@ -309,7 +309,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
             // Now have to deal with subterms: have to check if it's subterm or term
             TermInfo term = null;
-            TermInfo subTerm = null;
             wrapper.setHasSubTerms(false);
             wrapper.setSubTermName("None");
             wrapper.setSubTermId("");
@@ -322,7 +321,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     wrapper.setHasSubTerms(true);
                 }
             } else {
-                subTerm = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
+                TermInfo subTerm = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
                 term = terms.get(0);
                 wrapper.setHasSubTerms(true);
                 wrapper.setSubTermId(subTerm.getId());
