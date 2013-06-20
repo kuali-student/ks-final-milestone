@@ -125,7 +125,7 @@ public class AtpServiceConstants {
      * Milstone types
      */
     // registration
-    public static final String MILESTONE_ADVANCE_REGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.AdvanceRegistrationPeriod";
+    public static final String MILESTONE_ADVANCED_REGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.AdvancedRegistrationPeriod";
     public static final String MILESTONE_REGISTRATION_PERIOD_TYPE_KEY = "kuali.atp.milestone.RegistrationPeriod";
     public static final String MILESTONE_REGISTRATION_PERIOD1_TYPE_KEY = "kuali.atp.milestone.RegistrationPeriod1";
     public static final String MILESTONE_REGISTRATION_PERIOD2_TYPE_KEY = "kuali.atp.milestone.RegistrationPeriod2";
