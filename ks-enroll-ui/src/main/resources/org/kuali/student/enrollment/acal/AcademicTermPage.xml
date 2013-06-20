@@ -34,7 +34,7 @@
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ks-calendar-overview</value>
+                            <value>ks-gray-background</value>
                         </list>
                     </property>
                 </bean>

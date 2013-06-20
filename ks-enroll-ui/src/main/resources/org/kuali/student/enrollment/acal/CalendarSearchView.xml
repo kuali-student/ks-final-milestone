@@ -82,6 +82,9 @@
             <list>
                 <bean parent="Uif-GridSubSection">
                     <property name="headerText" value="Search for Calendar or Term"/>
+                    <property name="header">
+                        <bean parent="Uif-HeaderThree"/>
+                    </property>
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="style" value="margin-bottom:0;"/>

@@ -921,3 +921,5 @@ div#Uif-ApplicationHeader-Wrapper{
     box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
 }
 /************************************** END UNIFIED PAGE HEADER **********************/
+/*define a gray box as background*/
+.ks-gray-background { background-color:#eee; border:solid 1px #aaa; padding:5px 10px 5px 10px; width:700px; }
