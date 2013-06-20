@@ -64,7 +64,7 @@ public interface CatalogFee
     public List<String> getApplicableAtpIds();
 
     /**
-     * The minimum amount for a flat or fixed credit fee. This field
+     * The minimum amount for a flat or fixed credit Fee. This field
      * is not applicable for flexible credit fees.
      * 
      * @return the minimum amount
@@ -73,7 +73,7 @@ public interface CatalogFee
     public CurrencyAmount getMinimumAmount();
 
     /**
-     * The maximum amount for a flat or fixed credit fee. This field
+     * The maximum amount for a flat or fixed credit Fee. This field
      * is not applicable for flexible credit fees.
      * 
      * @return the maximum amount
@@ -102,7 +102,8 @@ public interface CatalogFee
     public CurrencyAmount getCappedFixedCreditAmount();
 
     /**
-     * The allowed list of flexible credit amounts.
+     * The allowed list of flexible credit amounts in flexible credit
+     * Fees.
      *
      * @return a list of flexible credit amounts
      * @name Flexible Credit Amounts
@@ -110,38 +111,38 @@ public interface CatalogFee
     public List<? extends FlexibleCreditAmount> getFlexibleCreditAmounts();
 
     /**
-     * Tests if a fee can override the default transaction code in
-     * this catalog.
+     * Tests if a Fee can override the transaction code in this
+     * catalog.
      *
      * @return true if the transaction code can be changed, false
      *         otherwise
-     * @name Is Transaction Code Final
+     * @name Can Override Transaction Code
      */
-    public Boolean getIsTransactionCodeFinal();
+    public Boolean getCanOverrideTransactionCode();
 
     /**
-     * The default transaction code.
+     * The transaction code to use in the Fees.
      *
-     * @return the default transaction code
-     * @name Default Transaction Code
+     * @return the transaction code
+     * @name Transaction Code
      */
-    public String getDefaultTransactionCode();
+    public String getTransactionCode();
 
     /**
-     * Tests if a fee can override the default transaction date type
-     * in this catalog.
+     * Tests if a Fee can override the transaction date type in this
+     * catalog.
      *
      * @return true if the transaction date type can be changed, false
      *         otherwise
-     * @name Is Transaction Date Type Final
+     * @name Can Override Transaction Date Type
      */
-    public Boolean getIsTransactionDateTypeFinal();
+    public Boolean getCanOverrideTransactionDateType();
 
     /**
-     * The default transaction date type key.
+     * The transaction date type key to use in the Fees.
      *
-     * @return the default transaction date type key
-     * @name Default Transaction Date Type Key
+     * @return the transaction date type key
+     * @name Transaction Date Type Key
      */
-    public String getDefaultTransactionDateTypeKey();
+    public String getTransactionDateTypeKey();
 }

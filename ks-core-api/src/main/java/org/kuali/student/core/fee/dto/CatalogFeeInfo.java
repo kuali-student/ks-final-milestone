@@ -41,8 +41,8 @@ import org.w3c.dom.Element;
         "code", "applicableAtpIds", "minimumAmount",
         "maximumAmount", "isFixedCreditAmountCapped",
         "cappedFixedCreditAmount", "flexibleCreditAmounts",
-        "isTransactionCodeFinal", "defaultTransactionCode", 
-        "isTransactionDateTypeFinal", "defaultTransactionDateTypeKey", 
+        "canOverrideTransactionCode", "transactionCode", 
+        "canOverrideTransactionDateType", "transactionDateTypeKey", 
         "meta", "attributes", "_futureElements" })
 
 public class CatalogFeeInfo
@@ -73,16 +73,16 @@ public class CatalogFeeInfo
     private List<FlexibleCreditAmountInfo> flexibleCreditAmounts;
     
     @XmlElement
-    private Boolean isTransactionCodeFinal;
+    private Boolean canOverrideTransactionCode;
     
     @XmlElement
-    private String defaultTransactionCode;
+    private String transactionCode;
 
     @XmlElement
-    private Boolean isTransactionDateTypeFinal;
+    private Boolean canOverrideTransactionDateType;
     
     @XmlElement
-    private String defaultTransactionDateTypeKey;
+    private String transactionDateTypeKey;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -120,11 +120,11 @@ public class CatalogFeeInfo
                 }
             }
 
-            this.isTransactionCodeFinal = catalogFee.getIsTransactionCodeFinal();
-            this.defaultTransactionCode = catalogFee.getDefaultTransactionCode();
+            this.canOverrideTransactionCode = catalogFee.getCanOverrideTransactionCode();
+            this.transactionCode = catalogFee.getTransactionCode();
 
-            this.isTransactionDateTypeFinal = catalogFee.getIsTransactionDateTypeFinal();
-            this.defaultTransactionDateTypeKey = catalogFee.getDefaultTransactionDateTypeKey();
+            this.canOverrideTransactionDateType = catalogFee.getCanOverrideTransactionDateType();
+            this.transactionDateTypeKey = catalogFee.getTransactionDateTypeKey();
         }
     }
 
@@ -200,38 +200,38 @@ public class CatalogFeeInfo
     }
 
     @Override
-    public Boolean getIsTransactionCodeFinal() {
-        return (this.isTransactionCodeFinal);
+    public Boolean getCanOverrideTransactionCode() {
+        return (this.canOverrideTransactionCode);
     }
 
-    public void setIsTransactionCodeFinal(Boolean isTransactionCodeFinal) {
-        this.isTransactionCodeFinal = isTransactionCodeFinal;
-    }
-
-    @Override
-    public String getDefaultTransactionCode() {
-        return (this.defaultTransactionCode);
-    }
-
-    public void setDefaultTransactionCode(String defaultTransactionCode) {
-        this.defaultTransactionCode = defaultTransactionCode;
+    public void setCanOverrideTransactionCode(Boolean canOverrideTransactionCode) {
+        this.canOverrideTransactionCode = canOverrideTransactionCode;
     }
 
     @Override
-    public Boolean getIsTransactionDateTypeFinal() {
-        return (this.isTransactionDateTypeFinal);
+    public String getTransactionCode() {
+        return (this.transactionCode);
     }
 
-    public void setIsTransactionDateTypeFinal(Boolean isTransactionDateTypeFinal) {
-        this.isTransactionDateTypeFinal = isTransactionDateTypeFinal;
+    public void setTransactionCode(String transactionCode) {
+        this.transactionCode = transactionCode;
     }
 
     @Override
-    public String getDefaultTransactionDateTypeKey() {
-        return (this.defaultTransactionDateTypeKey);
+    public Boolean getCanOverrideTransactionDateType() {
+        return (this.canOverrideTransactionDateType);
     }
 
-    public void setDefaultTransactionDateTypeKey(String defaultTransactionDateTypeKey) {
-        this.defaultTransactionDateTypeKey = defaultTransactionDateTypeKey;
+    public void setCanOverrideTransactionDateType(Boolean canOverrideTransactionDateType) {
+        this.canOverrideTransactionDateType = canOverrideTransactionDateType;
+    }
+
+    @Override
+    public String getTransactionDateTypeKey() {
+        return (this.transactionDateTypeKey);
+    }
+
+    public void setTransactionDateTypeKey(String TransactionDateTypeKey) {
+        this.transactionDateTypeKey = transactionDateTypeKey;
     }
 }

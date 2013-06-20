@@ -109,7 +109,9 @@ public interface Fee
     public List<? extends FlexibleCreditAmount> getFlexibleCreditAmounts();
 
     /**
-     * The transaction code.
+     * The transaction code. The transaction code can differ from the
+     * default type in the Fee Catalog of
+     * CatlogFee.canOverrideTransactionCode is true.
      *
      * @return the transaction code
      * @name Transaction Code
@@ -127,7 +129,7 @@ public interface Fee
     /**
      * The transaction date type key. The transaction date type can
      * differ from the default type in the Fee Catalog of
-     * CatlogFee.overrideTransactionDateTypeKey is true.
+     * CatlogFee.canOverrideTransactionDateTypeKey is true.
      *
      * @return the transaction date type key
      * @nameTransaction Date Type Key
