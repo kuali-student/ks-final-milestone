@@ -145,7 +145,7 @@
 		<property name="propertyName" value="holidays" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
-        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.richTable.render" value="true" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="cssClasses">
@@ -245,6 +245,7 @@
             <!-- see http://datatables.net/ref for all options -->
             <map merge="true">
                 <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
+                <entry key="bPaginate" value="false"/>
             </map>
         </property>
         <property name="lineActions">
