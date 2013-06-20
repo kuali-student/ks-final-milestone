@@ -129,6 +129,26 @@ public interface FeeService {
                OperationFailedException, 
                PermissionDeniedException;
 
+    /** 
+     * Retrieves a list of CatalogFees by code.
+     *
+     * @param code a CatalogFee code
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of CatalogFees
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException code or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CatalogFeeInfo> getCatalogFeesByIds(@WebParam(name = "code") String code, 
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
     /**
      * Searches for CatalogFees based on the criteria and returns a
      * list of CatalogFee identifiers which match the search criteria.
