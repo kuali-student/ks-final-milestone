@@ -69,6 +69,9 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
             wrapper = (ActivityOfferingWrapper)form.getDataObject();
         }
         String parentTermType = wrapper.getTerm().getId();
+        if (parentTermType == null || parentTermType.equals("")) {
+            parentTermType = wrapper.getAoInfo().getTermId();
+        }
 
         List<TermInfo> terms = new ArrayList<TermInfo>();
         try {
