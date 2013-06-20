@@ -2,11 +2,14 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
@@ -16,7 +19,9 @@ import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Main model object in Edit AO view.
@@ -554,6 +559,20 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public String getStartTimeDisplay() {
         return startTimeDisplay;
+    }
+
+    public String getTermStartEndDateAsString() {
+        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
+        StringBuilder stringBuilder = new StringBuilder();
+        Formatter formatter = new Formatter(stringBuilder, Locale.US);
+        String displayString = "not available";
+        if (this.getTerm() != null) {
+            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(this.getTerm().getStartDate());
+            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(this.getTerm().getEndDate());
+            formatter.format("%s - %s", startDate, endDate);
+            displayString = stringBuilder.toString();
+        }
+        return displayString;
     }
 
     public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay) {

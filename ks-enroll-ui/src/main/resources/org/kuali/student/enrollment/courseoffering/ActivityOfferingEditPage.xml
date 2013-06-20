@@ -51,7 +51,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termDisplayString" p:readOnly="true"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termName" p:readOnly="true"/>
                             <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName" p:readOnly="true"/>
                             <bean parent="Uif-HorizontalBoxSection" p:colSpan="2">
                                 <property name="items">
@@ -59,10 +59,11 @@
                                         <bean parent="Uif-NavigationActionLink"  id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
                                               p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"/>
                                     </list>
-                                </property  >
+                                </property>
                             </bean>
+                            <bean parent="Uif-DataField"  p:colSpan="3" id="term_start_end" p:label="Start:End" p:fieldLabel.renderColon="false" p:propertyName="termStartEndDateAsString" p:readOnly="true"/>
                             <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" p:readOnly="true"/>
-                            <bean parent="Uif-DataField" id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
+                            <bean parent="Uif-DataField"  id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
                         </list>
                     </property>
                 </bean>
