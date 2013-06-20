@@ -417,6 +417,7 @@ public interface WaitListService {
 
     /**
      * Retrieves the WaitListEntries associated with the given WaitList Id.
+     * The returned list will be ordered by WaitListEntryInfo.position starting with position 1.
      *
      * @param waitListId  the identifier for the WaitList
      * @param contextInfo information containing the principalId and
