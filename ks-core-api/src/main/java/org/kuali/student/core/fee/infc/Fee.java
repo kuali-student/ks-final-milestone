@@ -53,6 +53,8 @@ public interface Fee
      * 
      * @return the catalog fee Id
      * @name Catalog Fee Id
+     * @required
+     * @readOnly
      */
     public String getCatalogFeeId();
 
