@@ -26,7 +26,10 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -50,6 +53,7 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
     private static final long serialVersionUID = 1L;
 
     private transient TypeService typeService;
+    private transient AcademicCalendarService acalService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -59,23 +63,22 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
 
         MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
         ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-        String parentTermType = wrapper.getTerm().getTypeKey();
+        String parentTermType = wrapper.getTerm().getId();
 
-        List<TypeInfo> types = new ArrayList<TypeInfo>();
+        List<TermInfo> terms = new ArrayList<TermInfo>();
         try {
             ContextInfo context = new ContextInfo();
             List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByOwnerAndType(parentTermType, TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, context);
-            for (TypeTypeRelationInfo typeTypeRelationInfo : typeTypeRelationInfos) {
-                    types.add(getTypeService().getType(typeTypeRelationInfo.getRelatedTypeKey(), context));
+            terms = getAcademicCalendarService().getIncludedTermsInTerm(parentTermType, context);
+
+            if(terms.size() > 1) {
+                Collections.sort(terms, new SubtermComparator());
             }
 
-            if(types.size() > 1) {
-                Collections.sort(types, new SubtermComparator());
-            }
-
-            for (TypeInfo type : types) {
+            for (TermInfo term : terms) {
                 ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                keyValue.setKey(type.getKey());
+                TypeInfo type = getTypeService().getType(term.getTypeKey(), context);
+                keyValue.setKey(term.getId());
                 keyValue.setValue(type.getName());
                 keyValues.add(keyValue);
             }
@@ -90,8 +93,8 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
     private static class SubtermComparator implements Comparator, Serializable {
         @Override
         public int compare(Object o1, Object o2) {
-            String value1 = ((TypeInfo) o1).getName();
-            String value2 = ((TypeInfo) o2).getName();
+            String value1 = ((TermInfo) o1).getId();
+            String value2 = ((TermInfo) o2).getId();
 
             int result = value1.compareToIgnoreCase(value2);
             return result;
@@ -103,6 +106,13 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
             typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.typeService;
+    }
+
+    public AcademicCalendarService getAcademicCalendarService() {
+        if(acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "acal", "AcademicCalendarService"));
+        }
+        return this.acalService;
     }
 
 }
