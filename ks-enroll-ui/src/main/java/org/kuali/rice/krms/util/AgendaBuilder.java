@@ -89,14 +89,6 @@ public class AgendaBuilder {
         String bindingPath = bindingPrefix + "ruleEditors[" + rule.getKey() + "].";
         this.setPropertyBindingPaths(group, bindingPath);
 
-        if (rule.isDummy() && rule.getParent() != null) {
-            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.hasparent");
-        } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
-            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), "warning.krms.agenda.rule.empty");
-        }else if (!this.getViewHelperService().compareRules(rule)) {
-            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.changed");
-        }
-
         return group;
     }
 

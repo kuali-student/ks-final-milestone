@@ -90,7 +90,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-HeaderFour" p:headerText="Course Offering Requisites"/>
                 <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
-                <bean parent="KRMS-AgendaManage-Section"/>
+                <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.CourseOfferingAgendaSection"/>
             </list>
         </property>
         <property name="footer">
