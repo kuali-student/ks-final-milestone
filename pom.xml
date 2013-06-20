@@ -19,7 +19,7 @@
 
 	<groupId>org.kuali.student.ap</groupId>
 	<artifactId>ks-ap</artifactId>
-	<version>0.5.0-KSAP-SNAPSHOT</version>
+	<version>0.6.0-KSAP-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>KSAP</name>
 	<description>Kuali Student Academic Planning Module</description>
