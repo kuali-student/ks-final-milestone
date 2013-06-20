@@ -145,7 +145,7 @@
 		<property name="propertyName" value="holidays" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
-        <property name="layoutManager.richTable.render" value="true" />
+        <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="cssClasses">
