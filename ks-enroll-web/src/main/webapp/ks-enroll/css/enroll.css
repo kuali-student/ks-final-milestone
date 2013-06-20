@@ -870,6 +870,7 @@ div#Uif-ApplicationHeader-Wrapper{
     font-size: 14px;
     line-height: 20px;
     padding-top: 25px;
+    float: right;
 }
 
 /* Attributes of the Action area */
