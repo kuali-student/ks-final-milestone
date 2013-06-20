@@ -1086,33 +1086,33 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     }
 
                     //Check for sub-term or term and populate accordingly
-                    TermInfo term = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+/*                    TermInfo term = null;
                     TermInfo subTerm = null;
-                    aoWrapper.getAoInfo().setTermCode(term.getCode());
                     aoWrapper.setHasSubTerms(false);
-                    // termCode for subTerms is null. If it's changed in future - need to change logic to see if there is any parent term, now it saves us extra service call.
-                    if (aoWrapper.getAoInfo().getTermCode() != null && !StringUtils.isBlank(aoWrapper.getAoInfo().getTermCode())) {
-                        // checking if we can have sub-terms for given term
-                        List<TypeTypeRelationInfo> subTerms = getTypeService().getTypeTypeRelationsByOwnerAndType(term.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+                    aoWrapper.setSubTermName("None");
+                    aoWrapper.setSubTermId("");
+                    List<TermInfo> terms = getAcalService().getContainingTerms(aoWrapper.getAoInfo().getTermId(), contextInfo);
+                    if (terms == null || terms.isEmpty()) {
+                        term = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+                        // checking if we can have subterms for giving term
+                        List<TermInfo> subTerms = getAcalService().getIncludedTermsInTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
                         if(!subTerms.isEmpty()) {
                             aoWrapper.setHasSubTerms(true);
                         }
                     } else {
                         subTerm = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
-                        term = getAcalService().getContainingTerms(aoWrapper.getAoInfo().getTermId(), contextInfo).get(0);
+                        term = terms.get(0);
                         aoWrapper.setHasSubTerms(true);
+                        aoWrapper.setSubTermId(subTerm.getId());
+                        TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
+                        aoWrapper.setSubTermName(subTermType.getName());
                     }
                     aoWrapper.setTerm(term);
-                    aoWrapper.setSubTermId(subTerm.getId());
                     if (term != null) {
                         aoWrapper.setTermName(term.getName());
                     }
-                    aoWrapper.setTermDisplayString(getTermDisplayString(aoWrapper.getAoInfo().getTermId(), term));
-                    if (subTerm != null) {
-                        aoWrapper.setSubTermName(subTerm.getName());
-                    } else {
-                        aoWrapper.setSubTermName("None");
-                    }
+                    aoWrapper.setTermDisplayString(getTermDisplayString(aoWrapper.getAoInfo().getTermId(), term)); */
+                    // end subterms
 
                     activityOfferingWrappers.add(aoWrapper);
                 }
