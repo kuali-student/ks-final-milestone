@@ -27,6 +27,137 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.kuali.maven.plugins</groupId>
+                <artifactId>maven-kscontractdoc-plugin</artifactId>
+                <version>${ks-contract-docs.plugin.version}</version>
+                <!-- For instructions see https://wiki.kuali.org/display/STUDENT/Using+the+Contract+Doc+Maven+Plugin  -->
+                <executions>
+                    <!-- This generates the standard contract docs on the site-->
+                    <execution>
+                        <id>generate-contract-documentation</id>
+                        <phase>${ks.contractdoc.phase}</phase>
+                        <goals>
+                            <goal>kscontractdoc</goal>
+                        </goals>
+                        <configuration>
+                            <!-- generate on all kuali dependencies -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.build.directory}/dependency-sources</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <!-- This generates the the dictionary documentation docs on the site-->
+                    <execution>
+                        <id>generate-dictionary-documentation</id>
+                        <phase>${ks.dictionarydoc.phase}</phase>
+                        <goals>
+                            <goal>ksdictionarydoc</goal>
+                        </goals>
+                        <configuration>
+                            <!-- generate only on the kuali student api -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <!-- This generates the the ks-xxxx-generated.xml files in target/classes -->
+                    <execution>
+                        <id>generate-dictionary-files</id>
+                        <phase>${ks.dictionarycreate.phase}</phase>
+                        <goals>
+                            <goal>ksdictionarycreator</goal>
+                        </goals>
+                        <configuration>
+                            <writeManual>true</writeManual>
+                            <!-- generate only on the kuali student api -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <!-- This generates the mock-implementation java code-->
+                    <execution>
+                        <id>generate-mock-implementations</id>
+                        <phase>${ks.mockimpl.phase}</phase>
+                        <goals>
+                            <goal>kscreatemock</goal>
+                        </goals>
+                        <configuration>
+                            <!-- generate only on the kuali student api -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <!-- This generates the conformance test java code-->
+                    <!--
+                    <execution>
+                        <id>generate-conformance-tests</id>
+                        <phase>${ks.conftest.phase}</phase>
+                        <goals>
+                            <goal>kscreateconftest</goal>
+                        </goals>
+                        <configuration>
+                            &lt;!&ndash; generate only on the kuali student api &ndash;&gt;
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+-->
+                    <!-- generate only on the kuali student api -->
+                    <execution>
+                        <id>generate-validation-decorators</id>
+                        <phase>${ks.vdecorator.phase}</phase>
+                        <goals>
+                            <goal>kscreatevdec</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.kuali.rice</groupId>
+                        <artifactId>rice-impl</artifactId>
+                        <version>${kuali.rice.version}</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>org.springframework.security</groupId>
+                                <artifactId>spring-security-cas-client</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>javax.servlet</groupId>
+                                <artifactId>servlet-api</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                <groupId>javax.servlet.jsp</groupId>
+                                <artifactId>jsp-api</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-java2ws-plugin</artifactId>
                 <executions>

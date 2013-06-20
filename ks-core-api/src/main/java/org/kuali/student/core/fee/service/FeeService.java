@@ -142,8 +142,8 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<CatalogFeeInfo> getCatalogFeesByIds(@WebParam(name = "code") String code, 
-                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<CatalogFeeInfo> getCatalogFeesByCode(@WebParam(name = "code") String code, 
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
