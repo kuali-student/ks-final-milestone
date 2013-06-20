@@ -22,16 +22,15 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.web.form.InquiryForm;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
-import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
@@ -61,14 +60,19 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("", "None"));
 
-        MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
-        ActivityOfferingWrapper wrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        ActivityOfferingWrapper wrapper = null;
+        if (model instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
+            wrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        } else if (model instanceof InquiryForm) {
+            InquiryForm form = (InquiryForm)model;
+            wrapper = (ActivityOfferingWrapper)form.getDataObject();
+        }
         String parentTermType = wrapper.getTerm().getId();
 
         List<TermInfo> terms = new ArrayList<TermInfo>();
         try {
             ContextInfo context = new ContextInfo();
-            List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByOwnerAndType(parentTermType, TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, context);
             terms = getAcademicCalendarService().getIncludedTermsInTerm(parentTermType, context);
 
             if(terms.size() > 1) {
