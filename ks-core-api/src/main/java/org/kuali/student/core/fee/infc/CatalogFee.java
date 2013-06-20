@@ -22,8 +22,8 @@ import org.kuali.student.r2.common.infc.CurrencyAmount;
 import java.util.List;
 
 /**
- * The CatalogFee is a list of "canonical" fees that can be used in
- * establishing an actual fee for a Course Offering.
+ * The CatalogFee is a list of "canonical" fees in a "catalog" that
+ * can be used in establishing an actual Fee.
  *
  * The Catalog Fee has one of three flavors indicated by its Type:
  *

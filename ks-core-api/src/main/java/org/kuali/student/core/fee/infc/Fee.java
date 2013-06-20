@@ -24,8 +24,9 @@ import java.util.List;
 
 
 /**
- * The Fee is drawn from the Fee Catalog and applied to something
- * with a charge, like a CourseOffering.
+ * The Fee is drawn from the CatalogFee and applied to something (ref
+ * object) with a charge, like a CourseOffering. The CatalogFee
+ * constrains the Fee.
  *
  * The Fee has one of three flavors indicated by its Type:
  *
