@@ -1086,7 +1086,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     }
 
                     //Check for sub-term or term and populate accordingly
-/*                    TermInfo term = null;
+                    TermInfo term = null;
                     TermInfo subTerm = null;
                     aoWrapper.setHasSubTerms(false);
                     aoWrapper.setSubTermName("None");
@@ -1111,7 +1111,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     if (term != null) {
                         aoWrapper.setTermName(term.getName());
                     }
-                    aoWrapper.setTermDisplayString(getTermDisplayString(aoWrapper.getAoInfo().getTermId(), term)); */
+                    aoWrapper.setTermDisplayString(getTermDisplayString(aoWrapper.getAoInfo().getTermId(), term));
                     // end subterms
 
                     activityOfferingWrappers.add(aoWrapper);
