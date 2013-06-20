@@ -114,9 +114,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private CourseInfo course;
 
     // Subterms
-    private TermInfo subTerm;
     private String subTermName = "";
-    private String subTermType;
+    private String subTermId;
     private boolean hasSubTerms;
 
     public ActivityOfferingWrapper(){
@@ -969,14 +968,6 @@ public class ActivityOfferingWrapper implements Serializable{
     }
 
     // subterms
-    public TermInfo getSubTerm() {
-        return subTerm;
-    }
-
-    public void setSubTerm(TermInfo subTerm) {
-        this.subTerm = subTerm;
-    }
-
     public String getSubTermName() {
         return subTermName;
     }
@@ -993,12 +984,12 @@ public class ActivityOfferingWrapper implements Serializable{
         this.hasSubTerms = hasSubTerms;
     }
 
-    public String getSubTermType() {
-        return subTermType;
+    public String getSubTermId() {
+        return subTermId;
     }
 
-    public void setSubTermType(String subTermType) {
-        this.subTermType = subTermType;
+    public void setSubTermId(String subTermId) {
+        this.subTermId = subTermId;
     }
 
 }
