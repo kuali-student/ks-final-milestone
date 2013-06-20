@@ -72,4 +72,6 @@
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-embedded-dev/kew/ActionList.do</param>
 	-->
     <param name="resourceBundleNames" override="true">${rice.struts.message.resources},org.kuali.student.myplan.KSMyPlan-ApplicationResources</param>
+    
+    <param name="ks.ap.MAX_FUTURE_YEARS">6</param>
 </config>

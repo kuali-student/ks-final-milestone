@@ -289,8 +289,9 @@ public class PlannedTermsHelperBase {
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
 		Term term = th.getFirstTermOfAcademicYear(th.getYearTerm(termId));
 		Date startDate = term.getStartDate();
+		Date currentDate = new Date();
 		Calendar c = Calendar.getInstance();
-		c.setTime(startDate);
+		c.setTime(currentDate);
 		c.add(Calendar.YEAR, futureTermsCount);
 		Date endDate = c.getTime();
 		try {

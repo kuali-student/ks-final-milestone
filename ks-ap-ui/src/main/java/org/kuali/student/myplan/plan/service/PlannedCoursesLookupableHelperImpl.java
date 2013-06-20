@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -116,10 +117,11 @@ public class PlannedCoursesLookupableHelperImpl extends
             LOG.error("Could not load cart list", e);
 
         }
-
-		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
+        
+        int futureYears = (int)ConfigContext.getCurrentContextConfig().getNumericProperty("ks.ap.MAX_FUTURE_YEARS", PlanConstants.MAX_FUTURE_YEARS);
+        List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
 				.populatePlannedTerms(plannedCoursesList, backupCoursesList,
-						studentCourseRecordInfos, cartCoursesList, focusAtpId, PlanConstants.MAX_FUTURE_YEARS, false);
+						studentCourseRecordInfos, cartCoursesList, focusAtpId, futureYears, false);
 		return perfectPlannedTerms;
 	}
 }

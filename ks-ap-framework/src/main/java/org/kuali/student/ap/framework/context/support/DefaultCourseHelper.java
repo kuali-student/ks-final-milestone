@@ -44,6 +44,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 			Map<String, Map<String, Object>> status, String courseId,
 			String termId) {
 		try {
+			String xtermId = termId.replace('.', '_').intern();
 			for (CourseOfferingInfo co : KsapFrameworkServiceLocator
 					.getCourseOfferingService()
 					.getCourseOfferingsByCourseAndTerm(
@@ -65,7 +66,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 					enrl.put("enrollOpen", ao.getAttributeValue("enrollOpen"));
 					enrl.put("enrollEstimate",
 							ao.getAttributeValue("enrollEstimate"));
-					String key = "enrl_" + termId + "_" + ao.getActivityCode();
+					String key = "enrl_" + xtermId + "_" + ao.getActivityCode();
 					status.put(key, enrl);
 				}
 		} catch (DoesNotExistException e) {
