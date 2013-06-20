@@ -1103,7 +1103,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         aoWrapper.setHasSubTerms(true);
                     }
                     aoWrapper.setTerm(term);
-                    aoWrapper.setSubTerm(subTerm);
+                    aoWrapper.setSubTermId(subTerm.getId());
                     if (term != null) {
                         aoWrapper.setTermName(term.getName());
                     }
