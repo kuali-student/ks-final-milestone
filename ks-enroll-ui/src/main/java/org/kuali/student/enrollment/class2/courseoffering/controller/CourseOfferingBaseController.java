@@ -74,13 +74,10 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
                               HttpServletRequest request, HttpServletResponse response) {
         super.route(form, result, request, response);
 
-        // If Edit CO has errors, don't navigate back to Manage screen, display errors instead.
+        // don't navigate back to different screens if there are errors.
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
         }
-
-        String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
-        form.setReturnLocation(url);
 
         Properties urlParameters = new Properties();
 
@@ -88,6 +85,14 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
             urlParameters.put(CalendarConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS);
             urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,dataObject.getCourseOfferingCode());
+
+            String url;
+            if (!form.getReturnLocation().contains("methodToCall=")){ //This happens when we display a list of COs and then user click on Manage action
+                url = form.getReturnLocation() + "&methodToCall=show";
+            } else {
+                url = form.getReturnLocation().replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
+            }
+            form.setReturnLocation(url);
         }
 
         // clear current form from session
