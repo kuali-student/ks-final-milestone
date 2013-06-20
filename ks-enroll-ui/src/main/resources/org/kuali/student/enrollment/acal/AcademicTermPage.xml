@@ -335,7 +335,15 @@
         <property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
-        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <!--<entry key="aaSorting" value="[[ 0, 'asc' ]]"/>-->
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
         <property name="addLineActions">
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error

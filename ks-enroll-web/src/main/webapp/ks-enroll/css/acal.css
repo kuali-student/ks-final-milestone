@@ -48,6 +48,16 @@
 .ks-tablecollection-header-center thead th {
     text-align: center;
 }
+
+/* override the following two css classes to remove the textured borders on edit ACAL screen stacked sections */
+.uif-stackedCollectionLayout {
+    background-image: none;
+    padding: 0px;
+}
+.uif-stackedCollectionLayout .uif-stackedCollectionLayout {
+    background-image: none;
+}
+
 /*
 .uif-horizontalBoxLayout > .uif-inputField {
     float: left;
