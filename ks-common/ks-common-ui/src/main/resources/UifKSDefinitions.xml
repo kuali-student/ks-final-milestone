@@ -49,9 +49,9 @@
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
-        <property name="stickyTopGroup" value="true"/>
-        <property name="stickyBreadcrumbs" value="true"/>
-        <property name="stickyApplicationHeader" value="true"/>
+        <property name="stickyTopGroup" value="false"/>
+        <property name="stickyBreadcrumbs" value="false"/>
+        <property name="stickyApplicationHeader" value="false"/>
         <property name="stickyHeader" value="true"/>
         <property name="applicationHeader">
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
@@ -92,9 +92,9 @@
         </property>
 
         <property name="stickyHeader" value="true"/>
-        <property name="stickyTopGroup" value="true"/>
-        <property name="stickyBreadcrumbs" value="true"/>
-        <property name="stickyApplicationHeader" value="true"/>
+        <property name="stickyTopGroup" value="false"/>
+        <property name="stickyBreadcrumbs" value="false"/>
+        <property name="stickyApplicationHeader" value="false"/>
         <property name="applicationHeader">
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
                   p:template="/ks-enroll/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
