@@ -795,17 +795,3 @@ function addBootstrapImageToLink(containerId) {
     });
 }
 
-function displayAOsubTerm() {
-    alert("TEsting....");
-    /* ((buttonId=="moveAOCButton" && jQuery("#clusterIDListForAOMove_control").val()== "createNewCluster")
-        || buttonId=="addAOCButton" || buttonId=="renameAOCButton") {
-        if (jQuery("#"+controlId).val() == "" ) {
-            jQuery("#"+buttonId).attr("disabled", "disabled");
-        } else {
-            jQuery("#"+buttonId).removeAttr("disabled");
-        }
-    } else {
-        jQuery("#"+buttonId).removeAttr("disabled");
-    } */
-}
-
