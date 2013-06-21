@@ -629,6 +629,7 @@ a {
     height: 41px;
     background-color: #555;
     width: 100%;
+    margin-bottom: 0px;
 }
 
 /* Attributes of Term */

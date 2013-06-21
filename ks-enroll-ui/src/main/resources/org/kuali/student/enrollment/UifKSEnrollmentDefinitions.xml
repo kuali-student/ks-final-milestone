@@ -61,6 +61,8 @@
     <bean id="KS-CourseOffering-View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
 
     <!-- Note: due to the way breadcrumbs are implemented, EC found that we need to initially set the CSS display to none -->
+    <!-- Also note: Uif-HorizontalBoxGroup is inheriting from KRAD a margin-bottom:10px which on CreateCO and ManageSoc views is causing
+                    the breadcrumb-bar to be pushed down and look horrible (the bar remains where it is but the text gets pushed down) -->
     <bean id="KS-CourseOffering-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
           p:onDocumentReadyScript="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder' ); setSeasonalColor( 'KS-CourseOffering-ContextBar', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
         <property name="cssClasses">
