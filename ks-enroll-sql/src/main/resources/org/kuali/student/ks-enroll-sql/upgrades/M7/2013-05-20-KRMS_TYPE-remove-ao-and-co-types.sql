@@ -239,3 +239,15 @@ DELETE FROM KRMS_TYP_RELN_T WHERE TO_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHE
 DELETE FROM KRMS_TYP_RELN_T WHERE TO_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.no.repeat.course.nof')
                                   AND FROM_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.credit.repeatable')
 /
+
+
+---KSENROLL-7109
+DELETE FROM KRMS_TYP_RELN_T
+WHERE FROM_TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM ='kuali.krms.rule.type.course.academicReadiness.studentEligibility');
+/
+
+DELETE FROM KRMS_NL_TMPL_T WHERE TYP_ID = (SELECT TYP_ID FROM KRMS_TYP_T WHERE NM ='kuali.krms.rule.type.course.academicReadiness.studentEligibility');
+/
+
+DELETE FROM KRMS_TYP_T WHERE NM ='kuali.krms.rule.type.course.academicReadiness.studentEligibility'
+/
