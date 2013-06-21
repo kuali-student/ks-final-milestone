@@ -887,6 +887,7 @@ div#Uif-ApplicationHeader-Wrapper{
 /* Setting the Action Link icons' opacity */
 .ks-unified-header-rightGroup-action a i {
     opacity: .5;
+    padding-right: .3em;
 }
 
 /* Setting the Action Link icons' opacity on hover */
@@ -903,6 +904,7 @@ div#Uif-ApplicationHeader-Wrapper{
 /* Meta + lozenge area */
 .ks-unified-header-rightGroup-status {
     padding-right: 6px;
+    float: right;
 }
 
 /* Meta Data Info */
