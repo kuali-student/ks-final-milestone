@@ -1,13 +1,5 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.OptimisticLockException;
-
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
@@ -40,6 +32,13 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchManager;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.OptimisticLockException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class})
 public class AtpServiceImpl implements AtpService {
@@ -382,8 +381,8 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<AtpInfo> getATPsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getATPsForMilestone");
+    public List<AtpInfo> getAtpsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getAtpsForMilestone");
     }
 
     @Override
