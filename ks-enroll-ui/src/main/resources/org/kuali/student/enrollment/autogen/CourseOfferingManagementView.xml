@@ -30,9 +30,6 @@
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
 
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="" p:style="display: none; padding-left:15px; line-height: 200%; float: left; margin-bottom: 20px; "/>
-        </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
