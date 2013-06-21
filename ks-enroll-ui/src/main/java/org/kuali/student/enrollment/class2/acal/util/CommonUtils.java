@@ -72,7 +72,7 @@ public class CommonUtils {
 
     public static boolean isDateWithinRange(Date startDate,Date endDate,Date checkDate){
         if(startDate != null && endDate != null && checkDate != null) {
-            if (checkDate.before(startDate) || checkDate.after(endDate)){
+            if ((!checkDate.equals(startDate) &&  checkDate.before(startDate)) || (!checkDate.equals(endDate) && checkDate.after(endDate))){
                 return false;
             }
         }
