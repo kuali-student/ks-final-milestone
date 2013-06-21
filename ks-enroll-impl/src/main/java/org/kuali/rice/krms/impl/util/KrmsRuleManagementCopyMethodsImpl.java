@@ -21,6 +21,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 /**
@@ -30,6 +31,7 @@ import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopyMethods {
 
     private RuleManagementService ruleManagementService;
+    private TermRepositoryService termRepositoryService;
 
     @Override
     public List<ReferenceObjectBinding> deepCopyReferenceObjectBindingsFromTo(String fromReferenceDiscriminatorType,
@@ -70,7 +72,6 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
     private AgendaDefinition deepCopyAgenda(AgendaTreeDefinition agendaTree, String refObjectId){
         //clone the Agenda
         AgendaDefinition oldAgenda = getRuleManagementService ().getAgenda(agendaTree.getAgendaId());
-//        String agendaTypeKey = krmsTypeRepositoryService.getTypeById(oldAgenda.getTypeId()).getName();
         AgendaDefinition.Builder copiedAgendaBldr = AgendaDefinition.Builder.create(oldAgenda);
         copiedAgendaBldr.setId(null);
         copiedAgendaBldr.setVersionNumber(null);
@@ -83,29 +84,16 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         for (AgendaTreeEntryDefinitionContract entry : agendaTree.getEntries()) {
             AgendaItemDefinition currentAgendaItem = getRuleManagementService ().getAgendaItem(entry.getAgendaItemId());
             AgendaItemDefinition.Builder copiedAgendaItemBldr = AgendaItemDefinition.Builder.create(currentAgendaItem);
+            deepUpdateAgendaItem(copiedAgendaItemBldr,copiedAgenda.getId(), refObjectId);
             if (firstItem) {
                 AgendaItemDefinition existingFirstItem = getRuleManagementService ().getAgendaItem(copiedAgenda.getFirstItemId());
                 copiedAgendaItemBldr.setId((copiedAgenda.getFirstItemId()));
                 copiedAgendaItemBldr.setVersionNumber(existingFirstItem.getVersionNumber());
-            }
-            else {
-                copiedAgendaItemBldr.setId(null);
-                copiedAgendaItemBldr.setVersionNumber(null);                
-            }
-            copiedAgendaItemBldr.setAgendaId(copiedAgenda.getId());
-            copiedAgendaItemBldr.setRuleId(null);
-            RuleDefinition.Builder copiedRuleBldr = copiedAgendaItemBldr.getRule();
-            copiedRuleBldr.setId(null);
-            copiedRuleBldr.setVersionNumber(null);
-            copiedRuleBldr.setPropId(null);
-//            String ruleTypeKey = krmsTypeRepositoryService.getTypeById(copiedRuleBldr.getTypeId()).getName();
-            copiedRuleBldr.setName(refObjectId + ":" + copiedRuleBldr.getTypeId()+":1");
-            deepUpdateForProposition(copiedRuleBldr.getProposition());
-
-            if(firstItem){
                 firstAgendaItemBldr = copiedAgendaItemBldr;
                 previousAgendaItemBldr = firstAgendaItemBldr;
             }else{
+                copiedAgendaItemBldr.setId(null);
+                copiedAgendaItemBldr.setVersionNumber(null);
                 previousAgendaItemBldr.setWhenTrue(copiedAgendaItemBldr);
                 previousAgendaItemBldr = copiedAgendaItemBldr;
             }
@@ -115,6 +103,31 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         return copiedAgenda;
     }
 
+    private void deepUpdateAgendaItem(AgendaItemDefinition.Builder copiedAgendaItemBldr, String copiedAgendaID, String refObjectId){
+        copiedAgendaItemBldr.setId(null);
+        copiedAgendaItemBldr.setVersionNumber(null);
+        copiedAgendaItemBldr.setAgendaId(copiedAgendaID);
+        if(copiedAgendaItemBldr.getWhenTrueId() != null){
+            deepUpdateAgendaItem(copiedAgendaItemBldr.getWhenTrue(),copiedAgendaID,refObjectId);
+            copiedAgendaItemBldr.setWhenTrueId(null);
+        }
+        if(copiedAgendaItemBldr.getWhenFalseId() != null){
+            deepUpdateAgendaItem(copiedAgendaItemBldr.getWhenFalse(),copiedAgendaID,refObjectId);
+            copiedAgendaItemBldr.setWhenFalseId(null);
+        }
+        if(copiedAgendaItemBldr.getAlwaysId() != null){
+            deepUpdateAgendaItem(copiedAgendaItemBldr.getAlways(),copiedAgendaID,refObjectId);
+            copiedAgendaItemBldr.setAlwaysId(null);
+        }
+        copiedAgendaItemBldr.setRuleId(null);
+        RuleDefinition.Builder copiedRuleBldr = copiedAgendaItemBldr.getRule();
+        copiedRuleBldr.setId(null);
+        copiedRuleBldr.setVersionNumber(null);
+        copiedRuleBldr.setPropId(null);
+        copiedRuleBldr.setName(refObjectId + ":" + copiedRuleBldr.getTypeId()+":1");
+        deepUpdateForProposition(copiedRuleBldr.getProposition());
+    }
+
     private void deepUpdateForProposition(PropositionDefinition.Builder propBldr){
         propBldr.setId(null);
         propBldr.setRuleId(null);
@@ -122,8 +135,14 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
             propParmBldr.setId(null);
             propParmBldr.setPropId(null);
             if(PropositionParameterType.TERM.getCode().equals(propParmBldr.getParameterType())){
+                TermDefinition termDef = null;
+                if(propParmBldr.getTermValue() != null){
+                    termDef = propParmBldr.getTermValue();
+                }else{
+                    termDef = getTermRepositoryService().getTerm(propParmBldr.getValue());
+                }
                 propParmBldr.setValue(null);
-                TermDefinition.Builder termBldr = TermDefinition.Builder.create(propParmBldr.getTermValue());
+                TermDefinition.Builder termBldr = TermDefinition.Builder.create(termDef);
                 termBldr.setId(null);
                 for(TermParameterDefinition.Builder termParmBldr : termBldr.getParameters()){
                     termParmBldr.setId(null);
@@ -169,15 +188,30 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
     }
     
     private int _deleteAgendaItemCascade (String agendaItemId) {
-        AgendaItemDefinition item = this.getRuleManagementService ().getAgendaItem(agendaItemId);
+        AgendaItemDefinition item = this.getRuleManagementService().getAgendaItem(agendaItemId);
         if (item.getAlwaysId() != null) {
+            AgendaItemDefinition.Builder bldr = AgendaItemDefinition.Builder.create(item);
+            bldr.setAlways(null);
+            bldr.setAlwaysId(null);
+            this.getRuleManagementService().updateAgendaItem(bldr.build());
             this._deleteAgendaItemCascade(item.getAlwaysId());
+            item = this.getRuleManagementService().getAgendaItem(agendaItemId);
         }
         if (item.getWhenTrueId()!= null) {
+            AgendaItemDefinition.Builder bldr = AgendaItemDefinition.Builder.create(item);
+            bldr.setWhenTrue(null);
+            bldr.setWhenTrueId(null);
+            this.getRuleManagementService().updateAgendaItem(bldr.build());
             this._deleteAgendaItemCascade(item.getWhenTrueId());
+            item = this.getRuleManagementService().getAgendaItem(agendaItemId);
         }
-        if (item.getWhenTrueId() != null) {
-            this._deleteAgendaItemCascade(item.getWhenTrueId());
+        if (item.getWhenFalseId() != null) {
+            AgendaItemDefinition.Builder bldr = AgendaItemDefinition.Builder.create(item);
+            bldr.setWhenFalse(null);
+            bldr.setWhenFalseId(null);
+            this.getRuleManagementService().updateAgendaItem(bldr.build());
+            this._deleteAgendaItemCascade(item.getWhenFalseId());
+            item = this.getRuleManagementService().getAgendaItem(agendaItemId);
         }
         if (item.getSubAgendaId()!= null) {
             this._deleteAgendaCascade(item.getSubAgendaId());
@@ -222,4 +256,14 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         this.ruleManagementService = ruleManagementService;
     }
 
+    public TermRepositoryService getTermRepositoryService() {
+        if (termRepositoryService == null) {
+            termRepositoryService = (TermRepositoryService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "termRepositoryService"));
+        }
+        return termRepositoryService;
+    }
+
+    public void setTermRepositoryService(TermRepositoryService termRepositoryService) {
+        this.termRepositoryService = termRepositoryService;
+    }
 }
