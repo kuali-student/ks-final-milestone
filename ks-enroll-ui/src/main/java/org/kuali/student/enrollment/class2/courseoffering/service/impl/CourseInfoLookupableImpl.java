@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -77,21 +78,25 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
         searchRequest.setParams(searchParams);
         searchRequest.setSearchKey("lu.search.mostCurrent.union");
 
+        ContextInfo contextInfo = ContextUtils.getContextInfo();
+
         try {
             SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
 
+            List<String> courseIds = new ArrayList<String>();
             if (searchResult.getRows().size() > 0) {
                 for(SearchResultRowInfo srrow : searchResult.getRows()){
                     List<SearchResultCellInfo> srCells = srrow.getCells();
                     if(srCells != null && srCells.size() > 0){
                         for(SearchResultCellInfo srcell : srCells){
                             if (srcell.getKey().equals("lu.resultColumn.cluId")) {
-                                courseId = srcell.getValue();
-                                CourseInfo course = getCourseService().getCourse(courseId, ContextUtils.getContextInfo());
-                                courseInfoList.add(course);
+                                courseIds.add(srcell.getValue());
                             }
                         }
                     }
+                }
+                if (!courseIds.isEmpty()){
+                    courseInfoList = getCourseService().getCoursesByIds(courseIds,contextInfo);
                 }
             }
 
