@@ -156,9 +156,8 @@ public class TestAcademicCalendarServiceFacadeImpl {
     }
 
     @Test
-    // TODO: ignored as it was causing a failure after r50081 related to KSENROLL-7466
-    @Ignore
     public void testDeleteTermSucceed() throws Exception {
+        // KSENROLL-7701
         StatusInfo statusInfo = acalServiceFacade.deleteTermCascaded(parentTerm.getId(), contextInfo);
         assert(statusInfo.getIsSuccess());
         boolean threwException = false;

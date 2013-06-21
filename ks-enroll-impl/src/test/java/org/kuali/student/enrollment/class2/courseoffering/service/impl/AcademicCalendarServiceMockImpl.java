@@ -54,13 +54,19 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     // Map of term ID to a set of term Ids representing the "parents".  A child, in theory, can
     // have multiple parent terms. (KSENROLL-7444)
     private Map<String, Set<String>> subterm2termSet = new LinkedHashMap<String, Set<String>>();
-    
+    // Keydates
+    private Map<String, KeyDateInfo> keydates = new LinkedHashMap<String, KeyDateInfo>();
+    // Term to keydate set
+    private Map<String, Set<String>> term2KeydateSet = new LinkedHashMap<String, Set<String>>();
+
     @Override
 	public void clear() {
     	this.acals.clear();
     	this.terms.clear();
     	this.term2calSet.clear();
     	this.subterm2termSet.clear();
+        this.keydates.clear();
+        this.term2KeydateSet.clear();
 	}
 
 	@Override
@@ -151,7 +157,20 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
     @Override
     public KeyDateInfo createKeyDate(String termId, String keyDateTypeKey, KeyDateInfo keyDateInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (!terms.containsKey(termId)) {
+            throw new DoesNotExistException("termId=" + termId + "does not exist");
+        }
+        KeyDateInfo copy = new KeyDateInfo(keyDateInfo);
+        if (copy.getId() == null) {
+            copy.setId(UUIDHelper.genStringUUID());
+        }
+        keydates.put(copy.getId(), copy);
+        if (!term2KeydateSet.containsKey(termId)) {
+            term2KeydateSet.put(termId, new HashSet<String>());
+        }
+        // Note: this doens't check if the keydate already exists for this term
+        term2KeydateSet.get(termId).add(copy.getId());
+        return new KeyDateInfo(copy);
     }
 
     @Override
@@ -553,7 +572,18 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
     @Override
     public List<KeyDateInfo> getKeyDatesForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        Set<String> keydateSet = term2KeydateSet.get(termId);
+        if (keydateSet == null) {
+            return new ArrayList<KeyDateInfo>();
+        }
+        List<KeyDateInfo> keyDateInfos = new ArrayList<KeyDateInfo>();
+        for (String keydateId: keydateSet) {
+            if (!keydates.containsKey(keydateId)) {
+                throw new DoesNotExistException("keydate=" + keydateId + "does not exist");
+            }
+            keyDateInfos.add(keydates.get(keydateId));
+        }
+        return keyDateInfos;
     }
 
     @Override
