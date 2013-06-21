@@ -51,6 +51,7 @@ public class RegistrationGroupWrapper implements Serializable {
     private String roomName = "";
     // Subterms
     private String subTermId;
+    private String subTermName = "";
     private String subTermStartDate;
     private String subTermEndDate;
 
@@ -297,8 +298,6 @@ public class RegistrationGroupWrapper implements Serializable {
     public void setAoEditLink(String aoEditLink) {
         this.aoEditLink = aoEditLink;
     }
-
-    private String subTermName = "";
 
     public String getSubTermName() {
         return subTermName;
