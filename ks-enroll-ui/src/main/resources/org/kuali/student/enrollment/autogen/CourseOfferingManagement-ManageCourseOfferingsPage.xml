@@ -36,6 +36,14 @@
             </list>
         </property>
 
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{subjectCode} - @{subjectCodeDescription}"/>
+                </bean>
+            </list>
+        </property>
+
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>

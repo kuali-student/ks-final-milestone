@@ -33,6 +33,13 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-Search-Subject"/>
             </util:list>
          </property>
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManageOneCo-Page"/>
+            </list>
+        </property>
+
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-TheCourseOfferingLinks"/>
@@ -46,6 +53,8 @@
             </list>
         </property>
     </bean>
+
+
 
     <bean id="KS-HomewardPathBreadcrumbs-ManageOneCo-Page" parent="Uif-BreadcrumbItem">
         <property name="label" value="@{currentCourseOfferingWrapper.ownerCode}"/>
