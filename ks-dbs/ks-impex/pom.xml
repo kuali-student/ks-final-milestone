@@ -243,7 +243,7 @@
                 <oracle.dba.username>system</oracle.dba.username>
                 <oracle.dba.password>manager</oracle.dba.password>
                 <oracle.dba.url>jdbc:oracle:thin:@localhost:1521:XE</oracle.dba.url>
-                <impex.url>${oracle.dba.url}</impex.url>
+                <jdbc.url>${oracle.dba.url}</jdbc.url>
             </properties>
         </profile>
         <profile>
