@@ -33,8 +33,13 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-ManageCo-Landing"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-Search-Subject"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-TheCO-Page"/>
-                <ref bean="KS-HomewardPathBreadcrumbs-CopyCo-Page"/>
             </util:list>
+        </property>
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-CopyCo-Page"/>
+            </list>
         </property>
 
         <property name="items">
