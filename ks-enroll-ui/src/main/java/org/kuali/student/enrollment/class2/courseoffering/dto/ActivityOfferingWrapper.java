@@ -124,6 +124,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean hasSubTerms;
     private String subTermStartDate;
     private String subTermEndDate;
+    private String subTermStartEndDateAsString;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -1027,6 +1028,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setSubTermEndDate(String subTermEndDate) {
         this.subTermEndDate = subTermEndDate;
+    }
+
+    public String getSubTermStartEndDateAsString() {
+        return subTermStartEndDateAsString;
+    }
+
+    public void setSubTermStartEndDateAsString() {
+        this.subTermStartEndDateAsString = getSubTermStartDate()+" - "+getSubTermStartDate();
     }
 
 }

@@ -61,7 +61,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField"  p:colSpan="3" id="term_start_end" p:label="Start/End" p:fieldLabel.renderColon="false" p:propertyName="termStartEndDateAsString" p:readOnly="true"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="subterm_start_end" p:label="Start/End" p:fieldLabel.renderColon="false" p:propertyName="subTermStartEndDateAsString" p:readOnly="true" p:render="@{!(#subTermName eq 'None')}"/>
                             <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" p:readOnly="true"/>
                             <bean parent="Uif-DataField"  id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
                         </list>
