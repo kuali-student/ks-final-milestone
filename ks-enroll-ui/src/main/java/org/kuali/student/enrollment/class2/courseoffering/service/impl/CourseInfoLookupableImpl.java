@@ -57,6 +57,12 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
         qpv1.setKey("lu.queryParam.luOptionalType");
         qpv1.getValues().add("kuali.lu.type.CreditCourse");
         searchParams.add(qpv1);
+
+        qpv1 = new SearchParamInfo();
+        qpv1.setKey("lu.queryParam.luOptionalState");
+        qpv1.getValues().add("Active");
+        searchParams.add(qpv1);
+
         for (QueryParamEnum qpEnum : QueryParamEnum.values()) {
             String fieldValue = fieldValues.get(qpEnum.getFieldValue());
             if ( ! isEmpty(fieldValue) ) {
