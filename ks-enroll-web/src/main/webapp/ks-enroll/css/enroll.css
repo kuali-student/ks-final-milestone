@@ -940,3 +940,11 @@ div#Uif-ApplicationHeader-Wrapper{
     margin-right: 0px;
 }
 
+/* override the following two css classes to remove the textured borders for stacked sections */
+.uif-stackedCollectionLayout {
+    background-image: none;
+    padding: 0px;
+}
+.uif-stackedCollectionLayout .uif-stackedCollectionLayout {
+    background-image: none;
+}

@@ -108,7 +108,7 @@
         <property name="addLineItems">
             <list>
                 <bean id="term_type_add" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
-                      p:label="Term Type" p:required="true">
+                      p:label="Term" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -185,7 +185,7 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean id="term_name" parent="Uif-InputField-LabelTop" p:propertyName="name" p:render="@{!#isAddLine}" p:label="Name" p:required="true">
+                                        <bean id="term_name" parent="Uif-InputField-LabelTop" p:propertyName="name" p:render="@{!#isAddLine}" p:label="Term Name" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="30" />
                                             </property>
@@ -272,16 +272,11 @@
 
         <!-- Move the add button to the right of the fields -->
         <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
-        <property name="layoutManager.addLineGroup.footer.style" value="display:inline-block;margin-top:0.2em;"/>
+        <property name="layoutManager.addLineGroup.footer.style" value="display:inline-block;margin-top:2em;"/>
 
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.keyDateGroupNameUI} Key Dates"/>
-        <property name="layoutManager.lineGroupPrototype.header.cssClasses">
-            <list merge="true">
-                <value>ks-borderBottom3</value>
-            </list>
-        </property>
         <property name="addLineActions">
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
@@ -297,7 +292,7 @@
         <property name="items">
             <list>
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
-                      p:label="* Key Date Group Type"
+                      p:label="* Key Date Group Type" p:labelPlacement="TOP"
                       p:finalizeMethodToCall="populateKeyDateGroupTypes" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -335,15 +330,8 @@
         <property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
-        <property name="layoutManager.richTable.render" value="true" />
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="sDom" value="rtip"/>
-                <!--<entry key="aaSorting" value="[[ 0, 'asc' ]]"/>-->
-                <entry key="bPaginate" value="false"/>
-                <entry key="bAutoWidth" value="false"/>
-            </map>
-        </property>
+        <property name="layoutManager.richTable.render" value="false" />
+
         <property name="addLineActions">
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
@@ -438,7 +426,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="key_date_delete_button" parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteKeyDate" p:actionLabel="delete"/>
+                <bean  id="key_date_delete_button" parent="Uif-NavigationActionLink"  p:methodToCall="deleteKeyDate" p:actionLabel="delete" />
             </list>
         </property>
     </bean>
