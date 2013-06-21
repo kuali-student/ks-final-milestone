@@ -22,7 +22,7 @@
 
     <bean id="KS-CourseOfferingManagement-SearchInputPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="searchInputPage">
-        <property name="headerText" value="Manage Course Offerings"/>
+<!--        <property name="headerText" value="Manage Course Offerings"/>-->
 
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>

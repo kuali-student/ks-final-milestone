@@ -47,15 +47,21 @@
 
     <bean id="KS-CourseOffering-Create-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder">
         <property name="id" value="createCourseOfferingPage"/>
- <!--       <property name="headerText" value="Create Course Offering"/>-->
+        <property name="headerText" value="Create Course Offering"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl" />
         <property name="singlePageView" value="true"/>
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+            </list>
+        </property>
+
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
                 <bean parent="Uif-BreadcrumbItem">
                     <property name="label" value="Create Course Offering"/>
                     <property name="url.viewId" value="createCourseOfferingPage"/>
@@ -72,13 +78,14 @@
                 </bean>
                 <bean parent="Uif-BreadcrumbItem">
                     <property name="label" value="@{(document.newMaintainableObject.dataObject.catalogCourseCode eq null)? '' : 'Create '}  @{document.newMaintainableObject.dataObject.catalogCourseCode}"/>
-                 </bean>
+                </bean>
             </list>
         </property>
 
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
+
         <property name="page.items">
             <list>
                 <ref bean="KS-CourseOffering-Creation-Header"/>
@@ -164,7 +171,7 @@
     <bean id="KS-CourseOffering-Creation-Header" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderOne" p:headerText="@{(document.newMaintainableObject.dataObject.catalogCourseCode eq null)? 'Create Course Offering' : document.newMaintainableObject.dataObject.catalogCourseCode}"/>
+                <bean parent="Uif-HeaderOne" p:headerText="@{(document.newMaintainableObject.dataObject.catalogCourseCode eq null)? '' : document.newMaintainableObject.dataObject.catalogCourseCode}"/>
                 <bean parent="Uif-HeaderFour" p:headerText="Create Course Offering" p:render="@{document.newMaintainableObject.dataObject.enableCreateButton}"/>
             </list>
         </property>
