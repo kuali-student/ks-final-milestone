@@ -30,19 +30,26 @@ import java.util.List;
  *
  * The Fee has one of three flavors indicated by its Type:
  *
- *    1. Flat - A fee that doesn't vary. The amount is constrained by
- *              the minimum and maximum amount range in the Fee Catalog.
+ * <dl>
+ *    <dt>Flat</dt> <dd>A fee that doesn't vary. The amount is
+ *                  constrained by the minimum and maximum amount
+ *                  range in the Fee Catalog.</dd>
  *  
- *    2. Fixed Credit - A fee per credit where the total amount is
- *                      the fee multiplied by the credits (or units) 
- *                      determined by what this Fee applies to. The
- *                      amount is constrained by the minimum and maximum
- *                      amount range in the Fee Catalog.
+ *    <dt>Fixed Credit</dt> <dd>A fee per credit where the total
+ *                          amount is the fee multiplied by the
+ *                          credits (or units) determined by what this
+ *                          Fee applies to. The amount is constrained
+ *                          by the minimum and maximum amount range in
+ *                          the Fee Catalog.</dd>
  * 
- *    3. Flexible Credit - A specific fee for each credit value. The
- *                         list of flexible credit amounts is
- *                         constrained by the list of acceptable
- *                         credits amounts in the Fee Catalog.
+ *    <dt>Flexible Credit</dt> <dd>A specific fee for each credit
+ *                             value. The list of flexible credit
+ *                             amounts is constrained by the list of
+ *                             acceptable credits amounts in the Fee
+ *                             Catalog.</dd> 
+ * </dl>
+ *
+ * @author Kuali Student Services
  */
 
 public interface Fee

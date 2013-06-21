@@ -17,13 +17,17 @@
 package org.kuali.student.core.fee.infc;
 
 import org.kuali.student.r2.common.infc.CurrencyAmount;
+import java.io.Serializable;
 
 /**
  * This structure is used to capture flexible credit fee amounts by
  * grouping amounts with credits.
+ *
+ * @author Kuali Student Services
  */
 
-public interface FlexibleCreditAmount {
+public interface FlexibleCreditAmount
+    extends Serializable {
 
     /**
      * The number of credits as a decimal number.

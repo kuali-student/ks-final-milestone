@@ -45,16 +45,20 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * This service supports the management of fees. The managed entities
  * are:
  *
- * CatalogFee: This is an "entry" in the fee catalog. The fee catalog
- *             represents a catalog of "canonical-like" fees. Approved
- *             catalog entries may be used to create a specific fee to
- *             an external object.
+ * <dl>
+ * <dt>CatalogFee</dt> <dd>This is an "entry" in the fee catalog. The
+ *                     fee catalog represents a catalog of
+ *                     "canonical-like" fees. Approved catalog entries
+ *                     may be used to create a specific fee to an
+ *                     external object.</dd>
  *
- * Fee:        The actual fee associated with an external object. The Fee is
- *             constrained by its related entry in the fee catalog.
+ * <dt>Fee</dt> <dd>The actual fee associated with an external object. The
+ *              Fee is constrained by its related entry in the fee
+ *              catalog.</dd>
+ * </dl>
  *
- * @version 0.0.7
- * @author tom
+ * @version 0.0.8
+ * @author Kuali Student Services
  */
 
 @WebService(name = "FeeService", serviceName = "FeeService", portName = "FeeService", targetNamespace = FeeServiceNamespace.NAMESPACE)
@@ -299,6 +303,32 @@ public interface FeeService {
                ReadOnlyException, 
                VersionMismatchException;
 
+    /**
+     * Changes the state of a CatalogFee.
+     *
+     * @param catalogFeeId the Id of the CatalogFee
+     * @param stateKey the identifier for the new State 
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the delete operation. This must always be
+     *         true.
+     * @throws DoesNotExistException catalogFeeId not found or stateKey
+     *         not found in CatalogFee Lifecycle
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException catalogFeeId, stateKey, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo changeCatalogFeeState(@WebParam(name = "catalogFeeId") String catalogFeeId, 
+                                            @WebParam(name = "stateKey") String stateKey,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
+
     /** 
      * Deletes an existing CatalogFee.
      *
@@ -408,7 +438,7 @@ public interface FeeService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<FeeInfo> getFeesByCatalogFee(@WebParam(name = "catalogFeeId") String catalogFeeId, 
-                                            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
@@ -526,7 +556,7 @@ public interface FeeService {
      * Creates a new Fee. The Fee Id, Type, and Meta information may
      * nogt be set in the supplied data.
      *
-     * @param feeCatalogId the identifider for the fee catalog entry
+     * @param catalogFeeId the identifier for the fee catalog entry
      * @param feeTypeKey the identifier for the Type of the new Fee
      * @param feeInfo the data with which to create the Fee
      * @param contextInfo information containing the principalId and
@@ -588,6 +618,32 @@ public interface FeeService {
                PermissionDeniedException, 
                ReadOnlyException, 
                VersionMismatchException;
+
+    /**
+     * Changes the state of a Fee.
+     *
+     * @param feeId the Id of the Fee
+     * @param stateKey the identifier for the new State 
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the delete operation. This must always be
+     *         true.
+     * @throws DoesNotExistException feeId not found or stateKey
+     *         not found in Fee Lifecycle
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException feeId, stateKey, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo changeFeeState(@WebParam(name = "feeId") String feeId, 
+                                     @WebParam(name = "stateKey") String stateKey,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /** 
      * Deletes an existing Fee.

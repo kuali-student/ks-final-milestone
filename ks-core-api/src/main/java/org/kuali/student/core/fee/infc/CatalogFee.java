@@ -22,24 +22,37 @@ import org.kuali.student.r2.common.infc.CurrencyAmount;
 import java.util.List;
 
 /**
- * The CatalogFee is a list of "canonical" fees in a "catalog" that
+ * The Catalog Fee is a list of "canonical" fees in a "catalog" that
  * can be used in establishing an actual Fee.
  *
  * The Catalog Fee has one of three flavors indicated by its Type:
  *
- *    1. Flat - A fee that doesn't vary. The Catalog Fee specifies
- *              a minimum and maxmimum amount to constrain the Fee.
+ * <dl>
+
+ *    <dt>Flat</dt> <dd>A fee that doesn't vary. The Catalog Fee
+ *                  specifies a minimum and maxmimum amount to
+ *                  constrain the Fee.</dd>
  *  
- *    2. Fixed Credit - A fee per credit where the total amount is
- *                      the fee multiplied by the credits (or units) 
- *                      determined by what the fee applies to. The 
- *                      Catalog Fee specifies a minimum and maxmimum
- *                      amount for the fee per credit.
+ *    <dt>Fixed Credit</dt> <dd>A fee per credit where the total
+ *                          amount is the fee multiplied by the
+ *                          credits (or units) determined by what this
+ *                          Fee applies to. The Catalog Fee specifies
+ *                          a minimum and axmimum amount for the fee
+ *                          per credit hour.</dd>
  * 
- *    3. Flexible Credit - A specific fee for each credit value. The
- *                         Catalog Fee specifies the list of
- *                         acceptable values (amount and number of
- *                         credits) allowed in a Fee.
+ *    <dt>Flexible Credit</dt> <dd>A specific fee for each credit
+ *                             value. The Catalog Fee specifies the
+ *                             list of acceptable valued (amount and
+ *                             number of credits allowed in a
+ *                             Fee.</dd> </dl> 1. Flat - A fee that
+ *                             doesn't vary. The Catalog Fee specifies
+ *                             a minimum and maxmimum amount to
+ *                             constrain the Fee.</dd>
+ * </dl>
+ *
+ * The Fee Catalog is effective during its applicable ATPs.
+ *
+ * @author Kuali Student Services
  */
 
 public interface CatalogFee
