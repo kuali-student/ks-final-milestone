@@ -22,12 +22,11 @@
 
     <bean id="KS-CourseOfferingManagement-SearchInputPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="searchInputPage">
-<!--        <property name="headerText" value="Manage Course Offerings"/>-->
 
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean  parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Manage Course Offerings"/>
+                    <property name="label" value="Course Offerings"/>
                     <property name="url.viewId" value="courseOfferingManagementView"/>
                     <property name="url.controllerMapping" value="courseOfferingManagement"/>
                     <property name="url.requestParameters">

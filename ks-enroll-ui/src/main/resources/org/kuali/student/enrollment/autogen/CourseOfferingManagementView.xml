@@ -60,7 +60,7 @@
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean id="KS-HomewardPathBreadcrumbs-ManageCo-Landing" parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Manage Course Offerings"/>
+                    <property name="label" value="Course Offerings"/>
                     <property name="url.viewId" value="courseOfferingManagementView"/>
                     <property name="url.controllerMapping" value="courseOfferingManagement"/>
                     <property name="url.requestParameters">
