@@ -106,6 +106,7 @@ public class ActivityOfferingDisplayTransformer {
         }
         
         // KSAP-40: Add attributes to support My Plan 1.3.2 CourseDetailsInquiryHelperImpl
+        displayInfo.setId(aoInfo.getId());
         displayInfo.setAttributes(aoInfo.getAttributes());
         
         return displayInfo;
