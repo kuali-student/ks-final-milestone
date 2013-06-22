@@ -13,7 +13,8 @@ import org.kuali.student.ap.framework.context.YearTerm;
  * To change this template use File | Settings | File Templates.
  */
 public class CourseOfferingTerm {
-    private YearTerm yearTerm;
+//    private YearTerm yearTerm;
+	private String atpId;
     private String term;
     private String courseComments;
     private String curriculumComments;
@@ -27,13 +28,26 @@ public class CourseOfferingTerm {
     private List<ActivityOfferingItem> activityOfferingItemList;
 
 
-    public YearTerm getYearTerm() {
-        return yearTerm;
-    }
+//    public YearTerm getYearTerm() {
+//        return yearTerm;
+//    }
+//
+//    public void setYearTerm(YearTerm yearTerm) {
+//        this.yearTerm = yearTerm;
+//    }
+//
 
-    public void setYearTerm(YearTerm yearTerm) {
-        this.yearTerm = yearTerm;
-    }
+	public String getAtpId() {
+		return atpId;
+	}
+
+	public String getAtpIdXmlSafe() {
+		return atpId == null ? null : atpId.replace('.', '-');
+	}
+
+	public void setAtpId(String atpId) {
+		this.atpId = atpId;
+	}
 
     public String getTerm() {
         return term;
@@ -65,6 +79,10 @@ public class CourseOfferingTerm {
     public String getInstituteCode() {
         return instituteCode;
     }
+
+	public String getInstituteCodeXmlSafe() {
+		return instituteCode == null ? null : instituteCode.replace('.', '-');
+	}
 
     public void setInstituteCode(String instituteCode) {
         this.instituteCode = instituteCode;

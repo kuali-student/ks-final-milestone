@@ -44,7 +44,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 			Map<String, Map<String, Object>> status, String courseId,
 			String termId) {
 		try {
-			String xtermId = termId.replace('.', '_').intern();
+			String xtermId = termId.replace('.', '-').intern();
 			for (CourseOfferingInfo co : KsapFrameworkServiceLocator
 					.getCourseOfferingService()
 					.getCourseOfferingsByCourseAndTerm(

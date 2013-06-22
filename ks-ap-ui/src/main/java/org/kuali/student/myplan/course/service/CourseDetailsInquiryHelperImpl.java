@@ -647,17 +647,19 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		Map<String, Map<String, PlanItem>> planItemsByTerm = loadStudentsPlanItems();
 
-		Map<YearTerm, String> atpIdByYearTerm = new java.util.HashMap<YearTerm, String>();
-		List<YearTerm> ytList = new ArrayList<YearTerm>();
-		for (String term : terms) {
-			YearTerm yt = KsapFrameworkServiceLocator.getTermHelper()
-					.getYearTerm(term);
-			ytList.add(yt);
-			atpIdByYearTerm.put(yt, term);
-		}
-		Collections.sort(ytList, Collections.reverseOrder());
-		for (YearTerm yt : ytList) {
-			String termId = atpIdByYearTerm.get(yt);
+		// Map<YearTerm, String> atpIdByYearTerm = new
+		// java.util.HashMap<YearTerm, String>();
+		// List<YearTerm> ytList = new ArrayList<YearTerm>();
+		// for (String term : terms) {
+		// YearTerm yt = KsapFrameworkServiceLocator.getTermHelper()
+		// .getYearTerm(term);
+		// ytList.add(yt);
+		// atpIdByYearTerm.put(yt, term);
+		// }
+		// Collections.sort(ytList, Collections.reverseOrder());
+		Collections.sort(terms);
+		for (String termId : terms) {
+			// String termId = atpIdByYearTerm.get(yt);
 
 			// Load course offering comments
 			List<CourseOfferingInfo> courseOfferingInfoList;
@@ -726,15 +728,14 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				List<CourseOfferingTerm> courseOfferingTermList = courseOfferingInstitution
 						.getCourseOfferingTermList();
 				CourseOfferingTerm courseOfferingTerm = null;
-				for (CourseOfferingTerm temp : courseOfferingTermList) {
-					if (yt.equals(temp.getYearTerm())) {
+				for (CourseOfferingTerm temp : courseOfferingTermList)
+					if (termId.equals(temp.getAtpId()))
 						courseOfferingTerm = temp;
-					}
-				}
 				if (courseOfferingTerm == null) {
 					courseOfferingTerm = new CourseOfferingTerm();
-					courseOfferingTerm.setYearTerm(yt);
-					courseOfferingTerm.setTerm(yt.getLongName());
+					courseOfferingTerm.setAtpId(termId);
+					courseOfferingTerm.setTerm(KsapFrameworkServiceLocator
+							.getTermHelper().getYearTerm(termId).getLongName());
 					courseOfferingTerm.setCourseComments(courseComments);
 					courseOfferingTerm
 							.setCurriculumComments(curriculumComments);
@@ -812,7 +813,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 					if (course.getCode().equalsIgnoreCase(courseCode))
 						plannedSections.add(planItem.getRefObjectId());
 				}
-		List<ActivityOfferingItem> activityOfferingItemList = new ArrayList<ActivityOfferingItem>();
+		Map<String, List<ActivityOfferingItem>> activityOfferingItemsByPrimary = new java.util.LinkedHashMap<String, List<ActivityOfferingItem>>();
+		int c = 0;
 
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
 		boolean published = false;
@@ -856,15 +858,30 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 					ActivityOfferingItem activityOfferingItem = getActivityItem(
 							aodi, courseInfo, openForPlanning, termId,
 							planItemId);
-					activityOfferingItemList.add(activityOfferingItem);
-					if (plannedSections.contains(planRefObjId)) {
+					String paoid = activityOfferingItem
+							.getPrimaryActivityOfferingId();
+					List<ActivityOfferingItem> aol = activityOfferingItemsByPrimary
+							.get(paoid);
+					if (aol == null)
+						activityOfferingItemsByPrimary
+								.put(paoid,
+										aol = new java.util.LinkedList<ActivityOfferingItem>());
+					aol.add(activityOfferingItem);
+					LOG.debug("primary " + paoid + ", ao "
+							+ activityOfferingItem.getLuiId());
+					c++;
+					if (plannedSections.contains(planRefObjId))
 						plannedSections.remove(planRefObjId);
-					}
 				}
 			}
 		}
 
-		return activityOfferingItemList;
+		List<ActivityOfferingItem> rv = new java.util.ArrayList<ActivityOfferingItem>(
+				c);
+		for (List<ActivityOfferingItem> aol : activityOfferingItemsByPrimary
+				.values())
+			rv.addAll(aol);
+		return rv;
 	}
 
 	/**
@@ -883,6 +900,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			String termId, String planItemId) {
 		ActivityOfferingItem activity = new ActivityOfferingItem();
 		/* Data from ActivityOfferingDisplayInfo */
+		activity.setLuiId(displayInfo.getId());
 		activity.setCourseId(courseOfferingInfo.getCourseId());
 		activity.setCode(displayInfo.getActivityOfferingCode());
 		activity.setStateKey(displayInfo.getStateKey());

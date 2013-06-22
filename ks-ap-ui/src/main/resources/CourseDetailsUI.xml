@@ -138,18 +138,18 @@
                       jQuery('#course_details_actions')
                           .subscribe('PLAN_ITEM_ADDED', function(data){
                               if (data.planItemType === 'wishlist') {
-                                  fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseId+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
+                                  fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseIdXmlSafe+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
                               }
                           })
                           .subscribe('PLAN_ITEM_DELETED', function(data){
-                              if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseId === '@{dataObject.courseSummaryDetails.courseId}') {
+                              if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseIdXmlSafe === '@{dataObject.courseSummaryDetails.courseId}') {
                                   fnRestoreDetailsAddButton(data.courseDetails.courseId);
                               }
                           });"/>
         <property name="items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add to Plan"
-                      p:id="@{dataObject.courseSummaryDetails.courseId}_addPlannedCourse"
+                      p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addPlannedCourse"
                       p:actionImagePlacement="RIGHT">
                     <property name="actionImage">
                         <bean parent="Uif-Image"
@@ -162,14 +162,14 @@
                         </bean>
                     </property>
                     <property name="actionScript"
-                              value="openPlanItemPopUp('@{dataObject.courseSummaryDetails.courseId}','add_dialog_page',{courseId:'@{dataObject.courseSummaryDetails.courseId}',pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},position:'right',align:'top'});"/>
+                              value="openPlanItemPopUp('@{dataObject.courseSummaryDetails.courseIdXmlSafe}','add_dialog_page',{courseId:'@{dataObject.courseSummaryDetails.courseId}',pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},position:'right',align:'top'});"/>
                 </bean>
                 <bean parent="Uif-SecondaryActionButton" p:actionLabel="Bookmark Course"
-                      p:id="@{dataObject.courseSummaryDetails.courseId}_addSavedCourse"
+                      p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addSavedCourse"
                       p:render="@{!dataObject.plannedCourseSummary.inSavedCourseList}">
                     <property name="onDocumentReadyScript"
                               value="
-                              jQuery('#@{dataObject.courseSummaryDetails.courseId}_addSavedCourse')
+                              jQuery('#@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addSavedCourse')
                                   .subscribe('PLAN_ITEM_ADDED', function(data){
                                       if (data.planItemType === 'wishlist') {
                                           fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseId+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
@@ -183,7 +183,7 @@
                     <property name="actionScript"
                               value="myPlanAjaxPlanItemMove('@{dataObject.courseSummaryDetails.courseId}', 'courseId', 'addSavedCourse', e);"/>
                 </bean>
-                <bean parent="Uif-LinkGroup" p:id="@{dataObject.courseSummaryDetails.courseId}_bookmarked"
+                <bean parent="Uif-LinkGroup" p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_bookmarked"
                       p:render="@{dataObject.plannedCourseSummary.savedItemId ne null AND dataObject.plannedCourseSummary.plannedList.size() eq 0 AND dataObject.plannedCourseSummary.backupList.size() eq 0 AND dataObject.plannedCourseSummary.academicTerms.size() eq 0}"
                       p:groupBeginDelimiter="" p:groupEndDelimiter="" p:linkSeparator="">
                     <!--<property name="onDocumentReadyScript"
@@ -834,7 +834,7 @@
         <property name="layoutManager.summaryFields" value="name"/>
         <!-- Tab Label -->
         <property name="layoutManager.lineGroupPrototype">
-            <bean p:id="@{#line.code}" parent="Uif-VerticalBoxSection">
+            <bean p:id="@{#line.codeXmlSafe}" parent="Uif-VerticalBoxSection">
                 <property name="header.render" value="false"/>
             </bean>
         </property>
@@ -886,7 +886,7 @@
                 </property>
                 <property name="lineGroupPrototype">
                     <!-- TODO: parentLine expression not available within the lineGroupPrototype, KRAD bug https://jira.kuali.org/browse/KULRICE-9003 -->
-                    <bean p:id="@{#line.instituteCode}_tab-@{#line.yearTerm.termId.replace('.','-')}"
+                    <bean p:id="@{#line.instituteCodeXmlSafe}_tab-@{#line.atpIdXmlSafe}"
                           parent="Uif-CollectionVerticalBoxItem">
                         <property name="footer.render" value="false"/>
                         <property name="validationMessages">
@@ -911,17 +911,7 @@
         <property name="propertyName" value="activityOfferingItemList"/>
         <property name="headerText" value="@{#line.term}"/>
         <property name="onDocumentReadyScript" value="
-            var tableHead = jQuery('table#@{dataObject.courseSummaryDetails.courseId}_@{#line.instituteCode}_@{#line.yearTerm.termId.replace('.','-')} thead');
-            tableHead.find('tr:gt(0)').remove();
-            tableHead.before('
-                &lt;col style=&quot;width: 62px;&quot;&gt;
-                &lt;col style=&quot;width: 103px;&quot;&gt;
-                &lt;col style=&quot;width: 263px;&quot;&gt;
-                &lt;col style=&quot;width: 57px;&quot;&gt;
-                &lt;col style=&quot;width: 103px;&quot;&gt;
-                &lt;col style=&quot;width: 75px;&quot;&gt;
-                &lt;col style=&quot;width: 45px;&quot;&gt;
-            ');
+        	jQuery('.collapsible').hide();
         "/>
         <property name="header">
             <bean parent="Uif-HeaderFive">
@@ -976,14 +966,16 @@
         </property>
 
         <property name="layoutManager">
-            <bean parent="Uif-MultiRowTableCollectionLayout">
+            <bean parent="Uif-TableCollectionLayout"
+            		class="org.kuali.rice.krad.uif.layout.extension.CourseSectionDetailsLayoutManager">
                 <property name="id"
-                          value="@{dataObject.courseSummaryDetails.courseId}_@{#line.instituteCode}_@{#line.yearTerm.termId.replace('.','-')}"/>
+                          value="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_@{#line.instituteCodeXmlSafe}_@{#line.atpIdXmlSafe}"/>
                 <property name="numberOfColumns" value="7"/>
                 <property name="suppressLineWrapping" value="false"/>
                 <property name="renderSequenceField" value="false"/>
                 <property name="applyDefaultCellWidths" value="false"/>
                 <property name="richTable.render" value="false"/>
+                <property name="richTable.forceLocalJsonData" value="false"/>
             </bean>
         </property>
 
@@ -1006,8 +998,8 @@
 
                 <bean parent="activityEnrlRestr"/>
 
-                <bean parent="activityEnrlData" p:render="@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
-                <bean parent="activityEnrlStatus" p:render="@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}"/>
+                <bean parent="activityEnrlData" p:render="@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" />
+                <bean parent="activityEnrlStatus" p:render="@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}" />
 
                 <bean id="activityActionGroup" parent="Uif-VerticalFieldGroup" p:valign="TOP"
                       p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" p:rowSpan="3" p:colSpan="1">
@@ -1105,8 +1097,9 @@
             <null/>
         </property>
         <property name="label" value="Section"/>
+        <!-- 
         <property name="onDocumentReadyScript" value="
-            var row = jQuery('#@{#line.atpId.replace('.','-')}-@{#line.registrationCode}').parents('tr');
+            var row = jQuery('#@{#line.luiIdXmlSafe}').parents('tr');
             row.addClass('row');
             if (@{#line.primary}) {
                 row.addClass('primary');
@@ -1117,6 +1110,7 @@
             if (@{#line.planItemId NE null}) row.addClass('myplan-section-planned');
             if (@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}) row.addClass('fl-text-lightgray');
         "/>
+         -->
         <property name="cssClasses">
             <list merge="true">
                 <value>activityCode</value>
@@ -1126,7 +1120,7 @@
         </property>
         <property name="items">
             <list>
-                <bean p:id="@{#line.atpId.replace('.','-')}-@{#line.registrationCode}"
+                <bean p:id="@{#line.luiIdXmlSafe}"
                       parent="KSAP-SimpleDataField" p:propertyName="code" p:label="Section">
                     <property name="cssClasses">
                         <list merge="true">
@@ -1235,7 +1229,7 @@
     </bean>
 
     <bean id="activityEnrlStatus" parent="Uif-VerticalFieldGroup" p:rowSpan="1" p:colSpan="1"
-          p:id="enrl_@{#line.atpId.replace('.','-')}_@{#line.registrationCode}"
+          p:id="enrl_@{#line.luiIdXmlSafe}"
           p:title="Section @{#line.code} is @{#line.stateKey}">
         <property name="group.validationMessages">
             <null/>
@@ -1268,7 +1262,7 @@
     </bean>
 
     <bean id="activityEnrlData" parent="Uif-HorizontalFieldGroup" p:rowSpan="1" p:colSpan="1"
-          p:id="enrl_@{#line.atpId.replace('.','-')}_@{#line.registrationCode}">
+          p:id="enrl_@{#line.luiIdXmlSafe}">
         <property name="group.validationMessages">
             <null/>
         </property>
@@ -1294,7 +1288,7 @@
     </bean>
 
     <bean id="activityInstructor" parent="Uif-VerticalFieldGroup" p:rowSpan="1" p:colSpan="2" p:valign="TOP">
-        <property name="id" value="instructor_@{#line.atpId.replace('.','-')}_@{#line.registrationCode}"/>
+        <property name="id" value="instructor_@{#line.luiIdXmlSafe}"/>
         <property name="group.validationMessages">
             <null/>
         </property>
@@ -1306,8 +1300,9 @@
                 </bean>
             </list>
         </property>
+        <!-- 
         <property name="onDocumentReadyScript" value="
-            var collapsibleRow = jQuery('#instructor_@{#line.atpId.replace('.','-')}_@{#line.registrationCode}').parents('tr');
+            var collapsibleRow = jQuery('#instructor_@{#line.luiIdXmlSafe}').parents('tr');
             var secondary = @{!#line.primary};
             if (secondary) {
                 collapsibleRow.addClass('collapsible').hide();
@@ -1315,6 +1310,7 @@
             }
             if (@{#line.planItemId NE null}) collapsibleRow.addClass('myplan-section-planned');
         "/>
+         -->
     </bean>
 
     <bean id="activityOther" parent="Uif-VerticalFieldGroup" p:valign="TOP" p:rowSpan="1" p:colSpan="3">
@@ -1372,12 +1368,13 @@
     </bean>
 
     <bean id="activityAdditionalDetails" parent="Uif-VerticalFieldGroup" p:valign="TOP" p:rowSpan="1" p:colSpan="5">
-        <property name="id" value="details_@{#line.atpId.replace('.','-')}_@{#line.registrationCode}"/>
+        <property name="id" value="details_@{#line.luiIdXmlSafe}"/>
         <property name="group.validationMessages">
             <null/>
         </property>
+        <!-- 
         <property name="onDocumentReadyScript" value="
-            var collapsibleRow = jQuery('#details_@{#line.atpId.replace('.','-')}_@{#line.registrationCode}').parents('tr');
+            var collapsibleRow = jQuery('#details_@{#line.luiIdXmlSafe}').parents('tr');
             var secondary = @{!#line.primary};
             if (secondary) {
                 collapsibleRow.addClass('collapsible').hide();
@@ -1385,6 +1382,7 @@
             }
             if (@{#line.planItemId NE null}) collapsibleRow.addClass('myplan-section-planned');
         "/>
+         -->
         <property name="cssClasses">
             <list merge="true">
                 <value>activityAdditionalDetails</value>
@@ -1456,7 +1454,7 @@
     </bean>
 
     <bean id="section_button" parent="Uif-ImageField">
-        <property name="id" value="button_@{#line.atpId.replace('.','-')}_@{#line.registrationCode}"/>
+        <property name="id" value="button_@{#line.atpIdXmlSafe}_@{#line.registrationCode}"/>
         <property name="source" value="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"/>
         <property name="onMouseOverScript" value="buildHoverText(jQuery(this));"/>
         <property name="label" value=""/>
