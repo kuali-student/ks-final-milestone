@@ -90,7 +90,7 @@
                         <configuration>
                             <classifier>sources</classifier>
                             <includeGroupIds>org.kuali</includeGroupIds>
-			    <excludeArtifactIds>ks-enroll-api,ks-core-api,ks-lum-api,ks-common-api</excludeArtifactIds>
+                            <excludeArtifactIds>ks-enroll-api,ks-core-api,ks-lum-api,ks-common-api</excludeArtifactIds>
                             <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
                             <outputDirectory>${project.build.directory}/dependency-sources</outputDirectory>
                         </configuration>
@@ -117,9 +117,7 @@
                                 <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
-
                                 <sourceDir>${project.build.directory}/dependency-sources</sourceDir>
- 
                             </sourceDirs>
                         </configuration>
                     </execution>
