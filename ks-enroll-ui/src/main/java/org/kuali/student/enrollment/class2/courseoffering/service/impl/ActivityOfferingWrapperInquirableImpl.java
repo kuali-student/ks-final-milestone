@@ -22,9 +22,11 @@ import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
@@ -77,12 +79,13 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
             // Now have to deal with subterms: have to check if it's subterm or term
             TermInfo term = null;
             wrapper.setSubTermName("None");
-            List<TermInfo> terms = getAcalService().getContainingTerms(info.getTermId(), contextInfo);
+            TermInfo termTemp = getAcalService().getTerm(info.getTermId(), contextInfo);
+            List<TypeTypeRelationInfo> terms = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(termTemp.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
             if (terms == null || terms.isEmpty()) {
-                term = getAcalService().getTerm(info.getTermId(), contextInfo);
+                term = new TermInfo(termTemp);
             } else {
-                TermInfo subTerm = getAcalService().getTerm(info.getTermId(), contextInfo);
-                term = terms.get(0);
+                TermInfo subTerm = new TermInfo(termTemp);
+                term = getAcalService().getContainingTerms(info.getTermId(), contextInfo).get(0);
                 TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                 wrapper.setSubTermName(subTermType.getName());
             }
