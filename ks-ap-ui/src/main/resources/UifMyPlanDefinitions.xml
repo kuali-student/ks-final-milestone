@@ -550,38 +550,8 @@
 
     <bean id="planned_sections_formatter" class="org.kuali.student.myplan.course.util.PlannedSectionsPropertyEditor"/>
 
-
-    <bean id="scheduled_terms_list_formatter" class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor">
-        <property name="applyClassOnItem" value="true"/>
-        <property name="emptyListMessage" value="Not currently scheduled"/>
-        <property name="emptyListStyleClasses">
-            <list merge="true">
-                <value>empty</value>
-            </list>
-        </property>
-        <property name="styleClasses">
-            <list merge="true">
-                <value>scheduled</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="section_scheduled_terms_list_formatter"
-          class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor">
-        <property name="applyClassOnItem" value="true"/>
-        <property name="emptyListMessage" value="Not currently scheduled"/>
-        <property name="fullLinks" value="true"/>
-        <property name="emptyListStyleClasses">
-            <list merge="true">
-                <value>empty</value>
-            </list>
-        </property>
-        <property name="styleClasses">
-            <list merge="true">
-                <value>scheduled</value>
-            </list>
-        </property>
-    </bean>
+    <bean id="scheduled_terms_list_formatter"
+          class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor"/>
 
     <bean id="terms_formatter" class="org.kuali.student.myplan.course.util.CollectionListPropertyEditor">
         <property name="emptyListMessage"

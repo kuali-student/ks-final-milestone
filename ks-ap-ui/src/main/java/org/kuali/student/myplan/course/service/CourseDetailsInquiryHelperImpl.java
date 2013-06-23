@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -66,8 +64,6 @@ import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 @SuppressWarnings("deprecation")
 public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
@@ -145,6 +141,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				.getStudentId();
 		return retrieveCourseDetails(
 				(String) fieldValues.get(PlanConstants.PARAM_COURSE_ID),
+				(String) fieldValues.get(PlanConstants.PARAM_TERM_ID),
 				studentId,
 				fieldValues.get(PlanConstants.PARAM_OFFERINGS_FLAG) != null
 						&& Boolean.valueOf(fieldValues.get(
@@ -321,7 +318,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param studentId
 	 * @return
 	 */
-	public CourseDetails retrieveCourseDetails(String courseId,
+	public CourseDetails retrieveCourseDetails(String courseId, String termId,
 			String studentId, boolean loadActivityOffering) {
 		CourseDetails courseDetails = new CourseDetails();
 
@@ -353,57 +350,22 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				studentId));
 
 		// Course offerings
-		if (loadActivityOffering) {
-			ServletRequestAttributes rca = (ServletRequestAttributes) RequestContextHolder
-					.getRequestAttributes();
-			HttpServletRequest request = rca == null ? null : rca.getRequest();
-			if (request != null && request.getParameter("section_term") != null) {
-				String termId = KsapFrameworkServiceLocator.getTermHelper()
-						.getTerm(request.getParameter("section_term"))
-						.getName();
-				List<String> termList = new ArrayList<String>();
-				termList.add(termId);
-				courseDetails
-						.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
-								course, termList));
-			} else
-				courseDetails
-						.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
-								course, courseDetails.getCourseSummaryDetails()
-										.getScheduledTerms()));
+		List<String> termIds;
+		if (termId == null)
+			termIds = courseDetails.getCourseSummaryDetails()
+					.getScheduledTerms();
+		else {
+			termIds = new java.util.ArrayList<String>(1);
+			termIds.add(termId);
 		}
-
-		// TODO: REVIEW - maybe replaced by /plan/enroll
-		// if (loadActivityOffering) {
-		// EnrollmentStatusHelper enrollmentStatusHelper =
-		// KsapFrameworkServiceLocator
-		// .getEnrollmentStatusHelper();
-		// for (CourseOfferingInstitution institution : courseDetails
-		// .getCourseOfferingInstitutionList()) {
-		// for (CourseOfferingTerm term : institution
-		// .getCourseOfferingTermList()) {
-		// for (ActivityOfferingItem activity : term
-		// .getActivityOfferingItemList()) {
-		// YearTerm yt = term.getYearTerm();
-		// String year = Integer.toString(yt.getYear());
-		// String quarter = yt.getTermName();
-		// String curric = courseSummaryDetails.getSubjectArea();
-		// String num = courseSummaryDetails.getCourseNumber();
-		// String sectionID = activity.getCode();
-		// try {
-		// String[] enrollmentFields = enrollmentStatusHelper
-		// .populateEnrollmentFields(year, quarter,
-		// curric, num, sectionID);
-		// activity.setEnrollCount(enrollmentFields[0]);
-		// activity.setEnrollMaximum(enrollmentFields[1]);
-		// activity.setEnrollEstimate(enrollmentFields[2]);
-		// } catch (Exception e) {
-		// LOG.warn("cannot populate enrollment fields", e);
-		// }
-		// }
-		// }
-		// }
-		// }
+		if (loadActivityOffering)
+			courseDetails
+					.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
+							course, termIds));
+		else
+			courseDetails
+					.setCourseOfferingInstitutionList(new java.util.ArrayList<CourseOfferingInstitution>(
+							0));
 
 		return courseDetails;
 	}

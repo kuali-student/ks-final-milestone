@@ -1,12 +1,12 @@
 package org.kuali.student.ap.framework.context;
 
 import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 
 public class PlanConstants extends AcademicPlanServiceConstants {
 
 	public static final String PARAM_COURSE_ID = "courseId";
+	public static final String PARAM_TERM_ID = "termId";
     public static final String PARAM_OFFERINGS_FLAG = "loadActivityOffering";
 
 	public static final int PLANNED_PLAN_ITEM_CAPACITY = 8;

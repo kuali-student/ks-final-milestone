@@ -1,9 +1,8 @@
 package org.kuali.student.myplan.course.dataobject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.kuali.student.ap.framework.context.YearTerm;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,8 +11,11 @@ import org.kuali.student.ap.framework.context.YearTerm;
  * Time: 10:58 AM
  * To change this template use File | Settings | File Templates.
  */
-public class CourseOfferingTerm {
-//    private YearTerm yearTerm;
+public class CourseOfferingTerm implements Serializable {
+
+	private static final long serialVersionUID = 7057613732672051148L;
+
+	//    private YearTerm yearTerm;
 	private String atpId;
     private String term;
     private String courseComments;

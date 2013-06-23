@@ -1,4 +1,5 @@
 package org.kuali.student.myplan.course.util;
+
 /**
  * Copyright 2005-2012 The Kuali Foundation
  *
@@ -15,36 +16,47 @@ package org.kuali.student.myplan.course.util;
  * limitations under the License.
  */
 
-import org.apache.log4j.Logger;
+import java.beans.PropertyEditorSupport;
+
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
+import org.kuali.student.ap.framework.context.TermHelper;
+import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.regex.Matcher;
+public class ScheduledTermsPropertyEditor extends PropertyEditorSupport {
+	protected CollectionListPropertyEditorHtmlListType listType = CollectionListPropertyEditorHtmlListType.DL;
 
-public class ScheduledTermsPropertyEditor extends CollectionListPropertyEditor {
+	@Override
+	public void setValue(Object value) {
+		super.setValue(value);
+	}
 
-    private final static Logger logger = Logger.getLogger(ScheduledTermsPropertyEditor.class);
+	// TODO: KULRICE-6286 Upgrade to list with rice 2.2.1 
+	@Override
+	public String getAsText() {
+		CourseSummaryDetails courseSummaryDetails = (CourseSummaryDetails) super
+				.getValue();
+		StringBuffer formattedText = new StringBuffer();
+		formattedText.append(String.format("<%s class=\"scheduled\">",
+				listType.getListElementName()));
+		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
+		if (courseSummaryDetails != null
+				&& courseSummaryDetails.getScheduledTerms() != null
+				&& courseSummaryDetails.getScheduledTerms().size() > 0) {
+			for (String termId : courseSummaryDetails.getScheduledTerms()) {
+				YearTerm yt = th.getYearTerm(termId);
+				String text = yt.getShortName();
+				formattedText.append(String.format("<%s class=\"%s\">%s</%s>",
+						listType.getListItemElementName(),
+						text.replaceAll("\\d*$", "").trim(), text,
+						listType.getListItemElementName()));
+			}
+		} else {
+			formattedText.append("Not currently scheduled");
+		}
+		formattedText.append(String.format("</%s>",
+				listType.getListElementName()));
+		return formattedText.toString();
+	}
 
-    @Override
-    protected String makeHtmlList(Collection c) {
-        StringBuilder list = new StringBuilder();
-        Iterator<Object> i = c.iterator();
-        while (i.hasNext()) {
-            String term = (String) i.next();
-            String elemTxt = KsapFrameworkServiceLocator.getTermHelper()
-                    .getTerm(term).getName();
-
-            // Convert Winter 2012 to WI 12
-
-            Matcher m = CourseSearchConstants.TERM_PATTERN.matcher(KsapFrameworkServiceLocator.getTermHelper()
-                    .getTerm(term).getName());
-            if(m.matches()) {
-                elemTxt = m.group(1).substring(0,2).toUpperCase() + " " + m.group(2);
-            }
-            list.append(wrapListItem(elemTxt));
-        }
-        return list.toString();
-    }
 }

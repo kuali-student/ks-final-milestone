@@ -691,51 +691,6 @@
           class="org.kuali.student.myplan.course.util.MeetingDetailsPropertyEditor">
     </bean>
 
-    <!--<bean id="Advisor-FormView" parent="MyPlanBaseFormView">
-        <property name="id" value="Advisor-FormView"/>
-        <property name="footer.render" value="false"/>
-        <property name="header.render" value="false"/>
-        <property name="entryPageId" value="add_planned_course"/>
-        <property name="formClass" value="org.kuali.rice.krad.web.form.UifFormBase"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>myplan-view</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Page" p:id="advisor_page" p:headerText="">
-                    <property name="validationMessages">
-                        <bean parent="Uif-GroupValidationMessages">
-                            <property name="displayMessages" value="true"/>
-                            <property name="displayFieldLabelWithMessages" value="false"/>
-                        </bean>
-                    </property>
-
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Invalid RegId passed (or) Student has a private access to the Academic Plan">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>fl-font-size-90</value>
-
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean id="potal_page_link" parent="Uif-ViewHeader">
-                                <property name="items">
-                                    <bean parent="Uif-Link" p:linkText="Go to Home Page" p:href="/student/portal.do"
-                                          />
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>-->
-
     <bean id="course_details_sections" parent="Uif-VerticalBoxGroup">
         <property name="validationMessages">
             <null/>
@@ -758,18 +713,20 @@
         <property name="headerText" value="@{dataObject.courseSummaryDetails.code} Course Sections"/>
         <property name="items">
             <list>
-                <bean id="course_details_sections_list_container" parent="Uif-VerticalBoxGroup"
-                      >
-                    <property name="validationMessages">
-                        <null/>
-                    </property>
-                    <property name="onDocumentReadyScript" value="
-                        myplanRetrieveComponent('course_details_sections_list_container','course_details_sections_list','start','inquiry',{viewId:'CourseDetailsSections-InquiryView',courseId:'@{dataObject.courseSummaryDetails.courseId}', loadActivityOffering:'true'}, null, {message:'&lt;p&gt;&lt;img src=&quot;../ks-myplan/images/ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching sections...&lt;/p&gt;', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{backgroundColor:'#fffdd7', border:'solid 1px #ffd14c', borderRadius:'15px','-webkit-border-radius':'15px','-moz-border-radius':'15px', width:'230px', textAlign:'center', padding:'20px'}});
-                    "/>
-                </bean>
+            	<ref bean="course_details_sections_list_container" />
             </list>
         </property>
     </bean>
+
+	<bean id="course_details_sections_list_container" parent="Uif-VerticalBoxGroup">
+		<property name="validationMessages">
+			<null />
+		</property>
+		<property name="onDocumentReadyScript"
+			value="
+                   myplanRetrieveComponent('course_details_sections_list_container','course_details_sections_list','start','inquiry',{viewId:'CourseDetailsSections-InquiryView',courseId:'@{dataObject.courseSummaryDetails.courseId}', loadActivityOffering:'true'}, null, {message:'&lt;p&gt;&lt;img src=&quot;../ks-myplan/images/ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching sections...&lt;/p&gt;', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{backgroundColor:'#fffdd7', border:'solid 1px #ffd14c', borderRadius:'15px','-webkit-border-radius':'15px','-moz-border-radius':'15px', width:'230px', textAlign:'center', padding:'20px'}});
+               " />
+	</bean>
 
     <bean id="course_details_institution_data_single" parent="KSAP-StackedCollectionGroup">
         <property name="validationMessages">

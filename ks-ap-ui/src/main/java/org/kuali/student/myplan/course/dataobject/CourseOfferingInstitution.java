@@ -1,5 +1,6 @@
 package org.kuali.student.myplan.course.dataobject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,10 @@ import java.util.List;
  * change this template use File | Settings | File Templates.
  */
 public class CourseOfferingInstitution implements
-		Comparable<CourseOfferingInstitution> {
+		Comparable<CourseOfferingInstitution>, Serializable {
+
+	private static final long serialVersionUID = 5080957028066894611L;
+
 	private String code;
 	private String name;
 
