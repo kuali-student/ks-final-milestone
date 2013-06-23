@@ -312,17 +312,18 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             wrapper.setHasSubTerms(false);
             wrapper.setSubTermName("None");
             wrapper.setSubTermId("");
-            List<TermInfo> terms = getAcademicCalendarService().getContainingTerms(info.getTermId(), contextInfo);
+            TermInfo termTemp = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
+            List<TypeTypeRelationInfo> terms = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(termTemp.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
             if (terms == null || terms.isEmpty()) {
-                term = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
+                term = new TermInfo(termTemp);
                 // checking if we can have subterms for giving term
                 List<TermInfo> subTerms = getAcademicCalendarService().getIncludedTermsInTerm(info.getTermId(), contextInfo);
                 if(!subTerms.isEmpty()) {
                     wrapper.setHasSubTerms(true);
                 }
             } else {
-                TermInfo subTerm = getAcademicCalendarService().getTerm(info.getTermId(), contextInfo);
-                term = terms.get(0);
+                TermInfo subTerm = new TermInfo(termTemp);
+                term = getAcademicCalendarService().getContainingTerms(info.getTermId(), contextInfo).get(0);
                 wrapper.setHasSubTerms(true);
                 wrapper.setSubTermId(subTerm.getId());
                 TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
