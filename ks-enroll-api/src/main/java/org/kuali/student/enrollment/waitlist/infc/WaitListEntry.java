@@ -31,6 +31,17 @@ public interface WaitListEntry extends Relationship {
 
 
     /**
+     * A unique identifier for the state of this object.
+     * This value should not be changed directly.
+     * Instead, it should be set using the appropriate change state method in service.
+     *
+     * @name State Key
+     * @required
+     */
+    @Override
+    String getStateKey();
+
+    /**
      * @return the WaitList that this entry belongs to.
      * @name Wait List Id
      * @readonly

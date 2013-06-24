@@ -30,6 +30,17 @@ import java.util.List;
 public interface WaitList extends IdNamelessEntity, HasEffectiveDates {
 
     /**
+     * A unique identifier for the state of this object.
+     * This value should not be changed directly.
+     * Instead, it should be set using the appropriate change state method in service.
+     *
+     * @name State Key
+     * @required
+     */
+    @Override
+    String getStateKey();
+
+    /**
      *
      * @return The Offering (Activity Offering, Format Offering, Program Offering...) Ids associated with this WaitList.
      * @name Associated Offering Ids
