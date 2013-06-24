@@ -65,7 +65,7 @@
         </property>
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
-        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+        <property name="onLoadScript" value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
     </bean>
 
 
@@ -93,7 +93,7 @@
 
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
-        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+        <property name="onLoadScript" value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
     </bean>
 
     <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
@@ -107,7 +107,7 @@
 
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
-        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+        <property name="onLoadScript" value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
     </bean>
 
     <bean id="KS-Uif-HeaderOne-Empty" parent="Uif-HeaderOne">
@@ -140,7 +140,7 @@
 
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
-        <property name="breadcrumbs.render" value="@{!#form.renderedInLightBox}"/>
+        <property name="onLoadScript" value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
     </bean>
 
     <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
