@@ -208,7 +208,7 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official" p:render="@{!#line.official}" />
+                <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official" p:render="@{!#line.official and !#view.readOnly}" />
                 <!--<bean id="term_delete_link" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Term" />-->
             </list>
         </property>

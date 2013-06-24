@@ -74,11 +74,11 @@
                                                     <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}"/>
                                                     <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!#line.official}"/>
                                                     <bean id="term_official" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official"
-                                                          p:render="@{!#line.official}"
+                                                          p:render="@{!#line.official and !#view.readOnly}"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"  />
                                                     <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Term Draft"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                                                          p:render="@{!#line.official}"/>
+                                                          p:render="@{!#line.official and !#view.readOnly}"/>
                                                 </list>
                                             </property>
                                         </bean>
