@@ -225,7 +225,7 @@ public class SearchableCrudDaoImpl {
                     } catch (ParseException e) {
                         throw new RuntimeException("Failed to parse date value " + searchParam.getValues().get(0),e);
                     }
-			    } if ("long".equals(paramDataType)){
+			    } else if ("long".equals(paramDataType)){
 			    	try{
 			    		List<Long> longList = new ArrayList<Long>();
 			    		if(searchParam.getValues()!=null){
