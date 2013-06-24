@@ -100,7 +100,7 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
                 propositionEditor.setTermInfo(termInfo);
                 if (propositionEditor.getTermInfo() != null){
                 termParameters.put(TERM_KEY, propositionEditor.getTermInfo().getId());
-                    loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode(),propositionEditor) ;
+                    loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode()) ;
                 }
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("term does not exist");
@@ -112,11 +112,11 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
         if ( propositionEditor.getTermCode2() != null ){
 
             try {
-                TermInfo termInfo = this.populateTerm(propositionEditor);
-                propositionEditor.setTermInfo(termInfo);
-                if (propositionEditor.getTermInfo() != null){
-                    termParameters.put(TERM2_KEY, propositionEditor.getTermInfo().getId());
-                    loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode(),propositionEditor) ;
+                TermInfo termInfo = this.populateSecondTerm(propositionEditor);
+                propositionEditor.setTermInfo2(termInfo);
+                if (propositionEditor.getTermInfo2() != null){
+                    termParameters.put(TERM2_KEY, propositionEditor.getTermInfo2().getId());
+                    loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo2().getId(), propositionEditor.getCourseInfo().getCode()) ;
                 }
             } catch (DoesNotExistException e) {
                 throw new RuntimeException("term does not exist");
@@ -163,15 +163,43 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
       return  propositionEditor.getTermInfo();
     }
 
+    /**
+     * Method used to
+     * 1) search to get TermInfo based on termCode. Only accept one valid TermInfo. If find more than one TermInfo or
+     * don't find any termInfo, log and report an error message.
+     * @param  propositionEditor
+     * @return    termInfo
+     */
+    public TermInfo populateSecondTerm(EnrolPropositionEditor propositionEditor) throws Exception {
 
+        String termCode = propositionEditor.getTermCode2();
+
+
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("atpCode", termCode));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<TermInfo> terms = getAcalService().searchForTerms(criteria, ContextUtils.getContextInfo());
+
+        if (terms.isEmpty()) {
+            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
+        } else if (terms.size() > 1) {
+            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
+        } else {
+            propositionEditor.setTermInfo2(terms.get(0));
+
+        }
+        return  propositionEditor.getTermInfo2();
+    }
     /**  * Method used to
      * find THE course based on termId and courseCode. If find more than one CO or don't find
      * any CO, log and report an error message.
      * @param  termId
      * @param  courseCode
-     * @param  propositionEditor
      */
-    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, EnrolPropositionEditor propositionEditor) throws Exception {
+    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode) throws Exception {
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);

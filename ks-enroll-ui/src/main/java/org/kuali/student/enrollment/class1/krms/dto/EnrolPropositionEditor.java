@@ -45,6 +45,7 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private String termCode;
     private String termCode2;
     private TermInfo termInfo;
+    private TermInfo termInfo2;
     private String classStanding;
     private PopulationWrapper  populationWrapper;
 
@@ -166,6 +167,14 @@ public class EnrolPropositionEditor extends PropositionEditor {
 
     public void setTermInfo(TermInfo termInfo){
         this.termInfo = termInfo;
+    }
+
+    public TermInfo getTermInfo2() {
+        return termInfo2;
+    }
+
+    public void setTermInfo2(TermInfo termInfo2) {
+        this.termInfo2 = termInfo2;
     }
 
     public String getTermCode2() {

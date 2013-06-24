@@ -79,8 +79,8 @@ public class TermContextImpl extends BasicContextImpl {
         String termId2 = (String) parameters.get(TermParameterTypes.TERM2_KEY.getId());
         TermInfo termInfo = this.getTerm(termId, contextInfo);
         if (termId2 != null) {
-            TermInfo termInfo2 = this.getTerm(termId, contextInfo);
-            contextMap.put(TERM2_TOKEN, termInfo);
+            TermInfo termInfo2 = this.getTerm(termId2, contextInfo);
+            contextMap.put(TERM2_TOKEN, termInfo2);
         }
         if( termInfo != null){
             contextMap.put(TERM_TOKEN, termInfo);
