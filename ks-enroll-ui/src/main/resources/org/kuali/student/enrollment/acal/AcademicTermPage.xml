@@ -98,7 +98,7 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                  since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction" p:focusOnIdAfterSubmit="SELF"/>
+                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"/>
             </list>
         </property>
         <property name="lineActions">
@@ -339,7 +339,7 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                 since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction" p:focusOnIdAfterSubmit="SELF"/>
+                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"/>
             </list>
         </property>
         <property name="items">
@@ -429,7 +429,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean  id="key_date_delete_button" parent="Uif-NavigationActionLink"  p:methodToCall="deleteKeyDate" p:actionLabel="delete" />
+                <bean  id="key_date_delete_button" parent="Uif-ActionLink"  p:methodToCall="deleteKeyDate" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>

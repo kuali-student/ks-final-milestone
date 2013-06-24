@@ -154,6 +154,12 @@
                 <value>ks-holidays-collection</value>
             </list>
         </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF" />
+            </list>
+        </property>
+
         <property name="items">
 			<list>
                 <bean parent="Uif-InputField" p:propertyName="typeKey"  p:readOnlyDisplayReplacementPropertyName="typeName"
@@ -251,7 +257,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteHoliday" p:actionLabel="delete"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="deleteHoliday" p:actionLabel="delete"/>
             </list>
         </property>
 	</bean>

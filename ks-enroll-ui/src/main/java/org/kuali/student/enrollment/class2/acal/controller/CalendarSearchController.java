@@ -69,7 +69,7 @@ public class CalendarSearchController  extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-         return new CalendarSearchForm();
+        return new CalendarSearchForm();
     }
 
 
@@ -113,18 +113,18 @@ public class CalendarSearchController  extends UifControllerBase {
         return super.start(form, result, request, response);
     }
 
-     /**
+    /**
      * Method used to search atps
      */
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //if no search criteria was set, it means the search method is called from redirection. Then retrieve search criteria from http session
         HttpSession session = request.getSession(true);
         if ((searchForm.getCalendarType()==null || searchForm.getCalendarType().isEmpty()) &&
-            (searchForm.getName()==null || searchForm.getName().isEmpty()) &&
-            (searchForm.getYear()==null || searchForm.getYear().isEmpty())) {
+                (searchForm.getName()==null || searchForm.getName().isEmpty()) &&
+                (searchForm.getYear()==null || searchForm.getYear().isEmpty())) {
             searchForm.setCalendarType((String)session.getAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_TYPE));
             searchForm.setName((String)session.getAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_NAME));
             searchForm.setYear((String)session.getAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_YEAR));
@@ -135,8 +135,8 @@ public class CalendarSearchController  extends UifControllerBase {
 
         if(searchForm.getCalendarType() != null){
             if (CalendarConstants.HOLIDAYCALENDER.equals(searchForm.getCalendarType()) ||
-                CalendarConstants.ACADEMICCALENDER.equals(searchForm.getCalendarType()) ||
-                CalendarConstants.TERM.equals(searchForm.getCalendarType())){
+                    CalendarConstants.ACADEMICCALENDER.equals(searchForm.getCalendarType()) ||
+                    CalendarConstants.TERM.equals(searchForm.getCalendarType())){
 
                 List<AcalSearchResult> acalResults = viewHelperService.searchForCalendars(searchForm.getName(), searchForm.getYear(), searchForm.getCalendarType(), getContextInfo());
                 searchForm.setSearchResults(acalResults);
@@ -165,30 +165,30 @@ public class CalendarSearchController  extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=view")
     public ModelAndView view(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         AcalSearchResult atp = getSelectedAtp(searchForm, "view");
         Properties urlParameters;
         String controllerPath;
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
-         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
-             urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_VIEW_METHOD, true, getContextInfo());
-             urlParameters.put("flow", searchForm.getFlowKey());
-             controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-         } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
-             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
-             urlParameters.put("flow", searchForm.getFlowKey());
-             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-         } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey())){
-             urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
-             urlParameters.put("flow", searchForm.getFlowKey());
-             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-         } else {
-             throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
-         }
+        if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
+            urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_VIEW_METHOD, true, getContextInfo());
+            urlParameters.put("flow", searchForm.getFlowKey());
+            controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
+        } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
+            urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
+            urlParameters.put("flow", searchForm.getFlowKey());
+            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
+        } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey())){
+            urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
+            urlParameters.put("flow", searchForm.getFlowKey());
+            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
+        } else {
+            throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
+        }
 
-         return super.performRedirect(searchForm,controllerPath, urlParameters);
+        return super.performRedirect(searchForm,controllerPath, urlParameters);
     }
 
     /**
@@ -202,7 +202,7 @@ public class CalendarSearchController  extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=edit")
     public ModelAndView edit(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         AcalSearchResult atp = getSelectedAtp(searchForm, "edit");
 
@@ -210,21 +210,21 @@ public class CalendarSearchController  extends UifControllerBase {
         String controllerPath;
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
-         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
-             urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_EDIT_METHOD, false, getContextInfo());
-             urlParameters.put("flow", searchForm.getFlowKey());
-             controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-         } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
-             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-             urlParameters.put("flow", searchForm.getFlowKey());
-             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-         } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey())){
-             urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
-             urlParameters.put("flow", searchForm.getFlowKey());
-             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-         } else {
-             throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
-         }
+        if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
+            urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_EDIT_METHOD, false, getContextInfo());
+            urlParameters.put("flow", searchForm.getFlowKey());
+            controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
+        } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
+            urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
+            urlParameters.put("flow", searchForm.getFlowKey());
+            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
+        } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey())){
+            urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
+            urlParameters.put("flow", searchForm.getFlowKey());
+            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
+        } else {
+            throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
+        }
 
         return super.performRedirect(searchForm,controllerPath, urlParameters);
 
@@ -241,7 +241,7 @@ public class CalendarSearchController  extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=copy")
     public ModelAndView copy(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         AcalSearchResult atp = getSelectedAtp(searchForm, "copy");
 
@@ -249,17 +249,17 @@ public class CalendarSearchController  extends UifControllerBase {
         String controllerPath;
         CalendarSearchViewHelperService viewHelperService = (CalendarSearchViewHelperService) KSControllerHelper.getViewHelperService(searchForm);
 
-         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
-             controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
-             urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_COPY_METHOD, false, getContextInfo());
-             urlParameters.put("flow", searchForm.getFlowKey());
-         }else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())){
-             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_COPY_METHOD, false, getContextInfo());
-             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-             urlParameters.put("flow", searchForm.getFlowKey());
-         } else {
-             throw new RuntimeException("Invalid calendar type. This search supports Acal and HCal only");
-         }
+        if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
+            controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
+            urlParameters = viewHelperService.buildHCalURLParameters(atp, CalendarConstants.HC_COPY_METHOD, false, getContextInfo());
+            urlParameters.put("flow", searchForm.getFlowKey());
+        }else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())){
+            urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_COPY_METHOD, false, getContextInfo());
+            controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
+            urlParameters.put("flow", searchForm.getFlowKey());
+        } else {
+            throw new RuntimeException("Invalid calendar type. This search supports Acal and HCal only");
+        }
 
         return super.performRedirect(searchForm,controllerPath, urlParameters);
 
@@ -276,7 +276,7 @@ public class CalendarSearchController  extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         String dialog = CalendarConstants.SEARCH_DELETE_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, searchForm)) {
             searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
@@ -302,33 +302,33 @@ public class CalendarSearchController  extends UifControllerBase {
 
         AcalSearchResult atp = getSelectedAtp(searchForm, "delete");
 
-         if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
-             StatusInfo status = getAcademicCalendarService().deleteHolidayCalendar(atp.getId(), getContextInfo());
-             if (status.getIsSuccess()){
-                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Holiday calendar", atp.getName());
-                 searchForm.getSearchResults().remove(atp);
-             } else{
-                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
-             }
-         } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
-             StatusInfo status = getAcademicCalendarService().deleteAcademicCalendar(atp.getId(), getContextInfo());
-             if (status.getIsSuccess()){
-                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic calendar", atp.getName());
-                 searchForm.getSearchResults().remove(atp);
-             } else{
-                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
-             }
-         } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey())){
-             StatusInfo status = getAcademicCalendarService().deleteTerm(atp.getId(), getContextInfo());
-             if (status.getIsSuccess()){
-                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic term", atp.getName());
-                 searchForm.getSearchResults().remove(atp);
-             } else{
-                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
-             }
-         } else {
-             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
-         }
+        if(CalendarConstants.HOLIDAYCALENDER.equals(atp.getAcalSearchTypeKey())){
+            StatusInfo status = getAcademicCalendarService().deleteHolidayCalendar(atp.getId(), getContextInfo());
+            if (status.getIsSuccess()){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Holiday calendar", atp.getName());
+                searchForm.getSearchResults().remove(atp);
+            } else{
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
+            }
+        } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
+            StatusInfo status = getAcademicCalendarService().deleteAcademicCalendar(atp.getId(), getContextInfo());
+            if (status.getIsSuccess()){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic calendar", atp.getName());
+                searchForm.getSearchResults().remove(atp);
+            } else{
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
+            }
+        } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey())){
+            StatusInfo status = getAcademicCalendarService().deleteTerm(atp.getId(), getContextInfo());
+            if (status.getIsSuccess()){
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic term", atp.getName());
+                searchForm.getSearchResults().remove(atp);
+            } else{
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
+            }
+        } else {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
+        }
 
         return getUIFModelAndView(searchForm);
 
