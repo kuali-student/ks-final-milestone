@@ -38,9 +38,10 @@ public class DateFormatters {
     public static final String SIMPLE_TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";                       // 11/08/2012 02:52:26
     public static final String DEFAULT_MONTH_YEAR_TIME_DATE_FORMAT = "MM-dd-yyyy hh:mm a";            // 11-08-2012 02:52 pm
     public static final String DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMAT = "yyyy-MM-dd HH:mm:ss.S";                  // 2012-08-11 02:52:26.9
+    public static final String QUERY_SERVICE_TIMESTAMP_FORMAT = "EEE MMM dd hh:mm:ss zzz yyyy";
 
     /**
-     * DO NOT USE THIS CONSTANT unless you absolutly have to and for Date->String only.
+     * DO NOT USE THIS CONSTANT unless you absolutely have to and for Date->String only.
      * The lower case z tells the formatter to use a 'short' timezone. ie. EST. This can
      * be format printted, but not parsed. EST is ambigious and cannot be parsed from a String to a Date.
      */
@@ -65,6 +66,5 @@ public class DateFormatters {
     public static final KSDateTimeFormatter SIMPLE_TIMESTAMP_FORMATTER = new KSDateTimeFormatter(SIMPLE_TIMESTAMP_FORMAT);
     public static final KSDateTimeFormatter DEFAULT_MONTH_YEAR_TIME_DATE_FORMATTER = new KSDateTimeFormatter(DEFAULT_MONTH_YEAR_TIME_DATE_FORMAT);
     public static final KSDateTimeFormatter DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER = new KSDateTimeFormatter(DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMAT);
-
-
+    public static final KSDateTimeFormatter QUERY_SERVICE_TIMESTAMP_FORMATTER = new KSDateTimeFormatter(QUERY_SERVICE_TIMESTAMP_FORMAT);
 }
