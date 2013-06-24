@@ -328,6 +328,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 wrapper.setSubTermId(subTerm.getId());
                 TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                 wrapper.setSubTermName(subTermType.getName());
+                wrapper.setSubTermStartDate(subTerm.getStartDate().toString().substring(0, 10));
+                wrapper.setSubTermEndDate(subTerm.getEndDate().toString().substring(0, 10));
+                wrapper.setSubTermStartEndDateAsString(wrapper.getSubTermStartDate()+" - "+wrapper.getSubTermEndDate());
             }
             wrapper.setTerm(term);
             if (term != null) {

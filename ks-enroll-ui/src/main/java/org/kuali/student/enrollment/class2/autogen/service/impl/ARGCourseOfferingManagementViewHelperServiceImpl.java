@@ -1018,6 +1018,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>();
+        ActivityOfferingWrapper aoWrapperStored = new ActivityOfferingWrapper();  //storage for sub-term only to compare
 
         for (SearchResultRowInfo row : searchResults.getRows()) {
 
@@ -1115,36 +1116,50 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     }
 
                     //Check for sub-term or term and populate accordingly
-                    TermInfo term = null;
-                    TermInfo subTerm = null;
-                    aoWrapper.setHasSubTerms(false);
-                    aoWrapper.setSubTermName("None");
-                    aoWrapper.setSubTermId("");
-                    List<TermInfo> terms = getAcalService().getContainingTerms(aoWrapper.getAoInfo().getTermId(), contextInfo);
-                    if (terms == null || terms.isEmpty()) {
-                        term = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
-                        // checking if we can have subterms for giving term
-                        List<TermInfo> subTerms = getAcalService().getIncludedTermsInTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
-                        if(!subTerms.isEmpty()) {
-                            aoWrapper.setHasSubTerms(true);
-                        }
+                    //If no change of AO.getTermId() > avoid service calls and populate sub-term info as it has been stored in aoWrapperStored
+                    if(aoWrapper.getAoInfo().getTermId().equals(aoWrapperStored.getAoInfo().getTermId())){
+                        aoWrapper.setHasSubTerms(aoWrapperStored.getHasSubTerms());
+                        aoWrapper.setSubTermId(aoWrapperStored.getSubTermId());
+                        aoWrapper.setSubTermName(aoWrapperStored.getSubTermName());
+                        aoWrapper.setSubTermStartDate(aoWrapperStored.getSubTermStartDate());
+                        aoWrapper.setSubTermEndDate(aoWrapperStored.getSubTermEndDate());
+                        aoWrapper.setTerm(aoWrapperStored.getTerm());
+                        aoWrapper.setTermName(aoWrapperStored.getTermName());
+                        aoWrapper.setTermDisplayString(aoWrapperStored.getTermDisplayString());
+                        aoWrapper.setSubTermStartEndDateAsString(aoWrapperStored.getSubTermStartEndDateAsString());
                     } else {
-                        subTerm = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
-                        term = terms.get(0);
-                        aoWrapper.setHasSubTerms(true);
-                        aoWrapper.setSubTermId(subTerm.getId());
-                        TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
-                        aoWrapper.setSubTermName(subTermType.getName());
-                        aoWrapper.setSubTermStartDate(subTerm.getStartDate().toString().substring(0, 10));
-                        aoWrapper.setSubTermEndDate(subTerm.getEndDate().toString().substring(0, 10));
+                        TermInfo term = null;
+                        TermInfo subTerm = null;
+                        aoWrapper.setHasSubTerms(false);
+                        aoWrapper.setSubTermName("None");
+                        aoWrapper.setSubTermId("");
+                        List<TermInfo> terms = getAcalService().getContainingTerms(aoWrapper.getAoInfo().getTermId(), contextInfo);
+                        if (terms == null || terms.isEmpty()) {
+                            term = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+                            // checking if we can have sub-terms for giving term
+                            List<TermInfo> subTerms = getAcalService().getIncludedTermsInTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+                            if(!subTerms.isEmpty()) {
+                                aoWrapper.setHasSubTerms(true);
+                            }
+                        } else {
+                            subTerm = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+                            term = terms.get(0);
+                            aoWrapper.setHasSubTerms(true);
+                            aoWrapper.setSubTermId(subTerm.getId());
+                            TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
+                            aoWrapper.setSubTermName(subTermType.getName());
+                            aoWrapper.setSubTermStartDate(subTerm.getStartDate().toString().substring(0, 10));
+                            aoWrapper.setSubTermEndDate(subTerm.getEndDate().toString().substring(0, 10));
+                            aoWrapper.setSubTermStartEndDateAsString(aoWrapper.getSubTermStartDate()+" - "+aoWrapper.getSubTermEndDate());
+                        }
+                        aoWrapper.setTerm(term);
+                        if (term != null) {
+                            aoWrapper.setTermName(term.getName());
+                        }
+                        aoWrapper.setTermDisplayString(getTermDisplayString(aoWrapper.getAoInfo().getTermId(), term));
+                        aoWrapperStored = aoWrapper; //update for next comparison
                     }
-                    aoWrapper.setTerm(term);
-                    if (term != null) {
-                        aoWrapper.setTermName(term.getName());
-                    }
-                    aoWrapper.setTermDisplayString(getTermDisplayString(aoWrapper.getAoInfo().getTermId(), term));
-                    // end subterms
-
+                    // end sub-terms
                     activityOfferingWrappers.add(aoWrapper);
                 }
             }

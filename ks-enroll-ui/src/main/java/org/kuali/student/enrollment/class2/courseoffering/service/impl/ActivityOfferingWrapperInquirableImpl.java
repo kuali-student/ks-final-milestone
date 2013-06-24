@@ -88,6 +88,9 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
                 term = getAcalService().getContainingTerms(info.getTermId(), contextInfo).get(0);
                 TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                 wrapper.setSubTermName(subTermType.getName());
+                wrapper.setSubTermStartDate(subTerm.getStartDate().toString().substring(0, 10));
+                wrapper.setSubTermEndDate(subTerm.getEndDate().toString().substring(0, 10));
+                wrapper.setSubTermStartEndDateAsString(wrapper.getSubTermStartDate()+" - "+wrapper.getSubTermEndDate());
             }
             wrapper.setTerm(term);
             if (term != null) {
