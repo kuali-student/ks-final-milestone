@@ -139,7 +139,7 @@ public interface Fee
      * CatlogFee.canOverrideTransactionDateTypeKey is true.
      *
      * @return the transaction date type key
-     * @nameTransaction Date Type Key
+     * @name Transaction Date Type Key
      */
     public String getTransactionDateTypeKey();
 }
