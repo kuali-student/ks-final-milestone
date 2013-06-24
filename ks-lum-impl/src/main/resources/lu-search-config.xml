@@ -502,7 +502,7 @@
 	<search:queryParam id="lu.queryParam.luOptionalDescr-parent"  optional="true" abstract="true">
 	 <dict:fieldDescriptor>
    <dict:name>Clu Description</dict:name>
-    <dict:desc>Descxription of the clu</dict:desc>
+    <dict:desc>Description of the clu</dict:desc>
     <dict:dataType>string</dict:dataType>
 	 </dict:fieldDescriptor>
 	</search:queryParam>
@@ -844,6 +844,41 @@
 			<ref bean="lu.criteria.code"/>
         </search:searchCriteriaTypeInfo>
     </search:searchType>
+
+    <search:searchType id="lu.search.validCluForDate" parent="lu.search.validCluForDate-parent"/>
+	<search:searchType id="lu.search.validCluForDate-parent"  abstract="true">
+        <search:name>Search for the CLU which is valid for a particular date</search:name>
+        <search:desc>Returns CLU id</search:desc>
+        <search:searchResultTypeInfo>
+        	<ref bean="lu.result.cluId"/>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+			<ref bean="lu.criteria.validCluForDate"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchCriteriaTypeInfo id="lu.criteria.validCluForDate" parent="lu.criteria.validCluForDate-parent"/>
+    <search:searchCriteriaTypeInfo id="lu.criteria.validCluForDate-parent"  abstract="true">
+        <search:name>Search by course code and a date</search:name>
+        <search:desc>Search by course code and a date</search:desc>
+        <search:queryParams>
+            <search:queryParam id="lu_queryParam_code" optional="false" abstract="true">
+                <dict:fieldDescriptor>
+                    <dict:name>Course Code</dict:name>
+                    <dict:desc>Course Code</dict:desc>
+                    <dict:dataType>string</dict:dataType>
+                </dict:fieldDescriptor>
+            </search:queryParam>
+
+            <search:queryParam id="lu_queryParam_someDate" optional="false" abstract="true">
+                <dict:fieldDescriptor>
+                    <dict:name>Date</dict:name>
+                    <dict:desc>A point in time</dict:desc>
+                    <dict:dataType>date</dict:dataType>
+                </dict:fieldDescriptor>
+            </search:queryParam>
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
 
 	<search:searchResultTypeInfo id="lu.result.cluId" parent="lu.result.cluId-parent"/>
 	<search:searchResultTypeInfo id="lu.result.cluId-parent"  abstract="true">
@@ -1768,6 +1803,16 @@
 		        <entry key="lu.search.cluByCode">
 		            <value>SELECT clu.id FROM Clu clu WHERE clu.officialIdentifier.code = :lu_criteria_code ORDER BY clu.effectiveDate DESC</value>
 		        </entry>
+
+                <entry key="lu.search.validCluForDate">
+		            <value><![CDATA[
+		                SELECT clu.id FROM Clu clu WHERE
+                            clu.officialIdentifier.code = :lu_queryParam_code AND
+                            clu.effectiveDate <= :lu_queryParam_someDate AND
+                            (clu.expirationDate >= :lu_queryParam_someDate OR clu.expirationDate IS NULL) ]]>
+                    </value>
+		        </entry>
+
 		        <entry key="lu.search.clusInCluset">
 		            <value>SELECT clu.id, clu.officialIdentifier.longName, clu.officialIdentifier.code, clu.version.versionIndId FROM CluSet cluset
 		            JOIN cluset.clus clu
