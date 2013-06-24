@@ -34,7 +34,7 @@
         <property name="id" value="holidayCalendarFlowView"/>
         <property name="entryPageId" value="holidayCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarViewHelperServiceImpl"/>
-        <property name="headerText" value="@{!#empty(holidayCalendarInfo.name) ? holidayCalendarInfo.name : 'New Holiday Calendar'}"/>
+        <property name="headerText" value="Create a Holiday Calendar"/>
         <!--<property name="headerText" value="@{holidayCalendarInfo.name != null? holidayCalendarInfo.name : 'New Holiday Calendar'}"/>-->
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
@@ -44,6 +44,9 @@
             <list merge="true">
                 <value>ks-unified-header</value>
             </list>
+        </property>
+        <property name="header.rightGroup">
+            <ref bean="KS-View-Hcal-Header-RightGroup-PlaceHolder"/>
         </property>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -73,6 +76,24 @@
         <property name="dialogs">
             <list>
                 <ref bean="KS-HolidayCalendar-ConfirmDelete-Dialog"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-View-Hcal-Header-RightGroup-PlaceHolder" parent="KS-Unified-Header-Right-Group">
+        <property name="items">
+            <list>
+                <bean parent="KS-Unified-Header-Action-Group" p:style="display: none;"/>
+                <bean parent="KS-Unified-Right-Header-Group-Status" p:style="display: none;"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HolidayCalendarView-Header-Right-Group" parent="KS-Unified-Header-Right-Group" p:style="display: none"
+          p:onDocumentReadyScript="updateHeaderRightGroup('KS-HolidayCalendarView-Header-Right-Group', 'KS-View-Hcal-Header-RightGroup-PlaceHolder'); updateViewHeader('Hcal-View-HeaderText-SourceHolder');">
+        <property name="items">
+            <list>
+                <bean parent="KS-View-HeaderText-SourceHolder" id="Hcal-View-HeaderText-SourceHolder" p:messageText="@{!newCalendar ? holidayCalendarInfo.name : 'Create a Holiday Calendar'}"/>
             </list>
         </property>
     </bean>

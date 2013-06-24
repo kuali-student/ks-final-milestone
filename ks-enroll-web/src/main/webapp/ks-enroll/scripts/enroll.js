@@ -736,8 +736,6 @@ function updateContextBar(srcId, contextBarId){
     }
 }
 
-
-
 function updateHeaderRightGroup(srcId, rightGroupId){
 
     if( rightGroupId == null ) return;
@@ -747,6 +745,15 @@ function updateHeaderRightGroup(srcId, rightGroupId){
         var src = jQuery("#" + srcId);                  // grab the new header right group
         jQuery(rightGroup).html(jQuery(src).html());         // copy the content of the right group to the place holder
     }
+}
+
+function updateViewHeader(newHeaderTextSource){
+    // Get Header node
+    var header = jQuery("div.ks-unified-header h1.uif-headerText span.uif-headerText-span");
+    var source = jQuery("#"+newHeaderTextSource+"_span");
+    var newHeaderText = source.html();
+    // Update header text
+    header.html(newHeaderText);
 }
 
 /*

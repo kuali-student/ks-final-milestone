@@ -92,5 +92,5 @@
 <!-- END: CONTEXT-BAR BEANS -->
 
     <bean id="KS-View-Header-RightGroup-PlaceHolder" parent="KS-Unified-Header-Right-Group" />
-
+    <bean id="KS-View-HeaderText-SourceHolder" parent="Uif-Message" p:style="visibility:hidden;"/>
 </beans>

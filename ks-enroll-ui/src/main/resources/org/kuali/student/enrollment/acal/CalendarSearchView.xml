@@ -39,8 +39,10 @@
         <property name="page">
             <bean parent="Uif-Page"/>
         </property>
-        <property name="header">
-            <bean parent="Uif-HeaderTwo" />
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>

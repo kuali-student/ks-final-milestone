@@ -32,17 +32,15 @@ limitations under the License.
     -->
     <bean id="KS-AcademicCalendarView" parent="KS-Uif-FormView">
         <property name="id" value="academicCalendarFlowView"/>
-        <property name="headerText" value="@{!#empty(academicCalendarInfo.name) ? academicCalendarInfo.name : 'New Calendar'}"/>
+        <property name="headerText" value="Create an Academic Calendar"/>
         <property name="entryPageId" value="academicCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
 
-        <!--KS-AcademicCalendarView-Header-Right-Group-->
-        <!--KS-View-Header-RightGroup-PlaceHolder-->
         <property name="header.rightGroup">
-            <ref bean="KS-View-Header-RightGroup-PlaceHolder"/>
+            <ref bean="KS-View-Acal-Header-RightGroup-PlaceHolder"/>
         </property>
         <property name="header.cssClasses">
             <list merge="true">
@@ -84,12 +82,12 @@ limitations under the License.
         </property>
     </bean>
 
-    <!--<bean id="KS-AcademicCalendarView-Header-Right-Group" parent="KS-Unified-Header-Right-Group">-->
     <bean id="KS-AcademicCalendarView-Header-Right-Group" parent="KS-Unified-Header-Right-Group" p:style="display: none"
-          p:onDocumentReadyScript="updateHeaderRightGroup('KS-AcademicCalendarView-Header-Right-Group', 'KS-View-Header-RightGroup-PlaceHolder');">
+          p:onDocumentReadyScript="updateHeaderRightGroup('KS-AcademicCalendarView-Header-Right-Group', 'KS-View-Acal-Header-RightGroup-PlaceHolder'); updateViewHeader('Acal-View-HeaderText-SourceHolder');">
         <property name="items">
             <list>
                 <bean parent="KS-Unified-Header-Action-Group">
+                    <property name="render" value="@{!newCalendar}"/>
                     <property name="items">
                         <list>
                             <bean id="KS-AcademicCalendarView-ActionGroup-Copy" parent="Unified-Right-Header-Group-Action-Copy" p:methodToCall="toCopy" p:render="@{#view.readOnly}"/>
@@ -100,6 +98,7 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean parent="KS-Unified-Right-Header-Group-Status">
+                    <property name="render" value="@{!newCalendar}"/>
                     <property name="items">
                         <list>
                             <bean parent="Unified-Right-Header-Group-Status-Modified"  p:messageText="Last modified by @{getUpdateId()} on @{getUpdateTime()}"/>
@@ -114,6 +113,16 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
+                <bean parent="KS-View-HeaderText-SourceHolder" id="Acal-View-HeaderText-SourceHolder" p:messageText="@{!#empty(academicCalendarInfo.name) ? academicCalendarInfo.name : 'Create an Academic Calendar'}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-View-Acal-Header-RightGroup-PlaceHolder" parent="KS-Unified-Header-Right-Group">
+        <property name="items">
+            <list>
+                <bean parent="KS-Unified-Header-Action-Group" p:style="display: none;"/>
+                <bean parent="KS-Unified-Right-Header-Group-Status" p:style="display: none;"/>
             </list>
         </property>
     </bean>

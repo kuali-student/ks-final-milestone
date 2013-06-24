@@ -30,7 +30,7 @@ limitations under the License.
     -->
     <bean id="KS-AcademicCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}">
         <property name="id" value="academicCalendarEditPage"/>
-        <property name="headerText" value="@{!newCalendar and !#view.readOnly ? 'Edit Academic Calendar' : 'Academic Calendar'}"/>
+        <property name="headerText" value="@{!newCalendar ? !#view.readOnly ? 'Edit Academic Calendar' : 'Academic Calendar' : ''}"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>

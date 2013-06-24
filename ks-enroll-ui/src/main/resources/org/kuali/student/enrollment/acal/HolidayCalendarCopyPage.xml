@@ -30,7 +30,7 @@
 
     <bean id="KS-HolidayCalendar-CopyPage" parent="Uif-Page"
           p:id="holidayCalendarCopyPage"
-          p:headerText="Create a Holiday Calendar"
+          p:headerText=""
           p:disclosure.render="false">
         <property name="header">
             <bean parent="Uif-HeaderTwo">
@@ -72,6 +72,7 @@
                         <list>
                             <ref bean="KS-HolidayCalendar-CopyPage-From"/>
                             <ref bean="KS-HolidayCalendar-CopyPage-To"/>
+                            <ref bean="KS-HolidayCalendarView-Header-Right-Group"/>
                         </list>
                     </property>
                 </bean>

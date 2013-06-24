@@ -25,7 +25,7 @@ limitations under the License.
     -->
     <bean id="KS-AcademicCalendar-CopyPage" parent="Uif-Page"
           p:id="academicCalendarCopyPage"
-          p:headerText="Create New Academic Calendar"
+          p:headerText=""
           p:disclosure.render="false">
         <property name="header">
             <bean parent="Uif-HeaderTwo">

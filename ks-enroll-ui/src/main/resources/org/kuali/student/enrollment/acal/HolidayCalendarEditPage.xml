@@ -33,7 +33,7 @@
     <bean id="KS-HolidayCalendar-EditPage" parent="Uif-Page"
           p:id="holidayCalendarEditPage"
           p:disclosure.render="false"
-          p:headerText="Edit Holiday Calendar"
+          p:headerText="@{!newCalendar ? #view.readOnly ? 'Holiday Calendar' : 'Edit Holiday Calendar' : ''}"
           p:header.id="KS-HolidayCalendar-EditPage-header">
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
@@ -72,6 +72,7 @@
             <list>
                 <ref bean="KS-HolidayCalendar-MetaSection"/>
                 <ref bean="KS-HolidayCalendar-HolidaySection"/>
+                <ref bean="KS-HolidayCalendarView-Header-Right-Group"/>
             </list>
         </property>
         <property name="footer">
