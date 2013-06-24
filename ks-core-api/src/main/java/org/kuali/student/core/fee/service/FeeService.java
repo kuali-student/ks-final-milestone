@@ -310,7 +310,7 @@ public interface FeeService {
      * @param stateKey the identifier for the new State 
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the status of the delete operation. This must always be
+     * @return the status of the operation. This must always be
      *         true.
      * @throws DoesNotExistException catalogFeeId not found or stateKey
      *         not found in CatalogFee Lifecycle
@@ -626,7 +626,7 @@ public interface FeeService {
      * @param stateKey the identifier for the new State 
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the status of the delete operation. This must always be
+     * @return the status of the operation. This must always be
      *         true.
      * @throws DoesNotExistException feeId not found or stateKey
      *         not found in Fee Lifecycle
