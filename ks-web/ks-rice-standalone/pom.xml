@@ -87,12 +87,6 @@
             <artifactId>rice-web</artifactId>
             <type>pom</type>
         </dependency>
-        <!-- TODO: fix ks-admin -->
-        <!--dependency>
-            <groupId>org.kuali.student.admin</groupId>
-            <artifactId>ks-admin</artifactId>
-            <version>${project.version}</version>
-        </dependency-->
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-impl</artifactId>

@@ -166,12 +166,6 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krad-development-tools</artifactId>
         </dependency>
-        <!-- TODO: RICE-M7 UPGRADE -fix ks-admin
-      <dependency>
-      <groupId>org.kuali.student.admin</groupId>
-      <artifactId>ks-admin</artifactId>
-      <version>${project.version}</version>
-      </dependency -->
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-rice</artifactId>
