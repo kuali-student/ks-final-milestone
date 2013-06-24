@@ -15,6 +15,7 @@
  */
 package org.kuali.rice.krms.tree;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
@@ -114,10 +115,16 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
     private void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionEditor original, PropositionEditor compared) {
 
         // Retrieve the opreator code of the original proposition
-        String originalOpCode = PropositionTreeUtil.getLabelForOperator(original.getCompoundOpCode());
+        String originalOpCode = " ";
+        if(original!=null){
+            originalOpCode = PropositionTreeUtil.getLabelForOperator(original.getCompoundOpCode());
+        }
 
         // Retrieve the opreator code of the compare to proposition
-        String compareOpCode = PropositionTreeUtil.getLabelForOperator(compared.getCompoundOpCode());
+        String compareOpCode = " ";
+        if(compared!=null){
+            PropositionTreeUtil.getLabelForOperator(compared.getCompoundOpCode());
+        }
 
         // Get the children form both nodes.
         List<PropositionEditor> originalChildren = getChildPropositions(original);
@@ -132,17 +139,14 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
             PropositionEditor originalChild = null;
             if (originalChildren.size() > i){
                 originalChild = originalChildren.get(i);
-            } else {
-                originalOpCode = " ";
             }
 
             // Get the compare child proposition at current position
             PropositionEditor compareChild = null;
             if (comparedChildren.size() > i){
                 compareChild = comparedChildren.get(i);
-            } else {
-                compareOpCode = " ";
             }
+
             // add an opcode node in between each of the children.
             if (i>0) {
                 this.addOperatorTreeNode(newNode, originalOpCode, compareOpCode);

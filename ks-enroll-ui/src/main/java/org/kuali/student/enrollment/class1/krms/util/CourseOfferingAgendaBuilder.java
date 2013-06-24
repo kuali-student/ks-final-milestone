@@ -45,11 +45,15 @@ public class CourseOfferingAgendaBuilder extends AgendaBuilder {
     protected Component buildRule(RuleEditor rule, String bindingPrefix, AgendaSection agendaSection) {
         Component group = super.buildRule(rule, bindingPrefix, agendaSection);
 
+        //Add warning messages for empty or deleted rules.
         if (rule.isDummy() && rule.getParent() != null) {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), "warning.krms.agenda.rule.co.hasparent");
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), "warning.krms.agenda.rule.co.empty");
-        } else if (!this.getViewHelperService().compareRules(rule)) {
+        }
+
+        //Add Info message if co rule differs from clu rule.
+        if (!this.getViewHelperService().compareRules(rule)) {
             GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.co.changed");
         }
 
