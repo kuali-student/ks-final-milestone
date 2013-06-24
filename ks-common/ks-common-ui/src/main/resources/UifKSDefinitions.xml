@@ -514,4 +514,7 @@
         </property>
     </bean>
 
+    <bean id="Uif-AddLineAction-Link" parent="Uif-ActionLink" p:methodToCall="addLine" p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:id="@{#collectionGroup.id}_add"/>
 </beans>
