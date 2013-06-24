@@ -83,7 +83,7 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
 
         //Build the Tree
         RuleEditor compareEditor = original.getParent();
-        if(compareEditor.getProposition()!=null){
+        if((compareEditor!=null)&&(compareEditor.getProposition()!=null)){
             this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compareEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         }
         Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compareEditor);

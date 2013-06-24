@@ -50,9 +50,20 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         Node<CompareTreeNode, String> firstNode = createCompareNode();
         rootNode.getChildren().add(firstNode);
 
-        if (original != null) {
-            addTreeNode(firstNode, original.getPropositionEditor(), compare.getPropositionEditor());
+        //Get the root original proposition.
+        PropositionEditor originalProp = null;
+        if(original!=null){
+            originalProp = original.getPropositionEditor();
         }
+
+        //Get the root compare proposition.
+        PropositionEditor compareProp = null;
+        if(compare!=null){
+            compareProp = compare.getPropositionEditor();
+        }
+
+        //Add the nodes recursively.
+        addTreeNode(firstNode, originalProp, compareProp);
 
         //Underline the first node in the preview.
         if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)){
