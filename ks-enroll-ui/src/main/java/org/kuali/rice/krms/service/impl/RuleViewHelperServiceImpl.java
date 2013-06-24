@@ -217,10 +217,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
 
         //Refresh the natural language.
-        this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_RULE_EDIT);
-        this.getNaturalLanguageHelper().setNaturalLanguageForUsage(prop, KsKrmsConstants.KRMS_NL_PREVIEW);
-        String description = prop.getNaturalLanguageForUsage(KsKrmsConstants.KRMS_NL_RULE_EDIT);
-        prop.setDescription(StringUtils.abbreviate(description, 99));
+        prop.getNaturalLanguage().clear();
         return prop.getDescription();
     }
 
@@ -260,17 +257,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             return;
         }
 
-        // Refresh the natural language if required.
-        if (rule.getProposition() != null) {
-            PropositionEditor root = rule.getPropositionEditor();
-            if (!root.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
-                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
-            }
-            if (!root.getNaturalLanguage().containsKey(this.getPreviewTreeBuilder().getNaturalLanguageUsageKey())) {
-                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(root, this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
-            }
-        }
-
         //Rebuild the trees
         rule.setEditTree(this.getEditTreeBuilder().buildTree(rule));
         rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule));
@@ -304,12 +290,8 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, String refObjectId) throws Exception {
 
-        //Get the CLU Tree.
-        RuleEditor compare = original.getParent();
-        this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compare.getPropositionEditor(), this.getPreviewTreeBuilder().getNaturalLanguageUsageKey());
-
         //Build the Tree
-        return this.getCompareTreeBuilder().buildTree(original, compare);
+        return this.getCompareTreeBuilder().buildTree(original, original.getParent());
 
     }
 
@@ -510,7 +492,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         try {
             PropositionEditor compound = PropositionTreeUtil.createCompoundPropositionBoStub(existing, addNewChild, this.getPropositionEditorClass());
             PropositionTreeUtil.setTypeForCompoundOpCode(compound, LogicalOperator.AND.getCode());
-            this.resetDescription(compound);
             return compound;
         } catch (Exception e) {
             return null;
@@ -532,10 +513,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         }
     }
 
-
-
-
-
     /**
      * Override this method to return a different class type if you need to use a different propositoin editor class.
      *
@@ -555,7 +532,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     protected RuleCompareTreeBuilder getCompareTreeBuilder() {
         if (compareTreeBuilder == null) {
             compareTreeBuilder = new RuleCompareTreeBuilder();
-            compareTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+            compareTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return compareTreeBuilder;
     }
@@ -563,7 +540,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     protected RuleEditTreeBuilder getEditTreeBuilder() {
         if (editTreeBuilder == null) {
             editTreeBuilder = new RuleEditTreeBuilder();
-            editTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+            editTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return editTreeBuilder;
     }
@@ -571,7 +548,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     protected RulePreviewTreeBuilder getPreviewTreeBuilder() {
         if (previewTreeBuilder == null) {
             previewTreeBuilder = new RulePreviewTreeBuilder();
-            previewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+            previewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return previewTreeBuilder;
     }
@@ -579,7 +556,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (viewTreeBuilder == null) {
             viewTreeBuilder = new RuleViewTreeBuilder();
-            viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+            viewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return viewTreeBuilder;
     }

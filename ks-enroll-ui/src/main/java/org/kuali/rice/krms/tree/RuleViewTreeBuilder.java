@@ -22,6 +22,8 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +61,8 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
             if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {
                 Node<TreeNode, String> firstNode = rootNode.getChildren().get(0);
                 if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)) {
-                    firstNode.setNodeType(this.getHeaderAndElementNodeType());
+                    firstNode.setNodeType(NODE_TYPE_SUBRULEHEADER);
+                    addNodeType(firstNode, NODE_TYPE_SUBRULEELEMENT);
                     firstNode.setNodeLabel("<u>" + firstNode.getNodeLabel() + ":</u>");
                 }
             }
@@ -72,29 +75,19 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
         if (prop != null) {
 
             Node<TreeNode, String> newNode = new Node<TreeNode, String>();
-            newNode.setNodeLabel(this.buildNodeLabel(rule, prop));
-            newNode.setNodeType(this.getElementNodeType());
+            newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
 
-            TreeNode tNode = new TreeNode(newNode.getNodeLabel());
-            tNode.setListItems(this.getListItems(prop));
-            tNode.setKey(prop.getKey());
-            newNode.setData(tNode);
-            currentNode.getChildren().add(newNode);
-
-            if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
-
+            if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
+                newNode.setNodeLabel(this.buildNodeLabel(prop));
+            } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
+                newNode.setNodeLabel(this.buildNodeLabel(prop));
                 boolean first = true;
                 for (PropositionEditor child : prop.getCompoundEditors()) {
                     // add an opcode node in between each of the children.
                     if (!first) {
                         //addOpCodeNode(newNode, propositionEditor);
                         Node<TreeNode, String> opNode = new Node<TreeNode, String>();
-                        if (LogicalOperator.AND.getCode().equalsIgnoreCase(prop.getCompoundOpCode())) {
-                            opNode.setNodeLabel("AND");
-                        } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(prop.getCompoundOpCode())) {
-                            opNode.setNodeLabel("OR");
-                        }
-
+                        opNode.setNodeLabel(PropositionTreeUtil.getLabelForOperator(prop.getCompoundOpCode()));
                         opNode.setData(new TreeNode(prop.getCompoundOpCode()));
                         newNode.getChildren().add(opNode);
                     }
@@ -104,10 +97,21 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
                 }
             }
 
+            TreeNode tNode = new TreeNode(newNode.getNodeLabel());
+            tNode.setListItems(this.getListItems(prop));
+            tNode.setKey(prop.getKey());
+            newNode.setData(tNode);
+            currentNode.getChildren().add(newNode);
+
         }
     }
 
     public List<Object> getListItems(PropositionEditor propositionEditor) {
         return null;
+    }
+
+    @Override
+    public String getNaturalLanguageUsageKey() {
+        return  KsKrmsConstants.KRMS_NL_PREVIEW;
     }
 }

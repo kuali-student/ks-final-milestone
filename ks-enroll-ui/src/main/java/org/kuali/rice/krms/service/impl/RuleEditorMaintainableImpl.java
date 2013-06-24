@@ -80,7 +80,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     private transient ContextInfo contextInfo;
     private transient TemplateRegistry templateRegistry;
-    private AlphaIterator alphaIterator = new AlphaIterator();
+    private AlphaIterator alphaIterator = new AlphaIterator(StringUtils.EMPTY);
 
     public static final String NEW_AGENDA_EDITOR_DOCUMENT_TEXT = "New Agenda Editor Document";
 
@@ -258,9 +258,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     }
 
     protected RuleViewTreeBuilder getViewTreeBuilder(){
-        RuleViewTreeBuilder viewTreeBuilder = new RuleViewTreeBuilder();
-        viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
-        return viewTreeBuilder;
+        return new RuleViewTreeBuilder();
     }
 
     /**

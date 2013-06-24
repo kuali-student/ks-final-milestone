@@ -57,7 +57,6 @@ public class NaturalLanguageHelper {
      * @param usageName
      */
     public void setNaturalLanguageForUsage(PropositionEditor proposition, String usageName){
-
         //Setup the Proposition
         List<PropositionParameter.Builder> parameters = new ArrayList<PropositionParameter.Builder>();
         if(proposition.getParameters()!=null){  //Parameters on Compound Propositions could be null.
@@ -66,11 +65,13 @@ public class NaturalLanguageHelper {
 
                 //Add the edited term.
                 if(parameter.getParameterType().equals(PropositionParameterType.TERM.getCode())){
-                    TermDefinition.Builder termBuilder = TermDefinition.Builder.create(proposition.getTerm());
-                    for (Map.Entry<String, String> entry : proposition.getNlParameters().entrySet()) {
-                        termBuilder.getParameters().add(TermParameterDefinition.Builder.create(null, null, entry.getKey(), entry.getValue()));
+                    if(proposition.getTerm()!=null){
+                        TermDefinition.Builder termBuilder = TermDefinition.Builder.create(proposition.getTerm());
+                        for (Map.Entry<String, String> entry : proposition.getNlParameters().entrySet()) {
+                            termBuilder.getParameters().add(TermParameterDefinition.Builder.create(null, null, entry.getKey(), entry.getValue()));
+                        }
+                        parmBuilder.setTermValue(termBuilder.build());
                     }
-                    parmBuilder.setTermValue(termBuilder.build());
                 }
                 parameters.add(parmBuilder);
             }
@@ -112,7 +113,7 @@ public class NaturalLanguageHelper {
             return;
         }
 
-        proposition.getNaturalLanguage().put(usageName, nlDescriptions.next());
+        proposition.setNaturalLanguageForUsage(usageName, nlDescriptions.next());
 
         if (proposition.getCompoundEditors() != null){
             for (PropositionEditor child : proposition.getCompoundEditors()){

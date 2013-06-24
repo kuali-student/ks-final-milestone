@@ -17,13 +17,10 @@ package org.kuali.student.enrollment.class1.krms.tree;
 
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
@@ -33,12 +30,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * This is a helper class to build the compare tree to be displayed on the lightboxes on the ui to compare one set of
+ * rules with another. Rules statements that differ is highlighted in the ui with a css class.
+ *
+ * This class is overridden to add AO specific headers to the tree structure and add list items specific to multicourse
+ * rule statement(proposition) types.
+ *
  * @author Kuali Student Team
  */
 public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
 
     @Override
-    public Tree<CompareTreeNode, String> buildTree(RuleDefinitionContract original, RuleDefinitionContract compare) {
+    public Tree<CompareTreeNode, String> buildTree(RuleEditor original, RuleEditor compare) {
         Tree<CompareTreeNode, String> compareTree = super.buildTree(original, compare);
 
         //Set data headers on root node.
@@ -58,46 +61,8 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
         return compareTree;
     }
 
-    public RuleDefinition getCompareRule(String refObjectId, String typeId) {
-        RuleDefinition compareRule = null;
-        List<ReferenceObjectBinding> referenceObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lui.type.course.offering", refObjectId);
-
-        for (ReferenceObjectBinding referenceObject : referenceObjects) {
-            AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(referenceObject.getKrmsObjectId());
-            compareRule = this.getRuleFromTree(agendaTree.getEntries(), typeId);
-
-            if (compareRule != null) {
-                return compareRule;
-            }
-        }
-
-        return null;
-    }
-
-    private RuleDefinition getRuleFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries, String typeId) {
-
-        for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
-            if (treeEntry instanceof AgendaTreeRuleEntry) {
-                AgendaTreeRuleEntry treeRuleEntry = (AgendaTreeRuleEntry) treeEntry;
-                RuleDefinition rule = this.getRuleManagementService().getRule(treeRuleEntry.getRuleId());
-                if (rule.getTypeId().equals(typeId)) {
-                    return rule;
-                }
-
-                if (treeRuleEntry.getIfTrue() != null) {
-                    RuleDefinition childRule = getRuleFromTree(treeRuleEntry.getIfTrue().getEntries(), typeId);
-                    if (childRule != null) {
-                        return childRule;
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
     @Override
-    public List<String> getListItems(PropositionDefinitionContract propositionEditor) {
+    public List<String> getListItems(PropositionEditor propositionEditor) {
         if (propositionEditor instanceof EnrolPropositionEditor) {
             EnrolPropositionEditor enrolProp = (EnrolPropositionEditor) propositionEditor;
             List<String> listItems = new ArrayList<String>();

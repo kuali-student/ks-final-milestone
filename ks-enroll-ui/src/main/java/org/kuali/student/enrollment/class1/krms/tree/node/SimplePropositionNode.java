@@ -19,20 +19,23 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 
 /**
- * abstract data class for the rule tree {@link org.kuali.rice.core.api.util.tree.Node}s
- *
+ * abstract data class for the rule tree {@link}s
+ * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
-public class KSCompoundOpCodeNode extends RuleEditorTreeNode {
+public class SimplePropositionNode extends RuleEditorTreeNode {
 
-    private static final long serialVersionUID = -6069336457169968200L;
+    private static final long serialVersionUID = -629088492909384804L;
+
+    public static final String NODE_TYPE = RuleEditorTreeNode.NODE_TYPE + " simple";
 
     // needed for inquiry view
-    public KSCompoundOpCodeNode() {
+    public SimplePropositionNode() {
     }
 
-    public KSCompoundOpCodeNode(PropositionEditor proposition){
+    public SimplePropositionNode(PropositionEditor proposition){
         super(proposition);
-   }
+    }
+    
 }

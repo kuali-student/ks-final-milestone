@@ -26,6 +26,12 @@ import java.util.List;
 public class AlphaIterator implements Serializable, Iterator {
 
     private List<Inner> list = new ArrayList<Inner>();
+    private String prefix;
+
+    public AlphaIterator(String prefix){
+        super();
+        this.prefix = prefix;
+    }
 
     @Override
     public boolean hasNext() {
@@ -60,7 +66,7 @@ public class AlphaIterator implements Serializable, Iterator {
             returnValue = returnValue + (char)in.current();
         }
 
-        return returnValue;
+        return prefix + returnValue;
     }
 
     @Override

@@ -47,19 +47,6 @@ public class EnrolRuleViewTreeBuilder extends RuleViewTreeBuilder {
             CluSetInformation cluSetInfo = ((EnrolPropositionEditor) propositionEditor).getCluSet();
 
             if (cluSetInfo != null) {
-                /*List<Object> listItems = new ArrayList<Object>();
-
-                for (CluInformation clu : cluSetInfo.getClusAndClusInRange()) {
-                    String description = clu.getCode() + (clu.getTitle() != null ? " " + clu.getShortName() : "") + (clu.getCredits() != null ? " " + clu.getCredits() : "");
-                    listItems.add(description);
-                }
-
-                for (CluSetInfo cluSet : cluSetInfo.getCluSets()) {
-                    listItems.add(cluSet.getName());
-                }
-
-                return listItems;
-                */
                 return cluSetInfo.getCluViewers();
             }
         }

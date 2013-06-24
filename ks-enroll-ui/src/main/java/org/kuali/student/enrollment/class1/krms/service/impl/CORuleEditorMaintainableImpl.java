@@ -174,7 +174,6 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                     //Initialize the Proposition tree
                     if(initProp){
                         this.initPropositionEditor(ruleEditor.getPropositionEditor());
-                        this.getNLHelper().setNaturalLanguageTreeForUsage(ruleEditor.getPropositionEditor(), this.getViewTreeBuilder().getNaturalLanguageUsageKey());
                         ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
                     }
 
@@ -267,7 +266,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     protected RuleViewTreeBuilder getViewTreeBuilder(){
         if(this.viewTreeBuilder == null){
             viewTreeBuilder = new EnrolRuleViewTreeBuilder();
-            viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+            viewTreeBuilder.setNlHelper(this.getNLHelper());
         }
         return viewTreeBuilder;
     }

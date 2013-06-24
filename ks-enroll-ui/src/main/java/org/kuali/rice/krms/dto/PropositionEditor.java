@@ -20,6 +20,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContr
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.impl.ui.TermParameter;
+import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private String propositionTypeCode;
     private Long versionNumber;
 
+    /**Natural Language**/
+    private String defaultNlKey = KsKrmsConstants.KRMS_NL_RULE_EDIT;
     private Map<String, String> naturalLanguage = new HashMap<String, String>();
 
     private List<PropositionParameterEditor> parameters;
@@ -249,10 +252,12 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         this.naturalLanguage = naturalLanguage;
     }
 
-    public Map<String, String> getNlParameters() {
-        return new HashMap<String, String>();
-    }
-
+    /**
+     * Return the natural language description for the given usage key from the natural language map.
+     *
+     * @param usage
+     * @return
+     */
     public String getNaturalLanguageForUsage(String usage){
         String description = this.getNaturalLanguage().get(usage);
 
@@ -263,14 +268,31 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         return description;
     }
 
-    public boolean checkIfCompoundAndEmpty(){
-        if ("C".equals(this.getPropositionTypeCode())){
-            if((this.getCompoundEditors()==null)){
-                return true;
-            }
+    /**
+     * Set the natuaral language string on the map with the usage as key. If the usage is the default
+     * usage also set the description of the proposition.
+     *
+     * @param usage
+     * @param nl
+     */
+    public void setNaturalLanguageForUsage(String usage, String nl){
+        this.getNaturalLanguage().put(usage, nl);
+
+        if (usage.equals(defaultNlKey)){
+            this.setDescription(StringUtils.abbreviate(nl, 99));
         }
-        return false;
     }
+
+    /**
+     * Override this method to return a method of custom parameters to be used in the natural
+     * language context implementation.
+     *
+     * @return
+     */
+    public Map<String, String> getNlParameters() {
+        return new HashMap<String, String>();
+    }
+
 }
 
 

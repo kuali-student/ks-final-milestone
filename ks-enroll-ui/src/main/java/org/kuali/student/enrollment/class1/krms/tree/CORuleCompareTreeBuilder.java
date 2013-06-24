@@ -19,6 +19,8 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
@@ -39,7 +41,7 @@ import java.util.List;
 public class CORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
 
     @Override
-    public Tree<CompareTreeNode, String> buildTree(RuleDefinitionContract original, RuleDefinitionContract compare) {
+    public Tree<CompareTreeNode, String> buildTree(RuleEditor original, RuleEditor compare) {
         Tree<CompareTreeNode, String> compareTree = super.buildTree(original, compare);
 
         //Set data headers on root node.
@@ -60,7 +62,7 @@ public class CORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
     }
 
     @Override
-    public List<String> getListItems(PropositionDefinitionContract propositionEditor) {
+    public List<String> getListItems(PropositionEditor propositionEditor) {
         if (propositionEditor instanceof EnrolPropositionEditor) {
             EnrolPropositionEditor enrolProp = (EnrolPropositionEditor) propositionEditor;
             List<String> listItems = new ArrayList<String>();

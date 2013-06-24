@@ -193,7 +193,7 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     public RulePreviewTreeBuilder getPreviewTreeBuilder() {
         if (previewTreeBuilder == null) {
             previewTreeBuilder = new EnrolRulePreviewTreeBuilder();
-            previewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+            previewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return previewTreeBuilder;
     }
@@ -201,7 +201,7 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (viewTreeBuilder == null) {
             viewTreeBuilder = new EnrolRuleViewTreeBuilder();
-            viewTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+            viewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return viewTreeBuilder;
     }
@@ -209,7 +209,7 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     protected RuleCompareTreeBuilder getCompareTreeBuilder() {
         if (compareTreeBuilder == null) {
             compareTreeBuilder = new CORuleCompareTreeBuilder();
-            compareTreeBuilder.setRuleManagementService(this.getRuleManagementService());
+            compareTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return compareTreeBuilder;
     }

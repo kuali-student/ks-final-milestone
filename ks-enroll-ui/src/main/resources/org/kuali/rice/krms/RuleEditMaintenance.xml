@@ -393,13 +393,13 @@ limitations under the License.
                 <entry key="#{ T(org.kuali.rice.krms.tree.node.RuleEditorTreeNode) }">
                     <bean parent="KRMS-RuleTreeNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode) }">
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.SimplePropositionNode) }">
                     <bean parent="KRMS-SimplePropositionNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode) }">
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.SimplePropositionEditNode) }">
                     <bean parent="KRMS-SimplePropositionEditNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.KSCompoundOpCodeNode) }">
+                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.CompoundOpCodeNode) }">
                     <bean parent="KRMS-CompoundOpCodeNodePrototype"/>
                 </entry>
             </map>

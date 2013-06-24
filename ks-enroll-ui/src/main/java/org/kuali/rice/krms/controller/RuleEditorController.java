@@ -32,9 +32,8 @@ import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.util.AgendaUtilities;
-import org.kuali.rice.krms.util.AlphaIterator;
-import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionEditNode;
-import org.kuali.student.enrollment.class1.krms.tree.node.KSSimplePropositionNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.SimplePropositionEditNode;
+import org.kuali.student.enrollment.class1.krms.tree.node.SimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
@@ -343,12 +342,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
                     // move the existing simple proposition as the first compound component,
                     // then add a new blank simple prop as the second compound component.
                     PropositionEditor blank = null;
-                    if (parent.equals(root) &&
-                            (isSimpleNode(child.getNodeType()))) {
+                    if (parent.equals(root) && (isSimpleNode(child.getNodeType()))) {
 
                         // create a new compound proposition
                         blank = viewHelper.createCompoundPropositionBoStub(child.getData().getProposition(), true);
-                        blank.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
                         // don't set compound.setEditMode(true) as the Simple Prop in the compound prop is the only prop in edit mode
                         ruleEditor.setProposition(blank);
                     }
@@ -524,8 +521,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
      * @return if node is of type simple; <code>false</code> otherwise
      */
     public boolean isSimpleNode(String nodeType) {
-        if (nodeType.contains(KSSimplePropositionNode.NODE_TYPE) ||
-                KSSimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(nodeType)) {
+        if (nodeType.contains(SimplePropositionNode.NODE_TYPE) ||
+                SimplePropositionEditNode.NODE_TYPE.equalsIgnoreCase(nodeType)) {
             return true;
         }
         return false;
@@ -576,9 +573,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
                     this.getViewHelper(form).refreshInitTrees(ruleEditor);
                 }
             }
-            // TODO: do we allow moving up to the root?
-            // we could add a new top level compound node, with current root as 1st child,
-            // and move the node to the second child.
 
         }
         //Compare rule with parent rule.
@@ -665,13 +659,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
             if (parent != null) {
 
                 int index = findChildIndex(parent, selectedPropKey);
-
                 PropositionEditor propBo = parent.getChildren().get(index).getData().getProposition();
 
                 // create a new compound proposition
                 PropositionEditor compound = viewHelper.createCompoundPropositionBoStub(propBo, true);
-                compound.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
-                compound.setEditMode(false);
 
                 if (parent.getData() == null) { // SPECIAL CASE: this is the only proposition in the tree
                     ruleEditor.setProposition(compound);
@@ -785,8 +776,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
             viewHelper.refreshInitTrees(ruleEditor);
         } else if (StringUtils.isNotBlank(movePropKey) && !cutAction && ruleEditor.getProposition().getPropositionTypeCode().equals("S")) {
             PropositionEditor newParent = viewHelper.createCompoundPropositionBoStub(ruleEditor.getPropositionEditor(), false);
-            newParent.setDescription(KRMSConstants.PROP_COMP_DEFAULT_DESCR);
-            newParent.setEditMode(false);
             PropositionEditor workingProp = viewHelper.copyProposition(ruleEditor.getPropositionEditor());
 
             // add to new and refresh the tree
@@ -815,13 +804,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
         Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
         PropositionEditor newParent;
         if (parentNode.equals(root)) {
-            // special case
-            // build new top level compound proposition,
-            // add existing as first child
-            // then paste cut node as 2nd child
+            // special case build new top level compound proposition,
+            // add existing as first child then paste cut node as 2nd child
             newParent = viewHelper.createCompoundPropositionBoStub(
                     root.getChildren().get(0).getData().getProposition(), false);
-            newParent.setEditMode(true);
             ruleEditor.setProposition(newParent);
         } else {
             newParent = parentNode.getData().getProposition();
@@ -872,11 +858,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         // what if it is the root?
         if(parentNode.getNodeType().contains("treeRoot") && parentNode.getChildren().size() == 1) {
             parentNode.getChildren().clear();
-            ruleEditor.getEditTree().setRootElement(null);
-            ruleEditor.setPropId(null);
-            ruleEditor.setProposition(null);
-            ruleEditor.setAlpha(new AlphaIterator());
-            ruleEditor.setSelectedKey(StringUtils.EMPTY);
+            ruleEditor.reset();
         } else if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
             PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null) {
@@ -895,11 +877,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
         } else { // no parent, it is the root
             parentNode.getChildren().clear();
-            ruleEditor.getEditTree().setRootElement(null);
-            ruleEditor.setPropId(null);
-            ruleEditor.setProposition(null);
-            ruleEditor.setAlpha(new AlphaIterator());
-            ruleEditor.setSelectedKey(StringUtils.EMPTY);
+            ruleEditor.reset();
         }
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
@@ -1124,9 +1102,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         //If first proposition and not yet updated, clear rule proposition
         if(proposition.getPropositionTypeCode().equals("S") && proposition.getCompoundEditors() == null && proposition.getTerm().getParameters() == null) {
-            ruleEditor.setProposition(null);
-            ruleEditor.setSelectedKey(StringUtils.EMPTY);
-            ruleEditor.setAlpha(new AlphaIterator());
+            ruleEditor.reset();
             form.getView().setOnDocumentReadyScript("loadControlsInit();");
         } else {
             //Reset the editing tree.
