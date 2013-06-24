@@ -744,6 +744,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
                             workingProp = oldParent.getCompoundEditors().remove(index);
                             if (oldParent.getCompoundEditors().size() == 1) {
                                 int i = ruleEditor.getPropositionEditor().getCompoundEditors().indexOf(oldParent);
+                                if(i == -1) {
+                                    i = 0;
+                                }
                                 ruleEditor.getPropositionEditor().getCompoundEditors().set(i, oldParent.getCompoundEditors().get(0));
                             }
                         } else {
@@ -757,7 +760,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             // add to new and refresh the tree
             addProposition(selectedPropKey, newParent, workingProp);
             viewHelper.refreshInitTrees(ruleEditor);
-        } else if (StringUtils.isNotBlank(movePropKey) && !cutAction && ruleEditor.getPropositionEditor().getCompoundEditors() != null) {
+        } else if (StringUtils.isNotBlank(movePropKey) && !cutAction && !ruleEditor.getPropositionEditor().getCompoundEditors().isEmpty()) {
             Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
             PropositionEditor newParent = getNewParent(viewHelper, ruleEditor, selectedPropKey, root);
             PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(root, movePropKey).getData().getProposition();
@@ -778,7 +781,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             // add to new and refresh the tree
             addProposition(selectedPropKey, newParent, workingProp);
             viewHelper.refreshInitTrees(ruleEditor);
-        } else if (StringUtils.isNotBlank(movePropKey) && !cutAction && ruleEditor.getProposition().getPropositionTypeCode().equals("S")) {
+        } else if (StringUtils.isNotBlank(movePropKey) && !cutAction) {
             PropositionEditor newParent = viewHelper.createCompoundPropositionBoStub(ruleEditor.getPropositionEditor(), false);
             PropositionEditor workingProp = viewHelper.copyProposition(ruleEditor.getPropositionEditor());
 
