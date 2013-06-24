@@ -225,8 +225,17 @@ public class WaitListServiceMapImpl implements MockService, WaitListService
 		this.waitListMap .put(waitListInfo.getId(), copy);
 		return new WaitListInfo(copy);
 	}
-	
-	@Override
+
+    @Override
+    public StatusInfo changeWaitListState(String waitListId, String stateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        WaitListInfo waitList = getWaitList(waitListId, contextInfo);
+        waitList.setStateKey(stateKey);
+        waitList.setMeta(updateMeta(waitList.getMeta(), contextInfo));
+        this.waitListMap.put(waitListId, waitList);
+        return new StatusInfo();
+    }
+
+    @Override
 	public StatusInfo deleteWaitList(String waitListId, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException
@@ -453,8 +462,17 @@ public class WaitListServiceMapImpl implements MockService, WaitListService
 		this.waitListEntryMap .put(waitListEntryInfo.getId(), copy);
 		return new WaitListEntryInfo(copy);
 	}
-	
-	@Override
+
+    @Override
+    public StatusInfo changeWaitListEntryState(String waitListEntryId, String stateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        WaitListEntryInfo waitListEntry = getWaitListEntry(waitListEntryId, contextInfo);
+        waitListEntry.setStateKey(stateKey);
+        waitListEntry.setMeta(updateMeta(waitListEntry.getMeta(), contextInfo));
+        this.waitListEntryMap.put(waitListEntryId, waitListEntry);
+        return new StatusInfo();
+    }
+
+    @Override
 	public StatusInfo deleteWaitListEntry(String waitListEntryId, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException

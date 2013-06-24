@@ -528,6 +528,11 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 	public abstract void test_validateWaitList() 
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 	
+	/* Method Name: changeWaitListState */
+	@Test
+	public abstract void test_changeWaitListState()
+	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+
 	/* Method Name: getWaitListEntriesByStudent */
 	@Test
 	public abstract void test_getWaitListEntriesByStudent() 
@@ -558,6 +563,11 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 	public abstract void test_validateWaitListEntry() 
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 	
+	/* Method Name: changeWaitListEntryState */
+	@Test
+	public abstract void test_changeWaitListEntryState()
+	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+
 	/* Method Name: reorderWaitListEntries */
 	@Test
 	public abstract void test_reorderWaitListEntries() 

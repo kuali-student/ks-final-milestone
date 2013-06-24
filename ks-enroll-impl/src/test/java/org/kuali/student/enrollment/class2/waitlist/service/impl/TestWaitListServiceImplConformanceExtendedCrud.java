@@ -136,7 +136,6 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	*/
 	public void testCrudWaitList_setDTOFieldsForTestUpdate(WaitListInfo expected) 
 	{
-		expected.setStateKey("stateKey_Updated");
         List<String> offerings = new ArrayList<String>();
         offerings.add("2");
         offerings.add("3");
@@ -195,7 +194,6 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	*/
 	public void testCrudWaitList_setDTOFieldsForTestReadAfterUpdate(WaitListInfo expected) 
 	{
-        expected.setStateKey("stateKey2_Updated");
         List<String> offerings = new ArrayList<String>();
         offerings.add("4");
         offerings.add("AOEU");
@@ -277,7 +275,6 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	*/
 	public void testCrudWaitListEntry_setDTOFieldsForTestUpdate(WaitListEntryInfo expected) 
 	{
-		expected.setStateKey("stateKey_Updated");
         try {
             expected.setEffectiveDate(dateFormat.parse("20120219"));
             expected.setExpirationDate(dateFormat.parse("21000515"));
@@ -324,7 +321,6 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	*/
 	public void testCrudWaitListEntry_setDTOFieldsForTestReadAfterUpdate(WaitListEntryInfo expected) 
 	{
-        expected.setStateKey("stateKey2_Updated");
         try {
             expected.setEffectiveDate(dateFormat.parse("20130219"));
             expected.setExpirationDate(dateFormat.parse("21000414"));
@@ -389,6 +385,22 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
 	}
 	
+	/* Method Name: changeWaitListState */
+	@Test
+	public void test_changeWaitListState()
+	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+        loadData();
+        List<WaitListInfo> waitLists = testService.getWaitListsByOffering("offeringId0", contextInfo);
+        assertEquals(10, waitLists.size());
+
+        for(WaitListInfo waitList : waitLists) {
+            String newState = waitList.getStateKey() + "_UPDATED";
+            testService.changeWaitListState(waitList.getId(), newState, contextInfo);
+            WaitListInfo updatedWaitList = testService.getWaitList(waitList.getId(), contextInfo);
+            assertEquals(newState, updatedWaitList.getStateKey());
+        }
+    }
+
 	/* Method Name: getWaitListEntriesByStudent */
 	@Test
 	public void test_getWaitListEntriesByStudent() 
@@ -460,6 +472,22 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
 	}
 	
+	/* Method Name: changeWaitListEntryState */
+	@Test
+	public void test_changeWaitListEntryState()
+	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+        loadData();
+        List<WaitListEntryInfo> entries = testService.getWaitListEntriesByStudent("studentId0", contextInfo);
+        assertEquals(10, entries.size());
+
+        for(WaitListEntryInfo entry : entries) {
+            String newState = entry.getStateKey() + "_UPDATED";
+            testService.changeWaitListEntryState(entry.getId(), newState, contextInfo);
+            WaitListEntryInfo updatedEntry = testService.getWaitListEntry(entry.getId(), contextInfo);
+            assertEquals(newState, updatedEntry.getStateKey());
+        }
+	}
+
 	/* Method Name: reorderWaitListEntries */
 	@Test
 	public void test_reorderWaitListEntries() 
