@@ -44,10 +44,9 @@
 	</mapping>
 
 	<!-- ks-common-api: org.kuali.student.r*.common.messages.dto mappings -->
-	<mapping>
+	<!-- <mapping>
 		<class-a>org.kuali.student.r1.common.messages.dto.Message</class-a>
-		<class-b>org.kuali.student.r2.common.messages.dto.MessageInfo
-		</class-b>
+		<class-b>org.kuali.student.r2.common.messages.dto.MessageInfo</class-b>
 		<field>
 			<a>id</a>
 			<b>key</b>
@@ -57,6 +56,6 @@
 			<a>locale</a>
 			<b>locale</b>
 		</field>
-	</mapping>
+	</mapping> -->
 
 </mappings>
