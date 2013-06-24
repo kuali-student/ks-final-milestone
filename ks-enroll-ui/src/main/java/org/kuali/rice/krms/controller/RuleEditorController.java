@@ -569,7 +569,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
                     } else if(parent.getChildren().size() == 3) {
                         GlobalVariables.getMessageMap().putWarning("editWithObjectTree", "warning.krms.tree.compound.single.simple", parent.getData().getProposition().getKey());
                     }
-                    granny.getData().getProposition().getCompoundEditors().add((newIndex / 2) + 1, prop);
+                    if(granny.getData().getProposition().getCompoundEditors().isEmpty()) {
+                        granny.getData().getProposition().getCompoundEditors().add(newIndex, prop);
+                    } else {
+                        granny.getData().getProposition().getCompoundEditors().add((newIndex / 2) + 1, prop);
+                    }
                     this.getViewHelper(form).refreshInitTrees(ruleEditor);
                 }
             }
