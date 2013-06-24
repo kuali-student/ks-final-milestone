@@ -403,6 +403,8 @@ function openPlanItemPopUp(xid, getId, retrieveOptions, e, selector, popupOption
 
     fnCloseAllPopups();
 
+    popupBox.addClass("uif-tooltip");
+    initBubblePopups();
     popupBox.SetBubblePopupOptions(popupSettings, true);
     popupBox.SetBubblePopupInnerHtml(popupSettings.innerHTML, true);
     popupBox.ShowBubblePopup();
