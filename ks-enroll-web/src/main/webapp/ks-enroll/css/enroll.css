@@ -702,6 +702,124 @@ a {
 
 
 
+/************************************** UNIFIED PAGE HEADER **********************/
+/* Attributes of the right side */
+.ks-unified-header {
+    padding: 15px 0px 20px 15px;
+}
+
+/* Attributes of the left side */
+.ks-unified-header-rightGroup-container {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    padding-top: 25px;
+    float: right;
+}
+
+/* Attributes of the Action area */
+.ks-unified-header-rightGroup-action {
+    list-style: none;
+    float: right;
+}
+
+/* Setting the Action Links colour */
+.ks-unified-header-rightGroup-action a {
+    color: #0088cc;
+    padding-right: 7px;
+}
+
+/* Setting the Action Link icons' opacity */
+.ks-unified-header-rightGroup-action a i {
+    opacity: .5;
+    padding-right: .3em;
+}
+
+/* Setting the Action Link icons' opacity on hover */
+.ks-unified-header-rightGroup-action a:hover i {
+    opacity: 1;
+}
+
+/* Attributes of the left side Meta + lozenge area */
+.ks-unified-header-rightGroup-container :not(:last-child){
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+/* Meta + lozenge area */
+.ks-unified-header-rightGroup-status {
+    padding-right: 6px;
+    float: right;
+}
+
+/* Meta Data Info */
+.ks-unified-header-rightGroup-status :not(:last-child){
+    padding-top: 2px;
+    font-style: italic;
+    font-size: 13px;
+    color: black;
+}
+
+/* Setting a drop shadow on the entire header */
+.uif-viewHeader-contentWrapper {
+    padding-bottom: 1px;
+    -webkit-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
+}
+/************************************** END UNIFIED PAGE HEADER **********************/
+
+
+
+
+/************************************** STICKY FOOTER **********************/
+.uif-stickyButtonFooter {
+    background-color: white;
+    border: 0px solid gray;
+    box-shadow: 0px -5px 6px -6px rgba(0, 0, 0, 0.5);
+}
+/************************************** END STICKY FOOTER **********************/
+
+
+
+
+/************************************** BOOTSTRAP OVERRIDES **********************/
+/* Overriding the 14px font size */
+body {
+    font-size: 13px;
+}
+
+/* Overriding from bottom as this was affecting headers items - Student text & user image */
+img {
+    vertical-align: middle;
+}
+
+/* Overriding from block as required fields were dropping to another line */
+label:not(.uif-labelBlock) {
+    display: inline-block;
+}
+
+/* Overriding from margin-left 20px as this was indenting titles */
+[class*="span"] {
+    margin-left: 0px;
+    float: none;
+}
+
+button {
+    line-height: normal;
+}
+
+/* Overriding the fixed widths applied to drop down menus & input text fields as this was causing tables to extend beyond the width of the screen */
+input,
+textarea,
+.uneditable-input, select {
+    width: auto;
+}
+/************************************** END BOOTSTRAP OVERRIDES **********************/
+
+
+
+
 /************************************** ROLLOVER **************************************
    GridSubsection with Status/Refresh link on Rollover Details
    Go to Rollover > 201208 > 201308
@@ -790,43 +908,6 @@ a {
 
 
 
-/************************************** BOOTSTRAP OVERRIDES **********************/
-/* Overriding the 14px font size */
-body {
-    font-size: 13px;
-}
-
-/* Overriding from bottom as this was affecting headers items - Student text & user image */
-img {
-    vertical-align: middle;
-}
-
-/* Overriding from block as required fields were dropping to another line */
-label:not(.uif-labelBlock) {
-    display: inline-block;
-}
-
-/* Overriding from margin-left 20px as this was indenting titles */
-[class*="span"] {
-    margin-left: 0px;
-    float: none;
-}
-
-button {
-    line-height: normal;
-}
-
-/* Overriding the fixed widths applied to drop down menus & input text fields as this was causing tables to extend beyond the width of the screen */
-input,
-textarea,
-.uneditable-input, select {
-    width: auto;
-}
-/************************************** END BOOTSTRAP OVERRIDES **********************/
-
-
-
-
 /*
    Edit Academic Calendar > Terms tab
    Masks the term code input control as a simple data field.
@@ -858,72 +939,6 @@ div#Uif-ApplicationHeader-Wrapper{
 
 
 
-/************************************** UNIFIED PAGE HEADER **********************/
-/* Attributes of the right side */
-.ks-unified-header {
-    padding: 15px 0px 20px 15px;
-}
-
-/* Attributes of the left side */
-.ks-unified-header-rightGroup-container {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    line-height: 20px;
-    padding-top: 25px;
-    float: right;
-}
-
-/* Attributes of the Action area */
-.ks-unified-header-rightGroup-action {
-    list-style: none;
-    float: right;
-}
-
-/* Setting the Action Links colour */
-.ks-unified-header-rightGroup-action a {
-    color: #0088cc;
-    padding-right: 7px;
-}
-
-/* Setting the Action Link icons' opacity */
-.ks-unified-header-rightGroup-action a i {
-    opacity: .5;
-    padding-right: .3em;
-}
-
-/* Setting the Action Link icons' opacity on hover */
-.ks-unified-header-rightGroup-action a:hover i {
-    opacity: 1;
-}
-
-/* Attributes of the left side Meta + lozenge area */
-.ks-unified-header-rightGroup-container :not(:last-child){
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-}
-
-/* Meta + lozenge area */
-.ks-unified-header-rightGroup-status {
-    padding-right: 6px;
-    float: right;
-}
-
-/* Meta Data Info */
-.ks-unified-header-rightGroup-status :not(:last-child){
-    padding-top: 2px;
-    font-style: italic;
-    font-size: 13px;
-    color: black;
-}
-
-/* Setting a drop shadow on the entire header */
-.uif-viewHeader-contentWrapper {
-    padding-bottom: 1px;
-    -webkit-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
-    box-shadow: 0px 6px 6px -5px rgba(0, 0, 0, 0.5);
-}
-/************************************** END UNIFIED PAGE HEADER **********************/
 /*define a gray box as background*/
 .ks-gray-background {
     background-color: #ebebeb;
