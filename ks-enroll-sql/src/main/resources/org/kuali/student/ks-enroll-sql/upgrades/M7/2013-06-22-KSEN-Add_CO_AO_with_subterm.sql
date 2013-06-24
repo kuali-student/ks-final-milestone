@@ -139,3 +139,246 @@ insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, 
 /
 insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('558115d3-15cc-45e6-a716-b93172ead3ee', 0, 'admin', TIMESTAMP '2013-06-21 11:15:54.266', 'admin', TIMESTAMP '2013-06-21 11:15:54.266', TIMESTAMP '2013-06-21 11:16:05.446', '', 'CHEM105-RG-AO', 'ea3ac9da-38aa-41f0-8d13-6cccfa6bae75', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia.rg2ao', 'rg-ao-relation', 'CHEM105-RG-AO', 'a03df821-38bc-4fc4-b34a-77a92405b87f', '6c9e32eb-1337-4e5a-9b2e-53040bf5b17a')
 /
+
+
+-- ENGL627 / 201208 (from catalog)
+
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('02e05493-3a5f-4ed1-802c-ec158760ff1b', 0, 'admin', TIMESTAMP '2013-06-24 09:04:47.864', 'admin', TIMESTAMP '2013-06-24 09:04:47.864', 'kuali.atp.2012Fall', 'bde29519-2459-46f4-ab48-dec00047aec1', TIMESTAMP '2012-08-28 20:00:00.0', '', '', 'kuali.lui.course.offering.state.offered', 'kuali.lui.type.course.offering', '', '', 'ENGL627 CO', '.', '', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('56f3a12c-3f0d-476b-adfc-3322bef77b57', 'kuali.attribute.wait.list.indicator', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'null', '97b2a034-c6ea-499f-adfa-124d718865c0')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('29a12e22-2686-4dfb-b923-391601f038d4', 'kuali.attribute.final.exam.indicator', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'STANDARD', 'a20157b5-97f5-4d37-bfb4-45c1693e792d')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('29855edb-1718-451e-ab49-60c5f3d61e6f', 'kuali.attribute.where.fees.attached.flag', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'null', '03c0794d-9aa1-4213-88cf-32c3f5b6d2c5')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('8ad51a9f-c1ec-4d83-8618-13d97c968c9e', 'kuali.attribute.course.number.internal.suffix', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'A', '8be1bcbc-3950-4e81-8543-c3d8419cd560')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('4a37999b-fd48-4179-8ada-031620b687f2', 'kuali.attribute.wait.list.level.type.key', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'null', 'cd215f0f-a813-4648-9589-6d8f11e8ac21')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('919eb61a-a4a1-466f-b931-621631758461', 'kuali.attribute.course.evaluation.indicator', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'null', 'ef77e653-64d3-4f3b-ab50-eb2412f628e4')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('e07be991-8e22-4766-85b3-8694254ce207', 'kuali.attribute.funding.source', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', '', '35361f48-8b6b-4893-a7bb-4248db026508')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('dbdbfbb3-1629-4e78-afe7-114c924f933d', 'kuali.attribute.wait.list.type.key', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'null', 'b38260bc-55cb-4b49-a0b6-16bd1e814e7c')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('976f29cd-86f3-4755-b8b2-d19da1e93d9f', 0, 'admin', TIMESTAMP '2013-06-24 09:04:47.864', 'admin', TIMESTAMP '2013-06-24 09:04:47.864', 'ENGL627', 'ENGL', '', 'Readings in American Literature, 1865-1914', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', '2b751208-213f-4d72-93db-aa29c7c8a350')
+/
+insert into KSEN_LUI_LU_CD (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, LUI_ID, DESCR_PLAIN, LUI_LUCD_TYPE, VALUE, ID) values ('f48de214-dfea-4423-b907-546946cfcb6d', 0, 'admin', TIMESTAMP '2013-06-24 09:04:47.864', 'admin', TIMESTAMP '2013-06-24 09:04:47.864', '', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', '', 'kuali.lu.code.honorsOffering', '', 'f06e0768-85e7-4b2e-b0f9-739cd1694181')
+/
+insert into KSEN_LUI_UNITS_DEPLOYMENT (LUI_ID, ORG_ID, ID) values ('7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', '2677933260', '94f44993-0e62-43ad-8bcd-f77c85cbfb0c')
+/
+insert into KSEN_LUI_UNITS_CONT_OWNER (LUI_ID, ORG_ID) values ('7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', '2677933260')
+/
+insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'kuali.resultComponent.grade.letter')
+/
+insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'kuali.creditType.credit.degree.3.0')
+/
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('4ca5291c-04a3-4774-8b10-1b0f2c682a5b', 0, 'admin', TIMESTAMP '2013-06-24 09:04:48.588', 'admin', TIMESTAMP '2013-06-24 09:04:48.588', 'kuali.atp.2012Fall', 'b867e7b1-0fbf-48a4-b94d-3fae0a125754', '', '', 'Courses with Lecture Only', 'kuali.lui.format.offering.state.offered', 'kuali.lui.type.course.format.offering', '', '', 'Lecture Only', 'Courses with Lecture Only', '', 'e9edab99-212e-41a5-bcd3-eff308dccb3e')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('8c59a1d8-7042-48f6-b364-429ce0114a64', 'kuali.attribute.final.exam.level.type', 'e9edab99-212e-41a5-bcd3-eff308dccb3e', 'kuali.lu.type.activity.Lecture', 'e417580c-fb1c-454f-af7f-f1709a0052d8')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('2e73d2b1-b159-487b-83eb-fafb321d8132', 'kuali.attribute.grade.roster.level.type.key', 'e9edab99-212e-41a5-bcd3-eff308dccb3e', 'kuali.lu.type.activity.Lecture', 'c2a7363c-c050-40d0-abce-e5a4230415e1')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('17358a3c-aa51-4c36-a5df-021eaec85fe4', 'regCodePrefix', 'e9edab99-212e-41a5-bcd3-eff308dccb3e', '1', '689e2be6-76db-43cf-ba44-b700227ff56d')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('5d6673a3-16dd-459f-9e81-40490b1d3388', 0, 'admin', TIMESTAMP '2013-06-24 09:04:48.588', 'admin', TIMESTAMP '2013-06-24 09:04:48.588', '', '', '', 'Lecture Only', 'e9edab99-212e-41a5-bcd3-eff308dccb3e', '', 'LEC', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', '9e739ef7-6985-4426-9959-6db6638b1e72')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('18dc9e10-17ef-4fff-9f52-946db3e46efd', 0, 'admin', TIMESTAMP '2013-06-24 09:04:48.588', 'admin', TIMESTAMP '2013-06-24 09:04:48.588', TIMESTAMP '2013-06-24 09:04:48.718', '', 'ENGL627-CO-FO', '7c87fa22-fbdf-45f7-9b7b-c6a684fc1b73', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia.co2fo', 'co-fo-relation', 'ENGL627-CO-FO', 'e9edab99-212e-41a5-bcd3-eff308dccb3e', '9ec1201a-caf4-44eb-b619-12c406378805')
+/
+insert into KSEN_LUI_RELATED_LUI_TYPES (LUI_ID, RELATED_LUI_TYPE) values ('e9edab99-212e-41a5-bcd3-eff308dccb3e', 'kuali.lui.type.activity.offering.lecture')
+/
+
+-- Adding AO
+
+insert into KSEN_CO_AO_CLUSTER (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, AO_CLUSTER_STATE, AO_CLUSTER_TYPE, DESCR_FORMATTED, DESCR_PLAIN, FORMAT_OFFERING_ID, NAME, PRIVATE_NAME, ID) values ('ff9345fc-d9d5-4400-829e-dd34ba86f688', 0, 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'kuali.activity.offering.cluster.state.active', 'kuali.activity.offering.cluster.type.activity.offering.cluster', '', '', 'e9edab99-212e-41a5-bcd3-eff308dccb3e', 'CL 1', 'CL 1', '0c66969d-bf68-4e19-a91e-1d7894a53f45')
+/
+insert into KSEN_CO_AO_CLUSTER_SET (OBJ_ID, ACTIVITY_OFFERING_TYPE, AO_CLUSTER_ID, ID) values ('d21fa78d-c567-4b4c-889b-6683afc3b09f', 'kuali.lui.type.activity.offering.lecture', '0c66969d-bf68-4e19-a91e-1d7894a53f45', 'a6146a5f-c7cf-4e6e-9df6-3dd18f8ad332')
+/
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('561f8f22-5529-4b0e-ae43-234ca403e827', 0, 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'kuali.atp.2012HalfFall1', '5f98f34b-6839-4c27-9083-78f7eb85d9c0', '', '', '', 'kuali.lui.activity.offering.state.offered', 'kuali.lui.type.activity.offering.lecture', '', '', 'ENGL627 AO', '', '', 'cc5e8eed-9c2d-460a-9c3f-477e529e3da7')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('f802c36e-8241-4ca9-880d-abb5123fce7d', 'kuali.attribute.max.enrollment.is.estimate', 'cc5e8eed-9c2d-460a-9c3f-477e529e3da7', 'null', '1b820dee-e36c-4faa-9f82-01c55f823450')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('8f3dad8c-876b-45e6-974b-de81afec66da', 'kuali.attribute.course.evaluation.indicator', 'cc5e8eed-9c2d-460a-9c3f-477e529e3da7', 'null', '3eb1dda6-9dd8-4708-9cab-81520fc8e68e')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('28d8464e-11b6-42b8-a639-12cfa02bdf2c', 0, 'admin', TIMESTAMP '2013-06-24 09:09:26.371', 'admin', TIMESTAMP '2013-06-24 09:09:26.371', 'A', '', '', '', 'cc5e8eed-9c2d-460a-9c3f-477e529e3da7', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'fb562dc6-62e0-4f45-a8af-3f283ac3512a')
+/
+insert into KSEN_LUI_LU_CD (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, LUI_ID, DESCR_PLAIN, LUI_LUCD_TYPE, VALUE, ID) values ('c32da2c9-734e-4f88-b8bd-1f58c2634f10', 0, 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'admin', TIMESTAMP '2013-06-24 09:07:37.679', '', 'cc5e8eed-9c2d-460a-9c3f-477e529e3da7', '', 'kuali.lu.code.honorsOffering', 'null', '4fc720d1-746e-4619-a801-40dd7d44f86b')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('116a29bc-5363-41f3-89f7-63b87b5e1936', 0, 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'admin', TIMESTAMP '2013-06-24 09:07:37.679', TIMESTAMP '2013-06-24 09:07:39.018', '', 'ENGL627-FO-AO', 'e9edab99-212e-41a5-bcd3-eff308dccb3e', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia.fo2ao', 'fo-ao-relation', 'ENGL627-FO-AO', 'cc5e8eed-9c2d-460a-9c3f-477e529e3da7', '1f5905b5-ffeb-4511-8045-8f996bf1ad5d')
+/
+insert into KSEN_CO_AO_CLUSTER_SET_AO (AOC_SET_ID, ACTIVITY_OFFERING_ID) values ('a6146a5f-c7cf-4e6e-9df6-3dd18f8ad332', 'cc5e8eed-9c2d-460a-9c3f-477e529e3da7')
+/
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('c6d7073a-8d22-4138-aaef-8b6d5de05cc3', 0, 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'kuali.atp.2012Fall', 'b867e7b1-0fbf-48a4-b94d-3fae0a125754', '', '', '1001', 'kuali.lui.registration.group.state.pending', 'kuali.lui.type.registration.group', '', '', '1001', '1001', '', 'b4929b59-32af-40f8-aa69-e2178f2133a0')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('c3519207-a0c5-4b85-a354-e2aaec141ea5', 'kuali.attribute.registration.group.is.generated', 'b4929b59-32af-40f8-aa69-e2178f2133a0', '1', 'f9cdffe2-b2fa-499b-b3ac-fffc1f125a3a')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('daec3e75-c55d-4fae-a1b6-6dd50dd20aa0', 'kuali.attribute.registration.group.aocluster.id', 'b4929b59-32af-40f8-aa69-e2178f2133a0', '0c66969d-bf68-4e19-a91e-1d7894a53f45', 'fa0baa5a-256b-44b3-a13d-dad3926edd68')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('7a9ac387-4ab7-4ee7-95e6-9f107d43ebf3', 0, 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'admin', TIMESTAMP '2013-06-24 09:07:37.679', '', '', '', '', 'b4929b59-32af-40f8-aa69-e2178f2133a0', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'dba726c5-0d61-4664-95b7-8d3eb21bc387')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('daacd3d5-5153-412d-af73-49512da9822f', 0, 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'admin', TIMESTAMP '2013-06-24 09:07:37.679', TIMESTAMP '2013-06-24 09:07:40.14', '', 'ENGL627-FO-RG', 'e9edab99-212e-41a5-bcd3-eff308dccb3e', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia.fo2rg', 'fo-rg-relation', 'ENGL627-FO-RG', 'b4929b59-32af-40f8-aa69-e2178f2133a0', 'c20c2276-bad9-4ed2-9a29-fb557d8fa9fe')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('5b366aa4-c879-4fc8-ac34-179c0ead426b', 0, 'admin', TIMESTAMP '2013-06-24 09:07:37.679', 'admin', TIMESTAMP '2013-06-24 09:07:37.679', TIMESTAMP '2013-06-24 09:07:40.141', '', 'ENGL627-RG-AO', 'b4929b59-32af-40f8-aa69-e2178f2133a0', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia.rg2ao', 'rg-ao-relation', 'ENGL627-RG-AO', 'cc5e8eed-9c2d-460a-9c3f-477e529e3da7', 'e6a1d31a-6b85-4807-89b5-f8ccfb2bf648')
+/
+
+
+-- HIST605 / 201208 (from catalog)
+
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('42c88b07-f816-4be4-9188-72595f886bb1', 0, 'admin', TIMESTAMP '2013-06-24 13:12:53.3', 'admin', TIMESTAMP '2013-06-24 13:12:53.3', 'kuali.atp.2012Fall', 'ddd89101-4cc8-4c61-90a4-d4ec5645f8ef', TIMESTAMP '2012-08-28 20:00:00.0', '', 'Classic and recent interpretations in comparative history with emphasis on current directions of scholarship and research. Students previously enrolled in HIST 605 for l credit hour may enroll.', 'kuali.lui.course.offering.state.offered', 'kuali.lui.type.course.offering', '', '', 'HIST605 CO', 'Classic and recent interpretations in comparative history with emphasis on current directions of scholarship and research. Students previously enrolled in HIST 605 for l credit hour may enroll.', '', 'e014b75a-b837-4657-86e7-f7ad87c6531a')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('f95e7564-f198-45c2-bda3-bae4d75c8e5a', 'kuali.attribute.funding.source', 'e014b75a-b837-4657-86e7-f7ad87c6531a', '', 'e1e22f70-1481-4660-a6ef-48f653fa05a9')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('78344294-b3f9-41ca-a715-aed148a9cb94', 'kuali.attribute.where.fees.attached.flag', 'e014b75a-b837-4657-86e7-f7ad87c6531a', 'null', '2b02c615-9222-463e-8ccc-b10b6214b33a')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('81fd8bcf-e702-40ed-b70d-4a9b9e4df345', 'kuali.attribute.course.number.internal.suffix', 'e014b75a-b837-4657-86e7-f7ad87c6531a', 'A', 'e961da95-8c59-4089-bbb5-260a6273d367')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('bb6f9985-6efd-4153-b156-94609c8e00d2', 'kuali.attribute.wait.list.type.key', 'e014b75a-b837-4657-86e7-f7ad87c6531a', 'null', 'efc64597-2b2a-4db0-8516-76a5949bf776')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('aae490b4-83a0-41bb-a9bd-f5016d051420', 'kuali.attribute.wait.list.indicator', 'e014b75a-b837-4657-86e7-f7ad87c6531a', 'null', '4e14fd46-b2ec-46c9-b072-031aa0ecb7ef')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('a6a08f3f-1dd2-4f81-b887-12b3f94f3cbd', 'kuali.attribute.wait.list.level.type.key', 'e014b75a-b837-4657-86e7-f7ad87c6531a', 'null', 'f093d201-96a3-4efe-822b-452194732f06')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('438cd7b3-5857-42dd-bc80-4fa9916dad94', 'kuali.attribute.course.evaluation.indicator', 'e014b75a-b837-4657-86e7-f7ad87c6531a', 'null', '3b7e72df-71cb-410d-bc48-db2a17fec979')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('c5e57b20-c356-474b-af9e-dbd1fe226ee6', 'kuali.attribute.final.exam.indicator', 'e014b75a-b837-4657-86e7-f7ad87c6531a', 'STANDARD', '3a0d709a-82e1-4c8e-a823-b84a440e5201')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('9f41fe4d-c668-4d94-8d54-1680910e6339', 0, 'admin', TIMESTAMP '2013-06-24 13:12:53.3', 'admin', TIMESTAMP '2013-06-24 13:12:53.3', 'HIST605', 'HIST', '', 'General Seminar:  World History', 'e014b75a-b837-4657-86e7-f7ad87c6531a', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'c1044bfb-bf28-4357-a1b2-495e9ba2a9e9')
+/
+insert into KSEN_LUI_LU_CD (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, LUI_ID, DESCR_PLAIN, LUI_LUCD_TYPE, VALUE, ID) values ('d1937607-19bc-468d-934f-695d8aaf5586', 0, 'admin', TIMESTAMP '2013-06-24 13:12:53.3', 'admin', TIMESTAMP '2013-06-24 13:12:53.3', '', 'e014b75a-b837-4657-86e7-f7ad87c6531a', '', 'kuali.lu.code.honorsOffering', '', 'f40ab528-10e4-49b7-b976-e82e855adbd7')
+/
+insert into KSEN_LUI_UNITS_DEPLOYMENT (LUI_ID, ORG_ID, ID) values ('e014b75a-b837-4657-86e7-f7ad87c6531a', '3213375036', '8dad1350-6ecc-4805-ad6d-1733dd5e5893')
+/
+insert into KSEN_LUI_UNITS_CONT_OWNER (LUI_ID, ORG_ID) values ('e014b75a-b837-4657-86e7-f7ad87c6531a', '3213375036')
+/
+insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('e014b75a-b837-4657-86e7-f7ad87c6531a', 'kuali.resultComponent.grade.letter')
+/
+insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('e014b75a-b837-4657-86e7-f7ad87c6531a', 'kuali.creditType.credit.degree.3.0')
+/
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('183d60a1-fdc9-4848-9c5b-5713fa23b032', 0, 'admin', TIMESTAMP '2013-06-24 13:12:56.204', 'admin', TIMESTAMP '2013-06-24 13:12:56.204', 'kuali.atp.2012Fall', '08867ede-c389-4a85-9685-857d7495904a', '', '', 'Courses with Lecture Only', 'kuali.lui.format.offering.state.offered', 'kuali.lui.type.course.format.offering', '', '', 'Lecture Only', 'Courses with Lecture Only', '', '50fbe84c-325d-4978-8050-d0350f6a8f19')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('a6bc703f-cbb0-43d4-b2a8-4895da9ea15a', 'regCodePrefix', '50fbe84c-325d-4978-8050-d0350f6a8f19', '1', '9a321d17-2212-4dde-b5ca-7424f529e1d7')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('360ae889-1f6f-4146-a69a-1ee4a450c3b6', 'kuali.attribute.final.exam.level.type', '50fbe84c-325d-4978-8050-d0350f6a8f19', 'kuali.lu.type.activity.Lecture', '2869c34d-e850-4899-9cc1-65679c0af61d')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('acae6c74-44af-48e1-ba3b-eb1f0f26409d', 'kuali.attribute.grade.roster.level.type.key', '50fbe84c-325d-4978-8050-d0350f6a8f19', 'kuali.lu.type.activity.Lecture', '0abc6018-099a-41b7-b829-6de2ec0601dc')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('72100ae8-c808-4a13-86ae-c1f138a1a498', 0, 'admin', TIMESTAMP '2013-06-24 13:12:56.204', 'admin', TIMESTAMP '2013-06-24 13:12:56.204', '', '', '', 'Lecture Only', '50fbe84c-325d-4978-8050-d0350f6a8f19', '', 'LEC', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', '5432bbfa-4f5e-48ec-8c46-aba197937cf8')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('102c91ab-6933-4f2d-aaaf-9e32d7c67cd1', 0, 'admin', TIMESTAMP '2013-06-24 13:12:56.204', 'admin', TIMESTAMP '2013-06-24 13:12:56.204', TIMESTAMP '2013-06-24 13:12:56.377', '', 'HIST605-CO-FO', 'e014b75a-b837-4657-86e7-f7ad87c6531a', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia.co2fo', 'co-fo-relation', 'HIST605-CO-FO', '50fbe84c-325d-4978-8050-d0350f6a8f19', '9e3a93b4-b5f4-4ad7-ad93-9659866011ac')
+/
+insert into KSEN_LUI_RELATED_LUI_TYPES (LUI_ID, RELATED_LUI_TYPE) values ('50fbe84c-325d-4978-8050-d0350f6a8f19', 'kuali.lui.type.activity.offering.lecture')
+/
+
+-- Adding AO
+
+insert into KSEN_CO_AO_CLUSTER (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, AO_CLUSTER_STATE, AO_CLUSTER_TYPE, DESCR_FORMATTED, DESCR_PLAIN, FORMAT_OFFERING_ID, NAME, PRIVATE_NAME, ID) values ('4ec0830d-2573-43ec-a029-a981e4c650c4', 0, 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'kuali.activity.offering.cluster.state.active', 'kuali.activity.offering.cluster.type.activity.offering.cluster', '', '', '50fbe84c-325d-4978-8050-d0350f6a8f19', 'CL 1', 'CL 1', '002d3459-45ad-4f4c-824d-ddca583efb12')
+/
+insert into KSEN_CO_AO_CLUSTER_SET (OBJ_ID, ACTIVITY_OFFERING_TYPE, AO_CLUSTER_ID, ID) values ('0903f96f-559c-48f9-96c1-aca566591dcc', 'kuali.lui.type.activity.offering.lecture', '002d3459-45ad-4f4c-824d-ddca583efb12', 'fec124b5-8c1e-4df9-931e-95a3c6ec547c')
+/
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('1e499f1b-f807-42ff-91df-d82b90b01930', 0, 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'kuali.atp.2012HalfFall1', 'fd2a8a79-418f-44f2-8d75-9ea7e763c878', '', '', '', 'kuali.lui.activity.offering.state.offered', 'kuali.lui.type.activity.offering.lecture', '', '', 'HIST605 AO', '', '', '95ef4b80-f3d0-498f-b094-c643c5295106')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('7ad8dbda-2832-48f0-be3e-ee3a050d800f', 'kuali.attribute.max.enrollment.is.estimate', '95ef4b80-f3d0-498f-b094-c643c5295106', 'null', '05bfe44f-2cd0-46fa-941d-9a7f2d8b15e2')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('efb88246-6b3c-478b-8692-ed2bab89eeab', 'kuali.attribute.course.evaluation.indicator', '95ef4b80-f3d0-498f-b094-c643c5295106', 'null', '1aa3346a-6374-4de0-bde7-0d7395a1c30c')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('c1be3b54-1e16-4408-b1d2-e1b18c72da4c', 0, 'admin', TIMESTAMP '2013-06-24 13:14:34.13', 'admin', TIMESTAMP '2013-06-24 13:14:34.13', 'A', '', '', '', '95ef4b80-f3d0-498f-b094-c643c5295106', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'ef011958-5343-47d6-8983-d3b6415c1736')
+/
+insert into KSEN_LUI_LU_CD (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, LUI_ID, DESCR_PLAIN, LUI_LUCD_TYPE, VALUE, ID) values ('81a47a75-cabd-4486-a3ec-7bfe213711e0', 0, 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'admin', TIMESTAMP '2013-06-24 13:13:43.523', '', '95ef4b80-f3d0-498f-b094-c643c5295106', '', 'kuali.lu.code.honorsOffering', 'null', '854b67c9-ba9d-4474-aade-d3b0e3378987')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('e8d42122-c311-45ec-9ecc-b34067717ac0', 0, 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'admin', TIMESTAMP '2013-06-24 13:13:43.523', TIMESTAMP '2013-06-24 13:13:43.758', '', 'HIST605-FO-AO', '50fbe84c-325d-4978-8050-d0350f6a8f19', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia.fo2ao', 'fo-ao-relation', 'HIST605-FO-AO', '95ef4b80-f3d0-498f-b094-c643c5295106', '3461ab89-e710-460e-848a-beac9398349d')
+/
+insert into KSEN_CO_AO_CLUSTER_SET_AO (AOC_SET_ID, ACTIVITY_OFFERING_ID) values ('fec124b5-8c1e-4df9-931e-95a3c6ec547c', '95ef4b80-f3d0-498f-b094-c643c5295106')
+/
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('709ef703-ee8e-4ff6-92da-465e390dac9f', 0, 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'kuali.atp.2012Fall', '08867ede-c389-4a85-9685-857d7495904a', '', '', '1001', 'kuali.lui.registration.group.state.pending', 'kuali.lui.type.registration.group', '', '', '1001', '1001', '', '6fb15766-da1c-43a5-87a0-9e494d8cc914')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('201325b6-4322-4892-a48e-7b0f44250e30', 'kuali.attribute.registration.group.aocluster.id', '6fb15766-da1c-43a5-87a0-9e494d8cc914', '002d3459-45ad-4f4c-824d-ddca583efb12', '3567dd0d-27b0-4ef2-965c-11fdc02c7b56')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('8bcb8991-5d75-4936-a67a-4506f0c3cd29', 'kuali.attribute.registration.group.is.generated', '6fb15766-da1c-43a5-87a0-9e494d8cc914', '1', '8fac063d-5dd9-419f-977c-a1ca2e224da5')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('c0eeca76-223a-4493-bf23-bd829a7dfe6f', 0, 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'admin', TIMESTAMP '2013-06-24 13:13:43.523', '', '', '', '', '6fb15766-da1c-43a5-87a0-9e494d8cc914', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'dbf53ebb-c9c6-48de-bfd1-d0bce1056743')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('ab07d732-1a73-4b51-9b89-1c34e7be53fa', 0, 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'admin', TIMESTAMP '2013-06-24 13:13:43.523', TIMESTAMP '2013-06-24 13:13:44.527', '', 'HIST605-FO-RG', '50fbe84c-325d-4978-8050-d0350f6a8f19', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia.fo2rg', 'fo-rg-relation', 'HIST605-FO-RG', '6fb15766-da1c-43a5-87a0-9e494d8cc914', '2291dcf6-59eb-42f1-b8f3-a202cd690980')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('345be80c-6eb8-4c6e-b65d-e3f9e1f56ce9', 0, 'admin', TIMESTAMP '2013-06-24 13:13:43.523', 'admin', TIMESTAMP '2013-06-24 13:13:43.523', TIMESTAMP '2013-06-24 13:13:44.528', '', 'HIST605-RG-AO', '6fb15766-da1c-43a5-87a0-9e494d8cc914', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia.rg2ao', 'rg-ao-relation', 'HIST605-RG-AO', '95ef4b80-f3d0-498f-b094-c643c5295106', 'e139dd99-107d-4711-ac0e-3b857c4eb5fb')
+/
+
+
+-- HIST808 / 201208 (from catalog)
+
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('ba4e9187-5adf-4a8f-8f45-3926c9759392', 0, 'admin', TIMESTAMP '2013-06-24 14:34:34.893', 'admin', TIMESTAMP '2013-06-24 14:34:34.893', 'kuali.atp.2012Fall', 'd94decf7-0866-42da-badd-eebe2e8b9ad9', TIMESTAMP '2012-08-28 20:00:00.0', '', '', 'kuali.lui.course.offering.state.offered', 'kuali.lui.type.course.offering', '', '', 'HIST808 CO', '.', '', '9f7ae659-31d5-42b5-b871-fd47d378d0b7')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('dd88b71f-7051-47a5-94d0-6fcbaa9cd917', 'kuali.attribute.wait.list.type.key', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'null', '7a5f17be-8bef-45db-8eb3-5f6d9c0d5b34')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('856ebeb5-bfc4-44e3-848d-83af648305f6', 'kuali.attribute.wait.list.level.type.key', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'null', '0f5d4a1c-328d-4d93-b309-72b9f2b3d182')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('c20a20bb-50c3-41e3-9ef0-d27a2f5c00c0', 'kuali.attribute.course.number.internal.suffix', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'A', '61ed95ea-7770-4a93-9354-315f9a33e0df')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('b0822ed3-a13a-4581-ba59-383d94ae28ab', 'kuali.attribute.funding.source', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', '', '54b5a15d-7083-4a0d-b07a-c5d6d86be4c3')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('5169e18a-494a-4dff-bd57-b11188d59d4c', 'kuali.attribute.final.exam.indicator', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'STANDARD', '410df1a5-9d23-4e5b-8fb2-b97483a7bd1e')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('1d1f8162-b944-455c-830b-f12207f1c9a3', 'kuali.attribute.where.fees.attached.flag', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'null', 'da25470d-5c12-49f8-be22-a48ae1c0fb30')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('2cbe0953-9de3-43c9-8e08-acb345b7d67c', 'kuali.attribute.course.evaluation.indicator', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'null', '15e29469-f10a-4a38-81c4-51871f0bc812')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('2331c48b-65f5-4a1b-82b2-4eb790f696e5', 'kuali.attribute.wait.list.indicator', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'null', 'd2c3ba2f-cb8a-4e0f-a384-3eafd16766f9')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('f1304dee-0752-4453-a8a4-7ba22024b31a', 0, 'admin', TIMESTAMP '2013-06-24 14:34:34.893', 'admin', TIMESTAMP '2013-06-24 14:34:34.893', 'HIST808', 'HIST', '', 'Seminar in the History of Science and Technology', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'b5f69cc9-3185-484d-a5d4-b5d03ccf81a7')
+/
+insert into KSEN_LUI_LU_CD (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, LUI_ID, DESCR_PLAIN, LUI_LUCD_TYPE, VALUE, ID) values ('f0cfec12-1a07-4bb9-a145-5b2581f8d28b', 0, 'admin', TIMESTAMP '2013-06-24 14:34:34.893', 'admin', TIMESTAMP '2013-06-24 14:34:34.893', '', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', '', 'kuali.lu.code.honorsOffering', '', 'c9c07540-8559-44e2-bebd-883965433335')
+/
+insert into KSEN_LUI_UNITS_DEPLOYMENT (LUI_ID, ORG_ID, ID) values ('9f7ae659-31d5-42b5-b871-fd47d378d0b7', '3213375036', '46e363b2-208b-4ec5-869b-34a4f645acad')
+/
+insert into KSEN_LUI_UNITS_CONT_OWNER (LUI_ID, ORG_ID) values ('9f7ae659-31d5-42b5-b871-fd47d378d0b7', '3213375036')
+/
+insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'kuali.resultComponent.grade.letter')
+/
+insert into KSEN_LUI_RESULT_VAL_GRP (LUI_ID, RESULT_VAL_GRP_ID) values ('9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'kuali.creditType.credit.degree.3.0')
+/
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('bbdaa82d-3e8c-441e-a047-6bec3fed06ae', 0, 'admin', TIMESTAMP '2013-06-24 14:34:35.625', 'admin', TIMESTAMP '2013-06-24 14:34:35.625', 'kuali.atp.2012Fall', '391fccd5-0ab0-42aa-9e95-7a9e6363b830', '', '', 'Courses with Lecture Only', 'kuali.lui.format.offering.state.offered', 'kuali.lui.type.course.format.offering', '', '', 'Lecture Only', 'Courses with Lecture Only', '', '0d7f221e-0223-4cb3-a364-906ea516a9f4')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('a47fffd5-66e3-447e-84ed-13443cff4443', 'regCodePrefix', '0d7f221e-0223-4cb3-a364-906ea516a9f4', '1', 'b0185586-0ad3-4b1f-944c-a175788eee08')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('6d33cbad-f9d3-4e88-9800-674cea7584a2', 'kuali.attribute.final.exam.level.type', '0d7f221e-0223-4cb3-a364-906ea516a9f4', 'kuali.lu.type.activity.Lecture', '6109d8d0-c870-42a2-becb-f838b0305f32')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('59dec1bd-c4c0-4a65-95a4-26aed508722f', 'kuali.attribute.grade.roster.level.type.key', '0d7f221e-0223-4cb3-a364-906ea516a9f4', 'kuali.lu.type.activity.Lecture', '951acfe7-35db-44f7-8c5e-aeaff448c54a')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('b71215cb-f213-4520-b3d0-903c3f5046fb', 0, 'admin', TIMESTAMP '2013-06-24 14:34:35.625', 'admin', TIMESTAMP '2013-06-24 14:34:35.625', '', '', '', 'Lecture Only', '0d7f221e-0223-4cb3-a364-906ea516a9f4', '', 'LEC', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'a9221b3d-9cc8-4b74-aa76-884f7e7cf26b')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('fe06a8ba-ec7b-4a64-9c97-5492fea9c7f6', 0, 'admin', TIMESTAMP '2013-06-24 14:34:35.625', 'admin', TIMESTAMP '2013-06-24 14:34:35.625', TIMESTAMP '2013-06-24 14:34:35.738', '', 'HIST808-CO-FO', '9f7ae659-31d5-42b5-b871-fd47d378d0b7', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia.co2fo', 'co-fo-relation', 'HIST808-CO-FO', '0d7f221e-0223-4cb3-a364-906ea516a9f4', '7d94ddb5-4541-4b73-b44d-5b148aa22d00')
+/
+insert into KSEN_LUI_RELATED_LUI_TYPES (LUI_ID, RELATED_LUI_TYPE) values ('0d7f221e-0223-4cb3-a364-906ea516a9f4', 'kuali.lui.type.activity.offering.lecture')
+/
+
+-- Adding AO
+
+insert into KSEN_CO_AO_CLUSTER (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, AO_CLUSTER_STATE, AO_CLUSTER_TYPE, DESCR_FORMATTED, DESCR_PLAIN, FORMAT_OFFERING_ID, NAME, PRIVATE_NAME, ID) values ('d76e28cc-5a19-450b-8ad7-cfb8a9410dfe', 0, 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'kuali.activity.offering.cluster.state.active', 'kuali.activity.offering.cluster.type.activity.offering.cluster', '', '', '0d7f221e-0223-4cb3-a364-906ea516a9f4', 'CL 1', 'CL 1', '952bd0bb-0e61-449b-9c87-12a66d9f9d7d')
+/
+insert into KSEN_CO_AO_CLUSTER_SET (OBJ_ID, ACTIVITY_OFFERING_TYPE, AO_CLUSTER_ID, ID) values ('25ef608a-1132-470b-859b-55268a1167b5', 'kuali.lui.type.activity.offering.lecture', '952bd0bb-0e61-449b-9c87-12a66d9f9d7d', 'dde6f4ec-ece7-4eb0-890a-2cbbbc05c041')
+/
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('8dc92c5e-6117-433b-8173-93ef137f3e5f', 0, 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'kuali.atp.2012HalfFall2', '609a8232-1811-4533-bd6e-605644493dbf', '', '', '', 'kuali.lui.activity.offering.state.offered', 'kuali.lui.type.activity.offering.lecture', '', '', 'HIST808 AO', '', '', '2bddd4dd-c4fa-468a-906e-e671fdddf7de')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('e2edb393-b9b4-41d7-b57d-5b778200613e', 'kuali.attribute.course.evaluation.indicator', '2bddd4dd-c4fa-468a-906e-e671fdddf7de', 'null', '1aa52461-9eac-45fa-adb1-ffbc33c28ab2')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('40693a35-f745-4998-822f-460d2d06222b', 'kuali.attribute.max.enrollment.is.estimate', '2bddd4dd-c4fa-468a-906e-e671fdddf7de', 'null', '58165db2-b65a-440e-974f-5c09f9a4c84b')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('12d99bcb-32df-4533-bf5a-359fbb10e487', 0, 'admin', TIMESTAMP '2013-06-24 14:37:36.477', 'admin', TIMESTAMP '2013-06-24 14:37:36.477', 'A', '', '', '', '2bddd4dd-c4fa-468a-906e-e671fdddf7de', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', '595144af-4046-449b-b434-e578418944b2')
+/
+insert into KSEN_LUI_LU_CD (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, DESCR_FORMATTED, LUI_ID, DESCR_PLAIN, LUI_LUCD_TYPE, VALUE, ID) values ('0032b6ea-1024-4299-9c75-a90822111e19', 0, 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'admin', TIMESTAMP '2013-06-24 14:36:37.082', '', '2bddd4dd-c4fa-468a-906e-e671fdddf7de', '', 'kuali.lu.code.honorsOffering', 'null', 'f430fab9-eca3-439a-aa88-fef61f631f6c')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('ffcf9b32-a740-4ed5-ba0b-a069a1ba3014', 0, 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'admin', TIMESTAMP '2013-06-24 14:36:37.082', TIMESTAMP '2013-06-24 14:36:38.5', '', 'HIST808-FO-AO', '0d7f221e-0223-4cb3-a364-906ea516a9f4', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia.fo2ao', 'fo-ao-relation', 'HIST808-FO-AO', '2bddd4dd-c4fa-468a-906e-e671fdddf7de', '9ba1f7e9-75b4-43f1-afda-28d37308b6a4')
+/
+insert into KSEN_CO_AO_CLUSTER_SET_AO (AOC_SET_ID, ACTIVITY_OFFERING_ID) values ('dde6f4ec-ece7-4eb0-890a-2cbbbc05c041', '2bddd4dd-c4fa-468a-906e-e671fdddf7de')
+/
+insert into KSEN_LUI (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, ATP_ID, CLU_ID, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_STATE, LUI_TYPE, MAX_SEATS, MIN_SEATS, NAME, DESCR_PLAIN, REF_URL, ID) values ('2f854502-fac6-4148-b861-2a1fc8f3233a', 0, 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'kuali.atp.2012Fall', '391fccd5-0ab0-42aa-9e95-7a9e6363b830', '', '', '1001', 'kuali.lui.registration.group.state.pending', 'kuali.lui.type.registration.group', '', '', '1001', '1001', '', '81378e30-1f96-4701-8bd0-b78b58698fb7')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('6f47c808-c0e5-4a27-b939-f51bf70ae669', 'kuali.attribute.registration.group.is.generated', '81378e30-1f96-4701-8bd0-b78b58698fb7', '1', 'eba02514-0084-4ceb-bc29-2e423dfe5efe')
+/
+insert into KSEN_LUI_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('edf6dd6f-d84a-4ef5-b56a-dcc8318d2f89', 'kuali.attribute.registration.group.aocluster.id', '81378e30-1f96-4701-8bd0-b78b58698fb7', '952bd0bb-0e61-449b-9c87-12a66d9f9d7d', 'c1386722-03d2-4899-9787-7d89bbdde093')
+/
+insert into KSEN_LUI_IDENT (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, LUI_CD, DIVISION, IDENT_LEVEL, LNG_NAME, LUI_ID, ORGID, SHRT_NAME, LUI_ID_STATE, SUFX_CD, LUI_ID_TYPE, VARTN, ID) values ('7d59aac7-4e78-4026-980b-83fcfbc14f64', 0, 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'admin', TIMESTAMP '2013-06-24 14:36:37.082', '', '', '', '', '81378e30-1f96-4701-8bd0-b78b58698fb7', '', '', 'kuali.lui.identifier.state.active', '', 'kuali.lui.identifier.type.official', '', 'f5871fe3-da65-45af-842c-d3d832e6a831')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('17ae9fde-30ae-4378-80e6-5f211fc59afb', 0, 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'admin', TIMESTAMP '2013-06-24 14:36:37.082', TIMESTAMP '2013-06-24 14:36:40.793', '', 'HIST808-FO-RG', '0d7f221e-0223-4cb3-a364-906ea516a9f4', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.deliveredvia.fo2rg', 'fo-rg-relation', 'HIST808-FO-RG', '81378e30-1f96-4701-8bd0-b78b58698fb7', '1407f3ac-7f3d-400e-8353-8b8b80d8aaf6')
+/
+insert into KSEN_LUILUI_RELTN (OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, EFF_DT, EXPIR_DT, DESCR_FORMATTED, LUI_ID, LUILUI_RELTN_STATE, LUILUI_RELTN_TYPE, NAME, DESCR_PLAIN, RELATED_LUI_ID, ID) values ('ba4f4a4c-a6bd-44a7-b3e3-c0316c227b79', 0, 'admin', TIMESTAMP '2013-06-24 14:36:37.082', 'admin', TIMESTAMP '2013-06-24 14:36:37.082', TIMESTAMP '2013-06-24 14:36:40.795', '', 'HIST808-RG-AO', '81378e30-1f96-4701-8bd0-b78b58698fb7', 'kuali.lui.lui.relation.state.active', 'kuali.lui.lui.relation.type.registeredforvia.rg2ao', 'rg-ao-relation', 'HIST808-RG-AO', '2bddd4dd-c4fa-468a-906e-e671fdddf7de', 'd73b8e7d-6a7a-4ab3-b0a6-e1ec4a12ba2f')
+/
