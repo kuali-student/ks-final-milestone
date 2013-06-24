@@ -36,7 +36,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     private ActivityOfferingInfo aoInfo;
     private FormatOfferingInfo formatOffering;
-    private TermInfo term;
     private List<OfferingInstructorWrapper> instructors;
     private List<ScheduleComponentWrapper> scheduleComponentWrappers;
     private List<SeatPoolWrapper> seatpools;
@@ -50,8 +49,6 @@ public class ActivityOfferingWrapper implements Serializable{
     private String stateName;
     private String typeName;
     private String typeKey;
-
-    private String termName;
 
     private String formatOfferingName;
 
@@ -118,10 +115,24 @@ public class ActivityOfferingWrapper implements Serializable{
     //This is needed to display the cross listed courses
     private CourseInfo course;
 
-    // Subterms
+    /*
+    * Always carry the parent or the standard term if any -- Is this because
+    * manage COs/AOs only support search on TermCode but not on subterm?
+    */
+    private TermInfo term;
+    //for Term (name) field display of the parent/standard term on Edit AO page
+    private String termName;
+    //for Sub Term (name) field display on Edit AO page
     private String subTermName = "";
+    //for Start/End field display on Edit AO page, if subTermId is not empty,
+    //display Start/End date info for the subterm
+    private String termDisplayString = "";
+    //for displaying subterm drop-down list when click change link on Edit AO page
+    //and hold the id value for the selected subterm
     private String subTermId;
+    //use this boolean to decide if "Change" link should be rendered or not
     private boolean hasSubTerms;
+    //would it be better to define 'TermInfo subTerm' instead of the following three strings
     private String subTermStartDate;
     private String subTermEndDate;
     private String subTermStartEndDateAsString;
@@ -288,8 +299,6 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setAbbreviatedCourseType(String abbreviatedCourseType) {
         this.abbreviatedCourseType= abbreviatedCourseType;
     }
-
-    private String termDisplayString = "";
 
     public String getTermDisplayString() {
         return termDisplayString;
