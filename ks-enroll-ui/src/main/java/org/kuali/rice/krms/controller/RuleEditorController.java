@@ -1101,7 +1101,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionEditor proposition = ruleEditor.getPropositionEditor();
 
         //If first proposition and not yet updated, clear rule proposition
-        if(proposition.getPropositionTypeCode().equals("S") && proposition.getCompoundEditors() == null && proposition.getTerm().getParameters() == null) {
+        if(proposition.isNewProp() && proposition.isEditMode()) {
             ruleEditor.reset();
             form.getView().setOnDocumentReadyScript("loadControlsInit();");
         } else {
@@ -1109,6 +1109,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             ruleEditor.setSelectedKey(StringUtils.EMPTY);
             PropositionTreeUtil.cancelNewProp(proposition);
             PropositionTreeUtil.removeCompoundProp(proposition);
+            PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         }
 
         //Clear new collection lines to remove new collection add line only for edit tree
@@ -1121,7 +1122,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
         }
 
-        PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         //Compare rule with parent rule.
