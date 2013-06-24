@@ -175,7 +175,7 @@ limitations under the License.
 
     <bean id="KRMS-CollectionGridItem" abstract="true" parent="Uif-GridGroup">
         <property name="layoutManager">
-            <bean parent="Uif-HorizontalBoxLayout" p:style="width:600px"/>
+            <bean parent="Uif-HorizontalBoxLayout"/>
         </property>
         <property name="cssClasses">
             <list merge="true">
