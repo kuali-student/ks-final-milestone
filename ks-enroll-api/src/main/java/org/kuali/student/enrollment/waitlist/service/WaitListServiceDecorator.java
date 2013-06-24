@@ -19,7 +19,6 @@ package org.kuali.student.enrollment.waitlist.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.waitlist.dto.WaitListEntryInfo;
 import org.kuali.student.enrollment.waitlist.dto.WaitListInfo;
-import org.kuali.student.enrollment.waitlist.service.WaitListService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -32,7 +31,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import javax.jws.WebParam;
 import java.util.List;
 
 /**
@@ -107,6 +105,11 @@ public class WaitListServiceDecorator implements WaitListService {
     }
 
     @Override
+    public StatusInfo changeWaitListState(String waitListId, String stateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().changeWaitListState(waitListId, stateKey, contextInfo);
+    }
+
+    @Override
     public StatusInfo deleteWaitList(String waitListId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteWaitList(waitListId, contextInfo);
     }
@@ -164,6 +167,11 @@ public class WaitListServiceDecorator implements WaitListService {
     @Override
     public WaitListEntryInfo updateWaitListEntry(String waitListEntryId, WaitListEntryInfo waitListEntryInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return getNextDecorator().updateWaitListEntry(waitListEntryId, waitListEntryInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo changeWaitListEntryState(String waitListEntryId, String stateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().changeWaitListEntryState(waitListEntryId, stateKey, contextInfo);
     }
 
     @Override

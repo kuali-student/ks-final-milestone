@@ -304,6 +304,32 @@ public interface WaitListService {
             VersionMismatchException;
 
     /**
+     * Changes the state of a WaitList.
+     *
+     * @param waitListId the Id of the WaitList
+     * @param stateKey the identifier for the new State
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the change state operation. This must always be
+     *         true.
+     * @throws DoesNotExistException waitListId not found or stateKey
+     *         not found in WaitList Lifecycle
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException waitListId, stateKey, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo changeWaitListState(@WebParam(name = "waitListId") String waitListId,
+                                          @WebParam(name = "stateKey") String stateKey,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Deletes an existing WaitList.
      *
      * @param waitListId  the identifier for the WaitList to be
@@ -619,6 +645,33 @@ public interface WaitListService {
             PermissionDeniedException,
             ReadOnlyException,
             VersionMismatchException;
+
+
+    /**
+     * Changes the state of a WaitListEntry.
+     *
+     * @param waitListEntryId the Id of the WaitListEntry
+     * @param stateKey the identifier for the new State
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the change state operation. This must always be
+     *         true.
+     * @throws DoesNotExistException waitListEntryId not found or stateKey
+     *         not found in WaitListEntry Lifecycle
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException waitListEntryId, stateKey, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo changeWaitListEntryState(@WebParam(name = "waitListEntryId") String waitListEntryId,
+                                          @WebParam(name = "stateKey") String stateKey,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Deletes an existing WaitListEntry.
