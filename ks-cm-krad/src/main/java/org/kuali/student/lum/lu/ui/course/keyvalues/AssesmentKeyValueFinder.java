@@ -43,7 +43,8 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  * 
- * copy from ks-lum/ks-lum-impl/src/main/java/org/kuali/student/r2/lum/service/search/AtpSeasonTypeSearch.java
+ * copy from 
+ * ks-enroll-ui/src/main/java/org/kuali/student/enrollment/class1/krms/keyvalues/GradeScaleValuesFinder.java
  * 
  */
 
