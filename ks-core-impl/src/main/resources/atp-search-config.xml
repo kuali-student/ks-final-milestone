@@ -541,7 +541,70 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
-	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+
+    <search:searchType id="milestone.search.milestoneIdsByAtpId"
+                       parent="milestone.search.milestoneIdsByAtpId-parent" />
+    <search:searchType id="milestone.search.milestoneIdsByAtpId-parent" abstract="true">
+        <search:name>Milestone Ids by atp id</search:name>
+        <search:desc>Search for Milestones based on Atp Id and other optional criteria.</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="milestone.result.milestoneIds" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="milestone.criteria.milestoneByAtpId" />
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="milestone.result.milestoneIds"
+                                 parent="milestone.result.milestoneIds-parent" />
+    <search:searchResultTypeInfo id="milestone.result.milestoneIds-parent"
+                                 abstract="true">
+        <search:name>Milestone IDs</search:name>
+        <search:desc>Milestone IDs</search:desc>
+        <search:resultColumns>
+            <ref bean="milestone.resultColumn.milestoneId" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:resultColumn id="milestone.resultColumn.milestoneId"
+                         parent="milestone.resultColumn.milestoneId-parent" />
+    <search:resultColumn id="milestone.resultColumn.milestoneId-parent"
+                         abstract="true">
+        <search:name>Milestone ID</search:name>
+        <search:desc>Id of the milestone</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:searchCriteriaTypeInfo id="milestone.criteria.milestoneByAtpId"
+                                   parent="milestone.criteria.milestoneByAtpId-parent" />
+    <search:searchCriteriaTypeInfo id="milestone.criteria.milestoneByAtpId-parent"
+                                   abstract="true">
+        <search:name>Milestone by Atp ID</search:name>
+        <search:desc>Milestone by Atp ID</search:desc>
+        <search:queryParams>
+            <ref bean="milestone.queryParam.atpId" />
+            <ref bean="milestone.queryParam.milestoneTypes" />
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+    <search:queryParam id="milestone.queryParam.atpId" parent="milestone.queryParam.atpId-parent" />
+    <search:queryParam id="milestone.queryParam.atpId-parent"
+                       abstract="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>ATP Id</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+    <search:queryParam id="milestone.queryParam.milestoneTypes" parent="milestone.queryParam.milestoneTypes-parent" />
+    <search:queryParam id="milestone.queryParam.milestoneTypes-parent"
+                       abstract="true" optional="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>Milestone Type Keys</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+
+    <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="atp.search.atpTypes">
@@ -636,6 +699,15 @@
                 <entry  key="atp.advancedAtpSearchParam.atpYear">
                     <value>YEAR(atp.startDate) &lt;= :atp_advancedAtpSearchParam_atpYear AND YEAR(atp.endDate) >= :atp_advancedAtpSearchParam_atpYear</value>
                 </entry>
+
+                <entry  key="milestone.search.milestoneIdsByAtpId">
+                    <value>SELECT mrel.milestoneId FROM AtpMilestoneRelationEntity mrel, MilestoneEntity m WHERE m.id = mrel.milestoneId AND mrel.atpId = :milestone_queryParam_atpId</value>
+                </entry>
+
+                <entry  key="milestone.queryParam.milestoneTypes">
+                    <value>m.atpType IN(:milestone_queryParam_milestoneTypes)</value>
+                </entry>
+
 			</map>
 		</property>
 	</bean>
