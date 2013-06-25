@@ -311,6 +311,8 @@ public class HolidayCalendarController extends UifControllerBase {
             throw new RuntimeException(x);
         }
 
+        Collections.sort(newHolidays);
+
         for (HolidayWrapper holidayWrapper : newHolidays) {
             // decision #14, copy over all information (types, dates, times, flags, etc) for Holidays from the source calendar
             holidayWrapper.getHolidayInfo().setId(null); // else the old rcd will be updated
