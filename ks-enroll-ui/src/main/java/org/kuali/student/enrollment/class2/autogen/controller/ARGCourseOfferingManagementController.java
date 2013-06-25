@@ -137,26 +137,25 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        //Reset the form
+        //Reset the form (not including term- and course-codes though)
         ARGUtil.clearForm(form);
 
-        form.setInputCode(form.getInputCode().toUpperCase());
-        ARGUtil.getViewHelperService(form).populateTerm(form);
+        // validate the course-code wasn't left blank
+        validateUserPopulatedTermAndCourseFields( form );
+        if( GlobalVariables.getMessageMap().hasErrors() ) {
+            return getUIFModelAndView( form );
+        }
 
+        // convert term-code to UPPERCASE
+        form.setInputCode( form.getInputCode().toUpperCase() );
+
+        ARGUtil.getViewHelperService(form).populateTerm(form);
         if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
             return getUIFModelAndView(form);
         }
 
-        String inputCode = form.getInputCode();
 
-        if (StringUtils.isBlank(inputCode)) {
-            GlobalVariables.getMessageMap().putError("inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Offering", inputCode, form.getTermCode());
-            form.getCourseOfferingResultList().clear();
-            form.setActivityWrapperList(null);
-            return getUIFModelAndView(form);
-        }
-
-        ARGUtil.getViewHelperService(form).loadCourseOfferingsByTermAndCourseCode(form.getTermInfo().getId(), inputCode, form);
+        ARGUtil.getViewHelperService(form).loadCourseOfferingsByTermAndCourseCode(form.getTermInfo().getId(), form.getInputCode(), form);
 
         if (!form.getCourseOfferingResultList().isEmpty()) {
             if (form.getCourseOfferingResultList().size() > 1) {
@@ -181,8 +180,24 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             return getUIFModelAndView(form, CourseOfferingConstants.SEARCH_PAGE);
         }
 
+    }
 
+    private void validateUserPopulatedTermAndCourseFields( ARGCourseOfferingManagementForm form ) {
 
+        String termCode = form.getTermCode();
+        if( StringUtils.isBlank(termCode) ) {
+            GlobalVariables.getMessageMap().putError( "termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_TERMCODE_IS_REQUIRED, "Term", termCode );
+        }
+
+        String courseCode = form.getInputCode();
+        if( StringUtils.isBlank(courseCode) ) {
+            GlobalVariables.getMessageMap().putError( "inputCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_COURSECODE_IS_REQUIRED, "Course", courseCode );
+        }
+
+        if( GlobalVariables.getMessageMap().hasErrors() ) {
+            form.getCourseOfferingResultList().clear();
+            form.setActivityWrapperList(null);
+        }
     }
 
     @RequestMapping(params = "methodToCall=manageRegGroups")

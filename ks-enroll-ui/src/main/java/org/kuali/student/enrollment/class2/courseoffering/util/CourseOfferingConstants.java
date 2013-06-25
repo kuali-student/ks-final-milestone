@@ -31,6 +31,8 @@ public class CourseOfferingConstants {
     //Attributes defined in SocRolloverResultItemInfo
 
     //Message keys
+    public static final String COURSEOFFERING_MSG_ERROR_TERMCODE_IS_REQUIRED = "error.courseOffering.manage.termcode.required";
+    public static final String COURSEOFFERING_MSG_ERROR_COURSECODE_IS_REQUIRED = "error.courseOffering.manage.coursecode.required";
     public static final String COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND = "error.enroll.courseoffering.noTermIsFound";
     public static final String COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM = "error.enroll.courseoffering.findMoreThanOneTerm";
     public static final String COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND = "error.enroll.courseoffering.noCourseOfferingIsFound";
