@@ -140,7 +140,6 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         //Reset the form (not including term- and course-codes though)
         ARGUtil.clearForm(form);
 
-        // validate the course-code wasn't left blank
         validateUserPopulatedTermAndCourseFields( form );
         if( GlobalVariables.getMessageMap().hasErrors() ) {
             return getUIFModelAndView( form );
