@@ -109,6 +109,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
 
@@ -650,7 +651,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         CourseOfferingInfo createdCo = new CourseOfferingInfo();
         
         courseOfferingTransformer.lui2CourseOffering(lui, createdCo, context);
-        courseOfferingTransformer.copyRulesFromCanonical(courseInfo, createdCo, optionKeys, context);
+        if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
+           courseOfferingTransformer.copyRulesFromCanonical(courseInfo, createdCo, optionKeys, context);
+        }
         return createdCo;
     }
 

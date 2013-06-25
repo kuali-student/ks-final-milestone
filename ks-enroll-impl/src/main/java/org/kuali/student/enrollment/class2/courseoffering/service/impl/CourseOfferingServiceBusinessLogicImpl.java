@@ -443,7 +443,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             // copy rules from cannonical too
             courseOfferingTransformer.copyRulesFromCanonical(targetCourse, targetCo, optionKeys, context);
         } else {
-            courseOfferingTransformer.deleteExistingRulesOnCourseOffering(targetCo);//TODO KSENROLL-7442 Reevaluate Need to Copy Rules from Canonical
             courseOfferingTransformer.copyRulesFromExistingCourseOffering(sourceCo, targetCo, optionKeys, context);
         }
         return targetCo;
