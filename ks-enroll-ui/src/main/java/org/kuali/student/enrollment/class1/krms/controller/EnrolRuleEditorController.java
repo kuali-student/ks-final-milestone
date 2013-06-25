@@ -27,10 +27,12 @@ import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
+import org.kuali.student.enrollment.class1.krms.dto.CluSetRangeInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.service.impl.EnrolRuleViewHelperServiceImpl;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.stereotype.Controller;
@@ -47,8 +49,6 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Kuali Student Team
  */
-@Controller
-@RequestMapping(value = KRMSConstants.WebPaths.RULE_STUDENT_EDITOR_PATH)
 public class EnrolRuleEditorController extends RuleEditorController {
 
     /**
@@ -65,7 +65,6 @@ public class EnrolRuleEditorController extends RuleEditorController {
                               HttpServletRequest request, HttpServletResponse response) {
 
         super.route(form, result, request, response);
-
         return back(form, result, request, response);
     }
 
@@ -112,11 +111,14 @@ public class EnrolRuleEditorController extends RuleEditorController {
 
         this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
+        if(!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)){
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
+        }
         return super.navigate(form, result, request, response);
     }
 
     /**
+     * Controller method used to display the lightbox with the list of courses in the selected range.
      *
      * @param form
      * @param result
@@ -134,14 +136,16 @@ public class EnrolRuleEditorController extends RuleEditorController {
         CORuleManagementWrapper ruleWrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
         EnrolPropositionEditor proposition = (EnrolPropositionEditor) PropositionTreeUtil.getProposition(ruleWrapper.getRuleEditor());
 
-        if (proposition.getCluSet() != null) {
-            ruleWrapper.setClusInRange(proposition.getCluSet().getClusInRange());
+        String index = form.getActionParameters().get("selectedIndex");
+        if ((proposition.getCluSet() != null) && (proposition.getCluSet().getCluSetRanges()!=null)){
+            ruleWrapper.setClusInRange(proposition.getCluSet().getCluSetRanges().get(Integer.valueOf(index)).getClusInRange());
         }
 
         return showDialog(dialog, form, request, response);
      }
 
     /**
+     * Controller method used to add a new course range to the list of course ranges.
      *
      * @param form
      * @param result
@@ -161,49 +165,21 @@ public class EnrolRuleEditorController extends RuleEditorController {
             prop.setCluSet(new CluSetInformation());
         }
 
-        MembershipQueryInfo membershipQueryInfo = prop.getCluSet().getCluSetRange().buildMembershipQuery(prop.getCluSet().getMembershipQueryInfo());
-        prop.getCluSet().setMembershipQueryInfo(membershipQueryInfo);
-        prop.getCluSet().setClusInRange(this.getViewHelper(form).getCoursesInRange(membershipQueryInfo));
+        //Build the membershipquery
+        CluSetRangeHelper rangeHelper = prop.getCluSet().getRangeHelper();
+        MembershipQueryInfo membershipQueryInfo = rangeHelper.buildMembershipQuery();
+
+        //Build the cluset range wrapper object
+        CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
+        cluSetRange.setCluSetRangeLabel(rangeHelper.buildLabelFromQuery(membershipQueryInfo));
+        cluSetRange.setMembershipQueryInfo(membershipQueryInfo);
+        cluSetRange.setClusInRange(this.getViewHelper(form).getCoursesInRange(membershipQueryInfo));
+        prop.getCluSet().getCluSetRanges().add(cluSetRange);
+
+        //Reset range helper to clear values on screen.
+        rangeHelper.reset();
 
         return getUIFModelAndView(form);
-    }
-
-    /**
-     * Reverts rule to previous state and navigates to agenda maintenance page.
-     *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(params = "methodToCall=cancelEditRule")
-    public ModelAndView cancelEditRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KSCO-AgendaMaintenance-Page");
-        return super.cancelEditRule(form, result, request, response);
-    }
-
-    /**
-     * Updates rule and redirects to agenda maintenance page.
-     *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(params = "methodToCall=updateRule")
-    public ModelAndView updateRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
-
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KSCO-AgendaMaintenance-Page");
-        return super.updateRule(form, result, request, response);
     }
 
     /**

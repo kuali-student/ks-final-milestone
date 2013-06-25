@@ -425,7 +425,7 @@
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{!withinPortal}"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteACluster" p:actionLabel="Delete" p:render="@{withinPortal}"
                                   p:preSubmitCall="return confirm('This action is not reversible. Are you sure you want to continue?')"
-                                  p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
+                                  p:onClickScript="writeHiddenToForm(&quot;[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteAClusterThroughDialog" p:actionLabel="Delete" p:render="@{!withinPortal}"
                                   p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" />
                             <!--p:actionScript="showLightboxComponent('confirmToDeleteClusterDialog');"  />-->

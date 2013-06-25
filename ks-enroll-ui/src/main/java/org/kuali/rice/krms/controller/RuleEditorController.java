@@ -93,7 +93,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
         RuleEditor ruleEditor = AgendaUtilities.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
+        if(!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)){
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
+        }
         return super.navigate(form, result, request, response);
     }
 
@@ -153,7 +155,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
+        if(!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)){
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
+        }
         return super.navigate(form, result, request, response);
     }
 

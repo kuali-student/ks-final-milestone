@@ -104,13 +104,15 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
             // add the actions to the line group if isActionsInLineGroup flag is true
             if (isActionsInLineGroup()) {
                 groupFields.addAll(actions);
+                groupFields.addAll(subCollectionFields);
                 lineGroup.setRenderFooter(false);
             }else{
-                lineGroup.getFooter().setItems(actions);
+                List<Component> footerFields = new ArrayList<Component>();
+                footerFields.addAll(actions);
+                footerFields.addAll(subCollectionFields);
+                lineGroup.getFooter().setItems(footerFields);
             }
         }
-
-        groupFields.addAll(subCollectionFields);
 
         lineGroup.setItems(groupFields);
         this.getStackedGroups().add(lineGroup);

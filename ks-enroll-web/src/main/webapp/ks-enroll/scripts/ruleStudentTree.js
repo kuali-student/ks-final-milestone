@@ -38,37 +38,37 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
-function ajaxCallOnTabSelect(event, ui) {
+function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic) {
     //Do client side validation before continueing to next tab.
     if (validateForm()) {
 
         if (ui.index == 0) {
 
             //Check if the logic expression has changed.
-            var logicArea = jq('#LogicArea_InputField_control');
+            var logicArea = jq('#KRMS-LogicArea-InputField_control');
             if (logicArea.hasClass('dirty')) {
 
                 //Add an error message for the user.
-                var data = jQuery("#LogicArea_InputField").data(kradVariables.VALIDATION_MESSAGES);
+                var data = jQuery("#KRMS-LogicArea-InputField").data(kradVariables.VALIDATION_MESSAGES);
                 data.errors = [];
                 var errorMessage = getMessage('error.krms.logic.preview');
                 data.errors.push(errorMessage);
-                jQuery("#LogicArea_InputField").data(kradVariables.VALIDATION_MESSAGES, data);
+                jQuery("#KRMS-LogicArea-InputField").data(kradVariables.VALIDATION_MESSAGES, data);
 
                 //Display error message
-                handleMessagesAtField('LogicArea_InputField');
+                handleMessagesAtField('KRMS-LogicArea-InputField');
 
                 //Do not continue.
                 event.preventDefault();
             } else {
 
                 //Remove previous error message if any exist.
-                var messagesDiv = jQuery("[data-messages_for='LogicArea_InputField']");
+                var messagesDiv = jQuery("[data-messages_for='KRMS-LogicArea-InputField']");
                 messagesDiv.hide();
-                handleTabStyle('LogicArea_InputField_control', false, false, false);
+                handleTabStyle('KRMS-LogicArea-InputField_control', false, false, false);
 
                 //Refresh the edit tree.
-                retrieveComponent('RuleStudentEditorView-TreeGroup');
+                retrieveComponent(editwithgroup);
             }
         } else {
 
@@ -77,11 +77,11 @@ function ajaxCallOnTabSelect(event, ui) {
             if (updateButton.length) {
 
                 //Force an updateProposition if any proposition is in edit mode.
-                ajaxCallPropositionTree('updateProposition', 'KRMS-EditWithLogic-EditGroup');
+                ajaxCallPropositionTree('updateProposition', editwithlogic);
             } else {
 
                 //Refresh the preview tree.
-                retrieveComponent('KRMS-EditWithLogic-EditGroup');
+                retrieveComponent(editwithlogic);
             }
         }
     } else {

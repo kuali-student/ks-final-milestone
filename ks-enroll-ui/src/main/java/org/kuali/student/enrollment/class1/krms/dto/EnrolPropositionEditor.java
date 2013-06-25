@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.student.enrollment.class1.krms.util.CluSetRangeInformation;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -99,26 +98,6 @@ public class EnrolPropositionEditor extends PropositionEditor {
 
     public void setCluSet(CluSetInformation cluSet) {
         this.cluSet = cluSet;
-    }
-
-    public int getCluListSize(){
-        if ((this.getCluSet() != null) && (this.getCluSet().getClus() != null)) {
-            return this.getCluSet().getClus().size();
-        } else if ((this.getProgCluSet() != null) && (this.getProgCluSet().getClus() != null)) {
-            return this.getProgCluSet().getClus().size();
-        } else {
-            return 0;
-        }
-    }
-
-    public int getCluSetListSize(){
-        if ((this.getCluSet() != null) && (this.getCluSet().getCluSets() != null)) {
-            return this.getCluSet().getCluSets().size();
-        } else if ((this.getProgCluSet() != null) && (this.getProgCluSet().getCluSets() != null)) {
-            return this.getProgCluSet().getCluSets().size();
-        } else {
-            return 0;
-        }
     }
 
     public OrgInfo getOrgInfo() {

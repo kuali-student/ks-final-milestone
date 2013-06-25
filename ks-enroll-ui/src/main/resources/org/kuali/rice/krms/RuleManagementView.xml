@@ -22,40 +22,44 @@ limitations under the License.
     <bean id="KRMS-Rules-ManageSection" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-
-                <bean parent="Uif-HorizontalBoxSection" p:width="90%">
-                    <property name="items">
-                        <list>
-                            <bean id="KRMS-RuleView-Section" parent="Uif-VerticalBoxSection" p:style="max-width: 54em%;">
-                                <property name="instructionalText" value="@{#dp.ruleEditor.ruleTypeInfo.instruction}"/>
-                            </bean>
-                            <bean parent="KRMS-RulePreview-Links" p:id="KRMS-RulePreview-ActionLinks" p:style="float: right"/>
-                        </list>
-                    </property>
-                </bean>
-
-                <bean id="KRMS-RuleEdit-TabSection" parent="Uif-TabSection">
-                    <property name="forceSessionPersistence" value="true"/>
-                    <property name="items">
-                        <list>
-                            <bean id="KRMS-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent"/>
-                            <bean id="KRMS-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent"/>
-                        </list>
-                    </property>
-                    <property name="tabsWidget">
-                        <bean id="KRMS-TabsWidget" parent="Uif-Tabs">
-                            <property name="templateOptions">
-                                <map>
-                                    <entry key="selected" value="0"/>
-                                    <entry key="select" value="function(event, ui) {ajaxCallOnTabSelect(event, ui);}"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
-                </bean>
+                <ref bean="KRMS-RuleHeader-BoxSection"/>
+                <ref bean="KRMS-RuleEdit-TabSection"/>
             </list>
         </property>
+    </bean>
 
+    <bean id="KRMS-RuleHeader-BoxSection" parent="Uif-HorizontalBoxSection" p:width="90%">
+        <property name="items">
+            <list>
+                <bean id="KRMS-RuleHeader-Section" parent="Uif-VerticalBoxSection" p:style="max-width: 54em%;">
+                    <property name="instructionalText" value="@{#dp.ruleEditor.ruleTypeInfo.instruction}"/>
+                </bean>
+                <bean parent="KRMS-RulePreview-Links" p:id="KRMS-RulePreview-ActionLinks" p:style="float: right"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEdit-TabSection" parent="Uif-TabSection">
+        <property name="forceSessionPersistence" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="KRMS-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent"/>
+                <bean id="KRMS-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent"/>
+            </list>
+        </property>
+        <property name="tabsWidget">
+            <ref bean="KRMS-TabsWidget"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-TabsWidget" parent="Uif-Tabs">
+        <property name="templateOptions">
+            <map>
+                <entry key="selected" value="0"/>
+                <entry key="select"
+                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KRMS-EditWithLogic-EditGroup');}"/>
+            </map>
+        </property>
     </bean>
 
     <bean id="KRMS-EditWithObject-EditSection-parent" parent="Uif-VerticalBoxSection"
@@ -256,46 +260,15 @@ limitations under the License.
     </bean>
     <bean id="KRMS-CompareRule" parent="KRMS-CompareRule-parent"/>
 
-    <bean id="KRMS-Preview-Section-parent" parent="KRMS-Tree-Section">
+    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Tree-Section">
+        <property name="propertyName" value="previewTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
                 <property name="labelPrototype">
                     <bean parent="Uif-Message"/>
                 </property>
                 <property name="dataGroupPrototype">
-                    <bean id="KRMS-Edit-Section-Parent" parent="Uif-VerticalBoxGroup">
-                        <property name="items">
-                            <list>
-                                <bean parent="Uif-HorizontalBoxGroup">
-                                    <property name="items">
-                                        <list>
-                                            <bean parent="Uif-MessageField" p:messageText="@{#np.data}"
-                                                  p:style="width: 290px; margin: 0px;" p:progressiveRender="#np.data != null"/>
-                                            <bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey" p:progressiveRender="#np.data != null" >
-                                                <property name="additionalSubmitData" value = "selectedKey:@{#np.key != null ? #np.key : -1}"/>
-                                                <property name="toolTip">
-                                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                                                          p:tooltipContent="Edit Prerequisite Rule"/>
-                                                </property>
-                                                <property name="cssClasses">
-                                                    <list merge="true">
-                                                        <value>krms-edit-link</value>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                        </list>
-                                    </property>
-                                    <property name="cssClasses">
-                                        <list merge="true">
-                                            <value>krms-editVerticalBox</value>
-                                        </list>
-                                    </property>
-
-                                </bean>
-                                <ref bean="KRMS-ListItems-DataGroup"/>
-                            </list>
-                        </property>
-                    </bean>
+                    <ref bean="KRMS-PreviewPrototype-BoxGroup"/>
                 </property>
             </bean>
         </property>
@@ -305,11 +278,37 @@ limitations under the License.
             </list>
         </property>
     </bean>
-    <bean id="KRMS-Preview-Section" parent="KRMS-Preview-Section-parent"/>
-
-    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Preview-Section">
-        <property name="propertyName" value="previewTree"/>
-    </bean>
     <bean id="KRMS-PreviewTree-Section" parent="KRMS-PreviewTree-Section-parent"/>
+
+    <bean id="KRMS-PreviewPrototype-BoxGroup" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-PrototypeHeader-BoxGroup"/>
+                <ref bean="KRMS-ListItems-DataGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-PrototypeHeader-BoxGroup" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#np.data}"
+                      p:style="width: 290px; margin: 0px;" p:progressiveRender="#np.data != null"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey"
+                      p:progressiveRender="#np.data != null">
+                    <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
+                              p:tooltipContent="Edit Prerequisite Rule"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>krms-editVerticalBox</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>

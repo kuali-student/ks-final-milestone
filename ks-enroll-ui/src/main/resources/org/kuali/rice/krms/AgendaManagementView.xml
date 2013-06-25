@@ -99,30 +99,7 @@ limitations under the License.
     </bean>
 
     <bean name="KRMS-RuleMaintenance-Page-Parent" parent="Uif-Page">
-        <property name="headerText" value="@{#dp.cluDescription}"/>
-        <property name="breadcrumbOptions.breadcrumbOverrides">
-            <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Course Offering Requisites"/>
-                    <property name="url.controllerMapping" value="/krmsRuleStudentEditor"/>
-                    <property name="url.viewType" value="MAINTENANCE"/>
-                    <property name="url.methodToCall" value="maintenanceEdit"/>
-                    <property name="url.requestParameters">
-                        <map key-type="java.lang.String" merge="true">
-                            <entry key="dataObjectClassName"
-                                   value="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper"/>
-                            <entry key="viewName" value="COAgendaManagementView"/>
-                            <entry key="overrideKeys" value="refObjectId"/>
-                            <entry key="refObjectId" value="@{#dp.refObjectId}"/>
-                        </map>
-                    </property>
-                </bean>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label"
-                              value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
-                </bean>
-            </list>
-        </property>
+        <property name="headerText" value="Requisites"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderFour" p:headerText="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
@@ -156,65 +133,69 @@ limitations under the License.
         </property>
         <property name="propertyName" value="agendas"/>
         <property name="agendaPrototype">
-            <bean parent="Uif-VerticalBoxSection">
-                <property name="header">
-                    <bean parent="Uif-HeaderThree">
-                        <property name="cssClasses">
-                            <list merge="true">
-                                <value>krms-agendaHeader</value>
-                            </list>
-                        </property>
-                    </bean>
-                </property>
-            </bean>
+            <ref bean="KRMS-AgendaManage-AgendaPrototype"/>
         </property>
         <property name="rulePrototype">
-            <bean parent="Uif-Disclosure-VerticalBoxSubSection">
-                <property name="disclosure.defaultOpen" value="false"/>
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-VerticalBoxSection" p:width="500px" p:render="@{!#line.dummy}">
-                            <property name="items">
-                                <list>
-                                    <bean parent="KRMS-RuleEdit-Links" p:id="KRSM-RuleEdit-ActionLinks"
-                                          p:align="right"/>
-                                    <bean parent="KRMS-RuleView-Links" p:id="KRSM-RuleView-ActionLinks"
-                                          p:align="right"/>
-                                    <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
-                                    <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup"
-                                          p:cssClasses="viewModeNode">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="KRMS-ViewTree-Section">
-                                                    <property name="propertyName" value="viewTree"/>
-                                                </bean>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>krms-ruleViewSection</value>
-                                </list>
-                            </property>
-                        </bean>
-                        <bean parent="Uif-VerticalBoxSection" p:width="500px" p:render="@{#line.dummy}">
-                            <property name="items">
-                                <list>
-                                    <bean parent="KRMS-RuleAdd-Links" p:id="KRMS-RuleAdd-ActionLink" p:align="right"/>
-                                    <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
-                                </list>
-                            </property>
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>krms-ruleViewSection</value>
-                                </list>
-                            </property>
-                        </bean>
+            <ref bean="KRMS-AgendaManage-RulePrototype"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-AgendaManage-AgendaPrototype" parent="Uif-VerticalBoxSection">
+        <property name="header">
+            <bean parent="Uif-HeaderThree">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>krms-agendaHeader</value>
                     </list>
                 </property>
             </bean>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleSection-BoxSection" parent="Uif-VerticalBoxSection" p:width="500px">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>krms-ruleViewSection</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-AgendaManage-RulePrototype" parent="Uif-Disclosure-VerticalBoxSubSection">
+        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KRMS-AgendaManage-EditRule"/>
+                <ref bean="KRMS-AgendaManage-AddRule"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-AgendaManage-EditRule" parent="KRMS-RuleSection-BoxSection" p:render="@{!#line.dummy}">
+        <property name="items">
+            <list>
+                <bean id="KRSM-RuleEdit-ActionLinks" parent="KRMS-RuleEdit-Links" p:align="right"/>
+                <bean id="KRSM-RuleView-ActionLinks" parent="KRMS-RuleView-Links" p:align="right"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
+                <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup"
+                      p:cssClasses="viewModeNode">
+                    <property name="items">
+                        <list>
+                            <bean parent="KRMS-ViewTree-Section">
+                                <property name="propertyName" value="viewTree"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-AgendaManage-AddRule" parent="KRMS-RuleSection-BoxSection" p:render="@{#line.dummy}">
+        <property name="items">
+            <list>
+                <bean parent="KRMS-RuleAdd-Links" p:id="KRMS-RuleAdd-ActionLink" p:align="right"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
+            </list>
         </property>
     </bean>
 
@@ -229,12 +210,15 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleView-Links" parent="Uif-LinkGroup"
-          p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+    <bean id="KRMS-RuleView-Links" parent="Uif-LinkGroup" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <ref bean="KRMS-CompareCanonical-Link"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
+                    <property name="toolTip">
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare with parent"/>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

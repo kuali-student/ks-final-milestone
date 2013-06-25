@@ -15,7 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.kuali.student.enrollment.class1.krms.util.CluSetRangeInformation;
+import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.util.StringUtils;
@@ -34,23 +34,22 @@ public class CluSetInformation implements Serializable {
 
     private static final long serialVersionUID = 1123124L;
     private CluSetInfo cluSetInfo;
+
     private List<CluInformation> clus;
-
     private List<CluSetInformation> cluSets;
-
-    private MembershipQueryInfo membershipQueryInfo;
-    private List<CluInformation> clusInRange;
-    private CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
+    private List<CluSetRangeInformation> cluSetRanges;
 
     private Map<String, CluSetInformation> subCluSetInformations;
     private CluSetInformation parent;
 
-    public CluSetInformation(){
+    private CluSetRangeHelper rangeHelper = new CluSetRangeHelper();
+
+    public CluSetInformation() {
         super();
         this.cluSetInfo = new CluSetInfo();
     }
 
-    public CluSetInformation(CluSetInfo cluSetInfo){
+    public CluSetInformation(CluSetInfo cluSetInfo) {
         super();
         this.cluSetInfo = cluSetInfo;
     }
@@ -93,31 +92,15 @@ public class CluSetInformation implements Serializable {
         this.cluSets = cluSets;
     }
 
-    public MembershipQueryInfo getMembershipQueryInfo() {
-        return membershipQueryInfo;
-    }
-
-    public void setMembershipQueryInfo(MembershipQueryInfo membershipQueryInfo) {
-        this.membershipQueryInfo = membershipQueryInfo;
-    }
-
-    public List<CluInformation> getClusInRange() {
-        if (clusInRange == null) {
-            this.clusInRange = new ArrayList<CluInformation>();
+    public List<CluSetRangeInformation> getCluSetRanges() {
+        if (cluSetRanges == null) {
+            cluSetRanges = new ArrayList<CluSetRangeInformation>();
         }
-        return this.clusInRange;
+        return cluSetRanges;
     }
 
-    public void setClusInRange(List<CluInformation> clusInRange) {
-        this.clusInRange = clusInRange;
-    }
-
-    public CluSetRangeInformation getCluSetRange() {
-        return cluSetRange;
-    }
-
-    public void setCluSetRange(CluSetRangeInformation cluSetRange) {
-        this.cluSetRange = cluSetRange;
+    public void setCluSetRanges(List<CluSetRangeInformation> cluSetRanges) {
+        this.cluSetRanges = cluSetRanges;
     }
 
     public Map<String, CluSetInformation> getSubCluSetInformations() {
@@ -139,15 +122,49 @@ public class CluSetInformation implements Serializable {
         this.parent = parent;
     }
 
+    public CluSetRangeHelper getRangeHelper() {
+        return rangeHelper;
+    }
+
+    public void setRangeHelper(CluSetRangeHelper rangeHelper) {
+        this.rangeHelper = rangeHelper;
+    }
+
+    public int getCluListSize(){
+        if (this.getClus() != null) {
+            return this.getClus().size();
+        } else {
+            return 0;
+        }
+    }
+
+    public int getCluSetListSize(){
+        if (this.getCluSets() != null) {
+            return this.getCluSets().size();
+        } else {
+            return 0;
+        }
+    }
+
+    public int getCluRangeListSize(){
+        if (this.getCluSetRanges() != null) {
+            return this.getCluSetRanges().size();
+        } else {
+            return 0;
+        }
+    }
+
     /**
      * Returns a list of all the clus and the clusInRange.
      *
      * @return
      */
-    public List<CluInformation> getClusAndClusInRange(){
+    public List<CluInformation> getClusAndClusInRange() {
         List<CluInformation> clus = new ArrayList<CluInformation>();
         clus.addAll(this.getClus());
-        clus.addAll(this.getClusInRange());
+        for (CluSetRangeInformation cluSetRange : this.getCluSetRanges()) {
+            clus.addAll(cluSetRange.getClusInRange());
+        }
         return clus;
     }
 
@@ -161,9 +178,11 @@ public class CluSetInformation implements Serializable {
     public String getCluDelimitedString() {
 
         List<String> cluIds = this.getCluIds();
-        if (this.getClusInRange() != null) {
-            for (CluInformation clu : this.getClusInRange()) {
-                cluIds.add(clu.getVerIndependentId());
+        for (CluSetRangeInformation cluSetRange : this.getCluSetRanges()) {
+            if (cluSetRange.getClusInRange() != null) {
+                for (CluInformation clu : cluSetRange.getClusInRange()) {
+                    cluIds.add(clu.getVerIndependentId());
+                }
             }
         }
 
@@ -201,31 +220,43 @@ public class CluSetInformation implements Serializable {
         return false;
     }
 
+    /**
+     * Check if this Cluset contains any membershipqueries.
+     *
+     * @return
+     */
     public boolean hasMembershipQuery() {
-        MembershipQueryInfo mqInfo = this.getMembershipQueryInfo();
-        if (mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty()) {
-            return true;
+        if ((this.getCluSetRanges() == null) || (this.getCluSetRanges().size() == 0)) {
+            return false;
         }
+
+        for (CluSetRangeInformation cluSetRange : this.getCluSetRanges()) {
+            MembershipQueryInfo mqInfo = cluSetRange.getMembershipQueryInfo();
+            if (mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty()) {
+                return true;
+            }
+        }
+
         return false;
     }
 
-    public List<String> getCluIds(){
+    public List<String> getCluIds() {
         List<String> cluIds = new ArrayList<String>();
-        for(CluInformation clu : this.getClus()){
+        for (CluInformation clu : this.getClus()) {
             cluIds.add(clu.getVerIndependentId());
         }
         return cluIds;
     }
 
-    public List<Object> getCluViewers(){
+    public List<Object> getCluViewers() {
         List<Object> cluGroups = new ArrayList<Object>();
         //Individual Clus
-        if(this.getClus().size()>0){
+        if (this.getClus().size() > 0) {
             CluGroup indCourses = new CluGroup("INDIVIDUAL COURSE(S)");
             indCourses.setClus(this.getClus());
 
             //Only display the Indivdual Courses heading when clusets or queries exist.
-            if((this.getCluSets().size()==0)&&(this.getClusInRange().size()==0)){
+            if ((this.getCluSets().size() == 0) && (this.hasMembershipQuery())) {
                 indCourses.setShowTitle(false);
             }
             cluGroups.add(indCourses);
@@ -239,11 +270,14 @@ public class CluSetInformation implements Serializable {
         }
 
         //CourseRange
-        if(this.getClusInRange().size()>0){
-            CluGroup cluRangeCourses = new CluGroup(this.getCluSetRange().getCluSetRangeLabel());
-            cluRangeCourses.setClus(this.getClusInRange());
-            cluGroups.add(cluRangeCourses);
+        for (CluSetRangeInformation cluSetRange : this.getCluSetRanges()) {
+            if (cluSetRange.getClusInRange().size() > 0) {
+                CluGroup cluRangeCourses = new CluGroup(cluSetRange.getCluSetRangeLabel());
+                cluRangeCourses.setClus(cluSetRange.getClusInRange());
+                cluGroups.add(cluRangeCourses);
+            }
         }
+
         return cluGroups;
     }
 

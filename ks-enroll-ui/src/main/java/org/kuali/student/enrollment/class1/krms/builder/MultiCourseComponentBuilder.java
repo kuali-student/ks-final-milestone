@@ -21,6 +21,7 @@ import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
+import org.kuali.student.enrollment.class1.krms.dto.CluSetRangeInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.keyvalues.GradeScaleValuesFinder;
 import org.kuali.student.enrollment.class1.krms.keyvalues.GradeValuesKeyFinder;
@@ -70,9 +71,6 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
                 CluSetInformation cluSetInfo = this.getCluSetInformation(cluSetId);
                 propositionEditor.setCluSet(cluSetInfo);
                 populatePropositionWrapper(propositionEditor);
-                if(cluSetInfo.hasMembershipQuery()){
-                    propositionEditor.getCluSet().getCluSetRange().resetFromQuery(cluSetInfo.getMembershipQueryInfo());
-                }
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -117,11 +115,11 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
     }
 
     private void populatePropositionWrapper(EnrolPropositionEditor propositionEditor) {
-        for(TermParameterEditor termParameterEditor : (List<TermParameterEditor>) propositionEditor.getTerm().getParameters()) {
-            if(termParameterEditor.getName().equals(GRADE_KEY)) {
+        for (TermParameterEditor termParameterEditor : (List<TermParameterEditor>) propositionEditor.getTerm().getParameters()) {
+            if (termParameterEditor.getName().equals(GRADE_KEY)) {
                 propositionEditor.setTermParameter(termParameterEditor.getValue());
-            } else if(termParameterEditor.getName().equals(GRADE_TYPE_KEY)) {
-                        propositionEditor.setGradeScale(termParameterEditor.getValue());
+            } else if (termParameterEditor.getName().equals(GRADE_TYPE_KEY)) {
+                propositionEditor.setGradeScale(termParameterEditor.getValue());
             }
         }
 
@@ -140,7 +138,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         result.setCluSetInfo(this.getCluSetInfo(cluSetId));
 
         List<String> cluIds = result.getCluSetInfo().getCluIds();
-        result.setMembershipQueryInfo(result.getCluSetInfo().getMembershipQuery());
+        this.createCluSetRange(result, result.getCluSetInfo().getMembershipQuery());
 
         // goes through the list of sub clusets and ignore the ones that are not reusable
         List<CluSetInfo> cluSetInfos = getCluSetInfos(result.getCluSetInfo().getCluSetIds());
@@ -148,20 +146,22 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             List<CluSetInformation> unWrappedCluSets = new ArrayList<CluSetInformation>();
             for (CluSetInfo subCluSet : cluSetInfos) {
                 if (subCluSet.getIsReusable()) {
+
+                    //Handle predefined clusets.
                     CluSetInformation cluSetInformation = new CluSetInformation(subCluSet);
                     cluSetInformation.setClus(this.getCluInfoHelper().getCourseInfos(subCluSet.getCluIds()));
                     unWrappedCluSets.add(cluSetInformation);
                 } else {
 
-                    //Retrieve the information from the wrapped clu cluset.
-                    if (subCluSet.getCluIds() != null && !subCluSet.getCluIds().isEmpty()) {
-                        cluIds = subCluSet.getCluIds();
-                    }
-
                     //Retrieve the information from the wrapped membership cluset.
-                    MembershipQueryInfo mqInfo = subCluSet.getMembershipQuery();
-                    if (mqInfo != null && mqInfo.getSearchTypeKey() != null && !mqInfo.getSearchTypeKey().isEmpty()) {
-                        result.setMembershipQueryInfo(mqInfo);
+                    if(subCluSet.getMembershipQuery()!=null){
+                        this.createCluSetRange(result, subCluSet.getMembershipQuery());
+                    } else {
+
+                        //Retrieve the information from the wrapped clu cluset.
+                        if (subCluSet.getCluIds() != null && !subCluSet.getCluIds().isEmpty()) {
+                            cluIds = subCluSet.getCluIds();
+                        }
                     }
                 }
             }
@@ -169,9 +169,27 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         }
 
         result.setClus(this.getCluInfoHelper().getCourseInfos(cluIds));
-        result.setClusInRange(this.getCluInfoHelper().getCluInfosWithDetailForQuery(result.getMembershipQueryInfo()));
 
         return result;
+    }
+
+    /**
+     * Creates a new clusetrangeinformation wrapper object for each membershipquery that exist in the
+     * wrapper cluset.
+     *
+     * @param clusetInfo
+     * @param mqInfo
+     */
+    private void createCluSetRange(CluSetInformation clusetInfo, MembershipQueryInfo mqInfo) {
+        if (mqInfo == null || mqInfo.getSearchTypeKey() == null || mqInfo.getSearchTypeKey().isEmpty()) {
+            return;
+        }
+        CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
+        cluSetRange.setMembershipQueryInfo(mqInfo);
+        cluSetRange.setClusInRange(this.getCluInfoHelper().getCluInfosWithDetailForQuery(mqInfo));
+        cluSetRange.setCluSetRangeLabel(clusetInfo.getRangeHelper().buildLabelFromQuery(mqInfo));
+
+        clusetInfo.getCluSetRanges().add(cluSetRange);
     }
 
     private List<CluSetInfo> getCluSetInfos(List<String> cluSetIds) {
@@ -198,6 +216,15 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         return cluSetInfo;
     }
 
+    /**
+     * This method build the CluSetInfo object based on the CluSetInformation wrapper object.
+     *
+     * Calculates if we require a wrapper cluset or not and the create sub clusets for the different types
+     * of clusets required to save the individual courses of membershipqueries.
+     *
+     * @param cluSetInformation
+     * @return
+     */
     public CluSetInfo buildCourseSet(CluSetInformation cluSetInformation) {
 
         // Create a Cluset if not exist.
@@ -207,7 +234,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
 
         // Set default properties.
         CluSetInfo cluSetInfo = cluSetInformation.getCluSetInfo();
-        if(cluSetInfo.getTypeKey()==null){
+        if (cluSetInfo.getTypeKey() == null) {
             cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
         }
         cluSetInfo.setStateKey("Active");
@@ -222,15 +249,15 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         cluSetInfo.getCluIds().clear();
 
         boolean hasCluIds = cluSetInformation.hasClus();
-        boolean hasMembershipQuery = cluSetInformation.hasMembershipQuery();
+        int nrOfMembershipQueries = cluSetInformation.getCluSetRanges().size();
 
-        //Set the cluset ids on the cluset
+        //Check if we require a wrapper cluset, if not set the information and return.
         if ((cluSetInformation.getCluSets() == null) && (cluSetInformation.getCluSets().isEmpty())) {
-            if (hasCluIds && !hasMembershipQuery) {
+            if (hasCluIds && nrOfMembershipQueries==0) {
                 cluSetInfo.setCluIds(cluSetInformation.getCluIds());
                 return cluSetInfo;
-            } else if (!hasCluIds && hasMembershipQuery) {
-                cluSetInfo.setMembershipQuery(cluSetInformation.getMembershipQueryInfo());
+            } else if (!hasCluIds && nrOfMembershipQueries==1) {
+                cluSetInfo.setMembershipQuery(cluSetInformation.getCluSetRanges().get(0).getMembershipQueryInfo());
                 return cluSetInfo;
             }
         } else {
@@ -239,21 +266,33 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             }
         }
 
+        // Add the individual courses to its own cluset and set the cluset on the wrapper cluset.
         if (hasCluIds) {
             CluSetInfo wrapperCluSet = new CluSetInfo();
             wrapperCluSet.setCluIds(cluSetInformation.getCluIds());
             cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInformation.getCluSetInfo()));
         }
 
-        if (hasMembershipQuery) {
-            CluSetInfo wrapperCluSet = new CluSetInfo();
-            wrapperCluSet.setMembershipQuery(cluSetInformation.getMembershipQueryInfo());
-            cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInformation.getCluSetInfo()));
+        // Add the course ranges to the wrapper cluset.
+        if (nrOfMembershipQueries>0) {
+            for(CluSetRangeInformation cluSetRange : cluSetInformation.getCluSetRanges()){
+                CluSetInfo wrapperCluSet = new CluSetInfo();
+                wrapperCluSet.setMembershipQuery(cluSetRange.getMembershipQueryInfo());
+                cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInformation.getCluSetInfo()));
+            }
         }
 
         return cluSetInfo;
     }
 
+    /**
+     * This method saves the inner cluset to the database and returns the id to add to the list
+     * of clusets for the wrapper cluset.
+     *
+     * @param wrapperCluSet
+     * @param cluSetInfo
+     * @return
+     */
     private String saveWrapperCluSet(CluSetInfo wrapperCluSet, CluSetInfo cluSetInfo) {
 
         //Set the properties to match parent cluset.

@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.krms.util;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
@@ -28,9 +29,8 @@ import java.util.List;
 /**
  * @author Kuali Student Team
  */
-public class CluSetRangeInformation implements Serializable {
+public class CluSetRangeHelper implements Serializable {
 
-    private String cluSetRangeLabel;
     private String subjectCode;
     private String courseNumberRange;
     private String learningObjective;
@@ -54,21 +54,16 @@ public class CluSetRangeInformation implements Serializable {
     public static final String CLU_SEARCH_PARM_DATE1 = "lu.queryParam.luOptionalEffectiveDate1";
     public static final String CLU_SEARCH_PARM_DATE2 = "lu.queryParam.luOptionalEffectiveDate2";
 
-    public CluSetRangeInformation() {
-        this.cluSetRangeLabel = StringUtils.EMPTY;
+    public CluSetRangeHelper() {
+        this.reset();
+    }
+
+    public void reset() {
         this.subjectCode = StringUtils.EMPTY;
         this.courseNumberRange = StringUtils.EMPTY;
         this.learningObjective = StringUtils.EMPTY;
         this.effectiveFrom = new Date();
         this.effectiveTo = new Date();
-    }
-
-    public String getCluSetRangeLabel() {
-        return cluSetRangeLabel;
-    }
-
-    public void setCluSetRangeLabel(String cluSetRangeLabel) {
-        this.cluSetRangeLabel = cluSetRangeLabel;
     }
 
     public String getSubjectCode() {
@@ -120,24 +115,19 @@ public class CluSetRangeInformation implements Serializable {
     }
 
     /**
-     * If the given membershipQuery is not null, update or reset the query settings with the attributes
-     * specified on the RangeHelper. If it is null, create a new membership query, set the parameters
+     * Create a new membership query, set the parameters
      * based on the RangeHelper attributes and return the new membershipquery.
      *
-     * @param membershipQueryInfo
      * @return
      */
-    public MembershipQueryInfo buildMembershipQuery(MembershipQueryInfo membershipQueryInfo) {
+    public MembershipQueryInfo buildMembershipQuery() {
 
-        if (membershipQueryInfo == null) {
-            membershipQueryInfo = new MembershipQueryInfo();
-        }
-
-        if (this.getSearchByCourseRange().equals(CluSetRangeInformation.COURSE_RANGE_COURSE_NUMBER)) {
+        MembershipQueryInfo membershipQueryInfo = new MembershipQueryInfo();
+        if (this.getSearchByCourseRange().equals(CluSetRangeHelper.COURSE_RANGE_COURSE_NUMBER)) {
             buildCourseRangeQuery(membershipQueryInfo);
-        } else if (this.getSearchByCourseRange().equals(CluSetRangeInformation.COURSE_RANGE_LEARNING_OBJECTIVES)) {
+        } else if (this.getSearchByCourseRange().equals(CluSetRangeHelper.COURSE_RANGE_LEARNING_OBJECTIVES)) {
             buildLearningObjectiveQuery(membershipQueryInfo);
-        } else if (this.getSearchByCourseRange().equals(CluSetRangeInformation.COURSE_RANGE_EFFECTIVE_DATE)) {
+        } else if (this.getSearchByCourseRange().equals(CluSetRangeHelper.COURSE_RANGE_EFFECTIVE_DATE)) {
             buildEffectiveDateQuery(membershipQueryInfo);
         }
 
@@ -147,25 +137,28 @@ public class CluSetRangeInformation implements Serializable {
     /**
      * Set the range label based on the query type.
      */
-    public void resetFromQuery(MembershipQueryInfo membershipQueryInfo) {
+    public String buildLabelFromQuery(MembershipQueryInfo membershipQueryInfo) {
 
-        List<SearchParamInfo> params = membershipQueryInfo.getQueryParamValues();
-        if (membershipQueryInfo.getSearchTypeKey().equals(CluSetRangeInformation.CLU_SEARCH_MOSTCURRENT)) {
-            resetCourseRangeLabel(this.getParmValue(params, CluSetRangeInformation.CLU_SEARCH_PARM_DIV),
-                    this.getParmValue(params, CluSetRangeInformation.CLU_SEARCH_PARM_RANGE));
-        } else if (membershipQueryInfo.getSearchTypeKey().equals(CluSetRangeInformation.LO_SEARCH_LODESC)) {
-            resetLearningObjectiveLabel(this.getParmValue(params, CluSetRangeInformation.LO_SEARCH_PARM_LODESC));
-        } else if (membershipQueryInfo.getSearchTypeKey().equals(CluSetRangeInformation.CLU_SEARCH_GENERIC)) {
-            resetEffectiveDateLabel(this.getParmValue(params, CluSetRangeInformation.CLU_SEARCH_PARM_DATE1),
-                    this.getParmValue(params, CluSetRangeInformation.CLU_SEARCH_PARM_DATE2));
+        if (membershipQueryInfo != null) {
+            List<SearchParamInfo> params = membershipQueryInfo.getQueryParamValues();
+            if (membershipQueryInfo.getSearchTypeKey().equals(CluSetRangeHelper.CLU_SEARCH_MOSTCURRENT)) {
+                return buildCourseRangeLabel(this.getParmValue(params, CluSetRangeHelper.CLU_SEARCH_PARM_DIV),
+                        this.getParmValue(params, CluSetRangeHelper.CLU_SEARCH_PARM_RANGE));
+            } else if (membershipQueryInfo.getSearchTypeKey().equals(CluSetRangeHelper.LO_SEARCH_LODESC)) {
+                return buildLearningObjectiveLabel(this.getParmValue(params, CluSetRangeHelper.LO_SEARCH_PARM_LODESC));
+            } else if (membershipQueryInfo.getSearchTypeKey().equals(CluSetRangeHelper.CLU_SEARCH_GENERIC)) {
+                return buildEffectiveDateLabel(this.getParmValue(params, CluSetRangeHelper.CLU_SEARCH_PARM_DATE1),
+                        this.getParmValue(params, CluSetRangeHelper.CLU_SEARCH_PARM_DATE2));
+            }
         }
+        return StringUtils.EMPTY;
 
     }
 
     private String getParmValue(List<SearchParamInfo> params, String key) {
         for (SearchParamInfo param : params) {
             if (param.getKey().equals(key)) {
-                for(String value : param.getValues()){
+                for (String value : param.getValues()) {
                     return value;
                 }
             }
@@ -179,24 +172,22 @@ public class CluSetRangeInformation implements Serializable {
      * @param membershipQueryInfo
      */
     private void buildCourseRangeQuery(MembershipQueryInfo membershipQueryInfo) {
-        membershipQueryInfo.setSearchTypeKey(CluSetRangeInformation.CLU_SEARCH_MOSTCURRENT);
+        membershipQueryInfo.setSearchTypeKey(CluSetRangeHelper.CLU_SEARCH_MOSTCURRENT);
 
         List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
-        queryParams.add(createSearchParam(CluSetRangeInformation.CLU_SEARCH_PARM_DIV, this.getSubjectCode()));
-        queryParams.add(createSearchParam(CluSetRangeInformation.CLU_SEARCH_PARM_RANGE, this.getCourseNumberRange()));
+        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DIV, this.getSubjectCode()));
+        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_RANGE, this.getCourseNumberRange()));
         queryParams.add(CluInformationHelper.getApprovedStateSearchParam());
         membershipQueryInfo.setQueryParamValues(queryParams);
-
-        resetCourseRangeLabel(this.getSubjectCode(), this.getCourseNumberRange());
     }
 
     /**
      * Reset the Label based on a Course Range Query.
      */
-    private void resetCourseRangeLabel(String subjectCode, String courseNumberRange) {
+    private String buildCourseRangeLabel(String subjectCode, String courseNumberRange) {
         subjectCode = StringEscapeUtils.escapeHtml(subjectCode);
         courseNumberRange = StringEscapeUtils.escapeHtml(courseNumberRange);
-        this.setCluSetRangeLabel("<b>Subject Code:</b> " + subjectCode + " <b>Course Number Range:</b> " + courseNumberRange + " <b>State:</b> Approved");
+        return "<b>Subject Code:</b> " + subjectCode + " <b>Course Number Range:</b> " + courseNumberRange + " <b>State:</b> Approved";
     }
 
     /**
@@ -205,21 +196,19 @@ public class CluSetRangeInformation implements Serializable {
      * @param membershipQueryInfo
      */
     private void buildLearningObjectiveQuery(MembershipQueryInfo membershipQueryInfo) {
-        membershipQueryInfo.setSearchTypeKey(CluSetRangeInformation.LO_SEARCH_LODESC);
+        membershipQueryInfo.setSearchTypeKey(CluSetRangeHelper.LO_SEARCH_LODESC);
 
         List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
-        queryParams.add(createSearchParam(CluSetRangeInformation.LO_SEARCH_PARM_LODESC, this.getLearningObjective()));
+        queryParams.add(createSearchParam(CluSetRangeHelper.LO_SEARCH_PARM_LODESC, this.getLearningObjective()));
         membershipQueryInfo.setQueryParamValues(queryParams);
-
-        resetLearningObjectiveLabel(this.getLearningObjective());
     }
 
     /**
      * Reset the Label based on a Learning Objective Query.
      */
-    private void resetLearningObjectiveLabel(String learningObjective) {
+    private String buildLearningObjectiveLabel(String learningObjective) {
         learningObjective = StringEscapeUtils.escapeHtml(learningObjective);
-        this.setCluSetRangeLabel("<b>Learning Objective:</b> " + learningObjective);
+        return "<b>Learning Objective:</b> " + learningObjective;
     }
 
     /**
@@ -228,23 +217,21 @@ public class CluSetRangeInformation implements Serializable {
      * @param membershipQueryInfo
      */
     private void buildEffectiveDateQuery(MembershipQueryInfo membershipQueryInfo) {
-        membershipQueryInfo.setSearchTypeKey(CluSetRangeInformation.CLU_SEARCH_GENERIC);
+        membershipQueryInfo.setSearchTypeKey(CluSetRangeHelper.CLU_SEARCH_GENERIC);
 
         List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
-        queryParams.add(createSearchParam(CluSetRangeInformation.CLU_SEARCH_PARM_DATE1, this.getEffectiveFrom().toString()));
-        queryParams.add(createSearchParam(CluSetRangeInformation.CLU_SEARCH_PARM_DATE2, this.getEffectiveTo().toString()));
+        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE1, this.getEffectiveFrom().toString()));
+        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE2, this.getEffectiveTo().toString()));
         membershipQueryInfo.setQueryParamValues(queryParams);
-
-        resetEffectiveDateLabel("" + this.getEffectiveFrom(), "" + this.getEffectiveTo().toString());
     }
 
     /**
      * Reset the Label based on an Effective Date Query.
      */
-    public void resetEffectiveDateLabel(String effectiveFrom, String effectiveTo) {
+    public String buildEffectiveDateLabel(String effectiveFrom, String effectiveTo) {
         effectiveFrom = StringEscapeUtils.escapeHtml(effectiveFrom);
         effectiveTo = StringEscapeUtils.escapeHtml(effectiveTo);
-        this.setCluSetRangeLabel("<b>Effective From:</b> " + effectiveFrom + " <b>Effective To:</b> " + effectiveTo);
+        return "<b>Effective From:</b> " + effectiveFrom + " <b>Effective To:</b> " + effectiveTo;
     }
 
     /**
@@ -262,4 +249,5 @@ public class CluSetRangeInformation implements Serializable {
 
         return param;
     }
+
 }

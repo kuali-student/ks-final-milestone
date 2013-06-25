@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.kuali.student.enrollment.class1.krms.util.CluSetRangeInformation;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 
 import java.io.Serializable;
@@ -88,6 +87,22 @@ public class ProgramCluSetInformation implements Serializable {
 
     public void setSubCluSetInformations(Map<String, ProgramCluSetInformation> subCluSetInformations) {
         this.subCluSetInformations = subCluSetInformations;
+    }
+
+    public int getProgCluListSize(){
+        if (this.getClus() != null) {
+            return this.getClus().size();
+        } else {
+            return 0;
+        }
+    }
+
+    public int getProgCluSetListSize(){
+        if (this.getCluSets() != null) {
+            return this.getCluSets().size();
+        } else {
+            return 0;
+        }
     }
 
     public String getCluDelimitedString() {

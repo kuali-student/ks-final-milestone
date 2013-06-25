@@ -732,7 +732,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
      if (selectedObject instanceof ActivityOfferingWrapper) {
             Properties urlParameters = ARGActivityOfferingClusterHandler.manageAO(form, ((ActivityOfferingWrapper) selectedObject).getAoInfo().getId());
-            return super.performRedirect(form, "krmsRuleStudentEditor", urlParameters);
+            return super.performRedirect(form, "activityOfferingRules", urlParameters);
         } else {
             throw new RuntimeException("Invalid type. Does not support for now");
         }
