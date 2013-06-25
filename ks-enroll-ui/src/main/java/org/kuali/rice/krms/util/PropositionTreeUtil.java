@@ -310,7 +310,7 @@ public class PropositionTreeUtil {
                 if (child.getCompoundEditors() == null) {
                     i++;
                     continue;
-                } else if (child.getCompoundEditors().size() == 1 && child.isNewProp()) {
+                } else if (child.getCompoundEditors().size() == 1) {
                     proposition.getCompoundEditors().set(i, child.getCompoundEditors().get(0));
                     continue;
                 } else if (child.getCompoundEditors().isEmpty() && child.getPropositionTypeCode().equals("C")) {
@@ -397,5 +397,14 @@ public class PropositionTreeUtil {
             return "OR";
         }
         return StringUtils.EMPTY;
+    }
+
+    public static boolean isSimpleCompounds(PropositionEditor propositionEditor) {
+        for(int index = 0; index < propositionEditor.getCompoundEditors().size(); index++) {
+            if(propositionEditor.getCompoundEditors().get(index).getPropositionTypeCode().equals("C")) {
+                return false;
+            }
+        }
+        return true;
     }
 }

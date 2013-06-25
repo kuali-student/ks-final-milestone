@@ -571,7 +571,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                     if(parent.getChildren().size() == 1) {
                         PropositionTreeUtil.removeCompoundProp((PropositionEditor) ruleEditor.getProposition());
                     } else if(parent.getChildren().size() == 3) {
-                        GlobalVariables.getMessageMap().putWarning("editWithObjectTree", "warning.krms.tree.compound.single.simple", parent.getData().getProposition().getKey());
+                        PropositionTreeUtil.removeCompoundProp((PropositionEditor) ruleEditor.getProposition());
                     }
                     if(granny.getData().getProposition().getCompoundEditors().isEmpty()) {
                         granny.getData().getProposition().getCompoundEditors().add(newIndex, prop);
@@ -870,6 +870,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
         if(parentNode.getNodeType().contains("treeRoot") && parentNode.getChildren().size() == 1) {
             parentNode.getChildren().clear();
             ruleEditor.reset();
+        } else if(parentNode.getNodeType().contains("treeRoot") && parentNode.getChildren().size() == 3){
+            PropositionEditor prop = (PropositionEditor) ruleEditor.getProposition();
+            for(int index = 0; index < prop.getCompoundEditors().size(); index++) {
+                if(!prop.getCompoundEditors().get(index).equals(PropositionTreeUtil.getProposition(ruleEditor))) {
+                    ruleEditor.setProposition(prop.getCompoundEditors().get(index));
+                }
+            }
         } else if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
             PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null) {
@@ -877,10 +884,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 for (int index = 0; index < children.size(); index++) {
                     if (selectedpropKey.equalsIgnoreCase(children.get(index).getKey())) {
                         parent.getCompoundComponents().remove(index);
-                        if(parent.getCompoundEditors().isEmpty()) {
+                        if(parent.getCompoundEditors().isEmpty() || parent.getCompoundEditors().size() == 1) {
                             PropositionTreeUtil.removeCompoundProp(ruleEditor.getPropositionEditor());
-                        } else if(parent.getCompoundEditors().size() == 1) {
-                            GlobalVariables.getMessageMap().putWarning("editWithObjectTree", "warning.krms.tree.compound.single.simple", parent.getKey());
                         }
                         break;
                     }
@@ -1117,6 +1122,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
             form.getView().setOnDocumentReadyScript("loadControlsInit();");
         } else {
             //Reset the editing tree.
+            if(proposition.getCompoundEditors().size() == 2 && PropositionTreeUtil.isSimpleCompounds(proposition)) {
+                for(int index = 0 ; index < proposition.getCompoundEditors().size(); index++) {
+                    if(!proposition.getCompoundEditors().get(index).equals(PropositionTreeUtil.getProposition(ruleEditor))) {
+                        ruleEditor.setProposition(proposition.getCompoundEditors().get(index));
+                    }
+                }
+            }
             ruleEditor.setSelectedKey(StringUtils.EMPTY);
             PropositionTreeUtil.cancelNewProp(proposition);
             PropositionTreeUtil.removeCompoundProp(proposition);

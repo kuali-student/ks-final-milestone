@@ -37,6 +37,7 @@ import java.util.Stack;
 public class RuleLogicExpressionParser {
 
     private String expression;
+    private boolean isOtiose;
 
     private List<ExpressionToken> tokenList;
 
@@ -335,8 +336,16 @@ public class RuleLogicExpressionParser {
     public PropositionEditor parseExpressionIntoRule(RuleEditor ruleEditor) {
 
         Stack<ExpressionToken> tokenStack = new Stack<ExpressionToken>();
+        int index = 0;
+        isOtiose = false;
         for (ExpressionToken token : tokenList) {
+            if(isOtioseCompound(token, tokenList, index)) {
+                index++;
+                continue;
+            }
+
             tokenStack.push(token);
+            index++;
         }
 
         Map<String, PropositionEditor> simplePropositions = new LinkedHashMap<String, PropositionEditor>();
@@ -344,6 +353,24 @@ public class RuleLogicExpressionParser {
         this.setupPropositions(simplePropositions, compoundPropositions, ruleEditor.getPropositionEditor());
 
         return ruleFromStack(tokenStack, simplePropositions, compoundPropositions, ruleEditor);
+    }
+
+    private boolean isOtioseCompound(ExpressionToken token, List<ExpressionToken> tokenList, int index) {
+
+        if(token.getType() == ExpressionToken.EndParenthesis && isOtiose) {
+            isOtiose = false;
+            return true;
+        }
+
+        if(token.getType() == ExpressionToken.StartParenthesis) {
+            if(tokenList.size() > index + 2) {
+                if(tokenList.get(index+1).getType() == ExpressionToken.Condition && tokenList.get(index+2).getType() == ExpressionToken.EndParenthesis) {
+                    isOtiose = true;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
