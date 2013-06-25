@@ -172,8 +172,7 @@ limitations under the License.
 
     <bean id="KS-AcademicTerm-Overview" parent="Uif-TableCollectionSection"
           p:renderAddLine="false"  >
-        <!--<property name="hidden" value="true"/> p:render="@{(termWrapperList.size()>0)?'true':'false'}"-->
-        <property name="hidden" value="@{#view.readOnly or termWrapperList.size()==0}"/>
+        <property name="hidden" value="@{termWrapperList.size()==0}"/>
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="headerText" value="Terms/Subterms"/>
