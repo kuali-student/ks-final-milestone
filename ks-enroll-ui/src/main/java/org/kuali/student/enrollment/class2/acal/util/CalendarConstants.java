@@ -126,4 +126,7 @@ public class CalendarConstants {
     public static final String SESSION_CALENDAR_SEARCH_NAME = "sessionCalendarSearchName";
     public static final String SESSION_CALENDAR_SEARCH_YEAR = "sessionCalendarSearchYear";
 
+    public static final String MESSAGE_CONFIRM_TO_DELETE_SUBTERM = "Are you sure you want to delete the Academic Subterm?";
+    public static final String MESSAGE_CONFIRM_TO_DELETE_TERM_WITH_SUBTERM = "Are you sure you want to delete the Academic Term? The associated subterms will be deleted as well.";
+    public static final String MESSAGE_CONFIRM_TO_DELETE_TERM_ONLY = "Are you sure you want to delete the Academic Term?";
 }

@@ -64,6 +64,7 @@ public class AcademicCalendarForm extends KSUifForm {
 
     private boolean makeOfficial;
     private String makeOfficialName;
+    private String messageForDeleteTermOrSubterm;
 
     public String getValidationJSONString() {
         return validationJSONString;
@@ -392,4 +393,11 @@ public class AcademicCalendarForm extends KSUifForm {
         this.makeOfficialName = makeOfficialName;
     }
 
+    public String getMessageForDeleteTermOrSubterm() {
+        return messageForDeleteTermOrSubterm;
+    }
+
+    public void setMessageForDeleteTermOrSubterm(String messageForDeleteTermOrSubterm) {
+        this.messageForDeleteTermOrSubterm = messageForDeleteTermOrSubterm;
+    }
 }

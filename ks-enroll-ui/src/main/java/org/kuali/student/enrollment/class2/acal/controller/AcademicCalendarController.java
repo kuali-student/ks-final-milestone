@@ -521,6 +521,28 @@ public class AcademicCalendarController extends UifControllerBase {
         return getUIFModelAndView(academicCalendarForm);
     }
 
+    private void setDeleteTermMessageWithContext(AcademicCalendarForm academicCalendarForm){
+        academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+        academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
+        academicCalendarForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH, academicCalendarForm.getSelectedCollectionPath());
+        if (academicCalendarForm.getSelectedLineIndex() != null && academicCalendarForm.getSelectedLineIndex().indexOf(",") > -1) {
+            academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, academicCalendarForm.getSelectedLineIndex().substring(0,academicCalendarForm.getSelectedLineIndex().indexOf(",")));
+        } else {
+            academicCalendarForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX, academicCalendarForm.getSelectedLineIndex());
+        }
+
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
+
+        AcademicTermWrapper selectedTermWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
+        if(selectedTermWrapper.isSubTerm()){
+            academicCalendarForm.setMessageForDeleteTermOrSubterm(CalendarConstants.MESSAGE_CONFIRM_TO_DELETE_SUBTERM);
+        }else if(selectedTermWrapper.isHasSubterm()){
+            academicCalendarForm.setMessageForDeleteTermOrSubterm(CalendarConstants.MESSAGE_CONFIRM_TO_DELETE_TERM_WITH_SUBTERM);
+        }else{
+            academicCalendarForm.setMessageForDeleteTermOrSubterm(CalendarConstants.MESSAGE_CONFIRM_TO_DELETE_TERM_ONLY);
+        }
+    }
+
     /**
      * This would mark a term for deletion if it's already there in the DB. If it's a newly added term, it just deletes
      * that.
@@ -537,9 +559,8 @@ public class AcademicCalendarController extends UifControllerBase {
 
         String dialog = CalendarConstants.TERM_DELETE_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, academicCalendarForm)) {
+            setDeleteTermMessageWithContext(academicCalendarForm);
             //redirect back to client to display lightbox
-            academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
-            academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
             return showDialog(dialog, academicCalendarForm, request, response);
         }else{
             if(hasDialogBeenAnswered(dialog,academicCalendarForm)){
@@ -549,9 +570,8 @@ public class AcademicCalendarController extends UifControllerBase {
                     return getUIFModelAndView(academicCalendarForm);
                 }
             } else {
+                setDeleteTermMessageWithContext(academicCalendarForm);
                 //redirect back to client to display lightbox
-                academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
-                academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
                 return showDialog(dialog, academicCalendarForm, request, response);
             }
         }
@@ -566,6 +586,7 @@ public class AcademicCalendarController extends UifControllerBase {
         int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper theTermWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
+
         if (!theTermWrapper.isNew()){
             academicCalendarForm.getTermsToDeleteOnSave().add(theTermWrapper);
         }
