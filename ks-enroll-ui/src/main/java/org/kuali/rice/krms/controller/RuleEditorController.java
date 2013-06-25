@@ -126,7 +126,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 agenda.getDeletedRules().add(ruleEditor);
             }
 
-            RuleEditor dummyRule = new RuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+            RuleEditor dummyRule = new RuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo(), true);
             dummyRule.setParent(ruleEditor.getParent());
             agenda.getRuleEditors().put(ruleEditor.getKey(), dummyRule);
         }

@@ -163,6 +163,21 @@ limitations under the License.
         </property>
     </bean>
 
+    <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
+        <property name="linkSeparator" value="@{#line.deleted ? ' | ' : ''}"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:render="@{#line.deleted}">
+                    <property name="toolTip">
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KRMS-EditRule-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
         <property name="onDocumentReadyScript" value="loadControlsInit();"/>
         <property name="items">

@@ -106,7 +106,7 @@ public class EnrolRuleEditorController extends RuleEditorController {
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
 
         RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(document);
-        EnrolRuleEditor enrolRuleEditor = new EnrolRuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+        EnrolRuleEditor enrolRuleEditor = new EnrolRuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo(), false);
         AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
 
         this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);

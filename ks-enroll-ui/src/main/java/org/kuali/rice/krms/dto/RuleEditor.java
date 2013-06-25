@@ -60,6 +60,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private String cutKey;
     private boolean dummy;
     private List<String> activeSelections;
+    private boolean deleted;
 
     //Edit with Logic
     private String logicArea;
@@ -84,11 +85,12 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         super();
     }
 
-    public RuleEditor(String key, boolean dummy, RuleTypeInfo ruleTypeInfo) {
+    public RuleEditor(String key, boolean dummy, RuleTypeInfo ruleTypeInfo, boolean deleted) {
         this.setKey(key);
         this.setDummy(dummy);
         this.setTypeId(ruleTypeInfo.getId());
         this.setRuleTypeInfo(ruleTypeInfo);
+        this.setDeleted(deleted);
     }
 
     public RuleEditor(RuleDefinitionContract definition) {
@@ -355,6 +357,14 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setParent(RuleEditor parent) {
         this.parent = parent;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public void reset(){
