@@ -155,18 +155,21 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-AcalOverview" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.name"
-                      p:label="Academic Calendar Name" p:labelPlacement="LEFT"
-                      p:fieldLabel.renderColon="false"/>
-                <!--<bean parent="Uif-DataField" p:propertyName="adminOrgName"-->
-                      <!--p:label="Organization" p:labelPlacement="LEFT"-->
-                      <!--p:fieldLabel.renderColon="false"/>-->
-                <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
-                      p:label="Start Date" p:labelPlacement="LEFT"
-                      p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.endDate"
-                      p:label="End Date" p:labelPlacement="LEFT"
-                      p:fieldLabel.renderColon="false"/>
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.name"
+                                  p:label="Academic Calendar Name" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
+                                  p:label="Start Date" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.endDate"
+                                  p:label="End Date" p:colSpan="3"
+                                  p:fieldLabel.renderColon="false"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
