@@ -900,6 +900,16 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         return mainTerm;
     }
 
+    
+    private DefaultOptionKeysService defaultOptionKeysService;
+
+    private DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return this.defaultOptionKeysService;
+    }
+    
     @Override
     public Map<String, Object> rolloverCourseOfferingFromSourceTermToTargetTerm(String courseOfferingCode, String sourceTermCode, String targetTermCode) throws Exception {
         _initServices();
@@ -912,8 +922,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         CourseOfferingInfo coInfo = coInfos.get(0); // Just get the first one
         Date start = new Date();
+        List<String> optionKeys = this.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
         SocRolloverResultItemInfo rolloverResultInfo =
-                coService.rolloverCourseOffering(coInfo.getId(), targetTerm.getId(), new ArrayList<String>(), contextInfo);
+                coService.rolloverCourseOffering(coInfo.getId(), targetTerm.getId(), optionKeys, contextInfo);
         Date end = new Date();
         String targetId = rolloverResultInfo.getTargetCourseOfferingId();
         CourseOfferingInfo targetCo = coService.getCourseOffering(targetId, contextInfo);

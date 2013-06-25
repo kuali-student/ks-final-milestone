@@ -42,6 +42,8 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysServiceImpl;
 
 /**
  * This class is used by the ARGCourseOfferingManagementController to handle AO operations
@@ -52,11 +54,20 @@ public class ARGCourseOfferingHandler {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ARGCourseOfferingHandler.class);
 
+    private static DefaultOptionKeysService defaultOptionKeysService;
+
+    private static DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return defaultOptionKeysService;
+    }
+    
     public static void copyCourseOfferingCreateCopy(ARGCourseOfferingManagementForm theForm) throws Exception {
 
         CourseOfferingCopyWrapper copyWrapper = theForm.getCourseOfferingCopyWrapper();
         CourseOfferingInfo courseOfferingInfo = copyWrapper.getCoInfo();
-        List<String> optionKeys = new ArrayList<String>();
+        List<String> optionKeys = getDefaultOptionKeysService ().getDefaultOptionKeysForCopySingleCourseOffering();
 
         if (copyWrapper.isExcludeSchedulingInformation()) {
             optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);

@@ -82,6 +82,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysServiceImpl;
 
 
 /**
@@ -270,6 +272,14 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         return getUIFModelAndView(form);
     }
 
+    private DefaultOptionKeysService defaultOptionKeysService;
+
+    private DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return this.defaultOptionKeysService;
+    }
     /**
      * This is mapped to the <i>'Copy from existing'</i> link
      *
@@ -280,7 +290,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         CourseOfferingInfo existingCO = ((ExistingCourseOffering) KSControllerHelper.getSelectedCollectionItem(form)).getCourseOfferingInfo();
         CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
-        List<String> optionKeys = new ArrayList<String>();
+        List<String> optionKeys = this.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
 
         if (createWrapper.isExcludeInstructorInformation()) {
             optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);

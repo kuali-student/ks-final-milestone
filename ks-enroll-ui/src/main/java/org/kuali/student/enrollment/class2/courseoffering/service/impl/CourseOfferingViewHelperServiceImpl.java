@@ -180,6 +180,15 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         }
     }
     
+    private DefaultOptionKeysService defaultOptionKeysService;
+
+    private DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return this.defaultOptionKeysService;
+    }
+    
     @Override
     public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         CourseOfferingSetService socService = _getSocService();
@@ -191,12 +200,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
                 GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
             } else {
                 String sourceSocId = socInfo.getId();
-                List<String> options = new ArrayList<String>();
-                // Rollover now runs asynchronously. KSENROLL-1545
-                // options.add(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY);
-                options.add(CourseOfferingSetServiceConstants.LOG_SUCCESSES_OPTION_KEY);
-                //Add this option to skip rollover if there is a new version
-                options.add(CourseOfferingSetServiceConstants.IF_NO_NEW_VERSION_OPTION_KEY);
+                List<String> options = this.getDefaultOptionKeysService().getDefaultOptionKeysForRolloverSoc();
                 socService.rolloverSoc(sourceSocId, targetTermId, options, context);
                 return true;
             }

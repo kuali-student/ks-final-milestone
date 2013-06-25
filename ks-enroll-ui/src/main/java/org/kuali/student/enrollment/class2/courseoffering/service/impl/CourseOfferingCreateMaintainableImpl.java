@@ -115,7 +115,16 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             }
         }
     }
+    
+    private DefaultOptionKeysService defaultOptionKeysService;
 
+    private DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return this.defaultOptionKeysService;
+    }
+    
     /**
      *
      * This method creates the CourseOffering for a course and for a specific term. This is being called
@@ -129,7 +138,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      */
     protected CourseOfferingInfo createCourseOfferingInfo(String termId, CourseInfo courseInfo, String courseOfferingSuffix,CourseOfferingInfo courseOffering) throws Exception {
 
-        List<String> optionKeys = new ArrayList<String>();
+        List<String> optionKeys = getDefaultOptionKeysService ().getDefaultOptionKeysForCreateCourseOfferingFromCanonical();
 
         courseOffering.setTermId(termId);
         courseOffering.setCourseOfferingTitle(courseInfo.getCourseTitle());

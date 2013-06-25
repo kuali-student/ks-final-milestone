@@ -140,6 +140,15 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         double diffInSeconds = diff / 1000.0;
         return diffInSeconds;
     }
+    
+    private DefaultOptionKeysService defaultOptionKeysService;
+
+    private DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return this.defaultOptionKeysService;
+    }
 
     @Override
     public Map<String, Object> rolloverCourseOfferingFromSourceTermToTargetTerm(String courseOfferingCode, String sourceTermId, String targetTermId) throws Exception {
@@ -151,8 +160,9 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         ContextInfo contextInfo = new ContextInfo();
         CourseOfferingInfo coInfo = coInfos.get(0); // Just get the first one
         Date start = new Date();
+        List<String> optionKeys = this.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
         SocRolloverResultItemInfo rolloverResultInfo =
-                coService.rolloverCourseOffering(coInfo.getId(), targetTermId, new ArrayList<String>(), contextInfo);
+                coService.rolloverCourseOffering(coInfo.getId(), targetTermId, optionKeys, contextInfo);
         Date end = new Date();
         String targetId = rolloverResultInfo.getTargetCourseOfferingId();
         CourseOfferingInfo targetCo = coService.getCourseOffering(targetId, contextInfo);
