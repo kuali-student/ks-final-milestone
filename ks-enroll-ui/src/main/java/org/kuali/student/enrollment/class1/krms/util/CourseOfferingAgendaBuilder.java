@@ -46,7 +46,7 @@ public class CourseOfferingAgendaBuilder extends AgendaBuilder {
         Component group = super.buildRule(rule, bindingPrefix, agendaSection);
 
         //Add warning messages for empty or deleted rules.
-        if (rule.isDummy() && rule.getParent() != null) {
+        if (rule.isDummy() && rule.getParent() != null)  {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), "warning.krms.agenda.rule.co.hasparent");
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), "warning.krms.agenda.rule.co.empty");
@@ -54,7 +54,10 @@ public class CourseOfferingAgendaBuilder extends AgendaBuilder {
 
         //Add Info message if co rule differs from clu rule.
         if (!this.getViewHelperService().compareRules(rule)) {
+            rule.setDiffer(true);
             GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.co.changed");
+        } else {
+            rule.setDiffer(false);
         }
 
         return group;

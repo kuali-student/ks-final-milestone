@@ -164,10 +164,10 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
-        <property name="linkSeparator" value="@{#line.deleted ? ' | ' : ''}"/>
+        <property name="linkSeparator" value="@{#line.differ ? ' | ' : ''}"/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:render="@{#line.deleted}">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:render="@{#line.differ}">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>

@@ -36,8 +36,8 @@ public class EnrolRuleEditor extends RuleEditor {
         super(definition);
     }
 
-    public EnrolRuleEditor(String key, boolean dummy, RuleTypeInfo ruleTypeInfo, boolean deleted) {
-        super(key, dummy, ruleTypeInfo, deleted);
+    public EnrolRuleEditor(String key, boolean dummy, RuleTypeInfo ruleTypeInfo) {
+        super(key, dummy, ruleTypeInfo);
     }
 
     @Override
