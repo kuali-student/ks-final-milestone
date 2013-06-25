@@ -78,10 +78,33 @@
                                     </bean>
                                 </property>
                             </bean>
+                            <bean parent="KS-KitchenSink-TextAreaField-Example-Holder-Future" />
+                            <bean parent="KS-KitchenSink-TextAreaField-Example-Holder-Future" />
+                            <bean parent="KS-KitchenSink-TextAreaField-Example-Holder-Future" />
+                            <bean parent="KS-KitchenSink-TextAreaField-Example-Holder-Future" />
+                            <bean parent="KS-KitchenSink-TextAreaField-Example-Holder-Future" />
+                            <bean parent="KS-KitchenSink-TextAreaField-Example-Holder-Future" />
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
+
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-TextAreaField-Example-Holder-Future">
+        <property name="propertyName" value="stringField1"/>
+        <property name="label" value="Field Label"/>
+        <property name="instructionalText" value="Instructional text can go here"/>
+        <property name="constraintText" value="Constraint text can go here"/>
+        <property name="helpSummary" value="Additional help or information for this field can go here."/>
+        <property name="control">
+            <bean parent="Uif-TextAreaControl">
+                <property name="style" value="resize:none;"/>
+                <property name="rows" value="7"/>
+                <property name="cols" value="35"/>
+                <property name="watermarkText" value="watermark can go here"/>
+            </bean>
+        </property>
+    </bean>
+
 </beans>
