@@ -222,15 +222,15 @@
                                     <bean parent="Uif-TextControl"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="adminOrgName"
-                                  p:label="Organization"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                            <!--<bean parent="Uif-InputField"-->
+                                  <!--p:propertyName="adminOrgName"-->
+                                  <!--p:label="Organization"-->
+                                  <!--p:readOnly="true"-->
+                                  <!--p:fieldLabel.renderColon="false">-->
+                                <!--<property name="control">-->
+                                    <!--<bean parent="Uif-TextControl"/>-->
+                                <!--</property>-->
+                            <!--</bean>-->
                             <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"

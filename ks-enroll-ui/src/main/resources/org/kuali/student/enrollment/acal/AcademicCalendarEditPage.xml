@@ -157,9 +157,9 @@ limitations under the License.
                 <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.name"
                       p:label="Academic Calendar Name" p:labelPlacement="LEFT"
                       p:fieldLabel.renderColon="false"/>
-                <bean parent="Uif-DataField" p:propertyName="adminOrgName"
-                      p:label="Organization" p:labelPlacement="LEFT"
-                      p:fieldLabel.renderColon="false"/>
+                <!--<bean parent="Uif-DataField" p:propertyName="adminOrgName"-->
+                      <!--p:label="Organization" p:labelPlacement="LEFT"-->
+                      <!--p:fieldLabel.renderColon="false"/>-->
                 <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
                       p:label="Start Date" p:labelPlacement="LEFT"
                       p:fieldLabel.renderColon="false"/>
@@ -235,12 +235,12 @@ limitations under the License.
                         <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="academicCalendarInfo.adminOrgId"
-                      p:label="Organization" p:labelPlacement="TOP">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="org-options"/>
-                    </property>
-                </bean>
+                <!--<bean parent="Uif-InputField-LabelTop" p:propertyName="academicCalendarInfo.adminOrgId"-->
+                      <!--p:label="Organization" p:labelPlacement="TOP">-->
+                    <!--<property name="control">-->
+                        <!--<bean parent="Uif-DropdownControl" p:options-ref="org-options"/>-->
+                    <!--</property>-->
+                <!--</bean>-->
                 <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.startDate"
                       p:label="Start Date" p:labelPlacement="TOP" p:required="true">
                     <property name="control">
@@ -451,15 +451,15 @@ limitations under the License.
                                     <bean parent="Uif-TextControl"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField"
-                                  p:propertyName="adminOrgName"
-                                  p:label="Organization"
-                                  p:readOnly="true"
-                                  p:render="@{!#isAddLine}"   >
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                            <!--<bean parent="Uif-InputField"-->
+                                  <!--p:propertyName="adminOrgName"-->
+                                  <!--p:label="Organization"-->
+                                  <!--p:readOnly="true"-->
+                                  <!--p:render="@{!#isAddLine}"   >-->
+                                <!--<property name="control">-->
+                                    <!--<bean parent="Uif-TextControl"/>-->
+                                <!--</property>-->
+                            <!--</bean>-->
                             <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"
