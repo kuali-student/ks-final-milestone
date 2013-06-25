@@ -92,7 +92,7 @@ limitations under the License.
                             </property>
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                                    <bean id="testing" parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                                           p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}" p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP"/>
                                     <bean parent="Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
