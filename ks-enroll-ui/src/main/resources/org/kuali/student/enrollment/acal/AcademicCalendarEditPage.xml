@@ -132,6 +132,7 @@ limitations under the License.
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
+        <property name="width" value="50%"/>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup">
@@ -181,14 +182,19 @@ limitations under the License.
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.cssClasses">
+            <list merge="true">
+                <value>ks-tablecollection-table-acal-overview</value>
+            </list>
+        </property>
+        <!--<property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
-                <!--<entry key="aaSorting" value="[[ 0, 'asc' ]]"/>-->
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
             </map>
-        </property>
+        </property>-->
         <property name="items">
             <list>
                 <bean parent="Uif-DataField"
@@ -202,7 +208,23 @@ limitations under the License.
                       p:propertyName="endDate" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="Status"
-                      p:propertyName="status" p:valign="middle"/>
+                      p:propertyName="status" p:valign="middle" p:render="@{#line.official}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>text-lozenge-green-msg</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField"
+                      p:label="Status"
+                      p:propertyName="status" p:valign="middle" p:render="@{!#line.official}">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>text-lozenge-grey-msg</value>
+                        </list>
+                    </property>
+                </bean>
+
             </list>
         </property>
         <property name="lineActions">
