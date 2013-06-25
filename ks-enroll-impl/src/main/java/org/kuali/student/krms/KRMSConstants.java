@@ -57,4 +57,9 @@ public final class KRMSConstants {
 
     }
 
+    public static class MessageKeys{
+        public static final String ERROR_APPROVED_PROGRAM_REQUIRED = "error.krms.approved.program.required";
+    }
+
+
 }

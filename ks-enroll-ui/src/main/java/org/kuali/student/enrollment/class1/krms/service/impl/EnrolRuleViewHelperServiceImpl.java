@@ -18,6 +18,8 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -25,13 +27,16 @@ import org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -61,7 +66,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
+public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
 
     private CluService cluService;
     private CourseOfferingService courseOfferingService;
@@ -101,7 +106,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             CluInformation clu = (CluInformation) addLine;
             if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
                 collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
-                return false;
+                  return false;
             }
 
             //Check if this clu is not already in the collection
@@ -129,6 +134,25 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 }
             }
         }
+        else if("proposition.progCluSet.clus".equals(collectionGroup.getPropertyName())){
+            //Check if this is a valid clu.
+            CluInformation clu = (CluInformation) addLine;
+            if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
+                collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), KRMSConstants.MessageKeys.ERROR_APPROVED_PROGRAM_REQUIRED);
+                return false;
+            }
+
+            //Check if this clu is not already in the collection
+            RuleEditor ruleEditor = this.getRuleEditor(model);
+            EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
+            for(CluInformation cluInformation : propEditor.getProgCluSet().getClus()){
+                if(cluInformation.getCluId().equals(clu.getCluId())){
+                    collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
+                    return false;
+                }
+            }
+        }
 
         return true;
     }
@@ -144,6 +168,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             CluInformation clu = (CluInformation) addLine;
             clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
             Collections.sort(propEditor.getCluSet().getClus());
+
         } else if ("proposition.cluSet.cluSets".equals(collectionGroup.getPropertyName())){
             //Set the clus on the wrapper object.
             CluSetInformation cluSet = (CluSetInformation) addLine;
@@ -164,6 +189,17 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                     return o1.getCluSetInfo().getName().compareTo(o2.getCluSetInfo().getName());
                 }
             });
+        }
+        else if("proposition.progCluSet.clus".equals(collectionGroup.getPropertyName())){
+            //Sort the clus.
+            RuleEditor ruleEditor = this.getRuleEditor(model);
+            EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
+
+            CluInformation clu = (CluInformation) addLine;
+            if(clu.getCluId() != null){
+                clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
+                Collections.sort(propEditor.getProgCluSet().getClus());
+            }
         }
     }
 

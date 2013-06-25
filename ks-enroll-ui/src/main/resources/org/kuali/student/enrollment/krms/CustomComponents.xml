@@ -858,7 +858,7 @@ limitations under the License.
                 </property>
             </bean>
         </property>
-        <property name="propertyName" value="proposition.progCluSet.clus"/>
+        <property name="propertyName" value="proposition.progCluSet.clus" />
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
         <property name="header">
