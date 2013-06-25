@@ -21,10 +21,8 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Context Bar"
                                url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-ContextBar-View-Base&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Unified Page Header M7"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-UnifiedPageHeader-View-Base-M7&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Unified Page Header Future"
-                               url="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-UnifiedPageHeader-View-Base&methodToCall=start" /></li>
+        <li><a href="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-UnifiedPageHeader-View-Base-M7&methodToCall=start">Unified Page Header M7</a></li>
+        <li><a href="${ConfigProperties.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-UnifiedPageHeader-View-Base&methodToCall=start">Unified Page Header Future</a></li>
     </ul>
 
     <strong>Data Fields</strong>
