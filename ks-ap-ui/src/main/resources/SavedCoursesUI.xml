@@ -355,10 +355,10 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:label="Scheduled For"
-                                  p:propertyName="courseDetails.scheduledTerms"
+                                  p:propertyName="courseDetails"
                                   p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal" p:labelPlacement="LEFT"
                                   p:escapeHtmlInPropertyValue="false">
-                                <property name="propertyEditor" ref="scheduled_terms_list_formatter"/>
+                                <property name="propertyEditor" ref="scheduled_terms_list_formatter_savedCourses"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>myplan-data-list</value>

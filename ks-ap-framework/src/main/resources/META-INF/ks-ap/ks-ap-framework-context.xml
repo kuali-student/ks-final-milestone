@@ -26,6 +26,11 @@
 
 	<bean id="ksapContext"
 		class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
+	
+	<bean id="ksapTextHelper"
+		class="org.kuali.student.ap.framework.context.support.DefaultTextHelper">
+		<property name="messageGroup" value="myplan" />
+	</bean>
 
 	<bean id="ksapTermHelper"
 		class="org.kuali.student.ap.framework.context.support.DefaultTermHelper" />

@@ -9,6 +9,7 @@ import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.OrgHelper;
 import org.kuali.student.ap.framework.context.ShoppingCartHelper;
 import org.kuali.student.ap.framework.context.TermHelper;
+import org.kuali.student.ap.framework.context.TextHelper;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
@@ -223,7 +224,7 @@ public final class KsapFrameworkServiceLocator {
 	public static OrgHelper getOrgHelper() {
 		return getInstance().ksapOrgHelper;
 	}
-	
+
 	/**
 	 * Get the course helper.
 	 * 
@@ -260,9 +261,23 @@ public final class KsapFrameworkServiceLocator {
 		return getInstance().enrollmentStatusHelper;
 	}
 
-    public static ShoppingCartHelper getShoppingCartHelper(){
-        return getInstance().shoppingCartHelper;
-    }
+	/**
+	 * Get the shopping cart helper implementation.
+	 * 
+	 * @return The shopping cart helper.
+	 */
+	public static ShoppingCartHelper getShoppingCartHelper() {
+		return getInstance().shoppingCartHelper;
+	}
+
+	/**
+	 * Get the message text helper.
+	 * 
+	 * @return The message text helper.
+	 */
+	public static TextHelper getTextHelper() {
+		return getInstance().ksapTextHelper;
+	}
 
 	@EJB
 	private transient AtpService ksCoreAtpService;
@@ -303,11 +318,13 @@ public final class KsapFrameworkServiceLocator {
 	@EJB
 	private transient CourseHelper ksapCourseHelper;
 	@EJB
+	private transient TextHelper ksapTextHelper;
+	@EJB
 	private transient AcademicPlanService academicPlanService;
 	@EJB
 	private transient EnrollmentStatusHelper enrollmentStatusHelper;
-    @EJB
-    private transient ShoppingCartHelper shoppingCartHelper;
+	@EJB
+	private transient ShoppingCartHelper shoppingCartHelper;
 	@EJB
 	@OptionalResource
 	// provided by ks-ap-ui or institution override

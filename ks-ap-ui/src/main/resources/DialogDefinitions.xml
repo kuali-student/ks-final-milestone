@@ -812,7 +812,7 @@
                                                     <bean p:id="addPlannedCourse" parent="Uif-PrimaryActionButton-Small"
                                                           p:actionLabel="Add To Plan">
                                                         <property name="actionScript"
-                                                                  value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', '@{courseSummaryDetails.courseId}', 'courseId', 'addPlanCourse', e,true);"/>
+                                                                  value="myplanAjaxSubmitPlanItem('@{courseSummaryDetails.courseId}', '@{courseSummaryDetails.courseIdXmlSafe}', 'courseId', 'addPlanCourse', e,true);"/>
                                                         <property name="onDocumentReadyScript" value="
                                                        jQuery('#addPlannedCourse')
                                                            .subscribe('PLAN_ITEM_ADDED', function(data){

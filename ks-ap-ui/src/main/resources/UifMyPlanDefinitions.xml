@@ -553,6 +553,9 @@
     <bean id="scheduled_terms_list_formatter"
           class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor"/>
 
+    <bean id="scheduled_terms_list_formatter_savedCourses"
+          class="org.kuali.student.myplan.course.util.ScheduledTermsPropertyEditor"/>
+
     <bean id="terms_formatter" class="org.kuali.student.myplan.course.util.CollectionListPropertyEditor">
         <property name="emptyListMessage"
                   value="Check with the department or your adviser for more information about this course."/>

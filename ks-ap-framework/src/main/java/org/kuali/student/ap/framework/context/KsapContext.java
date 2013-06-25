@@ -1,6 +1,5 @@
 package org.kuali.student.ap.framework.context;
 
-import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**

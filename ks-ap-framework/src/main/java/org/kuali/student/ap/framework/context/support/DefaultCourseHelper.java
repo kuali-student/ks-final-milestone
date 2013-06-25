@@ -87,19 +87,22 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		try {
 			List<String> scheduledTerms = new java.util.LinkedList<String>();
 			for (Term t : KsapFrameworkServiceLocator.getTermHelper()
-					.getPublishedTerms())
-				try {
-					// TODO: This is inefficient without institutional override
-					if (!KsapFrameworkServiceLocator
-							.getCourseOfferingService()
-							.getCourseOfferingsByCourseAndTerm(
-									course.getId(),
-									t.getId(),
-									KsapFrameworkServiceLocator.getContext()
-											.getContextInfo()).isEmpty())
-						scheduledTerms.add(t.getId());
-				} catch (DoesNotExistException e) {
-				}
+					.getPublishedTerms()) {
+				String termId = KsapFrameworkServiceLocator.getTermHelper()
+						.getOldestHistoricalTerm().getId();
+				QueryByCriteria crit = QueryByCriteria.Builder
+						.fromPredicates(PredicateFactory.and(PredicateFactory
+								.in("cluId", new String[] { course.getId(), }),
+								PredicateFactory.greaterThanOrEqual("atpId",
+										termId)));
+				if (!KsapFrameworkServiceLocator
+						.getCourseOfferingService()
+						.searchForCourseOfferingIds(
+								crit,
+								KsapFrameworkServiceLocator.getContext()
+										.getContextInfo()).isEmpty())
+					scheduledTerms.add(t.getId());
+			}
 			return scheduledTerms;
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);
