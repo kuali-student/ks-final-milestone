@@ -183,7 +183,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="Suggest2.java"
-                                               value="http://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ui/src/main/java/org/kuali/rice/krad/uif/widget/Suggest2.java"/>
+                                               value="http://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ui/src/main/java/org/kuali/rice/krad/uif/widget/Suggest2.java"/>
                                         <entry key="InputField.java"
                                                value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
                                         <entry key="AttributeQuery.java"
