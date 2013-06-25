@@ -936,15 +936,16 @@ div#Uif-ApplicationHeader-Wrapper{
     left: -100px;
 }
 
-
-
-
 /*define a gray box as background*/
-.ks-gray-background {
+.ks-gray-background  {
     background-color: #ebebeb;
     border:none;
     padding:5px 10px 5px 10px;
     width:100%;
+    line-height:15px;
+}
+.ks-gray-background label {
+    line-height:15px;
 }
 
 .ks-no-margins table,

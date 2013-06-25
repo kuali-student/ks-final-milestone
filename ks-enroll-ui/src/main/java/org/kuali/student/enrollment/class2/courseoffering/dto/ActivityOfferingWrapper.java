@@ -137,6 +137,8 @@ public class ActivityOfferingWrapper implements Serializable{
     private String subTermEndDate = "";
     private String subTermStartEndDateAsString = "";
 
+    private String termStartEndDate = "";
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -569,20 +571,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public String getStartTimeDisplay() {
         return startTimeDisplay;
-    }
-
-    public String getTermStartEndDateAsString() {
-        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
-        StringBuilder stringBuilder = new StringBuilder();
-        Formatter formatter = new Formatter(stringBuilder, Locale.US);
-        String displayString = "not available";
-        if (this.getTerm() != null) {
-            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(this.getTerm().getStartDate());
-            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(this.getTerm().getEndDate());
-            formatter.format("%s - %s", startDate, endDate);
-            displayString = stringBuilder.toString();
-        }
-        return displayString;
     }
 
     public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay) {
@@ -1046,5 +1034,13 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setSubTermStartEndDateAsString(String subTermStartEndDateAsString) {
         this.subTermStartEndDateAsString = subTermStartEndDateAsString;
     }
+    public String getTermStartEndDate() {
+        return termStartEndDate;
+    }
+
+    public void setTermStartEndDate(String termStartEndDate) {
+        this.termStartEndDate = termStartEndDate;
+    }
+
 
 }
