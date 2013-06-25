@@ -265,7 +265,7 @@
     <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
           p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
         <property name="id" value="acal-term-keydatesgroup"/>
-        <property name="disclosure.defaultOpen" value="false"/>
+        <property name="disclosure.render" value="false"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
         <property name="propertyName" value="keyDatesGroupWrappers" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
@@ -314,9 +314,7 @@
 
     <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
           p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}" p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
-        <property name="propertyName" value="keydates" />
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
+        <property name="propertyName" value="keydates" />                <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
         <property name="header.render" value="false"/>
         <!--<property name="layoutManager.numberOfColumns" value="@{#view.readOnly ? 3 : 9}"/>-->
         <property name="layoutManager.style" value="width:100%;"/>
