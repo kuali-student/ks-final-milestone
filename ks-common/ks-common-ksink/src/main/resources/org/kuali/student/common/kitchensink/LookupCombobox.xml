@@ -171,7 +171,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="UifKSDefinitions.xml (KS-Uif-Suggest)"
-                                               value="http://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ui/src/main/resources/UifKSDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ui/src/main/resources/UifKSDefinitions.xml"/>
                                         <entry key="UifFieldDefinitions.xml (Uif-InputField)"
                                                value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
                                         <entry key="UifConfigurationDefinitions.xml (Uif-AttributeQueryConfig)"
