@@ -64,11 +64,6 @@ public class TestCourseOfferingSetServiceMockImpl {
     public void setUp() {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-//        try {
-//            loadData();
-//        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-//        }
     }
 
     @Test
@@ -186,38 +181,16 @@ public class TestCourseOfferingSetServiceMockImpl {
 
         // update the state
         orig = info;
-        orig.setStateKey(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY);
+        /*orig.setStateKey(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY);
         try {
             info = this.socService.updateSoc(orig.getId(), orig, callContext);
             fail("should have gotten readonly exception");
         } catch (ReadOnlyException ex) {
             // expected
-        }
-        StatusInfo status = this.socService.changeSocState(orig.getId(), CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, callContext);
-        assertEquals(Boolean.TRUE, status.getIsSuccess());
-        info = this.socService.getSoc(orig.getId(), callContext);
-        assertNotSame(orig, info);
-        assertEquals(orig.getId(), info.getId());
-        assertEquals(orig.getName(), info.getName());
-        assertNotNull(info.getDescr());
-        assertEquals(orig.getDescr().getPlain(), info.getDescr().getPlain());
-        assertEquals(orig.getDescr().getFormatted(), info.getDescr().getFormatted());
-        assertEquals(orig.getTypeKey(), info.getTypeKey());
-        assertEquals(orig.getStateKey(), info.getStateKey());
-        assertEquals(orig.getTermId(), info.getTermId());
-        assertEquals(orig.getSubjectArea(), info.getSubjectArea());
-        assertEquals(4, info.getAttributes().size());
-        assertNotNull(info.getAttributeValue(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY));
-//        new AttributeTester().check(orig.getAttributes(), info.getAttributes());
-        assertNotNull(info.getMeta());
-        assertEquals(orig.getMeta().getCreateId(), info.getMeta().getCreateId());
-        assertEquals(orig.getMeta().getCreateTime(), info.getMeta().getCreateTime());
-        assertNotNull(info.getMeta().getUpdateId());
-        assertNotNull(info.getMeta().getUpdateTime());
+        }*/
 
         // delete
-        orig = info;
-        status = this.socService.deleteSoc(orig.getId(), callContext);
+        StatusInfo status = this.socService.deleteSoc(orig.getId(), callContext);
         assertEquals(Boolean.TRUE, status.getIsSuccess());
 
         // try getting again
