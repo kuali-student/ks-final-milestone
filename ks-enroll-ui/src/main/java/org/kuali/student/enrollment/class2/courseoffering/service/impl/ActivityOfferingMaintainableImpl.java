@@ -309,6 +309,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             // Set the display string (e.g. 'FALL 2020 (9/26/2020 to 12/26/2020)')
             // Now have to deal with subterms: have to check if it's subterm or term
             TermInfo term = null;
+            TermInfo subTerm=null;
             wrapper.setHasSubTerms(false);
             wrapper.setSubTermName("None");
             wrapper.setSubTermId("");
@@ -322,22 +323,23 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     wrapper.setHasSubTerms(true);
                 }
             } else {
-                TermInfo subTerm = new TermInfo(termTemp);
+                subTerm = new TermInfo(termTemp);
                 term = getAcademicCalendarService().getContainingTerms(info.getTermId(), contextInfo).get(0);
                 wrapper.setHasSubTerms(true);
                 wrapper.setSubTermId(subTerm.getId());
                 TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                 wrapper.setSubTermName(subTermType.getName());
-                wrapper.setSubTermStartDate(subTerm.getStartDate().toString().substring(0, 10));
-                wrapper.setSubTermEndDate(subTerm.getEndDate().toString().substring(0, 10));
-                wrapper.setSubTermStartEndDateAsString(wrapper.getSubTermStartDate()+" - "+wrapper.getSubTermEndDate());
             }
             wrapper.setTerm(term);
             if (term != null) {
                 wrapper.setTermName(term.getName());
             }
             wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
-            wrapper.setTermStartEndDate(getTermStartEndDate(info.getTermId(), term));
+            if (subTerm!=null) {
+                wrapper.setTermStartEndDate(getTermStartEndDate(info.getTermId(), subTerm));
+            } else {
+                wrapper.setTermStartEndDate(getTermStartEndDate(info.getTermId(), term));
+            }
             // end subterms
 
             List<TypeInfo> regPeriods = getTypeService().getTypesForGroupType("kuali.milestone.type.group.appt.regperiods", contextInfo);

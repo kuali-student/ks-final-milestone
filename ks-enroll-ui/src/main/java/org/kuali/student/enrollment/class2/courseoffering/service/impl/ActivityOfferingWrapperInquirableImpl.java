@@ -78,25 +78,29 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
 
             // Now have to deal with subterms: have to check if it's subterm or term
             TermInfo term = null;
+            TermInfo subTerm=null;
             wrapper.setSubTermName("None");
             TermInfo termTemp = getAcalService().getTerm(info.getTermId(), contextInfo);
             List<TypeTypeRelationInfo> terms = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(termTemp.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
             if (terms == null || terms.isEmpty()) {
                 term = new TermInfo(termTemp);
             } else {
-                TermInfo subTerm = new TermInfo(termTemp);
+                subTerm = new TermInfo(termTemp);
                 term = getAcalService().getContainingTerms(info.getTermId(), contextInfo).get(0);
                 TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                 wrapper.setSubTermName(subTermType.getName());
-                wrapper.setSubTermStartDate(subTerm.getStartDate().toString().substring(0, 10));
-                wrapper.setSubTermEndDate(subTerm.getEndDate().toString().substring(0, 10));
-                wrapper.setSubTermStartEndDateAsString(wrapper.getSubTermStartDate()+" - "+wrapper.getSubTermEndDate());
             }
             wrapper.setTerm(term);
             if (term != null) {
                 wrapper.setTermName(term.getName());
             }
             wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
+
+            if (subTerm!=null) {
+                wrapper.setTermStartEndDate(getTermStartEndDate(info.getTermId(), subTerm));
+            } else {
+                wrapper.setTermStartEndDate(getTermStartEndDate(info.getTermId(), term));
+            }
             // end subterms
 
             wrapper.setCourseOfferingCode(info.getCourseOfferingCode());
@@ -218,5 +222,19 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
             populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationService"));
         }
         return populationService;
+    }
+
+    private String getTermStartEndDate(String termId, TermInfo term) {
+        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
+        StringBuilder stringBuilder = new StringBuilder();
+        Formatter formatter = new Formatter(stringBuilder, Locale.US);
+        String displayString = termId; // use termId as a default.
+        if (term != null) {
+            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
+            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
+            formatter.format("%s - %s", startDate, endDate);
+            displayString = stringBuilder.toString();
+        }
+        return displayString;
     }
 }
