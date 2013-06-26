@@ -764,7 +764,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             // add to new and refresh the tree
             addProposition(selectedPropKey, newParent, workingProp);
             viewHelper.refreshInitTrees(ruleEditor);
-        } else if (StringUtils.isNotBlank(movePropKey) && !cutAction && !ruleEditor.getPropositionEditor().getCompoundEditors().isEmpty()) {
+        } else if (StringUtils.isNotBlank(movePropKey) && !cutAction && isCompoundsNullOrEmpty(ruleEditor.getPropositionEditor().getCompoundEditors())) {
             Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
             PropositionEditor newParent = getNewParent(viewHelper, ruleEditor, selectedPropKey, root);
             PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(root, movePropKey).getData().getProposition();
@@ -800,6 +800,16 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         // call the super method to avoid the agenda tree being reloaded from the db
         return getUIFModelAndView(form);
+    }
+
+    private boolean isCompoundsNullOrEmpty(List<PropositionEditor> compoundEditors) {
+        if(compoundEditors != null) {
+            if(!compoundEditors.isEmpty()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -895,7 +905,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
             parentNode.getChildren().clear();
             ruleEditor.reset();
         }
-
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
         return getUIFModelAndView(form);
     }
