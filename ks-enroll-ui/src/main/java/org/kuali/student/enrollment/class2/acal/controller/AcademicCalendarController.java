@@ -147,6 +147,12 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView startNew( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
 
+        // check view authorization
+        if (acalForm.getView() != null) {
+            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+            checkViewAuthorization(acalForm, methodToCall);
+        }
+
         try {
             AcademicCalendarInfo acalInfo = getAcalViewHelperService(acalForm).getLatestAcademicCalendar();
             acalForm.setCopyFromAcal(acalInfo);
