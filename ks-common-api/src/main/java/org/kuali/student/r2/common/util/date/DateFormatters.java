@@ -39,6 +39,7 @@ public class DateFormatters {
     public static final String DEFAULT_MONTH_YEAR_TIME_DATE_FORMAT = "MM-dd-yyyy hh:mm a";            // 11-08-2012 02:52 pm
     public static final String DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMAT = "yyyy-MM-dd HH:mm:ss.S";                  // 2012-08-11 02:52:26.9
     public static final String QUERY_SERVICE_TIMESTAMP_FORMAT = "EEE MMM dd hh:mm:ss zzz yyyy";
+    public static final String YEAR_MONTH_DAY_DATE_FORMAT = "yyyy/MM/dd";                             // 2012/11/08
 
     /**
      * DO NOT USE THIS CONSTANT unless you absolutely have to and for Date->String only.
@@ -67,4 +68,5 @@ public class DateFormatters {
     public static final KSDateTimeFormatter DEFAULT_MONTH_YEAR_TIME_DATE_FORMATTER = new KSDateTimeFormatter(DEFAULT_MONTH_YEAR_TIME_DATE_FORMAT);
     public static final KSDateTimeFormatter DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER = new KSDateTimeFormatter(DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMAT);
     public static final KSDateTimeFormatter QUERY_SERVICE_TIMESTAMP_FORMATTER = new KSDateTimeFormatter(QUERY_SERVICE_TIMESTAMP_FORMAT);
+    public static final KSDateTimeFormatter YEAR_MONTH_DAY_DATE_FORMATTER = new KSDateTimeFormatter(YEAR_MONTH_DAY_DATE_FORMAT);
 }
