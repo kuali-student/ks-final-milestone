@@ -112,6 +112,7 @@ limitations under the License.
 
     <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
         <property name="headerText" value="Calendar" />
+        <property name="header.render" value="false"/>
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="items">
             <list>

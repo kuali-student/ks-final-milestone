@@ -7,6 +7,7 @@
 
     <bean id="KS-AcademicTerm-EditSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Terms" />
+        <property name="header.render" value="false"/>
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="header.style" value="margin-bottom:0"/>
         <property name="items">
