@@ -862,7 +862,7 @@ limitations under the License.
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class1.krms.dto.CluInformation"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.cluSet.progCluListSize gt 0">
+            <bean parent="Uif-HeaderSix" p:progressiveRender="#np.proposition.progCluSet.progCluListSize gt 0">
                 <property name="lowerGroup">
                     <bean parent="Uif-InactiveItemsActionsGroup"/>
                 </property>
