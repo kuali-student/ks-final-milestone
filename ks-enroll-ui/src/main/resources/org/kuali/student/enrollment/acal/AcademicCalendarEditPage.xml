@@ -180,7 +180,7 @@ limitations under the License.
         <property name="hidden" value="@{termWrapperList.size()==0}"/>
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
-        <property name="headerText" value="Terms/Subterms"/>
+        <property name="headerText" value="Terms"/>
         <!--<property name="instructionalText" value="@{#line.clusterNameForDisplay}" />-->
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
