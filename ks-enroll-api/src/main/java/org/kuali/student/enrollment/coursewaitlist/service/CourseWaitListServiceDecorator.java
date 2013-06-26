@@ -39,7 +39,7 @@ import java.util.List;
  * to add additional functionality
  *
  */
-public class CourseWaiListServiceDecorator implements CourseWaitListService {
+public class CourseWaitListServiceDecorator implements CourseWaitListService {
 
     private CourseWaitListService nextDecorator;
 
