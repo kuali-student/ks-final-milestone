@@ -187,6 +187,9 @@ limitations under the License.
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label=""/>
+        </property>
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-tablecollection-table-acal-overview</value>
