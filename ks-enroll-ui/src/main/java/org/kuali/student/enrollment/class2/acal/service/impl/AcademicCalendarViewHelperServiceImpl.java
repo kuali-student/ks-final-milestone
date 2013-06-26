@@ -460,7 +460,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception {
         AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event,false);
         AcalEventInfo updatedEventInfo = getAcalService().updateAcalEvent(eventId, eventInfo, createContextInfo());
-//        AcalEventInfo updatedEventInfo = getAcalService().getAcalEvent(eventId, createContextInfo());
         event.setAcalEventInfo(updatedEventInfo);
         return event;
     }
@@ -1003,8 +1002,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         term.setTypeKey(termWrapper.getTermType());
         
         if (termWrapper.isNew() && !termWrapper.isSubTerm()){ //handle term
-            TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
-            termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
+            term = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
+            termWrapper.setTermInfo(term);
             getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),createContextInfo());
         }else if(termWrapper.isNew() && termWrapper.isSubTerm()){ //handle subterm
             //the parent term must exist in DB
@@ -1014,14 +1013,14 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 throw new Exception("Parent Term does not exist. Therefor unable to save subterm.");
             }else{
                 termWrapper.setParentTermInfo(parentTermInfo);
-                TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
-                termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),createContextInfo()));
+                term = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
+                termWrapper.setTermInfo(term);
                 getAcalService().addTermToTerm(termWrapper.getParentTermInfo().getId(), termWrapper.getTermInfo().getId(), createContextInfo());
             }
         }else {
             //Update the term
-            TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,createContextInfo());
-            termWrapper.setTermInfo(updatedTerm);
+            term = getAcalService().updateTerm(term.getId(),term,createContextInfo());
+            termWrapper.setTermInfo(term);
         }
 
         for (KeyDateWrapper keyDateWrapper : termWrapper.getKeyDatesToDeleteOnSave()) {
