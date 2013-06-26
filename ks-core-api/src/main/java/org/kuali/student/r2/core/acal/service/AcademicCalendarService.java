@@ -1348,6 +1348,24 @@ public interface AcademicCalendarService {
     public List<KeyDateInfo> getKeyDatesForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of KeyDates IDs immediately mapped to a Term ordered by
+     * date.  Useful for bulk deletes where only IDs are needed.  Reduces overhead
+     * from constructing full KeyDateInfo objects.
+     *
+     * @param termId      an identifier for a term
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of KeyDates mapped to the given Term
+     * @throws DoesNotExistException     termId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException termId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getKeyDateIdsForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves a list of KeyDates immediately mapped to a Term that fall
      * within the given date range inclusive ordered by date. The dates include
      * only those dates immediate mapped to the Term.
