@@ -330,9 +330,7 @@ limitations under the License.
     <bean id="KSCO-RuleHeader-BoxSection" parent="KRMS-RuleHeader-BoxSection">
         <property name="items">
             <list>
-                <bean id="KRMS-RuleHeader-Section" parent="Uif-VerticalBoxSection" p:style="max-width: 54em%;">
-                    <property name="instructionalText" value="@{#dp.ruleEditor.ruleTypeInfo.instruction}"/>
-                </bean>
+                <ref bean="KRMS-RuleHeader-Section"/>
                 <bean id="KSCO-RulePreview-ActionLinks" parent="KSCO-RulePreview-Links" p:style="float: right"/>
             </list>
         </property>
