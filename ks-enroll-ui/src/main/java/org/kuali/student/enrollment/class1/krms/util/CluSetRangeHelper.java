@@ -155,7 +155,14 @@ public class CluSetRangeHelper implements Serializable {
 
     }
 
-    private String getParmValue(List<SearchParamInfo> params, String key) {
+    /**
+     * Static helper method to retrieve the search parameter value for the given key.
+     *
+     * @param params
+     * @param key
+     * @return
+     */
+    public static String getParmValue(List<SearchParamInfo> params, String key) {
         for (SearchParamInfo param : params) {
             if (param.getKey().equals(key)) {
                 for (String value : param.getValues()) {

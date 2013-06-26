@@ -15,6 +15,8 @@
  */
 package org.kuali.student.enrollment.class1.krms.util;
 
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -113,8 +115,6 @@ public class CluInformationHelper {
 
                 //retrieve credit type and credit values
                 ResultValuesGroupInfo resultComponentInfo = null;
-                List<String> resultValues = null;
-                String creditType = "";
                 if (cluResultInfo.getResultOptions() != null) {
                     for (ResultOptionInfo resultOption : cluResultInfo.getResultOptions()) {
                         if (resultOption.getResultComponentId() != null) {
@@ -135,14 +135,42 @@ public class CluInformationHelper {
     public List<CluInformation> getCluInfosForQuery(MembershipQueryInfo membershipQuery) {
 
         if (membershipQuery != null) {
-            SearchRequestInfo searchRequest = new SearchRequestInfo();
-            searchRequest.setSearchKey(membershipQuery.getSearchTypeKey());
-            searchRequest.setParams(membershipQuery.getQueryParamValues());
-            try {
-                SearchResultInfo searchResult = this.getCluService().search(searchRequest, ContextUtils.getContextInfo());
-                return resolveCluSearchResultSet(searchResult);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+
+            // Handle Date queries for the course ranges.
+            if (membershipQuery.getSearchTypeKey().equals(CluSetRangeHelper.CLU_SEARCH_GENERIC)) {
+
+                String firstDate = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE1);
+                String secondDate = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE2);
+
+                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", "to_date('" + firstDate + "','yyyy-mm-dd')"),
+                        PredicateFactory.lessThanOrEqual("effectiveDate", "to_date('" + secondDate + "','yyyy-mm-dd')"));
+
+                try {
+                    List<CluInfo> cluInfos = this.getCluService().searchForClus(qbcBuilder.build(), ContextUtils.getContextInfo());
+
+                    List<CluInformation> cluInformations = new ArrayList<CluInformation>();
+                    for (CluInfo cluInfo : cluInfos) {
+                        CluInformation cluInformation = new CluInformation(cluInfo.getOfficialIdentifier().getCode(), cluInfo.getOfficialIdentifier().getShortName().toUpperCase(), "");
+                        cluInformation.setCluId(cluInfo.getId());
+                        cluInformations.add(cluInformation);
+                    }
+                    return cluInformations;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                //All other search use the r1 search service.
+                SearchRequestInfo searchRequest = new SearchRequestInfo();
+                searchRequest.setSearchKey(membershipQuery.getSearchTypeKey());
+                searchRequest.setParams(membershipQuery.getQueryParamValues());
+
+                try {
+                    SearchResultInfo searchResult = this.getCluService().search(searchRequest, ContextUtils.getContextInfo());
+                    return resolveCluSearchResultSet(searchResult);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
 
         }
@@ -151,15 +179,15 @@ public class CluInformationHelper {
 
     public List<CluInformation> getCluInfosWithDetailForQuery(MembershipQueryInfo membershipQuery) {
         List<CluInformation> cluInfos = this.getCluInfosForQuery(membershipQuery);
-        if(cluInfos!=null){
-            for(CluInformation cluInfo : cluInfos){
+        if (cluInfos != null) {
+            for (CluInformation cluInfo : cluInfos) {
                 cluInfo.setCredits(this.getCreditInfo(cluInfo.getCluId()));
             }
         }
         return cluInfos;
     }
 
-    public static SearchParamInfo getApprovedStateSearchParam(){
+    public static SearchParamInfo getApprovedStateSearchParam() {
         SearchParamInfo searchParam = new SearchParamInfo();
         searchParam.setKey("lu.queryParam.luOptionalState");
         searchParam.getValues().add("Approved");
@@ -169,7 +197,7 @@ public class CluInformationHelper {
         return searchParam;
     }
 
-    public static List<CluInformation> resolveCluSearchResultSet(SearchResultInfo searchResult){
+    public static List<CluInformation> resolveCluSearchResultSet(SearchResultInfo searchResult) {
         List<CluInformation> clus = new ArrayList<CluInformation>();
         List<SearchResultRowInfo> rows = searchResult.getRows();
         for (SearchResultRowInfo row : rows) {
@@ -188,7 +216,7 @@ public class CluInformationHelper {
                     cluInformation.setState(cell.getValue());
                 } else if (cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")) {
                     cluInformation.setVerIndependentId(cell.getValue());
-                } else if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")){
+                } else if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")) {
                     cluInformation.setShortName(cell.getValue());
                 }
             }

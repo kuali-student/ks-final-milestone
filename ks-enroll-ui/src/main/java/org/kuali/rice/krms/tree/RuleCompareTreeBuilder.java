@@ -134,7 +134,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         // Retrieve the opreator code of the compare to proposition
         String compareOpCode = " ";
         if(compared!=null){
-            PropositionTreeUtil.getLabelForOperator(compared.getCompoundOpCode());
+            compareOpCode = PropositionTreeUtil.getLabelForOperator(compared.getCompoundOpCode());
         }
 
         // Get the children form both nodes.
