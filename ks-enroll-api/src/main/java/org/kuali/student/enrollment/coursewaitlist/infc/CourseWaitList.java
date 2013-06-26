@@ -65,10 +65,18 @@ public interface CourseWaitList extends IdNamelessEntity, HasEffectiveDates {
 
     /**
      *
-     * @return The processing type key for this CourseWaitList. For example, automatic, semi-automatic, manual...
-     * @name Course Wait List Processing Type Key
+     * @return true if the CourseWaitListEntries associated with this CourseWaitList are automatically processed.
+     * @name Is Automatically Processed
      */
-    String getCourseWaitListProcessingTypeKey();
+    Boolean getAutomaticallyProcessed();
+
+    /**
+     *
+     * @return true if the CourseWaitListEntries associated with this CourseWaitList must acknowledge/confirm that they
+     * want to be added to the relevant course when they are processed.
+     * @name Is Confirmation Required
+     */
+    Boolean getConfirmationRequired();
 
 
     /**
@@ -89,9 +97,9 @@ public interface CourseWaitList extends IdNamelessEntity, HasEffectiveDates {
 
 
     /**
-     * @return true if hold list entries are allowed on this CourseWaitList.
-     * An entry is considered a hold list entry if it is in a specific state.
-     * @name Allow Hold List Entries
+     * @return true if hold until entries are allowed on this CourseWaitList.
+     * An entry is considered a hold until entry if it is in a specific state.
+     * @name Allow Hold Until Entries
      */
-    Boolean getAllowHoldListEntries();
+    Boolean getAllowHoldUntilEntries();
 }

@@ -34,8 +34,8 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseWaitListInfo", propOrder = {
         "id", "typeKey", "stateKey","activityOfferingIds",
-        "formatOfferingIds", "courseWaitListProcessingTypeKey", "maxSize",
-        "checkInRequired", "checkInFrequency", "allowHoldListEntries", "effectiveDate", "expirationDate",
+        "formatOfferingIds", "automaticallyProcessed", "confirmationRequired", "maxSize",
+        "checkInRequired", "checkInFrequency", "allowHoldUntilEntries", "effectiveDate", "expirationDate",
         "meta", "attributes", "_futureElements" })
 public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWaitList, Serializable {
 
@@ -46,7 +46,9 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     @XmlElement
     private List<String> formatOfferingIds;
     @XmlElement
-    private String courseWaitListProcessingTypeKey;
+    private Boolean automaticallyProcessed;
+    @XmlElement
+    private Boolean confirmationRequired;
     @XmlElement
     private Integer maxSize;
     @XmlElement
@@ -54,7 +56,7 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     @XmlElement
     private TimeAmountInfo checkInFrequency;
     @XmlElement
-    private Boolean allowHoldListEntries;
+    private Boolean allowHoldUntilEntries;
     @XmlElement
     private Date effectiveDate;
     @XmlElement
@@ -78,13 +80,14 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
                 setFormatOfferingIds(new ArrayList<String>(waitList.getFormatOfferingIds()));
             }
 
-            setCourseWaitListProcessingTypeKey(waitList.getCourseWaitListProcessingTypeKey());
+            setAutomaticallyProcessed(waitList.getAutomaticallyProcessed());
+            setConfirmationRequired(waitList.getConfirmationRequired());
             setMaxSize(waitList.getMaxSize());
             setCheckInRequired(waitList.getCheckInRequired());
             if(waitList.getCheckInFrequency() != null) {
                 setCheckInFrequency(new TimeAmountInfo(waitList.getCheckInFrequency()));
             }
-            setAllowHoldListEntries(waitList.getAllowHoldListEntries());
+            setAllowHoldUntilEntries(waitList.getAllowHoldUntilEntries());
             if(waitList.getEffectiveDate() != null) {
                 setEffectiveDate(new Date(waitList.getEffectiveDate().getTime()));
             }
@@ -113,12 +116,21 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     }
 
     @Override
-    public String getCourseWaitListProcessingTypeKey() {
-        return courseWaitListProcessingTypeKey;
+    public Boolean getAutomaticallyProcessed() {
+        return automaticallyProcessed;
     }
 
-    public void setCourseWaitListProcessingTypeKey(String courseWaitListProcessingTypeKey) {
-        this.courseWaitListProcessingTypeKey = courseWaitListProcessingTypeKey;
+    public void setAutomaticallyProcessed(Boolean automaticallyProcessed) {
+        this.automaticallyProcessed = automaticallyProcessed;
+    }
+
+    @Override
+    public Boolean getConfirmationRequired() {
+        return confirmationRequired;
+    }
+
+    public void setConfirmationRequired(Boolean confirmationRequired) {
+        this.confirmationRequired = confirmationRequired;
     }
 
     @Override
@@ -149,12 +161,12 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     }
 
     @Override
-    public Boolean getAllowHoldListEntries() {
-        return allowHoldListEntries;
+    public Boolean getAllowHoldUntilEntries() {
+        return allowHoldUntilEntries;
     }
 
-    public void setAllowHoldListEntries(Boolean allowHoldListEntries) {
-        this.allowHoldListEntries = allowHoldListEntries;
+    public void setAllowHoldUntilEntries(Boolean allowHoldUntilEntries) {
+        this.allowHoldUntilEntries = allowHoldUntilEntries;
     }
 
     @Override
