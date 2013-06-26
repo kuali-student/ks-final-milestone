@@ -150,7 +150,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
         ARGUtil.getViewHelperService(form).populateTerm(form);
         if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
-            return getUIFModelAndView(form);
+            return getUIFModelAndView(form, CourseOfferingConstants.SEARCH_PAGE);
         }
 
         ARGUtil.getViewHelperService(form).loadCourseOfferingsByTermAndCourseCode(form.getTermInfo().getId(), form.getInputCode(), form);
