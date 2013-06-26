@@ -194,8 +194,19 @@ public class StateServiceMockImpl
     }
 
     @Override
-    public List<String> getInitialStatesByLifecycle(@WebParam(name = "lifecycleKey") String s, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("This method has not yet been implemented.");
+    public List<String> getInitialStatesByLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Collection<String> stateKeys = this.lifecycleStates.get(lifecycleKey);
+        if (states == null) {
+            throw new DoesNotExistException(lifecycleKey + " not found");
+        }
+        List<StateInfo> stateInfos = getStatesByKeys(new ArrayList<String>(stateKeys), contextInfo);
+        List<String> states = new ArrayList<String>();
+        for (StateInfo state : stateInfos){
+            if (state.getIsInitialState()){
+                states.add(state.getKey());
+            }
+        }
+        return states;
     }
 
     public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) 
