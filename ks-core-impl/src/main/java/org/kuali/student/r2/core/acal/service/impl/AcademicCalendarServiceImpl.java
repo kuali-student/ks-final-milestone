@@ -48,6 +48,10 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
@@ -57,6 +61,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -995,6 +1000,45 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         return _getKeyDatesForTerm(termAtp, context);
+    }
+
+    @Override
+    public List<String> getKeyDateIdsForTerm(String termId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+
+        AtpInfo termAtp = atpService.getAtp(termId, context);
+        if (termAtp == null) {
+            throw new DoesNotExistException(termId);
+        }
+        // Find the registration/instructional milestone types.  These appear to, collectively,
+        // constitute the keydate types.
+        SearchRequestInfo searchRequest = new SearchRequestInfo("milestone.search.milestoneIdsByAtpId");
+        searchRequest.addParam("milestone.queryParam.atpId", termId);
+        List<TypeTypeRelationInfo> typeTypeRels =
+                typeService.getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.instructional",
+                        TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
+        typeTypeRels.addAll(typeService.getTypeTypeRelationsByOwnerAndType("kuali.milestone.type.group.registration",
+                TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context));
+        // Extract out the keydate types
+        Set<String> keydateTypesSet = new HashSet<String>();
+        for (TypeTypeRelationInfo info: typeTypeRels) {
+            keydateTypesSet.add(info.getRelatedTypeKey()); // avoid duplicates
+        }
+        // Convert set to list
+        List<String> keydateTypes = new ArrayList<String>();
+        keydateTypes.addAll(keydateTypesSet);
+        // Make query
+        searchRequest.addParam("milestone.queryParam.milestoneTypes", keydateTypes);
+        SearchResultInfo searchResult = atpService.search(searchRequest, context);
+        List<String> keyDateIds = new ArrayList<String>();
+        // Extract out IDs.  Each row should have one cell with one key, so just grab the value (which is an ID)
+        for (SearchResultRowInfo row: searchResult.getRows()) {
+            List<SearchResultCellInfo> cells = row.getCells();
+            String id = cells.get(0).getValue(); // keydate ID
+            keyDateIds.add(id);
+        }
+        return keyDateIds;
     }
 
     protected  List<KeyDateInfo> _getKeyDatesForTerm(AtpInfo termAtp, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException {

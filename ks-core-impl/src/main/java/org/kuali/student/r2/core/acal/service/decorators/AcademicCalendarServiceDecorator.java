@@ -440,6 +440,11 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
+    public List<String> getKeyDateIdsForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getKeyDateIdsForTerm(termId, contextInfo);
+    }
+
+    @Override
     public List<KeyDateInfo> getKeyDatesForTermByDate(String termId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return (getNextDecorator().getKeyDatesForTermByDate(termId, startDate, endDate, contextInfo));
