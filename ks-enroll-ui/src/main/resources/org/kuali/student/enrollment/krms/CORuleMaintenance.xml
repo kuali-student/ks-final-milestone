@@ -152,7 +152,15 @@ limitations under the License.
         </list>
     </property>
     </bean>
-    <bean id="KSCO-AgendaManage-AddRule" parent="KRMS-AgendaManage-AddRule"/>
+
+    <bean id="KSCO-AgendaManage-AddRule" parent="KRMS-AgendaManage-AddRule">
+        <property name="items">
+            <list>
+                <bean id="KSCO-RuleAdd-ActionLink" parent="KSCO-RuleAdd-Links"  p:align="right"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KSCO-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
@@ -489,6 +497,17 @@ limitations under the License.
             <list>
                 <ref bean="KRMS-PrototypeHeader-BoxGroup"/>
                 <ref bean="KSCO-ListItems-DataGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSCO-RuleAdd-Links" parent="KRMS-RuleAdd-Links">
+        <property name="linkSeparator" value="@{#line.dummy and #line.parent != null ? ' | ' : ''}"/>
+        <property name="items">
+            <list>
+                <bean parent="KSCO-RulePreview-Links" p:render="@{#line.dummy and #line.parent != null}"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>
     </bean>
