@@ -203,6 +203,12 @@ public class HolidayCalendarController extends UifControllerBase {
                                   HttpServletRequest request, HttpServletResponse response) {
         HolidayCalendarInfo hcInfo = null;
 
+        // check view authorization
+        if (form.getView() != null) {
+            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+            checkViewAuthorization(form, methodToCall);
+        }
+
         try {
             String calendarId = request.getParameter(CalendarConstants.CALENDAR_ID);
             if (calendarId == null || calendarId.trim().isEmpty()) {
