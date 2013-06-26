@@ -111,7 +111,7 @@ public class AcademicCalendarController extends UifControllerBase {
             acalForm.setDefaultTabToShow(request.getParameter(CalendarConstants.SELECT_TAB));
         }
 
-        return super.start(form, result, request, response);
+        return getUIFModelAndView(form);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=reload")
@@ -147,12 +147,6 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView startNew( @ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                   HttpServletRequest request, HttpServletResponse response) {
 
-        // check view authorizations
-        if (acalForm.getView() != null) {
-            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
-            checkViewAuthorization(acalForm, methodToCall);
-        }
-
         try {
             AcademicCalendarInfo acalInfo = getAcalViewHelperService(acalForm).getLatestAcademicCalendar();
             acalForm.setCopyFromAcal(acalInfo);
@@ -161,7 +155,7 @@ public class AcademicCalendarController extends UifControllerBase {
             throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
         }
 
-        return getUIFModelAndView(acalForm);
+        return super.start(acalForm, result, request, response);
     }
 
     /**
