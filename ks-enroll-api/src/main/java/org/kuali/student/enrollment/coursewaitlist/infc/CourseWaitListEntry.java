@@ -36,6 +36,7 @@ public interface CourseWaitListEntry extends Relationship {
      * Instead, it should be set using the appropriate change state method in service.
      *
      * @name State Key
+     * @readOnly
      * @required
      */
     @Override

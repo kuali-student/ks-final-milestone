@@ -35,6 +35,7 @@ public interface CourseWaitList extends IdNamelessEntity, HasEffectiveDates {
      * Instead, it should be set using the appropriate change state method in service.
      *
      * @name State Key
+     * @readOnly
      * @required
      */
     @Override
