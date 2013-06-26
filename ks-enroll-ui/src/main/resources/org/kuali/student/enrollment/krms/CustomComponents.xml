@@ -870,7 +870,7 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.code}" p:style="width: 290px; margin: 0px;"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.code}" p:style="width: 500px; margin: 0px;"/>
             </list>
         </property>
         <property name="addLineItems">
@@ -878,7 +878,8 @@ limitations under the License.
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;" p:disabled="true">
+                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;"
+                              p:readOnly="true">
                         </bean>
                     </property>
                     <property name="label" value="Approved Programs"/>
