@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
+xsi:schemaLocation="
+http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+">
+<!-- *** Automatically Generated ***
+by: org.kuali.student.dictionary.writer.dict.DictionaryModelWriter
+Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls   and: Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel Spreadsheet src/test/resources/services.xls
+ -->
+
+<!-- ****************************************** -->
+<!-- object structure for object.loCategoryInfo -->
+<!-- ****************************************** -->
+<!-- Detailed information about a learning objective category. -->
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" id="object.loCategoryInfo.abstract" abstract="true">
+	<dict:typeRef bean="type.loCategoryInfo"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" id="object.loCategoryInfo" parent="object.loCategoryInfo.abstract"/>
+
+<dict:type key="*" id="type.loCategoryInfo.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.loCategoryInfo"/>
+</dict:type>
+<dict:type key="*" id="type.loCategoryInfo" parent="type.loCategoryInfo.abstract"/>
+
+<!-- ************************************************** -->
+<!-- State for state.loCategoryInfo.(default).(default) -->
+<!-- ************************************************** -->
+
+<dict:state key="*" id="state.loCategoryInfo.abstract" abstract="true">
+	<dict:fieldRef bean="field.loCategoryInfo.name"/>
+	<dict:fieldRef bean="field.loCategoryInfo.descr"/>
+	<dict:fieldRef bean="field.loCategoryInfo.loRepositoryKey"/>
+	<dict:fieldRef bean="field.loCategoryInfo.effectiveDate"/>
+	<dict:fieldRef bean="field.loCategoryInfo.expirationDate"/>
+	<dict:fieldRef bean="field.loCategoryInfo.meta"/>
+	<dict:fieldRef bean="field.loCategoryInfo.typeKey"/>
+	<dict:fieldRef bean="field.loCategoryInfo.stateKeyKey"/>
+	<dict:fieldRef bean="field.loCategoryInfo.id"/>
+</dict:state>
+<dict:state key="*" id="state.loCategoryInfo" parent="state.loCategoryInfo.abstract"/>
+
+
+<dict:field key="name" id="field.loCategoryInfo.name.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.name.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.name.cd"/>
+</dict:field>
+<dict:field key="name" id="field.loCategoryInfo.name" parent="field.loCategoryInfo.name.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.name.fd.abstract" abstract="true">
+	<dict:name>Learning Objective Category Name</dict:name>
+	<dict:desc>Friendly name of the category</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.name.fd" parent="field.loCategoryInfo.name.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.loCategoryInfo.name.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="name" id="field.loCategoryInfo.name.cd" parent="field.loCategoryInfo.name.cd.abstract"/>
+
+<dict:field key="descr" id="field.loCategoryInfo.descr.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.descr.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.descr.cd"/>
+</dict:field>
+<dict:field key="descr" id="field.loCategoryInfo.descr" parent="field.loCategoryInfo.descr.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.fd.abstract" abstract="true">
+	<dict:name>Learning Objective Category Description</dict:name>
+	<dict:desc>Narrative description of the learning objective category</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.loCategoryInfo.descr"/>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.fd" parent="field.loCategoryInfo.descr.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.loCategoryInfo.descr.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="descr" id="field.loCategoryInfo.descr.cd" parent="field.loCategoryInfo.descr.cd.abstract"/>
+
+<!-- ************************************************************************* -->
+<!-- object structure for object.field.loCategoryInfo.descr.(default).(default) -->
+<!-- ************************************************************************* -->
+<!-- Complex type supporting both a plain text and formatted version of a string. -->
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.loCategoryInfo.descr.abstract" abstract="true">
+	<dict:typeRef bean="type.field.loCategoryInfo.descr"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.loCategoryInfo.descr" parent="object.field.loCategoryInfo.descr.abstract"/>
+
+<dict:type key="*" id="type.field.loCategoryInfo.descr.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.loCategoryInfo.descr"/>
+</dict:type>
+<dict:type key="*" id="type.field.loCategoryInfo.descr" parent="type.field.loCategoryInfo.descr.abstract"/>
+
+<!-- ********************************************************************************* -->
+<!-- State for state.field.loCategoryInfo.descr.(default).(default).(default).(default) -->
+<!-- ********************************************************************************* -->
+
+<dict:state key="*" id="state.field.loCategoryInfo.descr.abstract" abstract="true">
+	<dict:fieldRef bean="field.loCategoryInfo.descr.plain"/>
+	<dict:fieldRef bean="field.loCategoryInfo.descr.formatted"/>
+</dict:state>
+<dict:state key="*" id="state.field.loCategoryInfo.descr" parent="state.field.loCategoryInfo.descr.abstract"/>
+
+
+<dict:field key="plain" id="field.loCategoryInfo.descr.plain.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.descr.plain.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.descr.plain.cd"/>
+</dict:field>
+<dict:field key="plain" id="field.loCategoryInfo.descr.plain" parent="field.loCategoryInfo.descr.plain.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.plain.fd.abstract" abstract="true">
+	<dict:name>Plain Text</dict:name>
+	<dict:desc>Plain version of the text. This may be used for searching.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.plain.fd" parent="field.loCategoryInfo.descr.plain.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Multi-line text field that accepts all printable characters plus tab, carraige-return and linefeed. -->
+<dict:constraintDescriptor id="field.loCategoryInfo.descr.plain.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.multi.line.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.plain">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="plain" id="field.loCategoryInfo.descr.plain.cd" parent="field.loCategoryInfo.descr.plain.cd.abstract"/>
+
+<dict:field key="formatted" id="field.loCategoryInfo.descr.formatted.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.descr.formatted.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.descr.formatted.cd"/>
+</dict:field>
+<dict:field key="formatted" id="field.loCategoryInfo.descr.formatted" parent="field.loCategoryInfo.descr.formatted.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.formatted.fd.abstract" abstract="true">
+	<dict:name>Formatted Text</dict:name>
+	<dict:desc>Formatted version of the text.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.descr.formatted.fd" parent="field.loCategoryInfo.descr.formatted.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Text field that accepts all types of characters using some sort of escaping convention along with the ability to specify bolding, font size, color etc. -->
+<dict:constraintDescriptor id="field.loCategoryInfo.descr.formatted.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.rich.text"/>
+	<dict:constraint key="in-line.constraint.for.field.richTextInfo.formatted">
+		<dict:maxLength>(unbounded)</dict:maxLength>
+		</dict:constraint>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="formatted" id="field.loCategoryInfo.descr.formatted.cd" parent="field.loCategoryInfo.descr.formatted.cd.abstract"/>
+
+<dict:field key="loRepositoryKey" id="field.loCategoryInfo.loRepositoryKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.loRepositoryKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.loRepositoryKey.cd"/>
+</dict:field>
+<dict:field key="loRepositoryKey" id="field.loCategoryInfo.loRepositoryKey" parent="field.loCategoryInfo.loRepositoryKey.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.loRepositoryKey.fd.abstract" abstract="true">
+	<dict:name>Learning Objective Repository Key</dict:name>
+	<dict:desc>Unique identifier for a learning objective repository. Once set in creation, this is immutable.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.loRepositoryKey.fd" parent="field.loCategoryInfo.loRepositoryKey.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); In a list of configured program lo hierarchy types -->
+<dict:constraintDescriptor id="field.loCategoryInfo.loRepositoryKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.lo.hierarchy.types"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="loRepositoryKey" id="field.loCategoryInfo.loRepositoryKey.cd" parent="field.loCategoryInfo.loRepositoryKey.cd.abstract"/>
+
+<dict:field key="effectiveDate" id="field.loCategoryInfo.effectiveDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.effectiveDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.effectiveDate.cd"/>
+</dict:field>
+<dict:field key="effectiveDate" id="field.loCategoryInfo.effectiveDate" parent="field.loCategoryInfo.effectiveDate.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.effectiveDate.fd.abstract" abstract="true">
+	<dict:name>Effective Date</dict:name>
+	<dict:desc>Date and time that this learning objective category became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.effectiveDate.fd" parent="field.loCategoryInfo.effectiveDate.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time -->
+<dict:constraintDescriptor id="field.loCategoryInfo.effectiveDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="effectiveDate" id="field.loCategoryInfo.effectiveDate.cd" parent="field.loCategoryInfo.effectiveDate.cd.abstract"/>
+
+<dict:field key="expirationDate" id="field.loCategoryInfo.expirationDate.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.expirationDate.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.expirationDate.cd"/>
+</dict:field>
+<dict:field key="expirationDate" id="field.loCategoryInfo.expirationDate" parent="field.loCategoryInfo.expirationDate.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.expirationDate.fd.abstract" abstract="true">
+	<dict:name>Expiration Date</dict:name>
+	<dict:desc>Date and time that this learning objective category expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.expirationDate.fd" parent="field.loCategoryInfo.expirationDate.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Date-Time; Must be empty or a date greater than the entity's effective date -->
+<dict:constraintDescriptor id="field.loCategoryInfo.expirationDate.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.cross.greaterthan.effective.date"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="expirationDate" id="field.loCategoryInfo.expirationDate.cd" parent="field.loCategoryInfo.expirationDate.cd.abstract"/>
+
+<dict:field key="meta" id="field.loCategoryInfo.meta.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.meta.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.meta.cd"/>
+</dict:field>
+<dict:field key="meta" id="field.loCategoryInfo.meta" parent="field.loCategoryInfo.meta.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.fd.abstract" abstract="true">
+	<dict:name>Create/Update meta info</dict:name>
+	<dict:desc>Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.</dict:desc>
+	<dict:dataType>Complex</dict:dataType>
+		<dict:objectStructureRef bean="object.field.loCategoryInfo.meta"/>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.fd" parent="field.loCategoryInfo.meta.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali Meta Data: calculated by service, read-only; Read Only -->
+<dict:constraintDescriptor id="field.loCategoryInfo.meta.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.meta.data"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="meta" id="field.loCategoryInfo.meta.cd" parent="field.loCategoryInfo.meta.cd.abstract"/>
+
+<!-- ***************************************************************************** -->
+<!-- object structure for object.field.loCategoryInfo.meta.(default).(default) -->
+<!-- ***************************************************************************** -->
+<!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loCategoryInfo.meta.abstract" abstract="true">
+	<dict:typeRef bean="type.field.loCategoryInfo.meta"/>
+</dict:objectStructure>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loCategoryInfo.meta" parent="object.field.loCategoryInfo.meta.abstract"/>
+
+<dict:type key="*" id="type.field.loCategoryInfo.meta.abstract" abstract="true">
+	<dict:name>(default)</dict:name>
+	<dict:desc>Default</dict:desc>
+	<dict:effectiveDate>2010-01-01</dict:effectiveDate>
+	<dict:stateRef bean="state.field.loCategoryInfo.meta"/>
+</dict:type>
+<dict:type key="*" id="type.field.loCategoryInfo.meta" parent="type.field.loCategoryInfo.meta.abstract"/>
+
+<!-- ************************************************************************************* -->
+<!-- State for state.field.loCategoryInfo.meta.(default).(default).(default).(default) -->
+<!-- ************************************************************************************* -->
+
+<dict:state key="*" id="state.field.loCategoryInfo.meta.abstract" abstract="true">
+	<dict:fieldRef bean="field.loCategoryInfo.meta.versionInd"/>
+	<dict:fieldRef bean="field.loCategoryInfo.meta.createTime"/>
+	<dict:fieldRef bean="field.loCategoryInfo.meta.createId"/>
+	<dict:fieldRef bean="field.loCategoryInfo.meta.updateTime"/>
+	<dict:fieldRef bean="field.loCategoryInfo.meta.updateId"/>
+</dict:state>
+<dict:state key="*" id="state.field.loCategoryInfo.meta" parent="state.field.loCategoryInfo.meta.abstract"/>
+
+
+<dict:field key="versionInd" id="field.loCategoryInfo.meta.versionInd.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.meta.versionInd.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.meta.versionInd.cd"/>
+</dict:field>
+<dict:field key="versionInd" id="field.loCategoryInfo.meta.versionInd" parent="field.loCategoryInfo.meta.versionInd.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.versionInd.fd.abstract" abstract="true">
+	<dict:name>Version Indicator</dict:name>
+	<dict:desc>An indicator of the version of the thing being described with this meta information. This is set by the service implementation and will be used to determine conflicts in updates.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.versionInd.fd" parent="field.loCategoryInfo.meta.versionInd.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Calculates the version indicator that is used for optimistic locking; Read Only -->
+<dict:constraintDescriptor id="field.loCategoryInfo.meta.versionInd.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.calc.meta.versionInd"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="versionInd" id="field.loCategoryInfo.meta.versionInd.cd" parent="field.loCategoryInfo.meta.versionInd.cd.abstract"/>
+
+<dict:field key="createTime" id="field.loCategoryInfo.meta.createTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.meta.createTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.meta.createTime.cd"/>
+</dict:field>
+<dict:field key="createTime" id="field.loCategoryInfo.meta.createTime" parent="field.loCategoryInfo.meta.createTime.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.createTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Created</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was created</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.createTime.fd" parent="field.loCategoryInfo.meta.createTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Defaults to NOW, when the object is created -->
+<dict:constraintDescriptor id="field.loCategoryInfo.meta.createTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.default.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createTime" id="field.loCategoryInfo.meta.createTime.cd" parent="field.loCategoryInfo.meta.createTime.cd.abstract"/>
+
+<dict:field key="createId" id="field.loCategoryInfo.meta.createId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.meta.createId.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.meta.createId.cd"/>
+</dict:field>
+<dict:field key="createId" id="field.loCategoryInfo.meta.createId" parent="field.loCategoryInfo.meta.createId.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.createId.fd.abstract" abstract="true">
+	<dict:name>Created By Identifier</dict:name>
+	<dict:desc>The principal who created the thing being described with this meta information</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.createId.fd" parent="field.loCategoryInfo.meta.createId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Defaults to the currently authenticated user -->
+<dict:constraintDescriptor id="field.loCategoryInfo.meta.createId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.default.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="createId" id="field.loCategoryInfo.meta.createId.cd" parent="field.loCategoryInfo.meta.createId.cd.abstract"/>
+
+<dict:field key="updateTime" id="field.loCategoryInfo.meta.updateTime.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.meta.updateTime.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.meta.updateTime.cd"/>
+</dict:field>
+<dict:field key="updateTime" id="field.loCategoryInfo.meta.updateTime" parent="field.loCategoryInfo.meta.updateTime.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.updateTime.fd.abstract" abstract="true">
+	<dict:name>Date/Time Last Updated</dict:name>
+	<dict:desc>The date and time the thing being described with this meta information was last updated. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>dateTime</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.updateTime.fd" parent="field.loCategoryInfo.meta.updateTime.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Date-Time; Sets a field to the current time -->
+<dict:constraintDescriptor id="field.loCategoryInfo.meta.updateTime.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.date.time"/>
+	<dict:constraintRef bean="constraint.calc.now"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateTime" id="field.loCategoryInfo.meta.updateTime.cd" parent="field.loCategoryInfo.meta.updateTime.cd.abstract"/>
+
+<dict:field key="updateId" id="field.loCategoryInfo.meta.updateId.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.meta.updateId.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.meta.updateId.cd"/>
+</dict:field>
+<dict:field key="updateId" id="field.loCategoryInfo.meta.updateId" parent="field.loCategoryInfo.meta.updateId.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.updateId.fd.abstract" abstract="true">
+	<dict:name>Updated By Identifier</dict:name>
+	<dict:desc>The principal who last updated the thing being described with this meta information. This would be filled in on initial creation as well.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.meta.updateId.fd" parent="field.loCategoryInfo.meta.updateId.fd.abstract"/>
+<!-- Read Only; Single valued (non-repeating); Id of an existing PRINCIPAL; Sets a field to the currently authenticated user -->
+<dict:constraintDescriptor id="field.loCategoryInfo.meta.updateId.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.read.only"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.related.principalId"/>
+	<dict:constraintRef bean="constraint.calc.authenicated.principalId"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="updateId" id="field.loCategoryInfo.meta.updateId.cd" parent="field.loCategoryInfo.meta.updateId.cd.abstract"/>
+
+<dict:field key="typeKey" id="field.loCategoryInfo.typeKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.typeKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.typeKey.cd"/>
+</dict:field>
+<dict:field key="typeKey" id="field.loCategoryInfo.typeKey" parent="field.loCategoryInfo.typeKey.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.typeKey.fd.abstract" abstract="true">
+	<dict:name>Learning Objective Category Type</dict:name>
+	<dict:desc>Unique identifier for a learning objective category type.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.typeKey.fd" parent="field.loCategoryInfo.typeKey.fd.abstract"/>
+<!-- Required; Single valued (non-repeating); Kuali TYPE: required on add, then read-only -->
+<dict:constraintDescriptor id="field.loCategoryInfo.typeKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.type"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="typeKey" id="field.loCategoryInfo.typeKey.cd" parent="field.loCategoryInfo.typeKey.cd.abstract"/>
+
+<dict:field key="stateKey" id="field.loCategoryInfo.stateKey.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.stateKey.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.stateKey.cd"/>
+</dict:field>
+<dict:field key="stateKey" id="field.loCategoryInfo.stateKeyKey" parent="field.loCategoryInfo.stateKey.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.stateKey.fd.abstract" abstract="true">
+	<dict:name>Learning Objective Category State</dict:name>
+	<dict:desc>The current status of the learning objective category. The values for this field are constrained to those in the loCategoryState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.stateKey.fd" parent="field.loCategoryInfo.stateKey.fd.abstract"/>
+<!-- Required; Single valued (non-repeating) -->
+<dict:constraintDescriptor id="field.loCategoryInfo.stateKey.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.required"/>
+	<dict:constraintRef bean="constraint.single"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="stateKey" id="field.loCategoryInfo.stateKey.cd" parent="field.loCategoryInfo.stateKey.cd.abstract"/>
+
+<dict:field key="id" id="field.loCategoryInfo.id.abstract" abstract="true">
+	<dict:fieldDescriptorRef bean="field.loCategoryInfo.id.fd"/>
+	<dict:constraintDescriptorRef bean="field.loCategoryInfo.id.cd"/>
+</dict:field>
+<dict:field key="id" id="field.loCategoryInfo.id" parent="field.loCategoryInfo.id.abstract"/>
+<dict:fieldDescriptor id="field.loCategoryInfo.id.fd.abstract" abstract="true">
+	<dict:name>Learning Objective Category Identifier</dict:name>
+	<dict:desc>Unique identifier for a learning objective category record. This is optional, due to the identifier being set at the time of creation. Once the learning objective category has been created, this should be seen as required.</dict:desc>
+	<dict:dataType>string</dict:dataType>
+	<dict:readOnly>true</dict:readOnly>
+</dict:fieldDescriptor>
+<dict:fieldDescriptor id="field.loCategoryInfo.id.fd" parent="field.loCategoryInfo.id.fd.abstract"/>
+<!-- Optional; Single valued (non-repeating); Kuali ID; calculated by service on add, then read-only.; Read Only -->
+<dict:constraintDescriptor id="field.loCategoryInfo.id.cd.abstract" abstract="true">
+	<dict:constraintRef bean="constraint.optional"/>
+	<dict:constraintRef bean="constraint.single"/>
+	<dict:constraintRef bean="constraint.kuali.id"/>
+	<dict:constraintRef bean="constraint.read.only"/>
+</dict:constraintDescriptor>
+<dict:constraintDescriptor key="id" id="field.loCategoryInfo.id.cd" parent="field.loCategoryInfo.id.cd.abstract"/>
+</beans>
