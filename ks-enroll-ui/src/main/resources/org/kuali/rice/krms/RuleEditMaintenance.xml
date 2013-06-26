@@ -349,7 +349,7 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-RuleEditorView-DeleteButton" parent="KRMS-RuleEditorView-Button"
-          p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');"
+          p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-EditWithObject-EditGroup');"
           p:actionLabel="Delete">
         <property name="actionImage">
             <bean parent="Uif-Image"

@@ -224,8 +224,10 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
+        <property name="linkSeparator" value="@{#line.dummy and #line.parent != null ? ' | ' : ''}"/>
         <property name="items">
             <list>
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules" p:render="@{#line.dummy and #line.parent != null}"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
