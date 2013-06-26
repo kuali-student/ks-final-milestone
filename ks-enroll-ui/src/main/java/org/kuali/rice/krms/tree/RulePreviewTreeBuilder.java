@@ -114,7 +114,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
 
     @Override
     public String getNaturalLanguageUsageKey() {
-        return  KsKrmsConstants.KRMS_NL_RULE_EDIT;
+        return  KsKrmsConstants.KRMS_NL_PREVIEW;
     }
 
     public List<Object> getListItems(PropositionEditor propositionEditor) {
