@@ -106,6 +106,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             CluInformation clu = (CluInformation) addLine;
             if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
                 collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), KRMSConstants.MessageKeys.ERROR_APPROVED_COURSE_REQUIRED);
                   return false;
             }
 
@@ -122,6 +123,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             //Check if this is a valid clu.
             CluSetInformation cluSet = (CluSetInformation) addLine;
             if((cluSet.getCluSetInfo().getId() == null)||(cluSet.getCluSetInfo().getId().isEmpty())){
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), KRMSConstants.MessageKeys.ERROR_COURSESETS_REQUIRED);
                 return false;
             }
 
@@ -166,12 +168,15 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
 
             CluInformation clu = (CluInformation) addLine;
+            if(clu.getCluId() != null){
             clu.setCredits(this.getCluInfoHelper().getCreditInfo(clu.getCluId()));
             Collections.sort(propEditor.getCluSet().getClus());
 
+            }
         } else if ("proposition.cluSet.cluSets".equals(collectionGroup.getPropertyName())){
             //Set the clus on the wrapper object.
             CluSetInformation cluSet = (CluSetInformation) addLine;
+            if(cluSet.getCluSetInfo().getId() != null) {
             try {
                 cluSet.getCluSetInfo().setCluIds(this.getCluService().getCluIdsFromCluSet(cluSet.getCluSetInfo().getId(), ContextUtils.getContextInfo()));
             } catch (Exception e) {
@@ -189,6 +194,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
                     return o1.getCluSetInfo().getName().compareTo(o2.getCluSetInfo().getName());
                 }
             });
+            }
         }
         else if("proposition.progCluSet.clus".equals(collectionGroup.getPropertyName())){
             //Sort the clus.
