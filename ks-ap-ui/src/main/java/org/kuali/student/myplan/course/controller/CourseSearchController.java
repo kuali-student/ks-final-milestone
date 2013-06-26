@@ -40,6 +40,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.ksb.service.KSBServiceLocator;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
@@ -47,6 +48,7 @@ import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.FacetKeyValue;
 import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
+import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.course.util.CampusSearch;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -1378,20 +1380,43 @@ public class CourseSearchController extends UifControllerBase {
 		json.put("iTotalDisplayRecords", filteredResults.size());
 		json.put("sEcho", Integer.toString(dataTablesInputs.sEcho));
 		ArrayNode aaData = mapper.createArrayNode();
-		for (int i = 0; i < Math.min(filteredResults.size(),
-				dataTablesInputs.iDisplayLength); i++) {
+		int rsize = Math.min(filteredResults.size(),
+				dataTablesInputs.iDisplayLength);
+		final List<String> courseIds = new java.util.ArrayList<String>(rsize);
+		for (int i = 0; i < rsize; i++) {
 			int resultsIndex = dataTablesInputs.iDisplayStart + i;
 			if (resultsIndex >= filteredResults.size())
 				break;
 			ArrayNode cs = mapper.createArrayNode();
-			String[] scol = filteredResults.get(resultsIndex).item
-					.getSearchColumns();
+			CourseSearchItem item = filteredResults.get(resultsIndex).item;
+			courseIds.add(item.getCourseId());
+			String[] scol = item.getSearchColumns();
 			for (String col : scol)
 				cs.add(col);
 			for (int j = scol.length; j < dataTablesInputs.iColumns; j++)
 				cs.add((String) null);
 			aaData.add(cs);
 		}
+		// when caching is in place, this will trigger the section details search
+		// causing details to be preloaded
+		KSBServiceLocator.getThreadPool().submit(new Runnable() {
+			@Override
+			public void run() {
+				CourseDetailsInquiryHelperImpl iq = new CourseDetailsInquiryHelperImpl();
+				for (String courseId : courseIds)
+					try {
+						iq.retrieveCourseSummaryById(courseId);
+					} catch (Exception e) {
+						LOG.error("Invalid course ID in preload task "
+								+ courseId, e);
+					}
+			}
+
+			@Override
+			public String toString() {
+				return "course search preload task " + courseIds;
+			}
+		});
 		json.put("aaData", aaData);
 		String jsonString = mapper.writeValueAsString(json);
 		if (LOG.isDebugEnabled())

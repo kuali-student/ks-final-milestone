@@ -27,6 +27,8 @@ public class DefaultUserSessionHelper implements UserSessionHelper {
 	@Override
 	public String getStudentId() {
 		UserSession session = GlobalVariables.getUserSession();
+		if (session == null)
+			return null;
 		String studentId;
 		if (isAdviser()) {
 			studentId = (String) session

@@ -12,6 +12,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
+import org.kuali.rice.ksb.service.KSBServiceLocator;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -321,11 +322,9 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	public CourseDetails retrieveCourseDetails(String courseId, String termId,
 			String studentId, boolean loadActivityOffering) {
 		CourseDetails courseDetails = new CourseDetails();
-
 		ContextInfo context = KsapFrameworkServiceLocator.getContext()
 				.getContextInfo();
-
-		CourseInfo course;
+		final CourseInfo course;
 		try {
 			/* Get version verified course */
 			course = getCourseService().getCourse(
@@ -345,15 +344,10 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		CourseSummaryDetails courseSummaryDetails = retrieveCourseSummary(course);
 		courseDetails.setCourseSummaryDetails(courseSummaryDetails);
 
-		// Course Plan + Academic Records
-		courseDetails.setPlannedCourseSummary(getPlannedCourseSummary(course,
-				studentId));
-
 		// Course offerings
-		List<String> termIds;
+		final List<String> termIds;
 		if (termId == null)
-			termIds = courseDetails.getCourseSummaryDetails()
-					.getScheduledTerms();
+			termIds = courseSummaryDetails.getScheduledTerms();
 		else {
 			termIds = new java.util.ArrayList<String>(1);
 			termIds.add(termId);
@@ -362,10 +356,29 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			courseDetails
 					.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
 							course, termIds));
-		else
+		else {
+			// when caching is in place, this will trigger the section details
+			// search
+			// causing details to be preloaded
+			KSBServiceLocator.getThreadPool().submit(new Runnable() {
+				@Override
+				public void run() {
+					getCourseOfferingInstitutions(course, termIds);
+				}
+
+				@Override
+				public String toString() {
+					return "section preload " + course + " " + termIds;
+				}
+			});
 			courseDetails
 					.setCourseOfferingInstitutionList(new java.util.ArrayList<CourseOfferingInstitution>(
 							0));
+		}
+
+		// Course Plan + Academic Records
+		courseDetails.setPlannedCourseSummary(getPlannedCourseSummary(course,
+				studentId));
 
 		return courseDetails;
 	}
@@ -552,6 +565,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
 				.getStudentId();
 		Map<String, Map<String, PlanItem>> planItemsByTerm = new HashMap<String, Map<String, PlanItem>>();
+		if (studentId == null)
+			return planItemsByTerm;
 
 		List<LearningPlanInfo> learningPlanList;
 		try {
