@@ -57,7 +57,7 @@ public class CourseOfferingAgendaBuilder extends AgendaBuilder {
             if(!rule.isDummy()) {
                 GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.co.changed");
             } else {
-                // set 'Course Offering Rule differs from Canonical Rule'
+                GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.differ");
             }
         }
 
