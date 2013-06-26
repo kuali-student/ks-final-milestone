@@ -49,11 +49,6 @@ public class RegistrationGroupWrapper implements Serializable {
     private String daysDisplayName = "";
     private String buildingName = "";
     private String roomName = "";
-    // Subterms
-    private String subTermId;
-    private String subTermName = "";
-    private String subTermStartDate;
-    private String subTermEndDate;
 
     public RegistrationGroupWrapper() {
         rgInfo = new RegistrationGroupInfo();
@@ -298,37 +293,4 @@ public class RegistrationGroupWrapper implements Serializable {
     public void setAoEditLink(String aoEditLink) {
         this.aoEditLink = aoEditLink;
     }
-
-    public String getSubTermName() {
-        return subTermName;
-    }
-
-    public void setSubTermName(String subTermName) {
-        this.subTermName = subTermName;
-    }
-
-    public String getSubTermId() {
-        return subTermId;
-    }
-
-    public void setSubTermId(String subTermId) {
-        this.subTermId = subTermId;
-    }
-
-    public String getSubTermStartDate() {
-        return subTermStartDate;
-    }
-
-    public void setSubTermStartDate(String subTermStartDate) {
-        this.subTermStartDate = subTermStartDate;
-    }
-
-    public String getSubTermEndDate() {
-        return subTermEndDate;
-    }
-
-    public void setSubTermEndDate(String subTermEndDate) {
-        this.subTermEndDate = subTermEndDate;
-    }
-
 }

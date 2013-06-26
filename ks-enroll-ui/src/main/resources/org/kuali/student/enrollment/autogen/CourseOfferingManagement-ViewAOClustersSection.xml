@@ -146,7 +146,7 @@
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/subterm_icon.png">
                                 <property name="style" value="padding-left:5px"/>
                                 <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="This activity is in the @{#lp.subTermName} term &lt;br&gt;@{#lp.subTermStartDate} - @{#lp.subTermEndDate}"/>
+                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="This activity is in the @{#lp.subTermName} term &lt;br&gt;@{#lp.termStartEndDate}"/>
                                 </property>
                             </bean>
                         </list>
@@ -256,21 +256,9 @@
                       p:label="STATE"
                       p:messageText="@{#line.stateKey}">
                 </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-MessageField"
-                                  p:messageText="@{#line.aoActivityCodeText}">
-                            </bean>
-                            <bean parent="Uif-ImageField" p:hidden="@{#lp.subTermName eq 'None'}"
-                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/subterm_icon.png">
-                                <property name="style" value="padding-left:5px"/>
-                                <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="This activity is in the @{#lp.subTermName} term &lt;br&gt;@{#lp.subTermStartDate} - @{#lp.subTermEndDate}"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
+                <bean parent="Uif-MessageField"
+                      p:label="CODE"
+                      p:messageText="@{#line.aoActivityCodeText}">
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="STATUS"

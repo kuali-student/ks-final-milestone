@@ -948,7 +948,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 rgWrapper.setRoomName("");
                 rgWrapper.setBuildingName("");
                 rgWrapper.setAoInstructorText("");
-                rgWrapper.setSubTermName("None");
 
                 rgMap.put(rgId, rgWrapper);
                 clusterWrapper.getRgWrapperList().add(rgWrapper);
@@ -957,7 +956,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
             rgWrapper.setAoMaxEnrText(rgWrapper.getAoMaxEnrText() + (newLine ? "<br/>" : "") + (aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment()));
             rgWrapper.setAoStateNameText(rgWrapper.getAoStateNameText() + (newLine ? "<br/>" : "") + aoWrapper.getStateName());
-            rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode());
+            //sub-term icon and tooltip setup
+            if(!aoWrapper.getSubTermName().equals("None")){  //sub-term? > icon + name and dates
+                rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode()
+                        + "&nbsp;&nbsp;&nbsp;<img src=\"../ks-enroll/images/subterm_icon.png\" title=\"This activity is in the "+aoWrapper.getSubTermName()+" term\n"+aoWrapper.getTermStartEndDate()+"\">");
+            } else {
+                rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode());                
+            }
             rgWrapper.setAoTypeNameText(rgWrapper.getAoTypeNameText() + (newLine ? "<br/>" : "") + aoWrapper.getTypeName());
             rgWrapper.setStartTimeDisplay(rgWrapper.getStartTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getStartTimeDisplay());
             rgWrapper.setEndTimeDisplay(rgWrapper.getEndTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getEndTimeDisplay());
@@ -965,12 +970,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName());
             rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName());
             rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()));
-            //sub-term icon and tooltip setup
-            if(!aoWrapper.getSubTermName().equals("None")){
-                rgWrapper.setSubTermName(aoWrapper.getSubTermName());
-                rgWrapper.setSubTermStartDate(aoWrapper.getSubTermStartDate());
-                rgWrapper.setSubTermEndDate(aoWrapper.getSubTermEndDate());
-            }
         }
 
         return new ArrayList<RegistrationGroupWrapper>(rgMap.values());
@@ -1121,12 +1120,10 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         aoWrapper.setHasSubTerms(aoWrapperStored.getHasSubTerms());
                         aoWrapper.setSubTermId(aoWrapperStored.getSubTermId());
                         aoWrapper.setSubTermName(aoWrapperStored.getSubTermName());
-                        aoWrapper.setSubTermStartDate(aoWrapperStored.getSubTermStartDate());
-                        aoWrapper.setSubTermEndDate(aoWrapperStored.getSubTermEndDate());
                         aoWrapper.setTerm(aoWrapperStored.getTerm());
                         aoWrapper.setTermName(aoWrapperStored.getTermName());
                         aoWrapper.setTermDisplayString(aoWrapperStored.getTermDisplayString());
-                        aoWrapper.setSubTermStartEndDateAsString(aoWrapperStored.getSubTermStartEndDateAsString());
+                        aoWrapper.setTermStartEndDate(aoWrapperStored.getTermStartEndDate());
                     } else {
                         TermInfo term = null;
                         TermInfo subTerm = null;
@@ -1148,9 +1145,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                             aoWrapper.setSubTermId(subTerm.getId());
                             TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                             aoWrapper.setSubTermName(subTermType.getName());
-                            aoWrapper.setSubTermStartDate(subTerm.getStartDate().toString().substring(0, 10));
-                            aoWrapper.setSubTermEndDate(subTerm.getEndDate().toString().substring(0, 10));
-                            aoWrapper.setSubTermStartEndDateAsString(aoWrapper.getSubTermStartDate()+" - "+aoWrapper.getSubTermEndDate());
+                            aoWrapper.setTermStartEndDate(getTermStartEndDate(subTerm.getId(), subTerm));
                         }
                         aoWrapper.setTerm(term);
                         if (term != null) {
@@ -1176,6 +1171,20 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
 
         return activityOfferingWrappers;
+    }
+
+    private String getTermStartEndDate(String termId, TermInfo term) {
+        // Return Term as String display like 'FALL 2020 (2020/9/26-2020/12/26)'
+        StringBuilder stringBuilder = new StringBuilder();
+        Formatter formatter = new Formatter(stringBuilder, Locale.US);
+        String displayString = termId; // use termId as a default.
+        if (term != null) {
+            String startDate = DateFormatters.YEAR_MONTH_DAY_DATE_FORMATTER.format(term.getStartDate());
+            String endDate = DateFormatters.YEAR_MONTH_DAY_DATE_FORMATTER.format(term.getEndDate());
+            formatter.format("%s - %s", startDate, endDate);
+            displayString = stringBuilder.toString();
+        }
+        return displayString;
     }
 
     private String getTermDisplayString(String termId, TermInfo term) {

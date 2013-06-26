@@ -133,10 +133,6 @@ public class ActivityOfferingWrapper implements Serializable{
     //use this boolean to decide if "Change" link should be rendered or not
     private boolean hasSubTerms;
     //would it be better to define 'TermInfo subTerm' instead of the following three strings
-    private String subTermStartDate = "";
-    private String subTermEndDate = "";
-    private String subTermStartEndDateAsString = "";
-
     private String termStartEndDate = "";
 
     public ActivityOfferingWrapper(){
@@ -1011,29 +1007,6 @@ public class ActivityOfferingWrapper implements Serializable{
         this.subTermId = subTermId;
     }
 
-    public String getSubTermStartDate() {
-        return subTermStartDate;
-    }
-
-    public void setSubTermStartDate(String subTermStartDate) {
-        this.subTermStartDate = subTermStartDate;
-    }
-
-    public String getSubTermEndDate() {
-        return subTermEndDate;
-    }
-
-    public void setSubTermEndDate(String subTermEndDate) {
-        this.subTermEndDate = subTermEndDate;
-    }
-
-    public String getSubTermStartEndDateAsString() {
-        return subTermStartEndDateAsString;
-    }
-
-    public void setSubTermStartEndDateAsString(String subTermStartEndDateAsString) {
-        this.subTermStartEndDateAsString = subTermStartEndDateAsString;
-    }
     public String getTermStartEndDate() {
         return termStartEndDate;
     }
@@ -1041,6 +1014,5 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setTermStartEndDate(String termStartEndDate) {
         this.termStartEndDate = termStartEndDate;
     }
-
 
 }
