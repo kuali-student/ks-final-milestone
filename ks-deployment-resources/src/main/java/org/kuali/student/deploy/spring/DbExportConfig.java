@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.common.impex.spring.LiquibaseSchemaConfig;
+import org.kuali.common.impex.spring.DefaultExtractSchemaConfig;
 import org.kuali.common.impex.spring.ModularDataExportConfig;
 import org.kuali.common.impex.spring.ModularSchemaExportConfig;
 import org.kuali.common.util.CollectionUtils;
@@ -41,7 +41,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 
 @Configuration
-@Import({ModularSchemaExportConfig.class, ModularDataExportConfig.class, LiquibaseSchemaConfig.class})
+@Import({ModularSchemaExportConfig.class, ModularDataExportConfig.class, DefaultExtractSchemaConfig.class})
 public class DbExportConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(DbExportConfig.class);

@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import org.kuali.common.impex.spring.DefaultExtractSchemaConfig;
 import org.kuali.common.impex.spring.ModularDataExportConfig;
 import org.kuali.common.impex.spring.ModularSchemaExportConfig;
 import org.kuali.common.jdbc.spring.JdbcMavenPropertySourceConfig;
@@ -124,7 +125,7 @@ public class ExportPropertyConfig extends JdbcMavenPropertySourceConfig {
             includeBuilder.append(include).append(TABLE_NAME_WILDCARD);
         }
 
-        props.put(prefix + ModularSchemaExportConfig.NAME_INCLUDE_KEY, includeBuilder.toString());
+        props.put(prefix + DefaultExtractSchemaConfig.NAME_INCLUDES_KEY, includeBuilder.toString());
 
         String artifactResourceDir = getArtifactResourceDir(artifactId);
 
