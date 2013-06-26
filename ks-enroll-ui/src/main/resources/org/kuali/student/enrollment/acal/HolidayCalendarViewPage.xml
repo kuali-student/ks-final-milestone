@@ -32,7 +32,7 @@
     <bean id="KS-HolidayCalendar-ViewPage" parent="Uif-Page"
           p:id="holidayCalendarViewPage"
           p:headerText="View Holiday Calendar"
-            >
+          p:componentSecurity.viewAuthz="true"  >
 
 
         <property name="breadcrumbOptions.breadcrumbOverrides">
