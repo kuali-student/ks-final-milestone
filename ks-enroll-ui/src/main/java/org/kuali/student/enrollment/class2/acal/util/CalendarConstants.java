@@ -118,6 +118,7 @@ public class CalendarConstants {
     public static final String GROWL_MESSAGE_PARAMS="growl.message.params";
 
     public static final String EMPTY_TERM_CODE = "No Code";
+    public static final String SUBTERM_LABEL_UI = "Sub term";
 
     //http session attribute keys
     public static final String SESSION_CALENDAR_SEARCH_TYPE = "sessionCalendarSearchType";

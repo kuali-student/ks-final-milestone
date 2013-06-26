@@ -267,6 +267,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                         AcademicTermWrapper subTermWrapper = populateTermWrapper(subTermInfo, isCopy,calculateInstrDays);
                         subTermWrapper.setParentTerm(termInfo.getTypeKey());
                         subTermWrapper.setSubTerm(true);
+                        subTermWrapper.setSubTermLabelUI(CalendarConstants.SUBTERM_LABEL_UI);
                         termWrapper.setHasSubterm(true);
                         termWrapper.getSubterms().add(subTermWrapper);
                         if (!isCopy){

@@ -205,8 +205,11 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-DataField"
+                      p:label=""
+                      p:propertyName="subTermLabelUI" p:valign="middle"/>
+                <bean parent="Uif-DataField"
                       p:label="Term"
-                      p:propertyName="termNameForUI" p:valign="middle"/>
+                      p:propertyName="termNameForUI" p:style="color:#0000FF;" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="Start Date"
                       p:propertyName="startDate" p:valign="middle"/>
