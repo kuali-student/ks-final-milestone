@@ -60,7 +60,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private String cutKey;
     private boolean dummy;
     private List<String> activeSelections;
-    private boolean differ;
 
     //Edit with Logic
     private String logicArea;
@@ -356,14 +355,6 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setParent(RuleEditor parent) {
         this.parent = parent;
-    }
-
-    public boolean isDiffer() {
-        return differ;
-    }
-
-    public void setDiffer(boolean differ) {
-        this.differ = differ;
     }
 
     public void reset(){
