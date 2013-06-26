@@ -13,7 +13,7 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.waitlist.infc;
+package org.kuali.student.enrollment.coursewaitlist.infc;
 
 import org.kuali.student.r2.common.infc.Relationship;
 import org.kuali.student.r2.common.infc.RichText;
@@ -22,12 +22,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Relates a Student to a WaitList.  Essentially these entries are used to represent all students on a WaitList
+ * Relates a Student to a CourseWaitList.  Essentially these entries are used to represent all students on a course wait list
  *
  * These entries are assigned a well defined position that may be changed at a later time.
- * The lowest position is one.  The highest position is equal to the number of entries on the associated WaitList.
+ * The lowest position is one.  The highest position is equal to the number of entries on the associated CourseWaitList.
  */
-public interface WaitListEntry extends Relationship {
+public interface CourseWaitListEntry extends Relationship {
 
 
     /**
@@ -42,16 +42,16 @@ public interface WaitListEntry extends Relationship {
     String getStateKey();
 
     /**
-     * @return the WaitList that this entry belongs to.
-     * @name Wait List Id
+     * @return the Id of the CourseWaitList that this entry belongs to.
+     * @name Course Wait List Id
      * @readonly
      * @required
      */
-    String getWaitListId();
+    String getCourseWaitListId();
 
     /**
      *
-     * @return the id of the student associated with this entry (The student that is on the WaitList)
+     * @return the Id of the student associated with this entry (The student that is on the WaitList)
      * @name Student Id
      * @readonly
      * @required
@@ -59,12 +59,11 @@ public interface WaitListEntry extends Relationship {
     String getStudentId();
 
     /**
-     * This value should match one of the offerings that the associated wait list is attached to
-     * @return  the idea of the Offering that this entry is associated with.
-     * @name Offering Id
+     * @return  the Id of the registration group that this entry is associated with.
+     * @name Registration Group Id
      * @required
      */
-    String getOfferingId();
+    String getRegistrationGroupId();
 
     /**
      * This field is considered read-only
@@ -80,11 +79,4 @@ public interface WaitListEntry extends Relationship {
      * @name  Last Check-in
      */
     Date getLastCheckIn();
-
-    /**
-     *
-     * @return A reference to any rules that this entry was not able to pass
-     * @name Hold List Rule Ids
-     */
-    List<String> getHoldListRuleIds();
 }

@@ -332,10 +332,10 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>waitListService-wsdl</id>
+                        <id>courseWaitListService-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
-                            <className>org.kuali.student.enrollment.waitlist.service.WaitListService</className>
+                            <className>org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService</className>
                             <genWsdl>true</genWsdl>
                             <verbose>true</verbose>
                         </configuration>

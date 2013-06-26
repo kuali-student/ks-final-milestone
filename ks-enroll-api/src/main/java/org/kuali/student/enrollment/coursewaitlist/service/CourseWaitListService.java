@@ -13,12 +13,12 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.waitlist.service;
+package org.kuali.student.enrollment.coursewaitlist.service;
 
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.waitlist.dto.WaitListEntryInfo;
-import org.kuali.student.enrollment.waitlist.dto.WaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -30,7 +30,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.WaitListServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -38,28 +38,28 @@ import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
- * Wait lists provide a mechanism to queue and prioritize students with respect to an Offering (Activity Offering, Format Offering...).
+ * Course wait lists provide a mechanism to queue and prioritize students with respect to an activity offering and format offering
  * For example, students who are unable register for a course due to availability or student based course restrictions.
  */
-@WebService(name = "WaitListService", targetNamespace = WaitListServiceConstants.NAMESPACE)
+@WebService(name = "CourseWaitListService", targetNamespace = CourseWaitListServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface WaitListService {
+public interface CourseWaitListService {
 
     /**
-     * Retrieves a single WaitList by WaitList Id.
+     * Retrieves a single CourseWaitList by CourseWaitList Id.
      *
-     * @param waitListId  the identifier for the WaitList to be
+     * @param courseWaitListId  the identifier for the CourseWaitList to be
      *                    retrieved
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return the WaitList requested
-     * @throws DoesNotExistException     waitListId not found
+     * @return the CourseWaitList requested
+     * @throws DoesNotExistException     courseWaitListId not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListId or contextInfo is missing or null
+     * @throws MissingParameterException courseWaitListId or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public WaitListInfo getWaitList(@WebParam(name = "waitListId") String waitListId,
+    public CourseWaitListInfo getCourseWaitList(@WebParam(name = "courseWaitListId") String courseWaitListId,
                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -72,18 +72,18 @@ public interface WaitListService {
      * Ids. The returned list may be in any order and if duplicate Ids
      * are supplied, a unique set may or may not be returned.
      *
-     * @param waitListIds a list of WaitList Ids
+     * @param courseWaitListIds a list of CourseWaitList Ids
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return a list of WaitList
-     * @throws DoesNotExistException     an waitListId in the list not found
+     * @return a list of CourseWaitList
+     * @throws DoesNotExistException     a courseWaitListId in the list not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListIds, an id in
-     *                                   waitListIds, or contextInfo is missing or null
+     * @throws MissingParameterException courseWaitListIds, an id in
+     *                                   courseWaitListIds, or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListInfo> getWaitListsByIds(@WebParam(name = "waitListIds") List<String> waitListIds,
+    public List<CourseWaitListInfo> getCourseWaitListsByIds(@WebParam(name = "courseWaitListIds") List<String> courseWaitListIds,
                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -92,21 +92,21 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of WaitList Ids by WaitList type.
+     * Retrieves a list of CourseWaitList Ids by CourseWaitList type.
      *
-     * @param waitListTypeKey an identifier for the WaitList
+     * @param courseWaitListTypeKey an identifier for the CourseWaitList
      *                        type
      * @param contextInfo     information containing the principalId and
      *                        locale information about the caller of service operation
-     * @return a list of WaitList Ids matching waitListTypeKey
+     * @return a list of CourseWaitList Ids matching courseWaitListTypeKey
      *         or an empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
-     * @throws MissingParameterException waitListTypeKey or
+     * @throws MissingParameterException courseWaitListTypeKey or
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getWaitListIdsByType(@WebParam(name = "waitListTypeKey") String waitListTypeKey,
+    public List<String> getCourseWaitListIdsByType(@WebParam(name = "courseWaitListTypeKey") String courseWaitListTypeKey,
                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -114,62 +114,105 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves all WaitLists attached to the given offering Id.
+     * Retrieves all CourseWaitLists attached to the given activity offering Id.
      *
-     * @param offeringId the identifier for the attached offering
+     * @param activityOfferingId the identifier for the attached activity offering
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return a list of WaitLists associated to the given offering Id or an empty list if
+     * @return a list of CourseWaitLists associated to the given activityOfferingId or an empty list if
      *         none are found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListId or contextInfo is
+     * @throws MissingParameterException courseWaitListId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListInfo> getWaitListsByOffering(@WebParam(name = "offeringId") String offeringId,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<CourseWaitListInfo> getCourseWaitListsByActivityOffering(@WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
 
     /**
-     * Retrieves the WaitLists associated with the given WaitList type and offering Id.
+     * Retrieves the CourseWaitLists associated with the given CourseWaitList type and activity offering Id.
      *
-     * @param waitListTypeKey an identifier for the WaitList type
-     * @param offeringId       the identifier for the attached offering
-     * @param contextInfo     information containing the principalId and
-     *                        locale information about the caller of service operation
-     * @return The WaitLists associated with the given WaitListTypeKey and offeringId
+     * @param courseWaitListTypeKey an identifier for the CourseWaitList type
+     * @param activityOfferingId the identifier for the attached activity offering
+     * @param contextInfo information containing the principalId and
+     *                    locale information about the caller of service operation
+     * @return The CourseWaitLists associated with the given CourseWaitListTypeKey and activityOfferingId
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListTypeKey, offeringId, or contextInfo is
+     * @throws MissingParameterException courseWaitListTypeKey, activityOfferingId, or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListInfo> getWaitListsByTypeAndOffering(@WebParam(name = "waitListTypeKey") String waitListTypeKey,
-                                                       @WebParam(name = "offeringId") String offeringId,
-                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<CourseWaitListInfo> getCourseWaitListsByTypeAndActivityOffering(@WebParam(name = "courseWaitListTypeKey") String courseWaitListTypeKey,
+                                                            @WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
 
     /**
-     * Searches for WaitList Ids that meet the given search criteria.
+     * Retrieves all CourseWaitLists attached to the given format offering Id.
+     *
+     * @param formatOfferingId the identifier for the attached format offering
+     * @param contextInfo information containing the principalId and
+     *                    locale information about the caller of service operation
+     * @return a list of CourseWaitLists associated to the given formatOfferingId or an empty list if
+     *         none are found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseWaitListId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CourseWaitListInfo> getCourseWaitListsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId,
+                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves the CourseWaitLists associated with the given CourseWaitList type and format offering Id.
+     *
+     * @param courseWaitListTypeKey an identifier for the CourseWaitList type
+     * @param formatOfferingId the identifier for the attached format offering
+     * @param contextInfo information containing the principalId and
+     *                    locale information about the caller of service operation
+     * @return The CourseWaitLists associated with the given CourseWaitListTypeKey and formatOfferingId
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseWaitListTypeKey, formatOfferingId, or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CourseWaitListInfo> getCourseWaitListsByTypeAndFormatOffering(@WebParam(name = "courseWaitListTypeKey") String courseWaitListTypeKey,
+                                                                        @WebParam(name = "formatOfferingId") String formatOfferingId,
+                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for CourseWaitList Ids that meet the given search criteria.
      *
      * @param criteria    the search criteria
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return list of WaitList identifiers matching the criteria
+     * @return list of CourseWaitList identifiers matching the criteria
      * @throws InvalidParameterException criteria or contextInfo is not valid
      * @throws MissingParameterException criteria or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForWaitListIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<String> searchForCourseWaitListIds(@WebParam(name = "criteria") QueryByCriteria criteria,
                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -177,20 +220,20 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Searches for WaitList that meet the given search
+     * Searches for CourseWaitList that meet the given search
      * criteria.
      *
      * @param criteria    the search criteria
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return list of WaitLists matching the criteria
+     * @return list of CourseWaitLists matching the criteria
      * @throws InvalidParameterException criteria or contextInfo is not valid
      * @throws MissingParameterException criteria or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListInfo> searchForWaitLists(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<CourseWaitListInfo> searchForCourseWaitLists(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -198,38 +241,38 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Validates a WaitList. Depending on the value of
+     * Validates a CourseWaitList. Depending on the value of
      * validationType, this validation could be limited to tests on
      * just the current object and its directly contained sub-objects
      * or expanded to perform all tests related to this
-     * WaitList. If an identifier is present for the WaitList
+     * CourseWaitList. If an identifier is present for the CourseWaitList
      * (and/or one of its contained sub-objects) and a record is found
-     * for that identifier, the validation checks if the WaitList
+     * for that identifier, the validation checks if the CourseWaitList
      * can be shifted to the new values. If a an identifier is not
      * present or a record does not exist, the validation checks if
-     * the WaitList with the given data can be created.
+     * the CourseWaitList with the given data can be created.
      *
      * @param validationTypeKey the identifier for the validation Type
-     * @param waitListTypeKey   the identifier for the WaitList
+     * @param courseWaitListTypeKey   the identifier for the CourseWaitList
      *                          Type to be validated
-     * @param waitListInfo      the WaitList to be validated
+     * @param courseWaitListInfo      the CourseWaitList to be validated
      * @param contextInfo       information containing the principalId and
      *                          locale information about the caller of service operation
      * @return a list of validation results or an empty list if
      *         validation succeeded
      * @throws DoesNotExistException     validationTypeKey or
-     *                                   waitListTypeKey is not found
-     * @throws InvalidParameterException waitListInfo or
+     *                                   courseWaitListTypeKey is not found
+     * @throws InvalidParameterException courseWaitListInfo or
      *                                   contextInfo is not valid
      * @throws MissingParameterException validationTypeKey,
-     *                                   waitListTypeKey, waitListInfo, or contextInfo is
+     *                                   courseWaitListTypeKey, courseWaitListInfo, or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateWaitList(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                       @WebParam(name = "waitListTypeKey") String waitListTypeKey,
-                                                       @WebParam(name = "waitListInfo") WaitListInfo waitListInfo,
+    public List<ValidationResultInfo> validateCourseWaitList(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                       @WebParam(name = "courseWaitListTypeKey") String courseWaitListTypeKey,
+                                                       @WebParam(name = "courseWaitListInfo") CourseWaitListInfo courseWaitListInfo,
                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -238,28 +281,28 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Creates a new WaitList. The WaitList type key and Meta information may not be set
+     * Creates a new CourseWaitList. The CourseWaitList type key and Meta information may not be set
      * in the supplied data object.
      *
-     * @param waitListTypeKey a unique identifier for the Type of
-     *                        the new WaitList
-     * @param waitListInfo    the data with which to create the WaitList
+     * @param courseWaitListTypeKey a unique identifier for the Type of
+     *                        the new CourseWaitList
+     * @param courseWaitListInfo    the data with which to create the CourseWaitList
      * @param contextInfo     information containing the principalId and
      *                        locale information about the caller of service operation
-     * @return the new WaitList
+     * @return the new CourseWaitList
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException        waitListTypeKey does not exist or is
+     * @throws DoesNotExistException        courseWaitListTypeKey does not exist or is
      *                                      not supported
-     * @throws InvalidParameterException    waitListInfo or
+     * @throws InvalidParameterException    courseWaitListInfo or
      *                                      contextInfo is not valid
-     * @throws MissingParameterException    waitListTypeKey,
-     *                                      waitListInfo, or contextInfo is missing or null
+     * @throws MissingParameterException    courseWaitListTypeKey,
+     *                                      courseWaitListInfo, or contextInfo is missing or null
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information designated as read only
      */
-    public WaitListInfo createWaitList(@WebParam(name = "waitListTypeKey") String waitListTypeKey,
-                                       @WebParam(name = "waitListInfo") WaitListInfo waitListInfo,
+    public CourseWaitListInfo createCourseWaitList(@WebParam(name = "courseWaitListTypeKey") String courseWaitListTypeKey,
+                                       @WebParam(name = "courseWaitListInfo") CourseWaitListInfo courseWaitListInfo,
                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -270,29 +313,29 @@ public interface WaitListService {
             ReadOnlyException;
 
     /**
-     * Updates an existing WaitList. The WaitList id, Type,
+     * Updates an existing CourseWaitList. The CourseWaitList id, Type,
      * and Meta information may not be changed.
      *
-     * @param waitListId   the identifier for the WaitList to be
+     * @param courseWaitListId   the identifier for the CourseWaitList to be
      *                     updated
-     * @param waitListInfo the new data for the WaitList
+     * @param courseWaitListInfo the new data for the CourseWaitList
      * @param contextInfo  information containing the principalId and
      *                     locale information about the caller of service operation
-     * @return the updated WaitList
+     * @return the updated CourseWaitList
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException        waitListId is not found
-     * @throws InvalidParameterException    waitListInfo or
+     * @throws DoesNotExistException        courseWaitListId is not found
+     * @throws InvalidParameterException    courseWaitListInfo or
      *                                      contextInfo is not valid
-     * @throws MissingParameterException    waitListId,
-     *                                      waitListInfo, or contextInfo is missing or null
+     * @throws MissingParameterException    courseWaitListId,
+     *                                      courseWaitListInfo, or contextInfo is missing or null
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      * @throws VersionMismatchException     an optimistic locking failure or the action was attempted on an out of date version
      */
-    public WaitListInfo updateWaitList(@WebParam(name = "waitListId") String waitListId,
-                                       @WebParam(name = "waitListInfo") WaitListInfo waitListInfo,
+    public CourseWaitListInfo updateCourseWaitList(@WebParam(name = "courseWaitListId") String courseWaitListId,
+                                       @WebParam(name = "courseWaitListInfo") CourseWaitListInfo courseWaitListInfo,
                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -304,23 +347,23 @@ public interface WaitListService {
             VersionMismatchException;
 
     /**
-     * Changes the state of a WaitList.
+     * Changes the state of a CourseWaitList.
      *
-     * @param waitListId the Id of the WaitList
+     * @param courseWaitListId the Id of the CourseWaitList
      * @param stateKey the identifier for the new State
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the status of the change state operation. This must always be
      *         true.
-     * @throws DoesNotExistException waitListId not found or stateKey
-     *         not found in WaitList Lifecycle
+     * @throws DoesNotExistException courseWaitListId not found or stateKey
+     *         not found in CourseWaitList Lifecycle
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListId, stateKey, or
+     * @throws MissingParameterException courseWaitListId, stateKey, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo changeWaitListState(@WebParam(name = "waitListId") String waitListId,
+    public StatusInfo changeCourseWaitListState(@WebParam(name = "courseWaitListId") String courseWaitListId,
                                           @WebParam(name = "stateKey") String stateKey,
                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -330,21 +373,21 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Deletes an existing WaitList.
+     * Deletes an existing CourseWaitList.
      *
-     * @param waitListId  the identifier for the WaitList to be
+     * @param courseWaitListId  the identifier for the CourseWaitList to be
      *                    deleted
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws DoesNotExistException     waitListId is not found
+     * @throws DoesNotExistException     courseWaitListId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListId or contextInfo
+     * @throws MissingParameterException courseWaitListId or contextInfo
      *                                   is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteWaitList(@WebParam(name = "waitListId") String waitListId,
+    public StatusInfo deleteCourseWaitList(@WebParam(name = "courseWaitListId") String courseWaitListId,
                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -354,20 +397,20 @@ public interface WaitListService {
 
 
     /**
-     * Retrieves a single WaitListEntry by WaitListEntry Id.
+     * Retrieves a single CourseWaitListEntry by CourseWaitListEntry Id.
      *
-     * @param waitListEntryId the identifier for the WaitListEntry to be
+     * @param courseWaitListEntryId the identifier for the CourseWaitListEntry to be
      *                        retrieved
      * @param contextInfo     information containing the principalId and
      *                        locale information about the caller of service operation
-     * @return the WaitListEntry requested
-     * @throws DoesNotExistException     waitListEntryId not found
+     * @return the CourseWaitListEntry requested
+     * @throws DoesNotExistException     courseWaitListEntryId not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListEntryId or contextInfo is missing or null
+     * @throws MissingParameterException courseWaitListEntryId or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public WaitListEntryInfo getWaitListEntry(@WebParam(name = "waitListEntryId") String waitListEntryId,
+    public CourseWaitListEntryInfo getCourseWaitListEntry(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -376,22 +419,22 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of WaitListEntries from a list of WaitListEntry
+     * Retrieves a list of CourseWaitListEntries from a list of CourseWaitListEntry
      * Ids. The returned list may be in any order and if duplicate Ids
      * are supplied, a unique set may or may not be returned.
      *
-     * @param waitListEntryIds a list of WaitListEntry Ids
+     * @param courseWaitListEntryIds a list of CourseWaitListEntry Ids
      * @param contextInfo      information containing the principalId and
      *                         locale information about the caller of service operation
-     * @return a list of WaitListEntries
-     * @throws DoesNotExistException     an waitListEntryId in the list not found
+     * @return a list of CourseWaitListEntries
+     * @throws DoesNotExistException     an courseWaitListEntryId in the list not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListEntryIds, an id in
-     *                                   waitListEntryIds, or contextInfo is missing or null
+     * @throws MissingParameterException courseWaitListEntryIds, an id in
+     *                                   courseWaitListEntryIds, or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListEntryInfo> getWaitListEntriesByIds(@WebParam(name = "waitListEntryIds") List<String> waitListEntryIds,
+    public List<CourseWaitListEntryInfo> getCourseWaitListEntriesByIds(@WebParam(name = "courseWaitListEntryIds") List<String> courseWaitListEntryIds,
                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -400,21 +443,21 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of WaitListEntry Ids by WaitListEntry Type.
+     * Retrieves a list of CourseWaitListEntry Ids by CourseWaitListEntry Type.
      *
-     * @param waitListEntryTypeKey an identifier for the WaitListEntry
+     * @param courseWaitListEntryTypeKey an identifier for the CourseWaitListEntry
      *                             type
      * @param contextInfo          information containing the principalId and
      *                             locale information about the caller of service operation
-     * @return a list of WaitListEntry Ids matching waitListEntryTypeKey
+     * @return a list of CourseWaitListEntry Ids matching courseWaitListEntryTypeKey
      *         or an empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
-     * @throws MissingParameterException waitListEntryTypeKey or
+     * @throws MissingParameterException courseWaitListEntryTypeKey or
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getWaitListEntryIdsByType(@WebParam(name = "waitListEntryTypeKey") String waitListEntryTypeKey,
+    public List<String> getCourseWaitListEntryIdsByType(@WebParam(name = "courseWaitListEntryTypeKey") String courseWaitListEntryTypeKey,
                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -422,19 +465,19 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves the WaitListEntries associated with the given Student Id.
+     * Retrieves the CourseWaitListEntries associated with the given Student Id.
      *
      * @param studentId   the identifier for the Student
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return The WaitListEntry associated with the given Student Id
+     * @return The CourseWaitListEntry associated with the given Student Id
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException studentId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListEntryInfo> getWaitListEntriesByStudent(@WebParam(name = "studentId") String studentId,
+    public List<CourseWaitListEntryInfo> getCourseWaitListEntriesByStudent(@WebParam(name = "studentId") String studentId,
                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -442,20 +485,20 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves the WaitListEntries associated with the given WaitList Id.
-     * The returned list will be ordered by WaitListEntryInfo.position starting with position 1.
+     * Retrieves the CourseWaitListEntries associated with the given CourseWaitList Id.
+     * The returned list will be ordered by CourseWaitListEntryInfo.position starting with position 1.
      *
-     * @param waitListId  the identifier for the WaitList
+     * @param courseWaitListId  the identifier for the CourseWaitList
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return The WaitListEntry associated with the given WaitList Id
+     * @return The CourseWaitListEntry associated with the given CourseWaitList Id
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListId or contextInfo is
+     * @throws MissingParameterException courseWaitListId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListEntryInfo> getWaitListEntriesByWaitList(@WebParam(name = "waitListId") String waitListId,
+    public List<CourseWaitListEntryInfo> getCourseWaitListEntriesByCourseWaitList(@WebParam(name = "courseWaitListId") String courseWaitListId,
                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -463,20 +506,20 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves the WaitListEntries associated with the given WaitList Id and Student Id.
+     * Retrieves the CourseWaitListEntries associated with the given CourseWaitList Id and Student Id.
      *
-     * @param waitListId  the identifier for the WaitList
+     * @param courseWaitListId  the identifier for the CourseWaitList
      * @param studentId   the identifier for the Student
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return The WaitListEntry associated with the given WaitList Id and Student Id
+     * @return The CourseWaitListEntry associated with the given CourseWaitList Id and Student Id
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListId or contextInfo is
+     * @throws MissingParameterException courseWaitListId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListEntryInfo> getWaitListEntriesByWaitListAndStudent(@WebParam(name = "waitListId") String waitListId,
+    public List<CourseWaitListEntryInfo> getCourseWaitListEntriesByCourseWaitListAndStudent(@WebParam(name = "courseWaitListId") String courseWaitListId,
                                                                           @WebParam(name = "studentId") String studentId,
                                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
@@ -486,19 +529,19 @@ public interface WaitListService {
 
 
     /**
-     * Searches for WaitListEntry Ids that meet the given search criteria.
+     * Searches for CourseWaitListEntry Ids that meet the given search criteria.
      *
      * @param criteria    the search criteria
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return list of WaitListEntry identifiers matching the criteria
+     * @return list of CourseWaitListEntry identifiers matching the criteria
      * @throws InvalidParameterException criteria or contextInfo is not valid
      * @throws MissingParameterException criteria or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForWaitListEntryIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<String> searchForCourseWaitListEntryIds(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -506,20 +549,20 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Searches for WaitListEntries that meet the given search
+     * Searches for CourseWaitListEntries that meet the given search
      * criteria.
      *
      * @param criteria    the search criteria
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return list of WaitListEntries matching the criteria
+     * @return list of CourseWaitListEntries matching the criteria
      * @throws InvalidParameterException criteria or contextInfo is not valid
      * @throws MissingParameterException criteria or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<WaitListEntryInfo> searchForWaitListEntries(@WebParam(name = "criteria") QueryByCriteria criteria,
+    public List<CourseWaitListEntryInfo> searchForCourseWaitListEntries(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -527,7 +570,7 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Validates a WaitListEntry. Depending on the value of validationType,
+     * Validates a CourseWaitListEntry. Depending on the value of validationType,
      * this validation could be limited to tests on just the current Relationship
      * and its directly contained sub-objects or expanded to perform all tests
      * related to this Relationship. If an identifier is present for the
@@ -538,30 +581,30 @@ public interface WaitListService {
      * object with the given data can be created.
      *
      * @param validationTypeKey    the identifier for the validation Type
-     * @param waitListId the identifier for the WaitList that this entry is attached to.
+     * @param courseWaitListId the identifier for the CourseWaitList that this entry is attached to.
      * @param studentId the identifier for the student that this entry is attached to.
-     * @param waitListEntryTypeKey the identifier for the WaitListEntry
+     * @param courseWaitListEntryTypeKey the identifier for the CourseWaitListEntry
      *                             Type to be validated
-     * @param waitListEntryInfo    the WaitListEntry to be validated
+     * @param courseWaitListEntryInfo    the CourseWaitListEntry to be validated
      * @param contextInfo          information containing the principalId and
      *                             locale information about the caller of service operation
      * @return a list of validation results or an empty list if
      *         validation succeeded
-     * @throws DoesNotExistException     validationTypeKey, waitListId, studentId, or
-     *                                   waitListEntryTypeKey is not found
-     * @throws InvalidParameterException waitListEntryInfo or
+     * @throws DoesNotExistException     validationTypeKey, courseWaitListId, studentId, or
+     *                                   courseWaitListEntryTypeKey is not found
+     * @throws InvalidParameterException courseWaitListEntryInfo or
      *                                   contextInfo is not valid
      * @throws MissingParameterException validationTypeKey,
-     *                                   waitListEntryTypeKey, waitListEntryInfo, or contextInfo is
+     *                                   courseWaitListEntryTypeKey, courseWaitListEntryInfo, or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateWaitListEntry(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                            @WebParam(name = "waitListId") String waitListId,
+    public List<ValidationResultInfo> validateCourseWaitListEntry(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                            @WebParam(name = "courseWaitListId") String courseWaitListId,
                                                             @WebParam(name = "studentId") String studentId,
-                                                            @WebParam(name = "waitListEntryTypeKey") String waitListEntryTypeKey,
-                                                            @WebParam(name = "waitListEntryInfo") WaitListEntryInfo waitListEntryInfo,
+                                                            @WebParam(name = "courseWaitListEntryTypeKey") String courseWaitListEntryTypeKey,
+                                                            @WebParam(name = "courseWaitListEntryInfo") CourseWaitListEntryInfo courseWaitListEntryInfo,
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -570,37 +613,37 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Creates a new WaitListEntry. The position of any other entries that are affected by this
+     * Creates a new CourseWaitListEntry. The position of any other entries that are affected by this
      * addition are adjusted. For example, inserting a student at the third
      * position of a list with more than three entries would cause all
      * existing entries at position three and greater to have their positions
      * increased by one.
      * <p/>
-     * The WaitList Id, student Id, WaitListEntry type key, and Meta information may not be set in the supplied data object.
+     * The CourseWaitList Id, student Id, CourseWaitListEntry type key, and Meta information may not be set in the supplied data object.
      *
-     * @param waitListId The WaitList that this entry belongs to
-     * @param studentId The student that will be on the WaitList.
-     * @param waitListEntryTypeKey a unique identifier for the Type of
-     *                             the new WaitListEntry
-     * @param waitListEntryInfo    the data with which to create the WaitListEntry
+     * @param courseWaitListId The CourseWaitList that this entry belongs to
+     * @param studentId The student that will be on the CourseWaitList.
+     * @param courseWaitListEntryTypeKey a unique identifier for the Type of
+     *                             the new CourseWaitListEntry
+     * @param courseWaitListEntryInfo    the data with which to create the CourseWaitListEntry
      * @param contextInfo          information containing the principalId and
      *                             locale information about the caller of service operation
-     * @return the new WaitListEntry
+     * @return the new CourseWaitListEntry
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException        waitListEntryTypeKey does not exist or is
+     * @throws DoesNotExistException        courseWaitListEntryTypeKey does not exist or is
      *                                      not supported
-     * @throws InvalidParameterException    waitListEntryInfo or
+     * @throws InvalidParameterException    courseWaitListEntryInfo or
      *                                      contextInfo is not valid
-     * @throws MissingParameterException    waitListEntryTypeKey,
-     *                                      waitListEntryInfo, or contextInfo is missing or null
+     * @throws MissingParameterException    courseWaitListEntryTypeKey,
+     *                                      courseWaitListEntryInfo, or contextInfo is missing or null
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information designated as read only
      */
-    public WaitListEntryInfo createWaitListEntry(@WebParam(name = "waitListId") String waitListId,
+    public CourseWaitListEntryInfo createCourseWaitListEntry(@WebParam(name = "courseWaitListId") String courseWaitListId,
                                                  @WebParam(name = "studentId") String studentId,
-                                                 @WebParam(name = "waitListEntryTypeKey") String waitListEntryTypeKey,
-                                                 @WebParam(name = "waitListEntryInfo") WaitListEntryInfo waitListEntryInfo,
+                                                 @WebParam(name = "courseWaitListEntryTypeKey") String courseWaitListEntryTypeKey,
+                                                 @WebParam(name = "courseWaitListEntryInfo") CourseWaitListEntryInfo courseWaitListEntryInfo,
                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -611,31 +654,31 @@ public interface WaitListService {
             ReadOnlyException;
 
     /**
-     * Updates an existing WaitListEntry. The WaitListEntry id, Type, WaitList id,
+     * Updates an existing CourseWaitListEntry. The CourseWaitListEntry id, Type, CourseWaitList id,
      * and Meta information may not be changed.
      *
-     * To update the position please use the operation reorderWaitListEntries
+     * To update the position please use the operation reorderCourseWaitListEntries
      *
-     * @param waitListEntryId   the identifier for the WaitListEntry to be
+     * @param courseWaitListEntryId   the identifier for the CourseWaitListEntry to be
      *                          updated
-     * @param waitListEntryInfo the new data for the WaitListEntry
+     * @param courseWaitListEntryInfo the new data for the CourseWaitListEntry
      * @param contextInfo       information containing the principalId and
      *                          locale information about the caller of service operation
-     * @return the updated WaitListEntry
+     * @return the updated CourseWaitListEntry
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException        waitListEntryId is not found
-     * @throws InvalidParameterException    waitListEntryInfo or
+     * @throws DoesNotExistException        courseWaitListEntryId is not found
+     * @throws InvalidParameterException    courseWaitListEntryInfo or
      *                                      contextInfo is not valid
-     * @throws MissingParameterException    waitListEntryId,
-     *                                      waitListEntryInfo, or contextInfo is missing or null
+     * @throws MissingParameterException    courseWaitListEntryId,
+     *                                      courseWaitListEntryInfo, or contextInfo is missing or null
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      * @throws VersionMismatchException     an optimistic locking failure or the action was attempted on an out of date version
      */
-    public WaitListEntryInfo updateWaitListEntry(@WebParam(name = "waitListEntryId") String waitListEntryId,
-                                                 @WebParam(name = "waitListEntryInfo") WaitListEntryInfo waitListEntryInfo,
+    public CourseWaitListEntryInfo updateCourseWaitListEntry(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
+                                                 @WebParam(name = "courseWaitListEntryInfo") CourseWaitListEntryInfo courseWaitListEntryInfo,
                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
@@ -648,25 +691,25 @@ public interface WaitListService {
 
 
     /**
-     * Changes the state of a WaitListEntry.
+     * Changes the state of a CourseWaitListEntry.
      *
-     * @param waitListEntryId the Id of the WaitListEntry
+     * @param courseWaitListEntryId the Id of the CourseWaitListEntry
      * @param stateKey the identifier for the new State
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the status of the change state operation. This must always be
      *         true.
-     * @throws DoesNotExistException waitListEntryId not found or stateKey
-     *         not found in WaitListEntry Lifecycle
+     * @throws DoesNotExistException courseWaitListEntryId not found or stateKey
+     *         not found in CourseWaitListEntry Lifecycle
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListEntryId, stateKey, or
+     * @throws MissingParameterException courseWaitListEntryId, stateKey, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo changeWaitListEntryState(@WebParam(name = "waitListEntryId") String waitListEntryId,
-                                          @WebParam(name = "stateKey") String stateKey,
-                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo changeCourseWaitListEntryState(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
+                                               @WebParam(name = "stateKey") String stateKey,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -674,21 +717,21 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Deletes an existing WaitListEntry.
+     * Deletes an existing CourseWaitListEntry.
      *
-     * @param waitListEntryId the identifier for the WaitListEntry to be
+     * @param courseWaitListEntryId the identifier for the CourseWaitListEntry to be
      *                        deleted
      * @param contextInfo     information containing the principalId and
      *                        locale information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws DoesNotExistException     waitListEntryId is not found
+     * @throws DoesNotExistException     courseWaitListEntryId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListEntryId or contextInfo
+     * @throws MissingParameterException courseWaitListEntryId or contextInfo
      *                                   is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteWaitListEntry(@WebParam(name = "waitListEntryId") String waitListEntryId,
+    public StatusInfo deleteCourseWaitListEntry(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -697,30 +740,30 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Reorders the WaitListEntries contained in a WaitList.
+     * Reorders the CourseWaitListEntries contained in a CourseWaitList.
      * Essentially this just adjusts the position of the entries relative to each other.
      * Causes the entries not in the list to the have a higher position (lower priority) than all of the entries given.
      *
      * It is important to note that this reordering is stable for any entries not given - entries not given will
      * have the same position relative to each other.
      *
-     * For example, given a wait list with five entries (1, 2, 3, 4, 5) a call
-     * to reorderWaitListEntries with (3, 2) would reorder the wait list as (3, 2, 1, 4, 5).
+     * For example, given a course wait list with five entries (1, 2, 3, 4, 5) a call
+     * to reorderCourseWaitListEntries with (3, 2) would reorder the course wait list as (3, 2, 1, 4, 5).
      *
-     * @param waitListId the Id of the wait list that all of the wait list entries belong to.
-     * @param waitListEntryIds a list of WaitListEntry Ids
+     * @param courseWaitListId the Id of the course wait list that all of the course wait list entries belong to.
+     * @param courseWaitListEntryIds a list of CourseWaitListEntry Ids
      * @param contextInfo information containing the principalId and
      * locale information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws DoesNotExistException waitListId is not found or one of the waitListEntryIds given is not found
-     * @throws InvalidParameterException One or more of the given waitListEntryIds is not on the given waitList
+     * @throws DoesNotExistException courseWaitListId is not found or one of the courseWaitListEntryIds given is not found
+     * @throws InvalidParameterException One or more of the given courseWaitListEntryIds is not on the given courseWaitList
      * or the contextInfo is not valid
-     * @throws MissingParameterException Missing waitlistIds, waitListEntryIds, or contextInfo
+     * @throws MissingParameterException Missing waitlistIds, courseWaitListEntryIds, or contextInfo
      * @throws OperationFailedException Unable to complete request
      * @throws PermissionDeniedException Not authorized to do this operation
      */
-    public StatusInfo reorderWaitListEntries(@WebParam(name = "waitListId") String waitListId,
-                                             @WebParam(name = "waitListEntryIds") List<String> waitListEntryIds,
+    public StatusInfo reorderCourseWaitListEntries(@WebParam(name = "courseWaitListId") String courseWaitListId,
+                                             @WebParam(name = "courseWaitListEntryIds") List<String> courseWaitListEntryIds,
                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -729,28 +772,28 @@ public interface WaitListService {
             PermissionDeniedException;
 
     /**
-     * Inserts an existing WaitListEntry at a particular position on
-     * the WaitList.
+     * Inserts an existing CourseWaitListEntry at a particular position on
+     * the CourseWaitList.
      *
      * If another entry already exists at that particular
-     * position within the WaitList then this method "bumps down" the
+     * position within the CourseWaitList then this method "bumps down" the
      * rest of the entries until there is an open position.
      *
-     * @param waitListEntryId the id for the WaitListEntry to be moved.
-     * @param position the absolute position in the WaitList
+     * @param courseWaitListEntryId the id for the CourseWaitListEntry to be moved.
+     * @param position the absolute position in the CourseWaitList
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of the service
      *        operation
-     * @throws DoesNotExistException waitListEntryId is not found
+     * @throws DoesNotExistException courseWaitListEntryId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException waitListEntryId or
+     * @throws MissingParameterException courseWaitListEntryId or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo moveWaitListEntryToPosition(@WebParam(name = "waitListEntryId") String waitListEntryId,
-                                                   @WebParam(name = "position") Integer position,
-                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo moveCourseWaitListEntryToPosition(@WebParam(name = "courseWaitListEntryId") String courseWaitListEntryId,
+                                                  @WebParam(name = "position") Integer position,
+                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,

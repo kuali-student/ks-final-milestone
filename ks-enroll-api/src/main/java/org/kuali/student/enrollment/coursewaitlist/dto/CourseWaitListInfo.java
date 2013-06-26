@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.waitlist.dto;
+package org.kuali.student.enrollment.coursewaitlist.dto;
 
 
-import org.kuali.student.enrollment.waitlist.infc.WaitList;
+import org.kuali.student.enrollment.coursewaitlist.infc.CourseWaitList;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 
@@ -32,21 +32,21 @@ import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WaitListInfo", propOrder = {
-        "id", "typeKey", "stateKey","associatedOfferingIds",
-        "offeringTypeKey", "waitListProcessingTypeKey", "maxSize",
+@XmlType(name = "CourseWaitListInfo", propOrder = {
+        "id", "typeKey", "stateKey","activityOfferingIds",
+        "formatOfferingIds", "courseWaitListProcessingTypeKey", "maxSize",
         "checkInRequired", "checkInFrequency", "allowHoldListEntries", "effectiveDate", "expirationDate",
         "meta", "attributes", "_futureElements" })
-public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Serializable {
+public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWaitList, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private List<String> associatedOfferingIds;
+    private List<String> activityOfferingIds;
     @XmlElement
-    private String offeringTypeKey;
+    private List<String> formatOfferingIds;
     @XmlElement
-    private String waitListProcessingTypeKey;
+    private String courseWaitListProcessingTypeKey;
     @XmlElement
     private Integer maxSize;
     @XmlElement
@@ -63,18 +63,22 @@ public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Seri
     private List<Object> _futureElements;
 
 
-    public WaitListInfo() {
+    public CourseWaitListInfo() {
     }
 
-    public WaitListInfo(WaitList waitList) {
+    public CourseWaitListInfo(CourseWaitList waitList) {
         super(waitList);
 
         if(waitList != null) {
-            if(waitList.getAssociatedOfferingIds() != null) {
-                setAssociatedOfferingIds(new ArrayList<String>(waitList.getAssociatedOfferingIds()));
+            if(waitList.getActivityOfferingIds() != null) {
+                setActivityOfferingIds(new ArrayList<String>(waitList.getActivityOfferingIds()));
             }
-            setOfferingTypeKey(waitList.getOfferingTypeKey());
-            setWaitListProcessingTypeKey(waitList.getWaitListProcessingTypeKey());
+
+            if(waitList.getFormatOfferingIds() != null) {
+                setFormatOfferingIds(new ArrayList<String>(waitList.getFormatOfferingIds()));
+            }
+
+            setCourseWaitListProcessingTypeKey(waitList.getCourseWaitListProcessingTypeKey());
             setMaxSize(waitList.getMaxSize());
             setCheckInRequired(waitList.getCheckInRequired());
             if(waitList.getCheckInFrequency() != null) {
@@ -91,33 +95,30 @@ public class WaitListInfo extends IdNamelessEntityInfo implements WaitList, Seri
     }
 
     @Override
-    public List<String> getAssociatedOfferingIds() {
-        if(associatedOfferingIds == null) {
-            associatedOfferingIds = new ArrayList<String>();
-        }
-        return associatedOfferingIds;
+    public List<String> getActivityOfferingIds() {
+        return activityOfferingIds;
     }
 
-    public void setAssociatedOfferingIds(List<String> associatedOfferingIds) {
-        this.associatedOfferingIds = associatedOfferingIds;
+    public void setActivityOfferingIds(List<String> activityOfferingIds) {
+        this.activityOfferingIds = activityOfferingIds;
     }
 
     @Override
-    public String getOfferingTypeKey() {
-        return offeringTypeKey;
+    public List<String> getFormatOfferingIds() {
+        return formatOfferingIds;
     }
 
-    public void setOfferingTypeKey(String offeringTypeKey) {
-        this.offeringTypeKey = offeringTypeKey;
+    public void setFormatOfferingIds(List<String> formatOfferingIds) {
+        this.formatOfferingIds = formatOfferingIds;
     }
 
     @Override
-    public String getWaitListProcessingTypeKey() {
-        return waitListProcessingTypeKey;
+    public String getCourseWaitListProcessingTypeKey() {
+        return courseWaitListProcessingTypeKey;
     }
 
-    public void setWaitListProcessingTypeKey(String waitListProcessingTypeKey) {
-        this.waitListProcessingTypeKey = waitListProcessingTypeKey;
+    public void setCourseWaitListProcessingTypeKey(String courseWaitListProcessingTypeKey) {
+        this.courseWaitListProcessingTypeKey = courseWaitListProcessingTypeKey;
     }
 
     @Override

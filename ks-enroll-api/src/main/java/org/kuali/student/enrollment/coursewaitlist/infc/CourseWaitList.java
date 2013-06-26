@@ -13,7 +13,7 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.waitlist.infc;
+package org.kuali.student.enrollment.coursewaitlist.infc;
 
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
@@ -22,12 +22,12 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 import java.util.List;
 
 /**
- * Represents a wait list that is attached to a specific offering (AO, FO, PO...).
- * A set of WaitListEntries may be attached to this WaitList.
- * These entries represent the students that are on the wait list.
+ * Represents a course wait list that is attached to a specific offering (AO, FO, PO...).
+ * A set of CourseWaitListEntries may be attached to this CourseWaitList.
+ * These entries represent the students that are on the course wait list.
  *
  */
-public interface WaitList extends IdNamelessEntity, HasEffectiveDates {
+public interface CourseWaitList extends IdNamelessEntity, HasEffectiveDates {
 
     /**
      * A unique identifier for the state of this object.
@@ -42,38 +42,39 @@ public interface WaitList extends IdNamelessEntity, HasEffectiveDates {
 
     /**
      *
-     * @return The Offering (Activity Offering, Format Offering, Program Offering...) Ids associated with this WaitList.
-     * @name Associated Offering Ids
+     * @return The activity offering Ids associated with this CourseWaitList.
+     * @name Activity Offering Ids
      */
-    List<String> getAssociatedOfferingIds();
+    List<String> getActivityOfferingIds();
 
-
-    /**
-     * The types of offerings that may be attached to this WaitList are limited based on this property
-     * @return The Offering type key associated with this WaitList
-     * @name Offering Type Key
-     */
-    String getOfferingTypeKey();
 
     /**
      *
-     * @return The maximum size of this WaitList.  This value will always be positive.  Zero represents an unlimited size.
+     * @return The format offering Ids associated with this CourseWaitList.
+     * @name Format Offering Ids
+     */
+    List<String> getFormatOfferingIds();
+
+    /**
+     *
+     * @return The maximum size of this CourseWaitList.  This value will always be positive.
+     * Zero represents an unlimited size.
      * @name Max Size
      */
     Integer getMaxSize();
 
     /**
      *
-     * @return The processing type key for this WaitList. For example, automatic, semi-automatic, manual...
-     * @name Wait List Processing Type Key
+     * @return The processing type key for this CourseWaitList. For example, automatic, semi-automatic, manual...
+     * @name Course Wait List Processing Type Key
      */
-    String getWaitListProcessingTypeKey();
+    String getCourseWaitListProcessingTypeKey();
 
 
     /**
-     * Indicates that a student is required to check in at some interval to remain on this wait list.
+     * Indicates that a student is required to check in at some interval to remain on this course wait list.
      *
-     * @return true if a check-in is required for the entries on this WaitList
+     * @return true if a check-in is required for the entries on this CourseWaitList
      * @name Check-in Required
      */
     Boolean getCheckInRequired();
@@ -81,14 +82,15 @@ public interface WaitList extends IdNamelessEntity, HasEffectiveDates {
     /**
      *
      * @return the amount of time that a student is required to
-     * check-in before they will be removed from this WaitList.
+     * check-in before they will be removed from this CourseWaitList.
      * @name Check-in Frequency
      */
     TimeAmount getCheckInFrequency();
 
 
     /**
-     * @return true if hold list entries are allowed on this wait list.  An entry is considered a hold list entry if it has any associated hold list rule ids attached to it.
+     * @return true if hold list entries are allowed on this CourseWaitList.
+     * An entry is considered a hold list entry if it is in a specific state.
      * @name Allow Hold List Entries
      */
     Boolean getAllowHoldListEntries();
