@@ -69,6 +69,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
         this.term2KeydateSet.clear();
 	}
 
+    @Override
+    public List<String> getKeyDateIdsForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getKeyDateIdsForTerm unsupported");
+    }
+
 	@Override
     public StatusInfo addTermToAcademicCalendar(String academicCalendarId, String termId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // KSENROLL-7444
