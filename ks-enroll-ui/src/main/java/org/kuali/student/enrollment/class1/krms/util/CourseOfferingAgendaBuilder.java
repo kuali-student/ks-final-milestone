@@ -54,7 +54,11 @@ public class CourseOfferingAgendaBuilder extends AgendaBuilder {
 
         //Add Info message if co rule differs from clu rule.
         if (!this.getViewHelperService().compareRules(rule)) {
-            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.co.changed");
+            if(!rule.isDummy()) {
+                GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.co.changed");
+            } else {
+                // set 'Course Offering Rule differs from Canonical Rule'
+            }
         }
 
         return group;
