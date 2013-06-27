@@ -42,7 +42,7 @@ import org.kuali.rice.krms.impl.repository.mock.KrmsConfigurationLoader;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.process.krms.KSKRMSTestCase;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -148,12 +148,17 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         ReferenceObjectBinding binding = this.ruleManagementService.createReferenceObjectBinding(bindingBldr.build());
 
         List<String> optionKeys = new ArrayList<String>();
-        List<ReferenceObjectBinding> list = this.krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
-                fromReferenceDiscriminatorType,
-                fromReferenceObjectId,
-                toReferenceDiscriminatorType,
-                toReferenceObjectId,
-                optionKeys);
+        List<ReferenceObjectBinding> list = null;
+        try {
+            list = this.krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
+                    fromReferenceDiscriminatorType,
+                    fromReferenceObjectId,
+                    toReferenceDiscriminatorType,
+                    toReferenceObjectId,
+                    optionKeys);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         assertNotNull(list);
         assertEquals(1, list.size());
@@ -218,12 +223,17 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         ReferenceObjectBinding binding = this.ruleManagementService.createReferenceObjectBinding(bindingBldr.build());
 
         List<String> optionKeys = new ArrayList<String>();
-        List<ReferenceObjectBinding> list = this.krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
-                fromReferenceDiscriminatorType,
-                fromReferenceObjectId,
-                toReferenceDiscriminatorType,
-                toReferenceObjectId,
-                optionKeys);
+        List<ReferenceObjectBinding> list = null;
+        try {
+            list = this.krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
+                    fromReferenceDiscriminatorType,
+                    fromReferenceObjectId,
+                    toReferenceDiscriminatorType,
+                    toReferenceObjectId,
+                    optionKeys);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         assertNotNull(list);
         assertEquals(1, list.size());

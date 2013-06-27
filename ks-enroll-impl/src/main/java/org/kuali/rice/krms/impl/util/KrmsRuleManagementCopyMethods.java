@@ -8,6 +8,7 @@ import java.util.List;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.student.r2.common.exceptions.*;
 
 /**
  * These are the copy methods to be used to copy rules from one object to another.
@@ -46,7 +47,7 @@ public interface KrmsRuleManagementCopyMethods {
             String toReferenceDiscriminatorType,
             String toReferenceObjectId,
             List<String> optionKeys)
-            throws RiceIllegalArgumentException, RiceIllegalStateException;
+            throws RiceIllegalArgumentException, RiceIllegalStateException, PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException;
     
     /**
      * Delete the rules associated with the specified reference object.  This deletes the binding and 
