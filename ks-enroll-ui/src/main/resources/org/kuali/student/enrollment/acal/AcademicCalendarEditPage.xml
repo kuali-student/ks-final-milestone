@@ -163,7 +163,7 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-AcalOverview" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
+                <bean parent="Uif-GridGroup" p:style="padding-top: 10px; padding-left: 10px;" p:layoutManager.numberOfColumns="4" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-krad-tab-gridgroup-fix</value>
@@ -199,6 +199,7 @@ limitations under the License.
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
+        <property name="style" value="padding-left: 10px" />
         <property name="layoutManager.actionFieldPrototype">
             <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label=""/>
         </property>
