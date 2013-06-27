@@ -59,7 +59,7 @@ limitations under the License.
                     <property name="label" value="@{academicCalendarInfo.name}"/>
                 </bean>
                 <bean parent="Uif-BreadcrumbItem" p:render="@{newCalendar}">
-                    <property name="label" value="Calendars"/>
+                    <property name="label" value="Calendar Search"/>
                     <property name="url.viewId" value="calendarSearchView"/>
                     <property name="url.controllerMapping" value="/calendarSearch"/>
                     <property name="url.methodToCall" value="start"/>
