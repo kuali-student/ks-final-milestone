@@ -58,8 +58,6 @@
         <sql.schema.3>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.schema}</sql.schema.3>
         <sql.schema.4>${sql.meta.base}/${db.ks.enroll.schema}-${sql.suffix.schema}</sql.schema.4>
         <sql.schema.5>${sql.meta.base}/${db.ks.rice.schema}-${sql.suffix.schema}</sql.schema.5>
-        <!-- The "ks-" prefix here should get removed after the next Rice upgrade since the Rice jar will contain the -data.resources file natively -->
-        <!-- The dependency of the spring-maven-plugin to ks-deployment-resources should also then get removed -->
         <sql.data.1>${sql.meta.base}/${db.rice.baseline.schema}-${sql.suffix.data}</sql.data.1>
         <sql.data.2>${sql.meta.base}/${db.ks.core.schema}-${sql.suffix.data}</sql.data.2>
         <sql.data.3>${sql.meta.base}/${db.ks.lum.schema}-${sql.suffix.data}</sql.data.3>
