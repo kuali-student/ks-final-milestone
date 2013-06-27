@@ -70,21 +70,33 @@
         </property>
     </bean>
 
+    <bean id="CourseLookupField" parent="Uif-DataField">
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+          <null/>
+        </property>
+        <property name="fieldLabel.requiredMessage">
+            <null/>
+        </property>
+    </bean>
+
     <bean id="CourseInfo-LookupView" parent="KS-Uif-LookupView">
         <property name="headerText" value="Course Lookup" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoLookupableImpl"/>
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:uppercaseValue="true"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="code" />
-                <bean parent="Uif-InputField" p:propertyName="courseTitle" />
-                <bean parent="Uif-InputField" p:propertyName="descr.formatted" />
+                <bean parent="CourseLookupField" p:propertyName="code" />
+                <bean parent="CourseLookupField" p:propertyName="courseTitle"/>
+                <bean parent="CourseLookupField" p:propertyName="descr.formatted" />
             </list>
         </property>
     </bean>
