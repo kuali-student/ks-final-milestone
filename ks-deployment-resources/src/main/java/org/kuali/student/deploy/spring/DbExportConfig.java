@@ -19,10 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
-import org.kuali.common.impex.spring.DefaultExtractSchemaConfig;
-import org.kuali.common.impex.spring.ModularDataExportConfig;
-import org.kuali.common.impex.spring.ModularSchemaExportConfig;
+import org.kuali.common.impex.spring.DatabaseExportConfig;
 import org.kuali.common.util.CollectionUtils;
 import org.kuali.common.util.LocationUtils;
 import org.kuali.common.util.SimpleScanner;
@@ -39,9 +36,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 @Configuration
-@Import({ModularSchemaExportConfig.class, ModularDataExportConfig.class, DefaultExtractSchemaConfig.class})
+@Import(DatabaseExportConfig.class)
 public class DbExportConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(DbExportConfig.class);
@@ -82,8 +80,19 @@ public class DbExportConfig {
     @Autowired
     Environment env;
 
+    @Autowired
+    DatabaseExportConfig dbExportConfig;
+
+    public void doDatabaseExport() {
+        dbExportConfig.exportDatabaseExecutable().execute();
+    }
+
     @Bean(initMethod = "execute")
     public SyncFilesExecutable syncFilesExecutable() {
+
+        // run the database export executable first
+        doDatabaseExport();
+
         SyncFilesExecutable exec = new SyncFilesExecutable();
         exec.setService(scmService());
         exec.setSkip(SpringUtils.getBoolean(env, SYNC_SKIP_KEY, SYNC_SKIP_DEFAULT));
@@ -104,13 +113,13 @@ public class DbExportConfig {
             String sourceLocation = SpringUtils.getProperty(env, prefix + SYNC_REQUEST_SOURCE_DIR_KEY, "");
             String destinationLocation = SpringUtils.getProperty(env, prefix + SYNC_REQUEST_DESTINATION_DIR_KEY, "");
 
-            if(StringUtils.isNotBlank(commitLocation)) {
+            if(StringUtils.hasText(commitLocation)) {
                 // if a commit path is defined for this prefix, add the file to the list of commit paths
                 commitPaths.add(LocationUtils.getFileQuietly(commitLocation));
             }
 
             // sourceLocation and destinationLocation must either both have a value, or both be null
-            if(StringUtils.isNotBlank(sourceLocation)) {
+            if(StringUtils.hasText(sourceLocation)) {
                 Assert.hasText(destinationLocation);
 
                 // build a file object for the source directory

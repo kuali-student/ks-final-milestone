@@ -22,9 +22,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-import org.kuali.common.impex.spring.DefaultExtractSchemaConfig;
-import org.kuali.common.impex.spring.ModularDataExportConfig;
+import org.kuali.common.impex.spring.DataExportConfig;
 import org.kuali.common.impex.spring.ModularSchemaExportConfig;
+import org.kuali.common.impex.spring.SchemaExtractionConfig;
 import org.kuali.common.jdbc.spring.JdbcMavenPropertySourceConfig;
 import org.kuali.common.util.property.ProjectProperties;
 import org.kuali.common.util.property.PropertiesContext;
@@ -49,13 +49,13 @@ public class ExportPropertyConfig extends JdbcMavenPropertySourceConfig {
 
     protected static final String RICE_INCLUDE = "KR";
 
+    protected static final String DATA_INCLUDE_CSV = APP_INCLUDE + TABLE_NAME_WILDCARD + "," + RICE_INCLUDE + TABLE_NAME_WILDCARD;
+
     protected static final String BUNDLED_PREFIX = "student.export.bundled.";
 
     protected static final String BUNDLED_ARTIFACT_ID = "ks-impex-bundled-db";
 
     protected static final String SCHEMA_PROPERTY_PREFIXES = APP_PREFIX + "," + RICE_PREFIX + "," + BUNDLED_PREFIX;
-
-    protected static final String DATA_PROPERTY_PREFIXES = APP_PREFIX + "," + RICE_PREFIX;
 
     protected static final String SOURCE_DB_TABLE_STATISTICS_LOCATION = "${project.basedir}/../../ks-deployment-resources/src/main/resources/org/kuali/student/impex/ks-source-db.properties";
 
@@ -65,8 +65,6 @@ public class ExportPropertyConfig extends JdbcMavenPropertySourceConfig {
 
     protected static final String FS = File.separator;
 
-    protected static final String EXPORT_PATH = "db-export";
-
     protected static final String RESOURCES_PATH = "src" + FS + "main" + FS + "resources" + FS + "${project.groupId.path}";
 
     protected static final String SYNC_GLOBAL_PREFIX = "student.export.sync.global.";
@@ -75,13 +73,14 @@ public class ExportPropertyConfig extends JdbcMavenPropertySourceConfig {
 
     protected static final String DATA_FILE_EXTENSION = ".mpx";
 
+    protected static final String OUTPUT_LOCATION = "${project.build.outputDirectory}/db-export/";
+
     @Override
     protected List<ProjectProperties> getOtherProjectProperties() {
         Properties props = new Properties();
 
         // add properties for the prefixes
         props.put(ModularSchemaExportConfig.PROPERTY_PREFIXES_KEY, SCHEMA_PROPERTY_PREFIXES);
-        props.put(ModularDataExportConfig.PROPERTY_PREFIXES_KEY, DATA_PROPERTY_PREFIXES);
         props.put(DbExportConfig.SYNC_DEFINITIONS_PREFIX_KEY, SYNC_PROPERTY_PREFIXES);
 
         // schema export properties
@@ -90,9 +89,11 @@ public class ExportPropertyConfig extends JdbcMavenPropertySourceConfig {
         populateSchemaProps(props, BUNDLED_PREFIX, Arrays.asList(APP_INCLUDE, RICE_INCLUDE), BUNDLED_ARTIFACT_ID);
 
         // data export properties
-        props.put(ModularDataExportConfig.STATISTICS_LOCATION_KEY, SOURCE_DB_TABLE_STATISTICS_LOCATION);
-        populateDataProps(props, APP_PREFIX, APP_INCLUDE, APP_ARTIFACT_ID);
-        populateDataProps(props, RICE_PREFIX, RICE_INCLUDE, RICE_ARTIFACT_ID);
+        props.put(DataExportConfig.STATISTICS_LOCATION_KEY, SOURCE_DB_TABLE_STATISTICS_LOCATION);
+        props.put(DataExportConfig.TABLE_NAME_INCLUDE_KEY, DATA_INCLUDE_CSV);
+        props.put(DataExportConfig.WORKING_DIR_KEY, OUTPUT_LOCATION);
+
+
         // do not populate data properties for KS-BUNDLED, since it gets all data files from APP and RICE
 
         // add a sync commit path entry for the database statistics file
@@ -125,26 +126,18 @@ public class ExportPropertyConfig extends JdbcMavenPropertySourceConfig {
             includeBuilder.append(include).append(TABLE_NAME_WILDCARD);
         }
 
-        props.put(prefix + DefaultExtractSchemaConfig.NAME_INCLUDES_KEY, includeBuilder.toString());
-
-        String artifactResourceDir = getArtifactResourceDir(artifactId);
+        props.put(prefix + SchemaExtractionConfig.NAME_INCLUDES_KEY, includeBuilder.toString());
 
         // build the schema output location
-        StringBuilder schemaSb = new StringBuilder(artifactResourceDir);
+        StringBuilder schemaSb = new StringBuilder(OUTPUT_LOCATION);
         schemaSb.append(artifactId).append(SCHEMA_OUTPUT_LOCATION_SUFFIX);
         props.put(prefix + ModularSchemaExportConfig.OUTPUT_LOCATION_KEY, schemaSb.toString());
 
         // build the constraint output location
-        StringBuilder constraintSb = new StringBuilder(artifactResourceDir);
+        StringBuilder constraintSb = new StringBuilder(OUTPUT_LOCATION);
         constraintSb.append(artifactId).append(CONSTRAINT_SCHEMA_OUTPUT_LOCATION_SUFFIX);
         props.put(prefix + ModularSchemaExportConfig.FOREIGN_KEY_OUTPUT_LOCATION_KEY, constraintSb.toString());
 
-    }
-
-    protected void populateDataProps(Properties props, String prefix, String include, String artifactId) {
-        // add properties for data export
-        props.put(prefix + ModularDataExportConfig.NAME_INCLUDE_KEY, include + TABLE_NAME_WILDCARD);
-        props.put(prefix + ModularDataExportConfig.OUTPUT_LOCATION_KEY, getArtifactResourceDir(artifactId));
     }
 
     protected void populateSyncProps(Properties props, String prefix, String dataFileInclude, String artifactId) {
@@ -165,21 +158,9 @@ public class ExportPropertyConfig extends JdbcMavenPropertySourceConfig {
 
         // create properties to define a sync request to copy files matching the expression created above from the source dir to the target dir
         // and create svn add/delete requests for files matching the pattern in the target dir
-        props.put(prefix + DbExportConfig.SYNC_REQUEST_SOURCE_DIR_KEY, getArtifactResourceDir(artifactId));
+        props.put(prefix + DbExportConfig.SYNC_REQUEST_SOURCE_DIR_KEY, OUTPUT_LOCATION);
         props.put(prefix + DbExportConfig.SYNC_REQUEST_DESTINATION_DIR_KEY, syncTargetDir);
         props.put(prefix + DbExportConfig.SYNC_REQUEST_FILTER_EXPRESSIONS_KEY, expressionsBuilder.toString());
-    }
-
-    protected String getArtifactResourceDir(String artifactId) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("${project.build.outputDirectory}");
-        sb.append(FS);
-        sb.append(EXPORT_PATH);
-        sb.append(FS);
-        sb.append(artifactId);
-        sb.append(FS);
-
-        return sb.toString();
     }
 
     protected String getTargetDir(String artifactId) {
