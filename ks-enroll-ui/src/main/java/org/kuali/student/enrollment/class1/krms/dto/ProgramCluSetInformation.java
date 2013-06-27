@@ -33,6 +33,7 @@ public class ProgramCluSetInformation implements Serializable {
     private List<CluInformation> clus;
     private List<CluSetInfo> cluSets;
     private Map<String, ProgramCluSetInformation> subCluSetInformations;
+    private ProgramCluSetInformation parent;
 
     private List<CluSetRangeInformation> cluSetRange;
 
@@ -87,6 +88,14 @@ public class ProgramCluSetInformation implements Serializable {
 
     public void setSubCluSetInformations(Map<String, ProgramCluSetInformation> subCluSetInformations) {
         this.subCluSetInformations = subCluSetInformations;
+    }
+
+    public ProgramCluSetInformation getParent() {
+        return parent;
+    }
+
+    public void setParent(ProgramCluSetInformation parent) {
+        this.parent = parent;
     }
 
     public int getProgCluListSize(){

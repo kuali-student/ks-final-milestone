@@ -32,6 +32,7 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder;
+import org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
@@ -126,6 +127,31 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
                     }
                     //Compare propositions CluSetInformation cluSets
                     if(!enrolOriginal.getCluSet().getCluSetDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluSetDelimitedString())) {
+                        return false;
+                    }
+                }
+            }
+
+            //Populate compare proposition ProgramCluSetInformation for comparison
+            if(enrolOriginal.getProgCluSet() != null) {
+                if(enrolOriginal.getProgCluSet().getParent() == null) {
+                    ProgramComponentBuilder builder = new ProgramComponentBuilder();
+                    TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
+                    for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
+                        if(termParameterEditor.getName().equals("kuali.term.parameter.type.program.cluSet.id")) {
+                            enrolOriginal.getProgCluSet().setParent(builder.getProgramCluSetInformation(termParameterEditor.getValue()));
+                            break;
+                        }
+                    }
+                }
+                //If compare and original propositions are not null compare ProgramCluSetInformation
+                if(enrolOriginal.getProgCluSet() != null && enrolOriginal.getProgCluSet().getParent() != null) {
+                    //Compare propositions ProgramCluSetInformation clu's
+                    if(!enrolOriginal.getProgCluSet().getCluDelimitedString().equals(enrolOriginal.getProgCluSet().getParent().getCluDelimitedString())) {
+                        return false;
+                    }
+                    //Compare propositions ProgramCluSetInformation cluSets
+                    if(!enrolOriginal.getProgCluSet().getCluSetDelimitedString().equals(enrolOriginal.getProgCluSet().getParent().getCluSetDelimitedString())) {
                         return false;
                     }
                 }
