@@ -8,7 +8,7 @@
     </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>2.0.2-cm-SNAPSHOT</version>
+    <version>2.0.2-cm-contrib-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Kuali Student</name>
     <description>
@@ -82,10 +82,10 @@
         <url>https://svn.kuali.org/repos/student/enrollment/aggregate/branches/CM-2.0</url>
     </scm>
     <properties>
-        <ks.api.version>2.0.2-cm-SNAPSHOT</ks.api.version>
-        <ks.core.version>2.0.2-cm-SNAPSHOT</ks.core.version>
-        <ks.lum.version>2.0.2-cm-SNAPSHOT</ks.lum.version>
-        <ks.deployments.version>2.0.2-cm-SNAPSHOT</ks.deployments.version>
+        <ks.api.version>2.0.2-cm-contrib-SNAPSHOT</ks.api.version>
+        <ks.core.version>2.0.2-cm-contrib-SNAPSHOT</ks.core.version>
+        <ks.lum.version>2.0.2-cm-contrib-SNAPSHOT</ks.lum.version>
+        <ks.deployments.version>2.0.2-cm-contrib-SNAPSHOT</ks.deployments.version>
         <!-- 3rd party library/plugin version definitions -->
         <antlr.runtime.version>3.1.1</antlr.runtime.version>
         <antlr.legacy.version>2.7.7</antlr.legacy.version>
