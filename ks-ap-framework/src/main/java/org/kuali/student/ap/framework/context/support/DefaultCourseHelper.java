@@ -84,16 +84,25 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	}
 
 	public List<String> getScheduledTerms(Course course) {
+   	ContextInfo ctx = KsapFrameworkServiceLocator.getContext()
+       	.getContextInfo();
 		try {
+     	List<String> courseIds = KsapFrameworkServiceLocator
+         	.getCourseService()
+         	.searchForCourseIds(
+             	QueryByCriteria.Builder.fromPredicates(PredicateFactory
+                 	.equal("officialIdentifier.code",
+                     	course.getCode())), ctx);
 			List<String> scheduledTerms = new java.util.LinkedList<String>();
 			for (Term t : KsapFrameworkServiceLocator.getTermHelper()
 					.getPublishedTerms()) {
-				String termId = KsapFrameworkServiceLocator.getTermHelper()
-						.getOldestHistoricalTerm().getId();
+				String termId = t.getId();
 				QueryByCriteria crit = QueryByCriteria.Builder
-						.fromPredicates(PredicateFactory.and(PredicateFactory
-								.in("cluId", new String[] { course.getId(), }),
-								PredicateFactory.greaterThanOrEqual("atpId",
+						.fromPredicates(PredicateFactory.and(PredicateFactory.in(
+								"cluId",
+								courseIds.toArray(new String[courseIds.size()])),
+								PredicateFactory
+										.equal("atpId",
 										termId)));
 				if (!KsapFrameworkServiceLocator
 						.getCourseOfferingService()
@@ -121,7 +130,6 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 				.getContextInfo();
 		List<CourseOfferingInfo> courseOfferingInfo = null;
 		try {
-
 			List<String> courseIds = KsapFrameworkServiceLocator
 					.getCourseService()
 					.searchForCourseIds(
