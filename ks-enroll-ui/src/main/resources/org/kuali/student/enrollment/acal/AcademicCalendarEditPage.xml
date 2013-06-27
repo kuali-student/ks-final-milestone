@@ -157,7 +157,12 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-AcalOverview" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-krad-tab-gridgroup-fix</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.name"

@@ -467,7 +467,7 @@ a {
     float: right;
 }
 
-.ks-header-list¨{
+.ks-header-list {
     list-style: none;
     float: right;
 }
@@ -887,4 +887,9 @@ div#Uif-ApplicationHeader-Wrapper{
 
 #ks-uif-secondaryActionButton.uif-boxLayoutHorizontalItem ~ .uif-boxLayoutHorizontalItem{
     float: right  !important;
+}
+
+.ks-krad-tab-gridgroup-fix th,
+.ks-krad-tab-gridgroup-fix td {
+    display: table-cell !important;
 }
