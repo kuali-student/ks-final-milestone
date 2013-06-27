@@ -63,6 +63,8 @@ public class AcademicCalendarForm extends KSUifForm {
     private String validationJSONString;
 
     private boolean makeOfficial;
+    private boolean makeOfficialIsSubterm;
+    private String makeOfficialParentTermName;
     private String makeOfficialName;
     private String messageForDeleteTermOrSubterm;
 
@@ -399,5 +401,21 @@ public class AcademicCalendarForm extends KSUifForm {
 
     public void setMessageForDeleteTermOrSubterm(String messageForDeleteTermOrSubterm) {
         this.messageForDeleteTermOrSubterm = messageForDeleteTermOrSubterm;
+    }
+
+    public boolean isMakeOfficialIsSubterm() {
+        return makeOfficialIsSubterm;
+    }
+
+    public void setMakeOfficialIsSubterm(boolean makeOfficialIsSubterm) {
+        this.makeOfficialIsSubterm = makeOfficialIsSubterm;
+    }
+
+    public String getMakeOfficialParentTermName() {
+        return makeOfficialParentTermName;
+    }
+
+    public void setMakeOfficialParentTermName(String makeOfficialParentTermName) {
+        this.makeOfficialParentTermName = makeOfficialParentTermName;
     }
 }

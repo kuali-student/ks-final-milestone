@@ -459,6 +459,10 @@ public class AcademicCalendarController extends UifControllerBase {
             academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
             academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
             academicCalendarForm.setMakeOfficialName(termWrapper.getName());
+            academicCalendarForm.setMakeOfficialIsSubterm(termWrapper.isSubTerm());
+            if(termWrapper.getParentTermInfo()!=null){
+                academicCalendarForm.setMakeOfficialParentTermName(termWrapper.getParentTermInfo().getName());
+            }
             //redirect back to client to display lightbox
             return showDialog(dialog, academicCalendarForm, request, response);
         }else{
@@ -474,6 +478,10 @@ public class AcademicCalendarController extends UifControllerBase {
                 academicCalendarForm.setSelectedCollectionPath(academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
                 academicCalendarForm.setSelectedLineIndex(academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
                 academicCalendarForm.setMakeOfficialName(termWrapper.getName());
+                academicCalendarForm.setMakeOfficialIsSubterm(termWrapper.isSubTerm());
+                if(termWrapper.getParentTermInfo()!=null){
+                    academicCalendarForm.setMakeOfficialParentTermName(termWrapper.getParentTermInfo().getName());
+                }
                 //redirect back to client to display lightbox
                 return showDialog(dialog, academicCalendarForm, request, response);
             }
