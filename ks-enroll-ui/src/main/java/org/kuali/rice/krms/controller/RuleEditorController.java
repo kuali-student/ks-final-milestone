@@ -905,6 +905,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
             parentNode.getChildren().clear();
             ruleEditor.reset();
         }
+
+        //Compare rule with parent rule.
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
         return getUIFModelAndView(form);
     }
@@ -924,7 +928,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                                HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        RuleViewHelperService viewHelper = this.getViewHelper(form);
         RuleEditor ruleEditor = getRuleEditor(form);
         String selectedpropKey = ruleEditor.getSelectedKey();
         Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(ruleEditor.getEditTree().getRootElement(), selectedpropKey);
@@ -932,8 +935,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         PropositionEditor proposition = PropositionTreeUtil.findProposition(parentNode, selectedpropKey);
         PropositionTreeUtil.setTypeForCompoundOpCode(parent, proposition.getCompoundOpCode());
-        parent.setDescription(viewHelper.resetDescription(parent));
 
+        RuleViewHelperService viewHelper = this.getViewHelper(form);
+        viewHelper.resetDescription(parent);
         viewHelper.refreshInitTrees(ruleEditor);
 
         //Compare rule with parent rule.
@@ -965,11 +969,20 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Reset the description on current selected proposition
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
         if (proposition != null) {
+
+            //Validate the proposition and return if has errors.
+            this.getViewHelper(form).validateProposition(proposition);
+            if (!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
+                return getUIFModelAndView(form);
+            }
+
+            //Reset the description and natural language for the proposition.
             this.getViewHelper(form).resetDescription(proposition);
+            if (!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
+                return getUIFModelAndView(form);
+            }
         }
-        if (!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
-            return getUIFModelAndView(form);
-        }
+
         //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
 
@@ -987,9 +1000,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Compare CO to CLU and display info message
         if(ruleEditor.getProposition() != null) {
             if(!this.getViewHelper(form).compareRules(ruleWrapper.getRuleEditor())) {
-                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, "info.krms.tree.rule.changed");
-            } else if(GlobalVariables.getMessageMap().containsMessageKey(KRADConstants.GLOBAL_INFO)){
-                GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_INFO);
+                GlobalVariables.getMessageMap().putInfoForSectionId("KRMS-RuleEditor-TreeGroup", "info.krms.tree.rule.changed");
+            } else if(GlobalVariables.getMessageMap().containsMessageKey("KRMS-RuleEditor-TreeGroup")){
+                GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty("KRMS-RuleEditor-TreeGroup");
             }
         }
     }
