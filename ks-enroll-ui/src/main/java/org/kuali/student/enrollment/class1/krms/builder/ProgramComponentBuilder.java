@@ -140,6 +140,11 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
 
     }
 
+    @Override
+    public void validate(EnrolPropositionEditor propositionEditor) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     /**
      * This methos assumes that there can only be a maximum of one wrapped cluset
      * for cluids and one for membershipqueries.

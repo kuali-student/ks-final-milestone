@@ -61,6 +61,7 @@ import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.RuleViewHelperService;
+import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -87,6 +88,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     private RuleEditTreeBuilder editTreeBuilder;
     private RulePreviewTreeBuilder previewTreeBuilder;
     private RuleViewTreeBuilder viewTreeBuilder;
+
     private NaturalLanguageHelper naturalLanguageHelper;
 
     private static TemplateRegistry templateRegistry;
@@ -156,18 +158,36 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     /**
+     * Validate the proposition.
+     *
+     * @param proposition
+     */
+    @Override
+    public void validateProposition(PropositionEditor proposition) {
+
+        // Retrieve the builder for the current proposition type.
+        ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(proposition.getType());
+        if (builder != null) {
+            // Execute validation
+            builder.validate(proposition);
+        }
+    }
+
+    /**
+     * Clear the description and natural language on proposition editors.
      *
      * @param prop
      * @return
      */
-    public String resetDescription(PropositionEditor prop) {
+    @Override
+    public void resetDescription(PropositionEditor prop) {
 
         //If proposition type is null, set description and term null
         if (prop.getType() == null) {
             prop.setDescription(StringUtils.EMPTY);
             prop.setTerm(null);
             prop.getNaturalLanguage().clear();
-            return prop.getDescription();
+            return;
         }
 
         //Build the new termParamters with the matching component builder.
@@ -218,7 +238,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         //Refresh the natural language.
         prop.getNaturalLanguage().clear();
-        return prop.getDescription();
     }
 
     public void configurePropositionForType(PropositionEditor proposition) {
@@ -298,7 +317,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     /**
      * Compare all the propositions in a rule tree with a parent rule tree. Returns false if any proposition's type
      * or term parameters are not the same.
-     *
+     * <p/>
      * Apart from the type and termparameters, all other detail is derived from the typeid and therefore not included in
      * the comparison.     *
      *
@@ -311,13 +330,13 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         //Do null check on propositions.
         RuleEditor compareEditor = original.getParent();
-        if((compareEditor==null)||(compareEditor.getProposition()==null)){
-            if(original.getProposition()!=null){
+        if ((compareEditor == null) || (compareEditor.getProposition() == null)) {
+            if (original.getProposition() != null) {
                 return false; //if compare is null and original is not, they differ.
             } else {
                 return true; //both of them are null.
             }
-        } else if(original.getProposition()==null){
+        } else if (original.getProposition() == null) {
             return false;
         }
 
@@ -361,7 +380,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
      * values of the term paramters is not the same.
      *
      * @param original list of term parameters for current term
-     * @param compare list of term paramters to compare with.
+     * @param compare  list of term paramters to compare with.
      * @return true if all names and values are the same.
      */
     @Override
@@ -415,7 +434,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     /**
      * Make a new copy of the current proposition including the compounds.
-     *
+     * <p/>
      * The deepcopy is done to make sure that create a full copy and does not only copy the references.
      *
      * @param oldProposition
@@ -436,7 +455,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     /**
      * Used when the user clicked the copy button. It creates a new copy of the proposition with all the related
      * compound propositions.
-     *
+     * <p/>
      * The compound propositions is handled recursively.
      *
      * @param oldProposition

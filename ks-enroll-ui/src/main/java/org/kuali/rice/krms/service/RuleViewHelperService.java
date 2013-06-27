@@ -34,7 +34,9 @@ import java.util.List;
  */
 public interface RuleViewHelperService {
 
-    public String resetDescription(PropositionEditor proposition);
+    public  void validateProposition(PropositionEditor proposition);
+
+    public void resetDescription(PropositionEditor proposition);
 
     public void configurePropositionForType(PropositionEditor proposition);
 

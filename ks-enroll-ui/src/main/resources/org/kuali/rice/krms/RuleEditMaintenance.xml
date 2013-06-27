@@ -433,7 +433,7 @@ limitations under the License.
         </property>
 
         <property name="dataGroupPrototype">
-            <bean parent="PropositionBo-MaintenanceView-Custom-parentBean" p:cssClasses="editModeNode">
+            <bean id="KRMS-PropositionEdit-BoxSection" parent="PropositionBo-MaintenanceView-Custom-parentBean" p:cssClasses="editModeNode">
                 <property name="layoutManager.orientation" value="VERTICAL"/>
             </bean>
         </property>

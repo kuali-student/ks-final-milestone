@@ -67,6 +67,11 @@ public class DurationComponentBuilder implements ComponentBuilder<EnrolPropositi
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public void validate(EnrolPropositionEditor propositionEditor) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     protected CourseService getCourseService() {
         if (courseService == null) {
             courseService = CourseOfferingResourceLoader.loadCourseService();

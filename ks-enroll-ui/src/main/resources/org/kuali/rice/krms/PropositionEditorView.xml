@@ -84,7 +84,8 @@ limitations under the License.
                     <list>
                         <bean id="update-button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
                             <property name="actionLabel" value="Preview Change"/>
-                            <property name="methodToCall" value="updateProposition"/>
+                            <!--property name="methodToCall" value="updateProposition"/-->
+                            <property name="actionScript" value="updateProposition('updateProposition', 'KRMS-RuleEditor-TreeGroup');"/>
                         </bean>
                         <bean id="cancel-button" parent="Uif-ActionLink"
                               p:style="margin-left: 0.5em;margin-top: 0.3em;color: #3F7826;">

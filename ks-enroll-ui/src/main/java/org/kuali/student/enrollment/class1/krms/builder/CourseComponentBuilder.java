@@ -29,6 +29,10 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingRes
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -88,42 +92,20 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
     @Override
     public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
-        if (propositionEditor.getCourseInfo() != null){
-
+        if (propositionEditor.getCourseInfo() != null) {
             termParameters.put(CLU_KEY, propositionEditor.getCourseInfo().getVersion().getVersionIndId());
         }
 
-       if ( propositionEditor.getTermCode() != null ){
-
-            try {
-                TermInfo termInfo = this.populateTerm(propositionEditor);
-                propositionEditor.setTermInfo(termInfo);
-                if (propositionEditor.getTermInfo() != null){
-                termParameters.put(TERM_KEY, propositionEditor.getTermInfo().getId());
-                    loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode()) ;
-                }
-            } catch (DoesNotExistException e) {
-                throw new RuntimeException("term does not exist");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        if (propositionEditor.getTermInfo() != null) {
+            termParameters.put(TERM_KEY, propositionEditor.getTermInfo().getId());
+            loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode());
         }
 
-        if ( propositionEditor.getTermCode2() != null ){
-
-            try {
-                TermInfo termInfo = this.populateSecondTerm(propositionEditor);
-                propositionEditor.setTermInfo2(termInfo);
-                if (propositionEditor.getTermInfo2() != null){
-                    termParameters.put(TERM2_KEY, propositionEditor.getTermInfo2().getId());
-                    loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo2().getId(), propositionEditor.getCourseInfo().getCode()) ;
-                }
-            } catch (DoesNotExistException e) {
-                throw new RuntimeException("term does not exist");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        if (propositionEditor.getTermInfo2() != null) {
+            termParameters.put(TERM2_KEY, propositionEditor.getTermInfo2().getId());
+            loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo2().getId(), propositionEditor.getCourseInfo().getCode());
         }
+
         return termParameters;
     }
 
@@ -132,91 +114,75 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    /**
-     * Method used to
-     * 1) search to get TermInfo based on termCode. Only accept one valid TermInfo. If find more than one TermInfo or
-     * don't find any termInfo, log and report an error message.
-     * @param  propositionEditor
-     * @return    termInfo
-     */
-    public TermInfo populateTerm(EnrolPropositionEditor propositionEditor) throws Exception {
+    @Override
+    public void validate(EnrolPropositionEditor propositionEditor) {
 
-        String termCode = propositionEditor.getTermCode();
-
-
-
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal("atpCode", termCode));
-
-        QueryByCriteria criteria = qbcBuilder.build();
-
-        List<TermInfo> terms = getAcalService().searchForTerms(criteria, ContextUtils.getContextInfo());
-
-        if (terms.isEmpty()) {
-            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
-        } else if (terms.size() > 1) {
-            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
-        } else {
-            propositionEditor.setTermInfo(terms.get(0));
-
+        if (propositionEditor.getTermCode() != null) {
+            propositionEditor.setTermInfo(this.getTermForTermCode(propositionEditor.getTermCode()));
         }
-      return  propositionEditor.getTermInfo();
+
+        if (propositionEditor.getTermCode2() != null) {
+            propositionEditor.setTermInfo2(this.getTermForTermCode(propositionEditor.getTermCode2()));
+        }
     }
 
     /**
      * Method used to
      * 1) search to get TermInfo based on termCode. Only accept one valid TermInfo. If find more than one TermInfo or
      * don't find any termInfo, log and report an error message.
-     * @param  propositionEditor
-     * @return    termInfo
+     *
+     * @param termCode
+     * @return termInfo
      */
-    public TermInfo populateSecondTerm(EnrolPropositionEditor propositionEditor) throws Exception {
-
-        String termCode = propositionEditor.getTermCode2();
-
-
+    public TermInfo getTermForTermCode(String termCode) {
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("atpCode", termCode));
 
-        QueryByCriteria criteria = qbcBuilder.build();
-
-        List<TermInfo> terms = getAcalService().searchForTerms(criteria, ContextUtils.getContextInfo());
+        List<TermInfo> terms = null;
+        try {
+            terms = getAcalService().searchForTerms(qbcBuilder.build(), ContextUtils.getContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         if (terms.isEmpty()) {
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
         } else if (terms.size() > 1) {
             GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
         } else {
-            propositionEditor.setTermInfo2(terms.get(0));
-
+            return terms.get(0);
         }
-        return  propositionEditor.getTermInfo2();
+
+        return null;
     }
-    /**  * Method used to
+
+    /**
+     * Method used to
      * find THE course based on termId and courseCode. If find more than one CO or don't find
      * any CO, log and report an error message.
-     * @param  termId
-     * @param  courseCode
+     *
+     * @param termId
+     * @param courseCode
      */
-    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode) throws Exception {
+    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode) {
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true));
 
-        ContextInfo contextInfo = ContextUtils.getContextInfo();
-
-        SearchResultInfo searchResult = getSearchService().search(searchRequest, contextInfo);
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         if (searchResult.getRows().isEmpty()) {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Code", courseCode, termId);
         }
-
     }
-
-
 
     protected CourseService getCourseService() {
         if (courseService == null) {
@@ -231,6 +197,7 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
         }
         return cluService;
     }
+
     private AcademicCalendarService getAcalService() {
         if (acalService == null) {
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,

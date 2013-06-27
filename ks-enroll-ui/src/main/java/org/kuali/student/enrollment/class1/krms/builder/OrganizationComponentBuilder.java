@@ -76,6 +76,11 @@ public class OrganizationComponentBuilder implements ComponentBuilder<EnrolPropo
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public void validate(EnrolPropositionEditor propositionEditor) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     protected OrganizationService getOrganizationService() {
         if (organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));

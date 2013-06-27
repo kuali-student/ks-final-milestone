@@ -154,6 +154,17 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
 
 }
 
+function updateProposition(controllerMethod, collectionGroupId) {
+    var selectedItemInput = getSelectedPropositionInput();
+    var selectedItemId = selectedItemInput.val();
+    var actionRevealCallBack = function (htmlContent) {
+        //Display error message
+        writeMessagesForPage();
+    };
+    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+
+}
+
 function resetControlKeys() {
     var selectedItemTracker = getSelectedPropositionInput();
     selectedItemTracker.val('');

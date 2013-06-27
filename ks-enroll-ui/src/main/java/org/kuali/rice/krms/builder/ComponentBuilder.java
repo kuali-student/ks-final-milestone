@@ -34,4 +34,6 @@ public interface ComponentBuilder<T extends PropositionEditor> {
 
     public void onSubmit(T propositionEditor);
 
+    public void validate(T propositionEditor);
+
 }

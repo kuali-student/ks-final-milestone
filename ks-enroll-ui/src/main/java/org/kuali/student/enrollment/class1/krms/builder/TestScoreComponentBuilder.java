@@ -71,6 +71,11 @@ public class TestScoreComponentBuilder implements ComponentBuilder<EnrolProposit
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public void validate(EnrolPropositionEditor propositionEditor) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     protected CourseService getCourseService() {
         if (courseService == null) {
             courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));

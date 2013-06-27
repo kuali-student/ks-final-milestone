@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.krms.builder;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.dto.TermParameterEditor;
@@ -27,6 +28,7 @@ import org.kuali.student.enrollment.class1.krms.keyvalues.GradeScaleValuesFinder
 import org.kuali.student.enrollment.class1.krms.keyvalues.GradeValuesKeyFinder;
 import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
@@ -111,6 +113,15 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             }
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex);
+        }
+    }
+
+    @Override
+    public void validate(EnrolPropositionEditor propositionEditor) {
+        CluSetInformation cluSet = propositionEditor.getCluSet();
+        if(!cluSet.hasClus() && !cluSet.hasMembershipQuery() && cluSet.getCluSets().size()==0){
+            String propName = "document.newMaintainableObject.dataObject.editTree.rootElement.children[0].children[2].children[2].data.proposition.multipleCourseType";
+            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.MessageKeys.ERROR_APPROVED_COURSE_REQUIRED);
         }
     }
 
