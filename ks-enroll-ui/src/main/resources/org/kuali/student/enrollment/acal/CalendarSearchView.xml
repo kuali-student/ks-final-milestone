@@ -37,7 +37,7 @@
         <property name="singlePageView" value="true"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.CalendarSearchViewHelperServiceImpl"/>
         <property name="page">
-            <bean parent="Uif-Page"/>
+            <bean parent="KS-Uif-Page"/>
         </property>
         <property name="header.cssClasses">
             <list merge="true">

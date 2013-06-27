@@ -43,7 +43,7 @@
         </property>
     </bean>
 
-    <bean id="KS-ProcessInfoSearch-SearchPage" parent="Uif-Page">
+    <bean id="KS-ProcessInfoSearch-SearchPage" parent="KS-Uif-Page">
         <property name="headerText" value="Advanced Search: Process"/>
         <property name="id" value="processInfoSearch-SearchPage"/>
         <property name="items">

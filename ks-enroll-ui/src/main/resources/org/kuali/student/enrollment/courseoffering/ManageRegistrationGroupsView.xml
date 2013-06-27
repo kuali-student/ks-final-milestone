@@ -36,7 +36,7 @@
         </property>
         <property name="singlePageView" value="true"/>
         <property name="page">
-            <bean parent="Uif-Page" p:id="manageRegistrationGroupsPage" />
+            <bean parent="KS-Uif-Page" p:id="manageRegistrationGroupsPage" />
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">

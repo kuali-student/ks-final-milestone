@@ -41,7 +41,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CheckInfoSearch-SearchPage" parent="Uif-Page">
+    <bean id="KS-CheckInfoSearch-SearchPage" parent="KS-Uif-Page">
         <property name="id" value="checkInfoSearch-SearchPage"/>
         <property name="headerText" value="Advanced Search: Check" />
         <property name="items">
@@ -155,7 +155,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CheckInfoSearch-EditPage" parent="Uif-Page">
+    <bean id="KS-CheckInfoSearch-EditPage" parent="KS-Uif-Page">
         <property name="id" value="checkInfoSearch-EditPage"/>
         <property name="headerText" value="Edit Check"/>
         <property name="items">

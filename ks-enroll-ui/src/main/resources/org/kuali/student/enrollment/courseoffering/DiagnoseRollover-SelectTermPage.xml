@@ -20,7 +20,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-DiagnoseRollover-SelectTermPage" parent="Uif-Page" p:disclosure.render="false"
+    <bean id="KS-DiagnoseRollover-SelectTermPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="selectCOToDiagnose"
           p:headerText="Diagnose Rollover">
         <!-- It's easier to put the footer up front since it has a lot less content -->

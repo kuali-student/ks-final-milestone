@@ -20,7 +20,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-TestStatePropagation-Page1" parent="Uif-Page" p:disclosure.render="false"
+    <bean id="KS-TestStatePropagation-Page1" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="testStatePropagationPageId"
           p:headerText="AFT Unit Test for State Propagation">
 

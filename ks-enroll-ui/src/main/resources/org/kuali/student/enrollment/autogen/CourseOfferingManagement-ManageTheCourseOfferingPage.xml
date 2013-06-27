@@ -22,7 +22,7 @@
 
     <!--p:onDocumentReadyScript="updateContextBar(); setSeasonalColor('KS-CourseOfferingManagement-CourseOfferingContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');"-->
 
-    <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingPage" parent="Uif-Page" p:disclosure.render="false"
+    <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="manageTheCourseOfferingPage">
         <property name="headerText" value="@{currentCourseOfferingWrapper.ownerCode}" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">

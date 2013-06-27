@@ -20,7 +20,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ScheduleOfClasses-SearchInputPage" parent="Uif-Page" p:disclosure.render="false" p:id="scheduleOfClassesSearchInputPage">
+    <bean id="KS-ScheduleOfClasses-SearchInputPage" parent="KS-Uif-Page" p:disclosure.render="false" p:id="scheduleOfClassesSearchInputPage">
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes" />
         </property>

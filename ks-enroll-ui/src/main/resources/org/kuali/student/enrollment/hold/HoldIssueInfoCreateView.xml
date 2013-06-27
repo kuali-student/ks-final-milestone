@@ -25,7 +25,7 @@
         <property name="formClass" value="org.kuali.student.enrollment.class1.hold.form.HoldIssueInfoForm" />
         <property name="singlePageView" value="true"/>
         <property name="page">
-            <bean parent="Uif-Page"/>
+            <bean parent="KS-Uif-Page"/>
         </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>

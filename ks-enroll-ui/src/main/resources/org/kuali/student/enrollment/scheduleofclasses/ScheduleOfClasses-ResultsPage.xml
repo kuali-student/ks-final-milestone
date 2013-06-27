@@ -23,7 +23,7 @@
         <property name="titleAttribute" value="id"/>
     </bean>
 
-    <bean id="KS-ScheduleOfClasses-ResultsSection" parent="Uif-Page" p:disclosure.render="false" p:id="scheduleOfClassesResultsPage">
+    <bean id="KS-ScheduleOfClasses-ResultsSection" parent="KS-Uif-Page" p:disclosure.render="false" p:id="scheduleOfClassesResultsPage">
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes"/>
         </property>

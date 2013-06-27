@@ -40,7 +40,7 @@
       <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ManageSOCViewHelperServiceImpl"/>
 
       <property name="page">
-          <bean parent="Uif-Page">
+          <bean parent="KS-Uif-Page">
               <!-- Set the page header to the current term, but only render if a search has been performed -->
               <property name="headerText" value="Term @{termCode}" />
               <property name="header.render" value="@{renderDetailsSection}"/>

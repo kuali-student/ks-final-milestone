@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-ProcessInfoSearch-EditPage" parent="Uif-Page">
+    <bean id="KS-ProcessInfoSearch-EditPage" parent="KS-Uif-Page">
         <property name="id" value="processInfoSearch-EditPage"/>
         <property name="headerText" value="Edit Process"/>
         <property name="items">

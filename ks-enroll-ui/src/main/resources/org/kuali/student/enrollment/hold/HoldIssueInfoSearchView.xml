@@ -38,7 +38,7 @@
         </property>
     </bean>
 
-    <bean id="KS-HoldView-SearchPage" parent="Uif-Page">
+    <bean id="KS-HoldView-SearchPage" parent="KS-Uif-Page">
         <property name="id" value="holdView-SearchPage"/>
         <property name="headerText" value="Advanced Search: Process"/>
         <property name="items">

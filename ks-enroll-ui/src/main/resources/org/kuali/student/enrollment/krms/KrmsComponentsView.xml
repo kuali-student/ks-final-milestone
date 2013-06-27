@@ -27,7 +27,7 @@ limitations under the License.
                   value="org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl"/>
         <property name="singlePageView" value="true"/>
         <property name="page">
-            <bean parent="Uif-Page"/>
+            <bean parent="KS-Uif-Page"/>
         </property>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>

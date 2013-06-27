@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-HoldView-ViewPage" parent="Uif-Page">
+    <bean id="KS-HoldView-ViewPage" parent="KS-Uif-Page">
         <property name="id" value="holdView-ViewPage"/>
         <property name="headerText" value="View Hold"/>
         <property name="header">

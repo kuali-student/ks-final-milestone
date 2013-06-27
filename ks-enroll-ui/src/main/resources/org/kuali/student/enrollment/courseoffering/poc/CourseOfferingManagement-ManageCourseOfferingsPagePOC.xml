@@ -23,7 +23,7 @@
         <property name="titleAttribute" value="id"/>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage-POC" parent="Uif-Page" p:disclosure.render="false"
+    <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage-POC" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="manageCourseOfferingsPage">
         <property name="items">
             <list>

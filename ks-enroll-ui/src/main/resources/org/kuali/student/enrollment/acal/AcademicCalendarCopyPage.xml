@@ -23,7 +23,7 @@ limitations under the License.
     <!--
        This page allows user to copy previous acals.
     -->
-    <bean id="KS-AcademicCalendar-CopyPage" parent="Uif-Page"
+    <bean id="KS-AcademicCalendar-CopyPage" parent="KS-Uif-Page"
           p:id="academicCalendarCopyPage"
           p:headerText=""
           p:disclosure.render="false">

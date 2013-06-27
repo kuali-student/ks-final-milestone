@@ -29,7 +29,7 @@
         This is a single page view with all the required beans defined only here.
     -->
 
-    <bean id="KS-HolidayCalendar-ViewPage" parent="Uif-Page"
+    <bean id="KS-HolidayCalendar-ViewPage" parent="KS-Uif-Page"
           p:id="holidayCalendarViewPage"
           p:componentSecurity.viewAuthz="true"  >
 

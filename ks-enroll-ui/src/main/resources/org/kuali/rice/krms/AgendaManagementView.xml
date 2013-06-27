@@ -85,7 +85,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="Uif-Page">
+    <bean name="KRMS-AgendaMaintenance-Page-Parent" parent="KS-Uif-Page">
         <property name="headerText" value="Requisites"/>
         <property name="items">
             <list>
@@ -98,7 +98,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean name="KRMS-RuleMaintenance-Page-Parent" parent="Uif-Page">
+    <bean name="KRMS-RuleMaintenance-Page-Parent" parent="KS-Uif-Page">
         <property name="headerText" value="Requisites"/>
         <property name="items">
             <list>

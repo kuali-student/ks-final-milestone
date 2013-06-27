@@ -28,10 +28,11 @@ limitations under the License.
 
         Term edit page at AcademicTermPage.xml
     -->
-    <bean id="KS-AcademicCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}"
+    <bean id="KS-AcademicCalendar-EditPage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}"
           p:componentSecurity.viewAuthz="true" >
         <property name="id" value="academicCalendarEditPage"/>
         <property name="headerText" value="@{!newCalendar ? !#view.readOnly ? 'Edit Academic Calendar' : 'Academic Calendar' : ''}"/>
+        <property name="pageSourceFile" value="AcademicCalendarEditPage.xml" />
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
@@ -72,6 +73,8 @@ limitations under the License.
 
         <property name="items">
             <list>
+
+                <ref bean="KS-SourceFile-Comment-Group"/>
                 <bean parent="Uif-TabGroup" >
                     <property name="items">
                         <list>
@@ -99,7 +102,7 @@ limitations under the License.
                             </property>
                             <property name="items">
                                 <list>
-                                    <bean id="testing" parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
+                                    <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                                           p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}" p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP"/>
                                     <bean parent="Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
@@ -119,7 +122,6 @@ limitations under the License.
 
     <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
         <property name="headerText" value="Calendar" />
-        <property name="header.render" value="false"/>
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="items">
             <list>
@@ -140,7 +142,6 @@ limitations under the License.
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
-        <!--<property name="width" value="100%"/>-->
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup">
@@ -163,91 +164,56 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-AcalOverview" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:style="padding-top: 10px; padding-left: 10px;" p:layoutManager.numberOfColumns="4" >
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-krad-tab-gridgroup-fix</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.name"
-                                  p:label="Academic Calendar Name" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
-                                  p:label="Start Date" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"/>
-                            <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.endDate"
-                                  p:label="End Date" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"/>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.name"
+                      p:label="Academic Calendar Name" p:labelPlacement="LEFT"
+                      p:fieldLabel.renderColon="false"/>
+                <!--<bean parent="Uif-DataField" p:propertyName="adminOrgName"-->
+                      <!--p:label="Organization" p:labelPlacement="LEFT"-->
+                      <!--p:fieldLabel.renderColon="false"/>-->
+                <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.startDate"
+                      p:label="Start Date" p:labelPlacement="LEFT"
+                      p:fieldLabel.renderColon="false"/>
+                <bean parent="Uif-DataField" p:propertyName="academicCalendarInfo.endDate"
+                      p:label="End Date" p:labelPlacement="LEFT"
+                      p:fieldLabel.renderColon="false"/>
             </list>
         </property>
     </bean>
 
     <bean id="KS-AcademicTerm-Overview" parent="Uif-TableCollectionSection"
           p:renderAddLine="false"  >
-        <property name="hidden" value="@{termWrapperList.size()==0}"/>
+        <!--<property name="hidden" value="true"/> p:render="@{(termWrapperList.size()>0)?'true':'false'}"-->
+        <property name="hidden" value="@{#view.readOnly or termWrapperList.size()==0}"/>
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
-        <property name="headerText" value="Terms"/>
+        <property name="headerText" value="Terms/Subterms"/>
         <!--<property name="instructionalText" value="@{#line.clusterNameForDisplay}" />-->
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.render" value="false" />
-        <property name="style" value="padding-left: 10px" />
-        <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label=""/>
-        </property>
-        <property name="layoutManager.cssClasses">
-            <list merge="true">
-                <value>ks-tablecollection-table-acal-overview</value>
-            </list>
-        </property>
-        <!--<property name="layoutManager.richTable.templateOptions">
+        <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
+                <!--<entry key="aaSorting" value="[[ 0, 'asc' ]]"/>-->
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
             </map>
-        </property>-->
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField"
-                      p:label=""
-                      p:propertyName="subTermLabelUI" p:valign="middle"/>
-                <bean parent="Uif-DataField"
                       p:label="Term"
-                      p:propertyName="termNameForUI" p:style="color:#0000FF;padding-right: 30px" p:valign="middle"/>
+                      p:propertyName="termNameForUI" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="Start Date"
-                      p:propertyName="startDate" p:style="padding-right: 30px" p:valign="middle"/>
+                      p:propertyName="startDate" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="End Date"
-                      p:propertyName="endDate" p:style="padding-right: 30px" p:valign="middle"/>
+                      p:propertyName="endDate" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="Status"
-                      p:propertyName="status" p:style="padding-right: 30px" p:valign="middle" p:render="@{#line.official}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>text-lozenge-green-msg</value>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-DataField"
-                      p:label="Status"
-                      p:propertyName="status" p:style="padding-right: 30px" p:valign="middle" p:render="@{!#line.official}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>text-lozenge-grey-msg</value>
-                        </list>
-                    </property>
-                </bean>
-
+                      p:propertyName="status" p:valign="middle"/>
             </list>
         </property>
         <property name="lineActions">

@@ -30,7 +30,7 @@
         This is a single page view with all the required beans defined only here.
     -->
 
-    <bean id="KS-HolidayCalendar-EditPage" parent="Uif-Page"
+    <bean id="KS-HolidayCalendar-EditPage" parent="KS-Uif-Page"
           p:id="holidayCalendarEditPage"
           p:disclosure.render="false"
           p:headerText="@{!newCalendar ? #view.readOnly ? 'Holiday Calendar' : 'Edit Holiday Calendar' : ''}"

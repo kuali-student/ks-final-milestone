@@ -35,6 +35,7 @@ limitations under the License.
         <property name="headerText" value="Create an Academic Calendar"/>
         <property name="entryPageId" value="academicCalendarCopyPage"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
+        <property name="viewSourceFile" value="AcademicCalendarView.xml" />
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>
@@ -54,6 +55,14 @@ limitations under the License.
 
         <property name="items">
             <list>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="SourceFile: AcademicCalendarView.xml" />
+                        </list>
+                    </property>
+                </bean>
+
                 <ref bean="KS-AcademicCalendar-CopyPage"/>
                 <bean parent="KS-AcademicCalendar-EditPage" p:stickyFooter="true"/>
             </list>

@@ -21,7 +21,7 @@
      limitations under the License.
     -->
 
-    <bean id="KS-CourseOfferingManagement-CoDeleteConfirmationPage" parent="Uif-Page"
+    <bean id="KS-CourseOfferingManagement-CoDeleteConfirmationPage" parent="KS-Uif-Page"
           p:id="coDeleteConfirmationPage"
           p:headerText="Delete Course Offerings">
         <property name="header">
