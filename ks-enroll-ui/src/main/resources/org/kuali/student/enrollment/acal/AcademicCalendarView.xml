@@ -86,7 +86,7 @@ limitations under the License.
           p:onDocumentReadyScript="updateHeaderRightGroup('KS-AcademicCalendarView-Header-Right-Group', 'KS-View-Acal-Header-RightGroup-PlaceHolder'); updateViewHeader('Acal-View-HeaderText-SourceHolder');">
         <property name="items">
             <list>
-                <bean parent="KS-Unified-Header-Action-Group">
+                <bean parent="KS-Unified-Header-Action-Group" p:id="copyEditDeleteHeader" p:componentSecurity.viewAuthz="true">
                     <property name="render" value="@{!newCalendar}"/>
                     <property name="items">
                         <list>
