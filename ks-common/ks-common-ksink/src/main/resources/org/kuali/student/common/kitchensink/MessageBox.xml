@@ -137,8 +137,8 @@
                             <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
                                 <property name="footerLinks">
                                     <map>
-                                        <entry key="ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MessageBox.xml"
-                                               value="https://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ksink/src/main/resources/org/kuali/student/enrollment/kitchensink/MessageBox.xml"/>
+                                        <entry key="ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/MessageBox.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/MessageBox.xml"/>
                                     </map>
                                 </property>
                             </bean>
