@@ -45,7 +45,9 @@
         </property>
     </bean>
 
-    <bean id="KS-Uif-FormView" abstract="true" parent="Uif-FormView">
+    <bean id="KS-Uif-Page"  abstract="true" parent="Uif-Page" class="org.kuali.student.common.uif.container.KSUifPage" />
+
+    <bean id="KS-Uif-FormView" abstract="true" parent="Uif-FormView" class="org.kuali.student.common.uif.view.KSUifFormView">
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
@@ -143,7 +145,7 @@
         <property name="stickyHeader" value="true"/>
         <property name="applicationHeader">
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
-                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:template="/ks-enroll/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
                   p:templateName="ks_applicationHeader"/>
         </property>
         <property name="header.rightGroup.items">
@@ -262,7 +264,7 @@
 
     <bean id="KS-Uif-InputField-Simple" parent="KS-Uif-InputField-Simple-parent"/>
     <bean id="KS-Uif-InputField-Simple-parent" abstract="true" parent="Uif-InputField" scope="prototype">
-        <property name="template" value="/ks-common/WEB-INF/ftl/ksSimpleDataField.ftl"/>
+        <property name="template" value="/ks-enroll/WEB-INF/ftl/ksSimpleDataField.ftl"/>
         <property name="templateName" value="ks_SimpleDataField"/>
         <property name="inquiry">
             <null/>
@@ -286,7 +288,7 @@
 
     <bean id="KS-Uif-DataField-Simple" parent="KS-Uif-DataField-Simple-parentBean"/>
     <bean id="KS-Uif-DataField-Simple-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
-        <property name="template" value="/ks-common/WEB-INF/ftl/ksSimpleDataField.ftl"/>
+        <property name="template" value="/ks-enroll/WEB-INF/ftl/ksSimpleDataField.ftl"/>
         <property name="templateName" value="ks_SimpleDataField"/>
         <property name="inquiry">
             <null/>
@@ -329,7 +331,7 @@
 
     <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup" parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent"/>
     <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent" parent="Uif-HorizontalBoxGroup" class="org.kuali.student.common.uif.container.KSToolbarGroup" abstract="true" scope="prototype">
-        <property name="template" value="/ks-common/WEB-INF/ftl/ksToolbarGroup.ftl"/>
+        <property name="template" value="/ks-enroll/WEB-INF/ftl/ksToolbarGroup.ftl"/>
         <property name="templateName" value="ks_ToolbarGroup"/>
         <property name="cssClasses">
             <list merge="true">
@@ -548,6 +550,15 @@
         <property name="cssClasses">
             <list merge="false">
                 <value>btn</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-SourceFile-Comment-Group" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="[!--ViewSourceFile: @{#view.viewSourceFile}--]" />
+                <bean parent="Uif-Message" p:messageText="[!--PageSourceFile: @{#view.currentPage.pageSourceFile}--]" />
             </list>
         </property>
     </bean>

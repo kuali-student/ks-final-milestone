@@ -55,7 +55,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="Demo-StandardLayout-CollectionSectionsPage" parent="Uif-Page" p:headerText="Page Title">
+                <bean id="Demo-StandardLayout-CollectionSectionsPage" parent="KS-Uif-Page" p:headerText="Page Title">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-TextField-Example5">

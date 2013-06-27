@@ -49,7 +49,7 @@
 
         <property name="items">
             <list>
-                <bean id="Demo-StandardLayout-CollectionSectionsPage-ContextBar" parent="Uif-Page" p:headerText="Context Bar Page Title">
+                <bean id="Demo-StandardLayout-CollectionSectionsPage-ContextBar" parent="KS-Uif-Page" p:headerText="Context Bar Page Title">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-TextField-Example5">

@@ -79,13 +79,13 @@
 
     <!-- Page definitions -->
 
-    <bean id="KS-KitchenSink-Page" parent="Uif-Page" abstract="true">
+    <bean id="KS-KitchenSink-Page" parent="KS-Uif-Page" abstract="true">
         <!-- there's now a box-shadow so this line is unnecessary
         <property name="header.style" value="border-bottom:solid 1px black"/>
         -->
     </bean>
 
-    <bean id="KS-KitchenSink-Page-Bare" parent="Uif-Page" abstract="true"/>
+    <bean id="KS-KitchenSink-Page-Bare" parent="KS-Uif-Page" abstract="true"/>
 
 
     <!-- Collection definitions -->

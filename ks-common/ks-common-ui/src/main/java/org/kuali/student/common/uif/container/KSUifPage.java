@@ -30,5 +30,13 @@ public class KSUifPage extends PageGroup {
     public KSUifPage() {
     }
 
+    public String pageSourceFile;
 
+    public String getPageSourceFile() {
+        return pageSourceFile;
+    }
+
+    public void setPageSourceFile(String pageSourceFile) {
+        this.pageSourceFile = pageSourceFile;
+    }
 }

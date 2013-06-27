@@ -24,7 +24,7 @@
         <!--<property name="headerText" value="Toolbar Example"/>-->
         <property name="singlePageView" value="true"/>
         <property name="page">
-            <bean parent="Uif-Page"/>
+            <bean parent="KS-Uif-Page"/>
         </property>
         <property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Toolbar Example" p:style="padding-left:15px;"/>

@@ -16,20 +16,7 @@
  */
 package org.kuali.student.common.uif.view;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.service.ExpressionEvaluatorService;
 import org.kuali.rice.krad.uif.view.FormView;
-import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.common.uif.form.KSUifForm;
-import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
-import org.kuali.student.common.uif.util.KSUifUtils;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * This class extends FormView and can be used to hold any properties that can be
@@ -39,4 +26,13 @@ import java.util.Map;
  */
 public class KSUifFormView extends FormView {
 
+    protected String viewSourceFile;
+
+    public String getViewSourceFile() {
+        return viewSourceFile;
+    }
+
+    public void setViewSourceFile(String viewSourceFile) {
+        this.viewSourceFile = viewSourceFile;
+    }
 }
