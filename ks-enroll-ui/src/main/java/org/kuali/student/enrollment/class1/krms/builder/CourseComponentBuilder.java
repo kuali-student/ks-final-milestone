@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -118,11 +119,13 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
     public void validate(EnrolPropositionEditor propositionEditor) {
 
         if (propositionEditor.getTermCode() != null) {
-            propositionEditor.setTermInfo(this.getTermForTermCode(propositionEditor.getTermCode()));
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode");
+            propositionEditor.setTermInfo(this.getTermForTermCode(propositionEditor.getTermCode(), propName));
         }
 
         if (propositionEditor.getTermCode2() != null) {
-            propositionEditor.setTermInfo2(this.getTermForTermCode(propositionEditor.getTermCode2()));
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode2");
+            propositionEditor.setTermInfo2(this.getTermForTermCode(propositionEditor.getTermCode2(), propName));
         }
     }
 
@@ -134,7 +137,7 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
      * @param termCode
      * @return termInfo
      */
-    public TermInfo getTermForTermCode(String termCode) {
+    public TermInfo getTermForTermCode(String termCode, String propName) {
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("atpCode", termCode));
@@ -146,10 +149,11 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
             throw new RuntimeException(e);
         }
 
+
         if (terms.isEmpty()) {
-            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
+            GlobalVariables.getMessageMap().putError(propName, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, termCode);
         } else if (terms.size() > 1) {
-            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
+            GlobalVariables.getMessageMap().putError(propName, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, termCode);
         } else {
             return terms.get(0);
         }

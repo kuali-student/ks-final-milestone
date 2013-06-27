@@ -21,9 +21,9 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.tree.node.CompoundOpCodeNode;
-import org.kuali.student.enrollment.class1.krms.tree.node.SimplePropositionEditNode;
-import org.kuali.student.enrollment.class1.krms.tree.node.SimplePropositionNode;
+import org.kuali.rice.krms.tree.node.CompoundOpCodeNode;
+import org.kuali.rice.krms.tree.node.SimplePropositionEditNode;
+import org.kuali.rice.krms.tree.node.SimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 

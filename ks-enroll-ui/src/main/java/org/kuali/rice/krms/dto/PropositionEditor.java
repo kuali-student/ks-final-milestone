@@ -61,6 +61,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private boolean editMode = false;
     private boolean newProp = false;
 
+    private String bindingPath;
     private String newTermDescription = "new term " + UUID.randomUUID().toString();
 
     public PropositionEditor() {
@@ -293,6 +294,13 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         return new HashMap<String, String>();
     }
 
+    public String getBindingPath() {
+        return bindingPath;
+    }
+
+    public void setBindingPath(String bindingPath) {
+        this.bindingPath = bindingPath;
+    }
 }
 
 

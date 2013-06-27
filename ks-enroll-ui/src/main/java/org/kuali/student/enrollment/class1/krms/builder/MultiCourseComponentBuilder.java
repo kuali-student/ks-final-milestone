@@ -21,6 +21,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.dto.TermParameterEditor;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetRangeInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
@@ -120,8 +121,8 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
     public void validate(EnrolPropositionEditor propositionEditor) {
         CluSetInformation cluSet = propositionEditor.getCluSet();
         if(!cluSet.hasClus() && !cluSet.hasMembershipQuery() && cluSet.getCluSets().size()==0){
-            String propName = "document.newMaintainableObject.dataObject.editTree.rootElement.children[0].children[2].children[2].data.proposition.multipleCourseType";
-            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.MessageKeys.ERROR_APPROVED_COURSE_REQUIRED);
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "multipleCourseType");
+            GlobalVariables.getMessageMap().putError(propName, "error.krms.multicourse.required");
         }
     }
 

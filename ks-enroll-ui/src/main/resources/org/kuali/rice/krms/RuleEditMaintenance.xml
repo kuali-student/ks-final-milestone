@@ -364,7 +364,7 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-RulerEditor-TreeSection-parent" parent="Uif-TreeSection" p:disclosure.render="false"
-          p:header.render="false" p:id="editWithObjectTree"
+          p:header.render="false" p:id="editWithObjectTree" class="org.kuali.rice.krms.util.EditTreeGroup"
           p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
         <property name="template" value="/ks-enroll/WEB-INF/ftl/ruleTreeGroup.ftl"/>
         <property name="templateName" value="uif_ruleTreeGroup"/>
@@ -390,13 +390,13 @@ limitations under the License.
                 <entry key="#{ T(org.kuali.rice.krms.tree.node.RuleEditorTreeNode) }">
                     <bean parent="KRMS-RuleTreeNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.SimplePropositionNode) }">
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionNode) }">
                     <bean parent="KRMS-SimplePropositionNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.SimplePropositionEditNode) }">
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionEditNode) }">
                     <bean parent="KRMS-SimplePropositionEditNodePrototype"/>
                 </entry>
-                <entry key="#{ T(org.kuali.student.enrollment.class1.krms.tree.node.CompoundOpCodeNode) }">
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.CompoundOpCodeNode) }">
                     <bean parent="KRMS-CompoundOpCodeNodePrototype"/>
                 </entry>
             </map>

@@ -40,7 +40,16 @@ import java.util.List;
  */
 public class PropositionTreeUtil {
 
-    public static final String EDIT_TREE_NEW_COLLECTION_LINE = "document.newMaintainableObject.dataObject.editTree";
+    public static final String DOC_NEW_DATAOBJECT_PATH = "document.newMaintainableObject.dataObject";
+    public static final String EDIT_TREE_NEW_COLLECTION_LINE = DOC_NEW_DATAOBJECT_PATH + ".editTree";
+
+    public static String getBindingPath(PropositionEditor proposition, String propertyName){
+        return getBindingPrefix(proposition) + "proposition." + propertyName;
+    }
+
+    public static String getBindingPrefix(PropositionEditor proposition){
+        return DOC_NEW_DATAOBJECT_PATH + "." + proposition.getBindingPath() + ".";
+    }
 
     public static void setTypeForCompoundOpCode(PropositionEditor proposition, String compoundOpCode) {
         //Return as quickly as possible for performance.

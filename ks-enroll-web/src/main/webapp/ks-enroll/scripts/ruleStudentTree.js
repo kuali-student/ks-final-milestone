@@ -155,14 +155,15 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
 }
 
 function updateProposition(controllerMethod, collectionGroupId) {
-    var selectedItemInput = getSelectedPropositionInput();
-    var selectedItemId = selectedItemInput.val();
-    var actionRevealCallBack = function (htmlContent) {
-        //Display error message
-        writeMessagesForPage();
-    };
-    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 
+    if (validateForm()) {
+
+        var selectedItemInput = getSelectedPropositionInput();
+        var selectedItemId = selectedItemInput.val();
+        var actionRevealCallBack = function (htmlContent) {};
+
+        retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+    }
 }
 
 function resetControlKeys() {
@@ -312,6 +313,12 @@ function initRuleTree(componentId) {
     jq('#' + componentId).bind('loaded.jstree', function (event, data) {
         /* make the tree load with all nodes expanded */
         jq('#' + componentId).jstree('open_all');
+
+        //Display error message
+        jq('#' + componentId).find("div[data-role='InputField']").andSelf().filter("div[data-role='InputField']").each(function () {
+            var data = jQuery(this).data(kradVariables.VALIDATION_MESSAGES);
+            handleMessagesAtField(jQuery(this).attr('id'));
+        });
 
         // hide quick action icons (edit and add parent) on proposition tree nodes
         jq(this).find(".actionReveal").hide();
