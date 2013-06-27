@@ -580,7 +580,7 @@ function myplanAjaxSubmitPlanItem(id, xid, type, methodToCall, e, bDialog) {
     jQuery('input[name="methodToCall"]').remove();
     jQuery('#' + xid + '_form input[name="' + type + '"]').remove();
     jQuery('#' + xid + '_form input[name="viewId"]').remove();
-    jQuery("#" + xid + "_form").append('<input type="hidden" name="methodToCall" value="' + methodToCall + '" /><input type="hidden" name="' + type + '" value="' + id + '" /><input type="hidden" name="viewId" value="PlannedCourse-FormView" />');
+    jQuery("#" + xid + "_form").append(ksapAddPostOptionsToForm('<input type="hidden" name="methodToCall" value="' + methodToCall + '" /><input type="hidden" name="' + type + '" value="' + id + '" /><input type="hidden" name="viewId" value="PlannedCourse-FormView" />'));
     var updateRefreshableComponentCallback = function (htmlContent) {
         var status = jQuery.trim(jQuery("span#request_status_item_key_control", htmlContent).text().toLowerCase());
         eval(jQuery("input[data-for='plan_item_action_response_page']", htmlContent).val().replace("#plan_item_action_response_page", "body"));
