@@ -959,7 +959,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             //sub-term icon and tooltip setup
             if(!aoWrapper.getSubTermName().equals("None")){  //sub-term? > icon + name and dates
                 rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode()
-                        + "&nbsp;&nbsp;&nbsp;<img src=\"../ks-enroll/images/subterm_icon.png\" title=\"This activity is in the "+aoWrapper.getSubTermName()+" term\n"+aoWrapper.getTermStartEndDate()+"\">");
+                        + "&nbsp;&nbsp;&nbsp;<img src=\"../ks-enroll/images/subterm_icon.png\" title=\"This activity is in "+aoWrapper.getSubTermName()+" -\n"+aoWrapper.getTermStartEndDate()+"\">");
             } else {
                 rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode());                
             }
@@ -1174,13 +1174,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
     }
 
     private String getTermStartEndDate(String termId, TermInfo term) {
-        // Return Term as String display like 'FALL 2020 (2020/9/26-2020/12/26)'
+        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
         StringBuilder stringBuilder = new StringBuilder();
         Formatter formatter = new Formatter(stringBuilder, Locale.US);
         String displayString = termId; // use termId as a default.
         if (term != null) {
-            String startDate = DateFormatters.YEAR_MONTH_DAY_DATE_FORMATTER.format(term.getStartDate());
-            String endDate = DateFormatters.YEAR_MONTH_DAY_DATE_FORMATTER.format(term.getEndDate());
+            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
+            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
             formatter.format("%s - %s", startDate, endDate);
             displayString = stringBuilder.toString();
         }

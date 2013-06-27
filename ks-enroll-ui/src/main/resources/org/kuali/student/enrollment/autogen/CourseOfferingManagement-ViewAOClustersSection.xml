@@ -143,11 +143,8 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.subTermName eq 'None'}"
-                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/subterm_icon.png">
-                                <property name="style" value="padding-left:5px"/>
-                                <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="This activity is in the @{#lp.subTermName} term &lt;br&gt;@{#lp.termStartEndDate}"/>
-                                </property>
+                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/subterm_icon.png" p:title="This activity is in @{#lp.subTermName} - &#13; @{#lp.termStartEndDate}">
+                                <property name="style" value="padding-left:5px; padding-bottom:3px;"/>
                             </bean>
                         </list>
                     </property>
