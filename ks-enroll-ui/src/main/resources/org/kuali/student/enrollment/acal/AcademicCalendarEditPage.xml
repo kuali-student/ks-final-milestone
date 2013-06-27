@@ -134,7 +134,7 @@ limitations under the License.
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
-        <property name="width" value="50%"/>
+        <!--<property name="width" value="100%"/>-->
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup">
@@ -215,16 +215,16 @@ limitations under the License.
                       p:propertyName="subTermLabelUI" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="Term"
-                      p:propertyName="termNameForUI" p:style="color:#0000FF;" p:valign="middle"/>
+                      p:propertyName="termNameForUI" p:style="color:#0000FF;padding-right: 30px" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="Start Date"
-                      p:propertyName="startDate" p:valign="middle"/>
+                      p:propertyName="startDate" p:style="padding-right: 30px" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="End Date"
-                      p:propertyName="endDate" p:valign="middle"/>
+                      p:propertyName="endDate" p:style="padding-right: 30px" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="Status"
-                      p:propertyName="status" p:valign="middle" p:render="@{#line.official}">
+                      p:propertyName="status" p:style="padding-right: 30px" p:valign="middle" p:render="@{#line.official}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>text-lozenge-green-msg</value>
@@ -233,7 +233,7 @@ limitations under the License.
                 </bean>
                 <bean parent="Uif-DataField"
                       p:label="Status"
-                      p:propertyName="status" p:valign="middle" p:render="@{!#line.official}">
+                      p:propertyName="status" p:style="padding-right: 30px" p:valign="middle" p:render="@{!#line.official}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>text-lozenge-grey-msg</value>
