@@ -37,6 +37,14 @@
             </util:list>
         </property>
 
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Delete Activity Offerings" />
+                </bean>
+            </list>
+        </property>
+
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-ConfirmationResultSection"/>
