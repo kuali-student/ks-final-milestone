@@ -94,6 +94,23 @@
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
         <property name="onLoadScript" value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
+        <property name="rangeFieldGroupPrototype">
+          <null/>
+        </property>
+        <!-- In KS, we need only the return value, not any other maintenance actions in lookup.-->
+        <property name="resultsGroup.lineActions">
+            <list>
+                <bean parent="Uif-ActionLink">
+                  <property name="actionLabel" value="Return Value"/>
+                  <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                  <property name="render"
+                            value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
+                </bean>
+            </list>
+        </property>
+        <property name="resultsGroup.collectionLookup">
+            <null/>
+        </property>
     </bean>
 
     <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
