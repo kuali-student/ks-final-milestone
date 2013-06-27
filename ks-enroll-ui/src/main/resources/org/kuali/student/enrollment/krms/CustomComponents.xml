@@ -31,6 +31,8 @@ limitations under the License.
         </property>
     </bean>
 
+    <bean id="KRMS-CustomComponent-BoxGroup" parent="Uif-VerticalBoxGroup"/>
+
     <!-- Integer constant Instance components -->
     <bean id="KRMS-NumberOfCourses-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent"
           p:label="Number of Courses"/>
@@ -574,7 +576,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-TestName-Field" parent="KRMS-TestName-Field-Parent"/>
 
-    <bean id="KRMS-TestScoreAndName-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-TestScoreAndName-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-TestScore-Field"/>
@@ -583,7 +585,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-TestScoresBetweenAndName-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-TestScoresBetweenAndName-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list merge="true">
                 <ref bean="KRMS-TestScore-Field"/>
@@ -635,7 +637,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-ClassStanding-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-ClassStanding-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-ClassStanding-Field"/>
@@ -643,7 +645,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-AOStateAndSate-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-AOStateAndSate-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <!-- TODO: Activity Offering State component -->
@@ -656,7 +658,7 @@ limitations under the License.
           p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
     <bean id="KRMS-Program-SuggestField" parent="KRMS-Program-SuggestField-Parent"/>
 
-    <bean id="KRMS-ProgramWithNofAndOrg" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-ProgramWithNofAndOrg" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <!-- TODO: Program component -->
@@ -673,7 +675,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-ProgramAndCredit" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-ProgramAndCredit" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <!-- TODO: Program component -->
@@ -682,7 +684,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-ProgramAndClassStanding-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-ProgramAndClassStanding-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-Program-Section"/>
@@ -691,7 +693,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CampusAndDur" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-CampusAndDur" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <!-- TODO: Campus component -->
@@ -700,11 +702,12 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-GPAAndDuration-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-GPAAndDuration-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-GPA-Field"/>
-                <ref bean="KRMS-Duration-section"/>
+                <ref bean="KRMS-DurationCount-Field"/>
+                <ref bean="KRMS-DurationType-Field"/>
             </list>
         </property>
     </bean>
@@ -721,7 +724,7 @@ limitations under the License.
           p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
     <bean id="KRMS-CourseOffering-InputField" parent="KRMS-CourseOffering-InputField-Parent"/>
 
-    <bean id="KRMS-MultiCourseWithNof-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-MultiCourseWithNof-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-NumberOfCourses-ConstantValue"/>
@@ -730,7 +733,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-MultiCourseWithGrade-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-MultiCourseWithGrade-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-Grade-Tree-Section"/>
@@ -739,7 +742,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-MultiCourseWithGradeNof-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-MultiCourseWithGradeNof-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-NumberOfCourses-ConstantValue"/>
@@ -749,7 +752,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-MultiCourseWithGPA-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-MultiCourseWithGPA-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-GPA-Field"/>
@@ -758,7 +761,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-MultiCourseWithCredit-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-MultiCourseWithCredit-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-Credits-ConstantValue"/>
@@ -767,7 +770,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CourseAndTerm-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-CourseAndTerm-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField"/>
@@ -776,7 +779,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CourseAndCredit-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-CourseAndCredit-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-Credits-ConstantValue"/>
@@ -785,7 +788,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CourseAndRepeat-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-CourseAndRepeat-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField"/>
@@ -794,7 +797,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Duration-section" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-Duration-section" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-DurationCount-Field"/>
@@ -931,7 +934,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CreditAndDepartment-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-CreditAndDepartment-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-Credits-ConstantValue"/>
@@ -940,7 +943,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CourseAndTerms-Group" parent="Uif-VerticalFieldGroup">
+    <bean id="KRMS-CourseAndTerms-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-SingleCourse-SuggestField"/>
