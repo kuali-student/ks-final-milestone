@@ -212,7 +212,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="UifKSDefinitions.xml (KSLookupView)"
-                                               value="http://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ui/src/main/resources/UifKSDefinitions.xml"/>
+                                               value="http://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ui/src/main/resources/UifKSDefinitions.xml"/>
                                     </map>
                                 </property>
                             </bean>
@@ -220,7 +220,7 @@
                                 <property name="footerLinks">
                                     <map>
                                         <entry key="KSLookupView.java"
-                                               value="http://svn.kuali.org/repos/student/enrollment/ks-enroll/trunk/ks-enroll-ui/src/main/java/org/kuali/student/enrollment/uif/view/KSLookupView.java"/>
+                                               value="http://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ui/src/main/java/org/kuali/student/common/uif/view/KSLookupView.java"/>
                                     </map>
                                 </property>
                             </bean>
