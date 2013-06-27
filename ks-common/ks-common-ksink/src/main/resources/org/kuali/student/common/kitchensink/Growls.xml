@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+
+    <!-- The Interesting Bits -->
+
+    <bean id="KS-KitchenSink-Growls" parent="KS-KitchenSink-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton-Small" p:style="width:10em;">
+                    <!-- method growl() defined in KitchenSinkController.java: -->
+                    <property name="methodToCall" value="growl"/>
+                    <property name="actionLabel" value="Normal Growl"/>
+                </bean>
+                <bean parent="Uif-PrimaryActionButton-Small" p:style="width:10em;">
+                    <!-- method growlError() defined in KitchenSinkController.java: -->
+                    <property name="methodToCall" value="growlError"/>
+                    <property name="actionLabel" value="Error Growl"/>
+                </bean>
+                <bean parent="Uif-PrimaryActionButton-Small" p:style="width:10em;">
+                    <!-- method growlInfo() defined in KitchenSinkController.java: -->
+                    <property name="methodToCall" value="growlInfo"/>
+                    <property name="actionLabel" value="Information Growl"/>
+                </bean>
+                <bean parent="Uif-PrimaryActionButton-Small" p:style="width:10em;">
+                    <!-- method growlSuccess() defined in KitchenSinkController.java: -->
+                    <property name="methodToCall" value="growlSuccess"/>
+                    <property name="actionLabel" value="Success Growl"/>
+                </bean>
+                <bean parent="Uif-PrimaryActionButton-Small" p:style="width:10em;">
+                    <!-- method growlWarning() defined in KitchenSinkController.java: -->
+                    <property name="methodToCall" value="growlWarning"/>
+                    <property name="actionLabel" value="Warning Growl"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-Growls-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Other Examples"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Growl Notifications">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        Javascript-driven popup event notification.
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-Growls-Content"/>
+                            <ref bean="KS-KitchenSink-Growls-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--<bean id="KS-KitchenSink-Growls-Content" parent="KS-KitchenSink-TabSection">-->
+    <bean id="KS-KitchenSink-Growls-Content" parent="KS-KitchenSink-VerticalBoxSection-Contents" p:width="55em">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Growls-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Click on a button to see a growl notification."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Example #1 containers -->
+
+    <bean id="KS-KitchenSink-Growls-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Growls-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Growls-Section" parent="KS-KitchenSink-VerticalBoxSection"
+          p:headerText="Link fields" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Growls"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-Growls-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/Growls.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/Growls.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifViewPageDefinitions.xml (Uif-View)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifViewPageDefinitions.xml"/>
+                                        <entry key="UifWidgetDefinitions.xml (Uif-Growls)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifWidgetDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="View.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/view/View.java"/>
+                                        <entry key="Growls.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/widget/Growls.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="View.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/view/View.html"/>
+                                        <entry key="Growls.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/widget/Growls.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Growls"
+                                               value="http://site.kuali.org/rice/2.2.0/reference/html/KRAD_Guide.html#d6788e11798"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Growl Notifications"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Growls-View-Bare&amp;methodToCall=start"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
