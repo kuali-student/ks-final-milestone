@@ -73,6 +73,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-CalendarSearch-CriteriaSection"/>
+                <ref bean="KS-CalendarSearch-CreateNewLinks" />
                 <ref bean="KS-CalendarSearch-ResultSection"/>
             </list>
         </property>
@@ -141,7 +142,7 @@
                                         <bean parent="Uif-HorizontalBoxGroup" >
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-SecondaryActionButton"
+                                                    <bean parent="Uif-PrimaryActionButton"
                                                           p:actionLabel="Search"
                                                           p:methodToCall="search"/>
 
@@ -162,7 +163,18 @@
         </property>
     </bean>
 
+    <bean id="KS-CalendarSearch-CreateNewLinks" parent="Uif-GridGroup">
+        <property name="render" value="@{clickSearchButton}" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="createBlankAcademicCalendar" p:actionLabel="Create Blank Academic Calendar" p:actionEvent="editHolidayCalendar" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="createBlankHolidayCalendar" p:actionLabel="Create Blank Holiday Calendar" p:actionEvent="copyHolidayCalendar" />
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-CalendarSearch-ResultSection" parent="Uif-VerticalBoxSection">
+        <property name="render" value="@{clickSearchButton}" />
         <property name="headerText" value="Search Results" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -308,6 +320,7 @@
        <bean parent="Uif-KeyLabelPair" p:key="AcademicCalendar" p:value="Academic Calendar"/>
        <bean parent="Uif-KeyLabelPair" p:key="HolidayCalendar" p:value="Holiday Calendar"/>
        <bean parent="Uif-KeyLabelPair" p:key="AcademicTerm" p:value="Academic Term"/>
+       <bean parent="Uif-KeyLabelPair" p:key="SubTerm" p:value="Sub Term"/>
     </util:list>
 
     <bean id="KS-CalendarSearch-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >

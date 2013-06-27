@@ -17,9 +17,7 @@ package org.kuali.student.enrollment.class2.acal.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult;
-import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +35,12 @@ public class CalendarSearchForm extends UifFormBase {
 
     private String selectedLineIndex;
     private String selectedCollectionPath;
+    private boolean clickSearchButton;
 
     public CalendarSearchForm(){
         super();
         searchResults =  new ArrayList<AcalSearchResult>();
+        clickSearchButton = false;
     }
 
     public String getCalendarType() {
@@ -90,5 +90,11 @@ public class CalendarSearchForm extends UifFormBase {
         this.searchResults = searchResults;
     }
 
+    public boolean isClickSearchButton() {
+        return clickSearchButton;
+    }
 
+    public void setClickSearchButton(boolean clickSearchButton) {
+        this.clickSearchButton = clickSearchButton;
+    }
 }

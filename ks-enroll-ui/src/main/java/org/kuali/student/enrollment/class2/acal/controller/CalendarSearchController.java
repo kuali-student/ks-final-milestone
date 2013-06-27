@@ -15,9 +15,11 @@
  */
 package org.kuali.student.enrollment.class2.acal.controller;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -119,7 +121,7 @@ public class CalendarSearchController  extends UifControllerBase {
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        searchForm.setClickSearchButton(true);
         //if no search criteria was set, it means the search method is called from redirection. Then retrieve search criteria from http session
         HttpSession session = request.getSession(true);
         if ((searchForm.getCalendarType()==null || searchForm.getCalendarType().isEmpty()) &&
@@ -263,6 +265,34 @@ public class CalendarSearchController  extends UifControllerBase {
 
         return super.performRedirect(searchForm,controllerPath, urlParameters);
 
+    }
+
+    @RequestMapping(params = "methodToCall=createBlankAcademicCalendar")
+    public ModelAndView createBlankAcademicCalendar(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+                                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Properties urlParameters = new Properties();
+        urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
+        urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        urlParameters.put("flow", searchForm.getFlowKey());
+        urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
+        String controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
+        return super.performRedirect(searchForm,controllerPath, urlParameters);
+    }
+
+    @RequestMapping(params = "methodToCall=createBlankHolidayCalendar")
+    public ModelAndView createBlankHolidayCalendar(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        Properties urlParameters = new Properties();
+        urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
+        urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(true));
+        urlParameters.put("flow", searchForm.getFlowKey());
+        urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
+        String controllerPath = CalendarConstants.HCAL_CONTROLLER_PATH;
+        return super.performRedirect(searchForm,controllerPath, urlParameters);
     }
 
     /**
