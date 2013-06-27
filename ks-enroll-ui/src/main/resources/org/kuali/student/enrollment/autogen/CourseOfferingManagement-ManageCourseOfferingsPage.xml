@@ -27,33 +27,20 @@
 
     <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage" parent="Uif-Page" p:disclosure.render="false"
           p:id="manageCourseOfferingsPage">
-        <property name="headerText" value="@{subjectCode} - @{subjectCodeDescription}"/>
+        <property name="headerText" value="@{subjectCode}: @{subjectCodeDescription}"/>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
-                <bean  parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Course Offerings"/>
-                    <property name="url.viewId" value="courseOfferingManagementView"/>
-                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
-                    <property name="url.requestParameters">
-                        <map key-type="java.lang.String" merge="true">
-                            <entry key="methodToCall" value="start"/>
-                            <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-                            <entry key="hideReturnLink" value="true"/>
-                            <entry key="pageId" value="searchInputPage"/>
-                            <entry key="viewName" value="Manage Course Offerings"/>
-                        </map>
-                    </property>
-                </bean>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManageCo-Landing" />
             </list>
         </property>
 
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="@{subjectCode} - @{subjectCodeDescription}"/>
+                    <property name="label" value="@{subjectCode}"/>
                 </bean>
             </list>
         </property>

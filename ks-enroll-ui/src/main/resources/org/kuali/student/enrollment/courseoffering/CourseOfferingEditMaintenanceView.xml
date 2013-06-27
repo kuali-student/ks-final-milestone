@@ -180,7 +180,7 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
-        <property name="headerText" value="Edit @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode} - @{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingTitle} (@{document.oldMaintainableObject.dataObject.courseOfferingInfo.creditCnt} Credits)"/>
+        <property name="headerText" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"/>
         <!-- <property name="render" value="@{#hasPermDtls('KS-ENR','Open Views for KS-CourseOfferingEditWrapper-EditMaintenanceView',null,document.oldMaintainableObject.dataObject.adminOrg)}" /> -->
 
@@ -188,6 +188,8 @@
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManageCo-Landing" />
+<!--
                 <bean  parent="Uif-BreadcrumbItem">
                     <property name="label" value="Course Offerings"/>
                     <property name="url.viewId" value="courseOfferingManagementView"/>
@@ -202,6 +204,7 @@
                         </map>
                     </property>
                 </bean>
+-->
                 <ref bean="KS-HomewardPathBreadcrumbs-EditCo-Search-Subject"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-EditCo-TheCO-Page"/>
             </util:list>
@@ -262,10 +265,8 @@
     <bean id="KS-CourseOffering-EditCo-Page-Header" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderThree" p:headerText="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}"/>
                 <bean parent="Uif-HeaderFour" p:headerText="Edit Course Offering"/>
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.alternateCOCodesUIList}" p:render="@{!#dp.alternateCourseCodesSuffixStripped.isEmpty()}" p:style="font-weight:bold; margin-top:4px; margin-bottom:8px;"/>
-
             </list>
         </property>
     </bean>
