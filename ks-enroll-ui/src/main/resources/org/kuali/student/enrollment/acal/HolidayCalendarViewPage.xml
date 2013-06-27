@@ -56,7 +56,7 @@
             <bean parent="Uif-FooterBase"/>
         </property>
         <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:id="copyEditDeleteHeader" p:componentSecurity.viewAuthz="true">
                 <property name="items">
                     <list>
                         <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;"/>
