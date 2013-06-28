@@ -377,22 +377,18 @@ function initRuleTree(componentId) {
         });
 
         /* update sister compound operators and update proposition summary */
-        jq("[name$='data.proposition.compoundOpCode']").change(function () {
-            var onChangeElementId = this.id;
-
-            jq("select").filter(function () {
-                return this.id.match(
-                    new RegExp(onChangeElementId.replace(/^(\d+_node_)(\d+)(_.*)$/, '^$1\\d+$3$$'))
-                );
-            }).val(jq(this).val());
-
-            /* Set the selected id */
+        jq('li.compoundOpCodeNode').change(function () {
+            //Set the selected id
             var parentLiNode = jq(this).closest('li');
+            //Set parent to be refreshed
+            var componentId = jq(parentLiNode).offsetParent().attr('id');
+            var tabId = componentId.substring(0, componentId.indexOf('_'));
+
             var propositionId = getPropositionIdFromParentLi(parentLiNode);
             var selectedItemTracker = getSelectedPropositionInput();
             selectedItemTracker.val(propositionId);
 
-            ajaxCallPropositionTree('updateCompoundOperator', 'KRMS-RuleEdit-TabSection');
+            ajaxCallPropositionTree('updateCompoundOperator', tabId);
         })
 
     });
