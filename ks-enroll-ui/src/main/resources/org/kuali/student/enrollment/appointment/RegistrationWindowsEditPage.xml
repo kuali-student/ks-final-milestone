@@ -23,12 +23,16 @@
     <!-- Appointment Window Edit Page -->
     <bean id="KS-RegistrationWindowsManagement-EditPage" parent="KS-Uif-Page" p:disclosure.render="false" p:id="registrationWindowsEditPage"
           p:headerText="@{termInfo.name != null? termInfo.name : 'No Term'}">
+        <property name="pageSourceFile" value="RegistrationWindowsEditPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
+
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
 
         <property name="items">
             <list>
+                <!-- This adds the file names to the page HTML -->
+                <ref bean="KS-SourceFile-Comment-Group"/>
                 <bean parent="Uif-TabSection" >
                     <property name="items">
                         <list>

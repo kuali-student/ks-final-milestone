@@ -23,11 +23,14 @@
     <bean id="KS-RegistrationWindowsManagement-SelectTermPage" parent="KS-Uif-Page" p:disclosure.render="false"
         p:id="selectTermForRegWindows"
         p:headerText=" ">
+        <property name="pageSourceFile" value="SelectTermForRegWindowsPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
         <property name="items">
             <list>
+                <!-- This adds the file names to the page HTML -->
+                <ref bean="KS-SourceFile-Comment-Group"/>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
