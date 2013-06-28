@@ -146,9 +146,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
         //Do not display if there are no components.
         if (components.size() == 0) {
-            container.setRender(false);
-        } else {
-            container.setRender(true);
+            container.getHeader().setRender(false);
         }
 
         container.setItems(components);
