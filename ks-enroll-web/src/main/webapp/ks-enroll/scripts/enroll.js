@@ -805,3 +805,11 @@ function addBootstrapImageToLink(containerId) {
     });
 }
 
+/*
+The users want the page titling to be dynamically-updated depending on which particular page is showing at the time.
+In other words, when the ManageCO landing-page is first shown, by default the page-title is 'Course Offerings' but
+if you conduct a subject-search (say, WMST), they want the page-title to be "WMST: Women's Studies".
+ */
+function updateManageCoPageTitle( value ) {
+    jQuery( '.uif-viewHeader-contentWrapper .uif-headerText .uif-headerText-span' ).html( value );
+}

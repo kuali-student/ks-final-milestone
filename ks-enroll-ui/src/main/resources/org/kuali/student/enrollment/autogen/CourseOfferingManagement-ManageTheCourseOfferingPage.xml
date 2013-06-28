@@ -20,11 +20,14 @@
      limitations under the License.
     -->
 
-    <!--p:onDocumentReadyScript="updateContextBar(); setSeasonalColor('KS-CourseOfferingManagement-CourseOfferingContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');"-->
-
     <bean id="KS-CourseOfferingManagement-ManageTheCourseOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="manageTheCourseOfferingPage">
-        <property name="headerText" value="@{currentCourseOfferingWrapper.ownerCode}" />
+
+        <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect subject-code.
+            ie: from "Course Offerings" to "WMST200"
+            This is a work-around, at least until KRAD 2.3-m3 -->
+        <property name="onDocumentReadyScript" value="updateManageCoPageTitle( '@{currentCourseOfferingWrapper.ownerCode}' );" />
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>

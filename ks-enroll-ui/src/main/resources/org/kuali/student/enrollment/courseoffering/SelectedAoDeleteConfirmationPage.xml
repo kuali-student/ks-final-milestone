@@ -22,11 +22,17 @@
     -->
 
     <bean id="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage" parent="KS-Uif-Page"
-          p:id="selectedAoDeleteConfirmationPage"
-          p:headerText="Delete Activity Offerings">
+          p:id="selectedAoDeleteConfirmationPage">
+
+        <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect title of the page.
+             ie: from "Course Offerings" to "Delete Activity Offerings"
+             This is a work-around, at least until KRAD 2.3-m3 -->
+        <property name="onDocumentReadyScript" value="updateManageCoPageTitle( 'Delete Activity Offerings' );" />
+
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>

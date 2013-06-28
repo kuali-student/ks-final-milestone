@@ -21,11 +21,12 @@
     -->
     <bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="copyCourseOfferingPage">
-<!--
-        <property name="header">
-            <bean parent="Uif-HeaderThree" p:headerText="@{(courseOfferingCopyWrapper.courseOfferingCode eq null)? '' : 'Copy '} @{courseOfferingCopyWrapper.courseOfferingCode}" />
-        </property>
--->
+
+        <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect subject-code.
+             ie: from "Course Offerings" to "WMST200"
+             This is a work-around, at least until KRAD 2.3-m3 -->
+        <property name="onDocumentReadyScript" value="updateManageCoPageTitle( '@{courseOfferingCopyWrapper.courseOfferingCode}' );" />
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -117,7 +118,6 @@
     <bean id="KS-CourseOffering-CopyCo-Page-Header" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderThree" p:headerText="@{courseOfferingCopyWrapper.courseOfferingCode}"/>
                 <bean parent="Uif-HeaderFour" p:headerText="Copy Course Offering" p:style="float: none !important;"/>
             </list>
         </property>

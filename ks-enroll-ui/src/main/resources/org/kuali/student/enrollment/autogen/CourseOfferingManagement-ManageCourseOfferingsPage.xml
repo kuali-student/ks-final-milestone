@@ -23,11 +23,13 @@
         <property name="titleAttribute" value="id"/>
     </bean>
 
-    <!--p:onDocumentReadyScript="updateContextBar(); setSeasonalColor('KS-CourseOfferingManagement-CourseOfferingContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');"-->
-
     <bean id="KS-CourseOfferingManagement-ManageCourseOfferingsPage" parent="KS-Uif-Page" p:disclosure.render="false"
-          p:id="manageCourseOfferingsPage">
-        <property name="headerText" value="@{subjectCode}: @{subjectCodeDescription}"/>
+          p:id="manageCourseOfferingsPage" >
+
+        <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect subject-code and long-description.
+            ie: from "Course Offerings" to "WMST: Women's Studies"
+            This is a work-around, at least until KRAD 2.3-m3 -->
+        <property name="onDocumentReadyScript" value="updateManageCoPageTitle( '@{subjectCode}: @{subjectCodeDescription}' );" />
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>

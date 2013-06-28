@@ -23,8 +23,11 @@
           p:id="courseOfferingManagementView"
           p:entryPageId="searchInputPage"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.autogen.service.impl.ARGCourseOfferingManagementViewHelperServiceImpl"
-          p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm"
-          p:headerText="Manage Course Offerings">
+          p:formClass="org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm" >
+
+        <!-- This is a placeholder; it will be dynamically replaced by child-pages using JS-onDocumentReadyScript.
+             This is a work-around at least until KRAD 2.3-m3 -->
+        <property name="headerText" value="Course Offerings" />
 
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
@@ -65,10 +68,8 @@
             </list>
         </property>
 
-
-
-
         <property name="preloadPoolSize" value="3"/>
+
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage"/>
@@ -106,8 +107,6 @@
             </map>
         </property>
     </bean>
-
-
 
     <bean id="schedulingConfirmDialog-Group" parent="Uif-DialogGroup">
         <property name="hidden" value="true"/>

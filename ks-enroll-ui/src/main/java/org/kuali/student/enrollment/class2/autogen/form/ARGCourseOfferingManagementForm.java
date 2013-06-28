@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.autogen.form;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
@@ -325,7 +326,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      */
     @SuppressWarnings("unused")
     public String getSubjectCodeDescription() {
-        return subjectCodeDescription;
+        return StringEscapeUtils.escapeJavaScript( subjectCodeDescription );
     }
 
     /**
@@ -334,7 +335,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      * @param subjectCodeDescription Subject Code Description
      */
     public void setSubjectCodeDescription(String subjectCodeDescription) {
-        this.subjectCodeDescription = subjectCodeDescription;
+        this.subjectCodeDescription = StringEscapeUtils.unescapeJavaScript( subjectCodeDescription ); // reverse encoding obtained from getter
     }
 
     public String getToBeScheduledCourseOfferingsUI() {
