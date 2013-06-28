@@ -286,23 +286,31 @@ limitations under the License.
                         <!--<bean parent="Uif-DropdownControl" p:options-ref="org-options"/>-->
                     <!--</property>-->
                 <!--</bean>-->
-                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.startDate"
-                      p:label="Start Date" p:labelPlacement="TOP" p:required="true">
-                    <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl"/>
+
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.startDate"
+                                  p:label="Start Date" p:labelPlacement="TOP" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-KS-Default-DateControl"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.endDate"
+                                  p:label="End Date" p:labelPlacement="TOP" p:required="true">
+                                <property name="control">
+                                    <bean parent="Uif-KS-Default-DateControl"/>
+                                </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="BasicDatePatternConstraint" />
+                                </property>
+                            </bean>
+                        </list>
                     </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint" />
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.endDate"
-                      p:label="End Date" p:labelPlacement="TOP" p:required="true">
-                    <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl"/>
-                    </property>
-                    <property name="validCharactersConstraint">
-                        <bean parent="BasicDatePatternConstraint" />
-                    </property>
+
                 </bean>
                 <!-- NOTE:
                         This hidden button defeats a KRAD 2.0 bug which causes Enter to fire the next action
