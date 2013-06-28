@@ -55,14 +55,6 @@ limitations under the License.
 
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxGroup">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Message" p:messageText="SourceFile: AcademicCalendarView.xml" />
-                        </list>
-                    </property>
-                </bean>
-
                 <ref bean="KS-AcademicCalendar-CopyPage"/>
                 <bean parent="KS-AcademicCalendar-EditPage" p:stickyFooter="true"/>
             </list>
