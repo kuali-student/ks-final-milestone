@@ -15,11 +15,7 @@
     <module>ks-impex-bundled-db</module>
   </modules>
   <properties>
-    <db.branch.qualifier>SANDBOX</db.branch.qualifier>
     <jdbc.source.db.base>KS_SOURCE_DB</jdbc.source.db.base>
-    <oracle.source.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.source.dba.url>
-    <jdbc.username>${jdbc.source.db.base}</jdbc.username>
-    <jdbc.password>${jdbc.username}</jdbc.password>
     <impex.metainf.context>org.kuali.student.deploy.spring.DataMetaInfConfig</impex.metainf.context>
     <impex.data.resources>META-INF/${project.artifactId}-data.resources</impex.data.resources>
     <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.data.resources}</impex.metainf.outputFile>
@@ -53,10 +49,10 @@
                 </goals>
                 <phase>initialize</phase>
                 <configuration>
-                  <propertySourcesConfig>org.kuali.student.deploy.spring.InitializeSourceDbMavenPropertySourceConfig</propertySourcesConfig>
-                  <annotatedClass>org.kuali.common.jdbc.spring.SqlControllerConfig</annotatedClass>
                   <forceMojoExecution>true</forceMojoExecution>
                   <removeExistingPropertySources>true</removeExistingPropertySources>
+                  <propertySourcesConfig>org.kuali.student.deploy.spring.InitializeSourceDbMavenPropertySourceConfig</propertySourcesConfig>
+                  <annotatedClass>org.kuali.common.jdbc.spring.SqlControllerConfig</annotatedClass>
                 </configuration>
               </execution>
             </executions>
@@ -74,7 +70,6 @@
         <jdbc.dba.url>${jdbc.url}</jdbc.dba.url>
         <jdbc.username>${jdbc.source.db.username}</jdbc.username>
         <jdbc.dba.username>${jdbc.source.db.username}</jdbc.dba.username>
-
         <db.vendor>oracle</db.vendor>
       </properties>
       <build>
