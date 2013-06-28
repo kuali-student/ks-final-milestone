@@ -183,12 +183,12 @@ public class CalendarSearchController  extends UifControllerBase {
             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
             urlParameters.put("flow", searchForm.getFlowKey());
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey())){
+        } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey()) || CalendarConstants.SUBTERM.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_VIEW_METHOD, true, getContextInfo());
             urlParameters.put("flow", searchForm.getFlowKey());
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
         } else {
-            throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term only");
+            throw new RuntimeException("Invalid calendar type. This search supports Acal/HCal/Term/Subterm only");
         }
 
         return super.performRedirect(searchForm,controllerPath, urlParameters);
@@ -221,7 +221,7 @@ public class CalendarSearchController  extends UifControllerBase {
             urlParameters = viewHelperService.buildACalURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
             urlParameters.put("flow", searchForm.getFlowKey());
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
-        } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey())){
+        } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey()) || CalendarConstants.SUBTERM.equals(atp.getAcalSearchTypeKey())){
             urlParameters = viewHelperService.buildTermURLParameters(atp, CalendarConstants.AC_EDIT_METHOD, false, getContextInfo());
             urlParameters.put("flow", searchForm.getFlowKey());
             controllerPath = CalendarConstants.ACAL_CONTROLLER_PATH;
