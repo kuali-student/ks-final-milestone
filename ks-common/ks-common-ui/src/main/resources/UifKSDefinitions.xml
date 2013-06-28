@@ -554,11 +554,12 @@
         </property>
     </bean>
 
+    <!-- This is used to display the view and page files names in the HTML so devs can find them -->
     <bean id="KS-SourceFile-Comment-Group" parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="[!--ViewSourceFile: @{#view.viewSourceFile}--]" />
-                <bean parent="Uif-Message" p:messageText="[!--PageSourceFile: @{#view.currentPage.pageSourceFile}--]" />
+                <bean parent="Uif-Message" p:messageText="[!--PageSourceFile: @{(#view.currentPage.pageSourceFile eq null) ? 'Not Defined' : #view.currentPage.pageSourceFile}--]" />
             </list>
         </property>
     </bean>
