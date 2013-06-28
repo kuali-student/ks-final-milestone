@@ -479,6 +479,11 @@ limitations under the License.
                 </property>
             </bean>
         </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"/>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false">
