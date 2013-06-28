@@ -68,7 +68,7 @@ public interface CourseWaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of WaitLists from a list of WaitList
+     * Retrieves a list of CourseWaitLists from a list of CourseWaitList
      * Ids. The returned list may be in any order and if duplicate Ids
      * are supplied, a unique set may or may not be returned.
      *
@@ -135,29 +135,7 @@ public interface CourseWaitListService {
             PermissionDeniedException;
 
     /**
-     * Retrieves the CourseWaitLists associated with the given CourseWaitList type and activity offering Id.
-     *
-     * @param courseWaitListTypeKey an identifier for the CourseWaitList type
-     * @param activityOfferingId the identifier for the attached activity offering
-     * @param contextInfo information containing the principalId and
-     *                    locale information about the caller of service operation
-     * @return The CourseWaitLists associated with the given CourseWaitListTypeKey and activityOfferingId
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException courseWaitListTypeKey, activityOfferingId, or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<CourseWaitListInfo> getCourseWaitListsByTypeAndActivityOffering(@WebParam(name = "courseWaitListTypeKey") String courseWaitListTypeKey,
-                                                            @WebParam(name = "activityOfferingId") String activityOfferingId,
-                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves all CourseWaitLists attached to the given format offering Id.
+     * Retrieves all CourseWaitLists directly attached to the given format offering Id.
      *
      * @param formatOfferingId the identifier for the attached format offering
      * @param contextInfo information containing the principalId and
@@ -172,28 +150,6 @@ public interface CourseWaitListService {
      */
     public List<CourseWaitListInfo> getCourseWaitListsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId,
                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves the CourseWaitLists associated with the given CourseWaitList type and format offering Id.
-     *
-     * @param courseWaitListTypeKey an identifier for the CourseWaitList type
-     * @param formatOfferingId the identifier for the attached format offering
-     * @param contextInfo information containing the principalId and
-     *                    locale information about the caller of service operation
-     * @return The CourseWaitLists associated with the given CourseWaitListTypeKey and formatOfferingId
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException courseWaitListTypeKey, formatOfferingId, or contextInfo is
-     *                                   missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<CourseWaitListInfo> getCourseWaitListsByTypeAndFormatOffering(@WebParam(name = "courseWaitListTypeKey") String courseWaitListTypeKey,
-                                                                        @WebParam(name = "formatOfferingId") String formatOfferingId,
-                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,

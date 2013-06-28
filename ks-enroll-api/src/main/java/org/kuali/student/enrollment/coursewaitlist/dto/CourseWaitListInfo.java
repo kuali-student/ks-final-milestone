@@ -98,21 +98,21 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     }
 
     @Override
-    public List<String> getActivityOfferingIds() {
-        return activityOfferingIds;
-    }
-
-    public void setActivityOfferingIds(List<String> activityOfferingIds) {
-        this.activityOfferingIds = activityOfferingIds;
-    }
-
-    @Override
     public List<String> getFormatOfferingIds() {
         return formatOfferingIds;
     }
 
     public void setFormatOfferingIds(List<String> formatOfferingIds) {
         this.formatOfferingIds = formatOfferingIds;
+    }
+
+    @Override
+    public List<String> getActivityOfferingIds() {
+        return activityOfferingIds;
+    }
+
+    public void setActivityOfferingIds(List<String> activityOfferingIds) {
+        this.activityOfferingIds = activityOfferingIds;
     }
 
     @Override

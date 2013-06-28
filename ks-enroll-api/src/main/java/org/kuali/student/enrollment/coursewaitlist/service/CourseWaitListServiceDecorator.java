@@ -75,18 +75,8 @@ public class CourseWaitListServiceDecorator implements CourseWaitListService {
     }
 
     @Override
-    public List<CourseWaitListInfo> getCourseWaitListsByTypeAndActivityOffering(String courseWaitListTypeKey, String activityOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitListsByTypeAndActivityOffering(courseWaitListTypeKey, activityOfferingId, contextInfo);
-    }
-
-    @Override
     public List<CourseWaitListInfo> getCourseWaitListsByFormatOffering(String formatOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getCourseWaitListsByFormatOffering(formatOfferingId, contextInfo);
-    }
-
-    @Override
-    public List<CourseWaitListInfo> getCourseWaitListsByTypeAndFormatOffering(String courseWaitListTypeKey, String formatOfferingId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitListsByTypeAndFormatOffering(courseWaitListTypeKey, formatOfferingId, contextInfo);
     }
 
     @Override

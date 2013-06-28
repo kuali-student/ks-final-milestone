@@ -43,7 +43,7 @@ public interface CourseWaitListEntry extends Relationship {
     String getStateKey();
 
     /**
-     * @return the Id of the CourseWaitList that this entry belongs to.
+     * The Id of the CourseWaitList that this entry belongs to.
      * @name Course Wait List Id
      * @readonly
      * @required
@@ -52,7 +52,7 @@ public interface CourseWaitListEntry extends Relationship {
 
     /**
      *
-     * @return the Id of the student associated with this entry (The student that is on the WaitList)
+     * The Id of the student associated with this entry (The student that is on the WaitList)
      * @name Student Id
      * @readonly
      * @required
@@ -60,23 +60,20 @@ public interface CourseWaitListEntry extends Relationship {
     String getStudentId();
 
     /**
-     * @return  the Id of the registration group that this entry is associated with.
+     * The Id of the registration group that this entry is associated with.
      * @name Registration Group Id
      * @required
      */
     String getRegistrationGroupId();
 
     /**
-     * This field is considered read-only
-     * and may only be changed through the relevant WaitListService operations.
-     * @return  This entries position on the WaitList.
+     * This entry's position on the WaitList.
      * @name Position
      */
     Integer getPosition();
 
     /**
-     *
-     * @return The last time that this entry checked-in on the WaitList.
+     * The last time that the student checked-in on this entry.
      * @name  Last Check-in
      */
     Date getLastCheckIn();
