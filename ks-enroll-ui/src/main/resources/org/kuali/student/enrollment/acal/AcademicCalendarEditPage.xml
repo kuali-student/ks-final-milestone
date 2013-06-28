@@ -110,7 +110,7 @@ limitations under the License.
                                     <bean parent="Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
                                           p:performClientSideValidation="true" p:render="@{reload}" />
                                     <bean parent="Uif-ActionLink" p:methodToCall="delete"
-                                          p:actionLabel="Delete Draft"
+                                          p:actionLabel="Delete Calendar Draft"
                                           p:render="@{!reload and !newCalendar and !#view.readOnly and !officialUI}" />
                                     <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()" p:render="@{!#view.readOnly}" />
                                 </list>
