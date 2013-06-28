@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.class2.waitlist.service.impl;
+package org.kuali.student.enrollment.coursewaitlist.service.impl;
 
 
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.MetaTester;
-import org.kuali.student.enrollment.waitlist.dto.WaitListEntryInfo;
-import org.kuali.student.enrollment.waitlist.dto.WaitListInfo;
-import org.kuali.student.enrollment.waitlist.service.WaitListService;import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
@@ -52,17 +52,17 @@ import static org.junit.Assert.fail;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:waitList-test-with-map-context.xml"})
-public abstract class TestWaitListServiceImplConformanceBaseCrud {
+@ContextConfiguration(locations = {"classpath:coursewaitList-test-with-map-context.xml"})
+public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	
 	// ====================
 	// SETUP
 	// ====================
 	
 	@Resource
-	public WaitListService testService;
-	public WaitListService getWaitListService() { return testService; }
-	public void setWaitListService(WaitListService service) { testService = service; }
+	public CourseWaitListService testService;
+	public CourseWaitListService getCourseWaitListService() { return testService; }
+	public void setCourseWaitListService(CourseWaitListService service) { testService = service; }
 	
 	public ContextInfo contextInfo = null;
 	public static String principalId = "123";
@@ -80,10 +80,10 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 	// ====================
 	
 	// ****************************************************
-	//           WaitListInfo
+	//           CourseWaitListInfo
 	// ****************************************************
 	@Test
-	public void testCrudWaitList() 
+	public void testCrudCourseWaitList()
 		throws DataValidationErrorException,
 			DoesNotExistException,
 			InvalidParameterException,
@@ -97,21 +97,21 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 			// -------------------------------------
 			// test create
 			// -------------------------------------
-			WaitListInfo expected = new WaitListInfo ();
+			CourseWaitListInfo expected = new CourseWaitListInfo ();
 			
 			// METHOD TO SET DTO FIELDS HERE FOR TEST CREATE
-			testCrudWaitList_setDTOFieldsForTestCreate (expected);
+			testCrudCourseWaitList_setDTOFieldsForTestCreate (expected);
 			
 			new AttributeTester().add2ForCreate(expected.getAttributes());
 			
 			// code to create actual
-			WaitListInfo actual = testService.createWaitList ( expected.getTypeKey(), expected, contextInfo);
+			CourseWaitListInfo actual = testService.createCourseWaitList ( expected.getTypeKey(), expected, contextInfo);
 			
 			assertNotNull(actual.getId());
 			check(expected, actual);
 			
 			// METHOD TO TEST DTO FIELDS HERE FOR TEST CREATE
-			testCrudWaitList_testDTOFieldsForTestCreateUpdate (expected, actual);
+			testCrudCourseWaitList_testDTOFieldsForTestCreateUpdate (expected, actual);
 			
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterCreate(actual.getMeta());
@@ -120,12 +120,12 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 			// test read
 			// -------------------------------------
 			expected = actual;
-			actual = testService.getWaitList ( actual.getId(), contextInfo);
+			actual = testService.getCourseWaitList ( actual.getId(), contextInfo);
 			assertEquals(expected.getId(), actual.getId());
 			check(expected, actual);
 			
 			// INSERT CODE FOR TESTING MORE DTO FIELDS HERE
-			testCrudWaitList_testDTOFieldsForTestCreateUpdate (expected, actual);
+			testCrudCourseWaitList_testDTOFieldsForTestCreateUpdate (expected, actual);
 			
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
@@ -138,17 +138,17 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 			expected.setStateKey(expected.getState() + "_Updated");
 			
 			// METHOD TO INSERT CODE TO UPDATE DTO FIELDS HERE
-			testCrudWaitList_setDTOFieldsForTestUpdate (expected);
+			testCrudCourseWaitList_setDTOFieldsForTestUpdate (expected);
 			
 			new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
 			// code to update
-			actual = testService.updateWaitList ( expected.getId(), expected, contextInfo);
+			actual = testService.updateCourseWaitList ( expected.getId(), expected, contextInfo);
 			
 			assertEquals(expected.getId(), actual.getId());
 			check(expected, actual);
 			
 			// METHOD TO INSERT CODE FOR TESTING DTO FIELDS HERE
-			testCrudWaitList_testDTOFieldsForTestCreateUpdate (expected, actual);
+			testCrudCourseWaitList_testDTOFieldsForTestCreateUpdate (expected, actual);
 			
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
@@ -159,86 +159,86 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 			
 			expected = actual;
 			// code to get actual
-			actual = testService.getWaitList ( actual.getId(), contextInfo);
+			actual = testService.getCourseWaitList ( actual.getId(), contextInfo);
 			
 			assertEquals(expected.getId(), actual.getId());
 			check(expected, actual);
 			
 			// INSERT METHOD CODE FOR TESTING DTO FIELDS HERE
-			testCrudWaitList_testDTOFieldsForTestReadAfterUpdate (expected, actual);
+			testCrudCourseWaitList_testDTOFieldsForTestReadAfterUpdate (expected, actual);
 			
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 			
-			WaitListInfo alphaDTO = actual;
+			CourseWaitListInfo alphaDTO = actual;
 			
 			// create a 2nd DTO
-			WaitListInfo betaDTO = new WaitListInfo ();
+			CourseWaitListInfo betaDTO = new CourseWaitListInfo ();
 			
 			// METHOD TO INSERT CODE TO SET MORE DTO FIELDS HERE
-			testCrudWaitList_setDTOFieldsForTestReadAfterUpdate (betaDTO);
+			testCrudCourseWaitList_setDTOFieldsForTestReadAfterUpdate (betaDTO);
 			
 			betaDTO.setTypeKey("typeKeyBeta");
 			betaDTO.setStateKey("stateKeyBeta");
-			betaDTO = testService.createWaitList ( betaDTO.getTypeKey(), betaDTO, contextInfo);
+			betaDTO = testService.createCourseWaitList ( betaDTO.getTypeKey(), betaDTO, contextInfo);
 			
 			// -------------------------------------
 			// test bulk get with no ids supplied
 			// -------------------------------------
 			
-			List<String> waitListIds = new ArrayList<String>();
+			List<String> courseWaitListIds = new ArrayList<String>();
 			// code to get DTO by Ids
-			List<WaitListInfo> records = testService.getWaitListsByIds ( waitListIds, contextInfo);
+			List<CourseWaitListInfo> records = testService.getCourseWaitListsByIds ( courseWaitListIds, contextInfo);
 			
-			assertEquals(waitListIds.size(), records.size());
-			assertEquals(0, waitListIds.size());
+			assertEquals(courseWaitListIds.size(), records.size());
+			assertEquals(0, courseWaitListIds.size());
 			
 			// -------------------------------------
 			// test bulk get
 			// -------------------------------------
-			waitListIds = new ArrayList<String>();
-			waitListIds.add(alphaDTO.getId());
-			waitListIds.add(betaDTO.getId());
+			courseWaitListIds = new ArrayList<String>();
+			courseWaitListIds.add(alphaDTO.getId());
+			courseWaitListIds.add(betaDTO.getId());
 			// code to get DTO by Ids
-			records = testService.getWaitListsByIds ( waitListIds, contextInfo);
+			records = testService.getCourseWaitListsByIds ( courseWaitListIds, contextInfo);
 			
-			assertEquals(waitListIds.size(), records.size());
-			for (WaitListInfo record : records)
+			assertEquals(courseWaitListIds.size(), records.size());
+			for (CourseWaitListInfo record : records)
 			{
-					if (!waitListIds.remove(record.getId()))
+					if (!courseWaitListIds.remove(record.getId()))
 					{
 							fail(record.getId());
 					}
 			}
-			assertEquals(0, waitListIds.size());
+			assertEquals(0, courseWaitListIds.size());
 			
 			// -------------------------------------
 			// test get by type
 			// -------------------------------------
 			// code to get by specific type "typeKey01" 
-			waitListIds = testService.getWaitListIdsByType ("typeKey01", contextInfo);
+			courseWaitListIds = testService.getCourseWaitListIdsByType ("typeKey01", contextInfo);
 			
-			assertEquals(1, waitListIds.size());
-			assertEquals(alphaDTO.getId(), waitListIds.get(0));
+			assertEquals(1, courseWaitListIds.size());
+			assertEquals(alphaDTO.getId(), courseWaitListIds.get(0));
 			
 			// test get by other type
 			// code to get by specific type "typeKeyBeta" 
-			waitListIds = testService.getWaitListIdsByType ("typeKeyBeta", contextInfo);
+			courseWaitListIds = testService.getCourseWaitListIdsByType ("typeKeyBeta", contextInfo);
 			
-			assertEquals(1, waitListIds.size());
-			assertEquals(betaDTO.getId(), waitListIds.get(0));
+			assertEquals(1, courseWaitListIds.size());
+			assertEquals(betaDTO.getId(), courseWaitListIds.get(0));
 			
 			// -------------------------------------
 			// test delete
 			// -------------------------------------
 			
-			StatusInfo status = testService.deleteWaitList ( actual.getId(), contextInfo);
+			StatusInfo status = testService.deleteCourseWaitList ( actual.getId(), contextInfo);
 			
 			assertNotNull(status);
 			assertTrue(status.getIsSuccess());
 			try
 			{
-					WaitListInfo record = testService.getWaitList ( actual.getId(), contextInfo);
+					CourseWaitListInfo record = testService.getCourseWaitList ( actual.getId(), contextInfo);
 					fail("Did not receive DoesNotExistException when attempting to get already-deleted entity");
 			}
 			catch (DoesNotExistException dnee)
@@ -249,41 +249,41 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 	}
 	
 	/*
-		A method to set the fields for a WaitList in a 'test create' section prior to calling the 'create' operation.
+		A method to set the fields for a CourseWaitList in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public abstract void testCrudWaitList_setDTOFieldsForTestCreate(WaitListInfo expected);
+	public abstract void testCrudCourseWaitList_setDTOFieldsForTestCreate(CourseWaitListInfo expected);
 	
 	/*
-		A method to test the fields for a WaitList. This is called after:
+		A method to test the fields for a CourseWaitList. This is called after:
 		- creating a DTO, where actual is the DTO returned by the create operation, and expected is the dto passed in to the create operation
 		- reading a DTO after creating it, and actual is the read DTO, and expected is the dto that was created
 		- updating a DTO, where actual is DTO returned by the update operation, and expected is the dto that was passed in to the update operation
 	*/
-	public abstract void testCrudWaitList_testDTOFieldsForTestCreateUpdate(WaitListInfo expected, WaitListInfo actual);
+	public abstract void testCrudCourseWaitList_testDTOFieldsForTestCreateUpdate(CourseWaitListInfo expected, CourseWaitListInfo actual);
 	
 	/*
-		A method to set the fields for a WaitList in a 'test update' section prior to calling the 'update' operation.
+		A method to set the fields for a CourseWaitList in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public abstract void testCrudWaitList_setDTOFieldsForTestUpdate(WaitListInfo expected);
+	public abstract void testCrudCourseWaitList_setDTOFieldsForTestUpdate(CourseWaitListInfo expected);
 	
 	/*
-		A method to test the fields for a WaitList after an update operation, followed by a read operation,
+		A method to test the fields for a CourseWaitList after an update operation, followed by a read operation,
 		where actual is the DTO returned by the read operation, and expected is the dto returned by the update operation.
 	*/
-	public abstract void testCrudWaitList_testDTOFieldsForTestReadAfterUpdate(WaitListInfo expected, WaitListInfo actual);
+	public abstract void testCrudCourseWaitList_testDTOFieldsForTestReadAfterUpdate(CourseWaitListInfo expected, CourseWaitListInfo actual);
 	
 	/*
-		A method to set the fields for a WaitList in the 'test read after update' section.
+		A method to set the fields for a CourseWaitList in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public abstract void testCrudWaitList_setDTOFieldsForTestReadAfterUpdate(WaitListInfo expected);
+	public abstract void testCrudCourseWaitList_setDTOFieldsForTestReadAfterUpdate(CourseWaitListInfo expected);
 	
 	
 	// ****************************************************
-	//           WaitListEntryInfo
+	//           CourseWaitListEntryInfo
 	// ****************************************************
 	@Test
-	public void testCrudWaitListEntry() 
+	public void testCrudCourseWaitListEntry()
 		throws DataValidationErrorException,
 			DoesNotExistException,
 			InvalidParameterException,
@@ -297,21 +297,21 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 			// -------------------------------------
 			// test create
 			// -------------------------------------
-			WaitListEntryInfo expected = new WaitListEntryInfo ();
+			CourseWaitListEntryInfo expected = new CourseWaitListEntryInfo ();
 			
 			// METHOD TO SET DTO FIELDS HERE FOR TEST CREATE
-			testCrudWaitListEntry_setDTOFieldsForTestCreate (expected);
+			testCrudCourseWaitListEntry_setDTOFieldsForTestCreate (expected);
 			
 			new AttributeTester().add2ForCreate(expected.getAttributes());
 			
 			// code to create actual
-			WaitListEntryInfo actual = testService.createWaitListEntry (expected.getWaitListId(), expected.getStudentId(), expected.getTypeKey(), expected, contextInfo);
+			CourseWaitListEntryInfo actual = testService.createCourseWaitListEntry (expected.getCourseWaitListId(), expected.getStudentId(), expected.getTypeKey(), expected, contextInfo);
 			
 			assertNotNull(actual.getId());
 			check(expected, actual);
 			
 			// METHOD TO TEST DTO FIELDS HERE FOR TEST CREATE
-			testCrudWaitListEntry_testDTOFieldsForTestCreateUpdate (expected, actual);
+			testCrudCourseWaitListEntry_testDTOFieldsForTestCreateUpdate (expected, actual);
 			
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterCreate(actual.getMeta());
@@ -320,12 +320,12 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 			// test read
 			// -------------------------------------
 			expected = actual;
-			actual = testService.getWaitListEntry ( actual.getId(), contextInfo);
+			actual = testService.getCourseWaitListEntry ( actual.getId(), contextInfo);
 			assertEquals(expected.getId(), actual.getId());
 			check(expected, actual);
 			
 			// INSERT CODE FOR TESTING MORE DTO FIELDS HERE
-			testCrudWaitListEntry_testDTOFieldsForTestCreateUpdate (expected, actual);
+			testCrudCourseWaitListEntry_testDTOFieldsForTestCreateUpdate (expected, actual);
 			
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
@@ -338,17 +338,17 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 			expected.setStateKey(expected.getState() + "_Updated");
 			
 			// METHOD TO INSERT CODE TO UPDATE DTO FIELDS HERE
-			testCrudWaitListEntry_setDTOFieldsForTestUpdate (expected);
+			testCrudCourseWaitListEntry_setDTOFieldsForTestUpdate (expected);
 			
 			new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
 			// code to update
-			actual = testService.updateWaitListEntry ( expected.getId(), expected, contextInfo);
+			actual = testService.updateCourseWaitListEntry ( expected.getId(), expected, contextInfo);
 			
 			assertEquals(expected.getId(), actual.getId());
 			check(expected, actual);
 			
 			// METHOD TO INSERT CODE FOR TESTING DTO FIELDS HERE
-			testCrudWaitListEntry_testDTOFieldsForTestCreateUpdate (expected, actual);
+			testCrudCourseWaitListEntry_testDTOFieldsForTestCreateUpdate (expected, actual);
 			
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
@@ -359,86 +359,86 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 			
 			expected = actual;
 			// code to get actual
-			actual = testService.getWaitListEntry ( actual.getId(), contextInfo);
+			actual = testService.getCourseWaitListEntry ( actual.getId(), contextInfo);
 			
 			assertEquals(expected.getId(), actual.getId());
 			check(expected, actual);
 			
 			// INSERT METHOD CODE FOR TESTING DTO FIELDS HERE
-			testCrudWaitListEntry_testDTOFieldsForTestReadAfterUpdate (expected, actual);
+			testCrudCourseWaitListEntry_testDTOFieldsForTestReadAfterUpdate (expected, actual);
 			
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 			
-			WaitListEntryInfo alphaDTO = actual;
+			CourseWaitListEntryInfo alphaDTO = actual;
 			
 			// create a 2nd DTO
-			WaitListEntryInfo betaDTO = new WaitListEntryInfo ();
+			CourseWaitListEntryInfo betaDTO = new CourseWaitListEntryInfo ();
 			
 			// METHOD TO INSERT CODE TO SET MORE DTO FIELDS HERE
-			testCrudWaitListEntry_setDTOFieldsForTestReadAfterUpdate (betaDTO);
+			testCrudCourseWaitListEntry_setDTOFieldsForTestReadAfterUpdate (betaDTO);
 			
 			betaDTO.setTypeKey("typeKeyBeta");
 			betaDTO.setStateKey("stateKeyBeta");
-			betaDTO = testService.createWaitListEntry ( betaDTO.getWaitListId(), betaDTO.getStudentId(), betaDTO.getTypeKey(), betaDTO, contextInfo);
+			betaDTO = testService.createCourseWaitListEntry ( betaDTO.getCourseWaitListId(), betaDTO.getStudentId(), betaDTO.getTypeKey(), betaDTO, contextInfo);
 			
 			// -------------------------------------
 			// test bulk get with no ids supplied
 			// -------------------------------------
 			
-			List<String> waitListEntryIds = new ArrayList<String>();
+			List<String> courseWaitListEntryIds = new ArrayList<String>();
 			// code to get DTO by Ids
-			List<WaitListEntryInfo> records = testService.getWaitListEntriesByIds(waitListEntryIds, contextInfo);
+			List<CourseWaitListEntryInfo> records = testService.getCourseWaitListEntriesByIds(courseWaitListEntryIds, contextInfo);
 			
-			assertEquals(waitListEntryIds.size(), records.size());
-			assertEquals(0, waitListEntryIds.size());
+			assertEquals(courseWaitListEntryIds.size(), records.size());
+			assertEquals(0, courseWaitListEntryIds.size());
 			
 			// -------------------------------------
 			// test bulk get
 			// -------------------------------------
-			waitListEntryIds = new ArrayList<String>();
-			waitListEntryIds.add(alphaDTO.getId());
-			waitListEntryIds.add(betaDTO.getId());
+			courseWaitListEntryIds = new ArrayList<String>();
+			courseWaitListEntryIds.add(alphaDTO.getId());
+			courseWaitListEntryIds.add(betaDTO.getId());
 			// code to get DTO by Ids
-			records = testService.getWaitListEntriesByIds(waitListEntryIds, contextInfo);
+			records = testService.getCourseWaitListEntriesByIds(courseWaitListEntryIds, contextInfo);
 			
-			assertEquals(waitListEntryIds.size(), records.size());
-			for (WaitListEntryInfo record : records)
+			assertEquals(courseWaitListEntryIds.size(), records.size());
+			for (CourseWaitListEntryInfo record : records)
 			{
-					if (!waitListEntryIds.remove(record.getId()))
+					if (!courseWaitListEntryIds.remove(record.getId()))
 					{
 							fail(record.getId());
 					}
 			}
-			assertEquals(0, waitListEntryIds.size());
+			assertEquals(0, courseWaitListEntryIds.size());
 			
 			// -------------------------------------
 			// test get by type
 			// -------------------------------------
 			// code to get by specific type "typeKey01" 
-			waitListEntryIds = testService.getWaitListEntryIdsByType ("typeKey01", contextInfo);
+			courseWaitListEntryIds = testService.getCourseWaitListEntryIdsByType ("typeKey01", contextInfo);
 			
-			assertEquals(1, waitListEntryIds.size());
-			assertEquals(alphaDTO.getId(), waitListEntryIds.get(0));
+			assertEquals(1, courseWaitListEntryIds.size());
+			assertEquals(alphaDTO.getId(), courseWaitListEntryIds.get(0));
 			
 			// test get by other type
 			// code to get by specific type "typeKeyBeta" 
-			waitListEntryIds = testService.getWaitListEntryIdsByType ("typeKeyBeta", contextInfo);
+			courseWaitListEntryIds = testService.getCourseWaitListEntryIdsByType ("typeKeyBeta", contextInfo);
 			
-			assertEquals(1, waitListEntryIds.size());
-			assertEquals(betaDTO.getId(), waitListEntryIds.get(0));
+			assertEquals(1, courseWaitListEntryIds.size());
+			assertEquals(betaDTO.getId(), courseWaitListEntryIds.get(0));
 			
 			// -------------------------------------
 			// test delete
 			// -------------------------------------
 			
-			StatusInfo status = testService.deleteWaitListEntry ( actual.getId(), contextInfo);
+			StatusInfo status = testService.deleteCourseWaitListEntry ( actual.getId(), contextInfo);
 			
 			assertNotNull(status);
 			assertTrue(status.getIsSuccess());
 			try
 			{
-					WaitListEntryInfo record = testService.getWaitListEntry ( actual.getId(), contextInfo);
+					CourseWaitListEntryInfo record = testService.getCourseWaitListEntry ( actual.getId(), contextInfo);
 					fail("Did not receive DoesNotExistException when attempting to get already-deleted entity");
 			}
 			catch (DoesNotExistException dnee)
@@ -449,34 +449,34 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 	}
 	
 	/*
-		A method to set the fields for a WaitListEntry in a 'test create' section prior to calling the 'create' operation.
+		A method to set the fields for a CourseWaitListEntry in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public abstract void testCrudWaitListEntry_setDTOFieldsForTestCreate(WaitListEntryInfo expected);
+	public abstract void testCrudCourseWaitListEntry_setDTOFieldsForTestCreate(CourseWaitListEntryInfo expected);
 	
 	/*
-		A method to test the fields for a WaitListEntry. This is called after:
+		A method to test the fields for a CourseWaitListEntry. This is called after:
 		- creating a DTO, where actual is the DTO returned by the create operation, and expected is the dto passed in to the create operation
 		- reading a DTO after creating it, and actual is the read DTO, and expected is the dto that was created
 		- updating a DTO, where actual is DTO returned by the update operation, and expected is the dto that was passed in to the update operation
 	*/
-	public abstract void testCrudWaitListEntry_testDTOFieldsForTestCreateUpdate(WaitListEntryInfo expected, WaitListEntryInfo actual);
+	public abstract void testCrudCourseWaitListEntry_testDTOFieldsForTestCreateUpdate(CourseWaitListEntryInfo expected, CourseWaitListEntryInfo actual);
 	
 	/*
-		A method to set the fields for a WaitListEntry in a 'test update' section prior to calling the 'update' operation.
+		A method to set the fields for a CourseWaitListEntry in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public abstract void testCrudWaitListEntry_setDTOFieldsForTestUpdate(WaitListEntryInfo expected);
+	public abstract void testCrudCourseWaitListEntry_setDTOFieldsForTestUpdate(CourseWaitListEntryInfo expected);
 	
 	/*
-		A method to test the fields for a WaitListEntry after an update operation, followed by a read operation,
+		A method to test the fields for a CourseWaitListEntry after an update operation, followed by a read operation,
 		where actual is the DTO returned by the read operation, and expected is the dto returned by the update operation.
 	*/
-	public abstract void testCrudWaitListEntry_testDTOFieldsForTestReadAfterUpdate(WaitListEntryInfo expected, WaitListEntryInfo actual);
+	public abstract void testCrudCourseWaitListEntry_testDTOFieldsForTestReadAfterUpdate(CourseWaitListEntryInfo expected, CourseWaitListEntryInfo actual);
 	
 	/*
-		A method to set the fields for a WaitListEntry in the 'test read after update' section.
+		A method to set the fields for a CourseWaitListEntry in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public abstract void testCrudWaitListEntry_setDTOFieldsForTestReadAfterUpdate(WaitListEntryInfo expected);
+	public abstract void testCrudCourseWaitListEntry_setDTOFieldsForTestReadAfterUpdate(CourseWaitListEntryInfo expected);
 	
 	
 	// ========================================
@@ -485,97 +485,97 @@ public abstract class TestWaitListServiceImplConformanceBaseCrud {
 	
 	/*
 		The following methods are tested as part of CRUD operations for this service's DTOs:
-			getWaitList
-			getWaitListsByIds
-			getWaitListIdsByType
-			createWaitList
-			updateWaitList
-			deleteWaitList
-			getWaitListEntry
-			getWaitListEntriesByIds
-			getWaitListEntryIdsByType
-			createWaitListEntry
-			updateWaitListEntry
-			deleteWaitListEntry
+			getCourseWaitList
+			getCourseWaitListsByIds
+			getCourseWaitListIdsByType
+			createCourseWaitList
+			updateCourseWaitList
+			deleteCourseWaitList
+			getCourseWaitListEntry
+			getCourseWaitListEntriesByIds
+			getCourseWaitListEntryIdsByType
+			createCourseWaitListEntry
+			updateCourseWaitListEntry
+			deleteCourseWaitListEntry
 	*/
 	
 	// ========================================
 	// SERVICE OPS NOT TESTED IN BASE TEST CLASS
 	// ========================================
 	
-	/* Method Name: getWaitListsByOffering */
+	/* Method Name: getCourseWaitListsByActivityOffering */
 	@Test
-	public abstract void test_getWaitListsByOffering() 
+	public abstract void test_getCourseWaitListsByActivityOffering()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 	
-	/* Method Name: getWaitListsByTypeAndOffering */
+	/* Method Name: getCourseWaitListsByFormatOffering */
 	@Test
-	public abstract void test_getWaitListsByTypeAndOffering() 
+	public abstract void test_getCourseWaitListsByFormatOffering()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 	
-	/* Method Name: searchForWaitListIds */
+	/* Method Name: searchForCourseWaitListIds */
 	@Test
-	public abstract void test_searchForWaitListIds() 
+	public abstract void test_searchForCourseWaitListIds()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 	
-	/* Method Name: searchForWaitLists */
+	/* Method Name: searchForCourseWaitLists */
 	@Test
-	public abstract void test_searchForWaitLists() 
+	public abstract void test_searchForCourseWaitLists()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 	
-	/* Method Name: validateWaitList */
+	/* Method Name: validateCourseWaitList */
 	@Test
-	public abstract void test_validateWaitList() 
+	public abstract void test_validateCourseWaitList()
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 	
-	/* Method Name: changeWaitListState */
+	/* Method Name: changeCourseWaitListState */
 	@Test
-	public abstract void test_changeWaitListState()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
-
-	/* Method Name: getWaitListEntriesByStudent */
-	@Test
-	public abstract void test_getWaitListEntriesByStudent() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
-	
-	/* Method Name: getWaitListEntriesByWaitList */
-	@Test
-	public abstract void test_getWaitListEntriesByWaitList() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
-	
-	/* Method Name: getWaitListEntriesByWaitListAndStudent */
-	@Test
-	public abstract void test_getWaitListEntriesByWaitListAndStudent() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
-	
-	/* Method Name: searchForWaitListEntryIds */
-	@Test
-	public abstract void test_searchForWaitListEntryIds() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
-	
-	/* Method Name: searchForWaitListEntries */
-	@Test
-	public abstract void test_searchForWaitListEntries() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
-	
-	/* Method Name: validateWaitListEntry */
-	@Test
-	public abstract void test_validateWaitListEntry() 
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
-	
-	/* Method Name: changeWaitListEntryState */
-	@Test
-	public abstract void test_changeWaitListEntryState()
+	public abstract void test_changeCourseWaitListState()
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 
-	/* Method Name: reorderWaitListEntries */
+	/* Method Name: getCourseWaitListEntriesByStudent */
 	@Test
-	public abstract void test_reorderWaitListEntries() 
+	public abstract void test_getCourseWaitListEntriesByStudent()
+	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	
+	/* Method Name: getCourseWaitListEntriesByCourseWaitList */
+	@Test
+	public abstract void test_getCourseWaitListEntriesByCourseWaitList()
+	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	
+	/* Method Name: getCourseWaitListEntriesByCourseWaitListAndStudent */
+	@Test
+	public abstract void test_getCourseWaitListEntriesByCourseWaitListAndStudent()
+	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	
+	/* Method Name: searchForCourseWaitListEntryIds */
+	@Test
+	public abstract void test_searchForCourseWaitListEntryIds()
+	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	
+	/* Method Name: searchForCourseWaitListEntries */
+	@Test
+	public abstract void test_searchForCourseWaitListEntries()
+	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	
+	/* Method Name: validateCourseWaitListEntry */
+	@Test
+	public abstract void test_validateCourseWaitListEntry()
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 	
-	/* Method Name: moveWaitListEntryToPosition */
+	/* Method Name: changeCourseWaitListEntryState */
 	@Test
-	public abstract void test_moveWaitListEntryToPosition() 
+	public abstract void test_changeCourseWaitListEntryState()
+	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+
+	/* Method Name: reorderCourseWaitListEntries */
+	@Test
+	public abstract void test_reorderCourseWaitListEntries()
+	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	
+	/* Method Name: moveCourseWaitListEntryToPosition */
+	@Test
+	public abstract void test_moveCourseWaitListEntryToPosition()
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 
     private void check(TypeStateEntityInfo expected, TypeStateEntityInfo actual) {

@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.class2.waitlist.service.impl;
+package org.kuali.student.enrollment.coursewaitlist.service.impl;
 
 
-import java.lang.Exception;import java.lang.Integer;import java.lang.RuntimeException;import java.lang.String;import java.text.ParseException;
+import java.lang.Exception;
+import java.lang.Integer;
+import java.lang.RuntimeException;
+import java.lang.String;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,15 +29,14 @@ import javax.annotation.Resource;
 import org.junit.After;
 import org.junit.Assert;import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.waitlist.dto.WaitListEntryInfo;
-import org.kuali.student.enrollment.waitlist.dto.WaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -46,12 +49,12 @@ import static org.junit.Assert.fail;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:waitList-test-with-map-context.xml"})
-public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitListServiceImplConformanceBaseCrud 
+@ContextConfiguration(locations = {"classpath:coursewaitList-test-with-map-context.xml"})
+public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCourseWaitListServiceImplConformanceBaseCrud
 {
 
     @Resource
-    protected WaitListDataLoader dataLoader;
+    protected  CourseWaitListDataLoader dataLoader;
 
     private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 
@@ -66,13 +69,13 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	// ========================================
 	
 	// ****************************************************
-	//           WaitListInfo
+	//           CourseWaitListInfo
 	// ****************************************************
 	
 	/*
-		A method to set the fields for a WaitList in a 'test create' section prior to calling the 'create' operation.
+		A method to set the fields for a CourseWaitList in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public void testCrudWaitList_setDTOFieldsForTestCreate(WaitListInfo expected) 
+	public void testCrudCourseWaitList_setDTOFieldsForTestCreate(CourseWaitListInfo expected)
 	{
 		expected.setTypeKey("typeKey01");
 		expected.setStateKey("stateKey01");
@@ -80,16 +83,20 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
         offerings.add("1");
         offerings.add("2");
         offerings.add("3");
-		expected.setAssociatedOfferingIds(offerings);
-		expected.setOfferingTypeKey(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY);
-		expected.setWaitListProcessingTypeKey("waitListProcessingTypeKey01");
+		expected.setActivityOfferingIds(offerings);
+        offerings = new ArrayList<String>();
+        offerings.add("4");
+        offerings.add("5");
+        expected.setFormatOfferingIds(offerings);
+        expected.setAutomaticallyProcessed(true);
+        expected.setConfirmationRequired(true);
 		expected.setMaxSize(200);
 		expected.setCheckInRequired(true);
         TimeAmountInfo timeAmountInfo = new TimeAmountInfo();
         timeAmountInfo.setTimeQuantity(5);
         timeAmountInfo.setAtpDurationTypeKey(AtpServiceConstants.DURATION_WEEK_TYPE_KEY);
 		expected.setCheckInFrequency(timeAmountInfo);
-		expected.setAllowHoldListEntries(true);
+		expected.setAllowHoldUntilEntries(true);
         try {
             expected.setEffectiveDate(dateFormat.parse("20130611"));
             expected.setExpirationDate(dateFormat.parse("21000101"));
@@ -99,25 +106,33 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	}
 	
 	/*
-		A method to test the fields for a WaitList. This is called after:
+		A method to test the fields for a CourseWaitList. This is called after:
 		- creating a DTO, where actual is the DTO returned by the create operation, and expected is the dto passed in to the create operation
 		- reading a DTO after creating it, and actual is the read DTO, and expected is the dto that was created
 		- updating a DTO, where actual is DTO returned by the update operation, and expected is the dto that was passed in to the update operation
 	*/
-	public void testCrudWaitList_testDTOFieldsForTestCreateUpdate(WaitListInfo expected, WaitListInfo actual) 
+	public void testCrudCourseWaitList_testDTOFieldsForTestCreateUpdate(CourseWaitListInfo expected, CourseWaitListInfo actual)
 	{
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
-        if(expected.getAssociatedOfferingIds() != null) {
-            assertEquals(expected.getAssociatedOfferingIds().size(), actual.getAssociatedOfferingIds().size());
-            for(String offeringId : expected.getAssociatedOfferingIds()) {
-                assertTrue(actual.getAssociatedOfferingIds().contains(offeringId));
+        if(expected.getActivityOfferingIds() != null) {
+            assertEquals(expected.getActivityOfferingIds().size(), actual.getActivityOfferingIds().size());
+            for(String aoId : expected.getActivityOfferingIds()) {
+                assertTrue(actual.getActivityOfferingIds().contains(aoId));
             }
         } else {
-            assertNull(actual.getAssociatedOfferingIds());
+            assertNull(actual.getActivityOfferingIds());
         }
-		assertEquals (expected.getOfferingTypeKey(), actual.getOfferingTypeKey());
-		assertEquals (expected.getWaitListProcessingTypeKey(), actual.getWaitListProcessingTypeKey());
+        if(expected.getFormatOfferingIds() != null) {
+            assertEquals(expected.getFormatOfferingIds().size(), actual.getFormatOfferingIds().size());
+            for(String foId : expected.getFormatOfferingIds()) {
+                assertTrue(actual.getFormatOfferingIds().contains(foId));
+            }
+        } else {
+            assertNull(actual.getFormatOfferingIds());
+        }
+		assertEquals (expected.getAutomaticallyProcessed(), actual.getAutomaticallyProcessed());
+        assertEquals (expected.getConfirmationRequired(), actual.getConfirmationRequired());
 		assertEquals (expected.getMaxSize(), actual.getMaxSize());
 		assertEquals (expected.getCheckInRequired(), actual.getCheckInRequired());
         if(expected.getCheckInFrequency() != null) {
@@ -126,28 +141,30 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
         } else {
             assertNull(actual.getCheckInFrequency());
         }
-		assertEquals (expected.getAllowHoldListEntries(), actual.getAllowHoldListEntries());
+		assertEquals (expected.getAllowHoldUntilEntries(), actual.getAllowHoldUntilEntries());
 		assertEquals (expected.getEffectiveDate(), actual.getEffectiveDate());
 		assertEquals (expected.getExpirationDate(), actual.getExpirationDate());
 	}
 	
 	/*
-		A method to set the fields for a WaitList in a 'test update' section prior to calling the 'update' operation.
+		A method to set the fields for a CourseWaitList in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public void testCrudWaitList_setDTOFieldsForTestUpdate(WaitListInfo expected) 
+	public void testCrudCourseWaitList_setDTOFieldsForTestUpdate(CourseWaitListInfo expected)
 	{
         List<String> offerings = new ArrayList<String>();
-        offerings.add("2");
-        offerings.add("3");
-        offerings.add("4");
-        offerings.add("5");
-        expected.setAssociatedOfferingIds(offerings);
-		expected.setOfferingTypeKey("offeringTypeKey_Updated");
-		expected.setWaitListProcessingTypeKey("waitListProcessingTypeKey_Updated");
+        offerings.add("1");
+        offerings.add("22");
+        offerings.add("33");
+        expected.setActivityOfferingIds(offerings);
+        offerings = new ArrayList<String>();
+        offerings.add("55");
+        expected.setFormatOfferingIds(offerings);
+		expected.setConfirmationRequired(false);
+        expected.setAutomaticallyProcessed(false);
 		expected.setMaxSize(1234);
 		expected.setCheckInRequired(false);
 		expected.setCheckInFrequency(null);
-		expected.setAllowHoldListEntries(false);
+		expected.setAllowHoldUntilEntries(false);
         try {
             expected.setEffectiveDate(dateFormat.parse("20130519"));
             expected.setExpirationDate(dateFormat.parse("21000102"));
@@ -157,24 +174,32 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	}
 	
 	/*
-		A method to test the fields for a WaitList after an update operation, followed by a read operation,
+		A method to test the fields for a CourseWaitList after an update operation, followed by a read operation,
 		where actual is the DTO returned by the read operation, and expected is the dto returned by the update operation.
 	*/
-	public void testCrudWaitList_testDTOFieldsForTestReadAfterUpdate(WaitListInfo expected, WaitListInfo actual) 
+	public void testCrudCourseWaitList_testDTOFieldsForTestReadAfterUpdate(CourseWaitListInfo expected, CourseWaitListInfo actual)
 	{
 		assertEquals (expected.getId(), actual.getId());
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
-        if(expected.getAssociatedOfferingIds() != null) {
-            assertEquals(expected.getAssociatedOfferingIds().size(), actual.getAssociatedOfferingIds().size());
-            for(String offeringId : expected.getAssociatedOfferingIds()) {
-                assertTrue(actual.getAssociatedOfferingIds().contains(offeringId));
+        if(expected.getActivityOfferingIds() != null) {
+            assertEquals(expected.getActivityOfferingIds().size(), actual.getActivityOfferingIds().size());
+            for(String aoId : expected.getActivityOfferingIds()) {
+                assertTrue(actual.getActivityOfferingIds().contains(aoId));
             }
         } else {
-            assertNull(actual.getAssociatedOfferingIds());
+            assertNull(actual.getActivityOfferingIds());
         }
-        assertEquals (expected.getOfferingTypeKey(), actual.getOfferingTypeKey());
-        assertEquals (expected.getWaitListProcessingTypeKey(), actual.getWaitListProcessingTypeKey());
+        if(expected.getFormatOfferingIds() != null) {
+            assertEquals(expected.getFormatOfferingIds().size(), actual.getFormatOfferingIds().size());
+            for(String foId : expected.getFormatOfferingIds()) {
+                assertTrue(actual.getFormatOfferingIds().contains(foId));
+            }
+        } else {
+            assertNull(actual.getFormatOfferingIds());
+        }
+        assertEquals (expected.getAutomaticallyProcessed(), actual.getAutomaticallyProcessed());
+        assertEquals (expected.getConfirmationRequired(), actual.getConfirmationRequired());
         assertEquals (expected.getMaxSize(), actual.getMaxSize());
         assertEquals (expected.getCheckInRequired(), actual.getCheckInRequired());
         if(expected.getCheckInFrequency() != null) {
@@ -183,27 +208,31 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
         } else {
             assertNull(actual.getCheckInFrequency());
         }
-        assertEquals (expected.getAllowHoldListEntries(), actual.getAllowHoldListEntries());
+        assertEquals (expected.getAllowHoldUntilEntries(), actual.getAllowHoldUntilEntries());
         assertEquals (expected.getEffectiveDate(), actual.getEffectiveDate());
         assertEquals (expected.getExpirationDate(), actual.getExpirationDate());
 	}
 	
 	/*
-		A method to set the fields for a WaitList in the 'test read after update' section.
+		A method to set the fields for a CourseWaitList in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public void testCrudWaitList_setDTOFieldsForTestReadAfterUpdate(WaitListInfo expected) 
+	public void testCrudCourseWaitList_setDTOFieldsForTestReadAfterUpdate(CourseWaitListInfo expected)
 	{
         List<String> offerings = new ArrayList<String>();
-        offerings.add("4");
-        offerings.add("AOEU");
-        expected.setAssociatedOfferingIds(offerings);
-        expected.setOfferingTypeKey("offeringTypeKey2_Updated");
-        expected.setWaitListProcessingTypeKey("waitListProcessingTypeKey2_Updated");
+        offerings.add("1");
+        offerings.add("aoeu");
+        offerings.add("tnoeht");
+        expected.setActivityOfferingIds(offerings);
+        offerings = new ArrayList<String>();
+        offerings.add("ooooeuoeuoe");
+        expected.setFormatOfferingIds(offerings);
+        expected.setConfirmationRequired(true);
+        expected.setAutomaticallyProcessed(true);
         expected.setMaxSize(4321);
         expected.setCheckInRequired(false);
         expected.setCheckInFrequency(null);
-        expected.setAllowHoldListEntries(true);
+        expected.setAllowHoldUntilEntries(true);
         try {
             expected.setEffectiveDate(dateFormat.parse("20110519"));
             expected.setExpirationDate(dateFormat.parse("21000212"));
@@ -214,13 +243,13 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	
 	
 	// ****************************************************
-	//           WaitListEntryInfo
+	//           CourseWaitListEntryInfo
 	// ****************************************************
 	
 	/*
-		A method to set the fields for a WaitListEntry in a 'test create' section prior to calling the 'create' operation.
+		A method to set the fields for a CourseWaitListEntry in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public void testCrudWaitListEntry_setDTOFieldsForTestCreate(WaitListEntryInfo expected) 
+	public void testCrudCourseWaitListEntry_setDTOFieldsForTestCreate(CourseWaitListEntryInfo expected)
 	{
 		expected.setTypeKey("typeKey01");
 		expected.setStateKey("stateKey01");
@@ -231,49 +260,35 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
         } catch (ParseException e) {
             throw new RuntimeException("Failed to parse date", e);
         }
-		expected.setWaitListId("waitListId01");
+		expected.setCourseWaitListId("waitListId01");
 		expected.setStudentId("studentId01");
-		expected.setOfferingId("offeringId01");
+		expected.setRegistrationGroupId("registrationGroupId01");
 		expected.setPosition(1);
-        List<String> ruleIds = new ArrayList<String>();
-        ruleIds.add("4");
-        ruleIds.add("5");
-        ruleIds.add("6");
-        ruleIds.add("7");
-		expected.setHoldListRuleIds(ruleIds);
 	}
 	
 	/*
-		A method to test the fields for a WaitListEntry. This is called after:
+		A method to test the fields for a CourseWaitListEntry. This is called after:
 		- creating a DTO, where actual is the DTO returned by the create operation, and expected is the dto passed in to the create operation
 		- reading a DTO after creating it, and actual is the read DTO, and expected is the dto that was created
 		- updating a DTO, where actual is DTO returned by the update operation, and expected is the dto that was passed in to the update operation
 	*/
-	public void testCrudWaitListEntry_testDTOFieldsForTestCreateUpdate(WaitListEntryInfo expected, WaitListEntryInfo actual) 
+	public void testCrudCourseWaitListEntry_testDTOFieldsForTestCreateUpdate(CourseWaitListEntryInfo expected, CourseWaitListEntryInfo actual)
 	{
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getEffectiveDate(), actual.getEffectiveDate());
 		assertEquals (expected.getExpirationDate(), actual.getExpirationDate());
-		assertEquals (expected.getWaitListId(), actual.getWaitListId());
+		assertEquals (expected.getCourseWaitListId(), actual.getCourseWaitListId());
 		assertEquals (expected.getStudentId(), actual.getStudentId());
-		assertEquals (expected.getOfferingId(), actual.getOfferingId());
+		assertEquals (expected.getRegistrationGroupId(), actual.getRegistrationGroupId());
 		assertEquals (expected.getPosition(), actual.getPosition());
 		assertEquals (expected.getLastCheckIn(), actual.getLastCheckIn());
-        if(expected.getHoldListRuleIds() != null) {
-            assertEquals(expected.getHoldListRuleIds().size(), actual.getHoldListRuleIds().size());
-            for(String offeringId : expected.getHoldListRuleIds()) {
-                assertTrue(actual.getHoldListRuleIds().contains(offeringId));
-            }
-        } else {
-            assertNull(actual.getHoldListRuleIds());
-        }
 	}
 	
 	/*
-		A method to set the fields for a WaitListEntry in a 'test update' section prior to calling the 'update' operation.
+		A method to set the fields for a CourseWaitListEntry in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public void testCrudWaitListEntry_setDTOFieldsForTestUpdate(WaitListEntryInfo expected) 
+	public void testCrudCourseWaitListEntry_setDTOFieldsForTestUpdate(CourseWaitListEntryInfo expected)
 	{
         try {
             expected.setEffectiveDate(dateFormat.parse("20120219"));
@@ -282,44 +297,32 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
         } catch (ParseException e) {
             throw new RuntimeException("Failed to parse date", e);
         }
-		expected.setOfferingId("offeringId_Updated");
-        List<String> ruleIds = new ArrayList<String>();
-        ruleIds.add("A");
-        ruleIds.add("B");
-        expected.setHoldListRuleIds(ruleIds);
+        expected.setRegistrationGroupId("registrationGroupId_Updated");
 	}
 	
 	/*
-		A method to test the fields for a WaitListEntry after an update operation, followed by a read operation,
+		A method to test the fields for a CourseWaitListEntry after an update operation, followed by a read operation,
 		where actual is the DTO returned by the read operation, and expected is the dto returned by the update operation.
 	*/
-	public void testCrudWaitListEntry_testDTOFieldsForTestReadAfterUpdate(WaitListEntryInfo expected, WaitListEntryInfo actual) 
+	public void testCrudCourseWaitListEntry_testDTOFieldsForTestReadAfterUpdate(CourseWaitListEntryInfo expected, CourseWaitListEntryInfo actual)
 	{
 		assertEquals (expected.getId(), actual.getId());
         assertEquals (expected.getTypeKey(), actual.getTypeKey());
         assertEquals (expected.getStateKey(), actual.getStateKey());
         assertEquals (expected.getEffectiveDate(), actual.getEffectiveDate());
         assertEquals (expected.getExpirationDate(), actual.getExpirationDate());
-        assertEquals (expected.getWaitListId(), actual.getWaitListId());
+        assertEquals (expected.getCourseWaitListId(), actual.getCourseWaitListId());
         assertEquals (expected.getStudentId(), actual.getStudentId());
-        assertEquals (expected.getOfferingId(), actual.getOfferingId());
+        assertEquals (expected.getRegistrationGroupId(), actual.getRegistrationGroupId());
         assertEquals (expected.getPosition(), actual.getPosition());
         assertEquals (expected.getLastCheckIn(), actual.getLastCheckIn());
-        if(expected.getHoldListRuleIds() != null) {
-            assertEquals(expected.getHoldListRuleIds().size(), actual.getHoldListRuleIds().size());
-            for(String offeringId : expected.getHoldListRuleIds()) {
-                assertTrue(actual.getHoldListRuleIds().contains(offeringId));
-            }
-        } else {
-            assertNull(actual.getHoldListRuleIds());
-        }
 	}
 	
 	/*
-		A method to set the fields for a WaitListEntry in the 'test read after update' section.
+		A method to set the fields for a CourseWaitListEntry in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public void testCrudWaitListEntry_setDTOFieldsForTestReadAfterUpdate(WaitListEntryInfo expected) 
+	public void testCrudCourseWaitListEntry_setDTOFieldsForTestReadAfterUpdate(CourseWaitListEntryInfo expected)
 	{
         try {
             expected.setEffectiveDate(dateFormat.parse("20130219"));
@@ -328,12 +331,9 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
         } catch (ParseException e) {
             throw new RuntimeException("Failed to parse date", e);
         }
-        expected.setOfferingId("offeringId_Updated");
-        expected.setWaitListId("WL_ID_Updated");
+        expected.setRegistrationGroupId("registrationGroupId_Updated");
+        expected.setCourseWaitListId("WL_ID_Updated");
         expected.setStudentId("S_ID_Updated");
-        List<String> ruleIds = new ArrayList<String>();
-        ruleIds.add("C");
-        expected.setHoldListRuleIds(ruleIds);
 	}
 	
 	
@@ -341,165 +341,164 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
 	// SERVICE OPS NOT TESTED IN BASE TEST CLASS
 	// ========================================
 	
-	/* Method Name: getWaitListsByOffering */
+	/* Method Name: getCourseWaitListsByActivityOffering */
 	@Test
-	public void test_getWaitListsByOffering() 
+	public void test_getCourseWaitListsByActivityOffering()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
         loadData();
-        List<WaitListInfo> waitLists = testService.getWaitListsByOffering("offeringId0", contextInfo);
+        List<CourseWaitListInfo> waitLists = testService.getCourseWaitListsByActivityOffering("activityOfferingId0", contextInfo);
         assertEquals(10, waitLists.size());
 
-        waitLists = testService.getWaitListsByOffering("offeringId9", contextInfo);
+        waitLists = testService.getCourseWaitListsByActivityOffering("activityOfferingId9", contextInfo);
         assertEquals(1, waitLists.size());
         Assert.assertEquals(Integer.valueOf(19), waitLists.get(0).getMaxSize());
     }
-	
-	/* Method Name: getWaitListsByTypeAndOffering */
-	@Test
-	public void test_getWaitListsByTypeAndOffering() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
-        loadData();
-        List<WaitListInfo> waitLists = testService.getWaitListsByTypeAndOffering(WaitListDataLoader.WAIT_LIST_TYPE_KEY + ".1", "offeringId0", contextInfo);
-        assertEquals(1, waitLists.size());
-        assertEquals(Integer.valueOf(10), waitLists.get(0).getMaxSize());
 
-        waitLists = testService.getWaitListsByTypeAndOffering(WaitListDataLoader.WAIT_LIST_TYPE_KEY, "offeringId9", contextInfo);
-        assertEquals(0, waitLists.size());
-	}
-	
-	/* Method Name: searchForWaitListIds */
-	@Test
-	public void test_searchForWaitListIds() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
-	}
-	
-	/* Method Name: searchForWaitLists */
-	@Test
-	public void test_searchForWaitLists() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
-	}
-	
-	/* Method Name: validateWaitList */
-	@Test
-	public void test_validateWaitList() 
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
-	}
-	
-	/* Method Name: changeWaitListState */
-	@Test
-	public void test_changeWaitListState()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+    /* Method Name: getCourseWaitListsByFormatOffering */
+    @Test
+    public void test_getCourseWaitListsByFormatOffering()
+    throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
         loadData();
-        List<WaitListInfo> waitLists = testService.getWaitListsByOffering("offeringId0", contextInfo);
+        List<CourseWaitListInfo> waitLists = testService.getCourseWaitListsByFormatOffering("formatOfferingId0", contextInfo);
         assertEquals(10, waitLists.size());
 
-        for(WaitListInfo waitList : waitLists) {
+        waitLists = testService.getCourseWaitListsByFormatOffering("formatOfferingId9", contextInfo);
+        assertEquals(1, waitLists.size());
+        Assert.assertEquals(Integer.valueOf(19), waitLists.get(0).getMaxSize());
+    }
+
+
+    /* Method Name: searchForCourseWaitListIds */
+	@Test
+	public void test_searchForCourseWaitListIds()
+	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	}
+	
+	/* Method Name: searchForCourseWaitLists */
+	@Test
+	public void test_searchForCourseWaitLists()
+	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	}
+	
+	/* Method Name: validateCourseWaitList */
+	@Test
+	public void test_validateCourseWaitList()
+	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	}
+	
+	/* Method Name: changeCourseWaitListState */
+	@Test
+	public void test_changeCourseWaitListState()
+	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+        loadData();
+        List<CourseWaitListInfo> waitLists = testService.getCourseWaitListsByActivityOffering("activityOfferingId0", contextInfo);
+        assertEquals(10, waitLists.size());
+
+        for(CourseWaitListInfo waitList : waitLists) {
             String newState = waitList.getStateKey() + "_UPDATED";
-            testService.changeWaitListState(waitList.getId(), newState, contextInfo);
-            WaitListInfo updatedWaitList = testService.getWaitList(waitList.getId(), contextInfo);
+            testService.changeCourseWaitListState(waitList.getId(), newState, contextInfo);
+            CourseWaitListInfo updatedWaitList = testService.getCourseWaitList(waitList.getId(), contextInfo);
             assertEquals(newState, updatedWaitList.getStateKey());
         }
     }
 
-	/* Method Name: getWaitListEntriesByStudent */
+	/* Method Name: getCourseWaitListEntriesByStudent */
 	@Test
-	public void test_getWaitListEntriesByStudent() 
+	public void test_getCourseWaitListEntriesByStudent()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
         loadData();
 
-        List<WaitListEntryInfo> entries = testService.getWaitListEntriesByStudent("studentId9", contextInfo);
+        List<CourseWaitListEntryInfo> entries = testService.getCourseWaitListEntriesByStudent("studentId9", contextInfo);
         assertEquals(1, entries.size());
 
-        entries = testService.getWaitListEntriesByStudent("studentId0", contextInfo);
+        entries = testService.getCourseWaitListEntriesByStudent("studentId0", contextInfo);
         assertEquals(10, entries.size());
 	}
 	
-	/* Method Name: getWaitListEntriesByWaitList */
+	/* Method Name: getCourseWaitListEntriesByCourseWaitList */
 	@Test
-	public void test_getWaitListEntriesByWaitList() 
+	public void test_getCourseWaitListEntriesByCourseWaitList()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
         loadData();
 
-        List<String> waitListIds = testService.getWaitListIdsByType(WaitListDataLoader.WAIT_LIST_TYPE_KEY + ".10", contextInfo);
+        List<String> waitListIds = testService.getCourseWaitListIdsByType(CourseWaitListDataLoader.COURSE_WAIT_LIST_TYPE_KEY + ".10", contextInfo);
         assertEquals(1, waitListIds.size());
 
         String id = waitListIds.get(0);
 
-        List<WaitListEntryInfo> entriesByWaitList = testService.getWaitListEntriesByWaitList(id, contextInfo);
+        List<CourseWaitListEntryInfo> entriesByWaitList = testService.getCourseWaitListEntriesByCourseWaitList(id, contextInfo);
         assertEquals(10, entriesByWaitList.size());
 
         for(int i = 0; i < 10; i++) {
-            assertContainsInfo(entriesByWaitList.get(i), "studentId" + i, "offeringId" + i, id, i + 1);
+            assertContainsInfo(entriesByWaitList.get(i), "studentId" + i, "registrationGroupId" + i, id, i + 1);
         }
 
 	}
-	
-	/* Method Name: getWaitListEntriesByWaitListAndStudent */
+	/* Method Name: getCourseWaitListEntriesByCourseWaitListAndStudent */
 	@Test
-	public void test_getWaitListEntriesByWaitListAndStudent() 
+	public void test_getCourseWaitListEntriesByCourseWaitListAndStudent()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
         loadData();
 
-        List<String> waitListIds = testService.getWaitListIdsByType(WaitListDataLoader.WAIT_LIST_TYPE_KEY + ".10", contextInfo);
+        List<String> waitListIds = testService.getCourseWaitListIdsByType(CourseWaitListDataLoader.COURSE_WAIT_LIST_TYPE_KEY + ".10", contextInfo);
         assertEquals(1, waitListIds.size());
 
         String id = waitListIds.get(0);
 
         for(int i = 0; i < 10; i++) {
-            List<WaitListEntryInfo> entriesByWaitList = testService.getWaitListEntriesByWaitListAndStudent(id, "studentId" + i, contextInfo);
+            List<CourseWaitListEntryInfo> entriesByWaitList = testService.getCourseWaitListEntriesByCourseWaitListAndStudent(id, "studentId" + i, contextInfo);
             assertEquals(1, entriesByWaitList.size());
-            WaitListEntryInfo entry = entriesByWaitList.get(0);
-            assertContainsInfo(entry, "studentId" + i, "offeringId" + i, id, i +1);
+            CourseWaitListEntryInfo entry = entriesByWaitList.get(0);
+            assertContainsInfo(entry, "studentId" + i, "registrationGroupId" + i, id, i +1);
         }
 
 	}
-	
-	/* Method Name: searchForWaitListEntryIds */
+	/* Method Name: searchForCourseWaitListEntryIds */
 	@Test
-	public void test_searchForWaitListEntryIds() 
+	public void test_searchForCourseWaitListEntryIds()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
 	}
 	
-	/* Method Name: searchForWaitListEntries */
+	/* Method Name: searchForCourseWaitListEntries */
 	@Test
-	public void test_searchForWaitListEntries() 
+	public void test_searchForCourseWaitListEntries()
 	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
 	}
 	
-	/* Method Name: validateWaitListEntry */
+	/* Method Name: validateCourseWaitListEntry */
 	@Test
-	public void test_validateWaitListEntry() 
+	public void test_validateCourseWaitListEntry()
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
 	}
 	
-	/* Method Name: changeWaitListEntryState */
+	/* Method Name: changeCourseWaitListEntryState */
 	@Test
-	public void test_changeWaitListEntryState()
+	public void test_changeCourseWaitListEntryState()
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
         loadData();
-        List<WaitListEntryInfo> entries = testService.getWaitListEntriesByStudent("studentId0", contextInfo);
+        List<CourseWaitListEntryInfo> entries = testService.getCourseWaitListEntriesByStudent("studentId0", contextInfo);
         assertEquals(10, entries.size());
 
-        for(WaitListEntryInfo entry : entries) {
+        for(CourseWaitListEntryInfo entry : entries) {
             String newState = entry.getStateKey() + "_UPDATED";
-            testService.changeWaitListEntryState(entry.getId(), newState, contextInfo);
-            WaitListEntryInfo updatedEntry = testService.getWaitListEntry(entry.getId(), contextInfo);
+            testService.changeCourseWaitListEntryState(entry.getId(), newState, contextInfo);
+            CourseWaitListEntryInfo updatedEntry = testService.getCourseWaitListEntry(entry.getId(), contextInfo);
             assertEquals(newState, updatedEntry.getStateKey());
         }
 	}
 
-	/* Method Name: reorderWaitListEntries */
+	/* Method Name: reorderCourseWaitListEntries */
 	@Test
-	public void test_reorderWaitListEntries() 
+	public void test_reorderCourseWaitListEntries()
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
         loadData();
 
-        List<String> waitListIds = testService.getWaitListIdsByType(WaitListDataLoader.WAIT_LIST_TYPE_KEY + ".10", contextInfo);
+        List<String> waitListIds = testService.getCourseWaitListIdsByType(CourseWaitListDataLoader.COURSE_WAIT_LIST_TYPE_KEY + ".10", contextInfo);
         assertEquals(1, waitListIds.size());
 
         String id = waitListIds.get(0);
 
-        List<WaitListEntryInfo> entriesByWaitList = testService.getWaitListEntriesByWaitList(id, contextInfo);
+        List<CourseWaitListEntryInfo> entriesByWaitList = testService.getCourseWaitListEntriesByCourseWaitList(id, contextInfo);
         assertEquals(10, entriesByWaitList.size());
         List<String> reorderedIds = new ArrayList<String>();
         reorderedIds.add(entriesByWaitList.get(9).getId());
@@ -507,9 +506,9 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
         reorderedIds.add(entriesByWaitList.get(5).getId());
         reorderedIds.add(entriesByWaitList.get(6).getId());
 
-        testService.reorderWaitListEntries(id, reorderedIds, contextInfo);
+        testService.reorderCourseWaitListEntries(id, reorderedIds, contextInfo);
 
-        List<WaitListEntryInfo> reorderedEntries = testService.getWaitListEntriesByWaitList(id, contextInfo);
+        List<CourseWaitListEntryInfo> reorderedEntries = testService.getCourseWaitListEntriesByCourseWaitList(id, contextInfo);
 
         assertEquals(entriesByWaitList.get(9).getId(), reorderedEntries.get(0).getId());
         assertEquals(entriesByWaitList.get(2).getId(), reorderedEntries.get(1).getId());
@@ -523,25 +522,25 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
         assertEquals(entriesByWaitList.get(8).getId(), reorderedEntries.get(9).getId());
     }
 	
-	/* Method Name: moveWaitListEntryToPosition */
+	/* Method Name: moveCourseWaitListEntryToPosition */
 	@Test
-	public void test_moveWaitListEntryToPosition() 
+	public void test_moveCourseWaitListEntryToPosition()
 	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
         loadData();
 
-        List<String> waitListIds = testService.getWaitListIdsByType(WaitListDataLoader.WAIT_LIST_TYPE_KEY + ".10", contextInfo);
+        List<String> waitListIds = testService.getCourseWaitListIdsByType(CourseWaitListDataLoader.COURSE_WAIT_LIST_TYPE_KEY + ".10", contextInfo);
         assertEquals(1, waitListIds.size());
 
         String id = waitListIds.get(0);
 
-        List<WaitListEntryInfo> entriesByWaitList = testService.getWaitListEntriesByWaitList(id, contextInfo);
+        List<CourseWaitListEntryInfo> entriesByWaitList = testService.getCourseWaitListEntriesByCourseWaitList(id, contextInfo);
         assertEquals(10, entriesByWaitList.size());
 
-        testService.moveWaitListEntryToPosition(entriesByWaitList.get(0).getId(), 10, contextInfo);
-        testService.moveWaitListEntryToPosition(entriesByWaitList.get(3).getId(), 1, contextInfo);
-        testService.moveWaitListEntryToPosition(entriesByWaitList.get(7).getId(), 2, contextInfo);
+        testService.moveCourseWaitListEntryToPosition(entriesByWaitList.get(0).getId(), 10, contextInfo);
+        testService.moveCourseWaitListEntryToPosition(entriesByWaitList.get(3).getId(), 1, contextInfo);
+        testService.moveCourseWaitListEntryToPosition(entriesByWaitList.get(7).getId(), 2, contextInfo);
 
-        List<WaitListEntryInfo> reorderedEntries = testService.getWaitListEntriesByWaitList(id, contextInfo);
+        List<CourseWaitListEntryInfo> reorderedEntries = testService.getCourseWaitListEntriesByCourseWaitList(id, contextInfo);
 
         assertEquals(entriesByWaitList.get(3).getId(), reorderedEntries.get(0).getId());
         assertEquals(entriesByWaitList.get(7).getId(), reorderedEntries.get(1).getId());
@@ -555,9 +554,11 @@ public class TestWaitListServiceImplConformanceExtendedCrud extends TestWaitList
         assertEquals(entriesByWaitList.get(0).getId(), reorderedEntries.get(9).getId());
 	}
 
-    private void assertContainsInfo(WaitListEntryInfo entry, String studentId, String offeringId, String waitListId, Integer position) {
-        if(!entry.getStudentId().equals(studentId) || !entry.getOfferingId().equals(offeringId) || !entry.getWaitListId().equals(waitListId) || !entry.getPosition().equals(position)) {
-            fail("list does not contain " + studentId + ", " + offeringId + ", " + waitListId + ", and " + position);
+    private void assertContainsInfo(CourseWaitListEntryInfo entry, String studentId, String regGroupId,
+                                    String waitListId, Integer position) {
+        if(!entry.getStudentId().equals(studentId) || !entry.getRegistrationGroupId().equals(regGroupId) ||
+                !entry.getCourseWaitListId().equals(waitListId) || !entry.getPosition().equals(position)) {
+            fail("list does not contain " + studentId + ", " + regGroupId + ", " + waitListId + ", and " + position);
         }
     }
 

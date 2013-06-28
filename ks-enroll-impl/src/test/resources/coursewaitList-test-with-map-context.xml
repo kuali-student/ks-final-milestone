@@ -6,6 +6,6 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
     <context:annotation-config/>
 
-    <bean id="waitListService" class="org.kuali.student.enrollment.class2.waitlist.service.impl.WaitListServiceMapImpl" />
-    <bean id="waitListDataLoader" class="org.kuali.student.enrollment.class2.waitlist.service.impl.WaitListDataLoader" />
+    <bean id="waitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
+    <bean id="waitListDataLoader" class="org.kuali.student.enrollment.coursewaitlist.service.impl.CourseWaitListDataLoader" />
 </beans>
