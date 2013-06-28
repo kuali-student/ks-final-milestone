@@ -852,7 +852,7 @@ div#Uif-ApplicationHeader-Wrapper{
 /*define a gray box as background*/
 .ks-gray-background  {
     background-color: #ebebeb;
-    border:none;
+    border:none;                   n
     width:100%;
     line-height:15px;
 }
@@ -860,13 +860,12 @@ div#Uif-ApplicationHeader-Wrapper{
     line-height:15px;
 }
 
+.ks-no-margins
+.ks-no-margins div,
 .ks-no-margins table,
 .ks-no-margins label,
 .ks-no-margins a {
-    margin-bottom: 0px;
-    margin-top: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
+    margin: 0px;
 }
 
 /* override the following two css classes to remove the textured borders for stacked sections */

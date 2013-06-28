@@ -122,7 +122,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" p:style="min-width:70em;" >
+    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:id="acal-info" >
         <property name="headerText" value="Calendar" />
         <property name="header.render" value="false"/>
         <property name="cssClasses" value="ac_disclosure"/>
@@ -138,8 +138,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-Overview" parent="Uif-VerticalBoxSubSection">
-        <property name="headerText" value="Calendar Overview" />
+    <bean id="KS-AcademicCalendar-Overview" parent="Uif-VerticalBoxSubSection" >
+        <property name="headerText" value="Overview" />
         <property name="disclosure.render" value="false"/>
         <!--<property name="hidden" value="@{#view.readOnly}"/>-->
         <property name="header">
@@ -147,16 +147,11 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxGroup">
+                <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-no-margins">
                   <property name="items">
                     <list>
                         <ref bean="KS-AcademicCalendar-AcalOverview"/>
                         <ref bean="KS-AcademicTerm-Overview" />
-                    </list>
-                  </property>
-                  <property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-gray-background</value>
                     </list>
                   </property>
                 </bean>
@@ -167,10 +162,12 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-AcalOverview" parent="Uif-VerticalBoxSubSection">
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup" p:style="padding-top: 10px; padding-left: 10px;" p:layoutManager.numberOfColumns="4" >
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" >
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-krad-tab-gridgroup-fix</value>
+                            <value>ks-gray-background</value>
+                            <value>ks-no-margins</value>
                         </list>
                     </property>
                     <property name="items">
@@ -192,7 +189,7 @@ limitations under the License.
     </bean>
 
     <bean id="KS-AcademicTerm-Overview" parent="Uif-TableCollectionSection"
-          p:renderAddLine="false"  >
+          p:renderAddLine="false" p:additionalCssClasses="ks-gray-background" >
         <property name="hidden" value="@{termWrapperList.size()==0}"/>
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />

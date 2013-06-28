@@ -18,8 +18,8 @@
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-Overview-WithoutTerms" parent="Uif-VerticalBoxSubSection">
-        <property name="headerText" value="Calendar Overview" />
+    <bean id="KS-AcademicCalendar-Overview-WithoutTerms" parent="Uif-VerticalBoxSubSection"  p:additionalCssClasses="ks-no-margins">
+        <property name="headerText" value="Overview" />
         <property name="disclosure.render" value="false"/>
         <!--<property name="hidden" value="@{#view.readOnly}"/>-->
         <property name="header">
@@ -27,15 +27,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxGroup">
+                <bean parent="Uif-VerticalBoxGroup"  p:additionalCssClasses="ks-no-margins">
                     <property name="items">
                         <list>
                             <ref bean="KS-AcademicCalendar-AcalOverview"/>
-                        </list>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-gray-background</value>
                         </list>
                     </property>
                 </bean>
@@ -50,7 +45,7 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="style" value="min-width:70em;"/>
         <!--<property name="header.render" value="false" />-->
-        <property name="headerText" value="Term/Subterm Detail"/>
+        <property name="headerText" value="Terms"/>
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
 
         <!-- Move the add button to the right of the fields -->
