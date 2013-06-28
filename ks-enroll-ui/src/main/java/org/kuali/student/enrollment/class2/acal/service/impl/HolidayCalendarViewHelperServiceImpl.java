@@ -404,11 +404,14 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
             }
 
             // NOTE: next 2 edits not needed if KRAD validation is working properly
-            /*if (holiday.isDateRange() && (null == holiday.getEndDate())) {
-                // KRAD 2.0 bug where endDate not filled but gets prior value anyway; gets past endDate edit
-                GlobalVariables.getMessageMap().putErrorForSectionId( "holidays["+index+"].endDate",
-                        CalendarConstants.ERROR_DATE_END_REQUIRED, holiday.getTypeName());
-            }*/
+            if (holiday.isDateRange()) {
+                if(null == holiday.getEndDate()){
+                    // KRAD 2.0 bug where endDate not filled but gets prior value anyway; gets past endDate edit
+                    GlobalVariables.getMessageMap().putErrorForSectionId( "holidays["+index+"].endDate",CalendarConstants.MessageKeys.ERROR_DATE_END_REQUIRED, holiday.getTypeName());
+                }else if (!CommonUtils.isValidDateRange(holiday.getStartDate(),holiday.getEndDate())){
+                    GlobalVariables.getMessageMap().putErrorForSectionId("holidays["+index+"].endDate", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,holiday.getTypeName(),CommonUtils.formatDate(holiday.getStartDate()),CommonUtils.formatDate(holiday.getEndDate()));
+                }
+            }
             if (!holiday.isAllDay()) { // time fields are enabled and can be filled in
                 if (!StringUtils.isEmpty(holiday.getStartTime()) && StringUtils.isEmpty(holiday.getStartTimeAmPm())) {
                     GlobalVariables.getMessageMap().putError( "holidays["+index+"].startTimeAmPm",
