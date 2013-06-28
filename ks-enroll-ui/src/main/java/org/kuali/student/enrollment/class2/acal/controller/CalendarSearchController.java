@@ -138,7 +138,8 @@ public class CalendarSearchController  extends UifControllerBase {
         if(searchForm.getCalendarType() != null){
             if (CalendarConstants.HOLIDAYCALENDER.equals(searchForm.getCalendarType()) ||
                     CalendarConstants.ACADEMICCALENDER.equals(searchForm.getCalendarType()) ||
-                    CalendarConstants.TERM.equals(searchForm.getCalendarType())){
+                    CalendarConstants.TERM.equals(searchForm.getCalendarType()) ||
+                    CalendarConstants.SUBTERM.equals(searchForm.getCalendarType())){
 
                 List<AcalSearchResult> acalResults = viewHelperService.searchForCalendars(searchForm.getName(), searchForm.getYear(), searchForm.getCalendarType(), getContextInfo());
                 searchForm.setSearchResults(acalResults);

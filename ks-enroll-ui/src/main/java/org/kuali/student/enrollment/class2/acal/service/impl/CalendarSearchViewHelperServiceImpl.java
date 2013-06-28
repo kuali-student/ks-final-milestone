@@ -20,6 +20,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -50,15 +51,31 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
         List<AcalSearchResult> acalResults = new ArrayList<AcalSearchResult>();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo("atp.search.advancedAtpSearch");
+        List<String> termTypeKeys = new ArrayList<String>();
+        List<String> subtermTypeKeys = new ArrayList<String>();
+        if(CalendarConstants.TERM.equals(calendarType) || CalendarConstants.SUBTERM.equals(calendarType))   {
+            //get all term and subterm typeKeys
+            List<TypeTypeRelationInfo> typeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.atp.type.group.term", "kuali.type.type.relation.type.group", contextInfo);
+            List<String> allTermTypeKeys = new ArrayList<String>(typeRelations.size());
+            for(TypeTypeRelationInfo typeRelation:typeRelations){
+                allTermTypeKeys.add(typeRelation.getRelatedTypeKey());
+            }
+            for(String termTypeKey:allTermTypeKeys){
+                List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(termTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+                if (typeTypeRelationInfos.size()==0){
+                    termTypeKeys.add(termTypeKey);
+                }
+                else if(typeTypeRelationInfos.size()>0){
+                    subtermTypeKeys.add(termTypeKey);
+                }
+            }
+        }
 
         //Add type param based on the calendar type being searched for
         if(CalendarConstants.TERM.equals(calendarType)){
-            List<TypeTypeRelationInfo> typeRelations = getTypeService().getTypeTypeRelationsByOwnerAndType("kuali.atp.type.group.term", "kuali.type.type.relation.type.group", contextInfo);
-            List<String> termTypeKeys = new ArrayList<String>(typeRelations.size());
-            for(TypeTypeRelationInfo typeRelation:typeRelations){
-                termTypeKeys.add(typeRelation.getRelatedTypeKey());
-            }
             searchRequest.addParam("atp.advancedAtpSearchParam.atpType", termTypeKeys);
+        }else if(CalendarConstants.SUBTERM.equals(calendarType)) {
+            searchRequest.addParam("atp.advancedAtpSearchParam.atpType", subtermTypeKeys);
         }else if(CalendarConstants.HOLIDAYCALENDER.equals(calendarType)){
             searchRequest.addParam("atp.advancedAtpSearchParam.atpType", AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
         }else if(CalendarConstants.ACADEMICCALENDER.equals(calendarType)){

@@ -57,6 +57,7 @@ public class CalendarConstants {
     public static final String ACADEMICCALENDER = "AcademicCalendar";
     public static final String HOLIDAYCALENDER = "HolidayCalendar";
     public static final String TERM = "AcademicTerm";
+    public static final String SUBTERM = "SubTerm";
     public static final String CALENDAR_SEARCH_VIEW= "calendarSearchView";
     public static final String CALENDAR_SEARCH_TYPE = "calendarSearchType";
 
