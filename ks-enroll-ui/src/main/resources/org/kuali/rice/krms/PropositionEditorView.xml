@@ -111,7 +111,7 @@ limitations under the License.
                       p:showLabel="true" p:label="Rule Statement Option" p:maxLength="40" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
-                              p:onChangeScript="ajaxCallPropositionTree('updatePropositionType', 'KRMS-RuleEditor-TreeGroup');"/>
+                              p:onChangeScript="ajaxCallPropositionTree('updatePropositionType', 'KRMS-PropositionEdit-DetailSection');"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.rice.krms.keyvalues.PropositionTypeValuesFinder"/>
@@ -123,7 +123,8 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-PropositionEdit-DetailSection" parent="KRMS-PropositionEdit-DetailSection-parentBean"/>
-    <bean id="KRMS-PropositionEdit-DetailSection-parentBean" abstract="true" parent="KRMS-VerticalBoxSubSection">
+    <bean id="KRMS-PropositionEdit-DetailSection-parentBean" abstract="true" parent="KRMS-VerticalBoxSubSection"
+          p:forceSessionPersistence="true">
         <property name="headerText" value="Add Rule Statement Details"/>
         <property name="items">
             <list>

@@ -15,30 +15,23 @@
  */
 package org.kuali.rice.krms.service.impl;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
+import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
-import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
-import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.builder.ComponentBuilder;
@@ -49,8 +42,6 @@ import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.rice.krms.impl.util.KRMSPropertyConstants;
-import org.kuali.rice.krms.impl.util.KrmsImplConstants;
 import org.kuali.rice.krms.service.TemplateRegistry;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
@@ -61,7 +52,6 @@ import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.RuleViewHelperService;
-import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.springframework.beans.BeanUtils;
@@ -69,7 +59,6 @@ import org.springframework.beans.BeanUtils;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -122,7 +111,10 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     private void customizePropositionEditSection(View view, Object model, Container container) {
         //Retrieve the current editing proposition if exists.
-        RuleEditor ruleEditor = this.getRuleEditor(model);
+        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
+        Object dataObject = maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+
+        RuleEditor ruleEditor = ((RuleManagementWrapper) dataObject).getRuleEditor();
         PropositionEditor propEditor = PropositionTreeUtil.getProposition(ruleEditor);
 
         List<Component> components = new ArrayList<Component>();
@@ -133,6 +125,11 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             if (template != null && template.getComponentId() != null) {
                 Component component = ComponentFactory.getNewComponentInstance(template.getComponentId());
                 view.assignComponentIds(component);
+                if(container.getId().equals(maintenanceDocumentForm.getUpdateComponentId())){
+                    String nodePath = view.getDefaultBindingObjectPath() + "." + propEditor.getBindingPath();
+                    ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
+                    ComponentUtils.prefixBindingPathNested(component, propEditor.getBindingPath());
+                }
 
                 //Add Proposition Type FieldGroup to Tree Node
                 components.add(component);

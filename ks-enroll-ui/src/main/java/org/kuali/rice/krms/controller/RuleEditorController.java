@@ -237,40 +237,12 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RuleViewHelperService viewHelper = this.getViewHelper(form);
-
-        // open the selected node for editing
         RuleEditor ruleEditor = getRuleEditor(form);
-        String selectedpropKey = ruleEditor.getSelectedKey();
-
-        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-        PropositionEditor propositionToToggleEdit = null;
-        boolean newEditMode = true;
-
-        // find parent
-        Node<RuleEditorTreeNode, String> parent = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
-        if (parent != null) {
-            List<Node<RuleEditorTreeNode, String>> children = parent.getChildren();
-            for (int index = 0; index < children.size(); index++) {
-                Node<RuleEditorTreeNode, String> child = children.get(index);
-                if (propKeyMatches(child, selectedpropKey)) {
-                    PropositionEditor prop = child.getData().getProposition();
-                    propositionToToggleEdit = prop;
-                    newEditMode = !prop.isEditMode();
-                    break;
-                } else {
-                    child.getData().getProposition().setEditMode(false);
-                }
-            }
-        }
 
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor);
-        if (propositionToToggleEdit != null) {
-            propositionToToggleEdit.setEditMode(newEditMode);
-            //refresh the tree
-            viewHelper.refreshInitTrees(ruleEditor);
-        }
-
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
+        proposition.setEditMode(true);
+
         if (!PropositionType.COMPOUND.getCode().equalsIgnoreCase(proposition.getPropositionTypeCode())) {
 
             String propositionTypeId = proposition.getTypeId();
@@ -285,6 +257,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
 
         }
+
+        //refresh the tree
+        viewHelper.refreshInitTrees(ruleEditor);
 
         return getUIFModelAndView(form);
     }
