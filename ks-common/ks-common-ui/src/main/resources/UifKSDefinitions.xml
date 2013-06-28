@@ -110,6 +110,12 @@
                 </bean>
             </list>
         </property>
+        <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true"/>
+        <property name="resultsGroup.layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="ltip"/>
+            </map>
+        </property>
         <property name="resultsGroup.collectionLookup">
             <null/>
         </property>
