@@ -11,13 +11,13 @@ import org.kuali.common.util.spring.MavenPropertySourceConfig;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class InitializeSourceDbMavenPropertySourceConfig extends MavenPropertySourceConfig {
+public class DumpSourceDbMavenPropertySourceConfig extends MavenPropertySourceConfig {
 
 	@Override
 	protected List<ProjectProperties> getOtherProjectProperties() {
 		ProjectContext jdbc = new JdbcProjectContext();
-		ProjectContext initialize = new InitializeSourceDbProjectContext();
-		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, initialize));
+		ProjectContext dump = new DumpDbProjectContext();
+		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, dump));
 	}
 
 }

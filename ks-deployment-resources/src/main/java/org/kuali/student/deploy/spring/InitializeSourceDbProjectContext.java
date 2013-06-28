@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.kuali.common.util.DefaultProjectContext;
 
-public class SourceDbProjectContext extends DefaultProjectContext {
+public class InitializeSourceDbProjectContext extends DefaultProjectContext {
 
-	public SourceDbProjectContext() {
+	public InitializeSourceDbProjectContext() {
 		super(Constants.GROUP_ID, Constants.ARTIFACT_ID);
 	}
 

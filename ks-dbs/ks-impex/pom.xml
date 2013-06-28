@@ -63,15 +63,6 @@
     <profile>
       <!-- Dump the db built from the Oracle SQL to disk -->
       <id>dump</id>
-      <properties>
-        <dump.rice.includes>KR.*</dump.rice.includes>
-        <dump.ks.includes>KS.*</dump.ks.includes>
-        <jdbc.url>${oracle.source.dba.url}</jdbc.url>
-        <jdbc.dba.url>${jdbc.url}</jdbc.dba.url>
-        <jdbc.username>${jdbc.source.db.username}</jdbc.username>
-        <jdbc.dba.username>${jdbc.source.db.username}</jdbc.dba.username>
-        <db.vendor>oracle</db.vendor>
-      </properties>
       <build>
         <plugins>
           <plugin>
