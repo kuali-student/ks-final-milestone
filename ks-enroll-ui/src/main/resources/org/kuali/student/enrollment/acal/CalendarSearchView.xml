@@ -36,6 +36,7 @@
         <property name="headerText" value="Calendar Search"/>
         <property name="singlePageView" value="true"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.CalendarSearchViewHelperServiceImpl"/>
+        <property name="viewSourceFile" value="CalendarSearchView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="page">
             <bean parent="KS-Uif-Page"/>
         </property>
@@ -72,6 +73,8 @@
 
         <property name="items">
             <list>
+                <!-- This adds the file names to the page HTML -->
+                <ref bean="KS-SourceFile-Comment-Group"/>
                 <ref bean="KS-CalendarSearch-CriteriaSection"/>
                 <ref bean="KS-CalendarSearch-CreateNewLinks" />
                 <ref bean="KS-CalendarSearch-ResultSection"/>

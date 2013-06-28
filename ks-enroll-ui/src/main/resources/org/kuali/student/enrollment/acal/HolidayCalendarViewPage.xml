@@ -33,6 +33,7 @@
           p:id="holidayCalendarViewPage"
           p:componentSecurity.viewAuthz="true"  >
 
+        <property name="pageSourceFile" value="HolidayCalendarViewPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
@@ -67,6 +68,8 @@
         </property>
         <property name="items">
             <list>
+                <!-- This adds the file names to the page HTML -->
+                <ref bean="KS-SourceFile-Comment-Group"/>
                 <bean parent="Uif-VerticalBoxSection"
                       p:header.render="false"
                       p:disclosure.render="false">

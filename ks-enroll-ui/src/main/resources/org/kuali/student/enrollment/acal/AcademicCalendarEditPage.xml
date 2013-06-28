@@ -74,7 +74,9 @@ limitations under the License.
         <property name="items">
             <list>
 
+                <!-- This adds the file names to the page HTML -->
                 <ref bean="KS-SourceFile-Comment-Group"/>
+
                 <bean parent="Uif-TabGroup" >
                     <property name="items">
                         <list>

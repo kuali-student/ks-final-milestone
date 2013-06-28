@@ -36,6 +36,8 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarViewHelperServiceImpl"/>
         <property name="headerText" value="Create a Holiday Calendar"/>
         <!--<property name="headerText" value="@{holidayCalendarInfo.name != null? holidayCalendarInfo.name : 'New Holiday Calendar'}"/>-->
+
+        <property name="viewSourceFile" value="HolidayCalendarView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
         </property>

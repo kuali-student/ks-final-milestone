@@ -35,6 +35,7 @@
           p:disclosure.render="false"
           p:headerText="@{!newCalendar ? #view.readOnly ? 'Holiday Calendar' : 'Edit Holiday Calendar' : ''}"
           p:header.id="KS-HolidayCalendar-EditPage-header">
+        <property name="pageSourceFile" value="HolidayCalendarEditPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
@@ -70,6 +71,8 @@
 
         <property name="items">
             <list>
+                <!-- This adds the file names to the page HTML -->
+                <ref bean="KS-SourceFile-Comment-Group"/>
                 <ref bean="KS-HolidayCalendar-MetaSection"/>
                 <ref bean="KS-HolidayCalendar-HolidaySection"/>
                 <ref bean="KS-HolidayCalendarView-Header-Right-Group"/>
