@@ -34,91 +34,91 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 		that are encoded here.
 	************************************************************* -->
 	<!-- The following file gets generated during the build and gets put into the target/classes directory -->
-	<import resource="classpath:ks-CourseWaitlistEntryInfo-dictionary-generated.xml"/>
+	<import resource="classpath:ks-CourseWaitListEntryInfo-dictionary-generated.xml"/>
 
-	<!-- CourseWaitlistEntryInfo-->
-	<bean id="CourseWaitlistEntryInfo" parent="CourseWaitlistEntryInfo-parent"/>
-	<bean id="CourseWaitlistEntryInfo-parent" abstract="true" parent="CourseWaitlistEntryInfo-generated">
+	<!-- CourseWaitListEntryInfo-->
+	<bean id="CourseWaitListEntryInfo" parent="CourseWaitListEntryInfo-parent"/>
+	<bean id="CourseWaitListEntryInfo-parent" abstract="true" parent="CourseWaitListEntryInfo-generated">
 	<!-- insert any overrides to the generated object definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.id" parent="CourseWaitlistEntryInfo.id-parent"/>
-	<bean id="CourseWaitlistEntryInfo.id-parent" abstract="true" parent="CourseWaitlistEntryInfo.id-generated">
+	<bean id="CourseWaitListEntryInfo.id" parent="CourseWaitListEntryInfo.id-parent"/>
+	<bean id="CourseWaitListEntryInfo.id-parent" abstract="true" parent="CourseWaitListEntryInfo.id-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.typeKey" parent="CourseWaitlistEntryInfo.typeKey-parent"/>
-	<bean id="CourseWaitlistEntryInfo.typeKey-parent" abstract="true" parent="CourseWaitlistEntryInfo.typeKey-generated">
+	<bean id="CourseWaitListEntryInfo.typeKey" parent="CourseWaitListEntryInfo.typeKey-parent"/>
+	<bean id="CourseWaitListEntryInfo.typeKey-parent" abstract="true" parent="CourseWaitListEntryInfo.typeKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.stateKey" parent="CourseWaitlistEntryInfo.stateKey-parent"/>
-	<bean id="CourseWaitlistEntryInfo.stateKey-parent" abstract="true" parent="CourseWaitlistEntryInfo.stateKey-generated">
+	<bean id="CourseWaitListEntryInfo.stateKey" parent="CourseWaitListEntryInfo.stateKey-parent"/>
+	<bean id="CourseWaitListEntryInfo.stateKey-parent" abstract="true" parent="CourseWaitListEntryInfo.stateKey-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.effectiveDate" parent="CourseWaitlistEntryInfo.effectiveDate-parent"/>
-	<bean id="CourseWaitlistEntryInfo.effectiveDate-parent" abstract="true" parent="CourseWaitlistEntryInfo.effectiveDate-generated">
+	<bean id="CourseWaitListEntryInfo.effectiveDate" parent="CourseWaitListEntryInfo.effectiveDate-parent"/>
+	<bean id="CourseWaitListEntryInfo.effectiveDate-parent" abstract="true" parent="CourseWaitListEntryInfo.effectiveDate-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.expirationDate" parent="CourseWaitlistEntryInfo.expirationDate-parent"/>
-	<bean id="CourseWaitlistEntryInfo.expirationDate-parent" abstract="true" parent="CourseWaitlistEntryInfo.expirationDate-generated">
+	<bean id="CourseWaitListEntryInfo.expirationDate" parent="CourseWaitListEntryInfo.expirationDate-parent"/>
+	<bean id="CourseWaitListEntryInfo.expirationDate-parent" abstract="true" parent="CourseWaitListEntryInfo.expirationDate-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.studentId" parent="CourseWaitlistEntryInfo.studentId-parent"/>
-	<bean id="CourseWaitlistEntryInfo.studentId-parent" abstract="true" parent="CourseWaitlistEntryInfo.studentId-generated">
+	<bean id="CourseWaitListEntryInfo.courseWaitListId" parent="CourseWaitListEntryInfo.courseWaitListId-parent"/>
+	<bean id="CourseWaitListEntryInfo.courseWaitListId-parent" abstract="true" parent="CourseWaitListEntryInfo.courseWaitListId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.registrationGroupId" parent="CourseWaitlistEntryInfo.registrationGroupId-parent"/>
-	<bean id="CourseWaitlistEntryInfo.registrationGroupId-parent" abstract="true" parent="CourseWaitlistEntryInfo.registrationGroupId-generated">
+	<bean id="CourseWaitListEntryInfo.studentId" parent="CourseWaitListEntryInfo.studentId-parent"/>
+	<bean id="CourseWaitListEntryInfo.studentId-parent" abstract="true" parent="CourseWaitListEntryInfo.studentId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.position" parent="CourseWaitlistEntryInfo.position-parent"/>
-	<bean id="CourseWaitlistEntryInfo.position-parent" abstract="true" parent="CourseWaitlistEntryInfo.position-generated">
+	<bean id="CourseWaitListEntryInfo.registrationGroupId" parent="CourseWaitListEntryInfo.registrationGroupId-parent"/>
+	<bean id="CourseWaitListEntryInfo.registrationGroupId-parent" abstract="true" parent="CourseWaitListEntryInfo.registrationGroupId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.lastCheckedIn" parent="CourseWaitlistEntryInfo.lastCheckedIn-parent"/>
-	<bean id="CourseWaitlistEntryInfo.lastCheckedIn-parent" abstract="true" parent="CourseWaitlistEntryInfo.lastCheckedIn-generated">
+	<bean id="CourseWaitListEntryInfo.position" parent="CourseWaitListEntryInfo.position-parent"/>
+	<bean id="CourseWaitListEntryInfo.position-parent" abstract="true" parent="CourseWaitListEntryInfo.position-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.courseOfferingId" parent="CourseWaitlistEntryInfo.courseOfferingId-parent"/>
-	<bean id="CourseWaitlistEntryInfo.courseOfferingId-parent" abstract="true" parent="CourseWaitlistEntryInfo.courseOfferingId-generated">
+	<bean id="CourseWaitListEntryInfo.lastCheckIn" parent="CourseWaitListEntryInfo.lastCheckIn-parent"/>
+	<bean id="CourseWaitListEntryInfo.lastCheckIn-parent" abstract="true" parent="CourseWaitListEntryInfo.lastCheckIn-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta" parent="CourseWaitlistEntryInfo.meta-parent"/>
-	<bean id="CourseWaitlistEntryInfo.meta-parent" abstract="true" parent="CourseWaitlistEntryInfo.meta-generated">
+	<bean id="CourseWaitListEntryInfo.meta" parent="CourseWaitListEntryInfo.meta-parent"/>
+	<bean id="CourseWaitListEntryInfo.meta-parent" abstract="true" parent="CourseWaitListEntryInfo.meta-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.versionInd" parent="CourseWaitlistEntryInfo.meta.versionInd-parent"/>
-	<bean id="CourseWaitlistEntryInfo.meta.versionInd-parent" abstract="true" parent="CourseWaitlistEntryInfo.meta.versionInd-generated">
+	<bean id="CourseWaitListEntryInfo.meta.versionInd" parent="CourseWaitListEntryInfo.meta.versionInd-parent"/>
+	<bean id="CourseWaitListEntryInfo.meta.versionInd-parent" abstract="true" parent="CourseWaitListEntryInfo.meta.versionInd-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.createTime" parent="CourseWaitlistEntryInfo.meta.createTime-parent"/>
-	<bean id="CourseWaitlistEntryInfo.meta.createTime-parent" abstract="true" parent="CourseWaitlistEntryInfo.meta.createTime-generated">
+	<bean id="CourseWaitListEntryInfo.meta.createTime" parent="CourseWaitListEntryInfo.meta.createTime-parent"/>
+	<bean id="CourseWaitListEntryInfo.meta.createTime-parent" abstract="true" parent="CourseWaitListEntryInfo.meta.createTime-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.createId" parent="CourseWaitlistEntryInfo.meta.createId-parent"/>
-	<bean id="CourseWaitlistEntryInfo.meta.createId-parent" abstract="true" parent="CourseWaitlistEntryInfo.meta.createId-generated">
+	<bean id="CourseWaitListEntryInfo.meta.createId" parent="CourseWaitListEntryInfo.meta.createId-parent"/>
+	<bean id="CourseWaitListEntryInfo.meta.createId-parent" abstract="true" parent="CourseWaitListEntryInfo.meta.createId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.updateTime" parent="CourseWaitlistEntryInfo.meta.updateTime-parent"/>
-	<bean id="CourseWaitlistEntryInfo.meta.updateTime-parent" abstract="true" parent="CourseWaitlistEntryInfo.meta.updateTime-generated">
+	<bean id="CourseWaitListEntryInfo.meta.updateTime" parent="CourseWaitListEntryInfo.meta.updateTime-parent"/>
+	<bean id="CourseWaitListEntryInfo.meta.updateTime-parent" abstract="true" parent="CourseWaitListEntryInfo.meta.updateTime-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.updateId" parent="CourseWaitlistEntryInfo.meta.updateId-parent"/>
-	<bean id="CourseWaitlistEntryInfo.meta.updateId-parent" abstract="true" parent="CourseWaitlistEntryInfo.meta.updateId-generated">
+	<bean id="CourseWaitListEntryInfo.meta.updateId" parent="CourseWaitListEntryInfo.meta.updateId-parent"/>
+	<bean id="CourseWaitListEntryInfo.meta.updateId-parent" abstract="true" parent="CourseWaitListEntryInfo.meta.updateId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 </beans>

@@ -13,12 +13,10 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.enrollment.waitlist.dto;
+package org.kuali.student.enrollment.coursewaitlist.dto;
 
-import org.kuali.student.enrollment.waitlist.infc.WaitListEntry;
+import org.kuali.student.enrollment.coursewaitlist.infc.CourseWaitListEntry;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,64 +25,56 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "WaitListEntryInfo", propOrder = {
+@XmlType(name = "CourseWaitListEntryInfo", propOrder = {
         "id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "waitListId", "studentId", "offeringId", "position", "lastCheckIn", "holdListRuleIds",
+        "courseWaitListId", "studentId", "registrationGroupId", "position", "lastCheckIn",
         "meta", "attributes", "_futureElements"})
 
-public class WaitListEntryInfo extends RelationshipInfo implements WaitListEntry, Serializable {
+public class CourseWaitListEntryInfo extends RelationshipInfo implements CourseWaitListEntry, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String waitListId;
+    private String courseWaitListId;
     @XmlElement
     private String studentId;
     @XmlElement
-    private String offeringId;
+    private String registrationGroupId;
     @XmlElement
     private Integer position;
     @XmlElement
     private Date lastCheckIn;
-    @XmlElement
-    private List<String> holdListRuleIds;
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public WaitListEntryInfo() {
+    public CourseWaitListEntryInfo() {
     }
 
-    public WaitListEntryInfo(WaitListEntry entry) {
+    public CourseWaitListEntryInfo(CourseWaitListEntry entry) {
         super(entry);
 
         if(entry != null) {
-            setWaitListId(entry.getWaitListId());
+            setCourseWaitListId(entry.getCourseWaitListId());
             setStudentId(entry.getStudentId());
             setPosition(entry.getPosition());
-            setOfferingId(entry.getOfferingId());
+            setRegistrationGroupId(entry.getRegistrationGroupId());
             if(entry.getLastCheckIn() != null) {
                 setLastCheckIn(new Date(entry.getLastCheckIn().getTime()));
             }
-
-            if(entry.getHoldListRuleIds() != null) {
-                setHoldListRuleIds(new ArrayList<String>(entry.getHoldListRuleIds()));
-            }
-
         }
     }
 
     @Override
-    public String getWaitListId() {
-        return waitListId;
+    public String getCourseWaitListId() {
+        return courseWaitListId;
     }
 
-    public void setWaitListId(String waitListId) {
-        this.waitListId = waitListId;
+    public void setCourseWaitListId(String courseWaitListId) {
+        this.courseWaitListId = courseWaitListId;
     }
 
     @Override
@@ -97,12 +87,12 @@ public class WaitListEntryInfo extends RelationshipInfo implements WaitListEntry
     }
 
     @Override
-    public String getOfferingId() {
-        return offeringId;
+    public String getRegistrationGroupId() {
+        return registrationGroupId;
     }
 
-    public void setOfferingId(String offeringId) {
-        this.offeringId = offeringId;
+    public void setRegistrationGroupId(String registrationGroupId) {
+        this.registrationGroupId = registrationGroupId;
     }
 
     @Override
@@ -121,17 +111,5 @@ public class WaitListEntryInfo extends RelationshipInfo implements WaitListEntry
 
     public void setLastCheckIn(Date lastCheckIn) {
         this.lastCheckIn = lastCheckIn;
-    }
-
-    @Override
-    public List<String> getHoldListRuleIds() {
-        if(holdListRuleIds == null) {
-            holdListRuleIds = new ArrayList<String>();
-        }
-        return holdListRuleIds;
-    }
-
-    public void setHoldListRuleIds(List<String> holdListRuleIds) {
-        this.holdListRuleIds = holdListRuleIds;
     }
 }

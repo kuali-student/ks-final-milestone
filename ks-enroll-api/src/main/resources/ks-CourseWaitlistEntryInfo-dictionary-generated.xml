@@ -38,21 +38,26 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- CourseWaitlistEntryInfo-->
-	<bean id="CourseWaitlistEntryInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="courseWaitlistEntryInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo"/>
-		<property name="objectLabel" value="Course Waitlist Entry"/>
+	<!-- CourseWaitListEntryInfo-->
+	<bean id="CourseWaitListEntryInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="courseWaitListEntryInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo"/>
+		<property name="objectLabel" value="Course Wait List Entry"/>
 		<property name="objectDescription">
 			<value>
-Represents a single student in the course waitlist. Contains information such
-as student id, the waitlist option (reg group id and clearing strategy) and
-the student's position in the waitlist. As more seats become available the
-students in the waitlist are moved to the course.
-&lt;P&gt;
-Implementation Notes: 
-It is represented by an LPR at Class I level, when a student actually
-registers for the course the LPR is a RegGroupRegistration
+Copyright 2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the
+&quot;License&quot;); you may not use this file except in compliance with the
+License. You may obtain a copy of the License at
+
+http://www.osedu.org/licenses/ECL-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+implied. See the License for the specific language governing
+permissions and limitations under the License.
 			</value>
 		</property>
 		<property name="titleAttribute" value="id"/>
@@ -64,22 +69,22 @@ registers for the course the LPR is a RegGroupRegistration
 
 		<property name="attributes">
 			<list>
-				<ref bean="CourseWaitlistEntryInfo.id"/>
-				<ref bean="CourseWaitlistEntryInfo.typeKey"/>
-				<ref bean="CourseWaitlistEntryInfo.stateKey"/>
-				<ref bean="CourseWaitlistEntryInfo.effectiveDate"/>
-				<ref bean="CourseWaitlistEntryInfo.expirationDate"/>
-				<ref bean="CourseWaitlistEntryInfo.studentId"/>
-				<ref bean="CourseWaitlistEntryInfo.registrationGroupId"/>
-				<ref bean="CourseWaitlistEntryInfo.position"/>
-				<ref bean="CourseWaitlistEntryInfo.lastCheckedIn"/>
-				<ref bean="CourseWaitlistEntryInfo.courseOfferingId"/>
+				<ref bean="CourseWaitListEntryInfo.id"/>
+				<ref bean="CourseWaitListEntryInfo.typeKey"/>
+				<ref bean="CourseWaitListEntryInfo.stateKey"/>
+				<ref bean="CourseWaitListEntryInfo.effectiveDate"/>
+				<ref bean="CourseWaitListEntryInfo.expirationDate"/>
+				<ref bean="CourseWaitListEntryInfo.courseWaitListId"/>
+				<ref bean="CourseWaitListEntryInfo.studentId"/>
+				<ref bean="CourseWaitListEntryInfo.registrationGroupId"/>
+				<ref bean="CourseWaitListEntryInfo.position"/>
+				<ref bean="CourseWaitListEntryInfo.lastCheckIn"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="CourseWaitlistEntryInfo.meta"/>
+				<ref bean="CourseWaitListEntryInfo.meta"/>
 			</list>
 		</property>
 
@@ -89,136 +94,130 @@ registers for the course the LPR is a RegGroupRegistration
 		</property>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="CourseWaitListEntryInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="CourseWaitListEntryInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="CourseWaitListEntryInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
+		<property name="shortLabel" value="State Key"/>
+		<property name="summary">
+			<value>
+A unique identifier for the state of this object.
+
+			</value>
+		</property>
+		<property name="label" value="State Key"/>
+		<property name="description">
+			<value>
+A unique identifier for the state of this object.
+This value should not be changed directly.
+Instead, it should be set using the appropriate change state method in service.
+			</value>
+		</property>
+		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+	<bean id="CourseWaitListEntryInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
 		<property name="name" value="effectiveDate"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+	<bean id="CourseWaitListEntryInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
 		<property name="name" value="expirationDate"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.studentId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseWaitListEntryInfo.courseWaitListId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseWaitListId"/>
+		<property name="shortLabel" value="Course Wait List Id"/>
+		<property name="summary">
+			<value>
+???
+			</value>
+		</property>
+		<property name="label" value="Course Wait List Id"/>
+		<property name="description">
+			<value>
+???
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="CourseWaitListEntryInfo.studentId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="studentId"/>
 		<property name="shortLabel" value="Student Id"/>
 		<property name="summary">
 			<value>
-Returns the student id in waitlist entry waitlisted.
+???
 			</value>
 		</property>
 		<property name="label" value="Student Id"/>
 		<property name="description">
 			<value>
-Returns the student id in waitlist entry waitlisted.
+???
 			</value>
 		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.registrationGroupId-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="CourseWaitListEntryInfo.registrationGroupId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="registrationGroupId"/>
 		<property name="shortLabel" value="Registration Group Id"/>
 		<property name="summary">
 			<value>
-Returns the reg group id for this waitlist entry. 
+???
 			</value>
 		</property>
 		<property name="label" value="Registration Group Id"/>
 		<property name="description">
 			<value>
-Returns the reg group id for this waitlist entry. A waitlist entry should
-always be on tied to a single reg group.
+???
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.position-generated" abstract="true" parent="BaseKuali.integer">
+	<bean id="CourseWaitListEntryInfo.position-generated" abstract="true" parent="BaseKuali.integer">
 		<property name="name" value="position"/>
 		<property name="shortLabel" value="Position"/>
 		<property name="summary">
 			<value>
-Returns the position of this entry in the waitlist for a particular
-waitlist option.
-
-
+This field is considered read-only
+and may only be changed through the relevant WaitListService operations.
 			</value>
 		</property>
 		<property name="label" value="Position"/>
 		<property name="description">
 			<value>
-Returns the position of this entry in the waitlist for a particular
-waitlist option.
-
-This is not directly updatable on the data object, use service operations
-to change the student's position in the list
+This field is considered read-only
+and may only be changed through the relevant WaitListService operations.
 			</value>
 		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.lastCheckedIn-generated" abstract="true" parent="BaseKuali.date">
-		<property name="name" value="lastCheckedIn"/>
-		<property name="shortLabel" value="Last Checked In"/>
+	<bean id="CourseWaitListEntryInfo.lastCheckIn-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="lastCheckIn"/>
+		<property name="shortLabel" value="Last Check In"/>
 		<property name="summary">
 			<value>
-Returns true if the student has checked in to the waitlist. 
+???
 			</value>
 		</property>
-		<property name="label" value="Last Checked In"/>
+		<property name="label" value="Last Check-in"/>
 		<property name="description">
 			<value>
-Returns true if the student has checked in to the waitlist. Used to track
-if the student is still interested in being in the wailist.
+???
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.courseOfferingId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="courseOfferingId"/>
-		<property name="shortLabel" value="Course Offering Id"/>
-		<property name="summary">
-			<value>
-Course offering id that contains the
-			</value>
-		</property>
-		<property name="label" value="Course Offering Id"/>
-		<property name="description">
-			<value>
-Course offering id that contains the
-			</value>
-		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="CourseWaitlistEntryInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="CourseWaitListEntryInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -264,11 +263,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="CourseWaitlistEntryInfo.meta.versionInd"/>
-						<ref bean="CourseWaitlistEntryInfo.meta.createTime"/>
-						<ref bean="CourseWaitlistEntryInfo.meta.createId"/>
-						<ref bean="CourseWaitlistEntryInfo.meta.updateTime"/>
-						<ref bean="CourseWaitlistEntryInfo.meta.updateId"/>
+						<ref bean="CourseWaitListEntryInfo.meta.versionInd"/>
+						<ref bean="CourseWaitListEntryInfo.meta.createTime"/>
+						<ref bean="CourseWaitListEntryInfo.meta.createId"/>
+						<ref bean="CourseWaitListEntryInfo.meta.updateTime"/>
+						<ref bean="CourseWaitListEntryInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -285,23 +284,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="CourseWaitListEntryInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="CourseWaitListEntryInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="CourseWaitListEntryInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="CourseWaitListEntryInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="CourseWaitlistEntryInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="CourseWaitListEntryInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>
