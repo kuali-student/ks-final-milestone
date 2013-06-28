@@ -15,8 +15,7 @@
 package org.kuali.student.enrollment.class2.acal.form;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.web.form.KsUifFormBase;
-import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
@@ -32,7 +31,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 
-public class HolidayCalendarForm extends KsUifFormBase {
+public class HolidayCalendarForm extends KSUifForm {
     private static final long serialVersionUID = 7526472595622776147L;
 
     private HolidayCalendarInfo holidayCalendarInfo;

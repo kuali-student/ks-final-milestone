@@ -24,8 +24,8 @@ import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
-import org.kuali.rice.krad.web.form.KsUifFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
@@ -68,7 +68,7 @@ import java.util.Properties;
 public class HolidayCalendarController extends UifControllerBase {
 
     @Override
-    protected KsUifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
+    protected KSUifForm createInitialForm(HttpServletRequest httpServletRequest) {
         return new HolidayCalendarForm();
     }
 
@@ -329,7 +329,7 @@ public class HolidayCalendarController extends UifControllerBase {
         form.getHolidayCalendarInfo().setDescr(CommonUtils.buildDesc(form.getNewCalendarName()));
         form.setHolidays(newHolidays);
         form.setHcId(null);
-
+        form.setMeta(form.getHolidayCalendarInfo().getMeta());
         return getUIFModelAndView(form, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
     }
 
@@ -548,7 +548,7 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setNewCalendar(false);
         hcForm.setOfficialCalendar(hCalInfo.getStateKey().equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY));
         hcForm.setHcId(hCalInfo.getId());
-
+        hcForm.setMeta(hCalInfo.getMeta());
         // sort holidays again, in case any were added
         Collections.sort(hcForm.getHolidays());
 
@@ -585,6 +585,7 @@ public class HolidayCalendarController extends UifControllerBase {
                 getHolidayCalendarFormHelper(hcForm).getHolidayWrappersForHolidayCalendar(hcInfo.getId());
         Collections.sort(holidays);
         hcForm.setHolidays(holidays);
+        if(hcInfo!=null)hcForm.setMeta(hcInfo.getMeta());
     }
 
     private String getAdminOrgNameById(String id){

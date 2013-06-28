@@ -58,7 +58,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-HolidayCalendar-CopyPage"/>
-                <ref bean="KS-HolidayCalendar-EditPage"/>
+                <bean parent="KS-HolidayCalendar-EditPage" p:stickyFooter="true"/>
                 <ref bean="KS-HolidayCalendar-ViewPage"/>
             </list>
         </property>
@@ -95,6 +95,30 @@
           p:onDocumentReadyScript="updateHeaderRightGroup('KS-HolidayCalendarView-Header-Right-Group', 'KS-View-Hcal-Header-RightGroup-PlaceHolder'); updateViewHeader('Hcal-View-HeaderText-SourceHolder');">
         <property name="items">
             <list>
+                <bean parent="KS-Unified-Header-Action-Group" p:id="copyEditDeleteHeader" p:componentSecurity.viewAuthz="true">
+                    <property name="render" value="@{!newCalendar}"/>
+                    <property name="items">
+                        <list>
+                           <bean id="hcal_Official" parent="Unified-Right-Header-Group-Action-MakeOfficial" p:methodToCall="makeOfficial" p:actionLabel="Make Official" p:render="@{!newCalendar and !#view.readOnly and !officialCalendar}" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-Unified-Right-Header-Group-Status">
+                    <property name="render" value="@{!newCalendar}"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Unified-Right-Header-Group-Status-Modified"  p:messageText="Last modified by @{getUpdateId()} on @{getUpdateTime()}"/>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialCalendar}"/>
+                                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialCalendar}"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
                 <bean parent="KS-View-HeaderText-SourceHolder" id="Hcal-View-HeaderText-SourceHolder" p:messageText="@{!newCalendar ? holidayCalendarInfo.name : 'Create a Holiday Calendar'}"/>
             </list>
         </property>

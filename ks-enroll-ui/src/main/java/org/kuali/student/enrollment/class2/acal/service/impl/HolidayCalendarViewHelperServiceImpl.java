@@ -119,6 +119,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
             }
             holidayWrapper.setHolidayInfo(storedHolidayInfo);
             newHolidayIdList.add(storedHolidayInfo.getId());
+            hcForm.setMeta(hcInfo.getMeta());
         }
 
         if ( ! StringUtils.isBlank(hcInfo.getId())) { // calendar already exists

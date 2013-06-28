@@ -82,16 +82,24 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton"
-                              p:methodToCall="@{officialCalendar ? 'save' : 'makeOfficial'}"
-                              p:actionLabel="@{officialCalendar ? 'Update Official' : 'Make Official'}"
-                              p:disabled="@{newCalendar}" p:performClientSideValidation="@{officialCalendar}" />
-                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="save" p:actionLabel="Save"
-                              p:performClientSideValidation="true" p:render="@{!officialCalendar}"/>
-                        <bean parent="Uif-ActionLink" p:methodToCall="delete"
-                              p:actionLabel="@{officialCalendar ? 'Delete Calendar' : 'Delete Draft'}"
-                              p:render="@{!newCalendar and !officialUI}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ac_stickyfooter</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-PrimaryActionButton"
+                                          p:methodToCall="save"
+                                          p:actionLabel="Save"  p:performClientSideValidation="@{officialCalendar}" />
+                                    <bean parent="Uif-ActionLink" p:methodToCall="delete"
+                                          p:actionLabel="Delete Calendar Draft"
+                                          p:render="@{!newCalendar and !officialUI}"/>
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
+                                </list>
+                            </property>
+                        </bean>
                     </list>
                 </property>
             </bean>
