@@ -74,6 +74,9 @@ public class ActivityOfferingDisplayTransformer {
             throws InvalidParameterException, MissingParameterException, DoesNotExistException,
             PermissionDeniedException, OperationFailedException {
         ActivityOfferingDisplayInfo displayInfo = new ActivityOfferingDisplayInfo();
+        // Need for subterm display
+        displayInfo.setId(aoInfo.getId());
+        displayInfo.setTermId(aoInfo.getTermId());
         // Fields in ActivityOfferingDisplayInfo
         // typeName, stateName, courseOfferingTitle;
         TypeInfo aoType = typeService.getType(aoInfo.getTypeKey(), contextInfo);
