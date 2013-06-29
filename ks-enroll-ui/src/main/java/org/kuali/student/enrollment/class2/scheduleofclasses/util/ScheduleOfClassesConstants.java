@@ -50,5 +50,5 @@ public class ScheduleOfClassesConstants {
     public static final String SOC_RESULT_PAGE_STUREG_AUDIT_IMG = "../ks-enroll/images/a.png";
     public static final String SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG = "../ks-enroll/images/s.png";
     public static final String SOC_RESULT_PAGE_GRADING_PERCENT_IMG = "../ks-enroll/images/percent.png";
-
+    public static final String SOC_RESULT_PAGE_SUBTERM_IMG = "../ks-enroll/images/subterm_icon.png";
 }
