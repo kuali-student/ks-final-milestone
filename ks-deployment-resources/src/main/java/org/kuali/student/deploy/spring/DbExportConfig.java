@@ -42,123 +42,123 @@ import org.springframework.util.StringUtils;
 @Import(DatabaseExportConfig.class)
 public class DbExportConfig {
 
-    private static final Logger logger = LoggerFactory.getLogger(DbExportConfig.class);
+	private static final Logger logger = LoggerFactory.getLogger(DbExportConfig.class);
 
-    protected final static String SYNC_SKIP_KEY = "impex.sync.skip";
+	protected final static String SYNC_SKIP_KEY = "impex.sync.skip";
 
-    protected final static String SCM_COMMIT_KEY = "impex.scm.commit";
+	protected final static String SCM_COMMIT_KEY = "impex.scm.commit";
 
-    protected final static String SYNC_COMMIT_MESSAGE_KEY = "impex.scm.message";
+	protected final static String SYNC_COMMIT_MESSAGE_KEY = "impex.scm.message";
 
-    protected final static String SYNC_COMMIT_MESSAGE_DEFAULT = "Automated Impex update";
+	protected final static String SYNC_COMMIT_MESSAGE_DEFAULT = "Automated Impex update";
 
-    protected final static String SYNC_DEFINITIONS_PREFIX_KEY = "impex.sync.prefixes";
+	protected final static String SYNC_DEFINITIONS_PREFIX_KEY = "impex.sync.prefixes";
 
-    protected final static String SYNC_COMMIT_PATH_KEY = "sync.commitPath";
+	protected final static String SYNC_COMMIT_PATH_KEY = "sync.commitPath";
 
-    protected final static String SYNC_REQUEST_SOURCE_DIR_KEY = "sync.sourceDir";
+	protected final static String SYNC_REQUEST_SOURCE_DIR_KEY = "sync.sourceDir";
 
-    protected final static String SYNC_REQUEST_DESTINATION_DIR_KEY = "sync.destDir";
+	protected final static String SYNC_REQUEST_DESTINATION_DIR_KEY = "sync.destDir";
 
-    protected final static String SYNC_REQUEST_FILTER_EXPRESSIONS_KEY = "sync.filter";
+	protected final static String SYNC_REQUEST_FILTER_EXPRESSIONS_KEY = "sync.filter";
 
-    /**
-     * Default behavior is to not skip execution,
-     */
-    protected final static Boolean SYNC_SKIP_DEFAULT = Boolean.FALSE;
+	/**
+	 * Default behavior is to not skip execution,
+	 */
+	protected final static Boolean SYNC_SKIP_DEFAULT = Boolean.FALSE;
 
-    /**
-     * default behavior is to not commit to scm
-     */
-    protected final static Boolean SCM_COMMIT_DEFAULT = Boolean.FALSE;
+	/**
+	 * default behavior is to not commit to scm
+	 */
+	protected final static Boolean SCM_COMMIT_DEFAULT = Boolean.FALSE;
 
-    /**
-     * default behavior is to sync all files in a sync request
-     */
-    protected final static String SYNC_REQUEST_FILTER_EXPRESSIONS_DEFAULT = ".*";
+	/**
+	 * default behavior is to sync all files in a sync request
+	 */
+	protected final static String SYNC_REQUEST_FILTER_EXPRESSIONS_DEFAULT = ".*";
 
-    @Autowired
-    Environment env;
+	@Autowired
+	Environment env;
 
-    @Autowired
-    DatabaseExportConfig dbExportConfig;
+	@Autowired
+	DatabaseExportConfig dbExportConfig;
 
-    public void doDatabaseExport() {
-        dbExportConfig.exportDatabaseExecutable().execute();
-    }
+	public void doDatabaseExport() {
+		dbExportConfig.exportDatabaseExecutable().execute();
+	}
 
-    @Bean(initMethod = "execute")
-    public SyncFilesExecutable syncFilesExecutable() {
+	@Bean(initMethod = "execute")
+	public SyncFilesExecutable syncFilesExecutable() {
 
-        // run the database export executable first
-        doDatabaseExport();
+		// run the database export executable first
+		doDatabaseExport();
 
-        SyncFilesExecutable exec = new SyncFilesExecutable();
-        exec.setService(scmService());
-        exec.setSkip(SpringUtils.getBoolean(env, SYNC_SKIP_KEY, SYNC_SKIP_DEFAULT));
-        exec.setCommitChanges(SpringUtils.getBoolean(env, SCM_COMMIT_KEY, SCM_COMMIT_DEFAULT));
-        exec.setMessage(SpringUtils.getProperty(env, SYNC_COMMIT_MESSAGE_KEY, SYNC_COMMIT_MESSAGE_DEFAULT));
+		SyncFilesExecutable exec = new SyncFilesExecutable();
+		exec.setService(scmService());
+		exec.setSkip(SpringUtils.getBoolean(env, SYNC_SKIP_KEY, SYNC_SKIP_DEFAULT));
+		exec.setCommitChanges(SpringUtils.getBoolean(env, SCM_COMMIT_KEY, SCM_COMMIT_DEFAULT));
+		exec.setMessage(SpringUtils.getProperty(env, SYNC_COMMIT_MESSAGE_KEY, SYNC_COMMIT_MESSAGE_DEFAULT));
 
-        List<String> prefixes = CollectionUtils.getTrimmedListFromCSV(SpringUtils.getProperty(env, SYNC_DEFINITIONS_PREFIX_KEY));
+		List<String> prefixes = CollectionUtils.getTrimmedListFromCSV(SpringUtils.getProperty(env, SYNC_DEFINITIONS_PREFIX_KEY));
 
-        List<File> commitPaths = new ArrayList<File>();
+		List<File> commitPaths = new ArrayList<File>();
 
-        List<SyncRequest> requests = new ArrayList<SyncRequest>();
+		List<SyncRequest> requests = new ArrayList<SyncRequest>();
 
-        // for each prefix we find, find properties with that prefix in the key
-        // to build a SyncRequest, and/or a File from a location
-        for (String prefix : prefixes) {
-            String commitLocation = SpringUtils.getProperty(env, prefix + SYNC_COMMIT_PATH_KEY, "");
+		// for each prefix we find, find properties with that prefix in the key
+		// to build a SyncRequest, and/or a File from a location
+		for (String prefix : prefixes) {
+			String commitLocation = SpringUtils.getProperty(env, prefix + SYNC_COMMIT_PATH_KEY, "");
 
-            String sourceLocation = SpringUtils.getProperty(env, prefix + SYNC_REQUEST_SOURCE_DIR_KEY, "");
-            String destinationLocation = SpringUtils.getProperty(env, prefix + SYNC_REQUEST_DESTINATION_DIR_KEY, "");
+			String sourceLocation = SpringUtils.getProperty(env, prefix + SYNC_REQUEST_SOURCE_DIR_KEY, "");
+			String destinationLocation = SpringUtils.getProperty(env, prefix + SYNC_REQUEST_DESTINATION_DIR_KEY, "");
 
-            if(StringUtils.hasText(commitLocation)) {
-                // if a commit path is defined for this prefix, add the file to the list of commit paths
-                commitPaths.add(LocationUtils.getFileQuietly(commitLocation));
-            }
+			if (StringUtils.hasText(commitLocation)) {
+				// if a commit path is defined for this prefix, add the file to the list of commit paths
+				commitPaths.add(LocationUtils.getFileQuietly(commitLocation));
+			}
 
-            // sourceLocation and destinationLocation must either both have a value, or both be null
-            if(StringUtils.hasText(sourceLocation)) {
-                Assert.hasText(destinationLocation);
+			// sourceLocation and destinationLocation must either both have a value, or both be null
+			if (StringUtils.hasText(sourceLocation)) {
+				Assert.hasText(destinationLocation);
 
-                // build a file object for the source directory
-                // this directory will be scanned with the filename filter
-                File sourceDir = LocationUtils.getFileQuietly(sourceLocation);
+				// build a file object for the source directory
+				// this directory will be scanned with the filename filter
+				File sourceDir = LocationUtils.getFileQuietly(sourceLocation);
 
-                // get the filename filter regex for this sync request
-                String filterExpressions = SpringUtils.getProperty(env, prefix + SYNC_REQUEST_FILTER_EXPRESSIONS_KEY, SYNC_REQUEST_FILTER_EXPRESSIONS_DEFAULT);
+				// get the filename filter regex for this sync request
+				String filterExpressions = SpringUtils.getProperty(env, prefix + SYNC_REQUEST_FILTER_EXPRESSIONS_KEY, SYNC_REQUEST_FILTER_EXPRESSIONS_DEFAULT);
 
-                logger.info("Building scanner for dir " + sourceDir + " and expressions: " + filterExpressions);
+				logger.info("Building scanner for dir " + sourceDir + " and expressions: " + filterExpressions);
 
-                List<String> expressionList = CollectionUtils.getTrimmedListFromCSV(filterExpressions);
+				List<String> expressionList = CollectionUtils.getTrimmedListFromCSV(filterExpressions);
 
-                // build a scanner with no excludes (3rd argument)
-                SimpleScanner scanner = new SimpleScanner(sourceDir, expressionList, null);
+				// build a scanner with no excludes (3rd argument)
+				SimpleScanner scanner = new SimpleScanner(sourceDir, expressionList, null);
 
-                SyncRequest s = new SyncRequest();
-                s.setSrcDir(sourceDir);
-                s.setDstDir(LocationUtils.getFileQuietly(destinationLocation));
-                s.setSrcFiles(scanner.getFiles());
+				SyncRequest s = new SyncRequest();
+				s.setSrcDir(sourceDir);
+				s.setDstDir(LocationUtils.getFileQuietly(destinationLocation));
+				s.setSrcFiles(scanner.getFiles());
 
-                logger.info("Source dir scanner found " + s.getSrcFiles().size() + " files.");
+				logger.info("Source dir scanner found " + s.getSrcFiles().size() + " files.");
 
-                requests.add(s);
-            }
-        }
+				requests.add(s);
+			}
+		}
 
-        exec.setCommitPaths(commitPaths);
-        exec.setRequests(requests);
+		exec.setCommitPaths(commitPaths);
+		exec.setRequests(requests);
 
-        return exec;
-    }
+		return exec;
+	}
 
-    @Bean
-    public ScmService scmService() {
-        String url = SpringUtils.getProperty(env, "project.scm.developerConnection");
-        ScmServiceFactoryBean factory = new ScmServiceFactoryBean();
-        factory.setUrl(url);
-        return factory.getObject();
-    }
+	@Bean
+	public ScmService scmService() {
+		String url = SpringUtils.getProperty(env, "project.scm.developerConnection");
+		ScmServiceFactoryBean factory = new ScmServiceFactoryBean();
+		factory.setUrl(url);
+		return factory.getObject();
+	}
 
 }
