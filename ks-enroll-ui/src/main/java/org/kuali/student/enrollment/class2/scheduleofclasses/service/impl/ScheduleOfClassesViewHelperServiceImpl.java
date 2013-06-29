@@ -26,6 +26,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
@@ -43,6 +44,12 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
@@ -51,8 +58,10 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -67,6 +76,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     private CourseOfferingService coService;
     private LprService lprService;
     private OrganizationService organizationService;
+    private AcademicCalendarService academicCalendarService;
+    private TypeService typeService;
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception{
 
@@ -197,6 +208,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
         List<ActivityOfferingDisplayInfo> aoDisplayInfoList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(courseOfferingId, contextInfo);
 
+        Map<String, String> subTermInfoMap = new HashMap<String, String>();
+
         for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
             //Only returned offered AOS
             if(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(aoDisplayInfo.getStateKey())){
@@ -208,6 +221,29 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {
                     information = "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HONORS_COURSE_IMG + " title=\"" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY + "\"> ";
                 }
+
+                // Adding subterm
+                String termId = aoDisplayInfo.getTermId();
+                String subTermDisplay = "";
+                if(!form.getTermCode().equals(termId)) {
+                    if (subTermInfoMap.isEmpty() || subTermInfoMap.get(termId) == null) {
+                        TermInfo subTerm = getAcademicCalendarService().getTerm(termId, contextInfo);
+                        // check if term or subterm
+                        List<TypeTypeRelationInfo> terms = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(subTerm.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
+                        // if subterm
+                        if (!terms.isEmpty()) {
+                            TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
+                            subTermDisplay = "This activity is in " + subTermType.getName() + " - " + getTermStartEndDate(subTerm);
+                            subTermInfoMap.put(termId, subTermDisplay);
+                            // displaying information
+                           information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_SUBTERM_IMG + " title=\"" + subTermDisplay + "\"> ";
+                        }
+                    } else {
+                        subTermDisplay = subTermInfoMap.get(termId);
+                        information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_SUBTERM_IMG + " title=\"" + subTermDisplay + "\"> ";
+                    }
+                }
+
                 aoDisplayWrapper.setInformation(information);
 
                 if(aoDisplayInfo.getScheduleDisplay()!=null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()){
@@ -360,6 +396,21 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         return KimApiServiceLocator.getPersonService();
     }
 
+    private AcademicCalendarService getAcademicCalendarService() {
+        if (academicCalendarService == null) {
+            academicCalendarService = CourseOfferingResourceLoader.loadAcademicCalendarService();
+        }
+
+        return academicCalendarService;
+    }
+
+    public TypeService getTypeService() {
+        if (typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return this.typeService;
+    }
+
     private String convertIntoDaysDisplay(int day) {
         String dayOfWeek;
         switch (day) {
@@ -405,4 +456,17 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         return sb.toString();
     }
 
+    private String getTermStartEndDate(TermInfo term) {
+        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
+        StringBuilder stringBuilder = new StringBuilder();
+        Formatter formatter = new Formatter(stringBuilder, Locale.US);
+        String displayString = "";
+        if (term != null) {
+            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
+            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
+            formatter.format("%s - %s", startDate, endDate);
+            displayString = stringBuilder.toString();
+        }
+        return displayString;
+    }
 }
