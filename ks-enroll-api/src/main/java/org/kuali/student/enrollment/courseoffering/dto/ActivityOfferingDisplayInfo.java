@@ -36,7 +36,7 @@ import java.util.List;
                 "typeName", "stateName", "courseOfferingTitle",
                 "courseOfferingCode", "formatOfferingId", "formatOfferingName",
                 "activityOfferingCode", "instructorId",  "instructorName",
-                "isHonorsOffering", "maximumEnrollment", "scheduleDisplay",
+                "isHonorsOffering", "maximumEnrollment", "scheduleDisplay", "termId",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingDisplayInfo
@@ -84,6 +84,8 @@ public class ActivityOfferingDisplayInfo
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    @XmlElement
+    private String termId;
 
     /**
      * Constructs a new ActivityOfferingDisplayInfo.
@@ -224,4 +226,13 @@ public class ActivityOfferingDisplayInfo
     public void setScheduleDisplay(ScheduleDisplayInfo scheduleDisplay) {
         this.scheduleDisplay = scheduleDisplay;
     }
+
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
 }
