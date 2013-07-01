@@ -23,6 +23,7 @@
           p:id="checkInfoSearchView" p:headerText="Manage Checks" p:renderHeader="false">
         <property name="entryPageId" value="checkInfoSearch-SearchPage" />
         <property name="formClass" value="org.kuali.student.enrollment.class1.check.form.CheckInfoForm" />
+        <property name="viewSourceFile" value="CheckInfoSearchView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-enrollment-home</value>
@@ -44,8 +45,11 @@
     <bean id="KS-CheckInfoSearch-SearchPage" parent="KS-Uif-Page">
         <property name="id" value="checkInfoSearch-SearchPage"/>
         <property name="headerText" value="Advanced Search: Check" />
+        <property name="pageSourceFile" value="CheckInfoSearchView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="items">
             <list>
+               <!-- This adds the file names to the page HTML -->
+               <ref bean="KS-SourceFile-Comment-Group"/>
                <ref bean="KS-CheckInfoSearch-CriteriaSection"/>
                <ref bean="KS-CheckInfoSearch-ResultSection"/>
             </list>
@@ -158,11 +162,14 @@
     <bean id="KS-CheckInfoSearch-EditPage" parent="KS-Uif-Page">
         <property name="id" value="checkInfoSearch-EditPage"/>
         <property name="headerText" value="Edit Check"/>
+        <property name="pageSourceFile" value="CheckInfoSearchView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
+                            <!-- This adds the file names to the page HTML -->
+                            <ref bean="KS-SourceFile-Comment-Group"/>
                             <bean parent="Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20" p:required="true"/>

@@ -24,6 +24,7 @@
         <property name="headerText" value="Create Checks"/>
         <property name="formClass"
                   value="org.kuali.student.enrollment.class1.check.form.CheckInfoForm"/>
+        <property name="viewSourceFile" value="CheckInfoCreateView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="singlePageView" value="true"/>
         <property name="page">
             <bean parent="KS-Uif-Page"/>
@@ -44,6 +45,8 @@
         </property>
         <property name="items">
             <list>
+                <!-- This adds the file names to the page HTML -->
+                <ref bean="KS-SourceFile-Comment-Group"/>
                 <bean parent="Uif-InputField-LabelTop" p:label="Check Name" p:propertyName="name"
                       p:required="true">
                     <property name="control">
