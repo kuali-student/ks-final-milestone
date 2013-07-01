@@ -900,3 +900,12 @@ div#Uif-ApplicationHeader-Wrapper{
     background:none;
     margin-bottom: 0px;
 }
+
+/*
+   Edit Academic Calendar > KeyDate Groups
+   Override krad background and border of key date groups collection addline
+*/
+.acal_keydate_group .uif-collectionAddItem{
+    border: none !important;
+    background: none !important;
+}

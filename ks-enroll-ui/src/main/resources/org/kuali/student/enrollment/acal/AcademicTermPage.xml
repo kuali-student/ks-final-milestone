@@ -267,6 +267,11 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
         <property name="headerText" value="Key Dates" />
         <property name="header.render" value="@{!#view.readOnly}"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>acal_keydate_group</value>
+            </list>
+        </property>
 
         <!-- Move the add button to the right of the fields -->
         <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
@@ -292,6 +297,7 @@
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
                       p:label="* Key Date Group Type" p:labelPlacement="TOP"
                       p:finalizeMethodToCall="populateKeyDateGroupTypes" >
+
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
