@@ -130,6 +130,11 @@ limitations under the License.
 
     <bean id="KS-AcademicCalendar-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
         <property name="renderHeader" value="false"/>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>acal_dialog</value>
+            </list>
+        </property>
         <property name="promptText"
                   value="Are you sure you want to delete the Academic Calendar? All associated Terms and Subterms will be deleted as well."/>
         <property name="availableResponses">
@@ -142,6 +147,11 @@ limitations under the License.
 
     <bean id="KS-AcademicTerm-ConfirmDelete-Dialog" parent="Uif-DialogGroup" >
         <property name="renderHeader" value="false"/>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>acal_dialog</value>
+            </list>
+        </property>
         <property name="promptText"
                   value="@{messageForDeleteTermOrSubterm}"/>
         <property name="availableResponses">
@@ -155,7 +165,11 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-ConfirmCalendarOfficial-Dialog" parent="Uif-DialogGroup" >
         <property name="renderHeader" value="true"/>
         <property name="headerText" value="Confirm Official Status"/>
-        <property name="header.cssClasses" value=""/>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>acal_dialog</value>
+            </list>
+        </property>
         <property name="promptText"
                   value="You are making @{academicCalendarInfo.name} official. This action cannot be undone.
                   Official calendars and terms cannot be deleted.
@@ -172,7 +186,11 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-ConfirmTermOfficial-Dialog" parent="Uif-DialogGroup" >
         <property name="renderHeader" value="true"/>
         <property name="headerText" value="Confirm Official Status"/>
-        <property name="header.cssClasses" value=""/>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>acal_dialog</value>
+            </list>
+        </property>
         <property name="promptText"
                   value="You are making @{makeOfficialName} official. This action cannot be undone.
                   Official calendars and terms cannot be deleted.
@@ -188,7 +206,11 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-ConfirmCalendarTermOfficial-Dialog" parent="Uif-DialogGroup" >
         <property name="renderHeader" value="true"/>
         <property name="headerText" value="Confirm Official Status"/>
-        <property name="header.cssClasses" value=""/>
+        <property name="cssClasses" >
+            <list merge="true">
+                <value>acal_dialog</value>
+            </list>
+        </property>
         <property name="promptText"
                   value="You are making @{makeOfficialName} official. Because the containing calendar must also be
                   official - this will also make @{makeOfficialIsSubterm?makeOfficialParentTermName +

@@ -891,3 +891,12 @@ div#Uif-ApplicationHeader-Wrapper{
 .ks-krad-tab-gridgroup-fix td {
     display: table-cell !important;
 }
+
+/*
+   Edit Academic Calendar > Dialogs
+   Override krad background on dialog header
+*/
+.acal_dialog .uif-dialogHeader {
+    background:none;
+    margin-bottom: 0px;
+}
