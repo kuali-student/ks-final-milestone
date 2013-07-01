@@ -167,10 +167,11 @@ function updateProposition(controllerMethod, collectionGroupId) {
             retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
         }
     } else {
-        enableAddButton();
         var selectedItemInput = getSelectedPropositionInput();
         var selectedItemId = selectedItemInput.val();
         var actionRevealCallBack = function (htmlContent) {};
+
+        enableAddButton();
 
         retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
     }
@@ -306,8 +307,8 @@ function propositionWithoutDescription(parentLiNode) {
  * @return description jQuery object of the proposition that is being added, null if none is currently being added
  */
 function propositionAddInProgress() {
-    var flag = jQuery(".simpleEditNode").attr('id');
-    return typeof flag !== "undefined" ? true : false;
+    var flag = jQuery(".simpleEditNode");
+    return flag.length > 0 ? true : false;
 }
 
 function initRuleTree(componentId) {
