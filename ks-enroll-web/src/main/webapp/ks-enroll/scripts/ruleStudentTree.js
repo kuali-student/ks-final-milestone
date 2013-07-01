@@ -33,7 +33,9 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
     var actionRevealCallBack = function (htmlContent) {
-        jq('.editModeNode').find(".actionReveal").first().hide();
+        if(typeof jq('.simpleEditNode').attr('id') !== "undefined") {
+            disableTreeButtons();
+        }
     };
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
@@ -165,6 +167,7 @@ function updateProposition(controllerMethod, collectionGroupId) {
             retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
         }
     } else {
+        enableAddButton();
         var selectedItemInput = getSelectedPropositionInput();
         var selectedItemId = selectedItemInput.val();
         var actionRevealCallBack = function (htmlContent) {};
@@ -190,13 +193,7 @@ function markNodeAsSelected(parentLiNode) {
     }
 
     if (!propositionAddInProgress()) {
-        enableTreeButtons(); // disableButtons.js
-        // show hidden edit image link
-        jq(parentLiNode).find(".actionReveal").first().show();
-    }
-
-    if(jq(parentLiNode).hasClass('simpleEditNode')) {
-        disableTreeButtons();
+        enableTreeButtons();
     }
 
     if (jq(parentLiNode).hasClass('treeRoot')) {
@@ -230,8 +227,7 @@ function handlePropositionNodeClick(parentLiNode) {
     var selectedItemTracker = getSelectedPropositionInput();
 
     // Don't allow other propositions to be selected when the proposition description is blank
-    if (propositionWithoutDescription(parentLiNode)) {
-        jQuery(".editDescription").focusout()
+    if (propositionAddInProgress()) {
         return;
     }
 
@@ -310,8 +306,8 @@ function propositionWithoutDescription(parentLiNode) {
  * @return description jQuery object of the proposition that is being added, null if none is currently being added
  */
 function propositionAddInProgress() {
-    var description = jQuery(".editDescription");
-    return ((description.length > 0) && (jQuery.trim(description.val()) == "")) ? description : null;
+    var flag = jQuery(".simpleEditNode").attr('id');
+    return typeof flag !== "undefined" ? true : false;
 }
 
 function initRuleTree(componentId) {
