@@ -887,3 +887,16 @@ function createDisclosure(groupId, headerId, widgetId, defaultOpen, collapseImgS
         }
     });
 }
+
+/**
+ * Function for a delayed removal of the highlighting of added collection items.
+ *
+ * @return {Function} - Function to be ran after delay.
+ */
+function removeNewItemHighlights(){
+    return function(){
+        var newItems = jQuery(".uif-newCollectionItem");
+        newItems.removeClass('uif-newCollectionItem');
+    }
+
+}

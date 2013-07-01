@@ -44,10 +44,10 @@
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="style" value="min-width:70em;"/>
+        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000);" />
         <!--<property name="header.render" value="false" />-->
         <property name="headerText" value="Terms"/>
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
-
         <!-- Move the add button to the right of the fields -->
         <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
         <property name="layoutManager.addLineGroup.footer.style" value="display:inline-block;margin-top:2em;"/>

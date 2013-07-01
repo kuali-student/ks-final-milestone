@@ -847,6 +847,9 @@ public class AcademicCalendarController extends UifControllerBase {
 
         academicCalendarForm.setMeta(academicCalendarInfo.getMeta());
 
+        // Reseting added collection items since they were saved
+        academicCalendarForm.setAddedCollectionItems(new ArrayList<Object>());
+
         return getUIFModelAndView(academicCalendarForm);
     }
 
