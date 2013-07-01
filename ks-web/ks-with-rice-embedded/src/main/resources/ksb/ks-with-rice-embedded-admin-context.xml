@@ -21,7 +21,6 @@
 	<bean id="ks.exp.messageService" parent="nullBean" />
 
 	<!-- the ksb exporter for the ks-core message service does not have an id so override the jpa impl with the ks-admin ojb impl -->
-	<!--<alias alias="messageServiceImpl" name="ks.messageService" />-->
 	<bean id="messageServiceImpl" parent="ks.messageService"/>
 	
 	<!-- the gwt application code is defaulting to the mock service impl, so override it as well -->
