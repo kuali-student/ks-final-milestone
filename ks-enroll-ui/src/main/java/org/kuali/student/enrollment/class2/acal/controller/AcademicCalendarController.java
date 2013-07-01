@@ -983,6 +983,16 @@ public class AcademicCalendarController extends UifControllerBase {
                 return false;
             }
             term.setTermInfo(getAcalService().getTerm(term.getTermInfo().getId(),viewHelperService.createContextInfo()));
+            if(term.isSubTerm()){ // update the parent term so the view displays the proper states (draft vs official)
+                for(AcademicTermWrapper termWrapper : acalForm.getTermWrapperList()){
+                    if(termWrapper.getTermInfo().getId().equals(term.getParentTermInfo().getId())){
+                        TermInfo updatedParentTerm = getAcalService().getTerm(term.getParentTermInfo().getId(),viewHelperService.createContextInfo());
+                        // Make sure the parent term is updated in both the term and the termWrapperList.
+                        term.setParentTermInfo(updatedParentTerm);
+                        termWrapper.setTermInfo(updatedParentTerm); // the screen looks at this variable
+                    }
+                }
+            }
             for (KeyDatesGroupWrapper groupWrapper : term.getKeyDatesGroupWrappers()){
                 for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
                     keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),viewHelperService.createContextInfo()));
