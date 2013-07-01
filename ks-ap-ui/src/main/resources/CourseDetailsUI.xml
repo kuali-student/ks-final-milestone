@@ -70,6 +70,46 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
     </bean>
 
+	<bean id="course_details_page_messaging" parent="course_details_page_messaging-parent" />
+	<bean id="course_details_page_messaging-parent" parent="Uif-VerticalBoxGroup"
+		p:render="@{dataObject.plannedCourseSummary.planned}">
+		<property name="validationMessages">
+			<null />
+		</property>
+		<property name="cssClasses">
+			<list merge="true">
+				<value>myplan-status</value>
+				<value>info</value>
+			</list>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-HorizontalFieldGroup">
+					<property name="fieldLabel.render" value="false" />
+					<property name="group.validationMessages">
+						<null />
+					</property>
+					<property name="items">
+						<list>
+							<bean parent="MyPlanMessagingIcon" />
+							<bean parent="Uif-DataField" p:propertyName="details"
+								p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
+								<property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal" />
+								<property name="propertyEditor" ref="crud_message_matrix_formatter" />
+								<property name="cssClasses">
+									<list merge="true">
+										<value>myplan-data-list</value>
+										<value>message</value>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
     <bean id="course_details_section" parent="course_details_section-parent" />
     <bean id="course_details_section-parent" parent="Uif-VerticalBoxSubSection">
         <property name="items">
@@ -81,47 +121,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                     <property name="items">
                         <list>
                             <ref bean="course_details_actions"/>
-
-                            <bean id="course_details_page_messaging" parent="Uif-VerticalBoxGroup"
-                                  p:render="@{(dataObject.plannedCourseSummary.backupList.size() gt 0 or dataObject.plannedCourseSummary.plannedList.size() gt 0 or dataObject.plannedCourseSummary.academicTerms.size() gt 0) ? true : false}">
-                                <property name="validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>myplan-status</value>
-                                        <value>info</value>
-                                    </list>
-                                </property>
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-HorizontalFieldGroup">
-                                            <property name="fieldLabel.render" value="false"/>
-                                            <property name="group.validationMessages">
-                                                <null/>
-                                            </property>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="MyPlanMessagingIcon"/>
-                                                    <bean parent="Uif-DataField" p:propertyName="details"
-                                                          p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                                                        <property name="fieldLabel.cssClasses"
-                                                                  value="fl-text-gray myplan-text-normal"/>
-                                                        <property name="propertyEditor"
-                                                                  ref="crud_message_matrix_formatter"/>
-                                                        <property name="cssClasses">
-                                                            <list merge="true">
-                                                                <value>myplan-data-list</value>
-                                                                <value>message</value>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
+							<ref bean="course_details_page_messaging" />
                             <ref bean="course_details_overview"/>
                             <!--<ref bean="course_details_links"/>-->
                             <ref bean="course_details_sections"/>
@@ -131,6 +131,67 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             </list>
         </property>
     </bean>
+
+	<bean id="ksapAddPlannedCourse" parent="ksapAddPlannedCourse-parent" />
+	<bean id="ksapAddPlannedCourse-parent" parent="Uif-PrimaryActionButton"
+		p:actionLabel="Add to Plan" p:actionImagePlacement="RIGHT"
+		p:render="@{!dataObject.plannedCourseSummary.planned}">
+		<property name="actionImage">
+			<bean parent="Uif-Image"
+				p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+				<property name="cssClasses">
+					<list merge="true">
+						<value>rightArrowLarge</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="actionScript"
+			value="openPlanItemPopUp('@{dataObject.courseSummaryDetails.courseIdXmlSafe}','add_dialog_page',{courseId:'@{dataObject.courseSummaryDetails.courseId}',pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},position:'right',align:'top'});" />
+	</bean>
+
+	<bean id="ksapAddSavedCourse" parent="ksapAddSavedCourse-parent" />
+	<bean id="ksapAddSavedCourse-parent" parent="Uif-SecondaryActionButton"
+		p:actionLabel="Bookmark Course" p:render="@{!dataObject.plannedCourseSummary.bookmarked}">
+		<property name="onDocumentReadyScript"
+			value="
+                jQuery('#@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addSavedCourse')
+                    .subscribe('PLAN_ITEM_ADDED', function(data){
+                        if (data.planItemType === 'wishlist') {
+                            fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseId+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
+                        }
+                    })
+                    .subscribe('PLAN_ITEM_DELETED', function(data){
+                        if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseId === '@{dataObject.courseSummaryDetails.courseId}') {
+                            fnRestoreDetailsAddButton(data.courseDetails.courseId);
+                        }
+                    });" />
+		<property name="actionScript"
+			value="myPlanAjaxPlanItemMove('@{dataObject.courseSummaryDetails.courseId}', '@{dataObject.courseSummaryDetails.courseIdXmlSafe}', 'courseId', 'addSavedCourse', e);" />
+	</bean>
+
+	<bean id="ksapBookmarked" parent="ksapBookmarked-parent" />
+	<bean id="ksapBookmarked-parent" parent="Uif-LinkGroup"
+		p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_bookmarked"
+		p:render="@{dataObject.plannedCourseSummary.bookmarked}"
+		p:groupBeginDelimiter="" p:groupEndDelimiter="" p:linkSeparator="">
+		<property name="cssClasses">
+			<list merge="true">
+				<value>myplan-status</value>
+				<value>info</value>
+			</list>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-Link" p:linkText="Bookmarked"
+					p:href="lookup?methodToCall=search&amp;viewId=SavedCoursesDetail-LookupView"
+					p:title="Bookmarked" p:target="" />
+				<bean parent="Uif-Message"
+					p:messageText="on @{dataObject.plannedCourseSummary.savedItemDateCreated}">
+				</bean>
+			</list>
+		</property>
+	</bean>
 
     <bean id="course_details_actions" parent="course_details_actions-parent" />
     <bean id="course_details_actions-parent" parent="Uif-HorizontalBoxGroup">
@@ -152,68 +213,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                           });"/>
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Add to Plan"
-                      p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addPlannedCourse"
-                      p:actionImagePlacement="RIGHT">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>rightArrowLarge</value>
-                                </list>
-                            </property>
-                        </bean>
-                    </property>
-                    <property name="actionScript"
-                              value="openPlanItemPopUp('@{dataObject.courseSummaryDetails.courseIdXmlSafe}','add_dialog_page',{courseId:'@{dataObject.courseSummaryDetails.courseId}',pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},position:'right',align:'top'});"/>
-                </bean>
-                <bean parent="Uif-SecondaryActionButton" p:actionLabel="Bookmark Course"
-                      p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addSavedCourse"
-                      p:render="@{!dataObject.plannedCourseSummary.inSavedCourseList}">
-                    <property name="onDocumentReadyScript"
-                              value="
-                              jQuery('#@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addSavedCourse')
-                                  .subscribe('PLAN_ITEM_ADDED', function(data){
-                                      if (data.planItemType === 'wishlist') {
-                                          fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseId+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
-                                      }
-                                  })
-                                  .subscribe('PLAN_ITEM_DELETED', function(data){
-                                      if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseId === '@{dataObject.courseSummaryDetails.courseId}') {
-                                          fnRestoreDetailsAddButton(data.courseDetails.courseId);
-                                      }
-                                  });"/>
-                    <property name="actionScript"
-                              value="myPlanAjaxPlanItemMove('@{dataObject.courseSummaryDetails.courseId}', '@{dataObject.courseSummaryDetails.courseIdXmlSafe}', 'courseId', 'addSavedCourse', e);"/>
-                </bean>
-                <bean parent="Uif-LinkGroup" p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_bookmarked"
-                      p:render="@{dataObject.plannedCourseSummary.savedItemId ne null AND dataObject.plannedCourseSummary.plannedList.size() eq 0 AND dataObject.plannedCourseSummary.backupList.size() eq 0 AND dataObject.plannedCourseSummary.academicTerms.size() eq 0}"
-                      p:groupBeginDelimiter="" p:groupEndDelimiter="" p:linkSeparator="">
-                    <!--<property name="onDocumentReadyScript"
-                              value="jQuery('#@{dataObject.courseSummaryDetails.courseId}_bookmarked').subscribe('PLAN_ITEM_DELETED', function(data){
-                                  if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseId === '@{dataObject.courseSummaryDetails.courseId}') {
-                                      fnRestoreDetailsAddButton(data.courseDetails.courseId);
-                                  }
-                              });"/>-->
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>myplan-status</value>
-                            <value>info</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Link" p:linkText="Bookmarked"
-                                  p:href="lookup?methodToCall=search&amp;viewId=SavedCoursesDetail-LookupView"
-                                  p:title="Bookmarked" p:target="" />
-                            <bean parent="Uif-Message"
-                                  p:messageText="on @{dataObject.plannedCourseSummary.savedItemDateCreated}">
-                            </bean>
-
-                        </list>
-                    </property>
-                </bean>
+            	<bean parent="ksapAddPlannedCourse"
+                    p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addPlannedCourse" />
+                <bean parent="ksapAddSavedCourse"
+                    p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addSavedCourse" />
+                <bean parent="ksapBookmarked"
+					p:id="@{dataObject.courseSummaryDetails.courseIdXmlSafe}_bookmarked" />
             </list>
         </property>
         <property name="propertyReplacers">
