@@ -19,6 +19,8 @@ import edu.emory.mathcs.backport.java.util.Collections;
 import org.junit.Assert;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
@@ -46,6 +48,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -1748,7 +1751,10 @@ public class TestCluServiceImpl extends AbstractServiceTest {
         assertEquals("Advanced Applied Linear Algebra", resultCell.getValue());
     }
 
-    @Test
+
+
+
+        @Test
     public void test23SearchForClus() throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
@@ -3635,4 +3641,34 @@ public class TestCluServiceImpl extends AbstractServiceTest {
                 ("field2.twoU".equals(updated.getVariants().get(0).getId())
                         && "value2.twoU".equals(updated.getVariants().get(0).getValue())));
     }
+
+    @Test
+    public void SearchForClus() throws AlreadyExistsException,
+            DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            ParseException, VersionMismatchException {
+
+   Date firstDate  = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20010101") ;
+   Date secondDate = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20020201");
+        //String firstDate = "20120101";
+   // String secondDate ="2012-06-28";    2002-01-01
+    //String id ="83e46ae9-875e-4970-811f-0719a6b260a2";
+
+    QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+    qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", firstDate),
+            PredicateFactory.lessThanOrEqual("effectiveDate",secondDate));
+
+//        qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", "to_date('" + firstDate + "','yyyy-mm-dd')"),
+//                PredicateFactory.lessThanOrEqual("effectiveDate", "to_date('" + secondDate + "','yyyy-mm-dd')"));
+
+    try {
+        List<CluInfo> cluInfos = client.searchForClus(qbcBuilder.build(), ContextUtils.getContextInfo());
+
+        assertEquals(37, cluInfos.size());
+    } catch (Exception e) {
+        throw new RuntimeException(e);
+    }
+    }
+
 }
