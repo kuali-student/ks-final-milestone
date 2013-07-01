@@ -814,7 +814,6 @@ function updateManageCoPageTitle( value ) {
     jQuery( '.uif-viewHeader-contentWrapper .uif-headerText .uif-headerText-span' ).html( value );
 }
 
-//KSENROLL-7748 override of KRAD code - odd case where newlines in header text cause odd formatting in chrome. Added a headertext.trim() call
 function createDisclosure(groupId, headerId, widgetId, defaultOpen, collapseImgSrc, expandImgSrc, animationSpeed, renderImage) {
     jQuery(document).ready(function () {
         var groupToggleLinkId = groupId + "_toggle";
