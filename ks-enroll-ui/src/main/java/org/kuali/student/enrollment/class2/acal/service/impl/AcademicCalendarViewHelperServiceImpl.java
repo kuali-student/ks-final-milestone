@@ -919,9 +919,29 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_ACAL_RANGE,termWrapperToValidate.getName());
         }
         if(termWrapperToValidate.isSubTerm()){
-            if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(),termWrapperToValidate.getParentTermInfo().getEndDate(),termWrapperToValidate.getStartDate()) ||
-                    !CommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(),termWrapperToValidate.getParentTermInfo().getEndDate(),termWrapperToValidate.getEndDate())){
-                GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,termWrapperToValidate.getName(),termWrapperToValidate.getParentTermInfo().getName());
+            if(termWrapperToValidate.getParentTermInfo()!= null){
+                if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(),termWrapperToValidate.getParentTermInfo().getEndDate(),termWrapperToValidate.getStartDate()) ||
+                        !CommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(),termWrapperToValidate.getParentTermInfo().getEndDate(),termWrapperToValidate.getEndDate())){
+                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,termWrapperToValidate.getName(),termWrapperToValidate.getParentTermInfo().getName());
+                }
+            }else{
+                // Find term manually if calendar hasn't already been saved.
+                AcademicTermWrapper parentTerm=null;
+                for (AcademicTermWrapper term :termWrapper){
+                    String termType = term.getTermType();
+                    if (StringUtils.isBlank(termType)){
+                        termType = term.getTermInfo().getTypeKey();
+                    }
+                    if (termWrapperToValidate.getParentTerm().equals(termType)){
+                        parentTerm =term;
+                        break;
+                    }
+                }
+
+                if (!CommonUtils.isDateWithinRange(parentTerm.getStartDate(),parentTerm.getEndDate(),termWrapperToValidate.getStartDate()) ||
+                        !CommonUtils.isDateWithinRange(parentTerm.getStartDate(),parentTerm.getEndDate(),termWrapperToValidate.getEndDate())){
+                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,termWrapperToValidate.getName(),parentTerm.getName());
+                }
             }
         }
 
