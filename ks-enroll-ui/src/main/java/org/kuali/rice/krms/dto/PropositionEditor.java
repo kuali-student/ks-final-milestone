@@ -20,7 +20,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContr
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.impl.ui.TermParameter;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     private Long versionNumber;
 
     /**Natural Language**/
-    private String defaultNlKey = KsKrmsConstants.KRMS_NL_RULE_EDIT;
+    private String defaultNlKey = KSKRMSServiceConstants.KRMS_NL_RULE_EDIT;
     private Map<String, String> naturalLanguage = new HashMap<String, String>();
 
     private List<PropositionParameterEditor> parameters;

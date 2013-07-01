@@ -35,6 +35,7 @@ import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.tree.node.SimplePropositionEditNode;
 import org.kuali.rice.krms.tree.node.SimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
 import org.kuali.student.common.uif.util.KSControllerHelper;
@@ -93,7 +94,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         if(!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)){
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KRMSConstants.KRMS_RULE_MAINTENANCE_PAGE_ID);
         }
         return super.navigate(form, result, request, response);
     }

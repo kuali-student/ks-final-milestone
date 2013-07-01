@@ -47,34 +47,6 @@ public class RuleLogicExpressionParser {
         }
     }
 
-    public void checkMissingRCs(List<PropositionEditor> missingProps, List<PropositionEditor> props) {
-        checkExpressionSet();
-
-        List<String> conditionValues = new ArrayList<String>();
-        for (ExpressionToken token : tokenList) {
-            if (token.type == ExpressionToken.Condition) {
-                conditionValues.add(token.value);
-            }
-        }
-
-        if (props != null && props.isEmpty()) {
-            for (PropositionEditor p : props) {
-                boolean foundId = false;
-                if (!conditionValues.isEmpty()) {
-                    for (String conditionValue : conditionValues) {
-                        if (conditionValue != null && conditionValue.equalsIgnoreCase(p.getCompoundOpCode())) {
-                            foundId = true;
-                            break;
-                        }
-                    }
-                }
-                if (!foundId) {
-                    missingProps.add(p);
-                }
-            }
-        }
-    }
-
     public boolean validateExpression(List<String> errorMessages, List<String> propsAlpha) {
         checkExpressionSet();
         return doValidateExpression(errorMessages, tokenList, propsAlpha);
@@ -90,11 +62,11 @@ public class RuleLogicExpressionParser {
 
         if ((tokens.get(0).type == ExpressionToken.StartParenthesis
                 || tokens.get(0).type == ExpressionToken.Condition) == false) {
-            errorMessages.add("error.krms.logic.expression.start");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_LOGIC_EXPRESSION_START);
             return false;
         }
         if (countToken(tokens, ExpressionToken.StartParenthesis) != countToken(tokens, ExpressionToken.EndParenthesis)) {
-            errorMessages.add("error.krms.logic.parenthesis.notpair");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PARENTHESIS_NOT_PAIR);
             return false;
         }
         if (!validateAndOr(errorMessages, tokens)) {
@@ -148,7 +120,7 @@ public class RuleLogicExpressionParser {
                     while (operatorStack.peek().type != ExpressionToken.StartParenthesis) {
                         ExpressionToken next = operatorStack.pop();
                         if (next.type != operator.type) {
-                            errorMessages.add("error.krms.logic.operator.type");
+                            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_OPERATOR_TYPE);
                             return false;
                         }
                     }
@@ -180,11 +152,11 @@ public class RuleLogicExpressionParser {
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.Condition || prevToken.type == ExpressionToken.EndParenthesis) == false) {
-            errorMessages.add("error.krms.logic.precede.operator");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PRECEDE_OPERATOR);
             validToken = false;
         }
         if (nextToken != null && (nextToken.type == ExpressionToken.Condition || nextToken.type == ExpressionToken.StartParenthesis) == false) {
-            errorMessages.add("error.krms.logic.follow.operator");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_OPERATOR);
             validToken = false;
         }
         return validToken;
@@ -197,11 +169,11 @@ public class RuleLogicExpressionParser {
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.Condition || prevToken.type == ExpressionToken.EndParenthesis) == false) {
-            errorMessages.add("error.krms.logic.precede.or");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PRECEDE_OR);
             validToken = false;
         }
         if (nextToken != null && (nextToken.type == ExpressionToken.Condition || nextToken.type == ExpressionToken.StartParenthesis) == false) {
-            errorMessages.add("error.krms.logic.follow.or");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_OR);
             validToken = false;
         }
         return validToken;
@@ -214,7 +186,7 @@ public class RuleLogicExpressionParser {
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (nextToken != null && (nextToken.type == ExpressionToken.Condition || nextToken.type == ExpressionToken.StartParenthesis) == false) {
-            errorMessages.add("error.krms.logic.follow.start.parenthesis");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_START_PARENTHESIS);
             validToken = false;
         }
         return validToken;
@@ -227,11 +199,11 @@ public class RuleLogicExpressionParser {
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.Condition || prevToken.type == ExpressionToken.EndParenthesis) == false) {
-            errorMessages.add("error.krms.logic.precede.end.parenthesis");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PRECEDE_END_PARENTHESIS);
             validToken = false;
         }
         if (nextToken != null && (nextToken.type == ExpressionToken.Or || nextToken.type == ExpressionToken.And || nextToken.type == ExpressionToken.EndParenthesis) == false) {
-            errorMessages.add("error.krms.logic.follow.end.parenthesis");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_END_PARENTHESIS);
             validToken = false;
         }
         return validToken;
@@ -245,11 +217,11 @@ public class RuleLogicExpressionParser {
                 tokenList.get(currentIndex + 1);
         boolean validToken = true;
         if (prevToken != null && (prevToken.type == ExpressionToken.And || prevToken.type == ExpressionToken.Or || prevToken.type == ExpressionToken.StartParenthesis) == false) {
-            errorMessages.add("error.krms.logic.precede.condition");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PRECEDE_CONDITION);
             validToken = false;
         }
         if (nextToken != null && (nextToken.type == ExpressionToken.Or || nextToken.type == ExpressionToken.And || nextToken.type == ExpressionToken.EndParenthesis || nextToken.type == ExpressionToken.StartParenthesis) == false) {
-            errorMessages.add("error.krms.logic.follow.condition");
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_CONDITION);
             validToken = false;
         }
         return validToken;

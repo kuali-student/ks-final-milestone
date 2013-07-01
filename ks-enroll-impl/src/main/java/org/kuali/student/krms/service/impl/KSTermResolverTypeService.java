@@ -12,7 +12,7 @@ import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
 import org.kuali.student.krms.termresolver.GPATermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCreditsTermResolver;
 import org.kuali.student.krms.termresolver.ScoreTermResolver;
-import org.kuali.student.krms.util.KSKRMSConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 public class KSTermResolverTypeService implements TermResolverTypeService {
@@ -25,30 +25,30 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 	public TermResolver<?> loadTermResolver(
 			TermResolverDefinition termResolverDefinition) {
 		
-		if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_COMPLETED_COURSE)) {
+		if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_COMPLETED_COURSE)) {
 			CompletedCourseTermResolver resolver = new CompletedCourseTermResolver();
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_FREE_TEXT)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_FREE_TEXT)) {
 			FreeFormTextTermResolver resolverForm = new FreeFormTextTermResolver();
 			//resolver.setAcademicRecordService(acadRecordService); Does not exist
 			return resolverForm;
-		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_GPA)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_GPA)) {
 			GPATermResolver resolver = new GPATermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_NUMBER_OF_CREDITS)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_NUMBER_OF_CREDITS)) {
 			NumberOfCreditsTermResolver resolver = new NumberOfCreditsTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_SCORE)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_SCORE)) {
 			ScoreTermResolver resolver = new ScoreTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_ADMIN_ORG_NUMBER)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_ADMIN_ORG_NUMBER)) {
 			AdminOrgNumberTermResolver resolver = new AdminOrgNumberTermResolver();
 			resolver.setOrganizationService(organizationService);
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSConstants.TERM_SPEC_COMPLETED_COURSE)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_COMPLETED_COURSE)) {
 			NumberOfCompletedCoursesTermResolver resolver = new NumberOfCompletedCoursesTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;

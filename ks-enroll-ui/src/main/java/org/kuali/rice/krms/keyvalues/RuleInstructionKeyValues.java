@@ -27,7 +27,7 @@ import org.kuali.rice.krms.impl.repository.NaturalLanguageTemplateBoService;
 import org.kuali.rice.krms.impl.repository.NaturalLanguageUsageBoService;
 import org.kuali.rice.krms.impl.repository.TypeTypeRelationBoService;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -48,7 +48,7 @@ public class RuleInstructionKeyValues implements Serializable {
 
     public Map<String, String> getKeyValues(Set<String> ruleTypeIds) {
         Map<String, String> keyValuesInstruction = new HashMap<String, String>();
-        NaturalLanguageUsage usageInstruction = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(PermissionServiceConstants.KS_SYS_NAMESPACE, KsKrmsConstants.KRMS_NL_TYPE_INSTRUCTION);
+        NaturalLanguageUsage usageInstruction = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.KRMS_NL_TYPE_INSTRUCTION);
          //Use Type Type Relation to get Rule Types
         try {
             for(String ruleTypeId : ruleTypeIds) {
@@ -62,7 +62,7 @@ public class RuleInstructionKeyValues implements Serializable {
                 if (templateInstruction != null) {
                     keyValuesInstruction.put(ruleTypeId, templateInstruction.getTemplate());
                 } else {
-                    keyValuesInstruction.put(ruleTypeId, KsKrmsConstants.KRMS_NL_TYPE_INSTRUCTION);
+                    keyValuesInstruction.put(ruleTypeId, KSKRMSServiceConstants.KRMS_NL_TYPE_INSTRUCTION);
                 }
             };
         } catch (Exception ex) {}

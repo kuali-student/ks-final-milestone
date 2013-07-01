@@ -33,10 +33,10 @@ import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
 import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
+import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -44,6 +44,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -106,7 +107,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             CluInformation clu = (CluInformation) addLine;
             if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
                 collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), KRMSConstants.MessageKeys.ERROR_APPROVED_COURSE_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), KSKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED);
                   return false;
             }
 
@@ -123,7 +124,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             //Check if this is a valid clu.
             CluSetInformation cluSet = (CluSetInformation) addLine;
             if((cluSet.getCluSetInfo().getId() == null)||(cluSet.getCluSetInfo().getId().isEmpty())){
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), KRMSConstants.MessageKeys.ERROR_COURSESETS_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), KSKRMSConstants.KSKRMS_MSG_ERROR_COURSESETS_REQUIRED);
                 return false;
             }
 
@@ -141,7 +142,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             CluInformation clu = (CluInformation) addLine;
             if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
                 collectionGroup.initializeNewCollectionLine(view, model, collectionGroup, true);
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), KRMSConstants.MessageKeys.ERROR_APPROVED_PROGRAM_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), KSKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED);
                 return false;
             }
 

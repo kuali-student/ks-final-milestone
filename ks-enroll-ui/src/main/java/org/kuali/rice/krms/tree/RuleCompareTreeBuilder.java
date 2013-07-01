@@ -25,7 +25,7 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -193,7 +193,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
     }
 
     public String getNaturalLanguageUsageKey(){
-        return  KsKrmsConstants.KRMS_NL_RULE_EDIT;
+        return  KSKRMSServiceConstants.KRMS_NL_RULE_EDIT;
     }
 
 }

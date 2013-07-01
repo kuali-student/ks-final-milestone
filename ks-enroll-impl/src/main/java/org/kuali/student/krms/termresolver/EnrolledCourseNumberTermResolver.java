@@ -22,7 +22,6 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -30,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
@@ -48,8 +48,8 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
     private final static Set<String> prerequisites = new HashSet<String>(2);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        prerequisites.add(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
+        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
     }
     
     public CourseRegistrationService getCourseRegistrationService() {
@@ -67,12 +67,12 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
 
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.ENROLLED_COURSE_NUMBER_TERM_NAME;
+        return KSKRMSServiceConstants.ENROLLED_COURSE_NUMBER_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.COURSE_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -83,9 +83,9 @@ public class EnrolledCourseNumberTermResolver implements TermResolver<Integer> {
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String courseOfferingIds = parameters.get(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
+        String courseOfferingIds = parameters.get(KSKRMSServiceConstants.COURSE_ID_TERM_PROPERTY);
         
         List<CourseRegistrationInfo> recordInfoList = null;
         Integer result = 0;

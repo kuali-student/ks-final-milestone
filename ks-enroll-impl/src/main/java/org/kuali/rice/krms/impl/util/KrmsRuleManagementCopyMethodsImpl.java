@@ -22,7 +22,6 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -32,6 +31,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -64,7 +64,7 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         List<ReferenceObjectBinding> refsToCopy = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(fromReferenceDiscriminatorType, fromReferenceObjectId);
         for (ReferenceObjectBinding reference : refsToCopy) {
             ReferenceObjectBinding.Builder refBldr = null;
-            if (reference.getKrmsDiscriminatorType().equals(KsKrmsConstants.KRMS_DISCRIMINATOR_TYPE_AGENDA)) {
+            if (reference.getKrmsDiscriminatorType().equals(KSKRMSServiceConstants.KRMS_DISCRIMINATOR_TYPE_AGENDA)) {
                 AgendaTreeDefinition agendaTree = getRuleManagementService().getAgendaTree(reference.getKrmsObjectId());
 
                 AgendaDefinition copiedAgenda = deepCopyAgenda(agendaTree, toReferenceObjectId);
@@ -211,7 +211,7 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         List<ReferenceObjectBinding> refsToDelete = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(referenceDiscriminatorType,
                 referenceObjectId);
         for (ReferenceObjectBinding refToDelete : refsToDelete) {
-            if (refToDelete.getKrmsDiscriminatorType().equals(KsKrmsConstants.KRMS_DISCRIMINATOR_TYPE_AGENDA)) {
+            if (refToDelete.getKrmsDiscriminatorType().equals(KSKRMSServiceConstants.KRMS_DISCRIMINATOR_TYPE_AGENDA)) {
                 this._deleteAgendaCascade(refToDelete.getKrmsObjectId());
             } else {
                 throw new RiceIllegalStateException("unknown/unhandled KRMS discriminator type " + refToDelete.getKrmsDiscriminatorType());

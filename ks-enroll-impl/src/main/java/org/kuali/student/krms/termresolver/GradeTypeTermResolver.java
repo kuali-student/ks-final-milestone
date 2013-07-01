@@ -19,13 +19,13 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -40,8 +40,8 @@ public class GradeTypeTermResolver implements TermResolver<Integer> {
     private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        prerequisites.add(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
+        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
     }
     
     public AcademicRecordService getAcademicRecordService() {
@@ -59,15 +59,15 @@ public class GradeTypeTermResolver implements TermResolver<Integer> {
 
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.GPA_TERM_NAME;
+        return KSKRMSServiceConstants.GPA_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
         Set<String> temp = new HashSet<String>(3);
-        temp.add(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
-        temp.add(KSKRMSExecutionConstants.GRADE_TERM_PROPERTY);
-        temp.add(KSKRMSExecutionConstants.GRADE_TYPE_TERM_PROPERTY);
+        temp.add(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY);
+        temp.add(KSKRMSServiceConstants.GRADE_TERM_PROPERTY);
+        temp.add(KSKRMSServiceConstants.GRADE_TYPE_TERM_PROPERTY);
         return Collections.unmodifiableSet(temp);
     }
 
@@ -79,11 +79,11 @@ public class GradeTypeTermResolver implements TermResolver<Integer> {
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String courseCodes = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
-        String gradeType = parameters.get(KSKRMSExecutionConstants.GRADE_TYPE_TERM_PROPERTY);
-        String grade = parameters.get(KSKRMSExecutionConstants.GRADE_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
+        String courseCodes = parameters.get(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY);
+        String gradeType = parameters.get(KSKRMSServiceConstants.GRADE_TYPE_TERM_PROPERTY);
+        String grade = parameters.get(KSKRMSServiceConstants.GRADE_TERM_PROPERTY);
         
         List<StudentCourseRecordInfo> studentCourseRecordInfoList = null;
         Integer result = null;

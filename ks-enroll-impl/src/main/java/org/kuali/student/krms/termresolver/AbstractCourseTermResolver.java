@@ -1,6 +1,6 @@
 package org.kuali.student.krms.termresolver;
 
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.HashSet;
@@ -19,8 +19,8 @@ public abstract class AbstractCourseTermResolver {
     protected final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        prerequisites.add(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
+        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
     }
 
     private CluService cluService;
@@ -46,7 +46,7 @@ public abstract class AbstractCourseTermResolver {
     protected String resolveCourseCode(Map<String, String> parameters){
 
         // First check if the code is not already resolved.
-        String courseCode = parameters.get(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+        String courseCode = parameters.get(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY);
 
         if (courseCode != null){
             return courseCode;
@@ -61,7 +61,7 @@ public abstract class AbstractCourseTermResolver {
     protected String[] resolveCourseCodes(Map<String, String> parameters){
 
         // First check if codes are not already resolved.
-        String courseCodes = parameters.get(KSKRMSExecutionConstants.COURSE_CODES_TERM_PROPERTY);
+        String courseCodes = parameters.get(KSKRMSServiceConstants.COURSE_CODES_TERM_PROPERTY);
 
         if (courseCodes != null){
             return toCodesArray(courseCodes);

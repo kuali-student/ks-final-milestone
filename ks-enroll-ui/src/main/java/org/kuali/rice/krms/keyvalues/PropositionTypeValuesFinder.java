@@ -32,8 +32,8 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class PropositionTypeValuesFinder extends UifKeyValuesFinderBase {
             ruleTypeId = ((RuleManagementWrapper) dataObject).getRuleEditor().getTypeId();
         }
 
-        NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
+        NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
 
         // if we have an agenda w/ a selected context
         Collection<TypeTypeRelation> typeRelations = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(ruleTypeId);

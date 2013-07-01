@@ -19,12 +19,12 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -39,8 +39,8 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
     private final static Set<String> prerequisites = new HashSet<String>(2);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        prerequisites.add(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
+        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
     }
 
     public CourseRegistrationService getCourseRegistrationService() {
@@ -58,12 +58,12 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.ENROLLED_COURSE_TERM_NAME;
+        return KSKRMSServiceConstants.ENROLLED_COURSE_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.COURSE_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -75,7 +75,7 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String courseOfferingIds = parameters.get(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY);
+        String courseOfferingIds = parameters.get(KSKRMSServiceConstants.COURSE_ID_TERM_PROPERTY);
         Boolean result = false;
 
         courseOfferingIds = courseOfferingIds.trim();
@@ -108,8 +108,8 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
     private List<CourseRegistrationInfo> getCourseRegistrationsForStudent(Map<String, Object> resolvedPrereqs, Map<String, String> parameters){
 
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
 
         List<CourseRegistrationInfo> registrationInfos = null;
         try {

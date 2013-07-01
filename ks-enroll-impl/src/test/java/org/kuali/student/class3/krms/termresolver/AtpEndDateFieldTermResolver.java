@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.student.krms.KRMSConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +48,7 @@ public class AtpEndDateFieldTermResolver extends AbstractKSTermResolver<Date>  {
     public Set<String> getPrerequisites() {
         Set<String> prereq = super.getPrerequisites();
         
-        prereq.add(KRMSConstants.CURRENT_TERM_ID);
+        prereq.add(KSKRMSServiceConstants.TERM_TYPE_CURRENT_TERM_ID);
         
         return prereq;
     }
@@ -59,10 +59,10 @@ public class AtpEndDateFieldTermResolver extends AbstractKSTermResolver<Date>  {
     public Date resolve(Map<String, Object> resolvedPrereqs,
             Map<String, String> parameters) throws TermResolutionException {
         
-        AtpInfo atp = (AtpInfo) resolvedPrereqs.get(KRMSConstants.CURRENT_TERM_ID);
+        AtpInfo atp = (AtpInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_TYPE_CURRENT_TERM_ID);
         
         if (atp == null)
-           throw new TermResolutionException("atp undefined for term = " + KRMSConstants.CURRENT_TERM_ID, this, parameters);
+           throw new TermResolutionException("atp undefined for term = " + KSKRMSServiceConstants.TERM_TYPE_CURRENT_TERM_ID, this, parameters);
         
         return atp.getEndDate();
             

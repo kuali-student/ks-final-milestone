@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.class1.krms.dto.ProgramCluSetInformation;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -65,9 +66,6 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
 
     private PopulationService populationService;
 
-    private static final String PROGRAM_CLUSET_KEY = "kuali.term.parameter.type.program.cluSet.id";
-    private static final String ClASS_STANDING_KEY = "kuali.term.parameter.type.classStanding";
-
     @Override
     public List<String> getComponentIds() {
         return null;
@@ -75,8 +73,8 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
 
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
-        String cluSetId = termParameters.get(PROGRAM_CLUSET_KEY);
-        String classStadingId = termParameters.get(ClASS_STANDING_KEY);
+        String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY);
+        String classStadingId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ClASS_STANDING_KEY);
         if (cluSetId != null) {
             try {
                 ProgramCluSetInformation cluSetInfo = this.getProgramCluSetInformation(cluSetId);
@@ -106,14 +104,14 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getProgCluSet() != null) {
             if (propositionEditor.getProgCluSet().getCluSetInfo() != null) {
-                termParameters.put(PROGRAM_CLUSET_KEY, propositionEditor.getProgCluSet().getCluSetInfo().getId());
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, propositionEditor.getProgCluSet().getCluSetInfo().getId());
             } else {
-                termParameters.put(PROGRAM_CLUSET_KEY, null);
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, null);
             }
         }
         if (propositionEditor.getClassStanding() != null){
 
-            termParameters.put(ClASS_STANDING_KEY, propositionEditor.getPopulationWrapper().getId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ClASS_STANDING_KEY, propositionEditor.getPopulationWrapper().getId());
         }
 
         return termParameters;
@@ -128,7 +126,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
             CluSetInfo cluSetInfo = propositionEditor.getProgCluSet().getCluSetInfo();
             if (cluSetInfo.getId() == null) {
                 cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
-                ComponentBuilderUtils.updateTermParameter(propositionEditor.getTerm(), PROGRAM_CLUSET_KEY, cluSetInfo.getId());
+                ComponentBuilderUtils.updateTermParameter(propositionEditor.getTerm(), KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, cluSetInfo.getId());
 
             } else {
                 this.getCluService().updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());

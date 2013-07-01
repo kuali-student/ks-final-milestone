@@ -28,9 +28,10 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.keyvalues.GradeScaleValuesFinder;
 import org.kuali.student.enrollment.class1.krms.keyvalues.GradeValuesKeyFinder;
 import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
+import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -57,10 +58,6 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
 
     private CluInformationHelper cluInfoHelper;
 
-    private static final String CLUSET_KEY = "kuali.term.parameter.type.course.cluSet.id";
-    private static final String GRADE_TYPE_KEY = "kuali.term.parameter.type.gradeType.id";
-    private static final String GRADE_KEY = "kuali.term.parameter.type.grade.id";
-
     @Override
     public List<String> getComponentIds() {
         return null;
@@ -68,7 +65,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
 
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
-        String cluSetId = termParameters.get(CLUSET_KEY);
+        String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
         if (cluSetId != null) {
             try {
                 CluSetInformation cluSetInfo = this.getCluSetInformation(cluSetId);
@@ -87,14 +84,14 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getCluSet() != null) {
             if (propositionEditor.getCluSet().getCluSetInfo() != null) {
-                termParameters.put(CLUSET_KEY, propositionEditor.getCluSet().getCluSetInfo().getId());
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, propositionEditor.getCluSet().getCluSetInfo().getId());
             } else {
-                termParameters.put(CLUSET_KEY, null);
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, null);
             }
         }
         if (propositionEditor.getGradeScale() != null) {
-            termParameters.put(GRADE_TYPE_KEY, propositionEditor.getGradeScale());
-            termParameters.put(GRADE_KEY, propositionEditor.getTermParameter());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY, propositionEditor.getGradeScale());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY, propositionEditor.getTermParameter());
         }
         return termParameters;
     }
@@ -107,7 +104,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             CluSetInfo cluSetInfo = propositionEditor.getCluSet().getCluSetInfo();
             if (cluSetInfo.getId() == null) {
                 cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
-                ComponentBuilderUtils.updateTermParameter(propositionEditor.getTerm(), CLUSET_KEY, cluSetInfo.getId());
+                ComponentBuilderUtils.updateTermParameter(propositionEditor.getTerm(), KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, cluSetInfo.getId());
 
             } else {
                 this.getCluService().updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
@@ -122,15 +119,15 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         CluSetInformation cluSet = propositionEditor.getCluSet();
         if(!cluSet.hasClus() && !cluSet.hasMembershipQuery() && cluSet.getCluSets().size()==0){
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "multipleCourseType");
-            GlobalVariables.getMessageMap().putError(propName, "error.krms.multicourse.required");
+            GlobalVariables.getMessageMap().putError(propName, KSKRMSConstants.KSKRMS_MSG_ERROR_MULTICOURSE_REQUIRED);
         }
     }
 
     private void populatePropositionWrapper(EnrolPropositionEditor propositionEditor) {
         for (TermParameterEditor termParameterEditor : (List<TermParameterEditor>) propositionEditor.getTerm().getParameters()) {
-            if (termParameterEditor.getName().equals(GRADE_KEY)) {
+            if (termParameterEditor.getName().equals(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY)) {
                 propositionEditor.setTermParameter(termParameterEditor.getValue());
-            } else if (termParameterEditor.getName().equals(GRADE_TYPE_KEY)) {
+            } else if (termParameterEditor.getName().equals(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY)) {
                 propositionEditor.setGradeScale(termParameterEditor.getValue());
             }
         }

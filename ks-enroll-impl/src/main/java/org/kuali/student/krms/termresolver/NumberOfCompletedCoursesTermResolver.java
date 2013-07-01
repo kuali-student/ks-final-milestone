@@ -19,13 +19,13 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +45,7 @@ public class NumberOfCompletedCoursesTermResolver extends AbstractCourseTermReso
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.COURSE_CODES_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.COURSE_CODES_TERM_PROPERTY);
     }
 
     @Override
@@ -79,8 +79,8 @@ public class NumberOfCompletedCoursesTermResolver extends AbstractCourseTermReso
 
     private List<StudentCourseRecordInfo> getCompletedCourseRecords(Map<String, Object> resolvedPrereqs, Map<String, String> parameters){
 
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = (String) resolvedPrereqs.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
 
         List<StudentCourseRecordInfo> recordInfoList = null;
 

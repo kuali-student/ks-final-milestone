@@ -8,9 +8,9 @@ import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.service.impl.KSTermResolverTypeService;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoader;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.springframework.test.context.ContextConfiguration;
@@ -77,11 +77,11 @@ public class TestTermResolvers {
 
         //Create parameters
         //Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put(KSKRMSExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY, "kuali.org.Office");
+        parameters.put(KSKRMSServiceConstants.ORG_TYPE_KEY_TERM_PROPERTY, "kuali.org.Office");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.ADMIN_ORG_NUMBER_TERM_NAME);
+                KSKRMSServiceConstants.ADMIN_ORG_NUMBER_TERM_NAME);
 
         //Evaluate term Resolver
         List<String> orgRecords = termResolver.resolve(resolvedPrereqs, parameters);
@@ -100,10 +100,10 @@ public class TestTermResolvers {
         termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisite
-        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.COURSE_CODES_TERM_PROPERTY, "DTC101,DTC102");
+        parameters.put(KSKRMSServiceConstants.COURSE_CODES_TERM_PROPERTY, "DTC101,DTC102");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -122,15 +122,15 @@ public class TestTermResolvers {
         CompletedCourseTermResolver termResolver = new CompletedCourseTermResolver();
 
         //Add prerequisite
-        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101,DTC102");
+        parameters.put(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY, "DTC101,DTC102");
 
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.COMPLETED_COURSES_TERM_NAME);
+                KSKRMSServiceConstants.COMPLETED_COURSES_TERM_NAME);
 
         //Evaluate term Resolver
         Boolean acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
@@ -147,14 +147,14 @@ public class TestTermResolvers {
         termResolver.setCourseRegistrationService(courseRegistrationService);
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY, "DTC101");
+        parameters.put(KSKRMSServiceConstants.COURSE_ID_TERM_PROPERTY, "DTC101");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.ENROLLED_COURSE_NUMBER_TERM_NAME);
+                KSKRMSServiceConstants.ENROLLED_COURSE_NUMBER_TERM_NAME);
 
         //Evaluate term Resolver
         Integer academicRecord = termResolver.resolve(resolvedPrereqs, parameters);
@@ -170,14 +170,14 @@ public class TestTermResolvers {
         termResolver.setCourseRegistrationService(courseRegistrationService);
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.COURSE_ID_TERM_PROPERTY, "DTC102");
+        parameters.put(KSKRMSServiceConstants.COURSE_ID_TERM_PROPERTY, "DTC102");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.ENROLLED_COURSE_TERM_NAME);
+                KSKRMSServiceConstants.ENROLLED_COURSE_TERM_NAME);
 
         //Evaluate term Resolver
         boolean academicRecord = termResolver.resolve(resolvedPrereqs, parameters);
@@ -191,11 +191,11 @@ public class TestTermResolvers {
         FreeFormTextTermResolver termResolverForm = new FreeFormTextTermResolver();
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        parameters.put(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Validate the term resolver
         validateTermResolver(termResolverForm, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.FREE_TEXT_TERM_NAME);
+                KSKRMSServiceConstants.FREE_TEXT_TERM_NAME);
 
         //Evaluate term Resolver
         Boolean result = termResolverForm.resolve(resolvedPrereqs, parameters);
@@ -211,14 +211,14 @@ public class TestTermResolvers {
         termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, "DTC101");
+        parameters.put(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY, "DTC101");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.GPA_TERM_NAME);
+                KSKRMSServiceConstants.GPA_TERM_NAME);
 
         //Evaluate term Resolver
         Integer result = termResolver.resolve(resolvedPrereqs, parameters);
@@ -233,14 +233,14 @@ public class TestTermResolvers {
         termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSExecutionConstants.CALC_TYPE_KEY_TERM_PROPERTY, calcTypeID);
+        parameters.put(KSKRMSServiceConstants.CALC_TYPE_KEY_TERM_PROPERTY, calcTypeID);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSExecutionConstants.NUMBER_OF_CREDITS_TERM_NAME);
+                KSKRMSServiceConstants.NUMBER_OF_CREDITS_TERM_NAME);
 
         //Evaluate term Resolver
         Integer result = termResolver.resolve(resolvedPrereqs, parameters);
@@ -275,7 +275,7 @@ public class TestTermResolvers {
 
     private Map<String, Object> getDefaultPrerequisites() {
         Map<String, Object> resolvedPrereqs = new HashMap<String, Object>();
-        resolvedPrereqs.put(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME, contextInfo);
+        resolvedPrereqs.put(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME, contextInfo);
         return resolvedPrereqs;
     }
 

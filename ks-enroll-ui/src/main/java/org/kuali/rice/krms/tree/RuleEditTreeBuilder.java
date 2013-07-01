@@ -25,7 +25,7 @@ import org.kuali.rice.krms.tree.node.CompoundOpCodeNode;
 import org.kuali.rice.krms.tree.node.SimplePropositionEditNode;
 import org.kuali.rice.krms.tree.node.SimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 /**
  *
@@ -160,7 +160,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
     }
 
     public String getNaturalLanguageUsageKey(){
-        return KsKrmsConstants.KRMS_NL_RULE_EDIT;
+        return KSKRMSServiceConstants.KRMS_NL_RULE_EDIT;
     }
 
 }

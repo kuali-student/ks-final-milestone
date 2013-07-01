@@ -19,6 +19,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -39,9 +40,6 @@ public class OrganizationComponentBuilder implements ComponentBuilder<EnrolPropo
     private OrganizationService organizationService;
     private AcademicRecordService academicRecordService;
 
-    private static final String ORGANIZATION_KEY = "kuali.term.parameter.type.org.id";
-    private static final String TOTAL_CREDIT_KEY = "kuali.term.parameter.type.totalCredits";
-
     @Override
     public List<String> getComponentIds() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -49,8 +47,8 @@ public class OrganizationComponentBuilder implements ComponentBuilder<EnrolPropo
 
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
-        String orgId = termParameters.get(ORGANIZATION_KEY);
-        String credits = termParameters.get(TOTAL_CREDIT_KEY);
+        String orgId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY);
+        String credits = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TOTAL_CREDIT_KEY);
         if (orgId != null) {
             try {
                 OrgInfo orgInfo = this.getOrganizationService().getOrg(orgId, ContextUtils.getContextInfo());
@@ -66,7 +64,7 @@ public class OrganizationComponentBuilder implements ComponentBuilder<EnrolPropo
     public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getOrgInfo() != null){
-            termParameters.put(ORGANIZATION_KEY, propositionEditor.getOrgInfo().getId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, propositionEditor.getOrgInfo().getId());
         }
         return termParameters;
     }

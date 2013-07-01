@@ -22,13 +22,11 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.api.engine.TermResolver;
@@ -42,14 +40,13 @@ import org.kuali.student.class3.krms.termresolver.AtpStartDateFieldTermResolver;
 import org.kuali.student.class3.krms.termresolver.AtpTermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader;
 import org.kuali.student.krms.mock.KRMSEngineService;
 import org.kuali.student.krms.proposition.CompletedCourseBetweenTermsProposition;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -115,16 +112,16 @@ public class TestKRMSEnrollmentEligibility {
 		Map<String, Object> executionFacts = new LinkedHashMap<String, Object>();
 		
 		// set the student
-		executionFacts.put(KRMSConstants.STUDENT_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+		executionFacts.put(KSKRMSServiceConstants.TERM_TYPE_STUDENT_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 		
 		// set the course
-		executionFacts.put(KRMSConstants.COURSE_ID, KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID);
+		executionFacts.put(KSKRMSServiceConstants.TERM_TYPE_COURSE_ID, KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID);
 		
 		// set the start date
-		executionFacts.put(KRMSConstants.START_DATE, KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
+		executionFacts.put(KSKRMSServiceConstants.TERM_TYPE_START_DATE, KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
 		
 		// set the end date
-		executionFacts.put(KRMSConstants.END_DATE, KRMSEnrollmentEligibilityDataLoader.END_FALL_TERM_DATE);
+		executionFacts.put(KSKRMSServiceConstants.TERM_TYPE_END_DATE, KRMSEnrollmentEligibilityDataLoader.END_FALL_TERM_DATE);
 		
 		EngineResults agendaResults = krmsServices.executeAgenda(new BasicAgenda(new LinkedHashMap<String, String>(), agendaTree), executionFacts);
 		
@@ -154,10 +151,10 @@ public class TestKRMSEnrollmentEligibility {
         Map<String, Object> executionFacts = new LinkedHashMap<String, Object>();
         
         // set the student
-        executionFacts.put(KRMSConstants.STUDENT_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+        executionFacts.put(KSKRMSServiceConstants.TERM_TYPE_STUDENT_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
         
         // set the course
-        executionFacts.put(KRMSConstants.COURSE_ID, KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID);
+        executionFacts.put(KSKRMSServiceConstants.TERM_TYPE_COURSE_ID, KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID);
 //        
 //        // set the start date
 //        executionFacts.put(KRMSConstants.START_DATE, KRMSEnrollmentEligibilityDataLoader.START_FALL_TERM_DATE);
@@ -171,20 +168,20 @@ public class TestKRMSEnrollmentEligibility {
          * Create the term resolver for fall term.
          */
         
-        AtpTermResolver fallTermResolver = new AtpTermResolver(KRMSConstants.CURRENT_TERM_ID, "testUser1", dataLoader.getFallTermId(), atpService);    
+        AtpTermResolver fallTermResolver = new AtpTermResolver(KSKRMSServiceConstants.TERM_TYPE_CURRENT_TERM_ID, "testUser1", dataLoader.getFallTermId(), atpService);
         
         termResolvers.add(fallTermResolver);
         
         /*
          * From term resolver
          */
-        AtpStartDateFieldTermResolver fromResolver = new AtpStartDateFieldTermResolver(KRMSConstants.START_DATE, "testUser1");
+        AtpStartDateFieldTermResolver fromResolver = new AtpStartDateFieldTermResolver(KSKRMSServiceConstants.TERM_TYPE_START_DATE, "testUser1");
         
         termResolvers.add(fromResolver);
         /*
          * End term resolver
          */
-        AtpEndDateFieldTermResolver toResolver = new AtpEndDateFieldTermResolver(KRMSConstants.END_DATE, "testUser1");
+        AtpEndDateFieldTermResolver toResolver = new AtpEndDateFieldTermResolver(KSKRMSServiceConstants.TERM_TYPE_END_DATE, "testUser1");
         
         
         termResolvers.add(toResolver);

@@ -27,7 +27,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,9 +61,9 @@ public class PropositionTreeUtil {
         proposition.getNaturalLanguage().clear();
         proposition.setCompoundOpCode(compoundOpCode);
         if (LogicalOperator.AND.getCode().equalsIgnoreCase(compoundOpCode)) {
-            proposition.setType(KsKrmsConstants.PROPOSITION_TYPE_COMPOUND_AND);
+            proposition.setType(KSKRMSServiceConstants.PROPOSITION_TYPE_COMPOUND_AND);
         } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(compoundOpCode)) {
-            proposition.setType(KsKrmsConstants.PROPOSITION_TYPE_COMPOUND_OR);
+            proposition.setType(KSKRMSServiceConstants.PROPOSITION_TYPE_COMPOUND_OR);
         }
         try {
             KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeByName(PermissionServiceConstants.KS_SYS_NAMESPACE, proposition.getType());

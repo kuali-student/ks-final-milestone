@@ -4,13 +4,13 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,12 +36,12 @@ public class CompletedCoursesTermResolver extends AbstractCourseTermResolver imp
 
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.COMPLETED_COURSES_TERM_NAME;
+        return KSKRMSServiceConstants.COMPLETED_COURSES_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY);
     }
 
     @Override

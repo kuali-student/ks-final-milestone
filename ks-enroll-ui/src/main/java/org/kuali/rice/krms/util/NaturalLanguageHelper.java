@@ -29,7 +29,6 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.tree.AbstractTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 
 import java.io.Serializable;
 import java.util.ArrayList;

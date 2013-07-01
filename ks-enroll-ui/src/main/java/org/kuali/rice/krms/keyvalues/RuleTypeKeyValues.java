@@ -24,8 +24,8 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -47,8 +47,8 @@ public class RuleTypeKeyValues implements Serializable {
         Map<String, Map<String, String>> keyValueList = new HashMap<String, Map<String, String>>();
         Map<String, String> keyValuesRule = new HashMap<String, String>();
         Map<String, String> keyValuesInstruction = new HashMap<String, String>();
-        NaturalLanguageUsage usageType = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
-        NaturalLanguageUsage usageInstruction = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_INSTRUCTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
+        NaturalLanguageUsage usageType = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
+        NaturalLanguageUsage usageInstruction = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_INSTRUCTION, PermissionServiceConstants.KS_SYS_NAMESPACE);
          //Use Type Type Relation to get Rule Types
         try {
             for(KeyValue agendaTypeId : agendaTypeIds) {

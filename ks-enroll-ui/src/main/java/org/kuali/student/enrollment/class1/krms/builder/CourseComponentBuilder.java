@@ -35,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
@@ -64,10 +65,6 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
     private AcademicCalendarService acalService = null;
     private SearchService searchService = null;
 
-    private static final String CLU_KEY = "kuali.term.parameter.type.course.clu.id";
-    private static final String TERM_KEY = "kuali.term.parameter.type.Term";
-    private static final String TERM2_KEY = "kuali.term.parameter.type.Term2";
-
     @Override
     public List<String> getComponentIds() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -75,7 +72,7 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
 
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
-        String courseId = termParameters.get(CLU_KEY);
+        String courseId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
         if (courseId != null) {
             try {
                 VersionDisplayInfo versionInfo = this.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, courseId, null);
@@ -94,16 +91,16 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
     public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getCourseInfo() != null) {
-            termParameters.put(CLU_KEY, propositionEditor.getCourseInfo().getVersion().getVersionIndId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, propositionEditor.getCourseInfo().getVersion().getVersionIndId());
         }
 
         if (propositionEditor.getTermInfo() != null) {
-            termParameters.put(TERM_KEY, propositionEditor.getTermInfo().getId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY, propositionEditor.getTermInfo().getId());
             loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode());
         }
 
         if (propositionEditor.getTermInfo2() != null) {
-            termParameters.put(TERM2_KEY, propositionEditor.getTermInfo2().getId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM2_KEY, propositionEditor.getTermInfo2().getId());
             loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo2().getId(), propositionEditor.getCourseInfo().getCode());
         }
 

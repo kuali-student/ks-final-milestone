@@ -52,8 +52,8 @@ import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
 import org.kuali.rice.krms.service.RuleViewHelperService;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.springframework.beans.BeanUtils;
 
 import javax.xml.namespace.QName;
@@ -224,7 +224,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             //Set the term specification if it doesn't exist.
             if (prop.getTerm().getSpecification() == null) {
                 String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(prop.getType());
-                prop.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KsKrmsConstants.NAMESPACE_CODE));
+                prop.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KSKRMSServiceConstants.NAMESPACE_CODE));
             }
 
         } else {
@@ -259,7 +259,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             }
 
             String termSpecName = this.getTemplateRegistry().getTermSpecNameForType(proposition.getType());
-            proposition.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KsKrmsConstants.NAMESPACE_CODE));
+            proposition.getTerm().setSpecification(getTermRepositoryService().getTermSpecificationByNameAndNamespace(termSpecName, KSKRMSServiceConstants.NAMESPACE_CODE));
 
         }
     }

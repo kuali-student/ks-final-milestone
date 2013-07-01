@@ -17,7 +17,7 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.Map;
@@ -28,12 +28,12 @@ public class CompletedCourseTermResolver extends AbstractCourseTermResolver impl
 
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.COMPLETED_COURSES_TERM_NAME;
+        return KSKRMSServiceConstants.COMPLETED_COURSES_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class CompletedCourseTermResolver extends AbstractCourseTermResolver impl
 
         String courseCode = this.resolveCourseCode(parameters);
 
-        parameters.put(KSKRMSExecutionConstants.COURSE_CODE_TERM_PROPERTY, courseCode);
+        parameters.put(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY, courseCode);
         return completedCoursesTermResolver.resolve(resolvedPrereqs, parameters);
     }
 }

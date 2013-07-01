@@ -19,13 +19,13 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -45,7 +45,7 @@ public class AdminOrgNumberTermResolver implements TermResolver<List<String>> {
     private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
     }
 
     public OrganizationService getOrganizationService() {
@@ -63,12 +63,12 @@ public class AdminOrgNumberTermResolver implements TermResolver<List<String>> {
 
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.ADMIN_ORG_NUMBER_TERM_NAME;
+        return KSKRMSServiceConstants.ADMIN_ORG_NUMBER_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.ORG_TYPE_KEY_TERM_PROPERTY);
     }
 
     @Override
@@ -79,8 +79,8 @@ public class AdminOrgNumberTermResolver implements TermResolver<List<String>> {
 
     @Override
     public List<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String orgTypeKey = parameters.get(KSKRMSExecutionConstants.ORG_TYPE_KEY_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
+        String orgTypeKey = parameters.get(KSKRMSServiceConstants.ORG_TYPE_KEY_TERM_PROPERTY);
         
         List<String> result = null;
         try {

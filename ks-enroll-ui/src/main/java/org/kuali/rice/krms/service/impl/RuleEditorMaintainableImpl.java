@@ -59,8 +59,8 @@ import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.*;
@@ -270,11 +270,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         List<AgendaTypeInfo> agendaTypeInfos = new ArrayList<AgendaTypeInfo>();
 
         // Get Instruction Usage Id
-        String instructionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_INSTRUCTION,
+        String instructionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_INSTRUCTION,
                 PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
 
         // Get Description Usage Id
-        String descriptionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION,
+        String descriptionUsageId = getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION,
                 PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
 
         // Get the super type.

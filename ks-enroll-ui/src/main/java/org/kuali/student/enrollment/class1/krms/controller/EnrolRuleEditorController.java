@@ -21,9 +21,9 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.controller.RuleEditorController;
-import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaUtilities;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
@@ -33,9 +33,8 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.service.impl.EnrolRuleViewHelperServiceImpl;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
-import org.kuali.student.krms.KRMSConstants;
+import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,7 +111,7 @@ public class EnrolRuleEditorController extends RuleEditorController {
         this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);
 
         if(!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)){
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KRMSConstants.KRMS_RULE_MAINTENANCE_PAGE_ID);
         }
         return super.navigate(form, result, request, response);
     }
@@ -130,7 +129,6 @@ public class EnrolRuleEditorController extends RuleEditorController {
     @RequestMapping(params="methodToCall=viewCourseRange")
     public ModelAndView viewCourseRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String dialog = "courseRangeLookup";
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         CORuleManagementWrapper ruleWrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
@@ -141,7 +139,7 @@ public class EnrolRuleEditorController extends RuleEditorController {
             ruleWrapper.setClusInRange(proposition.getCluSet().getCluSetRanges().get(Integer.valueOf(index)).getClusInRange());
         }
 
-        return showDialog(dialog, form, request, response);
+        return showDialog(KSKRMSConstants.KSKRMS_DIALOG_COURSERANGE_LOOKUP, form, request, response);
      }
 
     /**

@@ -20,13 +20,13 @@ import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
@@ -43,7 +43,7 @@ public class FreeFormTextTermResolver implements TermResolver<Boolean> {
     private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
     }
 
     @Override
@@ -53,12 +53,12 @@ public class FreeFormTextTermResolver implements TermResolver<Boolean> {
 
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.FREE_TEXT_TERM_NAME;
+        return KSKRMSServiceConstants.FREE_TEXT_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -69,8 +69,8 @@ public class FreeFormTextTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = parameters.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
 
         return true;
     }

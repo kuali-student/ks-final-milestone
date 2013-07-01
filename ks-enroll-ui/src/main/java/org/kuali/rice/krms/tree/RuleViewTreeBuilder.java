@@ -23,7 +23,7 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.HashMap;
 import java.util.List;
@@ -112,6 +112,6 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
 
     @Override
     public String getNaturalLanguageUsageKey() {
-        return  KsKrmsConstants.KRMS_NL_PREVIEW;
+        return  KSKRMSServiceConstants.KRMS_NL_PREVIEW;
     }
 }

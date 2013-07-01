@@ -15,10 +15,10 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
@@ -29,13 +29,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 
@@ -67,9 +61,6 @@ public class CluContextImpl extends BasicContextImpl {
     public final static String COURSE_CLU_SET_TOKEN = "courseCluSet";
     public final static String PROGRAM_CLU_SET_TOKEN = "programCluSet";
     public final static String TEST_CLU_SET_TOKEN = "testCluSet";
-
-    private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
-    private static final String CLUSETLIST_KEY = "kuali.term.parameter.type.course.nl.cluset.list";
 
     /**
      * Sets the LU service.
@@ -182,15 +173,15 @@ public class CluContextImpl extends BasicContextImpl {
             }
 
             List<CluInfo> list = new ArrayList<CluInfo>();
-            if(map.containsKey(CLULIST_KEY)||map.containsKey(CLUSETLIST_KEY)){
-                String [] cluids = getIdArray(map, CLULIST_KEY);
+            if(map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY)||map.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY)){
+                String [] cluids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLULIST_KEY);
                 for (String id : cluids) {
                     if (!containsClu(list, id)) {
                             list.add(this.getCluInfo(id, contextInfo));
                     }
                 }
 
-                String [] clusetids = getIdArray(map, CLUSETLIST_KEY);
+                String [] clusetids = getIdArray(map, KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSETLIST_KEY);
                 for (String id : clusetids) {
                     findClusInCluSet(id, list, contextInfo);
                 }

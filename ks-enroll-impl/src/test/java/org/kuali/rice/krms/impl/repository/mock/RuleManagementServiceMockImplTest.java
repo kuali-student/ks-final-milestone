@@ -37,8 +37,8 @@ import org.kuali.rice.krms.api.repository.term.TermSpecificationDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.impl.repository.language.SimpleNaturalLanguageTemplater;
-import org.kuali.student.krms.naturallanguage.util.KsKrmsConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
@@ -105,13 +105,13 @@ public class RuleManagementServiceMockImplTest {
 
         List<KrmsTypeDefinition> types = null;
         Set<String> expected = null;
-        String languageCode = KsKrmsConstants.LANGUAGE_CODE_ENGLISH;
+        String languageCode = KSKRMSServiceConstants.LANGUAGE_CODE_ENGLISH;
 
         // check that we can get all the different context types
         types = this.krmsTypeRepositoryService.findAllContextTypes();
         expected = new LinkedHashSet<String>();
-        expected.add(KsKrmsConstants.AGENDA_TYPE_COURSE);
-        expected.add(KsKrmsConstants.AGENDA_TYPE_PROGRAM);
+        expected.add(KSKRMSServiceConstants.AGENDA_TYPE_COURSE);
+        expected.add(KSKRMSServiceConstants.AGENDA_TYPE_PROGRAM);
 //        expected.add(KsKrmsConstants.CONTEXT_TYPE_COURSE_OFFERING);
         this.checkTypeNamesAnyOrder(expected, types);
 
@@ -133,8 +133,8 @@ public class RuleManagementServiceMockImplTest {
         // Get all the agenda types for this course context type
         types = this.krmsTypeRepositoryService.findAgendaTypesForContextType(selectedContextType.getId());
         expected = new LinkedHashSet<String>();
-        expected.add(KsKrmsConstants.AGENDA_TYPE_COURSE_ENROLLMENTELIGIBILITY);
-        expected.add(KsKrmsConstants.AGENDA_TYPE_COURSE_CREDITCONSTRAINTS);
+        expected.add(KSKRMSServiceConstants.AGENDA_TYPE_COURSE_ENROLLMENTELIGIBILITY);
+        expected.add(KSKRMSServiceConstants.AGENDA_TYPE_COURSE_CREDITCONSTRAINTS);
         this.checkTypeNamesOrdered(expected, types);
 
         String title = "Please choose which type of rule you want to work on:";
@@ -150,10 +150,10 @@ public class RuleManagementServiceMockImplTest {
         // Get all the RULE types for the main agenda type
         types = this.krmsTypeRepositoryService.findRuleTypesForAgendaType(courseEligAgendaType.getId());
         expected = new LinkedHashSet<String>();
-        expected.add(KsKrmsConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_STUDENTELIGIBILITYPREREQ);
-        expected.add(KsKrmsConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_COREQ);
-        expected.add(KsKrmsConstants.RULE_TYPE_COURSE_RECOMMENDEDPREPARATION);
-        expected.add(KsKrmsConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_ANTIREQ);
+        expected.add(KSKRMSServiceConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_STUDENTELIGIBILITYPREREQ);
+        expected.add(KSKRMSServiceConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_COREQ);
+        expected.add(KSKRMSServiceConstants.RULE_TYPE_COURSE_RECOMMENDEDPREPARATION);
+        expected.add(KSKRMSServiceConstants.RULE_TYPE_COURSE_ACADEMICREADINESS_ANTIREQ);
         this.checkTypeNamesOrdered(expected, types);
 
         title = "Please choose which type of rule you want to work on:";
@@ -163,25 +163,25 @@ public class RuleManagementServiceMockImplTest {
         // Get all the Proposition types for the rule type
         types = this.krmsTypeRepositoryService.findPropositionTypesForRuleType(eligPrereqRuleType.getId());
         expected = new LinkedHashSet<String>();
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_FREEFORM_TEXT);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_SUCCESS_COMPL_COURSE);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_CUMULATIVE_GPA_MIN);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_ADMITTED_TO_PROGRAM);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_SUCCESS_CREDIT_COURSESET_COMPLETED_NOF);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_SUCCESS_CREDITS_COURSESET_COMPLETED_NOF_ORG);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_SUCCESS_COURSE_COURSESET_COMPLETED_ALL);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_SUCCESS_COURSE_COURSESET_COMPLETED_NOF);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_COURSE_COURSESET_GPA_MIN);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_COURSE_COURSESET_GRADE_MIN);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_COURSE_COURSESET_NOF_GRADE_MIN);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_COURSE_COURSESET_GRADE_MAX);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_ADMITTED_TO_PROGRAM_CAMPUS);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_NOTADMITTED_TO_PROGRAM);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_PERMISSION_INSTRUCTOR_REQUIRED);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_PERMISSION_ADMIN_ORG);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_COURSE_TEST_SCORE_MIN);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_TEST_SCORE_BETWEEN_VALUES);
-        expected.add(KsKrmsConstants.PROPOSITION_TYPE_TEST_SCORE);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_FREEFORM_TEXT);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_SUCCESS_COMPL_COURSE);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_CUMULATIVE_GPA_MIN);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_ADMITTED_TO_PROGRAM);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_SUCCESS_CREDIT_COURSESET_COMPLETED_NOF);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_SUCCESS_CREDITS_COURSESET_COMPLETED_NOF_ORG);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_SUCCESS_COURSE_COURSESET_COMPLETED_ALL);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_SUCCESS_COURSE_COURSESET_COMPLETED_NOF);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_COURSE_COURSESET_GPA_MIN);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_COURSE_COURSESET_GRADE_MIN);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_COURSE_COURSESET_NOF_GRADE_MIN);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_COURSE_COURSESET_GRADE_MAX);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_ADMITTED_TO_PROGRAM_CAMPUS);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_NOTADMITTED_TO_PROGRAM);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_PERMISSION_INSTRUCTOR_REQUIRED);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_PERMISSION_ADMIN_ORG);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_COURSE_TEST_SCORE_MIN);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_TEST_SCORE_BETWEEN_VALUES);
+        expected.add(KSKRMSServiceConstants.PROPOSITION_TYPE_TEST_SCORE);
         this.checkTypeNamesOrdered(expected, types);
 
         title = "Please choose which type of rule you want to work on:";
@@ -217,13 +217,13 @@ public class RuleManagementServiceMockImplTest {
 //      TermSpec 
         TermSpecificationDefinition termSpec =
                 this.termRepositoryService.getTermSpecificationByNameAndNamespace(termName,
-                KsKrmsConstants.NAMESPACE_CODE);
+                        KSKRMSServiceConstants.NAMESPACE_CODE);
         assertNotNull(termSpec);
         assertEquals (termName, termSpec.getName());
 
         TermResolverDefinition termResolver =
                 this.termRepositoryService.getTermResolverByNameAndNamespace(termName,
-                KsKrmsConstants.NAMESPACE_CODE);
+                        KSKRMSServiceConstants.NAMESPACE_CODE);
         assertNotNull(termResolver);
         assertEquals (termName, termResolver.getName());
 
@@ -438,22 +438,22 @@ public class RuleManagementServiceMockImplTest {
     }
 
     private NaturalLanguageUsage getTypeDescriptionUsage() {
-        return this.getNaturalLanguageUsage(KsKrmsConstants.KRMS_NL_TYPE_DESCRIPTION, KsKrmsConstants.NAMESPACE_CODE);
+        return this.getNaturalLanguageUsage(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, KSKRMSServiceConstants.NAMESPACE_CODE);
     }
 
     private NaturalLanguageUsage getRuleEditUsage() {
-        return this.getNaturalLanguageUsage(KsKrmsConstants.KRMS_NL_RULE_EDIT, KsKrmsConstants.NAMESPACE_CODE);
+        return this.getNaturalLanguageUsage(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT, KSKRMSServiceConstants.NAMESPACE_CODE);
     }
 
     private NaturalLanguageUsage getPreviewUsage() {
-        return this.getNaturalLanguageUsage(KsKrmsConstants.KRMS_NL_PREVIEW, KsKrmsConstants.NAMESPACE_CODE);
+        return this.getNaturalLanguageUsage(KSKRMSServiceConstants.KRMS_NL_PREVIEW, KSKRMSServiceConstants.NAMESPACE_CODE);
     }
 
     private String simulateUserChoosingMainTypeId() {
-        KrmsTypeDefinition type = this.krmsTypeRepositoryService.getTypeByName(KsKrmsConstants.NAMESPACE_CODE, KsKrmsConstants.AGENDA_TYPE_COURSE);
+        KrmsTypeDefinition type = this.krmsTypeRepositoryService.getTypeByName(KSKRMSServiceConstants.NAMESPACE_CODE, KSKRMSServiceConstants.AGENDA_TYPE_COURSE);
         assertNotNull(type);
-        assertEquals(KsKrmsConstants.AGENDA_TYPE_COURSE, type.getName());
-        assertEquals(KsKrmsConstants.NAMESPACE_CODE, type.getNamespace());
+        assertEquals(KSKRMSServiceConstants.AGENDA_TYPE_COURSE, type.getName());
+        assertEquals(KSKRMSServiceConstants.NAMESPACE_CODE, type.getNamespace());
         return type.getId();
     }
 
@@ -489,11 +489,11 @@ public class RuleManagementServiceMockImplTest {
     }
 
     private String getComponentId(NaturalLanguageTemplate template) {
-        return template.getAttributes().get(KsKrmsConstants.ATTRIBUTE_COMPONENT_ID);
+        return template.getAttributes().get(KSKRMSServiceConstants.ATTRIBUTE_COMPONENT_ID);
     }
 
     private String getComponentBuilderClass(NaturalLanguageTemplate template) {
-        return template.getAttributes().get(KsKrmsConstants.ATTRIBUTE_COMPONENT_BUILDER_CLASS);
+        return template.getAttributes().get(KSKRMSServiceConstants.ATTRIBUTE_COMPONENT_BUILDER_CLASS);
     }
 
     private NaturalLanguageTemplate getRuleEditUsageNaturalLanguageTemplate(String typeId, String languageCode) {

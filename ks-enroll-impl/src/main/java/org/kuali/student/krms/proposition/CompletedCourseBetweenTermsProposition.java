@@ -32,8 +32,8 @@ import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.krms.KRMSConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -66,13 +66,13 @@ public class CompletedCourseBetweenTermsProposition implements Proposition {
 
     private static final Logger log = LoggerFactory.getLogger(CompletedCourseBetweenTermsProposition.class);
     
-	private Term studentTerm = new Term(KRMSConstants.STUDENT_ID);
+	private Term studentTerm = new Term(KSKRMSServiceConstants.TERM_TYPE_STUDENT_ID);
 	
-	private Term courseTerm = new Term(KRMSConstants.COURSE_ID);
+	private Term courseTerm = new Term(KSKRMSServiceConstants.TERM_TYPE_COURSE_ID);
 	
-	private Term startDateTerm = new Term (KRMSConstants.START_DATE);
+	private Term startDateTerm = new Term (KSKRMSServiceConstants.TERM_TYPE_START_DATE);
 	
-	private Term endDateTerm = new Term (KRMSConstants.END_DATE);
+	private Term endDateTerm = new Term (KSKRMSServiceConstants.TERM_TYPE_END_DATE);
 	
 	private final AcademicRecordService recordService;
 	

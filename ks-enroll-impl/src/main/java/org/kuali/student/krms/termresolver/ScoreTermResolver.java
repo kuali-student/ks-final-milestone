@@ -21,7 +21,6 @@ import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.krms.util.KSKRMSExecutionConstants;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -29,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
@@ -47,7 +47,7 @@ public class ScoreTermResolver implements TermResolver<Integer> {
     private final static Set<String> prerequisites = new HashSet<String>(1);
 
     static {
-        prerequisites.add(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
     }
     
     public AcademicRecordService getAcademicRecordService() {
@@ -65,12 +65,12 @@ public class ScoreTermResolver implements TermResolver<Integer> {
 
     @Override
     public String getOutput() {
-        return KSKRMSExecutionConstants.SCORE_TERM_NAME;
+        return KSKRMSServiceConstants.SCORE_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSExecutionConstants.TEST_SET_ID_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.TEST_SET_ID_TERM_PROPERTY);
     }
 
     @Override
@@ -81,9 +81,9 @@ public class ScoreTermResolver implements TermResolver<Integer> {
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSExecutionConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = parameters.get(KSKRMSExecutionConstants.PERSON_ID_TERM_PROPERTY);
-        String testIds = parameters.get(KSKRMSExecutionConstants.TEST_SET_ID_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = parameters.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
+        String testIds = parameters.get(KSKRMSServiceConstants.TEST_SET_ID_TERM_PROPERTY);
         
         Integer result = 0;
         List<StudentTestScoreRecordInfo> recordInfoList = null;
