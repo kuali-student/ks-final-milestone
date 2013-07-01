@@ -170,8 +170,8 @@
         <property name="render" value="@{clickSearchButton}" />
         <property name="items">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="createBlankAcademicCalendar" p:actionLabel="Create Blank Academic Calendar" p:actionEvent="editHolidayCalendar" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="createBlankHolidayCalendar" p:actionLabel="Create Blank Holiday Calendar" p:actionEvent="copyHolidayCalendar" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="createBlankAcademicCalendar" p:actionLabel="Create Blank Academic Calendar" p:componentSecurity.performActionAuthz="true" p:actionEvent="createBlankAcademicCalendar" />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="createBlankHolidayCalendar"  p:actionLabel="Create Blank Holiday Calendar"  p:componentSecurity.performActionAuthz="true" p:actionEvent="createBlankHolidayCalendar" />
             </list>
         </property>
     </bean>
