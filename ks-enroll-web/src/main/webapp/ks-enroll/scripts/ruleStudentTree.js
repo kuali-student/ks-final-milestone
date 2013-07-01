@@ -155,9 +155,16 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
 }
 
 function updateProposition(controllerMethod, collectionGroupId) {
+    var selectedItemInput = getSelectedPropositionInput();
+    if(controllerMethod != 'cancelEditProposition') {
+        if (validateForm()) {
+            var selectedItemInput = getSelectedPropositionInput();
+            var selectedItemId = selectedItemInput.val();
+            var actionRevealCallBack = function (htmlContent) {};
 
-    if (validateForm()) {
-
+            retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+        }
+    } else {
         var selectedItemInput = getSelectedPropositionInput();
         var selectedItemId = selectedItemInput.val();
         var actionRevealCallBack = function (htmlContent) {};
