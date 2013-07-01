@@ -246,7 +246,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             Collections.sort(termInfos, new Comparator<TermInfo>() {
                 @Override
                 public int compare(TermInfo termInfo1, TermInfo termInfo2) {
-                    return termInfo2.getStartDate().compareTo(termInfo1.getStartDate());
+                    return termInfo1.getStartDate().compareTo(termInfo2.getStartDate());
                 }
             });
 
@@ -262,7 +262,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     Collections.sort(subTermInfos, new Comparator<TermInfo>() {
                         @Override
                         public int compare(TermInfo subTermInfo1, TermInfo subTermInfo2) {
-                            return subTermInfo2.getStartDate().compareTo(subTermInfo1.getStartDate());
+                            return subTermInfo1.getStartDate().compareTo(subTermInfo2.getStartDate());
                         }
                     });
 
