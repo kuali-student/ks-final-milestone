@@ -24,11 +24,16 @@
     <bean id="KS-CourseOfferingManagement-ClusterDeleteConfirmationPage" parent="KS-Uif-Page"
           p:id="ClusterDeleteConfirmationPage"
           p:headerText="">
+
+        <property name="pageSourceFile" value="CourseOfferingManagement-DeleteClusterConfirmPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
+
         <!--<property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>-->
         <property name="items">
             <list>
+                <!-- This adds the file names to the page HTML -->
+                <ref bean="KS-SourceFile-Comment-Group"/>
                 <ref bean="KS-CourseOfferingManagement-CriteriaSection"/>
                 <ref bean="KS-CourseOfferingManagement-ClusterDeleteConfirmationResultSection"/>
             </list>

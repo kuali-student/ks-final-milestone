@@ -29,6 +29,8 @@
              This is a work-around at least until KRAD 2.3-m3 -->
         <property name="headerText" value="Course Offerings" />
 
+        <property name="viewSourceFile" value="CourseOfferingManagementView.xml" /> <!-- Shows up in HTML so devs can find the code -->
+
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
