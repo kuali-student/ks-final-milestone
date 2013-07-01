@@ -1,4 +1,3 @@
-
 function removeSelfFromDropdowns(headerTextNameContainerId) {
     jQuery('select[name=clusterIdForAOMove]').each(function () {
         var dropdownId = jQuery(this).attr('id');
@@ -805,6 +804,22 @@ function addBootstrapImageToLink(containerId) {
     });
 }
 
+/**
+ * POC KSENROLL-7698
+ * Gathers property names of all fields that have been changed on the page.
+ * Properties are stored in a csv string and returned by the passed in object.
+ */
+
+function findDirtyFields(returnFieldId){
+    var dirtyFields = jQuery('.dirty');
+    var returnObject = jQuery('#'+returnFieldId+'_control');
+    var returnString="";
+    for (i=0;i<dirtyFields.length;i++){
+        returnString=returnString+dirtyFields[i].name+",";
+
+    }
+    returnObject[0].value=returnString;
+}
 /*
 The users want the page titling to be dynamically-updated depending on which particular page is showing at the time.
 In other words, when the ManageCO landing-page is first shown, by default the page-title is 'Course Offerings' but

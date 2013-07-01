@@ -43,6 +43,9 @@ public class AcademicCalendarForm extends KSUifForm {
     private List<AcalEventWrapper> events;
     private List<HolidayCalendarWrapper> holidayCalendarList;
     private List<AcademicTermWrapper> termWrapperList;
+    // POC KSENROLL-7698
+    private List<AcalEventWrapper> eventsOriginal;
+    private List<HolidayCalendarWrapper> holidayCalendarListOriginal;
 
     //used by copying
     private boolean newCalendar;
@@ -67,6 +70,9 @@ public class AcademicCalendarForm extends KSUifForm {
     private String makeOfficialParentTermName;
     private String makeOfficialName;
     private String messageForDeleteTermOrSubterm;
+
+    // POC KSENROLL-7698
+    private String dirtyFields;
 
     public String getValidationJSONString() {
         return validationJSONString;
@@ -417,5 +423,44 @@ public class AcademicCalendarForm extends KSUifForm {
 
     public void setMakeOfficialParentTermName(String makeOfficialParentTermName) {
         this.makeOfficialParentTermName = makeOfficialParentTermName;
+    }
+
+    /**
+     * A list of properties that have been changed (are dirty) contained in a csv string. POC KSENROLL-7698
+     *
+     * @return
+     */
+    public String getDirtyFields() {
+        return dirtyFields;
+    }
+
+    public void setDirtyFields(String dirtyFields) {
+        this.dirtyFields = dirtyFields;
+    }
+
+    /**
+     * A list of events seperate from the UI that stays constant.
+     * Used to determine additions adn deleteions of events on the page. POC KSENROLL-7698
+     * @return
+     */
+    public List<AcalEventWrapper> getEventsOriginal() {
+        return eventsOriginal;
+    }
+
+    public void setEventsOriginal(List<AcalEventWrapper> eventsOriginal) {
+        this.eventsOriginal = eventsOriginal;
+    }
+
+    /**
+     * A list of the holiday calendars seperate from the UI that stays constant. POC KSENROLL-7698
+     * Used to determine additions and deletions of calendars on the page.
+     * @return
+     */
+    public List<HolidayCalendarWrapper> getHolidayCalendarListOriginal() {
+        return holidayCalendarListOriginal;
+    }
+
+    public void setHolidayCalendarListOriginal(List<HolidayCalendarWrapper> holidayCalendarListOriginal) {
+        this.holidayCalendarListOriginal = holidayCalendarListOriginal;
     }
 }
