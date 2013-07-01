@@ -505,6 +505,75 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         updateCheckFirstItemSettingPropositionOnRule(agenda, propBldr);
     }
 
+    @Test
+    public void testCreateMultiAgendaItems() {
+        //Create agenda
+        ContextDefinition context = this.findCreateContext();
+        AgendaDefinition agenda = createCheckEmptyAgenda(context);
+        AgendaItemDefinition firstItem = this.ruleManagementService.getAgendaItem(agenda.getFirstItemId());
+        AgendaItemDefinition.Builder firstItemBldr = createMultiAgendaItems(firstItem);
+
+        this.ruleManagementService.updateAgendaItem(firstItemBldr.build());
+        AgendaItemDefinition returnItem = this.ruleManagementService.getAgendaItem(agenda.getFirstItemId());
+        checkMultiAgendaItem(firstItemBldr, returnItem);
+
+    }
+
+    @Test
+    public void testUpdateChangingTermParameters() {
+        //Create agenda
+        ContextDefinition context = this.findCreateContext();
+        AgendaDefinition agenda = createCheckEmptyAgenda(context);
+        AgendaItemDefinition firstItem = this.ruleManagementService.getAgendaItem(agenda.getFirstItemId());
+        this.ruleManagementService.updateAgendaItem(createMultiAgendaItems(firstItem).build());
+
+        firstItem = this.ruleManagementService.getAgendaItem(agenda.getFirstItemId());
+        AgendaItemDefinition.Builder itemBuilder = AgendaItemDefinition.Builder.create(firstItem);
+        PropositionParameter.Builder propParameter = null;
+        for(PropositionParameter.Builder parameter : itemBuilder.getWhenTrue().getRule().getProposition().getParameters()){
+            if(parameter.getTermValue()!=null){
+                propParameter = parameter;
+            }
+        }
+
+        TermDefinition.Builder term = TermDefinition.Builder.create(propParameter.getTermValue());
+        for(TermParameterDefinition.Builder parameter : term.getParameters()){
+            parameter.setValue("The updated free form proposition");
+            break;
+        }
+        propParameter.setTermValue(term.build());
+
+        this.ruleManagementService.updateAgendaItem(itemBuilder.build());
+        AgendaItemDefinition returnItem = this.ruleManagementService.getAgendaItem(itemBuilder.getId());
+        checkMultiAgendaItem(itemBuilder, returnItem);
+
+    }
+
+    private AgendaItemDefinition.Builder createMultiAgendaItems(AgendaItemDefinition firstItem){
+        //Add first item details.
+        PropositionDefinition.Builder firstPropBldr = this.constructFreeFormTextPropositionBulider("The first free form proposition");
+        RuleDefinition.Builder firstRuleBldr = this.constructEmptyRuleBuilder();
+        firstRuleBldr.setProposition(firstPropBldr);
+        AgendaItemDefinition.Builder firstItemBldr = AgendaItemDefinition.Builder.create(firstItem);
+        firstItemBldr.setRule(firstRuleBldr);
+
+        //Add second item details.
+        PropositionDefinition.Builder secondPropBldr = this.constructFreeFormTextPropositionBulider("The second free form proposition");
+        RuleDefinition.Builder secondRuleBldr = this.constructEmptyRuleBuilder();
+        secondRuleBldr.setProposition(secondPropBldr);
+        AgendaItemDefinition.Builder secondItemBldr = AgendaItemDefinition.Builder.create(null, firstItem.getAgendaId());
+        secondItemBldr.setRule(secondRuleBldr);
+        firstItemBldr.setWhenTrue(secondItemBldr);
+
+        return firstItemBldr;
+    }
+
+    private void checkMultiAgendaItem(AgendaItemDefinition.Builder itemBuilder, AgendaItemDefinition item){
+        this.checkRule(itemBuilder.getRule(), item.getRule());
+        assertNotNull(item.getWhenTrue());
+        this.checkRule(itemBuilder.getWhenTrue().getRule(), item.getWhenTrue().getRule());
+    }
+
     private AgendaDefinition createCheckBasicAgendaFor1OfCluSet23() {
         ContextDefinition context = this.findCreateContext();
         AgendaDefinition agenda = createCheckEmptyAgenda(context);
