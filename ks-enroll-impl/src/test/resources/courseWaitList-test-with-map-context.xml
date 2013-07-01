@@ -7,5 +7,5 @@
     <context:annotation-config/>
 
     <bean id="waitListService" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListServiceMapImpl" />
-    <bean id="waitListDataLoader" class="org.kuali.student.enrollment.coursewaitlist.service.impl.CourseWaitListDataLoader" />
+    <bean id="waitListDataLoader" class="org.kuali.student.enrollment.class2.coursewaitlist.service.impl.CourseWaitListDataLoader" />
 </beans>

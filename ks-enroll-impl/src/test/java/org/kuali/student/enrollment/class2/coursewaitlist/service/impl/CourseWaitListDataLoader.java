@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.coursewaitlist.service.impl;
+package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
 
 
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;

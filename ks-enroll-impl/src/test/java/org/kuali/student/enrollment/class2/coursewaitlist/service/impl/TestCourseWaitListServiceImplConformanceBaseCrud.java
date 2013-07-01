@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.enrollment.coursewaitlist.service.impl;
+package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
 
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ import static org.junit.Assert.fail;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:coursewaitList-test-with-map-context.xml"})
+@ContextConfiguration(locations = {"classpath:courseWaitList-test-with-map-context.xml"})
 public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	
 	// ====================
