@@ -746,6 +746,7 @@ function updateHeaderRightGroup(srcId, rightGroupId){
     }
 }
 
+// note: this seems to only apply to views that use the unified-header; maybe this should be named more explicitly?
 function updateViewHeader(newHeaderTextSource){
     // Get Header node
     var header = jQuery("div.ks-unified-header h1.uif-headerText span.uif-headerText-span");
@@ -822,11 +823,11 @@ function findDirtyFields(returnFieldId){
 }
 /*
 The users want the page titling to be dynamically-updated depending on which particular page is showing at the time.
-In other words, when the ManageCO landing-page is first shown, by default the page-title is 'Course Offerings' but
-if you conduct a subject-search (say, WMST), they want the page-title to be "WMST: Women's Studies".
+For example, when the ManageCO landing-page is first shown, by default the view-title is 'Course Offerings' but
+if you conduct a subject-search (say, WMST) they want the view-title to be "WMST: Women's Studies".
  */
-function updateManageCoPageTitle( value ) {
-    jQuery( '.uif-viewHeader-contentWrapper .uif-headerText .uif-headerText-span' ).html( value );
+function updateViewHeaderText( value ) {
+    jQuery( 'div.uif-view h1.uif-headerText span.uif-headerText-span' ).html( value );
 }
 
 function createDisclosure(groupId, headerId, widgetId, defaultOpen, collapseImgSrc, expandImgSrc, animationSpeed, renderImage) {

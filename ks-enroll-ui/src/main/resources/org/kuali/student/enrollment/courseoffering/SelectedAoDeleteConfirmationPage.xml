@@ -27,7 +27,7 @@
         <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect title of the page.
              ie: from "Course Offerings" to "Delete Activity Offerings"
              This is a work-around, at least until KRAD 2.3-m3 -->
-        <property name="onDocumentReadyScript" value="updateManageCoPageTitle( 'Delete Activity Offerings' );" />
+        <property name="onDocumentReadyScript" value="updateViewHeaderText( 'Delete Activity Offerings' );" />
 
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
