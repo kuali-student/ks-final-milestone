@@ -158,7 +158,7 @@
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="cssClasses">
             <list merge="true">
