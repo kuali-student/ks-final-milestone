@@ -98,12 +98,7 @@
                         </dependency>
                         <dependency>
                             <groupId>org.kuali.common</groupId>
-                            <artifactId>torque-generator</artifactId>
-                            <version>${impex.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.kuali.common</groupId>
-                            <artifactId>torque-executor</artifactId>
+                            <artifactId>kuali-impex-producer</artifactId>
                             <version>${impex.version}</version>
                         </dependency>
                     </dependencies>
