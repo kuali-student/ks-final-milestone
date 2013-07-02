@@ -1,10 +1,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import com.google.gson.Gson;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -75,12 +77,14 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -317,30 +321,49 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             List<TypeTypeRelationInfo> terms = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(termTemp.getTypeKey(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, contextInfo);
             if (terms == null || terms.isEmpty()) {
                 term = new TermInfo(termTemp);
-                // checking if we can have subterms for giving term
-                List<TermInfo> subTerms = getAcademicCalendarService().getIncludedTermsInTerm(info.getTermId(), contextInfo);
-                if(!subTerms.isEmpty()) {
-                    wrapper.setHasSubTerms(true);
-                }
             } else {
                 subTerm = new TermInfo(termTemp);
                 term = getAcademicCalendarService().getContainingTerms(info.getTermId(), contextInfo).get(0);
-                wrapper.setHasSubTerms(true);
                 wrapper.setSubTermId(subTerm.getId());
                 TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
                 wrapper.setSubTermName(subTermType.getName());
             }
+
+            //Find available sub-terms for term
+            List<TermInfo> availableSubTerms=getAcademicCalendarService().getIncludedTermsInTerm(term.getId(), contextInfo);
+            if(availableSubTerms!=null && !availableSubTerms.isEmpty()) {
+                wrapper.setHasSubTerms(true);
+            }
+
             wrapper.setTerm(term);
             if (term != null) {
                 wrapper.setTermName(term.getName());
             }
             wrapper.setTermDisplayString(getTermDisplayString(info.getTermId(), term));
             if (subTerm!=null) {
-                wrapper.setTermStartEndDate(getTermStartEndDate(info.getTermId(), subTerm));
+                wrapper.setTermStartEndDate(getTermStartEndDate(subTerm));
             } else {
-                wrapper.setTermStartEndDate(getTermStartEndDate(info.getTermId(), term));
+                wrapper.setTermStartEndDate(getTermStartEndDate(term));
             }
+
+            //Now setup start/end date for all subterms to support subterm changes on the screen
+            HashMap<String,String> subTermDates= new HashMap();
+            subTermDates.put("none",getTermStartEndDate(term));
+            for (TermInfo availSubTerm : availableSubTerms) {
+                subTermDates.put(availSubTerm.getId(),this.getTermStartEndDate(availSubTerm));
+            }
+            wrapper.setSubTermDatesJsonString(new Gson().toJson(subTermDates));;
             // end subterms
+
+
+            String parentTermType = wrapper.getTerm().getId();
+            if (parentTermType == null || parentTermType.equals("")) {
+                parentTermType = wrapper.getAoInfo().getTermId();
+            }
+
+            if(terms.size() > 1) {
+                Collections.sort(terms, new SubtermComparator());
+            }
 
             List<TypeInfo> regPeriods = getTypeService().getTypesForGroupType("kuali.milestone.type.group.appt.regperiods", contextInfo);
             List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(info.getTermId(), contextInfo);
@@ -602,20 +625,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
 
         return spRet;
-    }
-
-    private String getTermStartEndDate(String termId, TermInfo term) {
-        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
-        StringBuilder stringBuilder = new StringBuilder();
-        Formatter formatter = new Formatter(stringBuilder, Locale.US);
-        String displayString = termId; // use termId as a default.
-        if (term != null) {
-            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
-            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
-            formatter.format("%s - %s", startDate, endDate);
-            displayString = stringBuilder.toString();
-        }
-        return displayString;
     }
 
     private String getTermDisplayString(String termId, TermInfo term) {
@@ -892,7 +901,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         QueryByCriteria criteria = qbcBuilder.build();
 
         try {
-            List<BuildingInfo> b = getScheduleHelper().getRoomService().searchForBuildings(criteria,createContextInfo());
+            List<BuildingInfo> b = getScheduleHelper().getRoomService().searchForBuildings(criteria, createContextInfo());
             return b;
         } catch (Exception e) {
             throw convertServiceExceptionsToUI(e);
@@ -1094,4 +1103,31 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         }
         return schedulingService;
     }
+
+    private static class SubtermComparator implements Comparator, Serializable {
+        @Override
+        public int compare(Object o1, Object o2) {
+            String value1 = ((TermInfo) o1).getId();
+            String value2 = ((TermInfo) o2).getId();
+
+            int result = value1.compareToIgnoreCase(value2);
+            return result;
+        }
+    }
+
+    private String getTermStartEndDate(TermInfo term) {
+        // Return Term as String display like 'FALL 2020 (9/26/2020-12/26/2020)'
+        StringBuilder stringBuilder = new StringBuilder();
+        Formatter formatter = new Formatter(stringBuilder, Locale.US);
+        String displayString = term.getId(); // use termId as a default.
+        if (term != null) {
+            String startDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getStartDate());
+            String endDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(term.getEndDate());
+            formatter.format("%s - %s", startDate, endDate);
+            displayString = stringBuilder.toString();
+        }
+        return displayString;
+    }
+
+
 }

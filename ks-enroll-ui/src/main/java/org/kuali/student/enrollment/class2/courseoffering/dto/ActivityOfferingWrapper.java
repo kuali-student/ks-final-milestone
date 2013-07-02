@@ -135,6 +135,12 @@ public class ActivityOfferingWrapper implements Serializable{
     //would it be better to define 'TermInfo subTerm' instead of the following three strings
     private String termStartEndDate = "";
 
+    /*
+    This is a list of subTerm start/end date strings to support javascript update of the
+     displayed start/end when subterm is changed/choremoved
+     */
+    private String subTermDatesJsonString;
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -1008,11 +1014,19 @@ public class ActivityOfferingWrapper implements Serializable{
     }
 
     public String getTermStartEndDate() {
-        return termStartEndDate;
+           return termStartEndDate;
     }
 
     public void setTermStartEndDate(String termStartEndDate) {
         this.termStartEndDate = termStartEndDate;
+    }
+
+    public String getSubTermDatesJsonString() {
+        return subTermDatesJsonString;
+    }
+
+    public void setSubTermDatesJsonString(String subTermDatesJsonString) {
+        this.subTermDatesJsonString = subTermDatesJsonString;
     }
 
 }
