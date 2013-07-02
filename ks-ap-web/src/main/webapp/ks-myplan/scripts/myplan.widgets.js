@@ -194,7 +194,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
     }
 
     var popupBox;
-    var target = (e.currentTarget) ? e.currentTarget : e.srcElement;
+    var target = (e.currentTarget && e.currentTarget != document) ? e.currentTarget : e.srcElement;
     if (selector === null) {
         popupBox = jQuery(target);
     } else {
