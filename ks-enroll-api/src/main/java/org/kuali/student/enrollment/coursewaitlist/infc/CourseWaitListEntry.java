@@ -43,7 +43,7 @@ public interface CourseWaitListEntry extends Relationship {
     /**
      * The Id of the CourseWaitList that this entry belongs to.
      * @name Course Wait List Id
-     * @readonly
+     * @readOnly
      * @required
      */
     String getCourseWaitListId();
@@ -52,7 +52,7 @@ public interface CourseWaitListEntry extends Relationship {
      *
      * The Id of the student associated with this entry (The student that is on the WaitList)
      * @name Student Id
-     * @readonly
+     * @readOnly
      * @required
      */
     String getStudentId();
