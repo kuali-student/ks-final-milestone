@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.pom</groupId>
         <artifactId>kuali-common</artifactId>
-        <version>3.1.15</version>
+        <version>3.2.0</version>
     </parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
@@ -255,7 +255,8 @@
         <metainf.output.constraints>${project.build.outputDirectory}/${metainf.resource.constraints}</metainf.output.constraints>
         <metainf.output.other>${project.build.outputDirectory}/${metainf.resource.other}</metainf.output.other>
         <jdk6.rt.jar>/var/lib/jenkins/tools/jdk6/jre/lib/rt.jar</jdk6.rt.jar>
-        <kuali-impex.version>3.0.2</kuali-impex.version>
+
+        <kuali-impex.version>${impex.version}</kuali-impex.version>
     </properties>
     <prerequisites>
         <maven>${maven.min.version}</maven>
