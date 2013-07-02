@@ -916,3 +916,15 @@ div#Uif-ApplicationHeader-Wrapper{
 .aoc_page .uif-page{
     margin-right: 15px;
 }
+
+/*
+    Fade out of Highlighting
+*/
+.highlight_fadeout{
+    -webkit-transition: background 3s linear;
+    -moz-transition: background 3s linear;
+    -o-transition: background 3s linear;
+    -ms-transition: background 3s linear;
+    transition: background 3s linear;
+    background-color: #ffffcc; background-color: #ffffff;
+}

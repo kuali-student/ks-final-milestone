@@ -912,6 +912,7 @@ function removeNewItemHighlights(){
     return function(){
         var newItems = jQuery(".uif-newCollectionItem");
         newItems.removeClass('uif-newCollectionItem');
+        newItems.addClass('highlight_fadeout');
     }
 
 }
