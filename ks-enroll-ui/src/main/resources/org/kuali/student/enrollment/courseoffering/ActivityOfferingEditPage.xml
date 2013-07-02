@@ -52,7 +52,7 @@
                         <list>
                             <bean parent="Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
                             <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termName" p:readOnly="true"/>
-                            <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName"  p:readOnly="true"/>
+                            <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName" p:readOnly="true"/>
                             <bean parent="Uif-HorizontalBoxSection" p:colSpan="2">
                                 <property name="items">
                                     <list>
@@ -61,9 +61,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="start_end_date" p:label="Start/End"  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false" p:propertyName="termStartEndDate" />
-
+                            <bean parent="Uif-DataField" p:colSpan="3" id="start_end_date" p:label="Start/End" p:fieldLabel.renderColon="false" p:propertyName="termStartEndDate" p:readOnly="true" />
                             <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" p:readOnly="true"/>
                             <bean parent="Uif-DataField"  id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
                         </list>
@@ -80,7 +78,7 @@
                         <list>
                             <bean id="subterm_type" parent="Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link','@{#dp.subTermDatesJsonString}');"/>
+                                    <bean parent="Uif-DropdownControl" p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link');"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingSubtermKeyValues" p:addBlankOption="false"/>
