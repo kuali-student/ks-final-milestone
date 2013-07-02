@@ -96,12 +96,14 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
 
         if (propositionEditor.getTermInfo() != null) {
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY, propositionEditor.getTermInfo().getId());
-            loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode());
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode");
+            loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode(), propName);
         }
 
         if (propositionEditor.getTermInfo2() != null) {
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM2_KEY, propositionEditor.getTermInfo2().getId());
-            loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo2().getId(), propositionEditor.getCourseInfo().getCode());
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode2");
+            loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo2().getId(), propositionEditor.getCourseInfo().getCode(),propName );
         }
 
         return termParameters;
@@ -166,7 +168,7 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
      * @param termId
      * @param courseCode
      */
-    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode) {
+    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, String propName ) {
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
@@ -181,7 +183,7 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
         }
         if (searchResult.getRows().isEmpty()) {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Code", courseCode, termId);
+            GlobalVariables.getMessageMap().putError(propName, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND,  "Course Code",courseCode, termId);
         }
     }
 
