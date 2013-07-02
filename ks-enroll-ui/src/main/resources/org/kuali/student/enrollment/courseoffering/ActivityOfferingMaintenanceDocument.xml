@@ -100,6 +100,11 @@
                 <ref bean="ActivityOfferingEdit_SubmitCancel"/>
             </list>
         </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>aoc_page</value>
+            </list>
+        </property>
         <property name="page.items">
             <list>
                 <ref bean="KS-CourseOffering-ContextBar" />

@@ -541,7 +541,6 @@ a {
 .ks-topGroup {
     height: 41px;
     background-color: #555;
-    width: 100%;
     margin-bottom: 0px;
 }
 
@@ -908,4 +907,12 @@ div#Uif-ApplicationHeader-Wrapper{
 .acal_keydate_group .uif-collectionAddItem{
     border: none !important;
     background: none !important;
+}
+
+/*
+    AO Maintenance Document
+    Evens overview margin spacing with the uif-pageContentWrapper
+*/
+.aoc_page .uif-page{
+    margin-right: 15px;
 }
