@@ -20,7 +20,8 @@
      limitations under the License.
     -->
     <bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
-          p:id="copyCourseOfferingPage">
+          p:id="copyCourseOfferingPage"
+          p:headerText="Copy Course Offering">
 
         <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect subject-code.
              ie: from "Course Offerings" to "WMST200"
@@ -59,7 +60,6 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOffering-ContextBar" />
-                <ref bean="KS-CourseOffering-CopyCo-Page-Header"/>
                 <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingSection"/>
                 <ref bean="KS-CourseOfferingManagement-ActivityOfferingsSection"/>
                 <ref bean="KS-CourseOfferingManagement-ConfigureCourseOfferingCopySection"/>
@@ -111,14 +111,6 @@
                     </property>
                 </bean>
                 <bean id="contextBarSocState" parent="KS-Lozenge-Grey-Uif-InputField" p:readOnly="true" p:propertyName="socState" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseOffering-CopyCo-Page-Header" parent="Uif-VerticalBoxSection">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HeaderFour" p:headerText="Copy Course Offering" p:style="float: none !important;"/>
             </list>
         </property>
     </bean>
