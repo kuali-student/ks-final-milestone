@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.student.db</groupId>
@@ -33,10 +33,8 @@
                 <sql.constraints.concurrent>sql.constraints</sql.constraints.concurrent>
                 <!-- Define execution order -->
                 <sql.execution.order>schema.concurrent,constraints.concurrent</sql.execution.order>
-
                 <ks.ddl.schema.path>ddl/schema.xml</ks.ddl.schema.path>
                 <ks.ddl.constraints.path>ddl/onstraints.xml</ks.ddl.constraints.path>
-
                 <!-- schema export properties -->
                 <impex.export.schema.tables.location>${project.basedir}/src/main/resources/${project.groupId.path}/${project.artifactId}/${ks.ddl.schema.path}</impex.export.schema.tables.location>
                 <impex.export.schema.views.location>${project.basedir}/src/main/resources/${project.groupId.path}/${project.artifactId}/${ks.ddl.schema.path}</impex.export.schema.views.location>
@@ -60,7 +58,7 @@
                                     <propertySourcesConfig>org.kuali.common.jdbc.spring.JdbcMavenPropertySourceConfig</propertySourcesConfig>
                                     <removeExistingPropertySources>true</removeExistingPropertySources>
                                     <annotatedClasses>
-                                        <annotatedClass>org.kuali.common.jdbc.spring.SqlControllerConfig</annotatedClass>
+                                    <annotatedClass>org.kuali.common.jdbc.spring.SqlControllerConfig</annotatedClass>
                                     </annotatedClasses>
                                 </configuration>
                             </execution>

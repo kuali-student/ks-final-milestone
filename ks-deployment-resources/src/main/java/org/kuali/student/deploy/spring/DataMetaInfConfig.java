@@ -32,8 +32,6 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class DataMetaInfConfig {
 
-	// private static final Logger logger = LoggerFactory.getLogger(DataMetaInfConfig.class);
-
 	@Autowired
 	Environment env;
 

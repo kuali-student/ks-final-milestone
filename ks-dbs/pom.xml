@@ -17,7 +17,7 @@
     </modules>
     <properties>
         <!-- Set this to something that is unique per KS branch -->
-        <db.branch.qualifier/>
+        <db.branch.qualifier>SANDBOX</db.branch.qualifier>
     </properties>
     <build>
         <pluginManagement>
