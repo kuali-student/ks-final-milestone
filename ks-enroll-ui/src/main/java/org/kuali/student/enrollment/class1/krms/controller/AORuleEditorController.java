@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,7 +35,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KSCO-RuleMaintenance-Page");
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
         return super.addRule(form, result, request, response);
     }
 
@@ -53,7 +54,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView goToRuleView(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KSCO-RuleMaintenance-Page");
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
         return super.goToRuleView(form, result, request, response);
     }
 
@@ -72,7 +73,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                                        HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KSCO-AgendaMaintenance-Page");
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID);
         return super.cancelEditRule(form, result, request, response);
     }
 
@@ -91,7 +92,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KSCO-AgendaMaintenance-Page");
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID);
         return super.updateRule(form, result, request, response);
     }
 }

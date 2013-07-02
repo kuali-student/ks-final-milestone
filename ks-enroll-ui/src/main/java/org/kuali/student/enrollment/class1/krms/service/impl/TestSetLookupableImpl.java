@@ -24,6 +24,7 @@ import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -45,9 +46,8 @@ import java.util.Map;
  */
 public class TestSetLookupableImpl extends LookupableImpl {
 
-    private ContextInfo contextInfo;
-
     private CluService cluService;
+
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<CluSetInfo> cluSetInfos = new ArrayList<CluSetInfo>();
@@ -87,14 +87,14 @@ public class TestSetLookupableImpl extends LookupableImpl {
         queryParamValueList.add(reusableParam);
         SearchParamInfo cluSetTypeParam = new SearchParamInfo();
         cluSetTypeParam.setKey("cluset.queryParam.optionalType");
-        cluSetTypeParam.getValues().add("kuali.cluSet.type.Test");
+        cluSetTypeParam.getValues().add(CluServiceConstants.CLUSET_TYPE_TEST);
         queryParamValueList.add(cluSetTypeParam);
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("cluset.search.generic");
         searchRequest.setParams(queryParamValueList);
-        SearchResultInfo clus = null;
+
         try {
-            clus = getCluService().search(searchRequest, getContextInfo());
+            SearchResultInfo clus = getCluService().search(searchRequest, ContextUtils.createDefaultContextInfo());
             for (SearchResultRowInfo result : clus.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 CluSetInfo cluSetInfo = new CluSetInfo();
@@ -127,11 +127,4 @@ public class TestSetLookupableImpl extends LookupableImpl {
         return cluService;
     }
 
-    private ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
-        }
-        return contextInfo;
-    }
 }

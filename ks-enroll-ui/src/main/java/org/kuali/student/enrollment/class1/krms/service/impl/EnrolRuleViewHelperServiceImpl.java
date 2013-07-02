@@ -23,11 +23,15 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.TermEditor;
+import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder;
+import org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
@@ -38,6 +42,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -55,6 +60,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -100,9 +106,78 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
         }
     }
 
+    /**
+     * Compares CO and CLU with each other for the display of a info message.
+     *
+     * @param original
+     * @param compare
+     * @return
+     */
+    @Override
+    public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
+
+        if(!super.compareProposition(original, compare)) {
+            return false;
+        } else if(!original.getPropositionTypeCode().equals("C")) {
+            EnrolPropositionEditor enrolOriginal = (EnrolPropositionEditor) original;
+
+            //Populate compare proposition cluSetInformation for comparison
+            if(enrolOriginal.getCluSet() != null) {
+                if(enrolOriginal.getCluSet().getParent() == null) {
+                    MultiCourseComponentBuilder builder = new MultiCourseComponentBuilder();
+                    TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
+                    for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
+                        if(termParameterEditor.getName().equals(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY)) {
+                            enrolOriginal.getCluSet().setParent(builder.getCluSetInformation(termParameterEditor.getValue()));
+                            break;
+                        }
+                    }
+                }
+                //If compare and original propositions are not null compare CluSetInformation
+                if(enrolOriginal.getCluSet() != null && enrolOriginal.getCluSet().getParent() != null) {
+                    //Compare propositions CluSetInformation clu's
+                    if(!enrolOriginal.getCluSet().getCluDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluDelimitedString())) {
+                        return false;
+                    }
+                    //Compare propositions CluSetInformation cluSets
+                    if(!enrolOriginal.getCluSet().getCluSetDelimitedString().equals(enrolOriginal.getCluSet().getParent().getCluSetDelimitedString())) {
+                        return false;
+                    }
+                }
+            }
+
+            //Populate compare proposition ProgramCluSetInformation for comparison
+            if(enrolOriginal.getProgCluSet() != null) {
+                if(enrolOriginal.getProgCluSet().getParent() == null) {
+                    ProgramComponentBuilder builder = new ProgramComponentBuilder();
+                    TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
+                    for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
+                        if(termParameterEditor.getName().equals(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY)) {
+                            enrolOriginal.getProgCluSet().setParent(builder.getProgramCluSetInformation(termParameterEditor.getValue()));
+                            break;
+                        }
+                    }
+                }
+                //If compare and original propositions are not null compare ProgramCluSetInformation
+                if(enrolOriginal.getProgCluSet() != null && enrolOriginal.getProgCluSet().getParent() != null) {
+                    //Compare propositions ProgramCluSetInformation clu's
+                    if(!enrolOriginal.getProgCluSet().getCluDelimitedString().equals(enrolOriginal.getProgCluSet().getParent().getCluDelimitedString())) {
+                        return false;
+                    }
+                    //Compare propositions ProgramCluSetInformation cluSets
+                    if(!enrolOriginal.getProgCluSet().getCluSetDelimitedString().equals(enrolOriginal.getProgCluSet().getParent().getCluSetDelimitedString())) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
     protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
                                                Object addLine) {
-        if("proposition.cluSet.clus".equals(collectionGroup.getPropertyName())){
+        if(KSKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS.equals(collectionGroup.getPropertyName())){
             //Check if this is a valid clu.
             CluInformation clu = (CluInformation) addLine;
             if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
@@ -120,7 +195,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
                     return false;
                 }
             }
-        } else if ("proposition.cluSet.cluSets".equals(collectionGroup.getPropertyName())){
+        } else if (KSKRMSConstants.KSKRMS_PROPERTY_NAME_CLUSETS.equals(collectionGroup.getPropertyName())){
             //Check if this is a valid clu.
             CluSetInformation cluSet = (CluSetInformation) addLine;
             if((cluSet.getCluSetInfo().getId() == null)||(cluSet.getCluSetInfo().getId().isEmpty())){
@@ -137,7 +212,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
                 }
             }
         }
-        else if("proposition.progCluSet.clus".equals(collectionGroup.getPropertyName())){
+        else if(KSKRMSConstants.KSKRMS_PROPERTY_NAME_PROG_CLUS.equals(collectionGroup.getPropertyName())){
             //Check if this is a valid clu.
             CluInformation clu = (CluInformation) addLine;
             if((clu.getCluId() == null)||(clu.getCluId().isEmpty())){
@@ -163,7 +238,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
                                        boolean isValidLine) {
 
-        if("proposition.cluSet.clus".equals(collectionGroup.getPropertyName())){
+        if(KSKRMSConstants.KSKRMS_PROPERTY_NAME_CLUS.equals(collectionGroup.getPropertyName())){
             //Sort the clus.
             RuleEditor ruleEditor = this.getRuleEditor(model);
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
@@ -174,7 +249,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             Collections.sort(propEditor.getCluSet().getClus());
 
             }
-        } else if ("proposition.cluSet.cluSets".equals(collectionGroup.getPropertyName())){
+        } else if (KSKRMSConstants.KSKRMS_PROPERTY_NAME_CLUSETS.equals(collectionGroup.getPropertyName())){
             //Set the clus on the wrapper object.
             CluSetInformation cluSet = (CluSetInformation) addLine;
             if(cluSet.getCluSetInfo().getId() != null) {
@@ -197,7 +272,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             });
             }
         }
-        else if("proposition.progCluSet.clus".equals(collectionGroup.getPropertyName())){
+        else if(KSKRMSConstants.KSKRMS_PROPERTY_NAME_PROG_CLUS.equals(collectionGroup.getPropertyName())){
             //Sort the clus.
             RuleEditor ruleEditor = this.getRuleEditor(model);
             EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
@@ -222,8 +297,8 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
         stateKeyParam.setKey("lu.queryParam.luOptionalState");
 
         List<String> stateValues = new ArrayList<String>();
-        stateValues.add("Active");
-        stateValues.add("Approved");
+        stateValues.add(DtoConstants.STATE_ACTIVE);
+        stateValues.add(DtoConstants.STATE_APPROVED);
         stateKeyParam.setValues(stateValues);
         queryParamValueList.add(stateKeyParam);
         SearchParamInfo cluCodeParam = new SearchParamInfo();
@@ -268,16 +343,15 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
         SearchParamInfo orgTypeParam = new SearchParamInfo();
         orgTypeParam.setKey("org.queryParam.orgOptionalType");
         List<String> orgTypeValues = new ArrayList<String>();
-        orgTypeValues.add("kuali.org.Department");
+        orgTypeValues.add(OrganizationServiceConstants.ORGANIZATION_COMMITTEE_TYPE_KEY);
         orgTypeParam.setValues(orgTypeValues);
         queryParamValueList.add(orgTypeParam);
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("org.search.generic");
         searchRequest.setParams(queryParamValueList);
-        SearchResultInfo orgs = null;
 
         try {
-            orgs = getOrganizationService().search(searchRequest, getContextInfo());
+            SearchResultInfo orgs = getOrganizationService().search(searchRequest, getContextInfo());
             for (SearchResultRowInfo result : orgs.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 KrmsSuggestDisplay display = new KrmsSuggestDisplay();
@@ -311,16 +385,15 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
         queryParamValueList.add(reusableParam);
         SearchParamInfo cluSetTypeParam = new SearchParamInfo();
         cluSetTypeParam.setKey("cluset.queryParam.optionalType");
-        cluSetTypeParam.getValues().add("kuali.cluSet.type.Test");
+        cluSetTypeParam.getValues().add(CluServiceConstants.CLUSET_TYPE_TEST);
         queryParamValueList.add(cluSetTypeParam);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("cluset.search.generic");
         searchRequest.setParams(queryParamValueList);
-        SearchResultInfo clus = null;
 
         try {
-            clus = getCluService().search(searchRequest, getContextInfo());
+            SearchResultInfo clus = getCluService().search(searchRequest, getContextInfo());
             for (SearchResultRowInfo result : clus.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 KrmsSuggestDisplay display = new KrmsSuggestDisplay();
@@ -355,11 +428,11 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
         searchRequest.setParams(queryParamValueList);
         SearchParamInfo cluSetTypeParam = new SearchParamInfo();
         cluSetTypeParam.setKey("cluset.queryParam.optionalType");
-        cluSetTypeParam.getValues().add("kuali.cluSet.type.CreditCourse");
+        cluSetTypeParam.getValues().add(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
         queryParamValueList.add(cluSetTypeParam);
-        SearchResultInfo clus = null;
+
         try {
-            clus = getCluService().search(searchRequest, getContextInfo());
+            SearchResultInfo clus = getCluService().search(searchRequest, getContextInfo());
             for (SearchResultRowInfo result : clus.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 KrmsSuggestDisplay display = new KrmsSuggestDisplay();

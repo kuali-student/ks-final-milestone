@@ -45,6 +45,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -87,35 +88,12 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
 
         //Build the Tree
         RuleEditor compareEditor = original.getParent();
-        if(compareEditor.getProposition()!=null){
+        if((compareEditor!=null)&&(compareEditor.getProposition()!=null)){
             this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compareEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         }
         Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compareEditor);
 
         return compareTree;
-    }
-
-    @Override
-    public Boolean compareProposition(PropositionEditor original, PropositionEditor compare) {
-
-        if(!super.compareProposition(original, compare)) {
-            return false;
-        } else {
-
-            //TODO: do something to compare clusets.
-            //EnrolPropositionEditor enrolOriginal = (EnrolPropositionEditor) original;
-            //if(enrolOriginal.getCluSet() != null && compare.getCluSet() != null) {
-            //    if(enrolOriginal.getCluSet().getClus() != null && compare.getCluSet().getClus() != null) {
-            //        for(int index = 0; index < enrolOriginal.getCluSet().getClus().size(); index++) {
-            //            if(enrolOriginal.getCluSet().getClus().get(index).getCode().equals(compare.getCluSet().getClus().get(index).getCode())) {
-            //                return false;
-            //            }
-            //        }
-            //    }
-            //}
-        }
-
-        return true;
     }
 
     /**

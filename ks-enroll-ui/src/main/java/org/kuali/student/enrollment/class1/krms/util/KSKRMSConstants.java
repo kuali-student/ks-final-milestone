@@ -18,6 +18,17 @@ public class KSKRMSConstants {
     // dialogs
     public static final String KSKRMS_DIALOG_COURSERANGE_LOOKUP = "courseRangeLookup";
 
+    // Property Names
+    public static final String KSKRMS_PROPERTY_NAME_CLUS = "proposition.cluSet.clus";
+    public static final String KSKRMS_PROPERTY_NAME_CLUSETS = "proposition.cluSet.cluSets";
+    public static final String KSKRMS_PROPERTY_NAME_PROG_CLUS = "proposition.progCluSet.clus";
+
+    // Bean references
+    public static final String KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID = "KSCO-RuleMaintenance-Page";
+    public static final String KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID = "KSCO-AgendaMaintenance-Page";
+    public static final String KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID = "KSAO-RuleMaintenance-Page";
+    public static final String KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID = "KSAO-AgendaMaintenance-Page";
+
     // message keys
     public static final String KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED = "error.krms.approved.program.required";
     public static final String KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED = "error.krms.approved.course.required";

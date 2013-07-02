@@ -15,9 +15,11 @@
  */
 package org.kuali.student.enrollment.class1.krms.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -97,7 +99,6 @@ public class CluInformationHelper {
 
     public String getCreditInfo(String cluId) {
         //retrieve credits
-        String credits = "";
         List<CluResultInfo> cluResultInfos = null;
         try {
             cluResultInfos = this.getCluService().getCluResultByClu(cluId, ContextUtils.getContextInfo());
@@ -114,12 +115,11 @@ public class CluInformationHelper {
                 }
 
                 //retrieve credit type and credit values
-                ResultValuesGroupInfo resultComponentInfo = null;
                 if (cluResultInfo.getResultOptions() != null) {
                     for (ResultOptionInfo resultOption : cluResultInfo.getResultOptions()) {
                         if (resultOption.getResultComponentId() != null) {
                             try {
-                                resultComponentInfo = this.getLrcService().getResultValuesGroup(resultOption.getResultComponentId(), ContextUtils.getContextInfo());
+                                ResultValuesGroupInfo resultComponentInfo = this.getLrcService().getResultValuesGroup(resultOption.getResultComponentId(), ContextUtils.getContextInfo());
                                 return resultComponentInfo.getName();
                             } catch (Exception e) {
                                 throw new RuntimeException("Could not retrieve result values group for " + resultOption.getResultComponentId());
@@ -129,7 +129,7 @@ public class CluInformationHelper {
                 }
             }
         }
-        return credits;
+        return StringUtils.EMPTY;
     }
 
     public List<CluInformation> getCluInfosForQuery(MembershipQueryInfo membershipQuery) {
@@ -190,10 +190,10 @@ public class CluInformationHelper {
     public static SearchParamInfo getApprovedStateSearchParam() {
         SearchParamInfo searchParam = new SearchParamInfo();
         searchParam.setKey("lu.queryParam.luOptionalState");
-        searchParam.getValues().add("Approved");
-        searchParam.getValues().add("Active");
-        searchParam.getValues().add("Retired");
-        searchParam.getValues().add("Suspended");
+        searchParam.getValues().add(DtoConstants.STATE_APPROVED);
+        searchParam.getValues().add(DtoConstants.STATE_ACTIVE);
+        searchParam.getValues().add(DtoConstants.STATE_RETIRED);
+        searchParam.getValues().add(DtoConstants.STATE_SUSPENDED);
         return searchParam;
     }
 
