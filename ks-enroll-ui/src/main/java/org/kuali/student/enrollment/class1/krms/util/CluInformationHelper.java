@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -38,6 +39,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -139,12 +141,15 @@ public class CluInformationHelper {
             // Handle Date queries for the course ranges.
             if (membershipQuery.getSearchTypeKey().equals(CluSetRangeHelper.CLU_SEARCH_GENERIC)) {
 
-                String firstDate = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE1);
-                String secondDate = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE2);
+                //String firstDate = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE1);
+                //String secondDate = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE2);
+
+                Date firstDate = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20010101");
+                Date secondDate = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20020201");
 
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", "to_date('" + firstDate + "','yyyy-mm-dd')"),
-                        PredicateFactory.lessThanOrEqual("effectiveDate", "to_date('" + secondDate + "','yyyy-mm-dd')"));
+                qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", firstDate),
+                        PredicateFactory.lessThanOrEqual("effectiveDate", secondDate));
 
                 try {
                     List<CluInfo> cluInfos = this.getCluService().searchForClus(qbcBuilder.build(), ContextUtils.getContextInfo());
