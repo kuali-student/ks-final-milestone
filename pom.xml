@@ -255,7 +255,6 @@
         <metainf.output.constraints>${project.build.outputDirectory}/${metainf.resource.constraints}</metainf.output.constraints>
         <metainf.output.other>${project.build.outputDirectory}/${metainf.resource.other}</metainf.output.other>
         <jdk6.rt.jar>/var/lib/jenkins/tools/jdk6/jre/lib/rt.jar</jdk6.rt.jar>
-
         <kuali-impex.version>${impex.version}</kuali-impex.version>
     </properties>
     <prerequisites>
