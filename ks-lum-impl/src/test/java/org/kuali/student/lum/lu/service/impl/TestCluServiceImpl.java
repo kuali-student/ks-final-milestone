@@ -1752,9 +1752,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
     }
 
 
-
-
-        @Test
+    @Test
     public void test23SearchForClus() throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
@@ -1781,7 +1779,7 @@ public class TestCluServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-	public void test24SearchCourseLevelRanges() throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    public void test24SearchCourseLevelRanges() throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchParamInfo courseLevelsParam = new SearchParamInfo();
         courseLevelsParam.setKey("lu.queryParam.luOptionalCrsNoRange");
@@ -3649,26 +3647,31 @@ public class TestCluServiceImpl extends AbstractServiceTest {
             OperationFailedException, PermissionDeniedException,
             ParseException, VersionMismatchException {
 
-   Date firstDate  = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20010101") ;
-   Date secondDate = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20020201");
-        //String firstDate = "20120101";
-   // String secondDate ="2012-06-28";    2002-01-01
-    //String id ="83e46ae9-875e-4970-811f-0719a6b260a2";
+        String id ="83e46ae9-875e-4970-811f-0719a6b260a2";
 
-    QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-    qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", firstDate),
-            PredicateFactory.lessThanOrEqual("effectiveDate",secondDate));
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", id));
 
-//        qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", "to_date('" + firstDate + "','yyyy-mm-dd')"),
-//                PredicateFactory.lessThanOrEqual("effectiveDate", "to_date('" + secondDate + "','yyyy-mm-dd')"));
+        List<CluInfo> cluInfos = this.searchForClus(qbcBuilder.build());
+        assertEquals(1, cluInfos.size());
 
-    try {
-        List<CluInfo> cluInfos = client.searchForClus(qbcBuilder.build(), ContextUtils.getContextInfo());
+        Date firstDate = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20010101");
+        Date secondDate = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20020201");
 
+        qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", firstDate),
+                PredicateFactory.lessThanOrEqual("effectiveDate", secondDate));
+
+        cluInfos = this.searchForClus(qbcBuilder.build());
         assertEquals(37, cluInfos.size());
-    } catch (Exception e) {
-        throw new RuntimeException(e);
     }
+
+    private List<CluInfo> searchForClus(QueryByCriteria qbc) {
+        try {
+            return client.searchForClus(qbc, ContextUtils.getContextInfo());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

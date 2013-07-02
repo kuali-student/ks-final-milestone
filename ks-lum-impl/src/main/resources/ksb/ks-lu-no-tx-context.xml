@@ -158,7 +158,7 @@
     </bean>
 
     <bean id="cluCriterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
-        <property name="entityManager" ref="lrcEntityManager"/>
+        <property name="entityManager" ref="luEntityManager"/>
     </bean>
 
     <bean id="cluDefaultCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
