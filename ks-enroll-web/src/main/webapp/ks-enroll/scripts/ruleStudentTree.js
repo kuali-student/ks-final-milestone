@@ -32,11 +32,22 @@ function getPropositionIdFromParentLi(parentLiNode) {
 function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
-    var actionRevealCallBack = function (htmlContent) {
-        if(typeof jq('.simpleEditNode').attr('id') !== "undefined") {
+
+    //Disable all buttons when add of proposition is in progress
+    if(controllerMethod == "addProposition") {
+        var actionRevealCallBack = function (htmlContent) {
             disableTreeButtons();
-        }
-    };
+        };
+    }
+
+    //Only enable add button after deletion of proposition
+    if(controllerMethod == "deleteProposition") {
+        var actionRevealCallBack = function (htmlContent) {
+            disableTreeButtons();
+            enableAddButton();
+        };
+    }
+
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
