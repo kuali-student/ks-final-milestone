@@ -440,6 +440,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 									.getContextInfo());
 			if (plans.size() > 0) {
 				LearningPlan plan = plans.get(0);
+				plannedCourseSummary.setLearningPlanId(plan.getId());
 
 				// Fetch the plan items which are associated with the plan.
 				List<PlanItemInfo> planItemsInPlan = academicPlanService

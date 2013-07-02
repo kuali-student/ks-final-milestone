@@ -14,12 +14,21 @@ import java.util.List;
 public class PlannedCourseSummary {
 
 	// Plan related information
+	private String learningPlanId;
 	private transient List<PlanItemDataObject> plannedList;
 	private transient List<PlanItemDataObject> backupList;
 	private List<AcademicRecordDataObject> acadRecList;
 	private List<String> academicTerms;
 	private transient String savedItemId;
 	private String savedItemDateCreated;
+
+	public String getLearningPlanId() {
+		return learningPlanId;
+	}
+
+	public void setLearningPlanId(String learningPlanId) {
+		this.learningPlanId = learningPlanId;
+	}
 
 	public List<PlanItemDataObject> getPlannedList() {
 		if (plannedList == null) {

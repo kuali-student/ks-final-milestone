@@ -143,6 +143,13 @@
 		</property>
 	</bean>
 
+	<bean id="hidden_savedCourses" parent="Uif-InputField" p:propertyName="savedCourses"
+		p:fieldLabel.renderColon="false">
+		<property name="control">
+			<bean parent="Uif-HiddenControl" />
+		</property>
+	</bean>
+
 	<bean id="select_searchTerm" parent="Uif-InputField"
 		p:propertyName="searchTerm" p:label="in" p:fieldLabel.renderColon="false"
 		p:validationMessages.render="false">
@@ -173,6 +180,7 @@
 			<list>
 				<ref bean="text_searchQuery" />
 				<ref bean="select_searchTerm" />
+				<ref bean="hidden_savedCourses" />
 				<bean p:id="searchForCourses" parent="Uif-PrimaryActionButton"
 					p:actionLabel="Search" p:disabled="true">
 					<property name="actionScript"

@@ -22,7 +22,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="CourseDetails-InquiryView" parent="MyPlanInquiryView">
+    <bean id="CourseDetails-InquiryView" parent="CourseDetails-InquiryView-parent" />
+    <bean id="CourseDetails-InquiryView-parent" abstract="true" parent="MyPlanInquiryView">
         <property name="headerText" value="Course Details"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.course.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"

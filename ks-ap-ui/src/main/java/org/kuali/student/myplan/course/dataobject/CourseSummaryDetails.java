@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang.StringUtils;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 
@@ -212,4 +214,36 @@ public class CourseSummaryDetails implements Serializable {
 		return list.toString();
 	}
 
+	public String getPlanningTerms() {
+		StringBuilder schTermsb = new StringBuilder();
+		for (String term : scheduledTerms) {
+			String termDescription = KsapFrameworkServiceLocator
+					.getTermHelper().getTerm(term).getDescr().getPlain();
+			Element schTermSpan = DocumentHelper.createElement("span");
+			schTermSpan.setText(termDescription);
+			Matcher m = CourseSearchConstants.TERM_PATTERN
+					.matcher(termDescription);
+			String termAbbreviation;
+			if (m.matches()) {
+				termAbbreviation = m.group(1).substring(0, 2).toUpperCase();
+			} else
+				termAbbreviation = null;
+			if (termAbbreviation != null)
+				schTermSpan.addAttribute("class", termAbbreviation);
+			if (schTermsb.length() == 0)
+				schTermsb.append("Scheduled for ");
+			else
+				schTermsb.append(" ");
+			schTermsb.append(schTermSpan.asXML());
+		}
+		if (schTermsb.length() == 0) {
+			if (termsOffered != null && !termsOffered.isEmpty()) {
+				schTermsb.append("Typically offered");
+				for (String to : termsOffered)
+					schTermsb.append(" ").append(to);
+			} else
+				schTermsb.append("No currently offered");
+		}
+		return schTermsb.toString();
+	}
 }
