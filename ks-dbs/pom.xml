@@ -12,6 +12,7 @@
     <name>KS DB</name>
     <description>Kuali Student Database Configurations</description>
     <modules>
+        <module>ks-db-validation</module>
         <module>ks-impex</module>
     </modules>
     <properties>
