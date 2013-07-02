@@ -68,6 +68,7 @@ function ksapGetCampusSelect() {
 function ksapGetSearchParams() {
 	var sQuery = jQuery("input[name='searchQuery']").val();
 	var sTerm = jQuery("select[name='searchTerm'] option:selected").val();
+	var sSaved = jQuery("input[name='savedCourses']").val();
 	var extra = ksapGetExtraSearchParams();
 	var rv = '?searchQuery=' + escape(sQuery) + '&searchTerm=' + sTerm;
 	var cs = ksapGetCampusSelect();
