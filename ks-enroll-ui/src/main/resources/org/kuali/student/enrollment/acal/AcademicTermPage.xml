@@ -47,7 +47,7 @@
         <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000);" />
         <!--<property name="header.render" value="false" />-->
         <property name="headerText" value="Terms"/>
-        <property name="layoutManager.addLineGroup.header.render" value="false"/>
+        <property name="layoutManager.addLineGroup.header.render" value="true"/>
         <!-- Move the add button to the right of the fields -->
         <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
         <property name="layoutManager.addLineGroup.footer.style" value="display:inline-block;margin-top:2em;"/>
@@ -102,6 +102,8 @@
                 <!-- Empty to override defaults-->
             </list>
         </property>
+        <property name="addLineLabel.labelText" value="Add Terms"/>
+
         <property name="addLineItems">
             <list>
                 <bean id="term_type_add" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
