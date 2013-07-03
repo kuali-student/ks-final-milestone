@@ -18,10 +18,14 @@ package org.kuali.student.enrollment.class1.krms.util;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,6 +57,9 @@ public class CluSetRangeHelper implements Serializable {
     public static final String CLU_SEARCH_GENERIC = "lu.search.generic";
     public static final String CLU_SEARCH_PARM_DATE1 = "lu.queryParam.luOptionalEffectiveDate1";
     public static final String CLU_SEARCH_PARM_DATE2 = "lu.queryParam.luOptionalEffectiveDate2";
+
+    // Do not use DateFormatters' DateTimeFormat as it cannot format timezones.
+    public static DateFormat sdf = new SimpleDateFormat(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMAT);
 
     public CluSetRangeHelper() {
         this.reset();
@@ -227,8 +234,11 @@ public class CluSetRangeHelper implements Serializable {
         membershipQueryInfo.setSearchTypeKey(CluSetRangeHelper.CLU_SEARCH_GENERIC);
 
         List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
-        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE1, this.getEffectiveFrom().toString()));
-        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE2, this.getEffectiveTo().toString()));
+        String date1 = DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(this.getEffectiveFrom());
+        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE1, date1));
+
+        String date2 = DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(this.getEffectiveTo());
+        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE2, date2));
         membershipQueryInfo.setQueryParamValues(queryParams);
     }
 
@@ -236,9 +246,17 @@ public class CluSetRangeHelper implements Serializable {
      * Reset the Label based on an Effective Date Query.
      */
     public String buildEffectiveDateLabel(String effectiveFrom, String effectiveTo) {
-        effectiveFrom = StringEscapeUtils.escapeHtml(effectiveFrom);
-        effectiveTo = StringEscapeUtils.escapeHtml(effectiveTo);
-        return "<b>Effective From:</b> " + effectiveFrom + " <b>Effective To:</b> " + effectiveTo;
+        try {
+            String fromDate = DateFormatters.DEFAULT_DATE_FORMATTER.format(sdf.parse(effectiveFrom));
+            fromDate = StringEscapeUtils.escapeHtml(fromDate);
+
+            String toDate = DateFormatters.DEFAULT_DATE_FORMATTER.format(sdf.parse(effectiveTo));
+            toDate = StringEscapeUtils.escapeHtml(toDate);
+
+            return "<b>Effective From:</b> " + fromDate + " <b>Effective To:</b> " + toDate;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

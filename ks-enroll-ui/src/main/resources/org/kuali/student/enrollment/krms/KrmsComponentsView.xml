@@ -62,6 +62,11 @@ limitations under the License.
                 </bean>
                 <ref bean="KRMS-Clu-Components-Section" />
                 <ref bean="KRMS-Org-Components-Section" />
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="testDate" p:label="Effective From">
+                    <property name="control">
+                        <bean parent="Uif-KS-Default-DateControl" />
+                    </property>
+                </bean>
                 <ref bean="KRMS-TestTree-Section"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Progressive Disclosure with dropdown on LightBox" p:actionScript="showLightboxComponent('myDropdownLightBox');"/>
             </list>
@@ -168,20 +173,9 @@ limitations under the License.
                     <bean parent="Uif-VerticalBoxGroup" p:style="margin-left: 2em;">
                         <property name="items">
                             <list>
-                                <bean parent="Uif-InputField-LabelTop"
-                                      p:propertyName="data" p:label="Course" p:required="true">
-                                    <property name="suggest">
-                                        <bean parent="Uif-Suggest">
-                                            <property name="render" value="true"/>
-                                            <property name="valuePropertyName" value="displayName"/>
-                                            <property name="templateOptions" value="minLength:1,delay:0"/>
-                                            <property name="suggestQuery">
-                                                <bean parent="Uif-AttributeQueryConfig">
-                                                    <property name="queryMethodToCall"
-                                                              value="getCourseNamesForSuggest"/>
-                                                </bean>
-                                            </property>
-                                        </bean>
+                                <bean parent="Uif-InputField-LabelTop" p:propertyName="testDate" p:label="Effective From">
+                                    <property name="control">
+                                        <bean parent="Uif-KS-Default-DateControl" />
                                     </property>
                                 </bean>
                             </list>

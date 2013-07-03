@@ -53,6 +53,8 @@ public class KrmsComponentsForm extends KSUifForm {
 
     private List<TermParameter> list10;
 
+    private Date testDate;
+
     private EnrolRuleEditor rule = new EnrolRuleEditor();
 
     private String approveCourse;
@@ -212,5 +214,13 @@ public class KrmsComponentsForm extends KSUifForm {
 
     public void setList10(List<TermParameter> list10) {
         this.list10 = list10;
+    }
+
+    public Date getTestDate() {
+        return testDate;
+    }
+
+    public void setTestDate(Date testDate) {
+        this.testDate = testDate;
     }
 }

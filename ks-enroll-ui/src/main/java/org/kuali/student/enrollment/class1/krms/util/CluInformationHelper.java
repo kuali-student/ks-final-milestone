@@ -37,6 +37,9 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -141,14 +144,14 @@ public class CluInformationHelper {
             // Handle Date queries for the course ranges.
             if (membershipQuery.getSearchTypeKey().equals(CluSetRangeHelper.CLU_SEARCH_GENERIC)) {
 
-                Date firstDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE1));
-                Date secondDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE2));
-
-                QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-                qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", firstDate),
-                        PredicateFactory.lessThanOrEqual("effectiveDate", secondDate));
+                String date1 = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE1);
+                String date2 = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE2);
 
                 try {
+                    QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+                    qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", CluSetRangeHelper.sdf.parse(date1)),
+                            PredicateFactory.lessThanOrEqual("effectiveDate", CluSetRangeHelper.sdf.parse(date2)));
+
                     List<CluInfo> cluInfos = this.getCluService().searchForClus(qbcBuilder.build(), ContextUtils.getContextInfo());
 
                     List<CluInformation> cluInformations = new ArrayList<CluInformation>();
