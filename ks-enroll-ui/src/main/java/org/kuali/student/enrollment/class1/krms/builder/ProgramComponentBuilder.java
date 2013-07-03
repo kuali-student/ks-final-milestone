@@ -74,7 +74,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
         String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY);
-        String classStadingId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ClASS_STANDING_KEY);
+        String classStadingId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY);
         if (cluSetId != null) {
             try {
                 ProgramCluSetInformation cluSetInfo = this.getProgramCluSetInformation(cluSetId);
@@ -111,7 +111,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
         }
         if (propositionEditor.getClassStanding() != null){
 
-            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ClASS_STANDING_KEY, propositionEditor.getPopulationWrapper().getId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY, propositionEditor.getPopulationWrapper().getId());
         }
 
         return termParameters;
