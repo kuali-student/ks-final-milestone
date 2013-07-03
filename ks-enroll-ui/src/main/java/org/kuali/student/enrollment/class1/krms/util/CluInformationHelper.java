@@ -247,11 +247,11 @@ public class CluInformationHelper {
             List<SearchResultCellInfo> cells = row.getCells();
             CluInformation cluInformation = new CluInformation();
             for (SearchResultCellInfo cell : cells) {
-                if (cell.getKey().equals("lu.resultColumn.loCluId")) {
+                if (cell.getKey().equals("lo.resultColumn.loCluId")) {
                     cluInformation.setCluId(cell.getValue());
-                } else if (cell.getKey().equals("lu.resultColumn.loCluCode")) {
+                } else if (cell.getKey().equals("lo.resultColumn.loCluCode")) {
                     cluInformation.setCode(cell.getValue());
-                } else if (cell.getKey().equals("lu.resultColumn.loLuOptionalVersionIndId")) {
+                } else if (cell.getKey().equals("lo.resultColumn.loLuOptionalVersionIndId")) {
                     cluInformation.setVerIndependentId(cell.getValue());
                 }
             }
