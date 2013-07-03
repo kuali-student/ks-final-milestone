@@ -333,10 +333,10 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
         //POC for KSENROLL-7698
-        AcademicCalendarForm acal = saveAcademicCalendar(academicCalendarForm);
-        return getUIFModelAndView(acal);
+        //AcademicCalendarForm acal = saveAcademicCalendar(academicCalendarForm);
+        //return getUIFModelAndView(acal);
 
-        //return saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
+        return saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
     }
 
     /**
