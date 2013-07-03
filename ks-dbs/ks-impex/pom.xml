@@ -116,7 +116,7 @@
                                 </goals>
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
-                                    <propertySourcesConfig>org.kuali.student.deploy.spring.RiceDbPropertySourceConfig</propertySourcesConfig>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.DelegatingPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClasses>
                                     <annotatedClass>org.kuali.common.impex.spring.MpxSupplierConfig</annotatedClass>
                                     <annotatedClass>org.kuali.common.impex.spring.SchemaXmlSupplierConfig</annotatedClass>

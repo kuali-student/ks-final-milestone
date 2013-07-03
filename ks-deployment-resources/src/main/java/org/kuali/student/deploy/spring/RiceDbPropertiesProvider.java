@@ -21,12 +21,11 @@ import org.kuali.common.jdbc.JdbcProjectContext;
 import org.kuali.common.util.ProjectContext;
 import org.kuali.common.util.property.ProjectProperties;
 import org.kuali.common.util.spring.ConfigUtils;
-import org.kuali.common.util.spring.MavenPropertySourceConfig;
 
-public class RiceDbPropertySourceConfig extends MavenPropertySourceConfig {
+public class RiceDbPropertiesProvider implements ProjectPropertiesListProvider {
 
     @Override
-    protected List<ProjectProperties> getOtherProjectProperties() {
+    public List<ProjectProperties> getProjectProperties() {
         ProjectContext jdbc = new JdbcProjectContext();
         ProjectContext riceDb = new RiceDbProjectContext();
 
