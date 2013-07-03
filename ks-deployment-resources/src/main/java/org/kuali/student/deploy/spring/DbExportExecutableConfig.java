@@ -42,7 +42,7 @@ public class DbExportExecutableConfig extends ExecutableConfig {
 		// Add the executables that will get run (in the correct order)
 		List<Executable> executables = new ArrayList<Executable>();
 
-		// First export the schema + .mpx files all to one directory
+		// First export the schema + MPX files all to one directory
 		executables.add(databaseExportConfig.exportDatabaseExecutable());
 
 		// Then split them up as needed into the various sub directories
