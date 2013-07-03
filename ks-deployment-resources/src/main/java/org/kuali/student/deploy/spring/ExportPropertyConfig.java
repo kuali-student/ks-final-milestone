@@ -27,6 +27,7 @@ import org.kuali.common.impex.spring.ModularSchemaExportConfig;
 import org.kuali.common.impex.spring.SchemaExtractionConfig;
 import org.kuali.common.jdbc.spring.JdbcMavenPropertySourceConfig;
 import org.kuali.common.util.ProjectContext;
+import org.kuali.common.util.SqlProjectContext;
 import org.kuali.common.util.property.ProjectProperties;
 import org.kuali.common.util.property.PropertiesContext;
 import org.kuali.common.util.spring.ConfigUtils;
@@ -108,8 +109,10 @@ public class ExportPropertyConfig extends JdbcMavenPropertySourceConfig {
 		ProjectProperties exportProjectProperties = new ProjectProperties(getProjectProperties().getProject(), new PropertiesContext(props));
 
 		ProjectContext dump = new DumpDbProjectContext();
+		ProjectContext sql = new SqlProjectContext();
 
 		List<ProjectProperties> results = super.getOtherProjectProperties();
+		results.add(ConfigUtils.getProjectProperties(sql));
 		results.add(ConfigUtils.getProjectProperties(dump));
 		results.add(exportProjectProperties);
 		return results;
