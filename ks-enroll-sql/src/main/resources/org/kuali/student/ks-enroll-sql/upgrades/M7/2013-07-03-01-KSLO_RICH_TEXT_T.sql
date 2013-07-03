@@ -47,9 +47,13 @@ Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'1
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'716d5adc-ae17-4fcd-9efc-ea18ffc8fd8e','364f3bd0-98b2-4531-bfa5-dbf42cb8c687','2) Demonstrate understanding of the methods used by scholars in the study of African American literature.',0)
 /
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'4a6b7916-9a39-4fed-9bb7-a8eba72045ae','06be8f0f-b9c8-4de9-965f-e55164afc419','3) Demonstrate critical thinking in the evaluation of sources and arguments in African-American literature.',0)
+/
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'a4394494-1bd9-4ba3-b36f-616d2d4cfc99','6545b418-a2f0-48e9-b220-bcdb2fd0165e','4)  Demonstrate the ability to formulate a thesis related to African-American literature and to support the thesis with evidence and argumentation.',0)
+/
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'f285b5b9-f3d8-4762-b86d-34fac1798436','76798fb2-7030-4f35-90ef-2b090b7fbd25','Part Two: Understanding Plural Societies. By the conclusion of this course, students will be able to: ',0)
+/
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'3edb93a4-562b-4e91-932a-17db9e070ce2','91c143e0-e2b2-49f4-b835-5878cf89576a','1) Demonstrate understanding of fundamental concepts and methods that produce knowledge about plural societies.',0)
+/
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'9e5387cb-3f38-4b0e-ba50-a3cd873b91e0','fa495b41-a9c6-4078-b113-fd8897f67cbc','2) Explicate the processes that create or fail to create just, productive, egalitarian, and collaborative societies.',0)
 /
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'2e0573a1-cc42-40f2-8ebb-467fe063d9d9','11d4be86-c0b6-49b1-826f-8e31769c2fc1','3)  Analyze forms and traditions of thought or expression in relation to cultural, historical, political, and social contexts.',0)
