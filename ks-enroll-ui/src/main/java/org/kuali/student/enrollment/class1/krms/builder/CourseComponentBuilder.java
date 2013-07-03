@@ -73,6 +73,9 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
         String courseId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        String termCode1 = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE_KEY);
+        String termCode2 = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE2_KEY);
+
         if (courseId != null) {
             try {
                 VersionDisplayInfo versionInfo = this.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, courseId, null);
@@ -85,6 +88,15 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
             }
 
         }
+
+        if (termCode1 != null) {
+            propositionEditor.setTermCode(termCode1);
+            propositionEditor.setTermInfo(this.getTermForTermCode(propositionEditor.getTermCode(), null));
+        }
+        if (termCode2 != null) {
+            propositionEditor.setTermCode2(termCode2);
+            propositionEditor.setTermInfo2(this.getTermForTermCode(propositionEditor.getTermCode2(), null));
+        }
     }
 
     @Override
@@ -96,12 +108,14 @@ public class CourseComponentBuilder implements ComponentBuilder<EnrolProposition
 
         if (propositionEditor.getTermInfo() != null) {
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY, propositionEditor.getTermInfo().getId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE_KEY, propositionEditor.getTermCode());
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode");
             loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo().getId(), propositionEditor.getCourseInfo().getCode(), propName);
         }
 
         if (propositionEditor.getTermInfo2() != null) {
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM2_KEY, propositionEditor.getTermInfo2().getId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE2_KEY, propositionEditor.getTermCode2());
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "termCode2");
             loadCourseOfferingsByTermAndCourseCode(propositionEditor.getTermInfo2().getId(), propositionEditor.getCourseInfo().getCode(),propName );
         }
