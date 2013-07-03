@@ -121,6 +121,12 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             //Set the description and atp used on the screen.
             dataObject.setCluDescription(courseOffering.getCourseOfferingCode());
 
+            //Set the term code for breadcrumb link
+            dataObject.setCluTermCode(atp.getCode());
+
+            //Set the subjectArea for breadcumb link
+            dataObject.setCluSubjectCode(courseOffering.getSubjectArea());
+
             try {
                 populateContextBar(dataObject, atp.getCode());
             } catch (Exception e) {

@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import com.google.gson.Gson;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;

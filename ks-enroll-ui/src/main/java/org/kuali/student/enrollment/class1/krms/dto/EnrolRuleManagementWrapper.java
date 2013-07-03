@@ -27,6 +27,8 @@ import java.util.List;
 public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     private String cluDescription;
+    private String cluSubjectCode;
+    private String cluTermCode;
     private List<CluInformation> clusInRange;
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
     private String socStateKey;
@@ -60,5 +62,21 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     public void setContextBar(CourseOfferingContextBar contextBar) {
         this.contextBar = contextBar;
+    }
+
+    public String getCluSubjectCode() {
+        return cluSubjectCode;
+    }
+
+    public void setCluSubjectCode(String cluSubjectCode) {
+        this.cluSubjectCode = cluSubjectCode;
+    }
+
+    public String getCluTermCode() {
+        return cluTermCode;
+    }
+
+    public void setCluTermCode(String cluTermCode) {
+        this.cluTermCode = cluTermCode;
     }
 }
