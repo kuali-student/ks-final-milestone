@@ -27,6 +27,7 @@ import org.kuali.common.impex.spring.ModularSchemaExportConfig;
 import org.kuali.common.impex.spring.SchemaExtractionConfig;
 import org.kuali.common.jdbc.spring.JdbcMavenPropertySourceConfig;
 import org.kuali.common.util.ProjectContext;
+import org.kuali.common.util.PropertyUtils;
 import org.kuali.common.util.SqlProjectContext;
 import org.kuali.common.util.property.ProjectProperties;
 import org.kuali.common.util.property.PropertiesContext;
@@ -105,6 +106,8 @@ public class ExportPropertyConfig extends JdbcMavenPropertySourceConfig {
 		populateSyncProps(props, APP_PREFIX, APP_INCLUDE, APP_ARTIFACT_ID);
 		populateSyncProps(props, RICE_PREFIX, RICE_INCLUDE, RICE_ARTIFACT_ID);
 		populateSyncProps(props, BUNDLED_PREFIX, null, BUNDLED_ARTIFACT_ID);
+
+		PropertyUtils.info(props);
 
 		ProjectProperties exportProjectProperties = new ProjectProperties(getProjectProperties().getProject(), new PropertiesContext(props));
 

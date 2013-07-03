@@ -90,7 +90,7 @@
                                 </goals>
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
-                                    <propertySourcesConfig>org.kuali.student.deploy.spring.ExportPropertyConfig</propertySourcesConfig>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.DumpSourceDbMavenPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClass>org.kuali.student.deploy.spring.DbExportConfig</annotatedClass>
                                 </configuration>
                             </execution>
@@ -155,6 +155,7 @@
         <profile>
             <id>local</id>
             <properties>
+                <db.vendor>oracle</db.vendor>
                 <properties.decrypt>false</properties.decrypt>
                 <oracle.dba.username>system</oracle.dba.username>
                 <oracle.dba.password>manager</oracle.dba.password>
