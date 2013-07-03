@@ -27,11 +27,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({ DatabaseExportConfig.class, DbExportConfig.class })
+@Import({ DatabaseExportConfig.class, SyncFilesConfig.class })
 public class DbExportExecutableConfig extends ExecutableConfig {
 
 	@Autowired
-	DbExportConfig dbExportConfig;
+	SyncFilesConfig syncFilesConfig;
 
 	@Autowired
 	DatabaseExportConfig databaseExportConfig;
@@ -41,8 +41,12 @@ public class DbExportExecutableConfig extends ExecutableConfig {
 
 		// Add the executables that will get run (in the correct order)
 		List<Executable> executables = new ArrayList<Executable>();
+
+		// First export the schema + .mpx files all to one directory
 		executables.add(databaseExportConfig.exportDatabaseExecutable());
-		executables.add(dbExportConfig.syncFilesExecutable());
+
+		// Then split them up as needed into the various sub directories
+		executables.add(syncFilesConfig.syncFilesExecutable());
 
 		// Setup an executable that will execute them in the right order
 		ExecutablesExecutable ee = new ExecutablesExecutable();

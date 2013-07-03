@@ -37,9 +37,9 @@ import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 @Configuration
-public class DbExportConfig {
+public class SyncFilesConfig {
 
-	private static final Logger logger = LoggerFactory.getLogger(DbExportConfig.class);
+	private static final Logger logger = LoggerFactory.getLogger(SyncFilesConfig.class);
 
 	protected final static String SYNC_SKIP_KEY = "impex.sync.skip";
 
