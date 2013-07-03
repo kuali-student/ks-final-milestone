@@ -91,7 +91,7 @@
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
                                     <propertySourcesConfig>org.kuali.student.deploy.spring.DumpSourceDbMavenPropertySourceConfig</propertySourcesConfig>
-                                    <annotatedClass>org.kuali.student.deploy.spring.DbExportConfig</annotatedClass>
+                                    <annotatedClass>org.kuali.student.deploy.spring.DbExportExecutableConfig</annotatedClass>
                                 </configuration>
                             </execution>
                         </executions>

@@ -19,7 +19,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.common.impex.spring.DatabaseExportConfig;
 import org.kuali.common.util.CollectionUtils;
 import org.kuali.common.util.LocationUtils;
 import org.kuali.common.util.SimpleScanner;
@@ -33,13 +32,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 @Configuration
-@Import(DatabaseExportConfig.class)
 public class DbExportConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(DbExportConfig.class);
@@ -80,18 +77,8 @@ public class DbExportConfig {
 	@Autowired
 	Environment env;
 
-	@Autowired
-	DatabaseExportConfig dbExportConfig;
-
-	public void doDatabaseExport() {
-		dbExportConfig.exportDatabaseExecutable().execute();
-	}
-
-	@Bean(initMethod = "execute")
+	@Bean
 	public SyncFilesExecutable syncFilesExecutable() {
-
-		// run the database export executable first
-		doDatabaseExport();
 
 		SyncFilesExecutable exec = new SyncFilesExecutable();
 		exec.setService(scmService());
