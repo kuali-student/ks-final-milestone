@@ -127,14 +127,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             //Events
             List<AcalEventWrapper> events = populateEventWrappers(acalInfo.getId());
             acalForm.setEvents(events);
-            // POC KSENROLL-7698
-            acalForm.setEventsOriginal(new ArrayList<AcalEventWrapper>(events));
 
             //Holiday calendars associated with acal.
             List<HolidayCalendarWrapper> holidayCalendarWrapperList = populateHolidayCalendars(acalInfo.getHolidayCalendarIds());
             acalForm.setHolidayCalendarList(holidayCalendarWrapperList);
-            // POC KSENROLL-7698
-            acalForm.setHolidayCalendarListOriginal(new ArrayList<HolidayCalendarWrapper>(holidayCalendarWrapperList));
 
             //Terms (which in turn builds keydate groups and keydates)
             boolean calculateInstrDays = !holidayCalendarWrapperList.isEmpty();

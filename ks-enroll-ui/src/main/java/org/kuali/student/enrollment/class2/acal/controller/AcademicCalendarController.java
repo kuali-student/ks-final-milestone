@@ -333,10 +333,10 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
         //POC for KSENROLL-7698
-        //AcademicCalendarForm acal = saveAcademicCalendar(academicCalendarForm);
-        //return getUIFModelAndView(acal);
+        AcademicCalendarForm acal = saveAcademicCalendar(academicCalendarForm);
+        return getUIFModelAndView(acal);
 
-        return saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
+        //return saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
     }
 
     /**
@@ -680,6 +680,47 @@ public class AcademicCalendarController extends UifControllerBase {
         return getUIFModelAndView(academicCalendarForm);
 
     }
+
+    @RequestMapping(params = "methodToCall=deleteHolidayCalendar")
+    public ModelAndView deleteHolidayCalendar(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) {
+
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
+        HolidayCalendarWrapper calendarDeleted = academicCalendarForm.getHolidayCalendarList().get(selectedLineIndex);
+        if(calendarDeleted.getHolidayCalendarInfo().getId()!=null){
+            academicCalendarForm.setHolidayCalendarDeleted(true);
+        }
+        academicCalendarForm.getHolidayCalendarList().remove(selectedLineIndex);
+
+        return getUIFModelAndView(academicCalendarForm);
+
+    }
+    @RequestMapping(params = "methodToCall=deleteAcalEvent")
+    public ModelAndView deleteAcalEvent(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response) {
+
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
+        AcalEventWrapper deletedEvent = academicCalendarForm.getEvents().get(selectedLineIndex);
+        if(deletedEvent.getAcalEventInfo().getId()!=null){
+            academicCalendarForm.getEventsToDeleteOnSave().add(deletedEvent);
+        }
+
+        academicCalendarForm.getEvents().remove(selectedLineIndex);
+
+        return getUIFModelAndView(academicCalendarForm);
+
+    }
+
 
     /**
      * Method used to set Acal as official
@@ -1177,8 +1218,8 @@ public class AcademicCalendarController extends UifControllerBase {
             deleteKeyDates(term, viewHelperService);
         }
         // Reset values
-        academicCalendarForm.setEventsOriginal(new ArrayList<AcalEventWrapper>(academicCalendarForm.getEvents()));
-        academicCalendarForm.setHolidayCalendarListOriginal(new ArrayList<HolidayCalendarWrapper>(academicCalendarForm.getHolidayCalendarList()));
+        academicCalendarForm.getEventsToDeleteOnSave().clear();
+        academicCalendarForm.setHolidayCalendarDeleted(false);
         academicCalendarForm.setDirtyFields("");
         academicCalendarForm.getTermsToDeleteOnSave().clear();
 
@@ -1444,30 +1485,15 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      */
     private void deleteAcalEvents(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
-        if(form.getEventsOriginal()!=null){
-            // Compare entries in the list returned from the UI and the original list from before
-            for(int i=0; i<form.getEventsOriginal().size();i++){
-                AcalEventWrapper original = form.getEventsOriginal().get(i);
-                boolean found = false;
-                for(int j=0;j<form.getEvents().size();j++){
-                    AcalEventWrapper event = form.getEvents().get(j);
-                    if(event.getAcalEventInfo().getId().compareTo(original.getAcalEventInfo().getId())==0){
-                        found=true;
-                        break;
-                    }
+        for(int i=0;i<form.getEventsToDeleteOnSave().size();i++){
+            try{
+                AcalEventWrapper event = form.getEventsToDeleteOnSave().get(i);
+                getAcalService().deleteAcalEvent(event.getAcalEventInfo().getId(),helperService.createContextInfo());
+            }catch(Exception e){
+                if (LOG.isDebugEnabled()){
+                    LOG.error("Delete calendar event has failed - " + e.getMessage());
                 }
-                if(!found){
-                    // If an entry in the original is not found then it has been deleted in the UI
-                    // Delete it from the database
-                    try{
-                        getAcalService().deleteAcalEvent(original.getAcalEventInfo().getId(),helperService.createContextInfo());
-                    }catch(Exception e){
-                        if (LOG.isDebugEnabled()){
-                            LOG.error("Delete calendar event has failed - " + e.getMessage());
-                        }
-                        // TODO: Add Error message for failure to create event
-                    }
-                }
+                // TODO: Add Error message for failure to create event
             }
         }
     }
@@ -1523,33 +1549,22 @@ public class AcademicCalendarController extends UifControllerBase {
      * Determines whether changes were made to the list of Holiday Calendars. POC KSENROLL-7698
      *
      * @param form - View form containing the Calendar information
-     * @return True the HolidayCalendarList and HolidayCalendarListOriginal don't match, other wise false.
+     * @return True if changes are detected, other wise false.
      */
     private boolean changesMadeToHCals(AcademicCalendarForm form){
-        // If either are null then this is a new calendar and
-        if(form.getHolidayCalendarList()==null || form.getHolidayCalendarListOriginal()==null)return true;
-        //Determine if holiday calendars have been added or deleted
-        if(form.getHolidayCalendarList().size()!=form.getHolidayCalendarListOriginal().size()) return true;
-        for(int i=0; i<form.getHolidayCalendarListOriginal().size();i++){
-            HolidayCalendarWrapper original = form.getHolidayCalendarListOriginal().get(i);
-            boolean found = false;
-            for(int j=0;j<form.getHolidayCalendarList().size();j++){
-                HolidayCalendarWrapper calendar = form.getHolidayCalendarList().get(j);
-                if(calendar.getHolidayCalendarInfo()==null){
-                    // A new Calendar meaning changes have been made to Holiday Calendar
-                    return true;
-                }
-                if(calendar.getHolidayCalendarInfo().getId()==null){
-                    // A new Calendar meaning changes have been made to Holiday Calendar
-                    return true;
-                }
-                if(calendar.getHolidayCalendarInfo().getId().compareTo(original.getHolidayCalendarInfo().getId())==0){
-                    found=true;
-                    break;
-                }
+
+        // Check if Calendars have been deleted
+        if(form.isHolidayCalendarDeleted())return true;
+
+        // Check for new Calendars
+        for(int j=0;j<form.getHolidayCalendarList().size();j++){
+            HolidayCalendarWrapper calendar = form.getHolidayCalendarList().get(j);
+            if(calendar.getHolidayCalendarInfo()==null){
+                // A new Calendar meaning changes have been made to Holiday Calendar
+                return true;
             }
-            if(!found){
-                // If not found then it has been deleted and changes made to Holiday Calendars
+            if(calendar.getHolidayCalendarInfo().getId()==null){
+                // A new Calendar meaning changes have been made to Holiday Calendar
                 return true;
             }
         }

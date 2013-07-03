@@ -43,9 +43,6 @@ public class AcademicCalendarForm extends KSUifForm {
     private List<AcalEventWrapper> events;
     private List<HolidayCalendarWrapper> holidayCalendarList;
     private List<AcademicTermWrapper> termWrapperList;
-    // POC KSENROLL-7698
-    private List<AcalEventWrapper> eventsOriginal;
-    private List<HolidayCalendarWrapper> holidayCalendarListOriginal;
 
     //used by copying
     private boolean newCalendar;
@@ -55,6 +52,9 @@ public class AcademicCalendarForm extends KSUifForm {
 
     private List<AcalEventWrapper> eventsToDeleteOnSave;
     private List<AcademicTermWrapper> termsToDeleteOnSave;
+    // POC KSENROLL-7698
+    private boolean holidayCalendarDeleted;
+
     private boolean reload;
 
     // needed to delete term
@@ -101,6 +101,7 @@ public class AcademicCalendarForm extends KSUifForm {
         defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
         eventsToDeleteOnSave = new ArrayList<AcalEventWrapper>();
         termsToDeleteOnSave = new ArrayList<AcademicTermWrapper>();
+        holidayCalendarDeleted = false;
         addLineValid = true;
         validationJSONString = new String();
     }
@@ -426,7 +427,8 @@ public class AcademicCalendarForm extends KSUifForm {
     }
 
     /**
-     * A list of properties that have been changed (are dirty) contained in a csv string. POC KSENROLL-7698
+     * A list of properties that have been changed (are dirty) contained in a csv string.
+     * POC KSENROLL-7698
      *
      * @return
      */
@@ -439,28 +441,29 @@ public class AcademicCalendarForm extends KSUifForm {
     }
 
     /**
-     * A list of events seperate from the UI that stays constant.
-     * Used to determine additions adn deleteions of events on the page. POC KSENROLL-7698
+     * A list of Events that have been deleted in the UI and need to be deleted during save.
+     * POC KSENROLL-7698
      * @return
      */
-    public List<AcalEventWrapper> getEventsOriginal() {
-        return eventsOriginal;
+    public List<AcalEventWrapper> getEventsToDeleteOnSave() {
+        return eventsToDeleteOnSave;
     }
 
-    public void setEventsOriginal(List<AcalEventWrapper> eventsOriginal) {
-        this.eventsOriginal = eventsOriginal;
+    public void setEventsToDeleteOnSave(List<AcalEventWrapper> eventsToDeleteOnSave) {
+        this.eventsToDeleteOnSave = eventsToDeleteOnSave;
     }
 
     /**
-     * A list of the holiday calendars seperate from the UI that stays constant. POC KSENROLL-7698
-     * Used to determine additions and deletions of calendars on the page.
+     * Boolean flag that a holiday calendar has been deleted in the UI and changes need to be saved.
+     * POC KSENROLL-7698
      * @return
      */
-    public List<HolidayCalendarWrapper> getHolidayCalendarListOriginal() {
-        return holidayCalendarListOriginal;
+    public boolean isHolidayCalendarDeleted() {
+        return holidayCalendarDeleted;
     }
 
-    public void setHolidayCalendarListOriginal(List<HolidayCalendarWrapper> holidayCalendarListOriginal) {
-        this.holidayCalendarListOriginal = holidayCalendarListOriginal;
+    public void setHolidayCalendarDeleted(boolean holidayCalendarDeleted) {
+        this.holidayCalendarDeleted = holidayCalendarDeleted;
     }
+
 }

@@ -353,6 +353,11 @@ limitations under the License.
         <property name="addLineLabel.labelText" value=""/>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction" p:methodToCall="deleteAcalEvent"/>
+            </list>
+        </property>
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="eventTypeKey" p:label="Event" p:required="true"
@@ -480,7 +485,7 @@ limitations under the License.
                                     <list>
                                         <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
                                         <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
-                                        <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete" p:ajaxSubmit="true"
+                                        <bean parent="Uif-ActionLink" p:methodToCall="deleteHolidayCalendar" p:actionLabel="Delete" p:ajaxSubmit="true"
                                               p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                                               p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
                                     </list>
