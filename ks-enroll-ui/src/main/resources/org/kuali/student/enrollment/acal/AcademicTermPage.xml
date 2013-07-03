@@ -131,6 +131,7 @@
                                     <value>termType</value>
                                 </list>
                             </property>
+                            <property name="queryMethodInvokerConfig"><null/></property>
                             <property name="queryFieldMapping" value="{startDate:startDate,termType:termType}"/>
                             <property name="returnFieldMapping" value="termCode:termCode"/>
                         </bean>
@@ -173,6 +174,7 @@
                                             <property name="attributeQuery">
                                                 <bean parent="Uif-AttributeQueryConfig">
                                                     <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                                                    <property name="queryMethodInvokerConfig"><null/></property>
                                                     <property name="queryMethodArgumentFieldList">
                                                         <list>
                                                             <value>startDate</value>
@@ -216,6 +218,7 @@
                                             <property name="attributeQuery">
                                                 <bean parent="Uif-AttributeQueryConfig">
                                                     <property name="queryMethodToCall" value="termInfoAjaxQuery"/>
+                                                    <property name="queryMethodInvokerConfig"><null/></property>
                                                     <property name="queryMethodArgumentFieldList">
                                                         <list>
                                                             <value>startDate</value>
