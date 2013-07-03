@@ -205,10 +205,7 @@ public class HolidayCalendarController extends UifControllerBase {
 
         try {
             String calendarId = request.getParameter(CalendarConstants.CALENDAR_ID);
-            if (calendarId == null || calendarId.trim().isEmpty()) {
-                hcInfo = getHolidayCalendarFormHelper(form).getNewestHolidayCalendar();
-            }
-            else {
+            if (calendarId != null && !calendarId.trim().isEmpty()) {
                 hcInfo = getHolidayCalendarFormHelper(form).getHolidayCalendar(calendarId);
             }
         }
@@ -216,9 +213,8 @@ public class HolidayCalendarController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Unexpected error; could not get holiday to copy: " + e.getMessage());
         }
 
-        form.setHolidayCalendarInfo(hcInfo);
-
         if (null != hcInfo) {
+            form.setHolidayCalendarInfo(hcInfo);
             // do some calculations on probable values for the new calendar
             Calendar cal = Calendar.getInstance();
             int currentYear = cal.get(Calendar.YEAR);
@@ -243,6 +239,9 @@ public class HolidayCalendarController extends UifControllerBase {
                 form.setNewCalendarStartDate(cal.getTime());
                 */
             }
+
+        }  else{
+            form.setHolidayCalendarInfo(new HolidayCalendarInfo());
         }
 
         return super.start(form, result, request, response);
