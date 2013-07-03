@@ -5,7 +5,7 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.krms.termresolver.AdminOrgNumberTermResolver;
+import org.kuali.student.krms.termresolver.AdminOrgPermRequiredTermResolver;
 import org.kuali.student.krms.termresolver.FreeFormTextTermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCompletedCoursesTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
@@ -25,30 +25,30 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 	public TermResolver<?> loadTermResolver(
 			TermResolverDefinition termResolverDefinition) {
 		
-		if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_COMPLETED_COURSE)) {
+		if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_COMPLETEDCOURSE)) {
 			CompletedCourseTermResolver resolver = new CompletedCourseTermResolver();
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_FREE_TEXT)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_FREEFORMTEXT)) {
 			FreeFormTextTermResolver resolverForm = new FreeFormTextTermResolver();
 			//resolver.setAcademicRecordService(acadRecordService); Does not exist
 			return resolverForm;
-		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_GPA)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_GPAFORCOURSES)) {
 			GPATermResolver resolver = new GPATermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_NUMBER_OF_CREDITS)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_NUMBEROFCREDITS)) {
 			NumberOfCreditsTermResolver resolver = new NumberOfCreditsTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_SCORE)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_SCOREONTEST)) {
 			ScoreTermResolver resolver = new ScoreTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_ADMIN_ORG_NUMBER)) {
-			AdminOrgNumberTermResolver resolver = new AdminOrgNumberTermResolver();
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_ADMINORGANIZATIONPERMISSIONREQUIRED)) {
+			AdminOrgPermRequiredTermResolver resolver = new AdminOrgPermRequiredTermResolver();
 			resolver.setOrganizationService(organizationService);
 			return resolver;
-		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_COMPLETED_COURSE)) {
+		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_NUMBEROFCOMPLETEDCOURSES)) {
 			NumberOfCompletedCoursesTermResolver resolver = new NumberOfCompletedCoursesTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;

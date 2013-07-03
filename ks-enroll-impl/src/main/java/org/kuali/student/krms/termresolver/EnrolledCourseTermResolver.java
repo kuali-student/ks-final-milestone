@@ -19,6 +19,7 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -36,34 +37,22 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
     private CourseRegistrationService courseRegistrationService;
 
-    private final static Set<String> prerequisites = new HashSet<String>(2);
-
-    static {
-        prerequisites.add(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
-        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
-    }
-
-    public CourseRegistrationService getCourseRegistrationService() {
-        return courseRegistrationService;
-    }
-
-    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
-    }
-
     @Override
     public Set<String> getPrerequisites() {
-        return prerequisites;
+        Set<String> temp = new HashSet<String>(2);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(temp);
     }
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.ENROLLED_COURSE_TERM_NAME;
+        return KSKRMSServiceConstants.TERM_RESOLVER_ENROLLEDCOURSE;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.COURSE_ID_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
     }
 
     @Override
@@ -75,7 +64,7 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String courseOfferingIds = parameters.get(KSKRMSServiceConstants.COURSE_ID_TERM_PROPERTY);
+        String courseOfferingIds = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
         Boolean result = false;
 
         courseOfferingIds = courseOfferingIds.trim();
@@ -108,26 +97,25 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
     private List<CourseRegistrationInfo> getCourseRegistrationsForStudent(Map<String, Object> resolvedPrereqs, Map<String, String> parameters){
 
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
 
         List<CourseRegistrationInfo> registrationInfos = null;
         try {
             registrationInfos = this.getCourseRegistrationService().getCourseRegistrationsByStudent(personId, context);
-        } catch (InvalidParameterException e) {
-            throw createTermResolutionException(e.getMessage(), parameters);
-        } catch (MissingParameterException e) {
-            throw createTermResolutionException(e.getMessage(), parameters);
-        } catch (OperationFailedException e) {
-            throw createTermResolutionException(e.getMessage(), parameters);
-        } catch (PermissionDeniedException e) {
-            throw createTermResolutionException(e.getMessage(), parameters);
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
         return registrationInfos;
     }
 
-    private TermResolutionException createTermResolutionException(String message, Map<String, String> parameters){
-        return new TermResolutionException(message, this, parameters);
+    public CourseRegistrationService getCourseRegistrationService() {
+        return courseRegistrationService;
     }
+
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+        this.courseRegistrationService = courseRegistrationService;
+    }
+
 }

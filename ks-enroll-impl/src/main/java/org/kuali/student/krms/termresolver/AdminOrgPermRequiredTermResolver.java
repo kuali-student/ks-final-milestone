@@ -17,42 +17,38 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class FreeFormTextTermResolver implements TermResolver<Boolean> {
+public class AdminOrgPermRequiredTermResolver implements TermResolver<Boolean> {
+
+    private OrganizationService organizationService;
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.EMPTY_SET;
+        Set<String> temp = new HashSet<String>(2);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(temp);
     }
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_FREEFORMTEXT;
+        return KSKRMSServiceConstants.TERM_RESOLVER_ADMINORGANIZATIONPERMISSIONREQUIRED;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.EMPTY_SET;
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY);
     }
 
     @Override
@@ -62,6 +58,25 @@ public class FreeFormTextTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        String orgId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY);
+        
+        try {
+            OrgInfo org = organizationService.getOrg(orgId, context);
+            //TODO: Determine permision???
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        }
+
         return true;
     }
+
+    public OrganizationService getOrganizationService() {
+        return organizationService;
+    }
+
+    public void setOrganizationService(OrganizationService organizationService) {
+        this.organizationService = organizationService;
+    }
+
 }

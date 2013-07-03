@@ -37,37 +37,25 @@ public class GradeTypeTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
 
-    private final static Set<String> prerequisites = new HashSet<String>(1);
-
-    static {
-        prerequisites.add(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
-        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
-    }
-    
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
-    }
-
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
-
     @Override
     public Set<String> getPrerequisites() {
-        return prerequisites;
+        Set<String> temp = new HashSet<String>(2);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(temp);
     }
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.GPA_TERM_NAME;
+        return KSKRMSServiceConstants.TERM_RESOLVER_GRADETYPEFORCOURSES;
     }
 
     @Override
     public Set<String> getParameterNames() {
         Set<String> temp = new HashSet<String>(3);
-        temp.add(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY);
-        temp.add(KSKRMSServiceConstants.GRADE_TERM_PROPERTY);
-        temp.add(KSKRMSServiceConstants.GRADE_TYPE_TERM_PROPERTY);
+        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
+        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY);
         return Collections.unmodifiableSet(temp);
     }
 
@@ -79,28 +67,29 @@ public class GradeTypeTermResolver implements TermResolver<Integer> {
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
-        String courseCodes = parameters.get(KSKRMSServiceConstants.COURSE_CODE_TERM_PROPERTY);
-        String gradeType = parameters.get(KSKRMSServiceConstants.GRADE_TYPE_TERM_PROPERTY);
-        String grade = parameters.get(KSKRMSServiceConstants.GRADE_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        String courseSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+        String gradeType = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
+        String grade = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY);
         
         List<StudentCourseRecordInfo> studentCourseRecordInfoList = null;
         Integer result = null;
         /*try {
             studentCourseRecordInfoList = academicRecordService.??(personId, context);
-        } catch (InvalidParameterException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (MissingParameterException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (OperationFailedException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (PermissionDeniedException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (DoesNotExistException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }*/
 
         return result;
     }
+
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
+
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
+    }
+
 }

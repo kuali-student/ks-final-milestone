@@ -9,6 +9,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -23,7 +24,33 @@ import java.util.Set;
  * Time: 2:15 PM
  * To change this template use File | Settings | File Templates.
  */
-public class NumberOfEnrollmentsForCourseTermResolver {
+public class NumberOfEnrollmentsForCourseTermResolver implements TermResolver<Integer> {
 
+    @Override
+    public Set<String> getPrerequisites() {
+        Set<String> temp = new HashSet<String>(2);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(temp);
+    }
 
+    @Override
+    public String getOutput() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Set<String> getParameterNames() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int getCost() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

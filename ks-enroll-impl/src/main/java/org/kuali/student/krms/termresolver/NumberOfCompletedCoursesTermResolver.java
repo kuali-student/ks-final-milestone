@@ -19,6 +19,9 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -26,79 +29,69 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class NumberOfCompletedCoursesTermResolver extends AbstractCourseTermResolver implements TermResolver<Integer> {
+public class NumberOfCompletedCoursesTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
+    private CourseOfferingService courseOfferingService;
+    private CluService cluService;
 
-    public static final String COMPLETED_COURSE_NUMBER_TERM_NAME ="NumberOfCompletedCourses";
+    @Override
+    public Set<String> getPrerequisites() {
+        Set<String> temp = new HashSet<String>(2);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(temp);
+    }
 
     @Override
     public String getOutput() {
-        return COMPLETED_COURSE_NUMBER_TERM_NAME;
+        return KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCOMPLETEDCOURSES;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.COURSE_CODES_TERM_PROPERTY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
     }
 
     @Override
     public int getCost() {
-        // TODO Analyze, though probably not much to check here
         return 5;
     }
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String[] courseCodeArray = this.resolveCourseCodes(parameters);
-        if(courseCodeArray == null || courseCodeArray.length == 0){
-            return 0;
-        }
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
 
-        List<StudentCourseRecordInfo> recordInfoList = this.getCompletedCourseRecords(resolvedPrereqs, parameters);
+        int counter = 0;
+        try {
+            List<StudentCourseRecordInfo> recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
+            List<String> cluIds = this.cluService.getAllCluIdsInCluSet(cluSetId, context);
 
-        int result = 0;
-        for (StudentCourseRecordInfo si : recordInfoList) {
-            for (String cc : courseCodeArray) {
-                if (cc.equals(si.getCourseCode())) {
-                    result++;
-                    break;
+            for(StudentCourseRecordInfo studentRecord : recordInfoList){
+                CourseOffering courseOffering = this.courseOfferingService.getCourseOffering(studentRecord.getCourseOfferingId(), context);
+                for(String cluId : cluIds){
+                    if(cluId.equals(courseOffering.getCourseId())){
+                        counter++;
+                    }
                 }
             }
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
-        return result;
-    }
-
-    private List<StudentCourseRecordInfo> getCompletedCourseRecords(Map<String, Object> resolvedPrereqs, Map<String, String> parameters){
-
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
-
-        List<StudentCourseRecordInfo> recordInfoList = null;
-
-        try {
-            recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
-        } catch (InvalidParameterException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (MissingParameterException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (OperationFailedException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (PermissionDeniedException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (DoesNotExistException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        }
-
-        return recordInfoList;
+        return counter;
     }
 
     public AcademicRecordService getAcademicRecordService() {
@@ -107,5 +100,21 @@ public class NumberOfCompletedCoursesTermResolver extends AbstractCourseTermReso
 
     public void setAcademicRecordService(AcademicRecordService academicRecordService) {
         this.academicRecordService = academicRecordService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
+    public CluService getCluService() {
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 }

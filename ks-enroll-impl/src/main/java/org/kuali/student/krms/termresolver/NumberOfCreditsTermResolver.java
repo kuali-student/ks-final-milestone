@@ -43,34 +43,22 @@ public class NumberOfCreditsTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
 
-    private final static Set<String> prerequisites = new HashSet<String>(2);
-
-    static {
-        prerequisites.add(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
-        prerequisites.add(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
-    }
-    
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
-    }
-
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
-
     @Override
     public Set<String> getPrerequisites() {
-        return prerequisites;
+        Set<String> temp = new HashSet<String>(2);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(temp);
     }
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.NUMBER_OF_CREDITS_TERM_NAME;
+        return KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITS;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.CALC_TYPE_KEY_TERM_PROPERTY);
+        return new HashSet<String>(0);
     }
 
     @Override
@@ -81,25 +69,26 @@ public class NumberOfCreditsTermResolver implements TermResolver<Integer> {
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.CONTEXT_INFO_TERM_NAME);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.PERSON_ID_TERM_PROPERTY);
-        String calculationTypeKey = parameters.get(KSKRMSServiceConstants.CALC_TYPE_KEY_TERM_PROPERTY);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        String calculationTypeKey = ""; //????
 
-        String credits;
+        String credits = null;
         try {
             credits = academicRecordService.getEarnedCredits(personId, calculationTypeKey, context);
-        } catch (InvalidParameterException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (MissingParameterException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (OperationFailedException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (PermissionDeniedException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
-        } catch (DoesNotExistException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
         return Integer.parseInt(credits);
     }
+
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
+
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
+    }
+
 }
