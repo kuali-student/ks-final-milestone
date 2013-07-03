@@ -28,10 +28,7 @@
              ie: from "Course Offerings" to "Delete Course Offerings"
              This is a work-around, at least until KRAD 2.3-m3 -->
         <property name="onDocumentReadyScript" value="updateViewHeaderText( 'Delete Course Offerings' );" />
-
-        <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
-        </property>
+        <property name="headerText" value="@{subjectCode}" />
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
@@ -76,16 +73,6 @@
         <property name="items">
             <list>
                 <bean id="KS-coDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
-                    <property name="header">
-                        <bean parent="Uif-HeaderFour"/>
-                    </property>
-                    <property name="disclosure.render" value="false"/>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-DataField"  p:propertyName="subjectCode"
-                                  p:fieldLabel.renderColon="false"  p:readOnly="true"/>
-                        </list>
-                    </property>
                 </bean>
                 <bean id="KS-CoDeleteConfirmation-WarningMessage" parent="Uif-VerticalBoxSection">
                     <property name="headerText" value=""/>
