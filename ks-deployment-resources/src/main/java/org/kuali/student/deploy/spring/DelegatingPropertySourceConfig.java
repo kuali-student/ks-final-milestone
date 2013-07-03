@@ -17,9 +17,10 @@ package org.kuali.student.deploy.spring;
 
 import java.util.List;
 
+import org.codehaus.plexus.util.StringUtils;
+import org.kuali.common.util.ReflectionUtils;
 import org.kuali.common.util.property.ProjectProperties;
 import org.kuali.common.util.spring.MavenPropertySourceConfig;
-import org.kuali.common.util.spring.SpringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -33,7 +34,14 @@ public class DelegatingPropertySourceConfig extends MavenPropertySourceConfig {
 
     @Override
     protected List<ProjectProperties> getOtherProjectProperties() {
-        ProjectPropertiesListProvider propertiesProvider = SpringUtils.getInstance(env, PROVIDER_CLASS_KEY);
+
+        String providerClassName = getProjectProperties().getPropertiesContext().getProperties().getProperty(PROVIDER_CLASS_KEY);
+
+        if (StringUtils.isEmpty(providerClassName)) {
+            throw new IllegalStateException("required key ["  + PROVIDER_CLASS_KEY + "] not found");
+        }
+
+        ProjectPropertiesListProvider propertiesProvider = ReflectionUtils.newInstance(providerClassName);
 
         return propertiesProvider.getProjectProperties();
     }
