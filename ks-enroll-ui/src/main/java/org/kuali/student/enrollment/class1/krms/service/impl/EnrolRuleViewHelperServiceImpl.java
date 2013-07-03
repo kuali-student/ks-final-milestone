@@ -343,7 +343,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
         SearchParamInfo orgTypeParam = new SearchParamInfo();
         orgTypeParam.setKey("org.queryParam.orgOptionalType");
         List<String> orgTypeValues = new ArrayList<String>();
-        orgTypeValues.add(OrganizationServiceConstants.ORGANIZATION_COMMITTEE_TYPE_KEY);
+        orgTypeValues.add(OrganizationServiceConstants.ORGANIZATION_DEPARTMENT_TYPE_KEY);
         orgTypeParam.setValues(orgTypeValues);
         queryParamValueList.add(orgTypeParam);
         SearchRequestInfo searchRequest = new SearchRequestInfo();
