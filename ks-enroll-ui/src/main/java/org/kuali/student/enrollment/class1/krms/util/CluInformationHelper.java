@@ -141,11 +141,8 @@ public class CluInformationHelper {
             // Handle Date queries for the course ranges.
             if (membershipQuery.getSearchTypeKey().equals(CluSetRangeHelper.CLU_SEARCH_GENERIC)) {
 
-                //String firstDate = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE1);
-                //String secondDate = CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE2);
-
-                Date firstDate = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20010101");
-                Date secondDate = DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20020201");
+                Date firstDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE1));
+                Date secondDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(CluSetRangeHelper.getParmValue(membershipQuery.getQueryParamValues(), CluSetRangeHelper.CLU_SEARCH_PARM_DATE2));
 
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
                 qbcBuilder.setPredicates(PredicateFactory.greaterThanOrEqual("effectiveDate", firstDate),
@@ -158,6 +155,12 @@ public class CluInformationHelper {
                     for (CluInfo cluInfo : cluInfos) {
                         CluInformation cluInformation = new CluInformation(cluInfo.getOfficialIdentifier().getCode(), cluInfo.getOfficialIdentifier().getShortName().toUpperCase(), "");
                         cluInformation.setCluId(cluInfo.getId());
+                        cluInformation.setDescription(cluInfo.getDescr().getPlain());
+                        cluInformation.setState(cluInfo.getStateKey());
+                        cluInformation.setTitle(cluInfo.getOfficialIdentifier().getLongName().toUpperCase());
+                        cluInformation.setShortName(cluInfo.getOfficialIdentifier().getShortName());
+                        cluInformation.setType(cluInfo.getTypeKey());
+                        cluInformation.setVerIndependentId(cluInfo.getVersion().getVersionIndId());
                         cluInformations.add(cluInformation);
                     }
                     return cluInformations;

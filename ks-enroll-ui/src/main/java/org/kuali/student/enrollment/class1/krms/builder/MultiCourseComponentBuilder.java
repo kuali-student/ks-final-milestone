@@ -28,10 +28,13 @@ import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.keyvalues.GradeScaleValuesFinder;
 import org.kuali.student.enrollment.class1.krms.keyvalues.GradeValuesKeyFinder;
 import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
+import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -286,7 +289,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         if (nrOfMembershipQueries>0) {
             for(CluSetRangeInformation cluSetRange : cluSetInformation.getCluSetRanges()){
                 CluSetInfo wrapperCluSet = new CluSetInfo();
-                wrapperCluSet.setMembershipQuery(cluSetRange.getMembershipQueryInfo());
+                wrapperCluSet.setMembershipQuery(cluSetRange.getMembershipQueryInfo()); //this.convertDates(cluSetRange.getMembershipQueryInfo(),cluSetInformation ));
                 cluSetInfo.getCluSetIds().add(saveWrapperCluSet(wrapperCluSet, cluSetInformation.getCluSetInfo()));
             }
         }
@@ -325,6 +328,42 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
         }
 
         return wrapperCluSet.getId();
+    }
+
+    /**
+     * Build a new Effective Date Query.
+     *
+     * @param membershipQueryInfo
+     * @param cluSetInformation
+     * @return
+     */
+    private MembershipQueryInfo convertDates(MembershipQueryInfo membershipQueryInfo, CluSetInformation cluSetInformation) {
+
+        List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
+
+        Date firstDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(cluSetInformation.getRangeHelper().getEffectiveFrom().toString());
+        Date secondDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(cluSetInformation.getRangeHelper().getEffectiveTo().toString());
+
+        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE1, firstDate.toString()));
+        queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DATE2, secondDate.toString()));
+        membershipQueryInfo.setQueryParamValues(queryParams);
+        return membershipQueryInfo;
+    }
+
+    /**
+     * @param key
+     * @param value
+     * @return
+     */
+    private SearchParamInfo createSearchParam(String key, String value) {
+        SearchParamInfo param = new SearchParamInfo();
+        param.setKey(key);
+
+        List<String> values = new ArrayList<String>();
+        values.add(value);
+        param.setValues(values);
+
+        return param;
     }
 
     protected CluInformationHelper getCluInfoHelper() {
