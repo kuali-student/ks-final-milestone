@@ -2212,10 +2212,19 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         DateMidnight currentDate, stopDate;
         List<DateMidnight> nonInstructionalHolidayDates = new ArrayList<DateMidnight>();
         List<AcademicCalendarInfo> acalsForTerm = getAcademicCalendarsForTerm(termAtp.getId(), contextInfo);
-        
+
+        //sub-term > find parent term and get acal for it
+        if (acalsForTerm.size() == 0){
+            List<AtpAtpRelationInfo> atpAtpRelationsForTerm = this.atpService.getAtpAtpRelationsByAtps(termAtp.getId(), contextInfo);
+            for (AtpAtpRelationInfo atpInfo : atpAtpRelationsForTerm) {
+                acalsForTerm = getAcademicCalendarsForTerm(atpInfo.getAtpId(), contextInfo);
+                break;
+            }
+        }
+
         for (AcademicCalendarInfo acal : acalsForTerm) {
             List<HolidayInfo> holidaysForTerm =
-                    getHolidaysByDateForAcademicCalendar( acal.getId(), instructionalPeriodKeyDate.getStartDate(), 
+                    getHolidaysByDateForAcademicCalendar( acal.getId(), instructionalPeriodKeyDate.getStartDate(),
                                                           instructionalPeriodKeyDate.getEndDate(), contextInfo);
 
             for (HolidayInfo holiday : holidaysForTerm) {
@@ -2296,7 +2305,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<AtpAtpRelationInfo> atpAtpRelationsForTerm = this.atpService.getAtpAtpRelationsByAtps(termId, contextInfo);
 
         List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
-
         for (AtpAtpRelationInfo atpRelationForTerm : atpAtpRelationsForTerm) {
             if (atpRelationForTerm.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY)) {
                 try {
