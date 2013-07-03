@@ -19,6 +19,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
@@ -48,6 +49,14 @@ public class DurationComponentBuilder implements ComponentBuilder<EnrolPropositi
 
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
+        String durationType = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_DURATION_TYPE_KEY);
+        String duration = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_DURATION_KEY);
+        if (durationType != null) {
+        propositionEditor.setDurationType(durationType);
+        }
+        if (duration != null) {
+            propositionEditor.setDuration(Integer.parseInt(duration));
+        }
 
     }
 
