@@ -169,21 +169,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingInfo.finalExamStartTime" parent="ActivityOfferingInfo.finalExamStartTime-parent"/>
-	<bean id="ActivityOfferingInfo.finalExamStartTime-parent" abstract="true" parent="ActivityOfferingInfo.finalExamStartTime-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamEndTime" parent="ActivityOfferingInfo.finalExamEndTime-parent"/>
-	<bean id="ActivityOfferingInfo.finalExamEndTime-parent" abstract="true" parent="ActivityOfferingInfo.finalExamEndTime-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamSpaceCode" parent="ActivityOfferingInfo.finalExamSpaceCode-parent"/>
-	<bean id="ActivityOfferingInfo.finalExamSpaceCode-parent" abstract="true" parent="ActivityOfferingInfo.finalExamSpaceCode-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
 	<bean id="ActivityOfferingInfo.activityOfferingURL" parent="ActivityOfferingInfo.activityOfferingURL-parent"/>
 	<bean id="ActivityOfferingInfo.activityOfferingURL-parent" abstract="true" parent="ActivityOfferingInfo.activityOfferingURL-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->

@@ -44,8 +44,7 @@ import java.io.Serializable;
                 "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
                 "weeklyTotalContactHours",  "isEvaluated",
                 "maximumEnrollment", "minimumEnrollment","isMaxEnrollmentEstimate",
-                "finalExamStartTime", "finalExamEndTime", 
-                "finalExamSpaceCode", "activityOfferingURL", 
+                "activityOfferingURL",
                 "courseOfferingId", "courseOfferingTitle", 
                 "courseOfferingCode", "hasWaitlist", "waitlistTypeKey",
                 "waitlistMaximum", "isWaitlistCheckinRequired", 
@@ -109,15 +108,6 @@ public class ActivityOfferingInfo
 
     @XmlElement
     private Integer minimumEnrollment;
-        
-    @XmlElement
-    private Date finalExamStartTime;
-    
-    @XmlElement
-    private Date finalExamEndTime;
-
-    @XmlElement
-    private String finalExamSpaceCode;
 
     @XmlElement
     private Boolean isEvaluated;
@@ -209,15 +199,6 @@ public class ActivityOfferingInfo
 
         this.isMaxEnrollmentEstimate = offering.getIsMaxEnrollmentEstimate();
 
-        if (offering.getFinalExamStartTime() != null) {
-            this.finalExamStartTime = new Date(offering.getFinalExamStartTime().getTime());
-        }
-
-        if (offering.getFinalExamEndTime() != null) {
-            this.finalExamEndTime = new Date(offering.getFinalExamEndTime().getTime());
-        }
-
-        this.finalExamSpaceCode = offering.getFinalExamSpaceCode();
         this.isEvaluated = offering.getIsEvaluated();
         this.activityOfferingURL = offering.getActivityOfferingURL();
 
@@ -378,33 +359,6 @@ public class ActivityOfferingInfo
 
     public void setMinimumEnrollment(Integer minimumEnrollment) {
         this.minimumEnrollment = minimumEnrollment;
-    }
-
-    @Override
-    public Date getFinalExamStartTime() {
-        return finalExamStartTime;
-    }
-
-    public void setFinalExamStartTime(Date finalExamStartTime) {
-        this.finalExamStartTime = finalExamStartTime;
-    }
-
-    @Override
-    public Date getFinalExamEndTime() {
-        return finalExamEndTime;
-    }
-
-    public void setFinalExamEndTime(Date finalExamEndTime) {
-        this.finalExamEndTime = finalExamEndTime;
-    }
-
-    @Override
-    public String getFinalExamSpaceCode() {
-        return finalExamSpaceCode;
-    }
-
-    public void setFinalExamSpaceCode(String finalExamSpaceCode) {
-        this.finalExamSpaceCode = finalExamSpaceCode;
     }
 
     public void setHonorsOffering(Boolean honorsOffering) {

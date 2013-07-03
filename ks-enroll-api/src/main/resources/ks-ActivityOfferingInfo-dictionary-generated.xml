@@ -77,9 +77,6 @@ system, each with a meeting pattern.
 				<ref bean="ActivityOfferingInfo.maximumEnrollment"/>
 				<ref bean="ActivityOfferingInfo.minimumEnrollment"/>
 				<ref bean="ActivityOfferingInfo.isMaxEnrollmentEstimate"/>
-				<ref bean="ActivityOfferingInfo.finalExamStartTime"/>
-				<ref bean="ActivityOfferingInfo.finalExamEndTime"/>
-				<ref bean="ActivityOfferingInfo.finalExamSpaceCode"/>
 				<ref bean="ActivityOfferingInfo.activityOfferingURL"/>
 				<ref bean="ActivityOfferingInfo.courseOfferingId"/>
 				<ref bean="ActivityOfferingInfo.courseOfferingTitle"/>
@@ -513,57 +510,6 @@ Is maximum enrollment estimate flag
 		<property name="description">
 			<value>
 Is maximum enrollment estimate flag
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamStartTime-generated" abstract="true" parent="BaseKuali.date">
-		<property name="name" value="finalExamStartTime"/>
-		<property name="shortLabel" value="Final Exam Start Time"/>
-		<property name="summary">
-			<value>
-Start time of final exam
-			</value>
-		</property>
-		<property name="label" value="Final Exam StartTime"/>
-		<property name="description">
-			<value>
-Start time of final exam
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamEndTime-generated" abstract="true" parent="BaseKuali.date">
-		<property name="name" value="finalExamEndTime"/>
-		<property name="shortLabel" value="Final Exam End Time"/>
-		<property name="summary">
-			<value>
-End time of final exam.
-			</value>
-		</property>
-		<property name="label" value="Final Exam EndTime"/>
-		<property name="description">
-			<value>
-End time of final exam.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ActivityOfferingInfo.finalExamSpaceCode-generated" abstract="true" parent="BaseKuali.code">
-		<property name="name" value="finalExamSpaceCode"/>
-		<property name="shortLabel" value="Final Exam Space Code"/>
-		<property name="summary">
-			<value>
-Space code where final exam will be conducted
-			</value>
-		</property>
-		<property name="label" value="Final Exam Space Code"/>
-		<property name="description">
-			<value>
-Space code where final exam will be conducted
 			</value>
 		</property>
 		<property name="required" value="false"/>
