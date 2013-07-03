@@ -38,7 +38,7 @@ public class PopulationContextImpl extends BasicContextImpl {
 
     private PopulationService populationService;
 
-	public final static String ClASS_STANDING_TOKEN = "classStanding";
+	public final static String CLASS_STANDING_TOKEN = "classStanding";
 
 
     public void setPopulationService(PopulationService populationService) {
@@ -72,11 +72,11 @@ public class PopulationContextImpl extends BasicContextImpl {
         ContextInfo contextInfo = ContextUtils.getContextInfo();
         Map<String, Object> contextMap = super.createContextMap(parameters);
 
-        String classStandingId = (String) parameters.get(TermParameterTypes.ClASS_STANDING_KEY.getId());
+        String classStandingId = (String) parameters.get(TermParameterTypes.CLASS_STANDING_KEY.getId());
 
         if (classStandingId != null) {
             PopulationInfo populationInfo = this.getClassStanding(classStandingId, contextInfo);
-            contextMap.put(ClASS_STANDING_TOKEN, populationInfo);
+            contextMap.put(CLASS_STANDING_TOKEN, populationInfo);
         }
 
         return contextMap;
