@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.common.jdbc.JdbcProjectContext;
 import org.kuali.common.util.ProjectContext;
+import org.kuali.common.util.SqlProjectContext;
 import org.kuali.common.util.property.ProjectProperties;
 import org.kuali.common.util.spring.ConfigUtils;
 import org.kuali.common.util.spring.MavenPropertySourceConfig;
@@ -16,8 +17,9 @@ public class DumpSourceDbMavenPropertySourceConfig extends MavenPropertySourceCo
 	@Override
 	protected List<ProjectProperties> getOtherProjectProperties() {
 		ProjectContext jdbc = new JdbcProjectContext();
+		ProjectContext sql = new SqlProjectContext();
 		ProjectContext dump = new DumpDbProjectContext();
-		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, dump));
+		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, sql, dump));
 	}
 
 }
