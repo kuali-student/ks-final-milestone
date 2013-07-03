@@ -54,7 +54,7 @@ public enum TermParameterTypes {
     FREE_TEXT_KEY("kuali.term.parameter.type.free.text"),
     TERM_KEY("kuali.term.parameter.type.Term"),
     TERM2_KEY("kuali.term.parameter.type.Term2"),
-    ClASS_STANDING_KEY("kuali.term.parameter.type.classStanding");
+    CLASS_STANDING_KEY("kuali.term.parameter.type.classStanding");
 
 	private String id;
 

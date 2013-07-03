@@ -147,7 +147,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_TERM2_KEY = "kuali.term.parameter.type.Term2";
     public static final String TERM_PARAMETER_TYPE_TOTAL_CREDIT_KEY = "kuali.term.parameter.type.totalCredits";
     public static final String TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY = "kuali.term.parameter.type.program.cluSet.id";
-    public static final String TERM_PARAMETER_TYPE_ClASS_STANDING_KEY = "kuali.term.parameter.type.classStanding";
+    public static final String TERM_PARAMETER_TYPE_CLASS_STANDING_KEY = "kuali.term.parameter.type.classStanding";
     public static final String TERM_PARAMETER_TYPE_TEST_CLU_KEY = "kuali.term.parameter.type.test.clu.id";
     public static final String TERM_PARAMETER_TYPE_TERMCODE_KEY = "kuali.term.parameter.type.TermCode";
     public static final String TERM_PARAMETER_TYPE_TERMCODE2_KEY = "kuali.term.parameter.type.TermCode2";
