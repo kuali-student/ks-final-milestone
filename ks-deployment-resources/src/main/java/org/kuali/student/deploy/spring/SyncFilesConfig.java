@@ -42,35 +42,27 @@ public class SyncFilesConfig {
 	private static final Logger logger = LoggerFactory.getLogger(SyncFilesConfig.class);
 
 	protected final static String SYNC_SKIP_KEY = "impex.sync.skip";
-
 	protected final static String SCM_COMMIT_KEY = "impex.scm.commit";
-
 	protected final static String SYNC_COMMIT_MESSAGE_KEY = "impex.scm.message";
-
 	protected final static String SYNC_COMMIT_MESSAGE_DEFAULT = "Automated Impex update";
-
 	protected final static String SYNC_DEFINITIONS_PREFIX_KEY = "impex.sync.prefixes";
-
 	protected final static String SYNC_COMMIT_PATH_KEY = "sync.commitPath";
-
 	protected final static String SYNC_REQUEST_SOURCE_DIR_KEY = "sync.sourceDir";
-
 	protected final static String SYNC_REQUEST_DESTINATION_DIR_KEY = "sync.destDir";
-
 	protected final static String SYNC_REQUEST_FILTER_EXPRESSIONS_KEY = "sync.filter";
 
 	/**
 	 * Default behavior is to not skip execution,
 	 */
-	protected final static Boolean SYNC_SKIP_DEFAULT = Boolean.FALSE;
+	protected final static boolean SYNC_SKIP_DEFAULT = Boolean.FALSE;
 
 	/**
-	 * default behavior is to not commit to scm
+	 * Default behavior is to not commit to scm
 	 */
-	protected final static Boolean SCM_COMMIT_DEFAULT = Boolean.FALSE;
+	protected final static boolean SCM_COMMIT_DEFAULT = Boolean.FALSE;
 
 	/**
-	 * default behavior is to sync all files in a sync request
+	 * Default behavior is to sync all files in a sync request
 	 */
 	protected final static String SYNC_REQUEST_FILTER_EXPRESSIONS_DEFAULT = ".*";
 
