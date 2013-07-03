@@ -289,7 +289,7 @@ public class LprServiceMockImpl implements LprService, MockService {
     @Override
     public List<String> searchForLprIds(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("searchForLprIds has not been implemented");
+        return new ArrayList<String>();
     }
 
     @Override

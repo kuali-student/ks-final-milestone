@@ -140,11 +140,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     private void _deleteLprsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LprInfo> lprs = lprService.getLprsByLui(luiId, context);
-        for (LprInfo lpr : lprs) {
-            StatusInfo status = lprService.deleteLpr(lpr.getId(), context);
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("luiId", luiId));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<String> lprIds = lprService.searchForLprIds(criteria, context);
+        for (String lprId : lprIds) {
+            StatusInfo status = lprService.deleteLpr(lprId, context);
             if (!status.getIsSuccess()) {
-                throw new OperationFailedException("Error Deleting related LPR with id ( " + lpr.getId() + " ), given message was: " + status.getMessage());
+                throw new OperationFailedException("Error Deleting related LPR with id ( " + lprId + " ), given message was: " + status.getMessage());
             }
         }
     }
@@ -497,14 +503,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             OperationFailedException, PermissionDeniedException {
         // check the term is valid
         acalService.getTerm(termId, context);
-        List<LuiInfo> luis = luiService.getLuisByAtpAndClu(courseId, termId, context);
-        List<String> luiIds = new ArrayList<String>();
 
-        for (LuiInfo lui : luis) {
-            if (StringUtils.equals(lui.getTypeKey(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)) {
-                luiIds.add(lui.getId());
-            }
-        }
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("cluId", courseId),
+                                 PredicateFactory.equal("atpId", termId),
+                                 PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<String> luiIds = luiService.searchForLuiIds(criteria, context);
+
         List<CourseOfferingInfo> results = getCourseOfferingsByIds(luiIds, context);
         return results;
     }
@@ -649,7 +657,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         // transform it back to a course offering
         CourseOfferingInfo createdCo = new CourseOfferingInfo();
-        
+
         courseOfferingTransformer.lui2CourseOffering(lui, createdCo, context);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.USE_CANONICAL_OPTION_KEY)) {
            courseOfferingTransformer.copyRulesFromCanonical(courseInfo, createdCo, optionKeys, context);
@@ -809,17 +817,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             throws OperationFailedException {
         List<LuiInfo> rels;
         try {
-            rels = luiService.getLuisByRelatedLuiAndRelationType(formatOfferingId,
-                    LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
+            rels = luiService.getLuisByRelatedLuiAndRelationType(formatOfferingId,LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
-        for (LuiInfo lui : rels) {
-            if (lui.getTypeKey().equals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)) {
-                return lui;
-            }
+
+        if (rels.isEmpty()){
+            throw new OperationFailedException("Format offering is not associated with a course offering " + formatOfferingId + " among " + rels.size());
+        } else if (rels.size() > 1){
+            throw new OperationFailedException("Multiple Format offerings found for an activity offering - " + formatOfferingId);
+        } else {
+            return rels.get(0);
         }
-        throw new OperationFailedException("format offering is not associated with a course offering " + formatOfferingId + " among " + rels.size());
     }
 
     private LuiInfo _findFormatOfferingLui(String activityOfferingId, ContextInfo context)
@@ -830,12 +839,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         } catch (Exception ex) {
             throw new OperationFailedException("unexpected", ex);
         }
-        for (LuiInfo lui : rels) {
-            if (LuiServiceConstants.isFormatOfferingTypeKey(lui.getTypeKey())) {
-                return lui;
-            }
+
+        if (rels.isEmpty()){
+            throw new OperationFailedException("format offering is not associated with a course offering " + activityOfferingId + " among " + rels.size());
+        } else if (rels.size() > 1){
+            throw new OperationFailedException("Multiple Format offerings found for an activity offering - " + activityOfferingId);
+        } else {
+            return rels.get(0);
         }
-        throw new OperationFailedException("format offering is not associated with a course offering " + activityOfferingId + " among " + rels.size());
+
     }
 
     @Override
@@ -849,13 +861,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // Find all related luis to the course Offering
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
         for (LuiInfo lui : luis) {
-            // Filter out only course offerings (the relation type seems to vague to only hold format offerings)
-            if (LuiServiceConstants.isFormatOfferingTypeKey(lui.getTypeKey())) {
-                FormatOfferingInfo formatOffering = new FormatOfferingInfo();
-                new FormatOfferingTransformer().lui2Format(lui, formatOffering);
-                formatOffering.setCourseOfferingId(courseOfferingId);
-                formatOfferings.add(formatOffering);
-            }
+            FormatOfferingInfo formatOffering = new FormatOfferingInfo();
+            new FormatOfferingTransformer().lui2Format(lui, formatOffering);
+            formatOffering.setCourseOfferingId(courseOfferingId);
+            formatOfferings.add(formatOffering);
         }
         return formatOfferings;
     }
@@ -1133,11 +1142,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     @Transactional(readOnly = true)
     public ActivityOfferingInfo getActivityOffering(String activityOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
+
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         ActivityOfferingInfo ao = new ActivityOfferingInfo();
         ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, context);
 
-        _populateActivityOfferingRelationships(ao, context);
+        LuiInfo foLui = this._findFormatOfferingLui(ao.getId(), context);
+        LuiInfo coLui = this._findCourseOfferingLui(foLui.getId(), context);
+
+        _populateActivityOfferingRelationships(ao,coLui,foLui, context);
+
         return ao;
     }
 
@@ -1180,9 +1194,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return sRet;
     }
 
-
-
-    private void _populateActivityOfferingRelationships(ActivityOfferingInfo ao, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+    private void _populateActivityOfferingRelationships(ActivityOfferingInfo ao, LuiInfo luiCO, LuiInfo luiFO, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
         String foId = context.getAttributeValue("FOId");
         String foShortName;
         String coId;
@@ -1191,13 +1203,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
         //Pull values from the context so we don't have to look them up if they are known ahead of time
         if (foId == null) {
-            LuiInfo foLui = this._findFormatOfferingLui(ao.getId(), context);
-            LuiInfo coLui = this._findCourseOfferingLui(foLui.getId(), context);
-            foId = foLui.getId();
-            foShortName = foLui.getOfficialIdentifier() == null ? null : foLui.getOfficialIdentifier().getShortName();
-            coId = coLui.getId();
-            coCode = coLui.getOfficialIdentifier().getCode();
-            coLongName = coLui.getOfficialIdentifier().getLongName();
+
+            if (luiCO == null){
+                throw new InvalidParameterException("LuiInfo dto for CO is null");
+            }
+
+            if (luiFO == null){
+                throw new InvalidParameterException("LuiInfo dto for FO is null");
+            }
+
+            foId = luiFO.getId();
+            foShortName = luiFO.getOfficialIdentifier() == null ? null : luiFO.getOfficialIdentifier().getShortName();
+            coId = luiCO.getId();
+            coCode = luiCO.getOfficialIdentifier().getCode();
+            coLongName = luiCO.getOfficialIdentifier().getLongName();
         } else {
             foShortName = context.getAttributeValue("FOShortName");
             coId = context.getAttributeValue("COId");
@@ -1226,11 +1245,18 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             List<LuiInfo> luiInfos = getLuiService().getLuisByIds(luiIds, contextInfo);
 
             for (LuiInfo lui : luiInfos) {
+
                 ActivityOfferingInfo ao = new ActivityOfferingInfo();
                 ActivityOfferingTransformer.lui2Activity(ao, lui, lprService, schedulingService, luiService, contextInfo);
-                _populateActivityOfferingRelationships(ao, contextInfo);
+
+                LuiInfo foLui = this._findFormatOfferingLui(lui.getId(), contextInfo);
+                LuiInfo coLui = this._findCourseOfferingLui(foLui.getId(), contextInfo);
+
+                _populateActivityOfferingRelationships(ao, coLui, foLui, contextInfo);
+
                 results.add(ao);
             }
+
         }
 
         return results;
@@ -1252,7 +1278,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return list;
     }
 
-    private boolean _isActivityType(String luiTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    /*private boolean _isActivityType(String luiTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         if (luiTypeKey == null) {
             return false;
@@ -1268,7 +1294,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         return false;
-    }
+    }*/
 
     @Override
     @Transactional(readOnly = true)
@@ -1281,14 +1307,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         activityOfferings = ActivityOfferingTransformer.luis2AOs(luis, lprService, schedulingService, luiService, contextInfo);
 
         Iterator<ActivityOfferingInfo> iter = activityOfferings.iterator();
+
+        LuiInfo foLui = getLuiService().getLui(formatOfferingId, contextInfo);
+        LuiInfo coLui = this._findCourseOfferingLui(foLui.getId(), contextInfo);
+
         while(iter.hasNext()) {
             ActivityOfferingInfo ao = iter.next();
-            //Remove anything that is not an activity offering.
-            if (_isActivityType(ao.getTypeKey(), contextInfo)) {
-                _populateActivityOfferingRelationships(ao, contextInfo);
-            } else {
-                iter.remove();
-            }
+            _populateActivityOfferingRelationships(ao, coLui, foLui, contextInfo);
         }
 
         Collections.sort(activityOfferings, new Comparator<ActivityOfferingInfo>() {
@@ -2122,14 +2147,20 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // Find all related luis to the format offering
         List<LuiInfo> luis = luiService.getRelatedLuisByLuiAndRelationType(formatOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
         for (LuiInfo lui : luis) {
-            if (LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(lui.getTypeKey())) {
-                // Use service call getRegistrationGroup to do the work
-                RegistrationGroupInfo rgInfo = getRegistrationGroup(lui.getId(), context);
-                regGroups.add(rgInfo);
-            } else {
-                throw new InvalidParameterException("Invalid type for reg groups");
-            }
+            RegistrationGroupInfo rgInfo = registrationGroupTransformer.lui2Rg(lui, context);
+            rgInfo.setCourseOfferingId(this.getFormatOffering(rgInfo.getFormatOfferingId(), context).getCourseOfferingId());
+            regGroups.add(rgInfo);
         }
+
+//        for (LuiInfo lui : luis) {
+//            if (LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(lui.getTypeKey())) {
+//                // Use service call getRegistrationGroup to do the work
+//                RegistrationGroupInfo rgInfo = getRegistrationGroup(lui.getId(), context);
+//                regGroups.add(rgInfo);
+//            } else {
+//                throw new InvalidParameterException("Invalid type for reg groups");
+//            }
+//        }
         // Now sort based on reg group code order (alphabetical order works fine)
         // TODO: figure out how to write a compare method that makes sense given different code generators.
         Collections.sort(regGroups, new Comparator<RegistrationGroupInfo>() {

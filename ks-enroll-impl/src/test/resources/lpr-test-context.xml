@@ -86,6 +86,7 @@
         <property name="lprDao" ref="lprDao"/>
         <property name="lprTransactionDao" ref="lprTransDao"/>
         <property name="lprTransactionItemDao" ref="lprTransItemDao"/>
+        <property name="criteriaLookupService" ref="defaultRelationCriteriaLookupService"/>
     </bean>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">
@@ -95,6 +96,34 @@
     <bean id="lprTransDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionDao">
         <property name="em" ref="entityManager"/>
     </bean>
+
+    <bean id="defaultRelationCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+         <property name="predicateTransforms">
+             <list>
+                 <ref bean="metaTransform"/>
+                 <ref bean="attributeTransform"/>
+             </list>
+         </property>
+     </bean>
+
+    <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+        <property name="entityManager" ref="entityManager"/>
+    </bean>
+
+    <bean id="attributeTransform" class="org.kuali.student.r2.common.criteria.transform.AttributeTransform"/>
+
+     <bean id="metaTransform" class="org.kuali.student.r2.common.criteria.transform.RenameTransform">
+         <property name="renameAttributes">
+             <map>
+                 <entry key="meta.createId" value="createId"/>
+                 <entry key="meta.createTime" value="createTime"/>
+                 <entry key="meta.updateId" value="createId"/>
+                 <entry key="meta.updateTime" value="updateTime"/>
+                 <entry key="meta.versionInd" value="versionInd"/>
+             </map>
+         </property>
+     </bean>
     
      <bean id="lprTransItemDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprTransactionItemDao">
         <property name="em" ref="entityManager"/>

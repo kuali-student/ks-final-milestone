@@ -7,8 +7,7 @@
  */
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import javax.jws.WebParam;
-
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
@@ -22,8 +21,21 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +54,16 @@ public class LprServiceImpl implements LprService {
     private LprDao lprDao;
     private LprTransactionDao lprTransactionDao;
     private LprTransactionItemDao lprTransactionItemDao;
+
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
+    }
+
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
+
+    private CriteriaLookupService criteriaLookupService;
 
     public LprTransactionDao getLprTransactionDao() {
         return lprTransactionDao;
@@ -254,7 +276,8 @@ public class LprServiceImpl implements LprService {
     @Override
     public List<String> searchForLprIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Operation not supported");
+        GenericQueryResults<String> results =  criteriaLookupService.lookupIds(LprEntity.class, criteria);
+        return results.getResults();
     }
 
     @Override

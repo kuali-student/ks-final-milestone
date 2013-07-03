@@ -225,6 +225,7 @@
         <property name="lprDao" ref="lprDao" />
         <property name="lprTransactionDao" ref="lprTransactionDao" />
         <property name="lprTransactionItemDao" ref="lprTransactionItemDao" />
+        <property name="criteriaLookupService" ref="coCriteriaLookupService"/>
     </bean>
 
     <bean id="lprDao" class="org.kuali.student.enrollment.class1.lpr.dao.LprDao">

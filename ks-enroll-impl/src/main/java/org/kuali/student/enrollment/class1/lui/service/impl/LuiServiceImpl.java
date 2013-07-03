@@ -531,8 +531,8 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<String>();
+        GenericQueryResults<String> results = criteriaLookupService.lookupIds(LuiLuiRelationEntity.class, criteria);
+        return results.getResults();
     }
 
     @Override
@@ -542,8 +542,13 @@ public class LuiServiceImpl
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {
 
-        // TODO
-        return new ArrayList<LuiLuiRelationInfo>();
+        List<LuiLuiRelationInfo> relationInfos = new ArrayList<LuiLuiRelationInfo>();
+
+        GenericQueryResults<LuiLuiRelationEntity> results = criteriaLookupService.lookup(LuiLuiRelationEntity.class, criteria);
+        for(LuiLuiRelationEntity entity : results.getResults()){
+            relationInfos.add(entity.toDto());
+        }
+        return relationInfos;
     }
 
     @Override

@@ -19,6 +19,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
 import org.kuali.student.enrollment.class1.lpr.service.impl.mock.LprTestDataLoader;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -266,6 +268,14 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		lprs = lprService.getLprsByPersonAndLui("Person-1", "lui-2", callContext);
 		
 		assertEquals(1, lprs.size());
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("luiId", "lui-2"));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        lprIds = lprService.searchForLprIds(criteria, callContext);
+        assertEquals(1, lprIds.size());
 	}
 
 }
