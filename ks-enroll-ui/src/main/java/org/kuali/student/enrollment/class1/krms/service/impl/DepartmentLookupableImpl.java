@@ -59,7 +59,7 @@ public class DepartmentLookupableImpl extends LookupableImpl {
         } else if (StringUtils.isNotBlank(shortName) && !shortName.isEmpty()) {
             queryParamValueList.add(this.createSearchParamInfo(shortName, "org.queryParam.orgOptionalShortName"));
         }
-        queryParamValueList.add(this.createSearchParamInfo(OrganizationServiceConstants.ORGANIZATION_COMMITTEE_TYPE_KEY, "org.queryParam.orgOptionalType"));
+        queryParamValueList.add(this.createSearchParamInfo(OrganizationServiceConstants.ORGANIZATION_DEPARTMENT_TYPE_KEY, "org.queryParam.orgOptionalType"));
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("org.search.generic");
