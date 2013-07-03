@@ -598,8 +598,25 @@ function setRequestedDeliveryLogisticsFieldRequired(jqObject,required){
 
 }
 
-function displayAOsubTerm(subTermNameId, subTermTypeId, popoverId) {
-    jQuery("#"+subTermNameId+"_control").text(jQuery("#"+subTermTypeId+"_control").find(":selected").text());
-/*    alert("subTerm type value " + jQuery("#"+subTermTypeId+"_control").val()); */
+function displayAOsubTerm(subTermNameId, subTermTypeId, popoverId, subTermDatesJsonString) {
+    var subTermName = jQuery("#"+subTermTypeId+"_control").find(":selected").text();
+    var subTermId = jQuery("#"+subTermTypeId+"_control").find(":selected").val();
+
+    /* set subTermName */
+    jQuery("#"+subTermNameId+"_control").text(subTermName);
+
+    /* set subTerm Start/End date display */
+    if (subTermName == "None") {
+        subTermId="none";
+    }
+    if (subTermDatesJsonString && 0 !== subTermDatesJsonString.length && subTermId && 0 != subTermId.length) {
+        var subTermDates = jQuery.parseJSON(subTermDatesJsonString);
+        jQuery.each(subTermDates, function (key, value) {
+            if (subTermId.toLowerCase() === key.toLowerCase()) {
+                jQuery("#start_end_date_control").text(value);
+            }
+        });
+    }
+
     jQuery("#"+popoverId).HideBubblePopup();
 }
