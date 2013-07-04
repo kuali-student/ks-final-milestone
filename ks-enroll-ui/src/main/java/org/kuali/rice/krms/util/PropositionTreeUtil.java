@@ -342,7 +342,7 @@ public class PropositionTreeUtil {
     }
 
     /**
-     * This method walks through the proposition tree and remove all parent compounde propositions
+     * This method walks through the proposition tree and remove all parent compound propositions
      * that only have one child.
      *
      * Note: This does not handle the root as the root need to be set on the rule.
@@ -350,23 +350,29 @@ public class PropositionTreeUtil {
      * @param proposition
      */
     public static void removeCompoundProp(PropositionEditor proposition){
-        int i = 0;
         if (proposition.getCompoundEditors() != null) {
-            while (i < proposition.getCompoundEditors().size()) {
-                PropositionEditor child = proposition.getCompoundEditors().get(i);
-                if (child.getCompoundEditors() == null) {
-                    i++;
-                    continue;
-                } else if (child.getCompoundEditors().size() == 1) {
-                    proposition.getCompoundEditors().set(i, child.getCompoundEditors().get(0));
-                    continue;
-                } else if (child.getCompoundEditors().isEmpty() && child.getPropositionTypeCode().equals("C")) {
-                    proposition.getCompoundEditors().remove(i);
-                    continue;
-                } else {
-                    removeCompoundProp(child);
+
+            // Handle the scenario if the inpust proposition only have one child.
+            if(proposition.getCompoundEditors().size()==1){
+                PropositionEditor child = proposition.getCompoundEditors().get(0);
+                if(PropositionType.COMPOUND.getCode().equalsIgnoreCase(child.getPropositionTypeCode())) {
+                    proposition.setCompoundEditors(child.getCompoundEditors());
                 }
-                i++;
+            }
+
+            // Now handle the children.
+            for(int i=proposition.getCompoundEditors().size()-1;i>=0;i--){
+                PropositionEditor child = proposition.getCompoundEditors().get(i);
+                if(PropositionType.COMPOUND.getCode().equalsIgnoreCase(child.getPropositionTypeCode())) {
+                    if (child.getCompoundEditors().isEmpty()) {
+                        proposition.getCompoundEditors().remove(i);
+                    } else {
+                        if (child.getCompoundEditors().size() == 1) {
+                            proposition.getCompoundEditors().set(i, child.getCompoundEditors().get(0));
+                        }
+                        removeCompoundProp(child);
+                    }
+                }
             }
         }
     }
