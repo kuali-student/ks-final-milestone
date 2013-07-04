@@ -289,12 +289,12 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                 since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction" p:focusOnIdAfterSubmit="SELF"/>
+                <bean parent="Uif-AddLineAction-CapitalButtonLabel" p:focusOnIdAfterSubmit="SELF"/>
             </list>
         </property>
         <property name="lineActions">
             <list>
-                <bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteKeyDateGroup" p:actionLabel="delete keydate group"/>
+                <bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>
             </list>
         </property>
         <property name="items">
