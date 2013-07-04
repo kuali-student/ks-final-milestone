@@ -548,6 +548,10 @@
           p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
           p:id="@{#collectionGroup.id}_add"/>
 
+    <bean id="Uif-AddLineAction-CapitalButtonLabel" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:id="@{#collectionGroup.id}_add"/>
+
     <bean id="KS-Uif-PrimaryActionButton" parent="Uif-PrimaryActionButton" p:id="ks-uif-primaryActionButton">
         <property name="cssClasses">
             <list merge="false">
