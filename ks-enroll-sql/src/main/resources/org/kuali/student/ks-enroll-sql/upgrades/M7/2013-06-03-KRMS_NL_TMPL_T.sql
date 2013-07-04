@@ -71,5 +71,15 @@ update KRMS_NL_TMPL_T
   where NL_TMPL_ID = 'KS-KRMS-NL-TMPL-1095'
 /
 
+--KSENROLL-7811
+update KRMS_NL_TMPL_T
+    set TMPL = '#if($intValue == 1 && $courseCluSet.getCluList().size() == 1)Must have successfully completed#{else}Must have successfully completed no more than $intValue $NLHelper.getProperGrammar($intValue, "course") from#end'
+  where NL_TMPL_ID = 'KS-KRMS-NL-TMPL-1249'
+  /
+
+update KRMS_NL_TMPL_T
+    set TMPL = '#if($intValue == 1 && $courseCluSet.getCluList().size() == 1)Must have successfully completed $courseCluSet.getCluSetAsCode()#{else}Must have successfully completed no more than $intValue $NLHelper.getProperGrammar($intValue, "course") from $courseCluSet.getCluSetAsCode()#end'
+  where NL_TMPL_ID ='KS-KRMS-NL-TMPL-1187'
+  /
 
 
