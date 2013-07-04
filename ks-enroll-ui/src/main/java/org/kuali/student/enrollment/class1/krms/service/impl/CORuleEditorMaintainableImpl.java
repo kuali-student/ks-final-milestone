@@ -105,18 +105,15 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         //Populate Clu Identification Information
         if (courseOffering != null) {
             //Get the atp code.
-            StringBuilder atpCode = new StringBuilder();
             AtpInfo atp = null;
             try {
                 atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
-                atpCode.append(atp.getCode());
-                atpCode.append(" - ");
             } catch (Exception e) {
                 throw new RuntimeException("Could not retrieve atp for " + courseOffering.getTermId());
             }
 
             //Set the name prefix used for agenda and rule names.
-            dataObject.setNamePrefix(atpCode.toString() + courseOffering.getCourseOfferingCode());
+            dataObject.setNamePrefix(coId + ":");
 
             //Set the description and atp used on the screen.
             dataObject.setCluDescription(courseOffering.getCourseOfferingCode());
@@ -124,7 +121,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             //Set the term code for breadcrumb link
             dataObject.setCluTermCode(atp.getCode());
 
-            //Set the subjectArea for breadcumb link
+            //Set the subjectArea for breadcrumb link
             dataObject.setCluSubjectCode(courseOffering.getSubjectArea());
 
             try {

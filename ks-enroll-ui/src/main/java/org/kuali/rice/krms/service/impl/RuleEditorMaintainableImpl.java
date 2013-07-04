@@ -348,7 +348,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
 
             //Set the agenda name.
-            agenda.setName(ruleWrapper.getNamePrefix() + " " + agenda.getAgendaTypeInfo().getDescription());
+            agenda.setName(ruleWrapper.getNamePrefix() + agenda.getAgendaTypeInfo().getId()+":1");
 
             //Retrieve the context and set the id ong the agenda.
             if (agenda.getContextId() == null) {
@@ -461,7 +461,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         if (rule.getNamespace() == null) {
             rule.setNamespace(namespace);
         }
-        rule.setName(rulePrefix + " " + rule.getRuleTypeInfo().getDescription());
+        rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":1");
 
         return RuleDefinition.Builder.create(rule);
     }
