@@ -546,7 +546,8 @@ limitations under the License.
             </bean>
         </property>-->
         <property name="control">
-            <bean parent="Uif-TextControl" p:size="60" p:disabled="true"/>
+            <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
+                  p:readOnly="true"/>
         </property>
         <property name="quickfinder">
             <bean parent="KRMS-OrgDepartment-QuickFinder"/>
