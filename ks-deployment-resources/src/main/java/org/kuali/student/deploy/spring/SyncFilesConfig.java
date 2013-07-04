@@ -41,25 +41,11 @@ public class SyncFilesConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(SyncFilesConfig.class);
 
-	protected final static String SYNC_SKIP_KEY = "impex.sync.skip";
-	protected final static String SCM_COMMIT_KEY = "impex.scm.commit";
-	protected final static String SYNC_COMMIT_MESSAGE_KEY = "impex.scm.message";
-	protected final static String SYNC_COMMIT_MESSAGE_DEFAULT = "Automated Impex update";
 	protected final static String SYNC_DEFINITIONS_PREFIX_KEY = "impex.sync.prefixes";
 	protected final static String SYNC_COMMIT_PATH_KEY = "sync.commitPath";
 	protected final static String SYNC_REQUEST_SOURCE_DIR_KEY = "sync.sourceDir";
 	protected final static String SYNC_REQUEST_DESTINATION_DIR_KEY = "sync.destDir";
 	protected final static String SYNC_REQUEST_FILTER_EXPRESSIONS_KEY = "sync.filter";
-
-	/**
-	 * Default behavior is to not skip execution,
-	 */
-	protected final static boolean SYNC_SKIP_DEFAULT = Boolean.FALSE;
-
-	/**
-	 * Default behavior is to not commit to scm
-	 */
-	protected final static boolean SCM_COMMIT_DEFAULT = Boolean.FALSE;
 
 	/**
 	 * Default behavior is to sync all files in a sync request
@@ -72,11 +58,11 @@ public class SyncFilesConfig {
 	@Bean
 	public SyncFilesExecutable syncFilesExecutable() {
 
-		SyncFilesExecutable exec = new SyncFilesExecutable();
-		exec.setService(scmService());
-		exec.setSkip(SpringUtils.getBoolean(env, SYNC_SKIP_KEY, SYNC_SKIP_DEFAULT));
-		exec.setCommitChanges(SpringUtils.getBoolean(env, SCM_COMMIT_KEY, SCM_COMMIT_DEFAULT));
-		exec.setMessage(SpringUtils.getProperty(env, SYNC_COMMIT_MESSAGE_KEY, SYNC_COMMIT_MESSAGE_DEFAULT));
+		if (true) {
+			SyncFilesExecutable exec = new SyncFilesExecutable();
+			exec.setSkip(true);
+			return exec;
+		}
 
 		List<String> prefixes = CollectionUtils.getTrimmedListFromCSV(SpringUtils.getProperty(env, SYNC_DEFINITIONS_PREFIX_KEY));
 
@@ -126,9 +112,14 @@ public class SyncFilesConfig {
 			}
 		}
 
+		// Configure the executable
+		SyncFilesExecutable exec = new SyncFilesExecutable();
+		exec.setService(scmService());
+		exec.setSkip(SpringUtils.getBoolean(env, "impex.sync.skip", false));
+		exec.setCommitChanges(SpringUtils.getBoolean(env, "impex.scm.commit", false));
+		exec.setMessage(SpringUtils.getProperty(env, "impex.scm.message", "Automated Impex update"));
 		exec.setCommitPaths(commitPaths);
 		exec.setRequests(requests);
-
 		return exec;
 	}
 
