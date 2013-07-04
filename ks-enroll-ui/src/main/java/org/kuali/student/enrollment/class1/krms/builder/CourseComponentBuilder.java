@@ -60,6 +60,7 @@ import java.util.Map;
 public class CourseComponentBuilder implements ComponentBuilder<EnrolPropositionEditor> {
 
     private final static Logger LOG = Logger.getLogger(CourseComponentBuilder.class);
+
     private CourseService courseService;
     private CluService cluService;
     private AcademicCalendarService acalService = null;

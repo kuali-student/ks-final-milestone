@@ -38,6 +38,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContra
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
@@ -73,6 +74,8 @@ import java.util.*;
 public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements RuleEditorMaintainable {
 
     private static final long serialVersionUID = 1L;
+
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RuleEditorMaintainableImpl.class);
 
     private transient RuleManagementService ruleManagementService;
     private transient KrmsTypeRepositoryService krmsTypeRepositoryService;
@@ -435,6 +438,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         //Update the root item.
         AgendaItemDefinition updateItem = rootItemBuilder.build();
+        this.printAgendaItemToLog(updateItem);
         this.getRuleManagementService().updateAgendaItem(updateItem);
 
         //Delete all orphans.
@@ -443,6 +447,32 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
 
         return updateItem;
+    }
+
+    private void printAgendaItemToLog(AgendaItemDefinition updateItem){
+        this.printRuleToLog(updateItem.getRule());
+        if(updateItem.getWhenTrue()!=null){
+            this.printAgendaItemToLog(updateItem.getWhenTrue());
+        }
+    }
+
+    private void printRuleToLog(RuleDefinition rule){
+        LOG.info("Rule Name: " + rule.getName());
+        if(rule.getProposition()!=null){
+            this.printPropositionToLog(rule.getProposition());
+        }
+    }
+
+    private void printPropositionToLog(PropositionDefinition proposition){
+        LOG.info(proposition.getDescription());
+        if(proposition.getCompoundComponents()!=null){
+            for(PropositionDefinition child : proposition.getCompoundComponents()){
+                if(proposition.getCompoundComponents().indexOf(child)>0){
+                    LOG.info(proposition.getCompoundOpCode());
+                }
+                this.printPropositionToLog(child);
+            }
+        }
     }
 
     protected void populateAgendaItemMap(Map<String, AgendaItemDefinition.Builder> itemMap, AgendaItemDefinition.Builder agendaItem){

@@ -1256,4 +1256,27 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
 //        assertNotNull(termResolver);
 //        assertEquals (termName, termResolver.getName());
     }
+
+    @Test
+    public void testTranslateNaturalLanguageForProposition() {
+        /*ContextDefinition context = this.findCreateContext();
+        AgendaDefinition agenda = createCheckEmptyAgenda(context);
+        agenda = updateCheckAgendaFirstItemAddingEmptyRule(agenda);
+
+        PropositionDefinition.Builder propBldr1 = this.constructFreeFormTextPropositionBulider("My first Text Value");
+        CluSetInfo cluSet = this.findCreateCluSet23();
+        PropositionDefinition.Builder propBldr2 = createNOfCluSetPropositionBuilder(1, cluSet);
+        cluSet = this.findCreateCluSet456();
+        PropositionDefinition.Builder propBldr3 = createNOfCluSetPropositionBuilder(2, cluSet);
+
+        PropositionDefinition.Builder andPropBldr = this.makeAndCompoundProposition(propBldr2, propBldr3);
+        PropositionDefinition.Builder orPropBldr = this.makeOrCompoundProposition(propBldr1, andPropBldr);
+
+        AgendaItemDefinition firstItem = this.ruleManagementService.getAgendaItem(agenda.getFirstItemId());
+        RuleDefinition.Builder ruleBldr = RuleDefinition.Builder.create(firstItem.getRule());
+        ruleBldr.setProposition(orPropBldr);
+
+        this.ruleManagementService.translateNaturalLanguageForProposition("edit", orPropBldr.build(), "en");*/
+
+    }
 }

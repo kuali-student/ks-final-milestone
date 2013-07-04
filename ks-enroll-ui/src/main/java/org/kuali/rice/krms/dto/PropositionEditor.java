@@ -36,6 +36,8 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
 
     private static final long serialVersionUID = 1L;
 
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PropositionEditor.class);
+
     private String key;
 
     private String id;
@@ -140,6 +142,8 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
             description = description.substring(0,97) + "...";
         }
         this.description = description;
+
+        LOG.info(this.description);
     }
 
     public void setRuleId(String ruleId) {
