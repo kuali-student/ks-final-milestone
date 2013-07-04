@@ -635,10 +635,10 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public List<Integer> getValidDaysOfWeekByTimeSlotType(String timeSlotTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if(timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING)) {
+        if(timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD)) {
             return SchedulingServiceConstants.TIME_SLOT_DAYS_OF_WEEK_ACTIVITY_OFFERING_TYPE;
         }
-        else if (timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_FINAL_EXAM)) {
+        else if (timeSlotTypeKey.equals(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM)) {
             return Collections.emptyList();
         }
         else {

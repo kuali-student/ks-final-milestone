@@ -122,7 +122,7 @@ public class TestSchedulingServiceImpl {
             throw new DataValidationErrorException(e);
         }
 
-        info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
+        info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
         try {
             typeService.createType(info.getKey(), info, contextInfo);
         } catch (AlreadyExistsException e) {
@@ -239,12 +239,12 @@ public class TestSchedulingServiceImpl {
 
     @Test
     public void testgetTimeSlotIdsByType() throws Exception {
-        List<String> l_actoff = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, contextInfo);
+        List<String> l_actoff = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, contextInfo);
         assertEquals(18, l_actoff.size());
         assertTrue(l_actoff.contains("1"));
         assertTrue(l_actoff.contains("16"));
 
-        List l_final = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_FINAL_EXAM, contextInfo);
+        List l_final = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, contextInfo);
         assertEquals(0, l_final.size());
     }
 
@@ -316,7 +316,7 @@ public class TestSchedulingServiceImpl {
 
     @Test
     public void getValidDaysOfWeekByTimeSlotType() throws Exception {
-        List<Integer> valid_days_act_off = schedulingService.getValidDaysOfWeekByTimeSlotType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, contextInfo);
+        List<Integer> valid_days_act_off = schedulingService.getValidDaysOfWeekByTimeSlotType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, contextInfo);
         // should return days Monday through Saturday
         assertTrue(valid_days_act_off.contains(Calendar.MONDAY));
         assertTrue(valid_days_act_off.contains(Calendar.TUESDAY));
@@ -326,7 +326,7 @@ public class TestSchedulingServiceImpl {
         assertTrue(valid_days_act_off.contains(Calendar.SATURDAY));
         assertTrue(valid_days_act_off.contains(Calendar.SUNDAY));
 
-        List<Integer> valid_days_final = schedulingService.getValidDaysOfWeekByTimeSlotType(SchedulingServiceConstants.TIME_SLOT_TYPE_FINAL_EXAM, contextInfo);
+        List<Integer> valid_days_final = schedulingService.getValidDaysOfWeekByTimeSlotType(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, contextInfo);
         // should not return any days
         assertFalse(valid_days_final.contains(Calendar.MONDAY));
         assertFalse(valid_days_final.contains(Calendar.TUESDAY));
@@ -345,7 +345,7 @@ public class TestSchedulingServiceImpl {
         dow.add(Calendar.THURSDAY);
         TimeOfDayInfo startTime = new TimeOfDayInfo();
         startTime.setMilliSeconds(SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
-        List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, dow, startTime, contextInfo);
+        List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, dow, startTime, contextInfo);
         assertEquals(2, tsi.size());
 
         assertEquals("3", tsi.get(0).getId());
@@ -384,7 +384,7 @@ public class TestSchedulingServiceImpl {
         startTime.setMilliSeconds(SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
         TimeOfDayInfo endTime = new TimeOfDayInfo();
         endTime.setMilliSeconds(SchedulingServiceDataLoader.END_TIME_MILLIS_8_50_AM);
-        List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, dow, startTime, endTime, contextInfo);
+        List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
         assertEquals("3", tsi.get(0).getId());
         TimeSlot ts = tsi.get(0);
@@ -408,7 +408,7 @@ public class TestSchedulingServiceImpl {
         startTime.setMilliSeconds(SchedulingServiceDataLoader.START_TIME_MILLIS_1_00_PM);
         endTime = new TimeOfDayInfo();
         endTime.setMilliSeconds(SchedulingServiceDataLoader.END_TIME_MILLIS_2_10_PM);
-        tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING, dow, startTime, endTime, contextInfo);
+        tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
         assertEquals("10", tsi.get(0).getId());
         ts = tsi.get(0);
