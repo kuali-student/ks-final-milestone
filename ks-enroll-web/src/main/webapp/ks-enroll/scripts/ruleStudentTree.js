@@ -122,6 +122,8 @@ function ajaxCutPropositionTree() {
     var copyItemTracker = getCopyPropositionInput();
     copyItemTracker.val('');
 
+    enablePasteButton();
+
     resetCutSelected(selectedItemId);
 }
 
@@ -132,6 +134,8 @@ function ajaxCopyPropositionTree() {
     copyItemTracker.val(selectedItemId);
     var cutItemTracker = getCutPropositionInput();
     cutItemTracker.val('');
+
+    enablePasteButton();
 
     resetCutSelected(selectedItemId);
 }
