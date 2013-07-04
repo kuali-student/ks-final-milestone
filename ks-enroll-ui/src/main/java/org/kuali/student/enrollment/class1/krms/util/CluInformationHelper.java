@@ -178,7 +178,11 @@ public class CluInformationHelper {
 
                 try {
                     SearchResultInfo searchResult = this.getCluService().search(searchRequest, ContextUtils.getContextInfo());
-                    return resolveCluSearchResultSet(searchResult);
+                    if(membershipQuery.getSearchTypeKey().equals(CluSetRangeHelper.LO_SEARCH_LODESC)) {
+                        return resolveLoSearchResults(searchResult);
+                    } else {
+                        return resolveCluSearchResultSet(searchResult);
+                    }
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -229,6 +233,26 @@ public class CluInformationHelper {
                     cluInformation.setVerIndependentId(cell.getValue());
                 } else if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")) {
                     cluInformation.setShortName(cell.getValue());
+                }
+            }
+            clus.add(cluInformation);
+        }
+        return clus;
+    }
+
+    public static List<CluInformation> resolveLoSearchResults(SearchResultInfo searchResult) {
+        List<CluInformation> clus = new ArrayList<CluInformation>();
+        List<SearchResultRowInfo> rows = searchResult.getRows();
+        for (SearchResultRowInfo row : rows) {
+            List<SearchResultCellInfo> cells = row.getCells();
+            CluInformation cluInformation = new CluInformation();
+            for (SearchResultCellInfo cell : cells) {
+                if (cell.getKey().equals("lo.resultColumn.loCluId")) {
+                    cluInformation.setCluId(cell.getValue());
+                } else if (cell.getKey().equals("lo.resultColumn.loCluCode")) {
+                    cluInformation.setCode(cell.getValue());
+                } else if (cell.getKey().equals("lo.resultColumn.loLuOptionalVersionIndId")) {
+                    cluInformation.setVerIndependentId(cell.getValue());
                 }
             }
             clus.add(cluInformation);
