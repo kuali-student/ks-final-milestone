@@ -1296,6 +1296,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                       p:messageText="@{#line.gradingOption}"
                       p:render="@{#line.gradingOption ne null}"/>
                 <bean parent="KSAP-NoSpanMessage"
+                      p:messageText="@{#line.otherInformation}"
+                      p:render="@{#line.otherInformation ne null}"/>
+                <bean parent="KSAP-NoSpanMessage"
                       p:messageText="Distance learning"
                       p:render="@{#line.distanceLearning}"/>
                 <bean parent="KSAP-NoSpanMessage" p:messageText="Honors"

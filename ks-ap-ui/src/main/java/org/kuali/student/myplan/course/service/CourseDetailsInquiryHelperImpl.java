@@ -625,16 +625,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		Map<String, Map<String, PlanItem>> planItemsByTerm = loadStudentsPlanItems();
 
-		// Map<YearTerm, String> atpIdByYearTerm = new
-		// java.util.HashMap<YearTerm, String>();
-		// List<YearTerm> ytList = new ArrayList<YearTerm>();
-		// for (String term : terms) {
-		// YearTerm yt = KsapFrameworkServiceLocator.getTermHelper()
-		// .getYearTerm(term);
-		// ytList.add(yt);
-		// atpIdByYearTerm.put(yt, term);
-		// }
-		// Collections.sort(ytList, Collections.reverseOrder());
 		Collections.sort(terms);
 		for (String termId : terms) {
 			// String termId = atpIdByYearTerm.get(yt);
@@ -857,8 +847,14 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		List<ActivityOfferingItem> rv = new java.util.ArrayList<ActivityOfferingItem>(
 				c);
 		for (List<ActivityOfferingItem> aol : activityOfferingItemsByPrimary
-				.values())
-			rv.addAll(aol);
+				.values()) {
+			for (ActivityOfferingItem ao : aol)
+				if (ao.isPrimary())
+					rv.add(ao);
+			for (ActivityOfferingItem ao : aol)
+				if (!ao.isPrimary())
+					rv.add(ao);
+		}
 		return rv;
 	}
 
@@ -982,6 +978,11 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 			if ("SectionComments".equalsIgnoreCase(key)) {
 				activity.setSectionComments(value);
+				continue;
+			}
+
+			if ("OtherInformation".equalsIgnoreCase(key)) {
+				activity.setOtherInformation(value);
 				continue;
 			}
 
