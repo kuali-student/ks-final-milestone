@@ -14,7 +14,7 @@
  *
  * Created by Mezba Mahtab (mezba.mahtab@utoronto.ca) on 1/17/13
  */
-package org.kuali.student.enrollment.exam.service;
+package org.kuali.student.r2.common.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
@@ -31,7 +31,7 @@ public class ExamServiceConstants {
     // TYPES
     /////////////////
 
-    public static final String TYPE_GENERIC_EXAM = "kuali.lu.type.Exam";
-    public static final String TYPE_FINAL_EXAM = "kuali.lu.type.Exam.Final";
+    public static final String TYPE_EXAM = "kuali.lu.type.exam";
+    public static final String TYPE_EXAM_FINAL = "kuali.lu.type.exam.final";
 
 }

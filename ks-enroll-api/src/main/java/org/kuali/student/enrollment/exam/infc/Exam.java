@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * User: Mezba Mahtab (mezba.mahtab@utoronto.ca)
  * Date: 1/24/13
  * Time: 11:25 AM
- * Detailed information about a single exam.
+ * Detailed information about a single canonical exam.
  */
 public interface Exam extends IdEntity {
 }
