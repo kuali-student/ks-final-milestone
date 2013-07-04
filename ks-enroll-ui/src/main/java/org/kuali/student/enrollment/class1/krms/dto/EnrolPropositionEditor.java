@@ -59,6 +59,25 @@ public class EnrolPropositionEditor extends PropositionEditor {
         super(definition);
     }
 
+    public void clear(){
+        super.clear();
+        this.courseInfo = null;
+        this.cluSet = null;
+        this.multipleCourseType = null;
+        this.programType = null;
+        this.gradeScale = null;
+        this.orgInfo = null;
+        this.duration = null;
+        this.durationType = null;
+        this.progCluSet = null;
+        this.termCode = null;
+        this.termCode2 = null;
+        this.termInfo = null;
+        this.termInfo2 = null;
+        this.classStanding = null;
+        this.populationWrapper = null;
+    }
+
     public CourseInfo getCourseInfo() {
         return courseInfo;
     }

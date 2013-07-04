@@ -244,7 +244,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             }
 
             String propositionTypeId = proposition.getTypeId();
-            if (propositionTypeId == null) {
+            if ((propositionTypeId == null) || (propositionTypeId.isEmpty())) {
                 proposition.setType(null);
                 return;
             }

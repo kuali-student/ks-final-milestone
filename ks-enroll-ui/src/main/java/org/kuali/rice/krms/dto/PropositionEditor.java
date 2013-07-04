@@ -94,6 +94,15 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         this.versionNumber = definition.getVersionNumber();
     }
 
+    public void clear(){
+        this.description = null;
+        this.term = null;
+        this.termParameter = null;
+        for (PropositionParameterEditor parm : this.getParameters()) {
+            parm.clear();
+        }
+    }
+
     public String getKey() {
         return key;
     }

@@ -18,6 +18,7 @@ package org.kuali.rice.krms.tree;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -74,7 +75,8 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                 // Simple Proposition: add a node for the description display with a child proposition node
                 if (prop.isEditMode()) {
                     leaf.setNodeType(SimplePropositionEditNode.NODE_TYPE);
-                    leaf.setData(new SimplePropositionEditNode(prop));
+                    PropositionEditor copy = (PropositionEditor) ObjectUtils.deepCopy(prop);
+                    leaf.setData(new SimplePropositionEditNode(copy));
                 } else {
                     leaf.setNodeLabel(this.buildNodeLabel(rule, prop));
                     leaf.setNodeType(SimplePropositionNode.NODE_TYPE);

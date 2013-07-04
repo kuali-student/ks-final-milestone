@@ -61,6 +61,10 @@ public class PropositionParameterEditor implements PropositionParameterContract,
         this.versionNumber = definition.getVersionNumber();
     }
 
+    public void clear() {
+        this.value = null;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

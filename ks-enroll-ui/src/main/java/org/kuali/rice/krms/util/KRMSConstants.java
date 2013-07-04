@@ -11,6 +11,7 @@ public class KRMSConstants {
 
     // Bean references
     public static final String KRMS_RULE_MAINTENANCE_PAGE_ID = "KRMS-RuleMaintenance-Page";
+    public static final String KRMS_RULE_TREE_GROUP_ID = "KRMS-RuleEditor-TreeGroup";
 
     // Message Keys
     public static final String KRMS_MSG_ERROR_LOGIC_EXPRESSION_START = "error.krms.logic.expression.start";

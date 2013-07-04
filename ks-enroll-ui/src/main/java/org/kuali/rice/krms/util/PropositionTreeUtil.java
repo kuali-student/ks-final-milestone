@@ -43,17 +43,17 @@ public class PropositionTreeUtil {
     public static final String DOC_NEW_DATAOBJECT_PATH = "document.newMaintainableObject.dataObject";
     public static final String EDIT_TREE_NEW_COLLECTION_LINE = DOC_NEW_DATAOBJECT_PATH + ".editTree";
 
-    public static String getBindingPath(PropositionEditor proposition, String propertyName){
+    public static String getBindingPath(PropositionEditor proposition, String propertyName) {
         return getBindingPrefix(proposition) + "proposition." + propertyName;
     }
 
-    public static String getBindingPrefix(PropositionEditor proposition){
+    public static String getBindingPrefix(PropositionEditor proposition) {
         return DOC_NEW_DATAOBJECT_PATH + "." + proposition.getBindingPath() + ".";
     }
 
     public static void setTypeForCompoundOpCode(PropositionEditor proposition, String compoundOpCode) {
         //Return as quickly as possible for performance.
-        if (compoundOpCode.equals(proposition.getCompoundOpCode())){
+        if (compoundOpCode.equals(proposition.getCompoundOpCode())) {
             return;
         }
 
@@ -157,48 +157,60 @@ public class PropositionTreeUtil {
         return result;
     }
 
-    public static boolean resetEditModeOnPropositionTree(RuleEditor ruleEditor) {
-        Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-        return resetEditModeOnPropositionTree(root);
-    }
-
     /**
      * disable edit mode for all Nodes beneath and including the passed in Node
      *
-     * @param currentNode
+     * @param proposition
      */
-    public static boolean resetEditModeOnPropositionTree(Node<RuleEditorTreeNode, String> currentNode) {
-        boolean editMode = false;
-        if (currentNode.getData() != null) {
-            RuleEditorTreeNode dataNode = currentNode.getData();
-            editMode = dataNode.getProposition().isEditMode();
-            dataNode.getProposition().setEditMode(false);
+    public static boolean resetEditModeOnPropositionTree(PropositionEditor proposition) {
+        if(proposition==null){
+            return false;
         }
-        List<Node<RuleEditorTreeNode, String>> children = currentNode.getChildren();
-        for (Node<RuleEditorTreeNode, String> child : children) {
-            if (resetEditModeOnPropositionTree(child)) {
-                editMode = true;
-            }
 
+        boolean editMode = proposition.isEditMode();
+        proposition.setEditMode(false);
+        if (proposition.getCompoundEditors() != null) {
+            for (PropositionEditor childProp : proposition.getCompoundEditors()) {
+                if(resetEditModeOnPropositionTree(childProp)) {
+                    editMode = true;
+                }
+            }
         }
         return editMode;
     }
 
-    public static Node<RuleEditorTreeNode, String> findPropositionTreeNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId) {
-        Node<RuleEditorTreeNode, String> bingo = null;
-        if (currentNode.getData() != null) {
-            RuleEditorTreeNode dataNode = currentNode.getData();
-            if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getId())) {
-                return currentNode;
-            }
-        }
+    //public static boolean resetEditModeOnPropositionTree(Node<RuleEditorTreeNode, String> currentNode) {
+        //boolea//n editMode = false;
+        //if (currentNode.getData() != null) {
+        //    RuleEditorTreeNode dataNode = currentNode.getData();
+        //    editMode = dataNode.getProposition().isEditMode();
+        //    dataNode.getProposition().setEditMode(false);
+        //}
+        //List<Node<RuleEditorTreeNode, String>> children = currentNode.getChildren();
+        //for (Node<RuleEditorTreeNode, String> child : children) {
+        //    if (resetEditModeOnPropositionTree(child)) {
+        //        editMode = true;
+        //    }
+        //
+        //}
+        //return false;
+    //}
 
-        for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
-            bingo = findPropositionTreeNode(child, selectedPropId);
-            if (bingo != null) break;
-        }
-        return bingo;
-    }
+    //public static Node<RuleEditorTreeNode, String> findPropositionTreeNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId) {
+    //    Node<RuleEditorTreeNode, String> bingo = null;
+    //    if (currentNode.getData() != null) {
+    //        RuleEditorTreeNode dataNode = currentNode.getData();
+    //        if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getId())) {
+    //            return currentNode;
+    //        }
+    //    }
+
+    //    for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
+    //        bingo = findPropositionTreeNode(child, selectedPropId);
+    //        if (bingo != null) break;
+    //    }
+    //    return bingo;
+    //}
 
     /**
      * Builds a logical string expression from the proposition tree.
@@ -311,7 +323,33 @@ public class PropositionTreeUtil {
         }
     }
 
-    public static void removeCompoundProp(PropositionEditor proposition) {
+    /**
+     * This method walks through the proposition tree including the root node on the tree
+     * and remove all parent compounde propositions that only have one child.
+     *
+     * @param rule
+     */
+    public static void removeCompoundProp(RuleEditor rule) {
+        //Check if the root only has one child, if so set the child as the root proposition.
+        PropositionEditor root = rule.getPropositionEditor();
+        if(root.getCompoundEditors().size() == 1) {
+            rule.setProposition(root.getCompoundEditors().get(0));
+        }
+
+        //Remove single parent from proposition tree.
+        removeCompoundProp(rule.getPropositionEditor());
+
+    }
+
+    /**
+     * This method walks through the proposition tree and remove all parent compounde propositions
+     * that only have one child.
+     *
+     * Note: This does not handle the root as the root need to be set on the rule.
+     *
+     * @param proposition
+     */
+    public static void removeCompoundProp(PropositionEditor proposition){
         int i = 0;
         if (proposition.getCompoundEditors() != null) {
             while (i < proposition.getCompoundEditors().size()) {
@@ -334,9 +372,9 @@ public class PropositionTreeUtil {
     }
 
     public static void resetNewProp(PropositionEditor proposition) {
+        proposition.setNewProp(false);
         if (proposition.getCompoundEditors() != null) {
             for (PropositionEditor child : proposition.getCompoundEditors()) {
-                child.setNewProp(false);
                 resetNewProp(child);
             }
         }
@@ -399,7 +437,7 @@ public class PropositionTreeUtil {
      * @param opCode
      * @return
      */
-    public static String getLabelForOperator(String opCode){
+    public static String getLabelForOperator(String opCode) {
         if (LogicalOperator.AND.getCode().equalsIgnoreCase(opCode)) {
             return "AND";
         } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(opCode)) {
@@ -409,8 +447,8 @@ public class PropositionTreeUtil {
     }
 
     public static boolean isSimpleCompounds(PropositionEditor propositionEditor) {
-        for(int index = 0; index < propositionEditor.getCompoundEditors().size(); index++) {
-            if(propositionEditor.getCompoundEditors().get(index).getPropositionTypeCode().equals("C")) {
+        for (int index = 0; index < propositionEditor.getCompoundEditors().size(); index++) {
+            if (propositionEditor.getCompoundEditors().get(index).getPropositionTypeCode().equals("C")) {
                 return false;
             }
         }

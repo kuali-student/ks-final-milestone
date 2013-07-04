@@ -34,13 +34,32 @@ limitations under the License.
     <bean id="KRMS-CustomComponent-BoxGroup" parent="Uif-VerticalBoxGroup"/>
 
     <!-- Integer constant Instance components -->
-    <bean id="KRMS-NumberOfCourses-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent"
-          p:label="Number of Courses"/>
+    <bean id="KRMS-NumberOfCourses-ConstantValue" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KRMS-Integer-ConstantValue-Parent"
+                      p:label="Number of Courses"/>
+            </list>
+        </property>
+    </bean>
 
-    <bean id="KRMS-RepeatCourseNum-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent"
-          p:label="Number of Repeats"/>
+    <bean id="KRMS-RepeatCourseNum-ConstantValue" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KRMS-Integer-ConstantValue-Parent"
+                      p:label="Number of Repeats"/>
+            </list>
+        </property>
+    </bean>
 
-    <bean id="KRMS-Credits-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Credits"/>
+    <bean id="KRMS-Credits-ConstantValue" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KRMS-Integer-ConstantValue-Parent"
+                      p:label="Credits"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KRMS-Minutes-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Minutes"/>
 
@@ -82,11 +101,13 @@ limitations under the License.
     </bean>
     <bean id="KRMS-SingleCourse-SuggestField" parent="KRMS-SingleCourse-SuggestField-Parent"/>
 
-    <bean id="KRMS-MultiCourse-Section-Parent" parent="Uif-VerticalBoxSection" p:headerText="Courses">
-        <property name="header.headerTagStyle" value="font-size:13px;"/>
-        <property name="instructionalText" value="You may add any combination of courses, dynamic course ranges, or Course sets."/>
+    <bean id="KRMS-MultiCourse-Section-Parent" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
+                <bean parent="Uif-HeaderThree" p:headerText="Courses">
+                    <property name="headerTagStyle" value="font-size:13px;"/>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="You may add any combination of courses, dynamic course ranges, or Course sets."/>
                 <ref bean="KRMS-MultiCourse-Type-Field"/>
                 <ref bean="KRMS-ApprovedCourseStackedCollectionGroup"/>
                 <ref bean="KRMS-CourseSetStackedCollectionGroup"/>
