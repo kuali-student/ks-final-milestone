@@ -307,7 +307,6 @@
         <developerConnection>scm:svn:https://svn.kuali.org/repos/student/enrollment/aggregate/trunk</developerConnection>
         <url>https://svn.kuali.org/repos/student/enrollment/aggregate/trunk</url>
     </scm>
-
     <prerequisites>
         <maven>${maven.min.version}</maven>
     </prerequisites>
