@@ -48,7 +48,6 @@ public class AcademicTermWrapper {
 
     private String termNameForUI;
     private String status;
-    private String subTermLabelUI;
 
     private TypeInfo typeInfo;
 
@@ -337,14 +336,6 @@ public class AcademicTermWrapper {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getSubTermLabelUI() {
-        return subTermLabelUI;
-    }
-
-    public void setSubTermLabelUI(String subTermLabelUI) {
-        this.subTermLabelUI = subTermLabelUI;
     }
 
     /**

@@ -230,9 +230,7 @@ limitations under the License.
         </property>-->
         <property name="items">
             <list>
-                <bean parent="Uif-DataField"
-                      p:label=""
-                      p:propertyName="subTermLabelUI" p:valign="middle"/>
+                <bean parent="Uif-MessageField" p:valign="middle" p:messageText="@{#line.isSubTerm()? 'Sub term' : ''}"/>
                 <bean parent="Uif-DataField"
                       p:label="Term"
                       p:propertyName="termNameForUI" p:style="color:#0000FF;padding-right: 30px" p:valign="middle"/>
