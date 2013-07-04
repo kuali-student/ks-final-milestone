@@ -49,6 +49,7 @@ limitations under the License.
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleViewHelperServiceImpl"/>
+        <property name="headerText" value="@{#dp.cluDescription}"/>
         <property name="items">
             <list>
                 <bean id="KSCO-AgendaMaintenance-Page" parent="KSCO-AgendaMaintenance-Page-parent"/>
@@ -116,13 +117,7 @@ limitations under the License.
             </list>
         </property>
         <property name="singlePageView" value="false"/>
-        <property name="unifiedHeader" value="false"/>
         <property name="entryPageId" value="KSCO-AgendaMaintenance-Page"/>
-        <property name="header.cssClasses">
-            <list >
-                <value>ks-borderBottom4</value>
-            </list>
-        </property>
         <property name="additionalScriptFiles">
             <list>
                 <value>krms/scripts/agendaTree.js</value>
@@ -140,10 +135,9 @@ limitations under the License.
     </bean>
 
     <bean name="KSCO-AgendaMaintenance-Page-parent" parent="KRMS-AgendaMaintenance-Page-Parent">
-        <property name="headerText" value="@{#dp.cluDescription}"/>
+        <property name="headerText" value="Course Offering Requisites"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderFour" p:headerText="Course Offering Requisites"/>
                 <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.CourseOfferingAgendaSection">
                     <property name="rulePrototype">
@@ -335,7 +329,7 @@ limitations under the License.
     </bean>
 
     <bean name="KSCO-RuleMaintenance-Page-Parent" parent="KRMS-RuleMaintenance-Page-Parent">
-        <property name="headerText" value="@{#dp.cluDescription}"/>
+        <property name="headerText" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem">
@@ -361,7 +355,6 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderFour" p:headerText="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
                 <ref bean="KSCO-Rules-ManageSection"/>
             </list>
         </property>
