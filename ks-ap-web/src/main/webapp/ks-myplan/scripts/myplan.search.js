@@ -57,6 +57,10 @@ function ksapCourseSearchColumns() {
 	} ];
 }
 
+function ksapEmptyTable() {
+	return '<div class="myplan-course-search-empty"><p class="fl-font-size-130">We couldn&#39;t find anything matching your search.</p><p>A few suggestions:</p><ul><li>Check your spelling</li><li>Try a more general search (Any quarter, ENGL 1xx)</li><li>Use at least 3 characters</li></ul></div>'
+}
+
 function ksapGetCampusSelect() {
 	var aCampus = new Array();
 	jQuery.each(jQuery("input[name='campusSelect']:checked"), function() {
@@ -194,7 +198,7 @@ function searchForCourses(id, parentId) {
 									});
 						},
 						oLanguage : {
-							"sEmptyTable" : '<div class="myplan-course-search-empty"><p class="fl-font-size-130">We couldn&#39;t find anything matching your search.</p><p>A few suggestions:</p><ul><li>Check your spelling</li><li>Try a more general search (Any quarter, ENGL 1xx)</li><li>Use at least 3 characters</li></ul></div>',
+							"sEmptyTable" : ksapEmptyTable(),
 							"sInfo" : "Showing _START_-_END_ of _TOTAL_ results",
 							"sInfoEmpty" : "0 results found",
 							"sInfoFiltered" : "",
