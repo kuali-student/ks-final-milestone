@@ -67,9 +67,17 @@ public class SchedulingServiceConstants {
 
     // time slot types
     // See https://wiki.kuali.org/display/STUDENT/Time+Slot+Types
-    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING = "kuali.scheduling.time.slot.type.activityoffering";
+
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC = "kuali.scheduling.time.slot.type.activityoffering.adhoc";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD = "kuali.scheduling.time.slot.type.activityoffering.standard";
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA = "kuali.scheduling.time.slot.type.activityoffering.tba";
-    public static final String TIME_SLOT_TYPE_FINAL_EXAM = "kuali.scheduling.time.slot.type.finalexam"; // currently this is a Placeholder, not an Approved
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.fall";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SPRING = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.spring";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_WINTER = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.winter";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SUMMER = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.summer";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_HALFTERM = "kuali.scheduling.time.slot.type.activityoffering.standard.halfterm";
+    public static final String TIME_SLOT_TYPE_EXAM = "kuali.scheduling.time.slot.type.exam"; // currently this is a Placeholder, not an Approved
 
     /////////////////////////////
     // States
