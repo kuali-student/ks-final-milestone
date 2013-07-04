@@ -135,6 +135,10 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
     }
 
     public void setDescription(String description) {
+        //Description can only handle 100 characters.
+        if ((description != null) && (description.length()>100)) {
+            description = description.substring(0,97) + "...";
+        }
         this.description = description;
     }
 
@@ -289,7 +293,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         this.getNaturalLanguage().put(usage, nl);
 
         if (usage.equals(defaultNlKey)){
-            this.setDescription(StringUtils.abbreviate(nl, 99));
+            this.setDescription(nl);
         }
     }
 
