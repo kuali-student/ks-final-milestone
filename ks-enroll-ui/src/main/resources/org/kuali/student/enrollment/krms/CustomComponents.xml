@@ -56,7 +56,9 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="KRMS-Integer-ConstantValue-Parent"
-                      p:label="Credits"/>
+                      p:label="Credits">
+                    <property name="maxLength" value="6"/>
+                </bean>
             </list>
         </property>
     </bean>
