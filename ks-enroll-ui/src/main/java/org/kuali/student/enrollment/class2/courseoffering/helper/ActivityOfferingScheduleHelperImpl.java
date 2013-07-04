@@ -484,7 +484,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         componentInfo.setResourceTypeKeys(scheduleWrapper.getFeatures());
 
         TimeSlotInfo timeSlot = new TimeSlotInfo();
-        timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING);
+        timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD);
         timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
         List<Integer> days = buildDaysForDTO(scheduleWrapper.getDays());
         timeSlot.setWeekdays(days);
@@ -504,7 +504,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
 
         try {
-            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING,timeSlot, defaultContextInfo);
+            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD,timeSlot, defaultContextInfo);
             componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
         } catch (Exception e) {
             throw new Exception("Error creating timeslot: " + timeSlot, e);
