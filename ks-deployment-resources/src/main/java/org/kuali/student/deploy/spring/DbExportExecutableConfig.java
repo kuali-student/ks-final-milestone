@@ -49,9 +49,7 @@ public class DbExportExecutableConfig extends ExecutableConfig {
 		executables.add(syncFilesConfig.syncFilesExecutable());
 
 		// Setup an executable that will execute things in the right order
-		ExecutablesExecutable ee = new ExecutablesExecutable();
-		ee.setExecutables(executables);
-		return ee;
+		return new ExecutablesExecutable(executables);
 	}
 
 }
