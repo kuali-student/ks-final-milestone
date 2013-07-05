@@ -912,14 +912,15 @@ public class RuleEditorController extends MaintenanceDocumentController {
             if (!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
                 return getUIFModelAndView(form);
             }
-        }
 
-        //Check if the proposition that was edited is the root proposition and replace.
-        if (ruleEditor.getPropositionEditor().getKey().equals(ruleEditor.getSelectedKey())) {
-            ruleEditor.setProposition(proposition);
-        } else {
-            //Replace old proposition if not the root proposition.
-            this.setUpdatedProposition(ruleEditor.getPropositionEditor(), proposition);
+            //Check if the proposition that was edited is the root proposition and replace.
+            if (ruleEditor.getPropositionEditor().getKey().equals(ruleEditor.getSelectedKey())) {
+                ruleEditor.setProposition(proposition);
+            } else {
+                //Replace old proposition if not the root proposition.
+                this.setUpdatedProposition(ruleEditor.getPropositionEditor(), proposition);
+            }
+
         }
 
         //Compare rule with parent rule.
