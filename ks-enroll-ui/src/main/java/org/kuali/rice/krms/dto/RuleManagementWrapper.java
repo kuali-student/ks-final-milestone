@@ -30,7 +30,6 @@ import java.util.List;
 public class RuleManagementWrapper extends UifFormBase {
 
     private String refObjectId;
-    private String namePrefix;
     private String namespace;
     private String refDiscriminatorType;
 
@@ -123,14 +122,6 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setLogicArea(String logicArea) {
         this.getRuleEditor().setLogicArea(logicArea);
-    }
-
-    public String getNamePrefix() {
-        return namePrefix;
-    }
-
-    public void setNamePrefix(String namePrefix) {
-        this.namePrefix = namePrefix;
     }
 
     public String getNamespace() {

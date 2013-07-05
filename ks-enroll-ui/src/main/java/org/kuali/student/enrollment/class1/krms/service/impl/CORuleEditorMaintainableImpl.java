@@ -112,9 +112,6 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 throw new RuntimeException("Could not retrieve atp for " + courseOffering.getTermId());
             }
 
-            //Set the name prefix used for agenda and rule names.
-            dataObject.setNamePrefix(coId + ":");
-
             //Set the description and atp used on the screen.
             dataObject.setCluDescription(courseOffering.getCourseOfferingCode());
 

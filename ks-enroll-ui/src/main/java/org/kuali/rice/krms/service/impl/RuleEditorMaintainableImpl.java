@@ -351,9 +351,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
 
             //Set the agenda name.
-            agenda.setName(ruleWrapper.getNamePrefix() + agenda.getAgendaTypeInfo().getId()+":1");
+            agenda.setName(ruleWrapper.getRefObjectId() + ":" + agenda.getAgendaTypeInfo().getId()+":1");
 
-            //Retrieve the context and set the id ong the agenda.
+            //Retrieve the context and set the id on the agenda.
             if (agenda.getContextId() == null) {
                 ContextDefinition context = this.getRuleManagementService().getContextByNameAndNamespace("Course Requirements", ruleWrapper.getNamespace());
                 agenda.setContextId(context.getId());
@@ -376,7 +376,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
 
             //Set the first agenda item id and save the agenda items
-            AgendaItemDefinition firstItem = maintainAgendaItems(agenda, ruleWrapper.getNamePrefix(), ruleWrapper.getNamespace());
+            AgendaItemDefinition firstItem = maintainAgendaItems(agenda, ruleWrapper.getRefObjectId()+":", ruleWrapper.getNamespace());
 
             //Delete rules
             for (RuleEditor deletedRule : agenda.getDeletedRules()) {
