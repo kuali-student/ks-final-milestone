@@ -55,7 +55,7 @@ public class SyncProjectsConfig {
 
 		// Configure the executable
 		SyncFilesExecutable exec = new SyncFilesExecutable();
-		exec.setService(scmService());
+		exec.setService(getScmService());
 		exec.setSkip(SpringUtils.getBoolean(env, "impex.sync.skip", false));
 		exec.setCommitChanges(SpringUtils.getBoolean(env, "impex.scm.commit", false));
 		exec.setMessage(SpringUtils.getProperty(env, "impex.scm.message", "Automated Impex update"));
@@ -64,8 +64,7 @@ public class SyncProjectsConfig {
 		return exec;
 	}
 
-	@Bean
-	public ScmService scmService() {
+	protected ScmService getScmService() {
 		String url = SpringUtils.getProperty(env, "project.scm.developerConnection");
 		ScmServiceFactoryBean factory = new ScmServiceFactoryBean();
 		factory.setUrl(url);
