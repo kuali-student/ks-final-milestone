@@ -851,9 +851,10 @@ div#Uif-ApplicationHeader-Wrapper{
 /*define a gray box as background*/
 .ks-gray-background  {
     background-color: #ebebeb;
-    border:none;                   n
+    border:none;
     width:100%;
     line-height:15px;
+    padding: 10px;
 }
 .ks-gray-background label {
     line-height:15px;

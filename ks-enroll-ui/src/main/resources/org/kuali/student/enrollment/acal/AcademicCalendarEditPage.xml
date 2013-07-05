@@ -227,29 +227,21 @@ limitations under the License.
                 <bean parent="Uif-MessageField" p:valign="middle" p:messageText="@{#line.isSubTerm()? 'Sub term' : ''}"/>
                 <bean parent="Uif-DataField"
                       p:label="Term"
-                      p:propertyName="termNameForUI" p:style="color:#0000FF;padding-right: 30px" p:valign="middle"/>
+                      p:propertyName="termNameForUI" p:style="padding-right: 30px" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="Start Date"
                       p:propertyName="startDate" p:style="padding-right: 30px" p:valign="middle"/>
                 <bean parent="Uif-DataField"
                       p:label="End Date"
                       p:propertyName="endDate" p:style="padding-right: 30px" p:valign="middle"/>
-                <bean parent="Uif-DataField"
-                      p:label="Status"
-                      p:propertyName="status" p:style="padding-right: 30px" p:valign="middle" p:render="@{#line.official}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>text-lozenge-green-msg</value>
-                        </list>
+                <bean parent="Uif-MessageField" p:label="Status" p:render="@{#line.official}">
+                    <property name="message">
+                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}"/>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField"
-                      p:label="Status"
-                      p:propertyName="status" p:style="padding-right: 30px" p:valign="middle" p:render="@{!#line.official}">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>text-lozenge-grey-msg</value>
-                        </list>
+                <bean parent="Uif-MessageField" p:label="Status" p:render="@{!#line.official}">
+                    <property name="message">
+                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!#line.official}"/>
                     </property>
                 </bean>
 
