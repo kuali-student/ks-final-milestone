@@ -411,5 +411,47 @@ public interface CourseService extends DictionaryService {
             String refObjectId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * Creates a Course - KRAD Version
+     * 
+     * @param courseInfo courseInfo
+     * @return the created course
+     * @throws DataValidationErrorException One or more values invalid for this
+     *             operation
+     * @throws InvalidParameterException invalid course
+     * @throws MissingParameterException missing Course
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException
+     * @throws DependentObjectsExistException
+     */
+    public CourseInfo createCourse_KRAD(@WebParam(name = "courseInfo") CourseInfo courseInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    
+    /**
+     * Updates a Course. - KRAD Version
+     * 
+     * @param courseInfo courseInfo
+     * @param courseId
+     * @return updated Course
+     * @throws DataValidationErrorException One or more values invalid for this
+     *             operation
+     * @throws DoesNotExistException course not found
+     * @throws InvalidParameterException invalid course
+     * @throws MissingParameterException missing course
+     * @throws VersionMismatchException The action was attempted on an out of
+     *             date version.
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws CircularReferenceException 
+     * @throws CircularRelationshipException 
+     * @throws AlreadyExistsException 
+     * @throws DependentObjectsExistException 
+     * @throws UnsupportedActionException 
+     */
+    public CourseInfo updateCourse_KRAD(@WebParam(name = "courseId") String courseId, @WebParam(name = "courseInfo") CourseInfo courseInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException,
+            PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException;
 
 }

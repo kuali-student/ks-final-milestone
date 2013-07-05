@@ -2073,4 +2073,210 @@ public interface CluService extends VersionManagementService ,SearchService {
      */
     public List<String>searchForCluResultIds(@WebParam(name = "criteria") QueryByCriteria criteria,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * Creates a new CLU - KRAD Version
+     *
+     * @param luTypeKey   identifier of the LU Type for the CLU being created
+     * @param cluInfo     information about the CLU being created
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the created CLU information
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        luTypeKey not found
+     * @throws InvalidParameterException    invalid cluInfo or contextInfo
+     * @throws MissingParameterException    missing luTypeKey, cluInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     */
+    public CluInfo createClu_KRAD(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    
+    /**
+     * Create a clu result object, which contains information about potential
+     * results for a clu.
+     *
+     * @param cluId            identifier of a clu
+     * @param cluResultTypeKey type of clu result
+     * @param cluResultInfo    information about potential results for a clu
+     * @param contextInfo      Context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return information about the created clu result
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        cluId or resultUsageTypeKey not
+     *                                      found
+     * @throws InvalidParameterException    invalid cluResultInfo or contextInfo
+     * @throws MissingParameterException    missing cluId, cluResultTypeKey,
+     *                                      cluResultInfo or contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     */
+    public CluResultInfo createCluResult_KRAD(@WebParam(name = "cluId") String cluId,
+                                         @WebParam(name = "cluResultTypeKey") String cluResultTypeKey,
+                                         @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    
+    /**
+     * Create a directional relationship between two CLUs
+     *
+     * @param cluId                 identifier of the first CLU in the
+     *                              relationship - The From or Parent of the
+     *                              relation
+     * @param relatedCluId          identifier of the second CLU in the
+     *                              relationship to be related to - the To or
+     *                              Child of the Relation
+     * @param cluCluRelationTypeKey the LU to LU relationship type of the
+     *                              relationship
+     * @param cluCluRelationInfo    information about the relationship between
+     *                              the two CLUs
+     * @param contextInfo           Context information containing the
+     *                              principalId and locale information about the
+     *                              caller of service operation
+     * @return the created CLU to CLU relation information
+     * @throws CircularRelationshipException cluId equals relatedCluId
+     * @throws DataValidationErrorException  One or more values invalid for this
+     *                                       operation
+     * @throws DoesNotExistException         cluId, relatedCluId, cluCluRelationTypeKey
+     *                                       not found
+     * @throws InvalidParameterException     invalid cluCluRelationInfo or
+     *                                       contextInfo
+     * @throws MissingParameterException     missing cluId, relatedCluId,
+     *                                       cluCluRelationTypeKey, cluCluRelationInfo
+     *                                       or contextInfo
+     * @throws OperationFailedException      unable to complete request
+     * @throws PermissionDeniedException     authorization failure
+     * @throws ReadOnlyException             an attempt at supplying information
+     *                                       designated as read only
+     */
+    public CluCluRelationInfo createCluCluRelation_KRAD(@WebParam(name = "cluId") String cluId, @WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "cluCluRelationInfo") CluCluRelationInfo cluCluRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    
+    /**
+     * Validates a cluCluRelation. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current object and
+     * its directly contained sub-objects or expanded to perform all tests
+     * related to this object. If an identifier is present for the
+     * cluCluRelation (and/or one of its contained sub-objects) and a record is
+     * found for that identifier, the validation checks if the relationship can
+     * be shifted to the new values. If an identifier is not present or a record
+     * cannot be found for the identifier, it is assumed that the record does
+     * not exist and as such, the checks performed will be much shallower,
+     * typically mimicking those performed by setting the validationType to the
+     * current object.
+     *
+     * @param validationTypeKey     identifier of the extent of validation
+     * @param cluId                 identifier of the first CLU in the
+     *                              relationship - The From or Parent of the
+     *                              relation
+     * @param relatedCluId          identifier of the second CLU in the
+     *                              relationship to be related to - the To or
+     *                              Child of the Relation
+     * @param cluCluRelationTypeKey the CLU to CLU relationship type of the
+     *                              relationship
+     * @param cluCluRelationInfo    cluCluRelation information to be tested.
+     * @param contextInfo           Context information containing the
+     *                              principalId and locale information about the
+     *                              caller of service operation
+     * @return results from performing the validation
+     * @throws DoesNotExistException     validationTypeKey, cluId, relatedCluId
+     *                                   or cluCluRelationTypeKey  not found
+     * @throws InvalidParameterException invalid cluCluRelationInfo or
+     *                                   contextInfo
+     * @throws MissingParameterException missing validationTypeKey, cluId,
+     *                                   relatedCluId, cluCluRelationTypeKey or
+     *                                   cluCluRelationInfo or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateCluCluRelation_KRAD(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "cluId") String cluId, @WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "cluCluRelationInfo") CluCluRelationInfo cluCluRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * Updates an existing CLU - KRAD Version
+     *
+     * @param cluId       identifier for the CLU to be updated
+     * @param cluInfo     updated information about the CLU
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the updated CLU information
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        cluId not found
+     * @throws InvalidParameterException    invalid cluInfo or contextInfo
+     * @throws MissingParameterException    missing cluId, cluInfo or
+     *                                      contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     * @throws VersionMismatchException     an optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public CluInfo updateClu_KRAD(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    
+    /**
+     * Validates information about results for a clu. Depending on the value of
+     * validationTypeKey, this validation could be limited to tests on just the
+     * current object and its directly contained sub-objects or expanded to
+     * perform all tests related to this object. If an identifier is present for
+     * the clu result object (and/or one of its contained sub-objects) and a
+     * record is found for that identifier, the validation checks if the clu
+     * result object can be shifted to the new values. If an identifier is not
+     * present or a record cannot be found for the identifier, it is assumed
+     * that the record does not exist and as such, the checks performed will be
+     * much shallower, typically mimicking those performed by setting the
+     * validationTypeKey to the current object.
+     *
+     * @param validationTypeKey identifier of the extent of validation
+     * @param cluId             identifier of a clu
+     * @param cluResultTypeKey  type of clu result
+     * @param cluResultInfo     CLU result information to be tested.
+     * @param contextInfo       Context information containing the principalId
+     *                          and locale information about the caller of
+     *                          service operation
+     * @return results from performing the validation
+     * @throws DoesNotExistException     validationTypeKey, cluId or
+     *                                   cluResultTypeKey not found
+     * @throws InvalidParameterException invalid cluResultInfo or contextInfo
+     * @throws MissingParameterException missing validationTypeKey, cluId,
+     *                                   cluResultTypeKey, cluResultInfo or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateCluResult_KRAD(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                        @WebParam(name = "cluId") String cluId,
+                                                        @WebParam(name = "cluResultTypeKey") String cluResultTypeKey,
+                                                        @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
+    /**
+     * Updates an existing clu result
+     *
+     * @param cluResultId   identifier for the clu result to be updated
+     * @param cluResultInfo updated information about the clu result
+     * @param contextInfo   Context information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return the updated clu result information
+     * @throws DataValidationErrorException One or more values invalid for this
+     *                                      operation
+     * @throws DoesNotExistException        cluResultId not found
+     * @throws InvalidParameterException    invalid contextInfo
+     * @throws MissingParameterException    missing cluResultId, cluResultInfo
+     *                                      or contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     * @throws VersionMismatchException     an optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public CluResultInfo updateCluResult_KRAD(@WebParam(name = "cluResultId") String cluResultId, @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 }

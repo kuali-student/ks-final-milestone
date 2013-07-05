@@ -150,4 +150,25 @@ public class CourseServiceDecorator implements CourseService {
         }
     }
 
+	@Override
+	public CourseInfo createCourse_KRAD(CourseInfo courseInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		return getNextDecorator().createCourse_KRAD(courseInfo, contextInfo);
+	}
+
+	@Override
+	public CourseInfo updateCourse_KRAD(String courseId, CourseInfo courseInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, VersionMismatchException,
+			OperationFailedException, PermissionDeniedException,
+			UnsupportedActionException, DependentObjectsExistException,
+			AlreadyExistsException, CircularRelationshipException,
+			CircularReferenceException, ReadOnlyException {
+		return getNextDecorator().updateCourse_KRAD(courseId, courseInfo, contextInfo);
+	}
+
 }
