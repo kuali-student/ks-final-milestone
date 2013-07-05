@@ -64,13 +64,11 @@ public class CluGroup implements Serializable {
         this.showClus = showClus;
     }
 
-    public boolean isShowTitle() {
+    public boolean getShowTitle() {
         return showTitle;
     }
 
     public void setShowTitle(boolean showTitle) {
         this.showTitle = showTitle;
     }
-
-
 }

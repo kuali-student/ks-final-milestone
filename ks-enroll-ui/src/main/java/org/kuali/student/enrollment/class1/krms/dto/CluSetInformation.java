@@ -256,7 +256,7 @@ public class CluSetInformation implements Serializable {
             indCourses.setClus(this.getClus());
 
             //Only display the Indivdual Courses heading when clusets or queries exist.
-            if ((this.getCluSets().size() == 0) && (this.hasMembershipQuery())) {
+            if ((this.getCluSets().size() == 0) && (!this.hasMembershipQuery())) {
                 indCourses.setShowTitle(false);
             }
             cluGroups.add(indCourses);
