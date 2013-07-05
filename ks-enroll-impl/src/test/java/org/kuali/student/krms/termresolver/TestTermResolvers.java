@@ -14,6 +14,7 @@ import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoader;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -53,6 +54,9 @@ public class TestTermResolvers {
 
     @Resource(name = "courseOfferingService")
     private CourseOfferingService courseOfferingService;
+
+    @Resource(name = "populationService")
+    private PopulationService populationService;
 
     @Before
     public void setUp() {
@@ -95,6 +99,22 @@ public class TestTermResolvers {
     public void testClassStandingTermResolver() {
         //Setup the term resolver
         ClassStandingTermResolver termResolver = new ClassStandingTermResolver();
+        termResolver.setPopulationService(populationService);
+
+        //Add prerequisite
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY, "1");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                null);
+
+        //Evaluate term Resolver
+       // Integer classStanding = termResolver.resolve(resolvedPrereqs, parameters);
+
+       // assertNotNull(classStanding);
 
     }
 
@@ -103,6 +123,20 @@ public class TestTermResolvers {
         //Setup the term resolver
         CompletedCoursesTermResolver termResolver = new CompletedCoursesTermResolver();
 
+        //Add prerequisite
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "1");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSES);
+
+        //Evaluate term Resolver
+       // Boolean courseCompleted = termResolver.resolve(resolvedPrereqs, parameters);
+
+        //assertNotNull(courseCompleted);
     }
 
     @Test
