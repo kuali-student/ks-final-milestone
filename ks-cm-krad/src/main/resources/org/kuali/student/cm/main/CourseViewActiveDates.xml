@@ -29,15 +29,8 @@
 			</list>
 		</property>
 		<property name="footer">
-			<bean parent="Uif-FooterBase">
-				<property name="items">
-					<list>
-						<bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-							p:actionScript="stepBrowserBack()" />
-					</list>
-				</property>
-			</bean>
-		</property>
+            <ref bean="KS-CourseView-Footer" />
+        </property>
 	</bean>
 
 	<bean id="KS-CourseView-ActiveDatesPage-Widgets" parent="Uif-VerticalBoxSection">

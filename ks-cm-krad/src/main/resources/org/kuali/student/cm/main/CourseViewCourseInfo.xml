@@ -38,13 +38,7 @@ limitations under the License.
             </list>
         </property>
         <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
-                    </list>
-                </property>
-            </bean>
+            <ref bean="KS-CourseView-Footer" />
         </property>
     </bean>
     
@@ -124,14 +118,28 @@ limitations under the License.
 
 				<ref bean="KS-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
 
-				<bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSubSection" 
+				<bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSection" 
 					p:headerText="Instructor(s)" p:propertyName="instructorDisplays" 
 					p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoDisplay">
-					<property name="layoutManager.summaryTitle" value="Instructor" />
+					<property name="addLineLabel.labelText" value="Add An Instructor" />
+					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Instructor @{(#index + 1)}" />
 					<property name="collectionLookup.quickfinderAction.render" value="false" />
+					<property name="cssClasses">
+	                	<list merge="true">
+							<value>cm-collection-width</value>
+						</list>
+	                </property>
+	                <property name="addLineActions">
+            			<list>
+                			<bean parent="Uif-AddLineAction" p:actionLabel="Add" />
+            			</list>
+        			</property>
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField" p:propertyName="displayName">
+								<property name="control">
+									<bean parent="Uif-TextControl" p:size="50" />
+								</property>
 								<property name="suggest">
 									<bean parent="Uif-Suggest" p:render="true">
 										<property name="sourcePropertyName" value="displayName"/>
@@ -201,6 +209,11 @@ limitations under the License.
 	<bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection"
 		p:disclosure.defaultOpen="false">
 		<property name="headerText" value="Cross List, Offer Jointly, Add Version Codes" />
+		<property name="cssClasses">
+         	<list merge="true">
+				<value>cm-collection-width</value>
+			</list>
+	    </property>
 		<property name="items">
 			<list>
 				<bean id="KS-CrossListed-Section" parent="Uif-StackedCollectionSubSection"
@@ -234,11 +247,15 @@ limitations under the License.
 									<bean parent="Uif-TextControl" />
 								</property>
 								<property name="suggest">
+<!-- 									<bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
 									<bean parent="Uif-Suggest" p:render="true">
 										<property name="sourcePropertyName" value="courseCode"/>
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
-											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getJointOfferingCourseNumbersForSuggest" />
+											<bean parent="Uif-AttributeQueryConfig"
+													p:queryMethodToCall="getJointOfferingCourseNumbersForSuggest" />
+													<!-- p:queryFieldMapping="#lp.courseCode:courseCode"
+													p:returnFieldMapping="courseId:#lp.courseId,courseCode:#lp.courseCode,subjectArea:#lp.subjectArea,courseNumberSuffix:#lp.courseNumberSuffix" /> -->
 										</property>
 									</bean>
 								</property>
@@ -296,7 +313,7 @@ limitations under the License.
 							<bean parent="Uif-InputField-LabelTop" p:label="Course Title"
 								p:propertyName="variationTitle" p:required="true">
 								<property name="control">
-									<bean parent="Uif-LargeTextControl" />
+									<bean parent="Uif-TextControl" />
 								</property>
 							</bean>
 						</list>

@@ -54,13 +54,8 @@
 		<property name="dataType" value="STRING" />
 		<property name="label" value="Name" />
 		<property name="shortLabel" value="Name" />
-		<property name="forceUppercase" value="false" />
-		<property name="maxLength" value="40" />
-		<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="40" />
+			<bean parent="Uif-TextControl" />
 		</property>
 	</bean>
 
@@ -69,13 +64,8 @@
 		<property name="dataType" value="STRING" />
 		<property name="label" value="Given Name" />
 		<property name="shortLabel" value="Given Name" />
-		<property name="forceUppercase" value="false" />
-		<property name="maxLength" value="40" />
-		<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="40" />
+			<bean parent="Uif-TextControl" />
 		</property>
 	</bean>
 
@@ -84,13 +74,8 @@
 		<property name="dataType" value="STRING" />
 		<property name="label" value="Username" />
 		<property name="shortLabel" value="Username" />
-		<property name="forceUppercase" value="false" />
-		<property name="maxLength" value="40" />
-		<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="40" />
+			<bean parent="Uif-TextControl" />
 		</property>
 	</bean>
 

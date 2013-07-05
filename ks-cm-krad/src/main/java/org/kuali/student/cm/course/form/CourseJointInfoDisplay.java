@@ -36,4 +36,9 @@ public class CourseJointInfoDisplay extends CourseJointInfo {
 		this.level = level;
 	}
 
+	@Override
+	public String toString() {
+		return courseCode;
+	}
+
 }

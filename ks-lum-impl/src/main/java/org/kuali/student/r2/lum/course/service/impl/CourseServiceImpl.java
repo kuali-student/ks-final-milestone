@@ -557,5 +557,66 @@ public class CourseServiceImpl implements CourseService {
     public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(String courseId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getCourseLos(courseId);
     }
+    
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public CourseInfo createCourse_KRAD(CourseInfo courseInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+
+        checkForMissingParameter(courseInfo, "CourseInfo");
+
+        // Comment validation - since it's binded to GWT dictionary files
+        // Validate
+		//List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo, contextInfo);
+		//if (ValidatorUtils.hasErrors(validationResults)) {
+		//throw new DataValidationErrorException("Validation error!", validationResults);
+		//}
+
+        try {
+            return processCourseInfo_KRAD(courseInfo, NodeOperation.CREATE, contextInfo);
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling course - KRAD version", e);
+            throw new OperationFailedException("Error disassembling course - KRAD version");
+        } catch (Exception e) {
+            LOG.error("Error creating a course - KRAD version", e);
+            throw new OperationFailedException("Error creating a course - KRAD version");
+        }
+    }
+    
+    private CourseInfo processCourseInfo_KRAD(CourseInfo courseInfo, NodeOperation operation, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AssemblyException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
+
+        BaseDTOAssemblyNode<CourseInfo, CluInfo> results = courseAssembler.disassemble(courseInfo, operation, contextInfo);
+
+        // Use the results to make the appropriate service calls here
+        courseServiceMethodInvoker.invokeServiceCalls_KRAD(results, contextInfo);
+
+        return results.getBusinessDTORef();
+    }
+    
+    @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public CourseInfo updateCourse_KRAD(String courseId, CourseInfo courseInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException {
+
+        checkForMissingParameter(courseInfo, "CourseInfo");
+
+        // Comment validation - since it's binded to GWT dictionary files
+        // Validate
+        //List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo, contextInfo);
+        //if (ValidatorUtils.hasErrors(validationResults)) {
+        //    throw new DataValidationErrorException("Validation error!", validationResults);
+        //}
+
+        try {
+
+            return processCourseInfo_KRAD(courseInfo, NodeOperation.UPDATE, contextInfo);
+
+        } catch (VersionMismatchException vme) {
+            // Re-instantiate this exception with more descriptive error.
+            throw new VersionMismatchException("Course to be updated is not the current version.");
+
+        } catch (AssemblyException e) {
+            LOG.error("Error disassembling course", e);
+            throw new OperationFailedException("Error disassembling course");
+        }
+    }
 
 }

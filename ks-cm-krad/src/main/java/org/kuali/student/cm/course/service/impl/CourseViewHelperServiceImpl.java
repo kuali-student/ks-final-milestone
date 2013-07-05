@@ -50,6 +50,15 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 	private SubjectCodeService subjectCodeService;
 
 	private CluService cluService;
+	
+	private static CourseViewHelperServiceImpl instance;
+	
+	public static final CourseViewHelperServiceImpl getInstance() {
+		if (instance == null) {
+			instance = new CourseViewHelperServiceImpl();
+		}
+		return instance;
+	}
 
 	public List<CluInstructorInfoDisplay> getInstructorsForSuggest(
 			String instructorName) {
@@ -166,6 +175,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         SearchResultInfo searchResult = null;
         try {
         	searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
+        	
             for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 String id = "";

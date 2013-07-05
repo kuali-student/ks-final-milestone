@@ -33,10 +33,6 @@
 		</property>
 		<property name="formClass" value="org.kuali.student.cm.course.form.CourseForm" />
 		<property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
-		<property name="footer">
-			<bean parent="Uif-FooterBase" />
-		</property>
-		<!--Still need to be created and linked. -->
 		<property name="items">
 			<list>
 				<ref bean="KS-CourseView-CourseInfoPage" />
@@ -61,6 +57,18 @@
 		<property name="additionalScriptFiles">
 			<list merge="true">
 				<value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
+		<property name="items">
+			<list>
+				<bean parent="Uif-PrimaryActionButton" p:methodToCall="saveAndContinue"
+					p:actionLabel="Save and Continue" p:performClientSideValidation="true"
+					p:loadingMessageText="Saving..." />
+				<bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+					p:methodToCall="close" />
 			</list>
 		</property>
 	</bean>

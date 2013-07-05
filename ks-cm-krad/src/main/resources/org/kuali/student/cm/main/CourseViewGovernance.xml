@@ -29,15 +29,8 @@
  			</list> 
  		</property> 
 		<property name="footer">
-			<bean parent="Uif-FooterBase">
-				<property name="items">
-					<list>
-						<bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-							p:actionScript="stepBrowserBack()" />
-					</list>
-				</property>
-			</bean>
-		</property>
+            <ref bean="KS-CourseView-Footer" />
+        </property>
 	</bean>
 
     <bean id="KS-CourseView-GovernancePage-Widgets" parent="Uif-VerticalBoxSection">
@@ -52,7 +45,7 @@
               <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder"/>
             </property>
           </bean>
-          <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.subjectArea" p:label="Curriculum Oversight"
+          <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.unitsContentOwner" p:label="Curriculum Oversight"
                 p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal."
                 p:optionsFinderClass="org.kuali.rice.student.lookup.keyvalues.AllOrgsValuesFinder">
             <property name="control">

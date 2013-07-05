@@ -3992,6 +3992,866 @@ public class CluServiceImpl implements CluService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("not implemented");
     }
+
+	@Override
+	public CluInfo createClu_KRAD(String luTypeKey, CluInfo cluInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		Clu clu;
+		try {
+			clu = toCluForCreate_KRAD(luTypeKey, cluInfo, contextInfo);
+		} catch (AlreadyExistsException ex) {
+			throw new OperationFailedException(ex.getMessage(), ex);
+		}
+		// Set current (since this is brand new and every verIndId needs one
+		// current)
+		if (clu.getVersion() == null) {
+			clu.setVersion(new Version());
+		}
+		clu.getVersion().setCurrentVersionStart(new Date());
+		luDao.create(clu);
+		return CluServiceAssembler.toCluInfo(clu);
+	}
+	
+	public Clu toCluForCreate_KRAD(String luTypeKey, CluInfo cluInfo,
+			ContextInfo context) throws AlreadyExistsException,
+			DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		checkForMissingParameter(luTypeKey, "luTypeKey");
+		checkForMissingParameter(cluInfo, "cluInfo");
+
+		// Validate CLU
+		// List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo, context);
+		// if (null != val && val.size() > 0) {
+		//throw new DataValidationErrorException("Validation error!", val);
+		//}
+
+		Clu clu = new Clu();
+
+		LuType luType;
+		try {
+			luType = luDao.fetch(LuType.class, luTypeKey);
+		} catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+			throw new DoesNotExistException(luTypeKey, ex);
+		}
+		clu.setLuType(luType);
+
+		if (cluInfo.getOfficialIdentifier() != null) {
+			clu.setOfficialIdentifier(CluServiceAssembler
+					.createOfficialIdentifier(cluInfo, luDao));
+		}
+		clu.setAlternateIdentifiers(CluServiceAssembler
+				.createAlternateIdentifiers(cluInfo, luDao));
+		if (cluInfo.getDescr() != null) {
+			LuRichText descr = CluServiceAssembler.toRichText(LuRichText.class,
+					cluInfo.getDescr());
+			if (descr.getPlain() != null || descr.getFormatted() != null) {
+				clu.setDescr(descr);
+			}
+		}
+
+		if (clu.getAdminOrgs() == null) {
+			clu.setAdminOrgs(new ArrayList<CluAdminOrg>(0));
+		}
+		List<CluAdminOrg> adminOrgs = clu.getAdminOrgs();
+		for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
+			CluAdminOrg instructor = new CluAdminOrg();
+			BeanUtils.copyProperties(orgInfo, instructor,
+					new String[] { "attributes" });
+			instructor.setAttributes(CluServiceAssembler.toGenericAttributes(
+					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
+					instructor, luDao));
+			instructor.setClu(clu);
+			adminOrgs.add(instructor);
+		}
+
+		if (cluInfo.getPrimaryInstructor() != null) {
+			CluInstructor primaryInstructor = new CluInstructor();
+			BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),
+					primaryInstructor, new String[] { "id", "attributes" });
+			primaryInstructor.setAttributes(CluServiceAssembler
+					.toGenericAttributes(CluInstructorAttribute.class, cluInfo
+							.getPrimaryInstructor().getAttributes(),
+							primaryInstructor, luDao));
+			clu.setPrimaryInstructor(primaryInstructor);
+		}
+
+		if (clu.getInstructors() == null) {
+			clu.setInstructors(new ArrayList<CluInstructor>(0));
+		}
+		List<CluInstructor> instructors = clu.getInstructors();
+		for (CluInstructorInfo instructorInfo : cluInfo.getInstructors()) {
+			CluInstructor instructor = new CluInstructor();
+			BeanUtils.copyProperties(instructorInfo, instructor, new String[] {
+					"id", "attributes" });
+			instructor.setAttributes(CluServiceAssembler.toGenericAttributes(
+					CluInstructorAttribute.class,
+					instructorInfo.getAttributes(), instructor, luDao));
+			instructors.add(instructor);
+		}
+
+		if (cluInfo.getStdDuration() != null) {
+			clu.setStdDuration(CluServiceAssembler.toTimeAmount(cluInfo
+					.getStdDuration()));
+		}
+
+		if (clu.getLuCodes() == null) {
+			clu.setLuCodes(new ArrayList<LuCode>(0));
+		}
+		List<LuCode> luCodes = clu.getLuCodes();
+		for (LuCodeInfo luCodeInfo : cluInfo.getLuCodes()) {
+			LuCode luCode = new LuCode();
+			luCode.setAttributes(CluServiceAssembler.toGenericAttributes(
+					LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
+					luDao));
+			BeanUtils.copyProperties(luCodeInfo, luCode, new String[] {
+					"attributes", "meta", "descr", "typeKey" });
+			if (luCodeInfo.getDescr() != null) {
+				luCode.setDescr(luCodeInfo.getDescr().getPlain());
+			}
+			luCode.setType(luCodeInfo.getTypeKey());
+			luCode.setClu(clu);
+			luCodes.add(luCode);
+		}
+
+		if (clu.getOfferedAtpTypes() == null) {
+			clu.setOfferedAtpTypes(new ArrayList<CluAtpTypeKey>(0));
+		}
+		List<CluAtpTypeKey> offeredAtpTypes = clu.getOfferedAtpTypes();
+		for (String atpTypeKey : cluInfo.getOfferedAtpTypes()) {
+			CluAtpTypeKey cluAtpTypeKey = new CluAtpTypeKey();
+			cluAtpTypeKey.setAtpTypeKey(atpTypeKey);
+			cluAtpTypeKey.setClu(clu);
+			offeredAtpTypes.add(cluAtpTypeKey);
+		}
+
+		// FEE INFO
+		if (cluInfo.getFeeInfo() != null) {
+			CluFee cluFee = null;
+			try {
+				cluFee = CluServiceAssembler.toCluFee(clu, false,
+						cluInfo.getFeeInfo(), luDao);
+			} catch (VersionMismatchException e) {
+				// Version Mismatch Should Happen only for updates
+			}
+			clu.setFee(cluFee);
+		}
+
+		if (cluInfo.getAccountingInfo() != null) {
+			CluAccounting cluAccounting = new CluAccounting();
+			cluAccounting.setAttributes(CluServiceAssembler
+					.toGenericAttributes(CluAccountingAttribute.class, cluInfo
+							.getAccountingInfo().getAttributes(),
+							cluAccounting, luDao));
+			cluAccounting.setAffiliatedOrgs(CluServiceAssembler
+					.toAffiliatedOrgs(false, cluAccounting.getAffiliatedOrgs(),
+							cluInfo.getAccountingInfo().getAffiliatedOrgs(),
+							luDao));
+			clu.setAccounting(cluAccounting);
+		}
+
+		clu.setAttributes(CluServiceAssembler.toGenericAttributes(
+				CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
+
+		if (cluInfo.getIntensity() != null) {
+			clu.setIntensity(CluServiceAssembler.toAmount(cluInfo
+					.getIntensity()));
+		}
+
+		if (clu.getCampusLocations() == null) {
+			clu.setCampusLocations(new ArrayList<CluCampusLocation>(0));
+		}
+		List<CluCampusLocation> locations = clu.getCampusLocations();
+		for (String locationName : cluInfo.getCampusLocations()) {
+			CluCampusLocation location = new CluCampusLocation();
+			location.setCampusLocation(locationName);
+			location.setClu(clu);
+			locations.add(location);
+		}
+
+		if (clu.getAccreditations() == null) {
+			clu.setAccreditations(new ArrayList<CluAccreditation>(0));
+		}
+		List<CluAccreditation> accreditations = clu.getAccreditations();
+		for (AccreditationInfo accreditationInfo : cluInfo.getAccreditations()) {
+			CluAccreditation accreditation = new CluAccreditation();
+			BeanUtils.copyProperties(accreditationInfo, accreditation,
+					new String[] { "attributes", "meta" });
+			accreditation.setAttributes(CluServiceAssembler
+					.toGenericAttributes(CluAccreditationAttribute.class,
+							accreditationInfo.getAttributes(), accreditation,
+							luDao));
+			accreditations.add(accreditation);
+		}
+
+		// TODO: the following should be done via copyProperties
+		// dictionary needs work
+		// required field name allignment between CluInfo and Clu
+		if (cluInfo.getCanCreateLui() != null) {
+			clu.setCanCreateLui(cluInfo.getCanCreateLui());
+		}
+
+		if (cluInfo.getIsEnrollable() != null) {
+			clu.setEnrollable(cluInfo.getIsEnrollable());
+		}
+
+		if (cluInfo.getIsHasEarlyDropDeadline() != null) {
+			clu.setHasEarlyDropDeadline(cluInfo.getIsHasEarlyDropDeadline());
+		}
+
+		if (cluInfo.getIsHazardousForDisabledStudents() != null) {
+			clu.setHazardousForDisabledStudents(cluInfo
+					.getIsHazardousForDisabledStudents());
+		}
+
+		// Now copy all not standard properties
+		BeanUtils.copyProperties(cluInfo, clu, new String[] { "luType",
+				"officialIdentifier", "alternateIdentifiers", "descr",
+				"luCodes", "primaryInstructor", "instructors", "stdDuration",
+				"offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
+				"meta", "version", "intensity", "campusLocations",
+				"accreditations", "adminOrgs", "canCreateLui",
+				"hasEarlyDropDeadline", "" });
+
+		return clu;
+	}
+
+	/**
+	 * KRAD Version
+	 */
+	@Override
+	@Transactional(readOnly = false)
+	public CluResultInfo createCluResult_KRAD(String cluId,
+			String cluResultTypeKey, CluResultInfo cluResultInfo,
+			ContextInfo context) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		
+		checkForMissingParameter(cluId, "cluId");
+        checkForMissingParameter(cluResultTypeKey, "cluResultTypeKey");
+        checkForMissingParameter(cluResultInfo, "cluResultInfo");
+
+        // Validate CluResult
+//        List<ValidationResultInfo> val = validateCluResult("SYSTEM",
+//                cluResultInfo.getCluId(),
+//                cluResultInfo.getTypeKey(),
+//                cluResultInfo, context);
+//        if (null != val && val.size() > 0) {
+//            throw new DataValidationErrorException("Validation error!", val);
+//        }
+
+        cluResultInfo.setTypeKey(cluResultTypeKey);
+        cluResultInfo.setCluId(cluId);
+
+        List<ResultOption> resOptList = new ArrayList<ResultOption>();
+        for (ResultOptionInfo resOptInfo : cluResultInfo.getResultOptions()) {
+            ResultOption resOpt = new ResultOption();
+            BeanUtils.copyProperties(resOptInfo, resOpt, new String[]{"id",
+                    "meta", "resultUsageType", "desc"});
+
+            if (resOptInfo.getResultUsageTypeKey() != null) {
+                ResultUsageType resUsageType;
+                try {
+                    resUsageType = luDao.fetch(ResultUsageType.class,
+                            resOptInfo.getResultUsageTypeKey());
+                } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+                    throw new DoesNotExistException(resOptInfo.getResultUsageTypeKey(), ex);
+                }
+                resOpt.setResultUsageType(resUsageType);
+            }
+            resOpt.setDesc(CluServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDescr()));
+            resOpt.setCreateId(context.getPrincipalId());
+            resOpt.setCreateTime(context.getCurrentDate());
+            luDao.create(resOpt);
+            resOptList.add(resOpt);
+        }
+
+        CluResult cluResult = new CluResult();
+        BeanUtils.copyProperties(cluResultInfo, cluResult, new String[]{"id",
+                "desc", "resultOptions", "meta"});
+
+        cluResult.setDesc(CluServiceAssembler.toRichText(LuRichText.class, cluResultInfo.getDescr()));
+        cluResult.setResultOptions(resOptList);
+
+        Clu clu;
+        try {
+            clu = luDao.fetch(Clu.class, cluId);
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+            throw new DoesNotExistException(cluId, ex);
+        }
+        cluResult.setClu(clu);
+
+        CluResultType type;
+        try {
+            type = luDao.fetch(CluResultType.class, cluResultTypeKey);
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+            throw new DoesNotExistException(cluResultTypeKey, ex);
+        }
+        cluResult.setCluResultType(type);
+        cluResult.setCreateId(context.getPrincipalId());
+        cluResult.setCreateTime(context.getCurrentDate());
+
+        luDao.create(cluResult);
+
+        return CluServiceAssembler.toCluResultInfo(cluResult);
+	}
+	
+	@Override
+    @Transactional(readOnly = false)
+    public CluCluRelationInfo createCluCluRelation_KRAD(String cluId,
+                                                   String relatedCluId, String luLuRelationTypeKey,
+                                                   CluCluRelationInfo cluCluRelationInfo, ContextInfo context)
+            throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, CircularRelationshipException {
+        checkForMissingParameter(cluId, "cluId");
+        checkForMissingParameter(relatedCluId, "relatedCluId");
+        checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+        checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
+
+        if (cluId.equals(relatedCluId)) {
+            throw new CircularRelationshipException(
+                    "Can not relate a Clu to itself");
+        }
+
+        // Validate CluCluRelationInfo
+        List<ValidationResultInfo> val =
+                validateCluCluRelation_KRAD("SYSTEM", cluId, relatedCluId, luLuRelationTypeKey, cluCluRelationInfo, context);
+        if (null != val && val.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", val);
+        }
+
+
+        Clu clu;
+        try {
+            clu = luDao.fetch(Clu.class, cluId);
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+            throw new DoesNotExistException(cluId, ex);
+        }
+        Clu relatedClu;
+        try {
+            relatedClu = luDao.fetch(Clu.class, relatedCluId);
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+            throw new DoesNotExistException(relatedCluId, ex);
+        }
+
+        CluCluRelation cluCluRelation = new CluCluRelation();
+        BeanUtils.copyProperties(cluCluRelationInfo, cluCluRelation,
+                new String[]{"cluId", "relatedCluId",
+                        "isCluRelationRequired", "attributes", "meta"});
+
+        cluCluRelation.setClu(clu);
+        cluCluRelation.setRelatedClu(relatedClu);
+        cluCluRelation.setCluRelationRequired(cluCluRelationInfo.getIsCluRelationRequired() == null ? true : cluCluRelationInfo.getIsCluRelationRequired()); // TODO maybe this is unnecessary,
+        // contract specifies not null
+        cluCluRelation.setAttributes(CluServiceAssembler.toGenericAttributes(
+                CluCluRelationAttribute.class, cluCluRelationInfo.getAttributes(), cluCluRelation, luDao));
+
+        LuLuRelationType luLuRelationType;
+        try {
+            luLuRelationType = luDao.fetch(LuLuRelationType.class,
+                    luLuRelationTypeKey);
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+            throw new DoesNotExistException(luLuRelationTypeKey, ex);
+        }
+
+        cluCluRelation.setLuLuRelationType(luLuRelationType);
+
+        luDao.create(cluCluRelation);
+
+        return CluServiceAssembler.toCluCluRelationInfo(cluCluRelation);
+    }
+	
+	@Override
+    public List<ValidationResultInfo> validateCluCluRelation_KRAD(String validationTypeKey,
+                                                             String cluId, String relatedCluId,
+                                                             String cluCluRelationTypeKey,
+                                                             CluCluRelationInfo cluCluRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        checkForMissingParameter(validationTypeKey, "validationTypeKey");
+        checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
+
+        //ObjectStructureDefinition objStructure = this.getObjectStructure(CluCluRelationInfo.class.getName());
+        //Validator defaultValidator = validatorFactory.getValidator();
+
+        //List<org.kuali.student.r2.common.dto.ValidationResultInfo> vris = defaultValidator.validateObject(cluCluRelationInfo, objStructure, null);
+        //return vris;
+        return null;
+    }
+	
+	@Override
+    @Transactional(readOnly = false)
+    public CluInfo updateClu_KRAD(String cluId, CluInfo cluInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            VersionMismatchException {
+
+        checkForMissingParameter(cluId, "cluId");
+        checkForMissingParameter(cluInfo, "cluInfo");
+
+        // Validate CLU
+        //List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo, context);
+        //if (null != val && val.size() > 0) {
+        //    throw new DataValidationErrorException("Validation error!", val);
+        //}
+
+        Clu clu;
+        try {
+            clu = luDao.fetch(Clu.class, cluId);
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+            throw new DoesNotExistException(cluId, ex);
+        }
+
+        if (!String.valueOf(clu.getVersionNumber()).equals(
+                cluInfo.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(
+                    "Clu to be updated is not the current version");
+        }
+
+        LuType luType;
+        try {
+            luType = luDao.fetch(LuType.class, cluInfo.getTypeKey());
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+            throw new DoesNotExistException(cluInfo.getTypeKey(), ex);
+        }
+        clu.setLuType(luType);
+
+        if (cluInfo.getOfficialIdentifier() != null) {
+            CluServiceAssembler.updateOfficialIdentifier(clu, cluInfo, luDao);
+        } else if (clu.getOfficialIdentifier() != null) {
+            luDao.delete(clu.getOfficialIdentifier());
+        }
+
+        // Update the list of Alternate Identifiers
+        // Get a map of Id->object of all the currently persisted objects in the
+        // list
+        Map<String, CluIdentifier> oldAltIdMap = new HashMap<String, CluIdentifier>();
+        CluServiceAssembler.updateAlternateIdentifier(oldAltIdMap, clu, cluInfo, luDao);
+        // Now delete anything left over
+        for (Entry<String, CluIdentifier> entry : oldAltIdMap.entrySet()) {
+            luDao.delete(entry.getValue());
+        }
+
+        if (cluInfo.getDescr() != null && (cluInfo.getDescr().getPlain() != null || cluInfo.getDescr().getFormatted() != null)) {
+            if (clu.getDescr() == null) {
+                clu.setDescr(new LuRichText());
+            }
+            BeanUtils.copyProperties(cluInfo.getDescr(), clu.getDescr());
+        } else if (clu.getDescr() != null) {
+            luDao.delete(clu.getDescr());
+            clu.setDescr(null);//TODO is the is the best method of doing this? what if the user passes in a new made up id, does that mean we have orphaned richtexts?
+        }
+
+        if (cluInfo.getPrimaryInstructor() != null) {
+            if (clu.getPrimaryInstructor() == null) {
+                clu.setPrimaryInstructor(new CluInstructor());
+            }
+            BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(), clu.getPrimaryInstructor(), new String[]{"attributes"});
+            clu.getPrimaryInstructor().setAttributes(
+                    CluServiceAssembler.toGenericAttributes(
+                            CluInstructorAttribute.class, cluInfo.getPrimaryInstructor().getAttributes(),
+                            clu.getPrimaryInstructor(), luDao));
+        } else if (clu.getPrimaryInstructor() != null) {
+            luDao.delete(clu.getPrimaryInstructor());
+        }
+
+        // Update the List of instructors
+        // Get a map of Id->object of all the currently persisted objects in the
+        // list
+        Map<String, CluInstructor> oldInstructorMap = new HashMap<String, CluInstructor>();
+        for (CluInstructor cluInstructor : clu.getInstructors()) {
+            oldInstructorMap.put(cluInstructor.getId(), cluInstructor);
+        }
+        clu.getInstructors().clear();
+
+        // Loop through the new list, if the item exists already update and
+        // remove from the list
+        // otherwise create a new entry
+        for (CluInstructorInfo instructorInfo : cluInfo.getInstructors()) {
+            CluInstructor cluInstructor = oldInstructorMap.remove(instructorInfo.getId());
+            if (cluInstructor == null) {
+                cluInstructor = new CluInstructor();
+            }
+            // Do Copy
+            BeanUtils.copyProperties(instructorInfo, cluInstructor,
+                    new String[]{"attributes"});
+            cluInstructor.setAttributes(CluServiceAssembler.toGenericAttributes(
+                    CluInstructorAttribute.class, instructorInfo.getAttributes(), cluInstructor, luDao));
+            clu.getInstructors().add(cluInstructor);
+        }
+
+        // Now delete anything left over
+        for (Entry<String, CluInstructor> entry : oldInstructorMap.entrySet()) {
+            luDao.delete(entry.getValue());
+        }
+
+        if (cluInfo.getStdDuration() != null) {
+            if (clu.getStdDuration() == null) {
+                clu.setStdDuration(new TimeAmount());
+            }
+            BeanUtils.copyProperties(cluInfo.getStdDuration(), clu.getStdDuration());
+        } else if (clu.getStdDuration() != null) {
+            luDao.delete(clu.getStdDuration());
+        }
+
+        // Update the LuCodes
+        // Get a map of Id->object of all the currently persisted objects in the
+        // list
+        Map<String, LuCode> oldLuCodeMap = new HashMap<String, LuCode>();
+        for (LuCode luCode : clu.getLuCodes()) {
+            oldLuCodeMap.put(luCode.getId(), luCode);
+        }
+        clu.getLuCodes().clear();
+
+        // Loop through the new list, if the item exists already update and
+        // remove from the list
+        // otherwise create a new entry
+        for (LuCodeInfo luCodeInfo : cluInfo.getLuCodes()) {
+            LuCode luCode = oldLuCodeMap.remove(luCodeInfo.getId());
+            if (luCode == null) {
+                luCode = new LuCode();
+            } else {
+                if (!String.valueOf(luCode.getVersionNumber()).equals(
+                        luCodeInfo.getMeta().getVersionInd())) {
+                    throw new VersionMismatchException(
+                            "LuCode to be updated is not the current version");
+                }
+            }
+            // Do Copy
+            luCode.setAttributes(CluServiceAssembler.toGenericAttributes(
+                    LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
+                    luDao));
+
+            luCode.setValue(luCodeInfo.getValue());
+            if (luCodeInfo.getDescr() != null) {
+                luCode.setDescr(luCodeInfo.getDescr().getPlain());
+            }
+            luCode.setType(luCodeInfo.getTypeKey());
+            luCode.setClu(clu);
+
+            clu.getLuCodes().add(luCode);
+        }
+
+        // Now delete anything left over
+        for (Entry<String, LuCode> entry : oldLuCodeMap.entrySet()) {
+            luDao.delete(entry.getValue());
+        }
+
+        // Update the list of AtpTypeKeys
+        // Get a map of Id->object of all the currently persisted objects in the
+        // list
+        Map<String, CluAtpTypeKey> oldOfferedAtpTypesMap = new HashMap<String, CluAtpTypeKey>();
+        for (CluAtpTypeKey cluAtpTypeKey : clu.getOfferedAtpTypes()) {
+            oldOfferedAtpTypesMap.put(cluAtpTypeKey.getAtpTypeKey(),
+                    cluAtpTypeKey);
+        }
+        clu.getOfferedAtpTypes().clear();
+
+        // Loop through the new list, if the item exists already update and
+        // remove from the list
+        // otherwise create a new entry
+        for (String atpTypeKey : cluInfo.getOfferedAtpTypes()) {
+            CluAtpTypeKey cluAtpTypeKey = oldOfferedAtpTypesMap.remove(atpTypeKey);
+            if (cluAtpTypeKey == null) {
+                cluAtpTypeKey = new CluAtpTypeKey();
+            }
+            // Do Copy
+            cluAtpTypeKey.setAtpTypeKey(atpTypeKey);
+            cluAtpTypeKey.setClu(clu);
+            clu.getOfferedAtpTypes().add(cluAtpTypeKey);
+        }
+
+        // Now delete anything left over
+        for (Entry<String, CluAtpTypeKey> entry : oldOfferedAtpTypesMap.entrySet()) {
+            luDao.delete(entry.getValue());
+        }
+
+        if (cluInfo.getFeeInfo() != null) {
+            if (clu.getFee() == null) {
+                clu.setFee(CluServiceAssembler.toCluFee(clu, false, cluInfo.getFeeInfo(), luDao));
+            } else {
+                clu.setFee(CluServiceAssembler.toCluFee(clu, true, cluInfo.getFeeInfo(), luDao));
+            }
+        } else if (clu.getFee() != null) {
+            luDao.delete(clu.getFee());
+            clu.setFee(null);
+        }
+
+        if (cluInfo.getAccountingInfo() != null) {
+            if (clu.getAccounting() == null) {
+                clu.setAccounting(new CluAccounting());
+            }
+            clu.getAccounting().setAttributes(
+                    CluServiceAssembler.toGenericAttributes(
+                            CluAccountingAttribute.class, cluInfo.getAccountingInfo().getAttributes(), clu.getAccounting(), luDao));
+            clu.getAccounting().setAffiliatedOrgs(CluServiceAssembler.toAffiliatedOrgs(true, clu.getAccounting().getAffiliatedOrgs(),
+                    cluInfo.getAccountingInfo().getAffiliatedOrgs(),
+                    luDao));
+
+        } else if (clu.getAccounting() != null) {
+            clu.setAccounting(null);
+        }
+
+        clu.setAttributes(CluServiceAssembler.toGenericAttributes(
+                CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
+
+        if (cluInfo.getIntensity() != null) {
+            if (clu.getIntensity() == null) {
+                clu.setIntensity(new Amount());
+            }
+            clu.getIntensity().setUnitQuantity(cluInfo.getIntensity().getUnitQuantity());
+            clu.getIntensity().setUnitType(cluInfo.getIntensity().getUnitTypeKey());
+        } else if (clu.getIntensity() != null) {
+            luDao.delete(clu.getIntensity());
+        }
+
+        // Update the list of campusLocations
+        // Get a map of Id->object of all the currently persisted objects in the
+        // list
+        Map<String, CluCampusLocation> oldLocationsMap = new HashMap<String, CluCampusLocation>();
+        for (CluCampusLocation campus : clu.getCampusLocations()) {
+            oldLocationsMap.put(campus.getCampusLocation(), campus);
+        }
+        clu.getCampusLocations().clear();
+
+        // Loop through the new list, if the item exists already update and
+        // remove from the list
+        // otherwise create a new entry
+        for (String locationName : cluInfo.getCampusLocations()) {
+            CluCampusLocation location = oldLocationsMap.remove(locationName);
+            if (location == null) {
+                location = new CluCampusLocation();
+            }
+            // Do Copy
+            location.setCampusLocation(locationName);
+            location.setClu(clu);
+            clu.getCampusLocations().add(location);
+        }
+
+        // Now delete anything left over
+        for (Entry<String, CluCampusLocation> entry : oldLocationsMap.entrySet()) {
+            luDao.delete(entry.getValue());
+        }
+
+        // Update the List of accreditations
+        // Get a map of Id->object of all the currently persisted objects in the
+        // list
+        Map<String, CluAccreditation> oldAccreditationMap = new HashMap<String, CluAccreditation>();
+        for (CluAccreditation cluAccreditation : clu.getAccreditations()) {
+            oldAccreditationMap.put(cluAccreditation.getId(),
+                    cluAccreditation);
+        }
+        clu.getAccreditations().clear();
+
+        // Loop through the new list, if the item exists already update and
+        // remove from the list
+        // otherwise create a new entry
+        for (AccreditationInfo accreditationInfo : cluInfo.getAccreditations()) {
+            CluAccreditation cluAccreditation = null;
+            if (accreditationInfo.getId() != null) {
+                cluAccreditation = oldAccreditationMap.remove(accreditationInfo.getId());
+            }
+
+            if (cluAccreditation == null) {
+                cluAccreditation = new CluAccreditation();
+            }
+            // Do Copy
+            BeanUtils.copyProperties(accreditationInfo, cluAccreditation,
+                    new String[]{"attributes", "meta"});
+            cluAccreditation.setAttributes(CluServiceAssembler.toGenericAttributes(CluAccreditationAttribute.class,
+                    accreditationInfo.getAttributes(),
+                    cluAccreditation, luDao));
+            clu.getAccreditations().add(cluAccreditation);
+        }
+
+        // Now delete anything left over
+        for (Entry<String, CluAccreditation> entry : oldAccreditationMap.entrySet()) {
+            luDao.delete(entry.getValue());
+        }
+
+        // Update the List of alternate admin orgs
+        // Get a map of Id->object of all the currently persisted objects in the
+        // list
+        Map<String, CluAdminOrg> oldAdminOrgsMap = new HashMap<String, CluAdminOrg>();
+        if (clu.getAdminOrgs() != null) {
+            for (CluAdminOrg cluOrg : clu.getAdminOrgs()) {
+                oldAdminOrgsMap.put(cluOrg.getId(), cluOrg);
+            }
+        }
+        clu.setAdminOrgs(new ArrayList<CluAdminOrg>());
+
+        // Loop through the new list, if the item exists already update and
+        // remove from the list
+        // otherwise create a new entry
+        for (AdminOrgInfo orgInfo : cluInfo.getAdminOrgs()) {
+            CluAdminOrg cluOrg = null;
+            if (orgInfo.getId() != null) {
+                cluOrg = oldAdminOrgsMap.remove(orgInfo.getId());
+            }
+
+            if (cluOrg == null) {
+                cluOrg = new CluAdminOrg();
+            }
+
+            // Do Copy
+            BeanUtils.copyProperties(orgInfo, cluOrg,
+                    new String[]{"attributes", "id"});
+            cluOrg.setAttributes(CluServiceAssembler.toGenericAttributes(
+                    CluAdminOrgAttribute.class, orgInfo.getAttributes(),
+                    cluOrg, luDao));
+            cluOrg.setClu(clu);
+            clu.getAdminOrgs().add(cluOrg);
+        }
+
+        for (Entry<String, CluAdminOrg> entry : oldAdminOrgsMap.entrySet()) {
+            luDao.delete(entry.getValue());
+        }
+
+        clu.setHasEarlyDropDeadline(cluInfo.getIsHasEarlyDropDeadline());
+        clu.setHazardousForDisabledStudents(cluInfo.getIsHazardousForDisabledStudents());
+        clu.setEnrollable(cluInfo.getIsEnrollable());
+        clu.setCanCreateLui(cluInfo.getCanCreateLui());
+
+        // Now copy all not standard properties
+        BeanUtils.copyProperties(cluInfo, clu, new String[]{"luType",
+                "officialIdentifier", "alternateIdentifiers", "descr",
+                "luCodes", "primaryInstructor", "instructors", "stdDuration",
+                "offeredAtpTypes", "feeInfo", "accountingInfo", "attributes",
+                "meta", "version", "intensity",
+                "campusLocations", "accreditations",
+                "adminOrgs", "canCreateLui", "hasEarlyDropDeadline",
+                "hazardousForDisabledStudents", "enrollable", ""});
+        Clu updated = null;
+        try {
+            updated = luDao.update(clu);
+        } catch (Exception e) {
+            logger.error("Exception occured: ", e);
+        }
+        return CluServiceAssembler.toCluInfo(updated);
+    }
     
-    
+	@Override
+    public List<ValidationResultInfo> validateCluResult_KRAD(String validationType,
+                                                        String cluId, String cluResultTypeKey,
+                                                        CluResultInfo cluResultInfo, ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        checkForMissingParameter(validationType, "validationType");
+        checkForMissingParameter(cluResultInfo, "cluResultInfo");
+
+//        ObjectStructureDefinition objStructure = this.getObjectStructure(CluResultInfo.class.getName());
+//        Validator defaultValidator = validatorFactory.getValidator();
+//        List<org.kuali.student.r2.common.dto.ValidationResultInfo> vris = defaultValidator.validateObject(cluResultInfo, objStructure, null);
+//        return vris;
+        return null;
+    }
+	
+	@Override
+    @Transactional(readOnly = false)
+    public CluResultInfo updateCluResult_KRAD(String cluResultId,
+                                         CluResultInfo cluResultInfo, ContextInfo context) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException, VersionMismatchException {
+
+        checkForMissingParameter(cluResultId, "cluResultId");
+        checkForMissingParameter(cluResultInfo, "cluResultInfo");
+
+        // Validate CluResult
+        List<ValidationResultInfo> val = validateCluResult_KRAD("SYSTEM",
+                cluResultInfo.getCluId(),
+                cluResultInfo.getTypeKey(),
+                cluResultInfo,
+                context);
+        if (null != val && val.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", val);
+        }
+
+        CluResult result;
+        try {
+            result = luDao.fetch(CluResult.class, cluResultId);
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+            throw new DoesNotExistException(cluResultId,ex);
+        }
+        if (!String.valueOf(result.getVersionNumber()).equals(
+                cluResultInfo.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(
+                    "CluResult to be updated is not the current version");
+        }
+
+        // Update the list of resultoptions
+        // Get a map of Id->object of all the currently persisted objects in the
+        // list
+        Map<String, ResultOption> oldResultOptionMap = new HashMap<String, ResultOption>();
+        for (ResultOption opt : result.getResultOptions()) {
+            oldResultOptionMap.put(opt.getId(), opt);
+        }
+        result.getResultOptions().clear();
+
+        // Loop through the new list, if the item exists already update and
+        // remove from the list otherwise create a new entry
+        for (ResultOptionInfo resOptInfo : cluResultInfo.getResultOptions()) {
+            ResultOption opt = oldResultOptionMap.remove(resOptInfo.getId());
+            if (opt == null) {
+                // New result option
+                opt = new ResultOption();
+                // Copy properties
+                BeanUtils.copyProperties(resOptInfo, opt, new String[]{
+                        "resultUsageType", "desc"});
+                opt.setCreateId(context.getPrincipalId());
+                opt.setCreateTime(context.getCurrentDate());
+            } else {
+                try {
+                    // Get existing result option
+                    opt = luDao.fetch(ResultOption.class, resOptInfo.getId());
+                } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+                    throw new DoesNotExistException(resOptInfo.getId(), ex);
+                }
+                // Copy properties
+                BeanUtils.copyProperties(resOptInfo, opt, new String[]{
+                        "id", "resultUsageType", "desc"});
+            }
+            if (resOptInfo.getResultUsageTypeKey() != null && !resOptInfo.getResultUsageTypeKey().isEmpty()) {
+                ResultUsageType resUsageType;
+                try {
+                    resUsageType = luDao.fetch(ResultUsageType.class,
+                            resOptInfo.getResultUsageTypeKey());
+                } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+                    throw new DoesNotExistException(resOptInfo.getResultUsageTypeKey(), ex);
+                }
+                opt.setResultUsageType(resUsageType);
+            }
+            opt.setDesc(CluServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDescr()));
+            result.getResultOptions().add(opt);
+        }
+
+        // Now delete anything left over
+        for (Entry<String, ResultOption> entry : oldResultOptionMap.entrySet()) {
+            luDao.delete(entry.getValue());
+        }
+
+        BeanUtils.copyProperties(cluResultInfo, result, new String[]{"id",
+                "desc", "resultOptions"});
+
+        result.setDesc(CluServiceAssembler.toRichText(LuRichText.class, cluResultInfo.getDescr()));
+        CluResultType type;
+        try {
+            type = luDao.fetch(CluResultType.class, cluResultInfo.getTypeKey());
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException ex) {
+            throw new DoesNotExistException(cluResultInfo.getTypeKey(), ex);
+        }
+        result.setCluResultType(type);
+
+        CluResult updated = luDao.update(result);
+
+        return CluServiceAssembler.toCluResultInfo(updated);
+    }
+	
 }
