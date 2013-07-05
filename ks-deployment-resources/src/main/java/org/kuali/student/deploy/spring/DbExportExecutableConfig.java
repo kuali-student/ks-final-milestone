@@ -18,7 +18,7 @@ package org.kuali.student.deploy.spring;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.common.impex.spring.DatabaseExportConfig;
+import org.kuali.common.impex.spring.DatabaseDumpConfig;
 import org.kuali.common.util.execute.Executable;
 import org.kuali.common.util.execute.ExecutablesExecutable;
 import org.kuali.common.util.spring.ExecutableConfig;
@@ -27,14 +27,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({ DatabaseExportConfig.class, SyncFilesConfig.class })
+@Import({ DatabaseDumpConfig.class, SyncFilesConfig.class })
 public class DbExportExecutableConfig extends ExecutableConfig {
 
 	@Autowired
 	SyncFilesConfig syncFilesConfig;
 
 	@Autowired
-	DatabaseExportConfig databaseExportConfig;
+	DatabaseDumpConfig databaseExportConfig;
 
 	@Override
 	protected Executable getExecutable() {
