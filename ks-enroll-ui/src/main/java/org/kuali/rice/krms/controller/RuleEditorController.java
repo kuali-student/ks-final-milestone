@@ -437,20 +437,19 @@ public class RuleEditorController extends MaintenanceDocumentController {
     /**
      * Moves proposition up or down.
      *
+     * Rough algorithm for moving a node up.
+     *
+     * find the following:
+     *   node := the selected node
+     *   parent := the selected node's parent, its containing node (via when true or when false relationship)
+     *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
+     *
      * @param form
      * @param up   whether the desired move is in an up direction
      * @throws Exception
      */
     private void moveSelectedProposition(UifFormBase form, boolean up) throws Exception {
 
-        /* Rough algorithm for moving a node up.
-         *
-         * find the following:
-         *   node := the selected node
-         *   parent := the selected node's parent, its containing node (via when true or when false relationship)
-         *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
-         *
-         */
         RuleEditor ruleEditor = getRuleEditor(form);
         String selectedPropKey = ruleEditor.getSelectedKey();
 
@@ -510,6 +509,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
     /**
      * Moves proposition left in tree structure.
      *
+     * Rough algorithm for moving a node up.
+     *
+     * find the following:
+     *   node := the selected node
+     *   parent := the selected node's parent, its containing node (via when true or when false relationship)
+     *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
+     *
      * @param form
      * @param result
      * @param request
@@ -522,14 +528,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                             HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        /* Rough algorithm for moving a node up.
-         *
-         * find the following:
-         *   node := the selected node
-         *   parent := the selected node's parent, its containing node (via when true or when false relationship)
-         *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
-         *
-         */
         RuleEditor ruleEditor = getRuleEditor(form);
         String selectedpropKey = ruleEditor.getSelectedKey();
 
@@ -564,6 +562,14 @@ public class RuleEditorController extends MaintenanceDocumentController {
     /**
      * Move proposition right in tree structure.
      *
+     * Rough algorithm for moving a node Right
+     * if the selected node is above a compound proposition, move it into the compound proposition as the first child
+     * if the node is above a simple proposition, do nothing.
+     * find the following:
+     *   node := the selected node
+     *   parent := the selected node's parent, its containing node
+     *   nextSibling := the node after the selected node
+     *
      * @param form
      * @param result
      * @param request
@@ -575,15 +581,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public ModelAndView movePropositionRight(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        /* Rough algorithm for moving a node Right
-         * if the selected node is above a compound proposition, move it into the compound proposition as the first child
-         * if the node is above a simple proposition, do nothing.
-         * find the following:
-         *   node := the selected node
-         *   parent := the selected node's parent, its containing node
-         *   nextSibling := the node after the selected node
-         *
-         */
+
         RuleEditor ruleEditor = getRuleEditor(form);
         String selectedpropKey = ruleEditor.getSelectedKey();
 

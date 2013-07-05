@@ -49,6 +49,8 @@
 
 .subruleElement {
     white-space: normal !important;
+    max-width: 600px;
+    word-wrap: break-word;
 }
 
 .compareElement {
@@ -80,6 +82,7 @@
 
 .krms-ruleViewSection {
     margin: 10px;
+    width: 800px;
 }
 
 .krms-agendaHeader {

@@ -152,7 +152,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleSection-BoxSection" parent="Uif-VerticalBoxSection" p:width="500px">
+    <bean id="KRMS-RuleSection-BoxSection" parent="Uif-VerticalBoxSection">
         <property name="cssClasses">
             <list merge="true">
                 <value>krms-ruleViewSection</value>
