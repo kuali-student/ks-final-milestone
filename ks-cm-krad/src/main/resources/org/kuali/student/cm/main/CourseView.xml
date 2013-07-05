@@ -8,19 +8,14 @@
 	express or implied. See the License for the specific language governing permissions 
 	and limitations under the License. -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<!-- 
-         Controller Class: CourseController.java 
-         View Helper Class: CourseViewHelperServiceImpl.java 
-         UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
-         This view has couple of pages (edit and copy) with all the beans defined 
-         at 
-         1. CourseViewCourseInfoPage.xml 
-    -->
+	<!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java 
+		UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
+		This view has couple of pages (edit and copy) with all the beans defined 
+		at 1. CourseViewCourseInfoPage.xml -->
 
 	<bean id="KS-CourseView" parent="KSFormView">
 		<property name="id" value="courseView" />
@@ -32,20 +27,26 @@
 			<ref bean="KS-CourseNavigation-Menu" />
 		</property>
 		<property name="formClass" value="org.kuali.student.cm.course.form.CourseForm" />
-		<property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
+		<property name="viewHelperServiceClass"
+			value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
 		<property name="items">
 			<list>
 				<ref bean="KS-CourseView-CourseInfoPage" />
 				<ref bean="KS-CourseView-GovernancePage" />
 				<ref bean="KS-CourseView-CourseLogisticsPage" />
 				<ref bean="KS-CourseView-LearningObjectivesPage" />
-              	<ref bean="KS-CourseView-CourseRequisitesPage" />
-              	<ref bean="KS-CourseView-ActiveDatesPage" />
-              	<ref bean="KS-CourseView-FinancialsPage" />
-              	<ref bean="KS-CourseView-AuthorsAndCollaboratorsPage" />
-              	<ref bean="KS-CourseView-SupportingDocumentsPage" />
-              	<ref bean="KS-CourseView-ReviewProposalPage" />
-            </list>
+				<ref bean="KS-CourseView-CourseRequisitesPage" />
+				<ref bean="KS-CourseView-ActiveDatesPage" />
+				<ref bean="KS-CourseView-FinancialsPage" />
+				<ref bean="KS-CourseView-AuthorsAndCollaboratorsPage" />
+				<ref bean="KS-CourseView-SupportingDocumentsPage" />
+				<ref bean="KS-CourseView-ReviewProposalPage" />
+			</list>
+		</property>
+		<property name="dialogs">
+			<list>
+				<bean id="myDropdownLightBox" parent="KRAD-LightBox" />
+			</list>
 		</property>
 		<!-- CSS Styling -->
 		<property name="additionalCssFiles">
@@ -57,10 +58,28 @@
 		<property name="additionalScriptFiles">
 			<list merge="true">
 				<value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
+				<value>ks-cm-krad/scripts/common.js</value>
 			</list>
 		</property>
 	</bean>
-	
+
+	<bean id="KRAD-LightBox" parent="Uif-VerticalBoxSection"
+		p:layoutManager.orientation="VERTICAL">
+		<property name="hidden" value="true" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="comments"
+					p:label="Title" p:labelPlacement="TOP">
+					<property name="control">
+						<bean parent="Uif-TextAreaControl" p:rows="5" p:cols="80" />
+					</property>
+				</bean>
+				<bean parent="Uif-ActionLink" p:actionLabel="Submit"
+					p:actionScript="confirmDeletion()" />
+			</list>
+		</property>
+	</bean>
+
 	<bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
 		<property name="items">
 			<list>
@@ -76,32 +95,36 @@
 	<bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup">
 		<property name="items">
 			<list>
-				<bean parent="Uif-HeaderTwo" p:headerText="Course Sections"/>
-				<bean id="KS-CourseViewCourseInfo-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseInfoPage"
-					p:actionLabel="Course Information">
-                </bean>
-				<bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-GovernancePage"
-              		p:actionLabel="Governance">
-                  <!--
-                  <property name="template" value="/cm/WEB-INF/jsp/templates/field/navigationActionLink.jsp"/>
-                  -->
-                </bean>
-              	<bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseLogisticsPage"
-              		p:actionLabel="Course Logistics"/>
-              	<bean id="KS-CourseViewLearningObjectives-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-LearningObjectivesPage"
-              		p:actionLabel="Learning Objectives"/>
-              	<bean id="KS-CourseViewCourseRequisites-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseRequisitesPage"
-              		p:actionLabel="Course Requisites"/>
-              	<bean id="KS-CourseViewActiveDates-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-ActiveDatesPage"
-              		p:actionLabel="Active Dates"/>
-              	<bean id="KS-CourseViewFinancials-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-FinancialsPage"
-              		p:actionLabel="Financials"/>
-              	<bean id="KS-CourseViewAuthorsAndCollaborators-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage"
-              		p:actionLabel="Authors &amp; Collaborators"/>
-              	<bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-SupportingDocumentsPage"
-              		p:actionLabel="Supporting Documents"/>
-              	<bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-ReviewProposalPage"
-              		p:actionLabel="Review Proposal"/>
+				<bean parent="Uif-HeaderTwo" p:headerText="Course Sections" />
+				<bean id="KS-CourseViewCourseInfo-ActionLink" parent="Uif-NavigationActionLink"
+					p:navigateToPageId="KS-CourseView-CourseInfoPage" p:actionLabel="Course Information">
+				</bean>
+				<bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink"
+					p:navigateToPageId="KS-CourseView-GovernancePage" p:actionLabel="Governance">
+					<!-- <property name="template" value="/cm/WEB-INF/jsp/templates/field/navigationActionLink.jsp"/> -->
+				</bean>
+				<bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink"
+					p:navigateToPageId="KS-CourseView-CourseLogisticsPage"
+					p:actionLabel="Course Logistics" />
+				<bean id="KS-CourseViewLearningObjectives-ActionLink" parent="Uif-NavigationActionLink"
+					p:navigateToPageId="KS-CourseView-LearningObjectivesPage"
+					p:actionLabel="Learning Objectives" />
+				<bean id="KS-CourseViewCourseRequisites-ActionLink" parent="Uif-NavigationActionLink"
+					p:navigateToPageId="KS-CourseView-CourseRequisitesPage"
+					p:actionLabel="Course Requisites" />
+				<bean id="KS-CourseViewActiveDates-ActionLink" parent="Uif-NavigationActionLink"
+					p:navigateToPageId="KS-CourseView-ActiveDatesPage" p:actionLabel="Active Dates" />
+				<bean id="KS-CourseViewFinancials-ActionLink" parent="Uif-NavigationActionLink"
+					p:navigateToPageId="KS-CourseView-FinancialsPage" p:actionLabel="Financials" />
+				<bean id="KS-CourseViewAuthorsAndCollaborators-ActionLink"
+					parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage"
+					p:actionLabel="Authors &amp; Collaborators" />
+				<bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink"
+					p:navigateToPageId="KS-CourseView-SupportingDocumentsPage"
+					p:actionLabel="Supporting Documents" />
+				<bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"
+					p:navigateToPageId="KS-CourseView-ReviewProposalPage"
+					p:actionLabel="Review Proposal" />
 			</list>
 		</property>
 	</bean>

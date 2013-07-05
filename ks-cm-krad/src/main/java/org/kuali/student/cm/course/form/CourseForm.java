@@ -49,6 +49,8 @@ public class CourseForm extends UifFormBase {
 	private String finalExamStatus;
 	
 	private String finalExamRationale;
+	
+	private String comments;
 
 	public CourseForm() {
 		this.courseInfo = new CourseInfo();
@@ -130,6 +132,14 @@ public class CourseForm extends UifFormBase {
 
     public void setFinalExamRationale(String finalExamRationale) {
         this.finalExamRationale = finalExamRationale;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
 }
