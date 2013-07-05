@@ -44,6 +44,7 @@ public class SeatPoolExpirationMilestoneTypeKeyValues extends UifKeyValuesFinder
     @Override
     public List<KeyValue> getKeyValues(ViewModel viewModel) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("NONE", "NONE"));
         try {
             List<TypeInfo> typeInfos = getTypeService().getTypesForGroupType("kuali.milestone.type.group.seatpool", ContextUtils.createDefaultContextInfo());
 
@@ -56,7 +57,6 @@ public class SeatPoolExpirationMilestoneTypeKeyValues extends UifKeyValuesFinder
             throw new RuntimeException("Error getting Seat Pool Expiration Milestone Types", e);
         }
 
-        keyValues.add(new ConcreteKeyValue("NONE", "NONE"));
         return keyValues;
     }
 
