@@ -452,7 +452,7 @@
                             <property name="actionImage">
                                 <bean parent="Uif-Image" p:source="../ks-common-ksink/images/plus_15px.png"/>
                             </property>
-                            <property name="style" value="margin-top:5px;"/>
+                            <property name="style" value="margin-top:30px; margin-left:-150px; margin-bottom:15px"/>
                         </bean>
                     </property>
 
