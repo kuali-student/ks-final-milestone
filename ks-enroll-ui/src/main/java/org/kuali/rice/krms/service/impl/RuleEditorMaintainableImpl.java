@@ -410,7 +410,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         AgendaItemDefinition rootItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
         AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(rootItem);
-        Map<String, AgendaItemDefinition.Builder> itemMap = new HashMap<String, AgendaItemDefinition.Builder>();
+        Map<String, AgendaItemDefinition.Builder> itemMap = new LinkedHashMap<String, AgendaItemDefinition.Builder>();
         this.populateAgendaItemMap(itemMap, rootItemBuilder.getWhenTrue());
 
         if (rules.empty()) {
@@ -449,10 +449,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         return updateItem;
     }
 
-    private void printAgendaItemToLog(AgendaItemDefinition updateItem){
-        this.printRuleToLog(updateItem.getRule());
-        if(updateItem.getWhenTrue()!=null){
-            this.printAgendaItemToLog(updateItem.getWhenTrue());
+    private void printAgendaItemToLog(AgendaItemDefinition agendaItem){
+        if(agendaItem.getRule()!=null){
+            this.printRuleToLog(agendaItem.getRule());
+        }
+        if(agendaItem.getWhenTrue()!=null){
+            this.printAgendaItemToLog(agendaItem.getWhenTrue());
         }
     }
 
