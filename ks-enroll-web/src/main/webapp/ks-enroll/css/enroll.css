@@ -826,6 +826,10 @@ textarea,
 */
 input[disabled].acal_term_code{
     background-color: #ffffff;
+    color: #000000;
+    border: none;
+    cursor: text;
+    box-shadow: none;
 }
 
 .ks-uif-hasError{
