@@ -144,9 +144,11 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     @Override
     public void validate(EnrolPropositionEditor propositionEditor) {
         ProgramCluSetInformation progCluSet = propositionEditor.getProgCluSet();
-        if(!progCluSet.hasClus() && progCluSet.getCluSets().size()==0){
+        if(progCluSet != null && propositionEditor.getClassStanding() ==null){
+        if(!progCluSet.hasClus() && progCluSet.getCluSets().size()==0 ){
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "programType");
             GlobalVariables.getMessageMap().putError(propName, KSKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED);
+        }
         }
     }
 
