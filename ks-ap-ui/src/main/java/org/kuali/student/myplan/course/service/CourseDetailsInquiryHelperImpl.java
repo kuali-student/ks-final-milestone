@@ -12,7 +12,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.rice.ksb.service.KSBServiceLocator;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -356,25 +355,10 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			courseDetails
 					.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
 							course, termIds));
-		else {
-			// when caching is in place, this will trigger the section details
-			// search
-			// causing details to be preloaded
-			KSBServiceLocator.getThreadPool().submit(new Runnable() {
-				@Override
-				public void run() {
-					getCourseOfferingInstitutions(course, termIds);
-				}
-
-				@Override
-				public String toString() {
-					return "section preload " + course + " " + termIds;
-				}
-			});
+		else
 			courseDetails
 					.setCourseOfferingInstitutionList(new java.util.ArrayList<CourseOfferingInstitution>(
 							0));
-		}
 
 		// Course Plan + Academic Records
 		courseDetails.setPlannedCourseSummary(getPlannedCourseSummary(course,

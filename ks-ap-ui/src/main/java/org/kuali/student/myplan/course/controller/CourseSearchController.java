@@ -1411,27 +1411,6 @@ public class CourseSearchController extends UifControllerBase {
 				cs.add((String) null);
 			aaData.add(cs);
 		}
-		// when caching is in place, this will trigger the section details
-		// search
-		// causing details to be preloaded
-		KSBServiceLocator.getThreadPool().submit(new Runnable() {
-			@Override
-			public void run() {
-				CourseDetailsInquiryHelperImpl iq = new CourseDetailsInquiryHelperImpl();
-				for (String courseId : courseIds)
-					try {
-						iq.retrieveCourseSummaryById(courseId);
-					} catch (Exception e) {
-						LOG.error("Invalid course ID in preload task "
-								+ courseId, e);
-					}
-			}
-
-			@Override
-			public String toString() {
-				return "course search preload task " + courseIds;
-			}
-		});
 		json.put("aaData", aaData);
 		String jsonString = mapper.writeValueAsString(json);
 		if (LOG.isDebugEnabled())
