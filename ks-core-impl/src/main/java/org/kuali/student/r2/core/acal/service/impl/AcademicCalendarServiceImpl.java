@@ -2205,6 +2205,24 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return instructionalDaysForTerm;
     }
 
+    /**
+     * For this method we need to find the holdiday calendars related to the term. There is an indirect relationship
+     * between terms and holiday calendars. Terms are linked to academic calendars, which in term are related to holiday
+     * calendars.
+     *
+     * Once we have the holday calendar we want to find which holidays fall within the instructional period. From there
+     * we find out if it's a non-instructional day and add it to the count.
+     *
+     * @param termAtp
+     * @param instructionalPeriodKeyDate
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     private int _getNumberOfNonInstructionalHolidaysForTerm(AtpInfo termAtp, KeyDateInfo instructionalPeriodKeyDate, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
