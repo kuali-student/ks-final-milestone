@@ -14,9 +14,7 @@ public class DumpSourceDbProjectContext extends DefaultProjectContext {
 
 	@Override
 	public List<String> getPropertyLocations() {
-
-		String prefix = ProjectUtils.getClassPathPrefix(Constants.GROUP_ID_BASE, Constants.ARTIFACT_ID);
-
+		String prefix = ProjectUtils.getClassPathPrefix(Constants.GROUP_ID_BASE, Constants.KS_SOURCE_DB);
 		List<String> list = new ArrayList<String>();
 		list.add(prefix + "/common.properties");
 		list.add(prefix + "/dump.properties");
