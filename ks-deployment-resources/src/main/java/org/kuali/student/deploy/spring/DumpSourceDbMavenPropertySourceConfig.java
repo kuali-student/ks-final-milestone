@@ -3,6 +3,8 @@ package org.kuali.student.deploy.spring;
 import java.util.Arrays;
 import java.util.List;
 
+import org.kuali.common.impex.DumpProjectContext;
+import org.kuali.common.impex.MavenDumpProjectContext;
 import org.kuali.common.jdbc.JdbcProjectContext;
 import org.kuali.common.util.MetaInfSqlProjectContext;
 import org.kuali.common.util.ProjectContext;
@@ -17,9 +19,11 @@ public class DumpSourceDbMavenPropertySourceConfig extends MavenPropertySourceCo
 	@Override
 	protected List<ProjectProperties> getOtherProjectProperties() {
 		ProjectContext jdbc = new JdbcProjectContext();
-		ProjectContext sql = new MetaInfSqlProjectContext();
-		ProjectContext dump = new DumpSourceDbProjectContext();
-		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, sql, dump));
+		ProjectContext dump = new DumpProjectContext();
+		ProjectContext mavenDump = new MavenDumpProjectContext();
+		ProjectContext metaInfSql = new MetaInfSqlProjectContext();
+		ProjectContext dumpSourceDb = new DumpSourceDbProjectContext();
+		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, dump, mavenDump, metaInfSql, dumpSourceDb));
 	}
 
 }
