@@ -50,7 +50,7 @@ public class DbExportExecutableConfig extends ExecutableConfig {
 		executables.add(dumpDatabaseConfig.dumpDatabaseExecutable());
 
 		// Create a staging directory for each project
-		// The staging directory must be contain the exact set of files that will need to be checked into SCM
+		// The staging directory must be contain the exact set of files that get checked into SCM
 		// When the staging directories are synchronized with the directories under SCM, any files present in the SCM
 		// directories that are not also present in the staging directories are deleted.
 		executables.add(projectStagingConfig.projectStagingExecutable());
