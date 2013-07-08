@@ -378,11 +378,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             //Set the first agenda item id and save the agenda items
             AgendaItemDefinition firstItem = maintainAgendaItems(agenda, ruleWrapper.getRefObjectId()+":", ruleWrapper.getNamespace());
 
-            //Delete rules
-            for (RuleEditor deletedRule : agenda.getDeletedRules()) {
-                this.getRuleManagementService().deleteRule(deletedRule.getId());
-            }
-
             //If no more rules linked to agenda, delete it.
             if (firstItem.getRule() == null) {
                 List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId());
@@ -408,43 +403,42 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             }
         }
 
-        AgendaItemDefinition rootItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-        AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(rootItem);
-        Map<String, AgendaItemDefinition.Builder> itemMap = new LinkedHashMap<String, AgendaItemDefinition.Builder>();
-        this.populateAgendaItemMap(itemMap, rootItemBuilder.getWhenTrue());
+        // Clear the first item and update.
+        AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+        AgendaItemDefinition.Builder firstItemBuilder = AgendaItemDefinition.Builder.create(agenda.getFirstItemId(), agenda.getId());
+        firstItemBuilder.setRule(null);
+        firstItemBuilder.setRuleId(null);
+        firstItemBuilder.setWhenTrue(null);
+        firstItemBuilder.setWhenTrueId(null);
+        firstItemBuilder.setVersionNumber(firstItem.getVersionNumber());
+        this.getRuleManagementService().updateAgendaItem(firstItemBuilder.build());
 
-        if (rules.empty()) {
-            rootItemBuilder.setRule(null);
-            rootItemBuilder.setRuleId(null);
+        //Delete current agenda items to rebuild the tree.
+        if(firstItem.getWhenTrue()!=null){
+            this.deleteAgendaItems(firstItem.getWhenTrue());
         }
 
+        //Delete rules
+        for (RuleEditor deletedRule : agenda.getDeletedRules()) {
+            this.getRuleManagementService().deleteRule(deletedRule.getId());
+        }
+
+        AgendaItemDefinition rootItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+        AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(rootItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (!rules.empty()) {
             itemBuilder.setRule(this.finRule(rules.pop(), namePrefix, nameSpace));
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
             if (!rules.empty()) {
-                itemBuilder.setWhenTrue(itemMap.remove(rules.peek().getId()));
-                if (itemBuilder.getWhenTrue()==null){
-                    itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
-                }
-                itemBuilder.setWhenTrueId(itemBuilder.getWhenTrue().getId());
+                itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
                 itemBuilder = itemBuilder.getWhenTrue();
             }
         }
-
-        //Set the last leaf item's when true to null;
-        itemBuilder.setWhenTrue(null);
-        itemBuilder.setWhenTrueId(null);
 
         //Update the root item.
         AgendaItemDefinition updateItem = rootItemBuilder.build();
         this.printAgendaItemToLog(updateItem);
         this.getRuleManagementService().updateAgendaItem(updateItem);
-
-        //Delete all orphans.
-        for(AgendaItemDefinition.Builder item : itemMap.values()){
-            this.getRuleManagementService().deleteAgendaItem(item.getId());
-        }
 
         return updateItem;
     }
@@ -477,10 +471,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
     }
 
-    protected void populateAgendaItemMap(Map<String, AgendaItemDefinition.Builder> itemMap, AgendaItemDefinition.Builder agendaItem){
+    protected void deleteAgendaItems(AgendaItemDefinition agendaItem){
         if(agendaItem!=null){
-            itemMap.put(agendaItem.getRuleId(), agendaItem);
-            populateAgendaItemMap(itemMap, agendaItem.getWhenTrue());
+            this.getRuleManagementService().deleteAgendaItem(agendaItem.getId());
+            deleteAgendaItems(agendaItem.getWhenFalse());
+            deleteAgendaItems(agendaItem.getWhenTrue());
+            deleteAgendaItems(agendaItem.getAlways());
         }
     }
 
