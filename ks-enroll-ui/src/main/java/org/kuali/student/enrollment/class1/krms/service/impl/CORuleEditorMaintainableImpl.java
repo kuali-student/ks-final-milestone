@@ -153,42 +153,33 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     /**
      * Retrieves all the rules from the agenda tree and create a list of ruleeditor objects.
-     *
+     * <p/>
      * Also initialize the proposition editors for each rule recursively and set natural language for the view trees.
      *
-     * @param agendaTreeEntries
+     * @param agendaItem
      * @return
      */
     @Override
-    protected List<RuleEditor> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries, boolean initProp) {
+    protected List<RuleEditor> getRuleEditorsFromTree(AgendaItemDefinition agendaItem, boolean initProps) {
 
         List<RuleEditor> rules = new ArrayList<RuleEditor>();
-        for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
-            if (treeEntry instanceof AgendaTreeRuleEntry) {
-                AgendaTreeRuleEntry treeRuleEntry = (AgendaTreeRuleEntry) treeEntry;
-                AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
+        if (agendaItem.getRule() != null) {
 
-                if (agendaItem.getRule() != null) {
+            //Build the ruleEditor
+            RuleEditor ruleEditor = new EnrolRuleEditor(agendaItem.getRule());
 
-                    //Build the ruleEditor
-                    RuleEditor ruleEditor = new EnrolRuleEditor(agendaItem.getRule());
-
-                    //Initialize the Proposition tree
-                    if(initProp){
-                        this.initPropositionEditor(ruleEditor.getPropositionEditor());
-                        ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
-                    }
-
-                    //Add rule to list on agenda
-                    rules.add(ruleEditor);
-                }
-
-                if (treeRuleEntry.getIfTrue() != null) {
-                    rules.addAll(getRuleEditorsFromTree(treeRuleEntry.getIfTrue().getEntries(), initProp));
-                }
+            //Initialize the Proposition tree
+            if (initProps) {
+                this.initPropositionEditor(ruleEditor.getPropositionEditor());
+                ruleEditor.setViewTree(this.getViewTreeBuilder().buildTree(ruleEditor));
             }
 
-            // TODO: Check for sub agendas, not required for course offering.
+            //Add rule to list on agenda
+            rules.add(ruleEditor);
+        }
+
+        if (agendaItem.getWhenTrue() != null) {
+            rules.addAll(getRuleEditorsFromTree(agendaItem.getWhenTrue(), initProps));
         }
 
         return rules;
@@ -213,8 +204,6 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     }
 
     /**
-     *
-     *
      * @param form
      * @param atpCode
      * @throws Exception
@@ -249,8 +238,8 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             }
         }
 
-        form.setContextBar( CourseOfferingContextBar.NEW_INSTANCE(terms.get(0), socStateKey,
-                getStateService(), getAcalService(), createContextInfo()) );
+        form.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(terms.get(0), socStateKey,
+                getStateService(), getAcalService(), createContextInfo()));
     }
 
     private String getSocStateKey(List<String> socIds) throws Exception {
@@ -265,16 +254,16 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         return null;
     }
 
-    protected RuleViewTreeBuilder getViewTreeBuilder(){
-        if(this.viewTreeBuilder == null){
+    protected RuleViewTreeBuilder getViewTreeBuilder() {
+        if (this.viewTreeBuilder == null) {
             viewTreeBuilder = new EnrolRuleViewTreeBuilder();
             viewTreeBuilder.setNlHelper(this.getNLHelper());
         }
         return viewTreeBuilder;
     }
 
-    protected NaturalLanguageHelper getNLHelper(){
-        if(this.nlHelper == null){
+    protected NaturalLanguageHelper getNLHelper() {
+        if (this.nlHelper == null) {
             nlHelper = new NaturalLanguageHelper();
             nlHelper.setRuleManagementService(this.getRuleManagementService());
         }
@@ -319,8 +308,8 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         return socService;
     }
 
-    private StateService getStateService(){
-        if (stateService == null){
+    private StateService getStateService() {
+        if (stateService == null) {
             stateService = GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return stateService;
