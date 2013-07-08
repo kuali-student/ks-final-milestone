@@ -101,7 +101,7 @@
                 <bean parent="Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
                       p:id="activityCode" p:componentSecurity.editAuthz="true">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="1"/>
+                        <bean parent="Uif-TextControl" p:size="1" p:disabled="@{!#dp.editActivityCodeAllowed}" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="partOfColoSetOnLoadAlready" p:id="colocatedAO_value">

@@ -2,7 +2,9 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -292,6 +294,24 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setActivityCode(String activityCode) {
         this.activityCode = activityCode;
+    }
+
+    /**
+     * This method returns whether editing of the activity code is allowed or not.
+     * This method reads the configuration property <code>kuali.ks.enrollment.options.edit-activity-offering-allowed</code>
+     * and returns it's value (true/false). This is to allow the institutional configuration to decide whether the users
+     * should be allowed to edit the activity code.
+     *
+     * The default is to allow the user to edit the activity code.
+     *
+     * @return boolean based on the configured property
+     */
+    public boolean isEditActivityCodeAllowed() {
+        if( "false".equalsIgnoreCase( ConfigContext.getCurrentContextConfig().getProperty( CourseOfferingConstants.CONFIG_PARAM_KEY_EDIT_ACTIVITY_CODE ) ) ) {
+            return false;
+        }
+
+        return true;
     }
 
     private String abbreviatedCourseType = "";
