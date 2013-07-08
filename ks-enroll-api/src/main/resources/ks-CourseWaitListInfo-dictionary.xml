@@ -67,8 +67,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitListInfo.courseWaitListProcessingTypeKey" parent="CourseWaitListInfo.courseWaitListProcessingTypeKey-parent"/>
-	<bean id="CourseWaitListInfo.courseWaitListProcessingTypeKey-parent" abstract="true" parent="CourseWaitListInfo.courseWaitListProcessingTypeKey-generated">
+	<bean id="CourseWaitListInfo.automaticallyProcessed" parent="CourseWaitListInfo.automaticallyProcessed-parent"/>
+	<bean id="CourseWaitListInfo.automaticallyProcessed-parent" abstract="true" parent="CourseWaitListInfo.automaticallyProcessed-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
+	<bean id="CourseWaitListInfo.confirmationRequired" parent="CourseWaitListInfo.confirmationRequired-parent"/>
+	<bean id="CourseWaitListInfo.confirmationRequired-parent" abstract="true" parent="CourseWaitListInfo.confirmationRequired-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -97,8 +102,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="CourseWaitListInfo.allowHoldListEntries" parent="CourseWaitListInfo.allowHoldListEntries-parent"/>
-	<bean id="CourseWaitListInfo.allowHoldListEntries-parent" abstract="true" parent="CourseWaitListInfo.allowHoldListEntries-generated">
+	<bean id="CourseWaitListInfo.allowHoldUntilEntries" parent="CourseWaitListInfo.allowHoldUntilEntries-parent"/>
+	<bean id="CourseWaitListInfo.allowHoldUntilEntries-parent" abstract="true" parent="CourseWaitListInfo.allowHoldUntilEntries-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

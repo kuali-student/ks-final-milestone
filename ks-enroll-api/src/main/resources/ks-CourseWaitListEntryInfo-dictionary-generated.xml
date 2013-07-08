@@ -135,15 +135,20 @@ Instead, it should be set using the appropriate change state method in service.
 		<property name="shortLabel" value="Course Wait List Id"/>
 		<property name="summary">
 			<value>
-???
+The Id of the CourseWaitList that this entry belongs to.
 			</value>
 		</property>
 		<property name="label" value="Course Wait List Id"/>
 		<property name="description">
 			<value>
-???
+The Id of the CourseWaitList that this entry belongs to.
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="true"/>
 	</bean>
 
@@ -152,15 +157,20 @@ Instead, it should be set using the appropriate change state method in service.
 		<property name="shortLabel" value="Student Id"/>
 		<property name="summary">
 			<value>
-???
+The Id of the student associated with this entry (The student that is on the WaitList)
 			</value>
 		</property>
 		<property name="label" value="Student Id"/>
 		<property name="description">
 			<value>
-???
+The Id of the student associated with this entry (The student that is on the WaitList)
 			</value>
 		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
 		<property name="required" value="true"/>
 	</bean>
 
@@ -169,13 +179,13 @@ Instead, it should be set using the appropriate change state method in service.
 		<property name="shortLabel" value="Registration Group Id"/>
 		<property name="summary">
 			<value>
-???
+The Id of the registration group that this entry is associated with.
 			</value>
 		</property>
 		<property name="label" value="Registration Group Id"/>
 		<property name="description">
 			<value>
-???
+The Id of the registration group that this entry is associated with.
 			</value>
 		</property>
 		<property name="required" value="true"/>
@@ -186,15 +196,13 @@ Instead, it should be set using the appropriate change state method in service.
 		<property name="shortLabel" value="Position"/>
 		<property name="summary">
 			<value>
-This field is considered read-only
-and may only be changed through the relevant WaitListService operations.
+This entry's position on the WaitList.
 			</value>
 		</property>
 		<property name="label" value="Position"/>
 		<property name="description">
 			<value>
-This field is considered read-only
-and may only be changed through the relevant WaitListService operations.
+This entry's position on the WaitList.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -205,13 +213,13 @@ and may only be changed through the relevant WaitListService operations.
 		<property name="shortLabel" value="Last Check In"/>
 		<property name="summary">
 			<value>
-???
+The last time that the student checked-in on this entry.
 			</value>
 		</property>
 		<property name="label" value="Last Check-in"/>
 		<property name="description">
 			<value>
-???
+The last time that the student checked-in on this entry.
 			</value>
 		</property>
 		<property name="required" value="false"/>
