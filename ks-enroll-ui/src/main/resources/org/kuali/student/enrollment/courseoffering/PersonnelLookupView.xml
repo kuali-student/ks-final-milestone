@@ -5,9 +5,8 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
         <bean id="KS-Personnel-LookupView" parent="PersonImpl-LookupView">
-        <property name="headerText" value="Personnel Lookup " />
             <property name="theme">
-                <bean parent="KSTheme"/>
+                <bean parent="KSLookupTheme"/>
             </property>
             <property name="viewName" value="ks_simplePersonLookup"/>
             <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.KSPersonLookupableImpl" />
