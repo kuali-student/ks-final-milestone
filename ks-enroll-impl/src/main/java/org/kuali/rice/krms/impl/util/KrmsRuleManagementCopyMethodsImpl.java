@@ -140,7 +140,10 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         copiedRuleBldr.setVersionNumber(null);
         copiedRuleBldr.setPropId(null);
         copiedRuleBldr.setName(refObjectId + ":" + copiedRuleBldr.getTypeId() + ":1");
-        deepUpdateForProposition(copiedRuleBldr.getProposition());
+        if (copiedRuleBldr.getProposition() != null){
+            deepUpdateForProposition(copiedRuleBldr.getProposition());
+        }
+
     }
 
     private void deepUpdateForProposition(PropositionDefinition.Builder propBldr) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException {
