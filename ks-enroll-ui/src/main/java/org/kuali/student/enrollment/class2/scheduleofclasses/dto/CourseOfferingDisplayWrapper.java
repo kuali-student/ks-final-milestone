@@ -34,6 +34,7 @@ public class CourseOfferingDisplayWrapper {
 
     private CourseOfferingDisplayInfo coDisplayInfo;
     private String information;
+    private String requisites;
 
     public CourseOfferingDisplayWrapper(){
         coDisplayInfo = new CourseOfferingDisplayInfo();
@@ -53,6 +54,14 @@ public class CourseOfferingDisplayWrapper {
 
     public void setInformation(String information) {
         this.information = information;
+    }
+
+    public String getRequisites() {
+        return requisites;
+    }
+
+    public void setRequisites(String requisites) {
+        this.requisites = requisites;
     }
 
     public String getXmlEscapedFormatted() {

@@ -75,7 +75,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-ImageField" p:source="../ks-enroll/images/details_open.png">
-                    <property name="onClickScript" value="ajaxCallActivityOfferings('populateAOs', '@{#line.coDisplayInfo.id}', '@{#line.coDisplayInfo.descr != null ? #line.xmlEscapedFormatted : ''}', '@{#ConfigProperties['application.url']}')" />
+                    <property name="onClickScript" value="ajaxCallActivityOfferings('populateAOs', '@{#line.coDisplayInfo.id}', '@{#line.coDisplayInfo.descr != null ? #line.xmlEscapedFormatted : ''}', '@{#line.requisites != null ? #line.requisites : ''}', '@{#ConfigProperties['application.url']}')" />
                     <property name="id" value="@{#line.coDisplayInfo.id}" />
                 </bean>
                 <bean parent="Uif-DataField" p:label="COURSE" p:propertyName="coDisplayInfo.courseOfferingCode" />

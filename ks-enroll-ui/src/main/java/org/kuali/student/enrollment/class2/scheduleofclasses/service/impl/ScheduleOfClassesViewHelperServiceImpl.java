@@ -26,6 +26,21 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
+import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
+import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
+import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
+import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
@@ -41,6 +56,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -78,6 +94,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     private OrganizationService organizationService;
     private AcademicCalendarService academicCalendarService;
     private TypeService typeService;
+    private RuleManagementService ruleManagementService;
 
     public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception{
 
@@ -92,9 +109,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         QueryByCriteria criteria = qbcBuilder.build();
         List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
+        //Retrieve requisites for courseOfferings
+        Map<String, String> requisites = retrieveRequisites(courseOfferingIds);
+
         if(courseOfferingIds.size() > 0){
             form.getCoDisplayWrapperList().clear();
-            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
+            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),requisites, contextInfo));
         } else {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError("Term & courseCode", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "courseCode", courseCode, termId);
@@ -145,9 +165,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 QueryByCriteria criteria = qbcBuilder.build();
                 courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
+                //Retrieve requisites for courseOfferings
+                Map<String, String> requisites = retrieveRequisites(courseOfferingIds);
+
                 if(courseOfferingIds.size() > 0){
                     form.getCoDisplayWrapperList().clear();
-                    form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
+                    form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),requisites,contextInfo));
                 }
             }
 
@@ -190,9 +213,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             QueryByCriteria criteria = qbcBuilder.build();
             List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
+            //Retrieve requisites for courseOfferings
+            Map<String, String> requisites = retrieveRequisites(courseOfferingIds);
+
             if(courseOfferingIds.size() > 0){
                 form.getCoDisplayWrapperList().clear();
-                form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
+                form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(), requisites, contextInfo));
             } else {            //If nothing was found then error
                 LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
@@ -302,9 +328,12 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         QueryByCriteria criteria = qbcBuilder.build();
         List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
+        //Retrieve requisites for courseOfferings
+        Map<String, String> requisites = retrieveRequisites(courseOfferingIds);
+
         if(courseOfferingIds.size() > 0){
             form.getCoDisplayWrapperList().clear();
-            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),contextInfo));
+            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(), requisites, contextInfo));
         } else {    //If nothing was found then error
             LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
             GlobalVariables.getMessageMap().putError("Title & Description", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "title or description", titleOrDescription, termId);
@@ -313,7 +342,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
     }
 
-    protected static List<CourseOfferingDisplayWrapper> getCourseOfferingDisplayWrappersByIds(List<String> courseOfferingIds, CourseOfferingService courseOfferingService, ContextInfo contextInfo) throws Exception{
+    protected static List<CourseOfferingDisplayWrapper> getCourseOfferingDisplayWrappersByIds(List<String> courseOfferingIds, CourseOfferingService courseOfferingService, Map<String, String> requisites, ContextInfo contextInfo) throws Exception{
         List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
 
         if(courseOfferingIds.size() > 0){
@@ -323,6 +352,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             for (CourseOfferingDisplayInfo coDisplayInfo : coDisplayInfoList) {
                 CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
                 coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
+
+                coDisplayWrapper.setRequisites(requisites.get(coDisplayInfo.getId()));
 
                 // Adding Information (icons)
                 String information = "";
@@ -356,6 +387,93 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         return coDisplayWrapperList;
     }
 
+    /**
+     * Method to build the course offering requisites string for display
+     *
+     * @param courseOfferingIds
+     * @return Map of course offering requisites
+     */
+    private Map<String, String> retrieveRequisites(List<String> courseOfferingIds) {
+        Map<String, String> requisites = new HashMap<String, String>();
+
+        for(String courseOfferingId : courseOfferingIds) {
+            List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
+            //Retrieve reference object bindings for course offering
+            List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(KSKRMSServiceConstants.RULE_DISCR_TYPE_COURSE_OFFERING, courseOfferingId);
+
+            //If reference object bindings found, build requisite string, else set requisite string to null so that it does not display
+            if(refObjectsBindings != null) {
+                //Retrieve agenda's for course offering
+                for(ReferenceObjectBinding referenceObjectBinding : refObjectsBindings){
+                    AgendaDefinition agenda = this.getRuleManagementService().getAgenda(referenceObjectBinding.getKrmsObjectId());
+                    agendas.add(new AgendaEditor(agenda));
+                }
+
+                List<RuleDefinition> rules = null;
+                String requisiteString = StringUtils.EMPTY;
+                //For each agenda retrieve rules
+                for(AgendaEditor agenda : agendas) {
+                    AgendaTreeDefinition agendaTree = this.getRuleManagementService().getAgendaTree(agenda.getId());
+                    rules = getRuleEditorsFromTree(agendaTree.getEntries());
+                    //For each rule build requisite string
+                    for(RuleDefinition rule : rules) {
+                        String descriptionUsageId = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+                        String ruleTypeUsageId = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+
+                        String ruleDescription = getDescriptionForTypeAndUsage(rule.getTypeId(), descriptionUsageId);
+                        String ruleRequisite = this.getRuleManagementService().translateNaturalLanguageForProposition(ruleTypeUsageId, rule.getProposition(), KSKRMSServiceConstants.LANGUAGE_CODE_ENGLISH);
+
+                        requisiteString += ruleDescription + ": " + ruleRequisite + ".<br>";
+                    }
+                }
+                //Add rule requisites to map and bind to course offering id
+                requisites.put(courseOfferingId, requisiteString);
+            } else {
+                requisites.put(courseOfferingId, null);
+            }
+        }
+        //Return map of requisites
+        return requisites;
+    }
+
+    /**
+     * Retrieve rules from agenda tree.
+     *
+     * @param agendaTreeEntries
+     * @return  List of existing rules
+     */
+    private List<RuleDefinition> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries) {
+
+        List<RuleDefinition> rules = new ArrayList<RuleDefinition>();
+        for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
+            if (treeEntry instanceof AgendaTreeRuleEntry) {
+
+                AgendaItemDefinition agendaItem = this.getRuleManagementService().getAgendaItem(treeEntry.getAgendaItemId());
+                if (agendaItem.getRule() != null) {
+                    RuleDefinition ruleDefinition = agendaItem.getRule();
+                    rules.add(ruleDefinition);
+                }
+            }
+        }
+        return rules;
+    }
+
+    /**
+     * Method to retrieve discription of rule type
+     *
+     * @param typeId
+     * @param usageId
+     * @return String of rule description
+     */
+    private String getDescriptionForTypeAndUsage(String typeId, String usageId) {
+        NaturalLanguageTemplate template = null;
+        try {
+            template = getRuleManagementService().findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usageId);
+            return template.getTemplate();
+        } catch (Exception e) {
+            return StringUtils.EMPTY;
+        }
+    }
 
     private String millisToTime(Long milliseconds){
         if(milliseconds == null){
@@ -409,6 +527,13 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             typeService = CourseOfferingResourceLoader.loadTypeService();
         }
         return this.typeService;
+    }
+
+    public RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
+        return ruleManagementService;
     }
 
     private String convertIntoDaysDisplay(int day) {

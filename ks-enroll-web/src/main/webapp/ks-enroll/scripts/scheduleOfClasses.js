@@ -2,7 +2,7 @@ var originalRowHeight;
 var openImage = "../ks-enroll/images/details_open.png";
 var closeImage = "../ks-enroll/images/details_close.png";
 
-function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, description, url) {
+function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, description, requisites, url) {
 
     var divTempId = 'findThisId_' + courseOfferingId;
     var image = jQuery('#' + courseOfferingId).children('img');
@@ -22,20 +22,24 @@ function ajaxCallActivityOfferings(controllerMethod, courseOfferingId, descripti
             data:formData,
             // callback handler that will be called on success
             success:function (data, textStatus, jqXHR) {
-                updateTable(data, courseOfferingId, description);
+                updateTable(data, courseOfferingId, description, requisites);
             }
         });
     }
 
-    function updateTable(data, courseOfferingId, description) {
+    function updateTable(data, courseOfferingId, description, requisites) {
         var scheduleOfClassesSearchResults = jQuery(data).find('#scheduleOfClassesSearchResults');
         var div = jQuery('<div/>');
         div.attr('id', divTempId);
         div.html(scheduleOfClassesSearchResults.html());
+        var reqPara = jQuery('</p>');
         var descPara = jQuery('</p>');
+        jQuery(reqPara).css('margin', '15px 0px');
         jQuery(descPara).css('margin', '15px 0px');
+        reqPara.html(requisites);
         descPara.html(description);
         div.prepend(descPara);
+        div.prepend(reqPara);
         // Calculate the height of the row containing the new div
         var tr = jQuery(jQuery('#' + courseOfferingId)).parents('tr');
         var td = jQuery(jQuery('#' + courseOfferingId)).parents('td');
