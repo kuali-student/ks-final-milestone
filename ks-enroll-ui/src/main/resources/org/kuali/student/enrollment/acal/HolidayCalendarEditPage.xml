@@ -92,7 +92,7 @@
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton"
                                           p:methodToCall="save"
-                                          p:actionLabel="Save"  p:performClientSideValidation="@{officialCalendar}" />
+                                          p:actionLabel="Save"  p:performClientSideValidation="true" />
                                     <bean parent="Uif-ActionLink" p:methodToCall="delete"
                                           p:actionLabel="Delete Calendar Draft"
                                           p:render="@{!newCalendar and !officialUI}"/>
