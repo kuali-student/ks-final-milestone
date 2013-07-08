@@ -841,7 +841,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
 
         if (rels.isEmpty()){
-            throw new OperationFailedException("format offering is not associated with a course offering " + activityOfferingId + " among " + rels.size());
+            throw new OperationFailedException("Activity offering not associated with format offering " + activityOfferingId + " among " + rels.size());
         } else if (rels.size() > 1){
             throw new OperationFailedException("Multiple Format offerings found for an activity offering - " + activityOfferingId);
         } else {
@@ -1205,11 +1205,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         if (foId == null) {
 
             if (luiCO == null){
-                throw new InvalidParameterException("LuiInfo dto for CO is null");
+                throw new MissingParameterException("LuiInfo dto for CO is null");
             }
 
             if (luiFO == null){
-                throw new InvalidParameterException("LuiInfo dto for FO is null");
+                throw new MissingParameterException("LuiInfo dto for FO is null");
             }
 
             foId = luiFO.getId();
