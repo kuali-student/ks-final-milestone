@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.common.impex.spring.DumpDatabaseConfig;
+import org.kuali.common.impex.spring.ProjectStagingConfig;
 import org.kuali.common.util.execute.Executable;
 import org.kuali.common.util.execute.ExecutablesExecutable;
 import org.kuali.common.util.spring.ExecutableConfig;
@@ -31,10 +32,13 @@ import org.springframework.context.annotation.Import;
 public class DbExportExecutableConfig extends ExecutableConfig {
 
 	@Autowired
-	SyncFilesConfig syncFilesConfig;
+	DumpDatabaseConfig dumpDatabaseConfig;
 
 	@Autowired
-	DumpDatabaseConfig dumpDatabaseConfig;
+	ProjectStagingConfig projectStagingConfig;
+
+	@Autowired
+	SyncFilesConfig syncFilesConfig;
 
 	@Override
 	protected Executable getExecutable() {
@@ -44,6 +48,12 @@ public class DbExportExecutableConfig extends ExecutableConfig {
 
 		// First export the schema + MPX files all to one directory
 		executables.add(dumpDatabaseConfig.dumpDatabaseExecutable());
+
+		// Create a staging directory for each project
+		// The staging directory must be contain the exact set of files that will need to be checked into SCM
+		// When the staging directories are synchronized with the directories under SCM, any files present in the SCM
+		// directories that are not also present in the staging directories are deleted.
+		executables.add(projectStagingConfig.projectStagingExecutable());
 
 		// Then split them up as needed into the various sub directories
 		executables.add(syncFilesConfig.syncFilesExecutable());
