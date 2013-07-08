@@ -2,6 +2,8 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Override of RuleEditorController for Student
@@ -94,5 +97,30 @@ public class CORuleEditorController extends EnrolRuleEditorController {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
         return super.updateRule(form, result, request, response);
+    }
+
+    /**
+     * Retrieves selected proposition key and initializes edit on propostion.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=getSelectedKey")
+    public ModelAndView getSelectedKey(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        //Clear the current states of the tabs to open the first tab again with the edit tree.
+        Map<String, String> states = (Map<String, String>) form.getClientStateForSyncing().get(KSKRMSConstants.KSKRMS_RULE_CO_TABS_ID);
+        states.put(KRMSConstants.KRMS_PARM_ACTIVE_TAB, KSKRMSConstants.KSKRMS_RULE_CO_EDITWITHOBJECT_ID);
+
+        //Set the selected rule statement key.
+        String selectedKey = request.getParameter(KRMSConstants.KRMS_PARM_SELECTED_KEY);
+        getRuleEditor(form).setSelectedKey(selectedKey);
+
+        return this.goToEditProposition(form, result, request, response);
     }
 }

@@ -12,6 +12,13 @@ public class KRMSConstants {
     // Bean references
     public static final String KRMS_RULE_MAINTENANCE_PAGE_ID = "KRMS-RuleMaintenance-Page";
     public static final String KRMS_RULE_TREE_GROUP_ID = "KRMS-RuleEditor-TreeGroup";
+    public static final String KRMS_RULE_TABS_ID = "KRMS-TabsWidget";
+    public static final String KRMS_RULE_EDITWITHOBJECT_ID = "KRMS-EditWithObject-EditSection";
+    public static final String KRMS_RULE_EDITWITHLOGIC_ID = "KRMS-EditWithLogic-EditSection";
+
+    // Parameters
+    public static final String KRMS_PARM_ACTIVE_TAB = "activeTab";
+    public static final String KRMS_PARM_SELECTED_KEY = "selectedKey";
 
     // Message Keys
     public static final String KRMS_MSG_ERROR_LOGIC_EXPRESSION_START = "error.krms.logic.expression.start";

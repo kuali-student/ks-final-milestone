@@ -23,11 +23,19 @@ public class KSKRMSConstants {
     public static final String KSKRMS_PROPERTY_NAME_CLUSETS = "proposition.cluSet.cluSets";
     public static final String KSKRMS_PROPERTY_NAME_PROG_CLUS = "proposition.progCluSet.clus";
 
-    // Bean references
+    // CO Bean references
     public static final String KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID = "KSCO-RuleMaintenance-Page";
     public static final String KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID = "KSCO-AgendaMaintenance-Page";
+    public static final String KSKRMS_RULE_CO_TABS_ID = "KSCO-TabsWidget";
+    public static final String KSKRMS_RULE_CO_EDITWITHOBJECT_ID = "KSCO-EditWithObject-EditSection";
+    public static final String KSKRMS_RULE_CO_EDITWITHLOGIC_ID = "KSCO-EditWithLogic-EditSection";
+
+    // AO Bean references
     public static final String KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID = "KSAO-RuleMaintenance-Page";
     public static final String KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID = "KSAO-AgendaMaintenance-Page";
+    public static final String KSKRMS_RULE_AO_TABS_ID = "KSCO-TabsWidget";
+    public static final String KSKRMS_RULE_AO_EDITWITHOBJECT_ID = "KSAO-EditWithObject-EditSection";
+    public static final String KSKRMS_RULE_AO_EDITWITHLOGIC_ID = "KSAO-EditWithLogic-EditSection";
 
     // message keys
     public static final String KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED = "error.krms.approved.program.required";

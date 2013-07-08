@@ -39,6 +39,7 @@ import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +49,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controller for the KS KRMS page.
@@ -1244,12 +1246,12 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //Clear the current states of the tabs to open the first tab again with the edit tree.
-        form.getClientStateForSyncing().clear();
-        String selectedKey = request.getParameter("selectedKey");
+        Map<String, String> states = (Map<String, String>) form.getClientStateForSyncing().get(KRMSConstants.KRMS_RULE_TABS_ID);
+        states.put(KRMSConstants.KRMS_PARM_ACTIVE_TAB, KRMSConstants.KRMS_RULE_EDITWITHOBJECT_ID);
 
         //Set the selected rule statement key.
-        RuleEditor ruleEditor = getRuleEditor(form);
-        ruleEditor.setSelectedKey(selectedKey);
+        String selectedKey = request.getParameter(KRMSConstants.KRMS_PARM_SELECTED_KEY);
+        getRuleEditor(form).setSelectedKey(selectedKey);
 
         return this.goToEditProposition(form, result, request, response);
     }
