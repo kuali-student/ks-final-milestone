@@ -1217,27 +1217,6 @@ public interface SchedulingService {
             OperationFailedException,
             PermissionDeniedException;
 
-    /**
-     * Retrieves a list of ScheduleBatches associated with a ScheduleTransaction
-     *
-     * @param scheduleTransactionId an identifier for a ScheduleBatch
-     * @param contextInfo         Context information containing the principalId
-     *                            and locale information about the caller of
-     *                            service operation
-     * @return a list of ScheduleTransaction identifiers matching
-     *         scheduleTransactionTypeKey or an empty list if none found
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException scheduleTransactionTypeKey or contextInfo
-     *                                   is missing or null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ScheduleBatchInfo> getScheduleBatchesForScheduleTransaction(@WebParam(name = "scheduleTransactionId") String scheduleTransactionId,
-                                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-        throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
 
     /**
      * Retrieves a ScheduleTransaction
