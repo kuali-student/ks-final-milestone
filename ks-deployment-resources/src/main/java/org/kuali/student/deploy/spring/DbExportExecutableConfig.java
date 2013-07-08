@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({ DumpDatabaseConfig.class, SyncFilesConfig.class })
+@Import({ DumpDatabaseConfig.class, ProjectStagingConfig.class, SyncFilesConfig.class })
 public class DbExportExecutableConfig extends ExecutableConfig {
 
 	@Autowired

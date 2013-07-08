@@ -6,9 +6,9 @@ import java.util.List;
 import org.kuali.common.util.DefaultProjectContext;
 import org.kuali.common.util.ProjectUtils;
 
-public class DumpSourceDbProjectContext extends DefaultProjectContext {
+public class DumpAndStageSourceDbProjectContext extends DefaultProjectContext {
 
-	public DumpSourceDbProjectContext() {
+	public DumpAndStageSourceDbProjectContext() {
 		super(Constants.GROUP_ID, Constants.ARTIFACT_ID);
 	}
 
@@ -18,6 +18,7 @@ public class DumpSourceDbProjectContext extends DefaultProjectContext {
 		List<String> list = new ArrayList<String>();
 		list.add(prefix + "/common.properties");
 		list.add(prefix + "/dump.properties");
+		list.add(prefix + "/staging.properties");
 		return list;
 	}
 
