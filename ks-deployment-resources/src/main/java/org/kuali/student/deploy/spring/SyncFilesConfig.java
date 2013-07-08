@@ -19,7 +19,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.common.impex.spring.DatabaseExportConfig;
 import org.kuali.common.util.CollectionUtils;
 import org.kuali.common.util.LocationUtils;
 import org.kuali.common.util.SimpleScanner;
@@ -33,71 +32,37 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.core.env.Environment;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 @Configuration
-@Import(DatabaseExportConfig.class)
-public class DbExportConfig {
+public class SyncFilesConfig {
 
-	private static final Logger logger = LoggerFactory.getLogger(DbExportConfig.class);
-
-	protected final static String SYNC_SKIP_KEY = "impex.sync.skip";
-
-	protected final static String SCM_COMMIT_KEY = "impex.scm.commit";
-
-	protected final static String SYNC_COMMIT_MESSAGE_KEY = "impex.scm.message";
-
-	protected final static String SYNC_COMMIT_MESSAGE_DEFAULT = "Automated Impex update";
+	private static final Logger logger = LoggerFactory.getLogger(SyncFilesConfig.class);
 
 	protected final static String SYNC_DEFINITIONS_PREFIX_KEY = "impex.sync.prefixes";
-
 	protected final static String SYNC_COMMIT_PATH_KEY = "sync.commitPath";
-
 	protected final static String SYNC_REQUEST_SOURCE_DIR_KEY = "sync.sourceDir";
-
 	protected final static String SYNC_REQUEST_DESTINATION_DIR_KEY = "sync.destDir";
-
 	protected final static String SYNC_REQUEST_FILTER_EXPRESSIONS_KEY = "sync.filter";
 
 	/**
-	 * Default behavior is to not skip execution,
-	 */
-	protected final static Boolean SYNC_SKIP_DEFAULT = Boolean.FALSE;
-
-	/**
-	 * default behavior is to not commit to scm
-	 */
-	protected final static Boolean SCM_COMMIT_DEFAULT = Boolean.FALSE;
-
-	/**
-	 * default behavior is to sync all files in a sync request
+	 * Default behavior is to sync all files in a sync request
 	 */
 	protected final static String SYNC_REQUEST_FILTER_EXPRESSIONS_DEFAULT = ".*";
 
 	@Autowired
 	Environment env;
 
-	@Autowired
-	DatabaseExportConfig dbExportConfig;
-
-	public void doDatabaseExport() {
-		dbExportConfig.exportDatabaseExecutable().execute();
-	}
-
-	@Bean(initMethod = "execute")
+	@Bean
 	public SyncFilesExecutable syncFilesExecutable() {
 
-		// run the database export executable first
-		doDatabaseExport();
-
-		SyncFilesExecutable exec = new SyncFilesExecutable();
-		exec.setService(scmService());
-		exec.setSkip(SpringUtils.getBoolean(env, SYNC_SKIP_KEY, SYNC_SKIP_DEFAULT));
-		exec.setCommitChanges(SpringUtils.getBoolean(env, SCM_COMMIT_KEY, SCM_COMMIT_DEFAULT));
-		exec.setMessage(SpringUtils.getProperty(env, SYNC_COMMIT_MESSAGE_KEY, SYNC_COMMIT_MESSAGE_DEFAULT));
+		if (true) {
+			SyncFilesExecutable exec = new SyncFilesExecutable();
+			exec.setSkip(true);
+			return exec;
+		}
 
 		List<String> prefixes = CollectionUtils.getTrimmedListFromCSV(SpringUtils.getProperty(env, SYNC_DEFINITIONS_PREFIX_KEY));
 
@@ -147,9 +112,14 @@ public class DbExportConfig {
 			}
 		}
 
+		// Configure the executable
+		SyncFilesExecutable exec = new SyncFilesExecutable();
+		exec.setService(scmService());
+		exec.setSkip(SpringUtils.getBoolean(env, "impex.sync.skip", false));
+		exec.setCommitChanges(SpringUtils.getBoolean(env, "impex.scm.commit", false));
+		exec.setMessage(SpringUtils.getProperty(env, "impex.scm.message", "Automated Impex update"));
 		exec.setCommitPaths(commitPaths);
 		exec.setRequests(requests);
-
 		return exec;
 	}
 

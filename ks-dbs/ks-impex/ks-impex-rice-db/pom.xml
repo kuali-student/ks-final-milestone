@@ -10,7 +10,7 @@
     <name>KS Impex Rice DB</name>
     <description>Kuali Student Impex Rice Database</description>
     <properties>
-        <jdbc.username>KSRICE${db.branch.qualifier}</jdbc.username>
+        <ks.propertysource.provider>org.kuali.student.deploy.spring.RiceDbPropertiesProvider</ks.propertysource.provider>
     </properties>
     <build>
         <plugins>
@@ -32,4 +32,10 @@
             </plugin>
         </plugins>
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.kuali.common</groupId>
+            <artifactId>kuali-util</artifactId>
+        </dependency>
+    </dependencies>
 </project>

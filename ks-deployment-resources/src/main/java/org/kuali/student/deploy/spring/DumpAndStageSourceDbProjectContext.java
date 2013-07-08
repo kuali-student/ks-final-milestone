@@ -6,18 +6,18 @@ import java.util.List;
 import org.kuali.common.util.DefaultProjectContext;
 import org.kuali.common.util.ProjectUtils;
 
-public class InitializeSourceDbProjectContext extends DefaultProjectContext {
+public class DumpAndStageSourceDbProjectContext extends DefaultProjectContext {
 
-	public InitializeSourceDbProjectContext() {
-		super(Constants.GROUP_ID, Constants.ARTIFACT_ID);
+	public DumpAndStageSourceDbProjectContext() {
+		super(Constants.GROUP_ID, Constants.ARTIFACT_ID, getLocations());
 	}
 
-	@Override
-	public List<String> getPropertyLocations() {
+	protected static List<String> getLocations() {
 		String prefix = ProjectUtils.getClassPathPrefix(Constants.GROUP_ID_BASE, Constants.KS_SOURCE_DB);
 		List<String> list = new ArrayList<String>();
 		list.add(prefix + "/common.properties");
-		list.add(prefix + "/initialize.properties");
+		list.add(prefix + "/dump.properties");
+		list.add(prefix + "/staging.properties");
 		return list;
 	}
 
