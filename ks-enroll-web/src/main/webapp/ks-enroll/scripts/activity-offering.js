@@ -598,12 +598,15 @@ function setRequestedDeliveryLogisticsFieldRequired(jqObject,required){
 
 }
 
-function displayAOsubTerm(subTermNameId, subTermTypeId, popoverId, subTermDatesJsonString) {
+function displayAOsubTerm(subTermNameId, subTermTypeId, popoverId, dirtyId, subTermDatesJsonString) {
     var subTermName = jQuery("#"+subTermTypeId+"_control").find(":selected").text();
     var subTermId = jQuery("#"+subTermTypeId+"_control").find(":selected").val();
 
     /* set subTermName */
     jQuery("#"+subTermNameId+"_control").text(subTermName);
+
+    /* Set indicated field control as dirty to register changes in form (may not be a subterm field.) */
+    jQuery('#'+dirtyId+'_control').addClass('dirty');
 
     /* set subTerm Start/End date display */
     if (subTermName == "None") {

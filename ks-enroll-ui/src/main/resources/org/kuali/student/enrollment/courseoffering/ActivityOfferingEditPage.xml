@@ -80,7 +80,7 @@
                         <list>
                             <bean id="subterm_type" parent="Uif-InputField-LabelTop" p:propertyName="subTermId" p:label="Choose a subterm">
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link','@{#dp.subTermDatesJsonString}');"/>
+                                    <bean parent="Uif-DropdownControl" p:onChangeScript="displayAOsubTerm('subterm_name','subterm_type','change_link','activityCode','@{#dp.subTermDatesJsonString}');"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingSubtermKeyValues" p:addBlankOption="false"/>
