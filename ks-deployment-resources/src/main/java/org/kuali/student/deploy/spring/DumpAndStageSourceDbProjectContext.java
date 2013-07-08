@@ -9,11 +9,10 @@ import org.kuali.common.util.ProjectUtils;
 public class DumpAndStageSourceDbProjectContext extends DefaultProjectContext {
 
 	public DumpAndStageSourceDbProjectContext() {
-		super(Constants.GROUP_ID, Constants.ARTIFACT_ID);
+		super(Constants.GROUP_ID, Constants.ARTIFACT_ID, getLocations());
 	}
 
-	@Override
-	public List<String> getPropertyLocations() {
+	protected static List<String> getLocations() {
 		String prefix = ProjectUtils.getClassPathPrefix(Constants.GROUP_ID_BASE, Constants.KS_SOURCE_DB);
 		List<String> list = new ArrayList<String>();
 		list.add(prefix + "/common.properties");

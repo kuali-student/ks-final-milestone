@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.common.impex.DumpAndStageProjectContext;
-import org.kuali.common.impex.MavenDumpProjectContext;
+import org.kuali.common.impex.MavenProjectContext;
 import org.kuali.common.jdbc.JdbcProjectContext;
 import org.kuali.common.util.MetaInfSqlProjectContext;
 import org.kuali.common.util.ProjectContext;
@@ -20,10 +20,10 @@ public class DumpAndStageSourceDbMavenPropertySourceConfig extends MavenProperty
 	protected List<ProjectProperties> getOtherProjectProperties() {
 		ProjectContext jdbc = new JdbcProjectContext();
 		ProjectContext dump = new DumpAndStageProjectContext();
-		ProjectContext mavenDump = new MavenDumpProjectContext();
+		ProjectContext mavenImpex = new MavenProjectContext();
 		ProjectContext metaInfSql = new MetaInfSqlProjectContext();
 		ProjectContext dumpSourceDb = new DumpAndStageSourceDbProjectContext();
-		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, dump, mavenDump, metaInfSql, dumpSourceDb));
+		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, dump, mavenImpex, metaInfSql, dumpSourceDb));
 	}
 
 }
