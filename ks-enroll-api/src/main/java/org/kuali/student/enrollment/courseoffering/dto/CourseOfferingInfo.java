@@ -436,6 +436,10 @@ public class CourseOfferingInfo
         return this.hasWaitlist;
     }
 
+    /**
+     * @deprecated Use the CourseWaitList service
+     */
+    @Deprecated
     public void setHasWaitlist(Boolean hasWaitlist) {
         this.hasWaitlist = hasWaitlist;
     }
@@ -445,6 +449,10 @@ public class CourseOfferingInfo
         return this.waitlistTypeKey;
     }
 
+    /**
+     * @deprecated Use the CourseWaitList service
+     */
+    @Deprecated
     public void setWaitlistTypeKey(String waitlistTypeKey) {
         this.waitlistTypeKey = waitlistTypeKey;
     }
@@ -454,6 +462,10 @@ public class CourseOfferingInfo
         return this.waitlistLevelTypeKey;
     }
 
+    /**
+     * @deprecated Use the CourseWaitList service
+     */
+    @Deprecated
     public void setWaitlistLevelTypeKey(String waitlistLevelTypeKey) {
         this.waitlistLevelTypeKey = waitlistLevelTypeKey;
     }
@@ -463,6 +475,10 @@ public class CourseOfferingInfo
         return waitlistMaximum;
     }
 
+    /**
+     * @deprecated Use the CourseWaitList service
+     */
+    @Deprecated
     public void setWaitlistMaximum(Integer waitlistMaximum) {
         this.waitlistMaximum = waitlistMaximum;
     }

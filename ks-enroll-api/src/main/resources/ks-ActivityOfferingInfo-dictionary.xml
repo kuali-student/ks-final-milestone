@@ -204,41 +204,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="ActivityOfferingInfo.hasWaitlist" parent="ActivityOfferingInfo.hasWaitlist-parent"/>
-	<bean id="ActivityOfferingInfo.hasWaitlist-parent" abstract="true" parent="ActivityOfferingInfo.hasWaitlist-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistTypeKey" parent="ActivityOfferingInfo.waitlistTypeKey-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistTypeKey-parent" abstract="true" parent="ActivityOfferingInfo.waitlistTypeKey-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistMaximum" parent="ActivityOfferingInfo.waitlistMaximum-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistMaximum-parent" abstract="true" parent="ActivityOfferingInfo.waitlistMaximum-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.isWaitlistCheckinRequired" parent="ActivityOfferingInfo.isWaitlistCheckinRequired-parent"/>
-	<bean id="ActivityOfferingInfo.isWaitlistCheckinRequired-parent" abstract="true" parent="ActivityOfferingInfo.isWaitlistCheckinRequired-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency" parent="ActivityOfferingInfo.waitlistCheckinFrequency-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency-parent" abstract="true" parent="ActivityOfferingInfo.waitlistCheckinFrequency-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey" parent="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-parent" abstract="true" parent="ActivityOfferingInfo.waitlistCheckinFrequency.atpDurationTypeKey-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity" parent="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity-parent"/>
-	<bean id="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity-parent" abstract="true" parent="ActivityOfferingInfo.waitlistCheckinFrequency.timeQuantity-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
 	<bean id="ActivityOfferingInfo.isPartOfColocatedOfferingSet" parent="ActivityOfferingInfo.isPartOfColocatedOfferingSet-parent"/>
 	<bean id="ActivityOfferingInfo.isPartOfColocatedOfferingSet-parent" abstract="true" parent="ActivityOfferingInfo.isPartOfColocatedOfferingSet-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
