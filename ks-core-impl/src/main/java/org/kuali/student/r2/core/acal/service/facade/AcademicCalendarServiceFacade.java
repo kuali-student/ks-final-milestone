@@ -24,6 +24,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
+import java.util.List;
+
 /**
  * We expect to replace the void
  *
@@ -83,4 +85,16 @@ public interface AcademicCalendarServiceFacade {
      */
     boolean validateCalendar(String acalId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
 
+
+    /**
+     * Returns related ATP ids for the given parent ATP id
+     * @param acalId the parent atp Id
+     * @param context call context
+     * @return related ATP ids for the given parent ATP id
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> getIncludedTermidsInTerm(String acalId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

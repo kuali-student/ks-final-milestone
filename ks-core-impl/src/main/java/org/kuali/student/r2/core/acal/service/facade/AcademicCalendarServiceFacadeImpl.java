@@ -17,7 +17,6 @@
 package org.kuali.student.r2.core.acal.service.facade;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -29,7 +28,12 @@ import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -45,13 +49,19 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServiceFacade {
-    private static final Logger LOGGER = Logger.getLogger(AcademicCalendarServiceFacadeImpl.class);
 
     @Resource(name="acalService")
     private AcademicCalendarService acalService;
 
+    @Resource(name="atpService")
+    private AtpService atpService;
+
     public void setAcalService(AcademicCalendarService acalService) {
         this.acalService = acalService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 
     @Override
@@ -194,7 +204,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
      * will be checked. If any term/sub term id(s) have the state official, no term or sub term can't be deleted
      * @param termId: id of term on the top level of the hierarchy
      * @param toDeleteTermIds: Set of all the term and sub term ids to be deleted
-     * @param context
+     * @param context call context
      * @return true: none of the term/sub term has the official state (they can be deleted)
      *
      */
@@ -282,5 +292,25 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
             }
         }
         return true;
+    }
+
+    @Override
+    public List<String> getIncludedTermidsInTerm(String atpId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        //Perform an atp search to get the search results
+        List<String> includedTermIds = new ArrayList<String>();
+
+        SearchRequestInfo searchRequestInfo = new SearchRequestInfo("atp.search.relatedAtpIdsByAtpId");
+        searchRequestInfo.addParam("atp.queryParam.parentAtpId", atpId);
+        SearchResultInfo results = atpService.search(searchRequestInfo, context);
+
+        for(SearchResultRowInfo row : results.getRows()){
+            for(SearchResultCellInfo cell: row.getCells()){
+                if("atp.resultColumn.relatedAtpId".equals(cell.getKey())){
+                    includedTermIds.add(cell.getValue());
+                }
+            }
+        }
+
+        return includedTermIds;
     }
 }

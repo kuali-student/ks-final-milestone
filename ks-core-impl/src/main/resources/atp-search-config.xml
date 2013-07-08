@@ -604,6 +604,77 @@
     </search:queryParam>
 
 
+    <search:searchType id="atp.search.relatedAtpIdsByAtpId"
+                       parent="atp.search.relatedAtpIdsByAtpId-parent" />
+    <search:searchType id="atp.search.relatedAtpIdsByAtpId-parent" abstract="true">
+        <search:name>Related Atp Ids by owner Atp id</search:name>
+        <search:desc>Search for related atps based on Atp Id and other optional criteria.</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="atp.result.relatedAtpIdsByAtpId" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="atp.criteria.relatedAtpIdsByAtpId" />
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="atp.result.relatedAtpIdsByAtpId"
+                                 parent="atp.result.relatedAtpIdsByAtpId-parent" />
+    <search:searchResultTypeInfo id="atp.result.relatedAtpIdsByAtpId-parent"
+                                 abstract="true">
+        <search:name>Parent Atp IDs</search:name>
+        <search:desc>Parent Atp IDs</search:desc>
+        <search:resultColumns>
+            <ref bean="atp.resultColumn.relatedAtpId" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:resultColumn id="atp.resultColumn.relatedAtpId"
+                         parent="atp.resultColumn.relatedAtpId-parent" />
+    <search:resultColumn id="atp.resultColumn.relatedAtpId-parent"
+                         abstract="true">
+        <search:name>Related Atp ID</search:name>
+        <search:desc>Id of the related atp</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+
+    <search:searchCriteriaTypeInfo id="atp.criteria.relatedAtpIdsByAtpId"
+                                   parent="atp.criteria.relatedAtpIdsByAtpId-parent" />
+    <search:searchCriteriaTypeInfo id="atp.criteria.relatedAtpIdsByAtpId-parent"
+                                   abstract="true">
+        <search:name>Related Atps by Atp ID</search:name>
+        <search:desc>Related Atps by Atp ID</search:desc>
+        <search:queryParams>
+            <ref bean="atp.queryParam.parentAtpId" />
+            <ref bean="atp.queryParam.relationType" />
+            <ref bean="atp.queryParam.relatedAtpTypes" />
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+    <search:queryParam id="atp.queryParam.parentAtpId" parent="atp.queryParam.parentAtpId-parent" />
+    <search:queryParam id="atp.queryParam.parentAtpId-parent"
+                       abstract="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>Parent ATP Id</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+    <search:queryParam id="atp.queryParam.relationType" parent="atp.queryParam.relationType-parent" />
+    <search:queryParam id="atp.queryParam.relationType-parent"
+                       abstract="true" optional="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>Atp Relation Type</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+    <search:queryParam id="atp.queryParam.relatedAtpTypes" parent="atp.queryParam.relatedAtpTypes-parent" />
+    <search:queryParam id="atp.queryParam.relatedAtpTypes-parent"
+                       abstract="true" optional="true">
+        <dict:fieldDescriptor parent="childFieldDescriptor">
+            <dict:name>Related ATP Types</dict:name>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
+
     <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
@@ -706,6 +777,17 @@
 
                 <entry  key="milestone.queryParam.milestoneTypes">
                     <value>m.atpType IN(:milestone_queryParam_milestoneTypes)</value>
+                </entry>
+
+
+                <entry  key="atp.search.relatedAtpIdsByAtpId">
+                    <value>SELECT rel.relatedAtp.id FROM AtpAtpRelationEntity rel WHERE rel.atp.id = :atp_queryParam_parentAtpId</value>
+                </entry>
+                <entry  key="atp.queryParam.relationType">
+                    <value>rel.atpType = :atp_queryParam_relationType</value>
+                </entry>
+                <entry  key="atp.queryParam.relatedAtpTypes">
+                    <value>rel.relatedAtp.atpType IN(:atp_queryParam_relatedAtpTypes)</value>
                 </entry>
 
 			</map>
