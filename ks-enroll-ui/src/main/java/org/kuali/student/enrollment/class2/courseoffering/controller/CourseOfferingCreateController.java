@@ -226,7 +226,6 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
             if (matchingCourses.size() > 1) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Multiple matches found for the course code");
-                return null;
             } else if (matchingCourses.isEmpty() && term == null) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Both Catalog Course Code and Target Term are invalid");
             } else {
