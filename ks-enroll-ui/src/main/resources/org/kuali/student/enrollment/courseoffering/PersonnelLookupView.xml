@@ -6,17 +6,28 @@
 
         <bean id="KS-Personnel-LookupView" parent="PersonImpl-LookupView">
         <property name="headerText" value="Personnel Lookup " />
-        <property name="viewName" value="ks_simplePersonLookup"/>
+            <property name="theme">
+                <bean parent="KSTheme"/>
+            </property>
+            <property name="viewName" value="ks_simplePersonLookup"/>
             <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.KSPersonLookupableImpl" />
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalName" >
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:watermarkText="user1" p:minLength="3" />
+                        <bean parent="Uif-TextControl" p:watermarkText="user1" p:minLength="3"  p:size="30"/>
                     </property>
                 </bean>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" p:label="ID" />
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="lastName" p:label="Last Name" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="principalId" p:label="ID" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl"  p:minLength="3"  p:size="30"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="lastName" p:label="Last Name" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl"  p:minLength="3"  p:size="30"/>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="resultFields">
