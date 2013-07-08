@@ -45,6 +45,28 @@
         </property>
     </bean>
 
+    <bean id="KSLookupTheme" abstract="true" parent="KSLookupTheme-parentBean"/>
+    <bean id="KSLookupTheme-parentBean" parent="Uif-KradTheme">
+        <property name="cssFiles">
+            <list merge="true">
+                <value>ks-enroll/bootstrap/css/bootstrap.css</value>
+                <value>krad/min/css/krad_@{#ConfigProperties['rice.version']}.min.css</value>
+                <value>krad/css/ks/theme-krad.css</value>
+                <value>krad/css/ks/fss-theme-krad.css</value>
+                <value>ks-enroll/css/personnel-lookup-style.css</value>
+                <value>ks-enroll/css/ks-jquery.css</value>
+                <value>ks-enroll/css/link-tabs.css</value>
+            </list>
+        </property>
+        <property name="scriptFiles">
+            <list merge="true">
+                <value>ks-enroll/bootstrap/js/bootstrap.js</value>
+                <value>ks-enroll/scripts/enroll.js</value>
+                <value>krad/scripts/ks.krad.widget.js</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-Uif-Page"  abstract="true" parent="Uif-Page" class="org.kuali.student.common.uif.container.KSUifPage" />
 
     <bean id="KS-Uif-FormView" abstract="true" parent="Uif-FormView" class="org.kuali.student.common.uif.view.KSUifFormView">
