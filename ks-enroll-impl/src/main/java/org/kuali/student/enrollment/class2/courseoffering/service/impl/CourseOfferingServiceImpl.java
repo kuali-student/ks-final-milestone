@@ -1278,24 +1278,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         return list;
     }
 
-    /*private boolean _isActivityType(String luiTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-
-        if (luiTypeKey == null) {
-            return false;
-        }
-
-        if (luiTypeKey.startsWith(LuiServiceConstants.ACTIVITY_OFFERING_TYPE_KEY_PREFIX)) {
-            List<TypeInfo> aoTypes = typeService.getTypesForGroupType(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, context);
-            for (TypeInfo typeInfo : aoTypes) {
-                if (typeInfo.getKey().equals(luiTypeKey)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }*/
-
     @Override
     @Transactional(readOnly = true)
     public List<ActivityOfferingInfo> getActivityOfferingsByFormatOffering(String formatOfferingId, ContextInfo contextInfo)
@@ -2152,15 +2134,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             regGroups.add(rgInfo);
         }
 
-//        for (LuiInfo lui : luis) {
-//            if (LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY.equals(lui.getTypeKey())) {
-//                // Use service call getRegistrationGroup to do the work
-//                RegistrationGroupInfo rgInfo = getRegistrationGroup(lui.getId(), context);
-//                regGroups.add(rgInfo);
-//            } else {
-//                throw new InvalidParameterException("Invalid type for reg groups");
-//            }
-//        }
         // Now sort based on reg group code order (alphabetical order works fine)
         // TODO: figure out how to write a compare method that makes sense given different code generators.
         Collections.sort(regGroups, new Comparator<RegistrationGroupInfo>() {
