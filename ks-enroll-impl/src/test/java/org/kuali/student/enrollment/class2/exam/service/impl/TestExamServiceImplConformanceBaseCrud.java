@@ -215,7 +215,7 @@ public abstract class TestExamServiceImplConformanceBaseCrud {
         // test get by type
         // -------------------------------------
         // code to get by specific type "typeKey01"
-        examIds = testService.getExamIdsByType ("typeKey_Updated", contextInfo);
+        examIds = testService.getExamIdsByType ("typeKey01", contextInfo);
 
         assertEquals(1, examIds.size());
         assertEquals(alphaDTO.getId(), examIds.get(0));

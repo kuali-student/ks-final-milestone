@@ -97,8 +97,8 @@ public class TestExamServiceImplConformanceExtendedCrud extends TestExamServiceI
     */
     public void testCrudExam_setDTOFieldsForTestUpdate(ExamInfo expected)
     {
-        expected.setTypeKey("typeKey_Updated");
-        expected.setStateKey("stateKey_Updated");
+        // expected.setTypeKey("typeKey_Updated");
+        // expected.setStateKey("stateKey_Updated");
         expected.setName("name_Updated");
         expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated", "descr_Updated"));
     }
