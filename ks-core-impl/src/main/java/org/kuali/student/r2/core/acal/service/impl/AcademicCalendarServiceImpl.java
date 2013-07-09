@@ -8,7 +8,9 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -22,6 +24,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
@@ -39,6 +42,7 @@ import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
@@ -52,9 +56,11 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -81,6 +87,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private KeyDateAssembler keyDateAssembler;
     private AcalEventAssembler acalEventAssembler;
     private StateTransitionsHelper stateTransitionsHelper;
+
+    private SearchService searchService = null;
 
     public AcalEventAssembler getAcalEventAssembler() {
         return acalEventAssembler;
@@ -1058,6 +1066,25 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         return keyDates;
     }
+
+    protected  List<KeyDateInfo> _getKeyDatesForTermByType(String termId, String milestoneType, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException {
+
+
+        List<MilestoneInfo> milestones = atpService.getMilestonesByTypeForAtp(termId, milestoneType, context);
+
+        if (milestones == null || milestones.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<KeyDateInfo> keyDates = new ArrayList<KeyDateInfo>(milestones.size());
+
+        for (MilestoneInfo milestone : milestones) {
+            keyDates.add(keyDateAssembler.assemble(milestone,context));
+        }
+
+        return keyDates;
+    }
+
 
     @Override
     public List<KeyDateInfo> getKeyDatesForTermByDate(String termId, Date startDate, Date endDate, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
@@ -2171,8 +2198,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         // this section will find all key date for the term. Then do a for loop to find the keydate of type
         // MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY. that KeyDate give the start and end dates for the term.
-        List<KeyDateInfo> keyDates = _getKeyDatesForTerm(termAtp, contextInfo);
-        for (KeyDateInfo keyDate : keyDates) {
+        List<KeyDateInfo> keyDates = _getKeyDatesForTermByType(termAtp.getId(), AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY, contextInfo);
+        for (KeyDateInfo keyDate : keyDates) {       // there should only be one here.
             if (keyDate.getTypeKey().equals(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)) {
                 instructionalPeriodKeyDate = new KeyDateInfo(keyDate);
                 break;
@@ -2227,40 +2254,57 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        DateMidnight currentDate, stopDate;
+        //DateMidnight currentDate, stopDate;
         List<DateMidnight> nonInstructionalHolidayDates = new ArrayList<DateMidnight>();
-        List<AcademicCalendarInfo> acalsForTerm = getAcademicCalendarsForTerm(termAtp.getId(), contextInfo);
 
-        //sub-term > find parent term and get acal for it
-        if (acalsForTerm.size() == 0){
-            List<AtpAtpRelationInfo> atpAtpRelationsForTerm = this.atpService.getAtpAtpRelationsByAtps(termAtp.getId(), contextInfo);
-            for (AtpAtpRelationInfo atpInfo : atpAtpRelationsForTerm) {
-                acalsForTerm = getAcademicCalendarsForTerm(atpInfo.getAtpId(), contextInfo);
-                break;
+        // Call the SearchService and get all holidays for this term. This was put in to increase performance
+        SearchRequestInfo sr = new SearchRequestInfo(CoreSearchServiceImpl.ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_KEY);
+        sr.addParam(CoreSearchServiceImpl.SearchParameters.TERM_ID, termAtp.getId());
+
+        SearchResultInfo searchResult = getSearchService().search(sr, contextInfo);
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+
+            Boolean isInstDay = false;
+            Boolean isDateRange = false;
+
+            Date holStartDate = null;
+            Date holEndDate = null;
+
+            for(SearchResultCellInfo cellInfo : row.getCells()){
+                if(CoreSearchServiceImpl.SearchResultColumns.MSTONE_INSTR_DAY.equals(cellInfo.getKey())){
+                    isInstDay = new Boolean(cellInfo.getValue());
+                }
+                if(CoreSearchServiceImpl.SearchResultColumns.MSTONE_DT_RANGE.equals(cellInfo.getKey())){
+                    isDateRange = new Boolean(cellInfo.getValue());
+                }
+                if(CoreSearchServiceImpl.SearchResultColumns.MSTONE_START_DT.equals(cellInfo.getKey())){
+                    holStartDate = DateFormatters.DEFAULT_TIMESTAMP_FORMATTER.parse(cellInfo.getValue());
+                }
+                if(CoreSearchServiceImpl.SearchResultColumns.MSTONE_END_DT.equals(cellInfo.getKey())){
+                    holEndDate = (cellInfo.getValue() != null && ! cellInfo.getValue().isEmpty()?
+                            DateFormatters.DEFAULT_TIMESTAMP_FORMATTER.parse(cellInfo.getValue()): null);
+                }
             }
-        }
 
-        for (AcademicCalendarInfo acal : acalsForTerm) {
-            List<HolidayInfo> holidaysForTerm =
-                    getHolidaysByDateForAcademicCalendar( acal.getId(), instructionalPeriodKeyDate.getStartDate(),
-                                                          instructionalPeriodKeyDate.getEndDate(), contextInfo);
+            // If's it's not a range then the start and end dates are the same
+            if(!isDateRange){
+                holEndDate = holStartDate;
+            }
 
-            for (HolidayInfo holiday : holidaysForTerm) {
-                if (!holiday.getIsInstructionalDay()) {
-                    currentDate = new DateMidnight(holiday.getStartDate().getTime());
-                    //NPE check end date and set stop to start date if null
-                    if (holiday.getEndDate() != null) {
-                        stopDate = new DateMidnight(holiday.getEndDate().getTime());
-                    } else {
-                        stopDate = currentDate;
+            // if holiday is not an instructional day
+            // and if holiday is in instructional period
+            if(!isInstDay && doDatesOverlap(instructionalPeriodKeyDate.getStartDate(), instructionalPeriodKeyDate.getEndDate(), holStartDate, holEndDate)){
+                DateMidnight currentDate = new DateMidnight(holStartDate.getTime());
+                DateMidnight stopDate = new DateMidnight(holEndDate.getTime());
+
+                while (currentDate.compareTo(stopDate) <= 0) {
+                    // and holiday falls in a term specific instructional day (Monday->Friday)
+                    if ((_dateIsInstructional(typeService.getType(termAtp.getTypeKey(), contextInfo), currentDate))
+                            &&  ( ! nonInstructionalHolidayDates.contains(currentDate))) {
+                        nonInstructionalHolidayDates.add(currentDate);
                     }
-                    while (currentDate.compareTo(stopDate) <= 0) {
-                        if ((_dateIsInstructional(typeService.getType(termAtp.getTypeKey(), contextInfo), currentDate))
-                                &&  ( ! nonInstructionalHolidayDates.contains(currentDate))) {
-                            nonInstructionalHolidayDates.add(currentDate);
-                        }
-                        currentDate = currentDate.plusDays(1);
-                    }
+                    currentDate = currentDate.plusDays(1);
                 }
             }
         }
@@ -2431,6 +2475,18 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return holidaysForAcal;
     }
 
+    private boolean doDatesOverlap(Date periodStartDate, Date periodEndDate, Date subStart, Date subEnd){
+        boolean bRet = false;
+
+        int compStart = subStart.compareTo(periodEndDate);
+        int compEnd = subEnd.compareTo(periodStartDate);
+        if (compStart <= 0 && compEnd >= 0) {
+            bRet = true;
+        }
+
+        return bRet;
+    }
+
 
 
     public StateTransitionsHelper getStateTransitionsHelper() {
@@ -2452,5 +2508,16 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             }
         }
         return true;
+    }
+
+    public SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
+    }
+
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
     }
 }

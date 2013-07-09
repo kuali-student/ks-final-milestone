@@ -98,6 +98,7 @@
         <property name="termAssembler" ref="termAssembler" />
         <property name="keyDateAssembler" ref="keyDateAssembler" />
         <property name="acalEventAssembler" ref="acalEventAssembler" />
+        <property name="searchService" ref="coreSearchService" />
     </bean>
 
     <bean id="acalAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler">
@@ -122,6 +123,16 @@
     <bean id="atpServiceAuthorization" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceAuthorizationDecorator">
         <property name="nextDecorator" ref="atpServiceCalculationDecorator" />
         <property name="permissionService" ref="permissionService" />
+    </bean>
+
+    <bean id="coreSearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
+            <list>
+                <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
+                    <property name="entityManager" ref="entityManager"/>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <!--

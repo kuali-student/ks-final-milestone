@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -11,6 +12,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
@@ -33,19 +35,24 @@ import java.util.List;
  */
 public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBase {
 
+    private static Logger LOG = Logger.getLogger(CoreSearchServiceImpl.class);
+
     @Resource
     private EntityManager entityManager;
 
     public static final TypeInfo SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE;
     public static final TypeInfo SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE;
+    public static final TypeInfo ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE;
 
     public static final String SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY = "kuali.search.type.core.searchForScheduleAndRoomById";
     public static final String SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_KEY = "kuali.search.type.core.searchForScheduleRequestByRefIdAndType";
+    public static final String ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_KEY = "kuali.search.type.core.searchForHolidaysByTermId";
 
     public static final class SearchParameters {
         public static final String SCHEDULE_IDS = "scheduleIds";
         public static final String REF_IDS = "refIds";
         public static final String REF_TYPE = "refType";
+        public static final String TERM_ID = "termId";
     }
 
     public static final class SearchResultColumns {
@@ -59,6 +66,14 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         public static final String ROOM_CODE = "roomCode";
         public static final String BLDG_NAME = "name";
         public static final String TBA_IND = "tbaInd";
+
+        public static final String MSTONE_ID = "id";
+        public static final String MSTONE_NAME = "name";
+        public static final String MSTONE_START_DT = "startDate";
+        public static final String MSTONE_END_DT = "endDate";
+        public static final String MSTONE_ALL_DAY = "isAllDay";
+        public static final String MSTONE_INSTR_DAY = "isInstructionalDay";
+        public static final String MSTONE_DT_RANGE = "isDateRange";
     }
 
     static {
@@ -85,6 +100,18 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             throw new RuntimeException("bad code");
         }
         SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_KEY);
+        info.setName("Academic Calendar Search for Holidays by Term id");
+        info.setDescr(new RichTextHelper().fromPlain("Return a list of holiday milestones for a particular term"));
+
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code");
+        }
+        ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE = info;
     }
 
 
@@ -105,6 +132,9 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         if (SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE.getKey().equals(searchTypeKey)) {
             return SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE;
         }
+        if (ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE.getKey().equals(searchTypeKey)) {
+            return ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE;
+        }
 
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
@@ -114,7 +144,7 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return Arrays.asList(SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE, SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE);
+        return Arrays.asList(SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE, SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE, ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE);
     }
 
 
@@ -124,8 +154,10 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         // As this class expands, you can add multiple searches. Ie. right now there is only one search (so only one search key).
         if (StringUtils.equals(searchRequestInfo.getSearchKey(), SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE.getKey())) {
             return searchForScheduleAndRoomById(searchRequestInfo, contextInfo);
-        }else if (StringUtils.equals(searchRequestInfo.getSearchKey(), SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE.getKey())) {
+        } else if (StringUtils.equals(searchRequestInfo.getSearchKey(), SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE.getKey())) {
             return searchForScheduleRequestsByRefIdAndType(searchRequestInfo, contextInfo);
+        } else if (StringUtils.equals(searchRequestInfo.getSearchKey(), ACAL_GET_HOLIDAYS_BY_TERM_SEARCH_TYPE.getKey())) {
+            return searchForHolidaysByTermId(searchRequestInfo, contextInfo);
         } else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
@@ -302,6 +334,102 @@ public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBas
         return resultInfo;
 
     }
+
+
+    /**
+     * This method will do a direct DB query to find holidays associated with a term. Terms hang off acals. Holidays
+     * hang off acals, but there is no direct link. So the query goes: term->Acal->hcal->holidays (milestones)
+     *
+     * @param searchRequestInfo this should contain the termId (atpId) of the term that you want to find corresponding
+     *                          holidays.
+     * @param contextInfo
+     * @return
+     */
+    protected SearchResultInfo searchForHolidaysByTermId(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo){
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+
+        String termId = requestHelper.getParamAsString(SearchParameters.TERM_ID);
+
+        if (termId == null || termId.isEmpty()){
+            throw new RuntimeException("termId is required");
+        }
+
+
+        String queryStr =
+                "SELECT " +
+                        "    mstone.id, " +
+                        "    mstone.name, " +
+                        "    mstone.startDate, " +
+                        "    mstone.endDate, " +
+                        "    mstone.isAllDay, " +
+                        "    mstone.isInstructionalDay, " +
+                        "    mstone.isDateRange " +
+                        "FROM " +
+                        "    AtpAtpRelationEntity relTerm, " +
+                        "    AtpAtpRelationEntity relHol, " +
+                        "    AtpEntity atpHol, " +
+                        "    AtpMilestoneRelationEntity mstoneRel, " +
+                        "    MilestoneEntity mstone " +
+                        "WHERE " +
+                        "    relTerm.atpType = :relTermAtpType " +
+                        "AND relTerm.atpState = :relTermAtpState " +
+                        "AND relTerm.atp.atpType = :relTermAtpAtpType " +
+                        "AND relHol.atp.id = relTerm.atp.id " +
+                        "AND atpHol.id = relHol.relatedAtp.id " +
+                        "AND atpHol.atpType = :atpHolAtpType " +
+                        "AND mstoneRel.atpId = atpHol.id " +
+                        "AND mstone.id = mstoneRel.milestoneId " +
+                        "AND relTerm.relatedAtp.id = :termId ";
+
+
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter("relTermAtpType", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY);
+        query.setParameter("relTermAtpState", AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
+        query.setParameter("relTermAtpAtpType", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        query.setParameter("atpHolAtpType", AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
+        query.setParameter(SearchParameters.TERM_ID, termId);
+
+        try{
+            if ( LOG.isDebugEnabled() ) {
+                String querySt = query.unwrap(org.hibernate.Query.class).getQueryString();
+                LOG.debug( querySt );
+            }
+        } catch (Exception ex){}
+
+        List<Object[]> results = query.getResultList();
+
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        resultInfo.setTotalResults(results.size());
+        resultInfo.setStartAt(0);
+
+        for (Object[] result : results) {
+            SearchResultRowInfo row = new SearchResultRowInfo();
+
+            int i=0;
+
+            row.addCell(SearchResultColumns.MSTONE_ID,(String)result[i++]);
+            row.addCell(SearchResultColumns.MSTONE_NAME,(String)result[i++]);
+            row.addCell(SearchResultColumns.MSTONE_START_DT,((result[i] != null ? DateFormatters.DEFAULT_TIMESTAMP_FORMATTER.format((java.util.Date)result[i]) : "")));
+            i++;
+            row.addCell(SearchResultColumns.MSTONE_END_DT,((result[i] != null ? DateFormatters.DEFAULT_TIMESTAMP_FORMATTER.format((java.util.Date)result[i]) : "")));
+            i++;
+            row.addCell(SearchResultColumns.MSTONE_ALL_DAY,(result[i] != null ? ((Boolean)result[i]).toString() : "false"));
+            i++;
+            row.addCell(SearchResultColumns.MSTONE_INSTR_DAY,(result[i] != null ? ((Boolean)result[i]).toString() : "false"));
+            i++;
+            row.addCell(SearchResultColumns.MSTONE_DT_RANGE,(result[i] != null ? ((Boolean)result[i]).toString() : "false"));
+            i++;
+
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+
+
+    }
+
+
 
     private static String commaString(List<String> items){
         StringBuilder sb = new StringBuilder();

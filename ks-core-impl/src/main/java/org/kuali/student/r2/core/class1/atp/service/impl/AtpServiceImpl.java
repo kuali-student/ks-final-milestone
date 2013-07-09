@@ -363,21 +363,20 @@ public class AtpServiceImpl implements AtpService {
     public List<MilestoneInfo> getMilestonesForAtp(String atpId,
                                                    ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        AtpEntity atp = atpDao.find(atpId);
-        if (atp == null) {
-            throw new InvalidParameterException(atpId);
+
+        List<MilestoneInfo> result = new ArrayList<MilestoneInfo>();
+        List<MilestoneEntity> milestones = milestoneDao.getByMilestonesByAtp(atpId);
+
+        for (MilestoneEntity entity : milestones) {
+            if (entity == null) {
+                // if one of the entities from "findByIds" is returned as null,
+                // then one of the keys in the list was not found
+                throw new OperationFailedException("Atp to Milestone relation exists to a milestone that has been deleted");
+            }
+            result.add(entity.toDto());
         }
-        List<String> ids = milestoneDao.getIdsByAtp(atpId);
-        
-        if (ids.size() == 0) // if there are no associated ids there are no milestones for this atp
-        	return new ArrayList<MilestoneInfo>();
-        
-        
-        try {
-            return this.getMilestonesByIds(ids, contextInfo);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Atp to Milestone relation exists to a milestone that has been deleted", ex);
-        }
+
+        return result;
     }
 
     @Override
@@ -413,11 +412,11 @@ public class AtpServiceImpl implements AtpService {
                                                          String milestoneTypeKey,
                                                          ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<MilestoneInfo> list = this.getMilestonesForAtp(atpId, contextInfo);
-        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(list.size());
-        for (MilestoneInfo info : list) {
-            if (info.getTypeKey().equals(milestoneTypeKey))
-                results.add(info);
+
+        List<MilestoneEntity> entities = milestoneDao.getMilestonesByTypeForAtp(atpId,milestoneTypeKey);
+        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
+        for (MilestoneEntity entity : entities) {
+            results.add(entity.toDto());
         }
         return results;
     }
