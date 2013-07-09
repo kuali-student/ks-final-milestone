@@ -314,17 +314,34 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
+
                 <bean parent="Uif-VerticalBoxSubSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Label" p:labelText="Course Offering Code" p:renderColon="false"/>
-                            <bean parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+                            <bean parent="Uif-Label" p:labelText="Course Title" p:renderColon="false" />
+                            <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:showLabel="false" />
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalBoxSubSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSubSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField" p:propertyName="course.code" p:showLabel="false"/>
+                                        <bean parent="Uif-Label" p:labelText="Course Code" p:renderColon="false" />
+                                        <bean parent="Uif-DataField" p:propertyName="course.code" p:showLabel="false" />
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSubSection" p:style="margin-left: 10px;">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Label" p:labelText="Suffix" p:renderColon="false" />
                                         <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:watermarkText="Suffix" p:size="10" />
+                                                <bean parent="Uif-TextControl" p:size="10" />
                                             </property>
                                         </bean>
                                     </list>
@@ -333,8 +350,9 @@
                         </list>
                     </property>
                 </bean>
+
                 <ref bean="KS-COEditListed-Checkbox-Group"/>
-                <!--<ref bean="KS-COEditListed-CO-Codes-display"/>-->
+
                 <ref bean="KS-GradingAndRegOptions"/>
             </list>
         </property>
