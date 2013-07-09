@@ -64,7 +64,10 @@
 
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
-                <bean parent="Uif-BreadcrumbItem">
+                <bean parent="Uif-BreadcrumbItem" p:render="@{document.newMaintainableObject.dataObject.catalogCourseCode eq null}">
+                    <property name="label" value="Create Course Offering"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{document.newMaintainableObject.dataObject.catalogCourseCode ne null}">
                     <property name="label" value="Create Course Offering"/>
                     <property name="url.viewId" value="createCourseOfferingPage"/>
                     <property name="url.controllerMapping" value="courseOfferingCreate"/>
@@ -78,8 +81,8 @@
                         </map>
                     </property>
                 </bean>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="@{(document.newMaintainableObject.dataObject.catalogCourseCode eq null)? '' : 'Create '}  @{document.newMaintainableObject.dataObject.catalogCourseCode}"/>
+                <bean parent="Uif-BreadcrumbItem" p:render="@{document.newMaintainableObject.dataObject.catalogCourseCode ne null}">
+                    <property name="label" value="Create @{document.newMaintainableObject.dataObject.catalogCourseCode}"/>
                 </bean>
             </list>
         </property>
