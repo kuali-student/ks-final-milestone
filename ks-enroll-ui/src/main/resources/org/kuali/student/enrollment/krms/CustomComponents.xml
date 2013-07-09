@@ -990,7 +990,8 @@ limitations under the License.
           p:propertyName="proposition.classStanding" p:required="true">
         <property name="style" value="width:450px;"/>
         <property name="control">
-            <bean parent="Uif-TextControl" p:size="60" p:disabled="true"/>
+            <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
+                  p:readOnly="true"/>
         </property>
         <property name="quickfinder">
             <bean parent="KRMS-ClassStanding-QuickFinder"/>
