@@ -438,13 +438,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
     /**
      * Moves proposition up or down.
-     *
+     * <p/>
      * Rough algorithm for moving a node up.
-     *
+     * <p/>
      * find the following:
-     *   node := the selected node
-     *   parent := the selected node's parent, its containing node (via when true or when false relationship)
-     *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
+     * node := the selected node
+     * parent := the selected node's parent, its containing node (via when true or when false relationship)
+     * parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
      *
      * @param form
      * @param up   whether the desired move is in an up direction
@@ -510,13 +510,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
     /**
      * Moves proposition left in tree structure.
-     *
+     * <p/>
      * Rough algorithm for moving a node up.
-     *
+     * <p/>
      * find the following:
-     *   node := the selected node
-     *   parent := the selected node's parent, its containing node (via when true or when false relationship)
-     *   parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
+     * node := the selected node
+     * parent := the selected node's parent, its containing node (via when true or when false relationship)
+     * parentsOlderCousin := the parent's level-order predecessor (sibling or cousin)
      *
      * @param form
      * @param result
@@ -563,14 +563,14 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
     /**
      * Move proposition right in tree structure.
-     *
+     * <p/>
      * Rough algorithm for moving a node Right
      * if the selected node is above a compound proposition, move it into the compound proposition as the first child
      * if the node is above a simple proposition, do nothing.
      * find the following:
-     *   node := the selected node
-     *   parent := the selected node's parent, its containing node
-     *   nextSibling := the node after the selected node
+     * node := the selected node
+     * parent := the selected node's parent, its containing node
+     * nextSibling := the node after the selected node
      *
      * @param form
      * @param result
@@ -709,21 +709,22 @@ public class RuleEditorController extends MaintenanceDocumentController {
         // check if selected and move is not the same
         if (StringUtils.isNotBlank(movePropKey)) {
 
+            PropositionEditor newParent = null;
+            PropositionEditor workingProp = null;
+            PropositionEditor root = ruleEditor.getPropositionEditor();
+
             // Special case when the user copy the the only proposition in tree.
-            if (selectedPropKey.equals(ruleEditor.getPropositionEditor().getKey())){
-                PropositionEditor newParent = viewHelper.createCompoundPropositionBoStub(ruleEditor.getPropositionEditor(), false);
-                PropositionEditor workingProp = viewHelper.copyProposition(ruleEditor.getPropositionEditor());
-
-                // add to new
-                addProposition(selectedPropKey, newParent, workingProp);
-                ruleEditor.setProposition(newParent);
-
+            if (movePropKey.equals(root.getKey())) {
+                newParent = viewHelper.createCompoundPropositionBoStub(root, false);
+                workingProp = viewHelper.copyProposition(root);
             } else {
-
-                Node<RuleEditorTreeNode, String> root = ruleEditor.getEditTree().getRootElement();
-                PropositionEditor newParent = getNewParent(viewHelper, ruleEditor, selectedPropKey, root);
-                PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(root, movePropKey).getData().getProposition();
-                PropositionEditor workingProp = null;
+                Node<RuleEditorTreeNode, String> rootNode = ruleEditor.getEditTree().getRootElement();
+                if (selectedPropKey.equals(root.getKey())) {
+                    newParent = root;
+                } else {
+                    newParent = PropositionTreeUtil.findParentPropositionNode(rootNode, selectedPropKey).getData().getProposition();
+                }
+                PropositionEditor oldParent = PropositionTreeUtil.findParentPropositionNode(rootNode, movePropKey).getData().getProposition();
 
                 // cut or copy from old
                 if (oldParent != null) {
@@ -739,10 +740,14 @@ public class RuleEditorController extends MaintenanceDocumentController {
                         }
                     }
                 }
-
-                // add to new
-                addProposition(selectedPropKey, newParent, workingProp);
             }
+
+            // add to new
+            addProposition(selectedPropKey, newParent, workingProp);
+            if (movePropKey.equals(root.getKey())) {
+                ruleEditor.setProposition(newParent);
+            }
+
 
             //Refresh the tree.
             PropositionTreeUtil.removeCompoundProp(ruleEditor);
@@ -757,30 +762,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
     }
 
     /**
-     * Returns new parent for selected proposition in tree structure.     *
-     *
-     * @param viewHelper
-     * @param ruleEditor
-     * @param selectedpropKey
-     * @param root
-     * @return
-     */
-    private PropositionEditor getNewParent(RuleViewHelperService viewHelper, RuleEditor ruleEditor, String selectedpropKey, Node<RuleEditorTreeNode, String> root) {
-        Node<RuleEditorTreeNode, String> parentNode = PropositionTreeUtil.findParentPropositionNode(root, selectedpropKey);
-        PropositionEditor newParent;
-        if (parentNode.equals(root)) {
-            // special case build new top level compound proposition,
-            // add existing as first child then paste cut node as 2nd child
-            newParent = viewHelper.createCompoundPropositionBoStub(
-                    root.getChildren().get(0).getData().getProposition(), false);
-            ruleEditor.setProposition(newParent);
-        } else {
-            newParent = parentNode.getData().getProposition();
-        }
-        return newParent;
-    }
-
-    /**
      * Adds proposition at selected position.
      *
      * @param selectedpropKey
@@ -790,11 +771,18 @@ public class RuleEditorController extends MaintenanceDocumentController {
     private void addProposition(String selectedpropKey, PropositionEditor newParent, PropositionEditor workingProp) {
         // add to new
         if (newParent != null && workingProp != null) {
+            //Selected is parent, add to list.
+            if(selectedpropKey.equalsIgnoreCase(newParent.getKey())){
+                newParent.getCompoundEditors().add(workingProp);
+                return;
+            }
+
+            //Add after selected prop.
             List<PropositionEditor> children = newParent.getCompoundEditors();
             for (int index = 0; index < children.size(); index++) {
                 if (selectedpropKey.equalsIgnoreCase(children.get(index).getKey())) {
                     children.add(index + 1, workingProp);
-                    break;
+                    return;
                 }
             }
         }
@@ -824,7 +812,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         if (parentNode != null && parentNode.getData() != null) { // it is not the root as there is a parent w/ a prop
             PropositionEditor parent = parentNode.getData().getProposition();
             if (parent != null) {
-                List<PropositionEditor> children = (List<PropositionEditor>) parent.getCompoundComponents();
+                List<PropositionEditor> children = parent.getCompoundEditors();
                 for (int index = 0; index < children.size(); index++) {
                     if (selectedpropKey.equalsIgnoreCase(children.get(index).getKey())) {
                         parent.getCompoundComponents().remove(index);
