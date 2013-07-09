@@ -776,6 +776,11 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             throw new DoesNotExistException(termId);
         }
 
+        // if the apt state is not draft, throw exception
+        if (!StringUtils.equals(atp.getStateKey(), AtpServiceConstants.ATP_DRAFT_STATE_KEY)) {
+            throw new OperationFailedException("KSENROLL-7961 - Official term cannot be deleted. termid: " + termId);
+        }
+
         if (!checkTypeForTermType(atp.getTypeKey(), context)) {
             throw new InvalidParameterException("Invalid termId: " + termId + "  Given key does not map to a Term");
         }
