@@ -15,6 +15,7 @@
  */
 package org.kuali.rice.krms.dto;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
@@ -22,7 +23,10 @@ import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.impl.ui.TermParameter;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -143,7 +147,17 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         }
         this.description = description;
 
+        if(this.description!=null){
+            LOG.info("Description Length: " + this.description.length());
+            if(this.description.contains("&nbsp;")){
+                LOG.info("term parameter contains &nbsp;");
+            }
+        }
         LOG.info(this.description);
+        LOG.info("Default Charset=" + Charset.defaultCharset());
+        LOG.info("file.encoding=" + System.getProperty("file.encoding"));
+        OutputStreamWriter writer = new OutputStreamWriter(new ByteArrayOutputStream());
+        LOG.info("Writer encoding"+writer.getEncoding());
     }
 
     public void setRuleId(String ruleId) {
@@ -227,6 +241,18 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
 
     public void setTermParameter(String termParameter) {
         this.termParameter = termParameter;
+
+        if(this.termParameter!=null){
+            LOG.info("TermParameter Length: " + this.termParameter.length());
+            if(this.termParameter.contains("&nbsp;")){
+                LOG.info("term parameter contains &nbsp;");
+            }
+        }
+        LOG.info(termParameter);
+        LOG.info("Default Charset=" + Charset.defaultCharset());
+        LOG.info("file.encoding=" + System.getProperty("file.encoding"));
+        OutputStreamWriter writer = new OutputStreamWriter(new ByteArrayOutputStream());
+        LOG.info("Writer encoding"+writer.getEncoding());
     }
 
     public List<TermParameter> getTermParameterList() {

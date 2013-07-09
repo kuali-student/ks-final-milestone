@@ -15,6 +15,7 @@
  */
 package org.kuali.rice.krms.builder;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.krms.dto.PropositionEditor;
 
 import java.util.HashMap;
@@ -25,6 +26,8 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class SimpleTextComponentBuilder implements ComponentBuilder<PropositionEditor>{
+
+    private final static Logger LOG = Logger.getLogger(SimpleTextComponentBuilder.class);
 
     private static final String TEXT_KEY = "kuali.term.parameter.type.free.text";
 
@@ -43,6 +46,9 @@ public class SimpleTextComponentBuilder implements ComponentBuilder<PropositionE
     public Map<String, String> buildTermParameters(PropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         termParameters.put(TEXT_KEY, propositionEditor.getTermParameter());
+
+        LOG.info(termParameters);
+
         return termParameters;
     }
 
