@@ -286,7 +286,6 @@
                 <kuali.student.sonar.schemacompare.ddl.path>${ks-db-validation.resource.path}/ddl/</kuali.student.sonar.schemacompare.ddl.path>
                 <kuali.student.sonar.schemacompare.ddl.schemafile>schema.xml</kuali.student.sonar.schemacompare.ddl.schemafile>
                 <kuali.student.sonar.schemacompare.ddl.constraintsfile>constraints.xml</kuali.student.sonar.schemacompare.ddl.constraintsfile>
-
                 <!-- properties to create the KSAPP_SONAR db -->
                 <properties.decrypt>true</properties.decrypt>
                 <oracle.dba.username>master</oracle.dba.username>
