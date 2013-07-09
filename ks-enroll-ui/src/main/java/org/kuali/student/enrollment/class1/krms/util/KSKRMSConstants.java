@@ -42,5 +42,6 @@ public class KSKRMSConstants {
     public static final String KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED = "error.krms.approved.course.required";
     public static final String KSKRMS_MSG_ERROR_COURSESETS_REQUIRED = "error.krms.coursesets.required";
     public static final String KSKRMS_MSG_ERROR_MULTICOURSE_REQUIRED = "error.krms.multicourse.required";
+    public static final String KSKRMS_MSG_WARNING_MULTICOURSE_PLURAL = "warning.krms.agenda.rule.co.multicourse.plural";
 
 }

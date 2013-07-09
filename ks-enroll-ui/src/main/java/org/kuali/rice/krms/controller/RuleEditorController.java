@@ -892,7 +892,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         RuleEditor ruleEditor = getRuleEditor(form);
-
+        String dialog1 = "warningMessagedYesNo";
+        boolean choice = false;
         if (ruleEditor.getProposition() != null) {
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
         }
@@ -905,6 +906,20 @@ public class RuleEditorController extends MaintenanceDocumentController {
             this.getViewHelper(form).validateProposition(proposition);
             if (!GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
                 return getUIFModelAndView(form);
+            }
+
+            if (!GlobalVariables.getMessageMap().getWarningMessages().isEmpty()) {
+                if (!hasDialogBeenAnswered(dialog1, form)) {
+                    // redirect back to client to display lightbox
+                    return showDialog(dialog1, form, request, response);
+                }
+                // Get value from chosen button
+                choice = getBooleanDialogResponse(dialog1, form, request, response);
+                if (!choice) {
+                    form.getDialogManager().removeDialog(dialog1);
+
+                    return getUIFModelAndView(form);
+                }
             }
 
             //Reset the description and natural language for the proposition.
