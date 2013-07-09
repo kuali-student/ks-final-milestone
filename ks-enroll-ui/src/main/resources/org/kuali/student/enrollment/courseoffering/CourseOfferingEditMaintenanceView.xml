@@ -652,7 +652,6 @@
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="6"
                       p:layoutManager.style="width: 100%; display:block;">
-                    <property name="headerText" value="Affiliated Personnel" />
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo" />
                     <property name="propertyName" value="courseOfferingInfo.instructors" />
                     <property name="layoutManager.renderSequenceField" value="false" />

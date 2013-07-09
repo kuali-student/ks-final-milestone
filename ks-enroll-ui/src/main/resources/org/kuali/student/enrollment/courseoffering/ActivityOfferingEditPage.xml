@@ -299,10 +299,6 @@
                       p:layoutManager.numberOfColumns="6"
                       p:id="ao-personnelgroup"
                       p:layoutManager.style="width: 100%; display:block;">
-                    <property name="headerText" value="Affiliated Personnel" />
-                    <!-- <property name="header">
-                        <bean parent="Uif-HeaderFour"/>
-                    </property> -->
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="layoutManager.renderSequenceField" value="false" />
