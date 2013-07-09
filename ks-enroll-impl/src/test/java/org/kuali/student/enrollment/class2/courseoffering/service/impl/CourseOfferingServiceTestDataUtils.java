@@ -186,9 +186,6 @@ public final class CourseOfferingServiceTestDataUtils {
         orig.setIsMaxEnrollmentEstimate(false);
         orig.setIsHonorsOffering(true);
 
-        orig.setHasWaitlist(false);
-        orig.setIsWaitlistCheckinRequired(false);
-
         orig.setInstructors(instructors);
 
         orig.setCourseOfferingCode(courseOffering.getCourseOfferingCode());
