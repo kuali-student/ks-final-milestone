@@ -72,10 +72,11 @@ permissions and limitations under the License.
 				<ref bean="CourseWaitListInfo.id"/>
 				<ref bean="CourseWaitListInfo.typeKey"/>
 				<ref bean="CourseWaitListInfo.stateKey"/>
-				<ref bean="CourseWaitListInfo.courseWaitListProcessingTypeKey"/>
+				<ref bean="CourseWaitListInfo.automaticallyProcessed"/>
+				<ref bean="CourseWaitListInfo.confirmationRequired"/>
 				<ref bean="CourseWaitListInfo.maxSize"/>
 				<ref bean="CourseWaitListInfo.checkInRequired"/>
-				<ref bean="CourseWaitListInfo.allowHoldListEntries"/>
+				<ref bean="CourseWaitListInfo.allowHoldUntilEntries"/>
 				<ref bean="CourseWaitListInfo.effectiveDate"/>
 				<ref bean="CourseWaitListInfo.expirationDate"/>
 			</list>
@@ -127,14 +128,14 @@ Instead, it should be set using the appropriate change state method in service.
 		<property name="shortLabel" value="Activity Offering Ids"/>
 		<property name="summary">
 			<value>
-???
+The activity offering Ids associated with this CourseWaitList.
 			</value>
 		</property>
 		<property name="label" value="Activity Offering Ids"/>
 		<property name="elementLabel" value="Activity Offering Id"/>
 		<property name="description">
 			<value>
-???
+The activity offering Ids associated with this CourseWaitList.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -146,32 +147,51 @@ Instead, it should be set using the appropriate change state method in service.
 		<property name="shortLabel" value="Format Offering Ids"/>
 		<property name="summary">
 			<value>
-???
+The format offering Ids associated with this CourseWaitList.
 			</value>
 		</property>
 		<property name="label" value="Format Offering Ids"/>
 		<property name="elementLabel" value="Format Offering Id"/>
 		<property name="description">
 			<value>
-???
+The format offering Ids associated with this CourseWaitList.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="CourseWaitListInfo.courseWaitListProcessingTypeKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="courseWaitListProcessingTypeKey"/>
-		<property name="shortLabel" value="Course Wait List Processing Type Key"/>
+	<bean id="CourseWaitListInfo.automaticallyProcessed-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="automaticallyProcessed"/>
+		<property name="shortLabel" value="Automatically Processed"/>
 		<property name="summary">
 			<value>
-???
+Indicates if the CourseWaitListEntries associated with this CourseWaitList are automatically processed.
 			</value>
 		</property>
-		<property name="label" value="Course Wait List Processing Type Key"/>
+		<property name="label" value="Is Automatically Processed"/>
 		<property name="description">
 			<value>
-???
+Indicates if the CourseWaitListEntries associated with this CourseWaitList are automatically processed.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="CourseWaitListInfo.confirmationRequired-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="confirmationRequired"/>
+		<property name="shortLabel" value="Confirmation Required"/>
+		<property name="summary">
+			<value>
+Indicates if the CourseWaitListEntries associated with this CourseWaitList must acknowledge/confirm that they
+want to be added to the relevant course when they are processed.
+			</value>
+		</property>
+		<property name="label" value="Is Confirmation Required"/>
+		<property name="description">
+			<value>
+Indicates if the CourseWaitListEntries associated with this CourseWaitList must acknowledge/confirm that they
+want to be added to the relevant course when they are processed.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -182,13 +202,14 @@ Instead, it should be set using the appropriate change state method in service.
 		<property name="shortLabel" value="Max Size"/>
 		<property name="summary">
 			<value>
-???
+The maximum size of this CourseWaitList.
 			</value>
 		</property>
 		<property name="label" value="Max Size"/>
 		<property name="description">
 			<value>
-???
+The maximum size of this CourseWaitList.  This value will always be positive.
+Zero represents an unlimited size.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -199,13 +220,13 @@ Instead, it should be set using the appropriate change state method in service.
 		<property name="shortLabel" value="Check In Required"/>
 		<property name="summary">
 			<value>
-Indicates that a student is required to check in at some interval to remain on this course wait list.
+Indicates if a student is required to check in at some interval to remain on this course wait list.
 			</value>
 		</property>
 		<property name="label" value="Check-in Required"/>
 		<property name="description">
 			<value>
-Indicates that a student is required to check in at some interval to remain on this course wait list.
+Indicates if a student is required to check in at some interval to remain on this course wait list.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -216,13 +237,15 @@ Indicates that a student is required to check in at some interval to remain on t
 		<property name="shortLabel" value="Check In Frequency"/>
 		<property name="summary">
 			<value>
-???
+The amount of time that a student is required to
+check-in before they will be removed from this CourseWaitList.
 			</value>
 		</property>
 		<property name="label" value="Check-in Frequency"/>
 		<property name="description">
 			<value>
-???
+The amount of time that a student is required to
+check-in before they will be removed from this CourseWaitList.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -233,7 +256,8 @@ Indicates that a student is required to check in at some interval to remain on t
 				<property name="objectLabel" value="Check-in Frequency"/>
 				<property name="objectDescription">
 					<value>
-???
+The amount of time that a student is required to
+check-in before they will be removed from this CourseWaitList.
 					</value>
 				</property>
 
@@ -293,18 +317,20 @@ The amount of time.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CourseWaitListInfo.allowHoldListEntries-generated" abstract="true" parent="BaseKuali.boolean">
-		<property name="name" value="allowHoldListEntries"/>
-		<property name="shortLabel" value="Allow Hold List Entries"/>
+	<bean id="CourseWaitListInfo.allowHoldUntilEntries-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="allowHoldUntilEntries"/>
+		<property name="shortLabel" value="Allow Hold Until Entries"/>
 		<property name="summary">
 			<value>
-???
+Indicates if hold until entries are allowed on this CourseWaitList.
+
 			</value>
 		</property>
-		<property name="label" value="Allow Hold List Entries"/>
+		<property name="label" value="Allow Hold Until Entries"/>
 		<property name="description">
 			<value>
-???
+Indicates if hold until entries are allowed on this CourseWaitList.
+An entry is considered a hold until entry if it is in a specific state.
 			</value>
 		</property>
 		<property name="required" value="false"/>
