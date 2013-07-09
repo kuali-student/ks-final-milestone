@@ -6,8 +6,9 @@
 
         <bean id="KS-Personnel-LookupView" parent="PersonImpl-LookupView">
             <property name="theme">
-                <bean parent="KSLookupTheme"/>
+                <bean parent="KSTheme"/>
             </property>
+            <property name="onLoadScript" value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
             <property name="viewName" value="ks_simplePersonLookup"/>
             <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.KSPersonLookupableImpl" />
         <property name="criteriaFields">
