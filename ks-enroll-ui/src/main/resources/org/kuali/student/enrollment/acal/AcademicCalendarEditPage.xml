@@ -134,7 +134,6 @@ limitations under the License.
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="items">
             <list>
-                <!--<bean parent="Uif-Message" p:messageText="Last saved at @{lastUpdatedTime}" p:cssClasses="font-light12"/>-->
                 <ref bean="KS-AcademicCalendar-Overview" />
                 <ref bean="KS-AcademicCalendar-MetaSubSection"/>
                 <ref bean="KS-AcademicCalendar-EventSubSection"/>
@@ -147,7 +146,6 @@ limitations under the License.
     <bean id="KS-AcademicCalendar-Overview" parent="Uif-VerticalBoxSubSection" >
         <property name="headerText" value="Overview" />
         <property name="disclosure.render" value="false"/>
-        <!--<property name="hidden" value="@{#view.readOnly}"/>-->
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
@@ -200,13 +198,11 @@ limitations under the License.
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="headerText" value="Terms"/>
-        <!--<property name="instructionalText" value="@{#line.clusterNameForDisplay}" />-->
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
-<!--        <property name="style" value="padding-left: 10px" />-->
         <property name="layoutManager.actionFieldPrototype">
             <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label=""/>
         </property>
@@ -215,13 +211,6 @@ limitations under the License.
                 <value>ks-tablecollection-table-acal-overview</value>
             </list>
         </property>
-        <!--<property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="sDom" value="rtip"/>
-                <entry key="bPaginate" value="false"/>
-                <entry key="bAutoWidth" value="false"/>
-            </map>
-        </property>-->
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:valign="middle" p:messageText="@{#line.isSubTerm()? 'Sub term' : ''}"/>
@@ -250,7 +239,6 @@ limitations under the License.
         <property name="lineActions">
             <list>
                 <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official" p:render="@{!#line.official and !#view.readOnly}" />
-                <!--<bean id="term_delete_link" parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete Term" />-->
             </list>
         </property>
     </bean>
@@ -276,12 +264,6 @@ limitations under the License.
                         <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
-                <!--<bean parent="Uif-InputField-LabelTop" p:propertyName="academicCalendarInfo.adminOrgId"-->
-                      <!--p:label="Organization" p:labelPlacement="TOP">-->
-                    <!--<property name="control">-->
-                        <!--<bean parent="Uif-DropdownControl" p:options-ref="org-options"/>-->
-                    <!--</property>-->
-                <!--</bean>-->
 
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
@@ -510,15 +492,6 @@ limitations under the License.
                                     <bean parent="Uif-TextControl"/>
                                 </property>
                             </bean>
-                            <!--<bean parent="Uif-InputField"-->
-                                  <!--p:propertyName="adminOrgName"-->
-                                  <!--p:label="Organization"-->
-                                  <!--p:readOnly="true"-->
-                                  <!--p:render="@{!#isAddLine}"   >-->
-                                <!--<property name="control">-->
-                                    <!--<bean parent="Uif-TextControl"/>-->
-                                <!--</property>-->
-                            <!--</bean>-->
                             <bean parent="Uif-InputField"
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"
