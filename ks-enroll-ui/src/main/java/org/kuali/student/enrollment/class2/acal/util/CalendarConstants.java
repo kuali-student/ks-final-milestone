@@ -97,6 +97,8 @@ public class CalendarConstants {
         public static final String ERROR_ACAL_OFFICIAL_FAILED = "error.enroll.acal.official.failed";
         public static final String ERROR_ACAL_SAVE_TERM_SAVE_FAILED = "error.enroll.acal.term.save.failed";
         public static final String ERROR_ACAL_SAVE_TERM_OFFICIAL_FAILED = "error.enroll.acal.term.official.failed";
+        public static final String ERROR_ACAL_SAVE_EVENT_FAILED = "error.enroll.acal.event.save.failed";
+        public static final String ERROR_ACAL_SAVE_TERM_KEYDATE_FAILED = "error.enroll.acal.term.keydate.save.failed";
         public static final String ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
         public static final String ERROR_KEY_DATE_TYPE_REQUIRED = "error.enroll.keydate.type.empty";
         public static final String ERROR_KEY_DATE_GROUP_TYPE_REQUIRED = "error.enroll.keydategroup.type.empty";

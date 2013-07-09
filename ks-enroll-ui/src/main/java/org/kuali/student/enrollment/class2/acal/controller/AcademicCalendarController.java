@@ -332,11 +332,8 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) {
-        //POC for KSENROLL-7698
-        //AcademicCalendarForm acal = saveAcademicCalendar(academicCalendarForm);
-        //return getUIFModelAndView(acal);
-
-        return saveAcademicCalendar(academicCalendarForm, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_SAVED, false);
+        AcademicCalendarForm acal = saveAcademicCalendarDirtyFields(academicCalendarForm);
+        return getUIFModelAndView(acal);
     }
 
     /**
@@ -1075,7 +1072,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param academicCalendarForm - Form containing the data from the page.
      * @return The updated calendar after save.
      */
-    private AcademicCalendarForm saveAcademicCalendar(AcademicCalendarForm academicCalendarForm){
+    private AcademicCalendarForm saveAcademicCalendarDirtyFields(AcademicCalendarForm academicCalendarForm){
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
 
         // Convert Raw UI data and prepare it for save.
@@ -1095,11 +1092,9 @@ public class AcademicCalendarController extends UifControllerBase {
             dirtyFields.add(field);
         }
 
-        // Check for changes to Hcals
-        if(changesMadeToHCals(academicCalendarForm)){
-            // If changes have been made to the holiday calendars set academicCalendarInfo as dirty
-            dirtyFields.add("academicCalendarInfo.holiday");
-        }
+        // Save the base Academic calendar info and refresh it in the form
+        AcademicCalendarInfo newAcal = saveAcal(academicCalendarForm.getAcademicCalendarInfo(), academicCalendarForm, viewHelperService);
+        academicCalendarForm.setAcademicCalendarInfo(newAcal);
 
         // Save the dirty field information
         academicCalendarForm = saveDirtyFieldChanges(academicCalendarForm, dirtyFields,viewHelperService);
@@ -1174,11 +1169,8 @@ public class AcademicCalendarController extends UifControllerBase {
                 // Catch known dirty field that are not handled by save
                 continue;
             }else if(field.contains("academicCalendarInfo")){
-
-                // Save the base Academic calendar info and refresh it in the form
-                AcademicCalendarInfo newAcal = saveAcal(form.getAcademicCalendarInfo(), form, helperService);
-                form.setAcademicCalendarInfo(newAcal);
-
+                // Academic calendar info is always saved
+                continue;
             } else if(field.contains("events")){
 
                 // Save an individual event and refresh it in the form
@@ -1359,7 +1351,8 @@ public class AcademicCalendarController extends UifControllerBase {
             if (LOG.isDebugEnabled()){
                 LOG.error("Save term has failed - " + e.getMessage());
             }
-            // TODO: Add Error message for failure to create term
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_SAVE_FAILED,
+                    termWrapper.getName(), e.getLocalizedMessage());
         }
 
         return termWrapper;
@@ -1381,7 +1374,8 @@ public class AcademicCalendarController extends UifControllerBase {
                 if (LOG.isDebugEnabled()){
                     LOG.error("Delete term has failed - " + e.getMessage());
                 }
-                // TODO: Add Error message for failure to create event
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING,"Term",term.getName());
+
             }
         }
     }
@@ -1450,7 +1444,8 @@ public class AcademicCalendarController extends UifControllerBase {
             if (LOG.isDebugEnabled()){
                 LOG.error("Save keydate has failed - " + e.getMessage());
             }
-            // TODO: Add Error message for failure to create key date
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_KEYDATE_FAILED,keyDateWrapper.getKeyDateNameUI(),term.getName());
+
         }
 
         return keyDateWrapper;
@@ -1472,7 +1467,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 if (LOG.isDebugEnabled()){
                     LOG.error("Delete key date has failed - " + e.getMessage());
                 }
-                // TODO: Add Error message for failure to create event
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING,term.getName(),keyDate.getKeyDateNameUI());
             }
         }
         term.getKeyDatesToDeleteOnSave().clear();
@@ -1499,7 +1494,6 @@ public class AcademicCalendarController extends UifControllerBase {
 
     /**
      * Save changes to an event or create it if it has not already been saved
-     * POC KSENROLL-7698
      *
      * @param event - The event to be created
      * @param form - View form containing the Calendar information
@@ -1544,7 +1538,8 @@ public class AcademicCalendarController extends UifControllerBase {
             if (LOG.isDebugEnabled()){
                 LOG.error("Save calendar event has failed - " + e.getMessage());
             }
-            // TODO: Add Error message for failure to create event
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_EVENT_FAILED,event.getEventTypeName());
+
         }
 
         return event;
@@ -1552,28 +1547,26 @@ public class AcademicCalendarController extends UifControllerBase {
 
     /**
      * Determines events that have been deleted in the UI and deletes them from the database
-     * POC KSENROLL-7698
      *
      * @param form - View form containing the Calendar information
      * @param helperService - View Helper service
      */
     private void deleteAcalEvents(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
         for(int i=0;i<form.getEventsToDeleteOnSave().size();i++){
+            AcalEventWrapper event = form.getEventsToDeleteOnSave().get(i);
             try{
-                AcalEventWrapper event = form.getEventsToDeleteOnSave().get(i);
                 getAcalService().deleteAcalEvent(event.getAcalEventInfo().getId(),helperService.createContextInfo());
             }catch(Exception e){
                 if (LOG.isDebugEnabled()){
                     LOG.error("Delete calendar event has failed - " + e.getMessage());
                 }
-                // TODO: Add Error message for failure to create event
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING,"Calendar event",event.getEventTypeName());
             }
         }
     }
 
     /**
      * Finds and returns an array index of a property from its field name
-     * POC KSENROLL-7698
      *
      * @param field - The property field string in the form propertyName[#]
      * @return The index of the array slot referenced in the property.
@@ -1585,7 +1578,6 @@ public class AcademicCalendarController extends UifControllerBase {
 
     /**
      * Finds and returns the parent term of a subterm
-     * POC KSENROLL-7698
      *
      * @param acalId - Id of the calendar containing the subterm
      * @param parentTermTypeKey - The type key of the parent term
@@ -1606,7 +1598,6 @@ public class AcademicCalendarController extends UifControllerBase {
 
     /**
      * Creates a Date object with just date or date and time based on if the event is all day or not
-     * POC KSENROLL-7698
      *
      * @param isAllDay - Whether event is all day or not
      * @param date - The MM/dd/yyyy date
@@ -1620,32 +1611,4 @@ public class AcademicCalendarController extends UifControllerBase {
         }
         return date;
     }
-
-    /**
-     * Determines whether changes were made to the list of Holiday Calendars.
-     * POC KSENROLL-7698
-     *
-     * @param form - View form containing the Calendar information
-     * @return True if changes are detected, other wise false.
-     */
-    private boolean changesMadeToHCals(AcademicCalendarForm form){
-
-        // Check if Calendars have been deleted
-        if(form.isHolidayCalendarDeleted())return true;
-
-        // Check for new Calendars
-        for(int j=0;j<form.getHolidayCalendarList().size();j++){
-            HolidayCalendarWrapper calendar = form.getHolidayCalendarList().get(j);
-            if(calendar.getHolidayCalendarInfo()==null){
-                // A new Calendar meaning changes have been made to Holiday Calendar
-                return true;
-            }
-            if(calendar.getHolidayCalendarInfo().getId()==null){
-                // A new Calendar meaning changes have been made to Holiday Calendar
-                return true;
-            }
-        }
-        return false;
-    }
-
 }
