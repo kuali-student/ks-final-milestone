@@ -626,7 +626,7 @@ limitations under the License.
             <bean parent="Uif-VerticalRadioControl"/>
         </property>
         <property name="optionsFinder">
-            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.GradeScaleValuesFinder"/>
+            <bean class="org.kuali.student.enrollment.class1.krms.keyvalues.AssesmentKeyValueFinder"/>
         </property>
     </bean>
     <bean id="KRMS-GradeScale-Field" parent="KRMS-GradeScale-Field-Parent"/>

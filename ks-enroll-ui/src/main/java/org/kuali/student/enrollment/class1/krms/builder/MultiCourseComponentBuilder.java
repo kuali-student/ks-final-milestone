@@ -25,8 +25,6 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetRangeInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
-import org.kuali.student.enrollment.class1.krms.keyvalues.GradeScaleValuesFinder;
-import org.kuali.student.enrollment.class1.krms.keyvalues.GradeValuesKeyFinder;
 import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
 import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;

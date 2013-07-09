@@ -30,7 +30,12 @@ import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.model.ResultValueEntity;
+import org.kuali.student.r2.lum.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
@@ -58,39 +63,33 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
         } else if (model instanceof MaintenanceDocumentForm) {
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
             Object dataObject = maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
-            if (dataObject instanceof EnrolRuleEditor) {
-                EnrolRuleEditor ruleEditor = (EnrolRuleEditor) dataObject;
-                PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor) ;
-                if ((propositionEditor != null) && (propositionEditor instanceof EnrolPropositionEditor)){
+            if (dataObject instanceof RuleManagementWrapper) {
+                RuleEditor ruleEditor = ((RuleManagementWrapper) dataObject).getRuleEditor();
+                PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor);
+                if ((propositionEditor != null) && (propositionEditor instanceof EnrolPropositionEditor)) {
                     gradeScale = ((EnrolPropositionEditor) propositionEditor).getGradeScale();
-                }
-            } else if( dataObject instanceof RuleManagementWrapper){
-                RuleManagementWrapper wrapper = (RuleManagementWrapper) dataObject;
-                RuleEditor ruleEditor = wrapper.getRuleEditor();
-                PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor) ;
-                if( (propositionEditor != null) && (propositionEditor instanceof EnrolPropositionEditor)){
-                    gradeScale = ( (EnrolPropositionEditor) propositionEditor).getGradeScale();
                 }
             }
         }
 
         try {
-            List<ResultValueInfo> list = this.getLRCService().getResultValuesForScale(gradeScale, getContextInfo());
-            if (list != null) {
-                for (ResultValueInfo info : list) {
-                    keyValues.add(new ConcreteKeyValue(info.getKey(), info.getValue()));
-                }
+
+            ResultValuesGroupInfo rvgInfo = this.getLRCService().getResultValuesGroup(gradeScale, this.getContextInfo());
+            List<ResultValueInfo> rvInfos = this.getLRCService().getResultValuesByKeys(rvgInfo.getResultValueKeys(), this.getContextInfo());
+
+            for (ResultValueInfo info : rvInfos) {
+                keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
             }
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
+
+        } catch (Exception e) {
         }
+
         return keyValues;
     }
 
     private LRCService getLRCService() {
-        if (lrcService == null)
-        {
-            QName qname = new QName(LrcServiceConstants.NAMESPACE,LrcServiceConstants.SERVICE_NAME_LOCAL_PART);
+        if (lrcService == null) {
+            QName qname = new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART);
             lrcService = (LRCService) GlobalResourceLoader.getService(qname);
         }
         return lrcService;
