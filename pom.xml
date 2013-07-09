@@ -271,9 +271,9 @@
                 <!-- configuration for foreign key validation in ks-sonar plugin -->
                 <kuali.student.sonar.fkvalidation.skip>false</kuali.student.sonar.fkvalidation.skip>
                 <kuali.student.sonar.fkvalidation.driver>oracle.jdbc.driver.OracleDriver</kuali.student.sonar.fkvalidation.driver>
-                <kuali.student.sonar.fkvalidation.username>KSAPP</kuali.student.sonar.fkvalidation.username>
-                <kuali.student.sonar.fkvalidation.password>KSAPP</kuali.student.sonar.fkvalidation.password>
-                <kuali.student.sonar.fkvalidation.url>jdbc:oracle:thin:@localhost:1521:xe</kuali.student.sonar.fkvalidation.url>
+                <kuali.student.sonar.fkvalidation.username>KSAPP_SONAR</kuali.student.sonar.fkvalidation.username>
+                <kuali.student.sonar.fkvalidation.password>KSAPP_SONAR</kuali.student.sonar.fkvalidation.password>
+                <kuali.student.sonar.fkvalidation.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</kuali.student.sonar.fkvalidation.url>
                 <kuali.student.sonar.fkvalidation.query.path>${ks-db-validation.resource.path}/foreignKey/</kuali.student.sonar.fkvalidation.query.path>
                 <kuali.student.sonar.fkvalidation.query.filename>missing_foreign_key_query.sql</kuali.student.sonar.fkvalidation.query.filename>
                 <!-- configuration for schema comparison in ks-sonar plugin -->
@@ -286,6 +286,12 @@
                 <kuali.student.sonar.schemacompare.ddl.path>${ks-db-validation.resource.path}/ddl/</kuali.student.sonar.schemacompare.ddl.path>
                 <kuali.student.sonar.schemacompare.ddl.schemafile>schema.xml</kuali.student.sonar.schemacompare.ddl.schemafile>
                 <kuali.student.sonar.schemacompare.ddl.constraintsfile>constraints.xml</kuali.student.sonar.schemacompare.ddl.constraintsfile>
+
+                <!-- properties to create the KSAPP_SONAR db -->
+                <properties.decrypt>true</properties.decrypt>
+                <oracle.dba.username>master</oracle.dba.username>
+                <oracle.dba.password>ENC(eEFVZmL4+y/5KlzDMCt6dGlBKQzXevFp)</oracle.dba.password>
+                <oracle.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.dba.url>
             </properties>
             <build>
                 <pluginManagement>
@@ -339,7 +345,7 @@
                     <artifactId>externals-maven-plugin</artifactId>
                     <configuration>
                         <commitMessage>[externals-maven-plugin] Automated pom formatting</commitMessage>
-                        <mappings>                  `
+                        <mappings>
                             <mapping>
                                 <module>ks-api</module>
                                 <versionProperty>ks.api.version</versionProperty>
