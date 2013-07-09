@@ -36,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class is used by the Academic Calendar to display drop down of parent terms when subterm is selected as a term
  *
  * @author Kuali Student Team
  */
@@ -66,6 +66,7 @@ public class AcademicTermParentTypeKeyValues extends UifKeyValuesFinderBase impl
             List<TypeInfo> types = new ArrayList<TypeInfo>();
             try {
                 ContextInfo context = new ContextInfo();
+                // check if child term is subterm or term and if it is (list is not empty) then add all parent terms to types
                 List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(childTermType, TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, context);
                 for (TypeTypeRelationInfo typeTypeRelationInfo : typeTypeRelationInfos) {
                     types.add(getTypeService().getType(typeTypeRelationInfo.getOwnerTypeKey(), context));
