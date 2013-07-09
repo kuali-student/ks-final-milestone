@@ -226,47 +226,6 @@ public interface ActivityOffering extends IdEntity {
      * @name Activity Offering URL
      */
     public String getActivityOfferingURL();
-    
-    /**
-     * Indicates whether a RegistrationGroup has a waitlist.
-     *
-     * @name Has Waitlist
-     * @impl maps to Lui.hasWaitlist
-     */
-    public Boolean getHasWaitlist();
-
-    /**
-     * Indicates the type of waitlist as it relates to processing
-     * students on and off.
-     *
-     * @name Waitlist Type
-     * @impl maps to Lui.waitlistTypeKey
-     */
-    public String getWaitlistTypeKey();
-
-    /**
-     * Maximum number of students to be allowed on the wait list.
-     *
-     * @name Waitlist Maximum
-     * @impl maps to Lui.waitlistMaximum
-     */
-    public Integer getWaitlistMaximum();    
-
-    /**
-     * Indicates if the waitlist requires checkin.
-     *
-     * @name Is Waitlist Checkin Required
-     * @impl maps to Lui.isWaitlistCheckinRequired
-     */
-    public Boolean getIsWaitlistCheckinRequired();
-    
-    /**
-     * Frequency for the waitlist checkin.
-     *
-     * @name Waitlist Checkin Frequency 
-     * @impl maps to Lui.waitlistCheckinFrequency
-     */
-    public TimeAmount getWaitlistCheckinFrequency();
 
     /**
      * Indicates that the activity offering has one or more shared delivery logistics.

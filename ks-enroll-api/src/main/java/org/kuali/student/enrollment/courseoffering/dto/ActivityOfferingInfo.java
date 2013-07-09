@@ -46,10 +46,7 @@ import java.io.Serializable;
                 "maximumEnrollment", "minimumEnrollment","isMaxEnrollmentEstimate",
                 "activityOfferingURL",
                 "courseOfferingId", "courseOfferingTitle", 
-                "courseOfferingCode", "hasWaitlist", "waitlistTypeKey",
-                "waitlistMaximum", "isWaitlistCheckinRequired", 
-                "waitlistCheckinFrequency",
-                "isColocated",
+                "courseOfferingCode", "isColocated",
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo
@@ -124,21 +121,6 @@ public class ActivityOfferingInfo
     @XmlElement
     private String courseOfferingCode;
 
-    @XmlElement
-    private Boolean hasWaitlist;
-
-    @XmlElement
-    private String waitlistTypeKey;
-
-    @XmlElement
-    private Integer waitlistMaximum;
-
-    @XmlElement
-    private Boolean isWaitlistCheckinRequired;
-
-    @XmlElement
-    private TimeAmountInfo waitlistCheckinFrequency;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -201,12 +183,6 @@ public class ActivityOfferingInfo
 
         this.isEvaluated = offering.getIsEvaluated();
         this.activityOfferingURL = offering.getActivityOfferingURL();
-
-        this.hasWaitlist = offering.getHasWaitlist();
-        this.isWaitlistCheckinRequired = offering.getIsWaitlistCheckinRequired();
-        this.waitlistCheckinFrequency = new TimeAmountInfo(offering.getWaitlistCheckinFrequency());
-        this.waitlistMaximum = offering.getWaitlistMaximum();
-        this.waitlistTypeKey = offering.getWaitlistTypeKey();
     }
 
     @Override
@@ -413,51 +389,6 @@ public class ActivityOfferingInfo
 
     public void setCourseOfferingTitle(String courseOfferingTitle) {
         this.courseOfferingTitle = courseOfferingTitle;
-    }
-
-    @Override
-    public Boolean getHasWaitlist() {
-        return hasWaitlist;
-    }
-
-    public void setHasWaitlist(Boolean hasWaitlist) {
-        this.hasWaitlist = hasWaitlist;
-    }
-
-    @Override
-    public String getWaitlistTypeKey() {
-        return waitlistTypeKey;
-    }
-
-    public void setWaitlistTypeKey(String waitlistTypeKey) {
-        this.waitlistTypeKey = waitlistTypeKey;
-    }
-
-    @Override
-    public Integer getWaitlistMaximum() {
-        return waitlistMaximum;
-    }
-
-    public void setWaitlistMaximum(Integer waitlistMaximum) {
-        this.waitlistMaximum = waitlistMaximum;
-    }
-
-    @Override
-    public Boolean getIsWaitlistCheckinRequired() {
-        return isWaitlistCheckinRequired;
-    }
-
-    public void setIsWaitlistCheckinRequired(Boolean isWaitlistCheckinRequired) {
-        this.isWaitlistCheckinRequired = isWaitlistCheckinRequired;
-    }
-
-    @Override
-    public TimeAmountInfo getWaitlistCheckinFrequency() {
-        return waitlistCheckinFrequency;
-    }
-
-    public void setWaitlistCheckinFrequency(TimeAmountInfo waitlistCheckinFrequency) {
-        this.waitlistCheckinFrequency = waitlistCheckinFrequency;
     }
 
     public void setSchedulingStateKey(String schedulingStateKey) {
