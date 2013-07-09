@@ -258,7 +258,6 @@
                 <ks-impex-app-db.artifactId>ks-impex-app-db</ks-impex-app-db.artifactId>
                 <ks-impex-app-db.resource.path>ks-deployments/ks-dbs/ks-impex/${ks-impex-app-db.artifactId}/src/main/resources/org/kuali/student/db/${ks-impex-app-db.artifactId}/</ks-impex-app-db.resource.path>
                 <!-- configuration for foreign key validation in ks-sonar plugin -->
-                <kuali.student.sonar.fkvalidation.skip>false</kuali.student.sonar.fkvalidation.skip>
                 <kuali.student.sonar.fkvalidation.driver>oracle.jdbc.driver.OracleDriver</kuali.student.sonar.fkvalidation.driver>
                 <kuali.student.sonar.fkvalidation.username>KSAPP_SONAR</kuali.student.sonar.fkvalidation.username>
                 <kuali.student.sonar.fkvalidation.password>KSAPP_SONAR</kuali.student.sonar.fkvalidation.password>
@@ -266,7 +265,6 @@
                 <kuali.student.sonar.fkvalidation.query.path>${ks-db-validation.resource.path}/foreignKey/</kuali.student.sonar.fkvalidation.query.path>
                 <kuali.student.sonar.fkvalidation.query.filename>missing_foreign_key_query.sql</kuali.student.sonar.fkvalidation.query.filename>
                 <!-- configuration for schema comparison in ks-sonar plugin -->
-                <kuali.student.sonar.schemacompare.skip>false</kuali.student.sonar.schemacompare.skip>
                 <kuali.student.sonar.schemacompare.app.name>KSAPP</kuali.student.sonar.schemacompare.app.name>
                 <kuali.student.sonar.schemacompare.app.path>${ks-impex-app-db.resource.path}</kuali.student.sonar.schemacompare.app.path>
                 <kuali.student.sonar.schemacompare.app.schemafile>${ks-impex-app-db.artifactId}-schema.xml</kuali.student.sonar.schemacompare.app.schemafile>
@@ -281,6 +279,13 @@
                 <oracle.dba.password>ENC(eEFVZmL4+y/5KlzDMCt6dGlBKQzXevFp)</oracle.dba.password>
                 <oracle.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.dba.url>
             </properties>
+            <modules>
+                <module>ks-core</module>
+                <module>ks-lum</module>
+                <module>ks-enroll</module>
+                <module>ks-api</module>
+                <module>ks-deployments/ks-dbs/ks-db-validation</module>
+            </modules>
             <build>
                 <pluginManagement>
                     <plugins>
