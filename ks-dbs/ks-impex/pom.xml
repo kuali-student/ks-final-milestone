@@ -184,7 +184,7 @@
             </properties>
         </profile>
         <profile>
-            <id>ks-sonar</id>
+            <id>sonar</id>
             <properties>
                 <db.branch.qualifier>_SONAR</db.branch.qualifier>
             </properties>
