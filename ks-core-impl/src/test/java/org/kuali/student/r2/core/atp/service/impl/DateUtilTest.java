@@ -4,18 +4,17 @@
  */
 package org.kuali.student.r2.core.atp.service.impl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.atp.service.impl.DateUtil;
 
-import static org.junit.Assert.*;
+import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  *
@@ -46,11 +45,10 @@ public class DateUtilTest {
         if (str == null) {
             return null;
         }
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
         try {
-            Date date = df.parse(str);
+            Date date = DateFormatters.DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER.parse(str);
             return date;
-        } catch (ParseException ex) {
+        } catch (Exception ex) {
             throw new IllegalArgumentException("Bad date " + str, ex);
         }
     }
