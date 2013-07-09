@@ -33,10 +33,11 @@ li.compoundOpCodeNode > a { display: none; }
 .jstree-editrule ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
 .jstree-editrule li { background-position:-18px 0; background-repeat:repeat-y; margin-left: 36px; }
 .jstree-editrule li.jstree-last { background:transparent; }
-.jstree-editrule .jstree-open a:not(.uif-action) { color: black; }
+.jstree-editrule .jstree-open a:not(.uif-action) { color: black; height: auto; }
 .jstree-editrule .jstree-closed a { text-shadow: 1px 1px 0.2em #ccc; }
 .jstree-editrule .jstree-open > ins { background-position:-18px 0; }
 .jstree-editrule .jstree-closed > ins { background-position:0px 0; }
+.jstree-editrule li.jstree-last a:not(.uif-action) { height: auto; }
 
 .jstree-editrule .editModeNode { background-color: #EEEEEE; border: 1px solid; margin-bottom: 5px; margin-left: 18px; margin-right: 5px; padding: 10px; }
 
