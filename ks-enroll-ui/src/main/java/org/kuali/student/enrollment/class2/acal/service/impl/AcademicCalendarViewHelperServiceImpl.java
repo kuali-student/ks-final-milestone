@@ -33,16 +33,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.student.common.uif.util.GrowlIcon;
-import org.kuali.student.common.uif.util.KSUifUtils;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
-import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.HolidayInfo;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
@@ -54,18 +45,25 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
-import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.acal.service.TermCodeGenerator;
 import org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
@@ -228,6 +226,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @return
      */
     public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy,boolean calculateInstrDays){
+        ContextInfo contextInfo = createContextInfo();
 
         if (LOG.isDebugEnabled()){
             LOG.debug("Loading all the terms associated with an acal [id=" + acalId + "]");
@@ -236,46 +235,59 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         List<AcademicTermWrapper> termWrappers = new ArrayList<AcademicTermWrapper>();
 
         try {
-            List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, createContextInfo());
-
-            //Sort the termInfos by start date
-            Collections.sort(termInfos, new Comparator<TermInfo>() {
-                @Override
-                public int compare(TermInfo termInfo1, TermInfo termInfo2) {
-                    return termInfo1.getStartDate().compareTo(termInfo2.getStartDate());
-                }
-            });
+            List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, contextInfo);
+            // we go through the terms once to process all parent and sub terms. This list is to process everything else
+            List<TermInfo> processedTerms = new ArrayList < TermInfo >();
 
             for (TermInfo termInfo : termInfos) {
-                AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy,calculateInstrDays);
-                //add the parent term into the term wrapper list
-                termWrappers.add(termWrapper);
-                //retrieve sub terms by the parent term
-                List<TermInfo> subTermInfos = getAcalService().getIncludedTermsInTerm(termInfo.getId(), createContextInfo());
+                if(!processedTerms.contains(termInfo)){
+                    List<AtpAtpRelationInfo> atpRelations = getAtpService().getAtpAtpRelationsByTypeAndAtp(termInfo.getId(), AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, contextInfo);
+                    if (atpRelations != null && atpRelations.size() > 0) { // if you're a parent term
+                        AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy,calculateInstrDays); // create the term wrapper for the parent term
+                        //add the parent term into the term wrapper list
+                        termWrappers.add(termWrapper);
+                        processedTerms.add(termInfo);
 
-                if (subTermInfos != null && subTermInfos.size() > 0) {
-                    //Sort the subTermInfos by start date
-                    Collections.sort(subTermInfos, new Comparator<TermInfo>() {
-                        @Override
-                        public int compare(TermInfo subTermInfo1, TermInfo subTermInfo2) {
-                            return subTermInfo1.getStartDate().compareTo(subTermInfo2.getStartDate());
+                        //add the sub terms into the term wrapper list
+                        for (AtpAtpRelationInfo parentTermRelations : atpRelations) {
+                            // we already have all the terms in the wrappers. We just need to set the parent child relationships
+                            for(TermInfo tInfo : termInfos){
+                                // Find the subterms
+                                if(parentTermRelations.getRelatedAtpId().equals(tInfo.getId())){
+                                    AcademicTermWrapper subTermWrapper = populateTermWrapper(tInfo, isCopy,calculateInstrDays);
+                                    subTermWrapper.setParentTerm(termInfo.getTypeKey());   // the name here is ambigious
+                                    subTermWrapper.setSubTerm(true);
+                                    termWrapper.setHasSubterm(true);
+                                    termWrapper.getSubterms().add(subTermWrapper);
+                                    if (!isCopy){
+                                        subTermWrapper.setParentTermInfo(termInfo);
+                                    }
+                                    termWrappers.add(subTermWrapper);
+                                    processedTerms.add(tInfo);  // this term has now been processed
+                                }
+                            }
                         }
-                    });
-
-                    //add the sub terms into the term wrapper list
-                    for (TermInfo subTermInfo : subTermInfos) {
-                        AcademicTermWrapper subTermWrapper = populateTermWrapper(subTermInfo, isCopy,calculateInstrDays);
-                        subTermWrapper.setParentTerm(termInfo.getTypeKey());
-                        subTermWrapper.setSubTerm(true);
-                        termWrapper.setHasSubterm(true);
-                        termWrapper.getSubterms().add(subTermWrapper);
-                        if (!isCopy){
-                            subTermWrapper.setParentTermInfo(termInfo);
-                        }
-                        termWrappers.add(subTermWrapper);
                     }
                 }
             }
+            // The previous loop deals with parents and children. Now we have to deal with term that aren't parents or children
+            for (TermInfo termInfo : termInfos) {
+                if(!processedTerms.contains(termInfo)){
+                    AcademicTermWrapper termWrapper = populateTermWrapper(termInfo, isCopy,calculateInstrDays); // create the term wrapper for the parent term
+                    //add the parent term into the term wrapper list
+                    termWrappers.add(termWrapper);
+                    processedTerms.add(termInfo);
+                }
+            }
+
+            //Sort the termWrappers by start date
+            Collections.sort(termWrappers, new Comparator<AcademicTermWrapper>() {
+                @Override
+                public int compare(AcademicTermWrapper termInfo1, AcademicTermWrapper termInfo2) {
+                    return termInfo1.getTermInfo().getStartDate().compareTo(termInfo2.getTermInfo().getStartDate());
+                }
+            });
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
