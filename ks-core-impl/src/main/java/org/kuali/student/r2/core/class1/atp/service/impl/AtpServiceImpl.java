@@ -364,6 +364,10 @@ public class AtpServiceImpl implements AtpService {
                                                    ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
+        if (!atpDao.entityExists(atpId)) {
+            throw new InvalidParameterException(atpId);
+        }
+
         List<MilestoneInfo> result = new ArrayList<MilestoneInfo>();
         List<MilestoneEntity> milestones = milestoneDao.getByMilestonesByAtp(atpId);
 
