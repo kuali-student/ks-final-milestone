@@ -20,6 +20,11 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -156,17 +161,22 @@ public class CluInformationHelper {
 
                     List<CluInformation> cluInformations = new ArrayList<CluInformation>();
                     for (CluInfo cluInfo : cluInfos) {
-                        CluInformation cluInformation = new CluInformation(cluInfo.getOfficialIdentifier().getCode(), cluInfo.getOfficialIdentifier().getShortName().toUpperCase(), "");
-                        cluInformation.setCluId(cluInfo.getId());
-                        cluInformation.setDescription(cluInfo.getDescr().getPlain());
-                        cluInformation.setState(cluInfo.getStateKey());
-                        cluInformation.setTitle(cluInfo.getOfficialIdentifier().getLongName().toUpperCase());
-                        cluInformation.setShortName(cluInfo.getOfficialIdentifier().getShortName());
-                        cluInformation.setType(cluInfo.getTypeKey());
-                        cluInformation.setVerIndependentId(cluInfo.getVersion().getVersionIndId());
-                        cluInformations.add(cluInformation);
+                        cluInformations.add(cluInformationFromCluInfo(cluInfo));
                     }
                     return cluInformations;
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            } else if (membershipQuery.getSearchTypeKey().equals(CluSetRangeHelper.LO_SEARCH_LODESC)) {
+                //LO search.
+                SearchRequestInfo searchRequest = new SearchRequestInfo();
+                searchRequest.setSearchKey(membershipQuery.getSearchTypeKey());
+                searchRequest.setParams(membershipQuery.getQueryParamValues());
+                searchRequest.setSortColumn("lo.resultColumn.loCluCode");
+
+                try {
+                    SearchResultInfo searchResult = this.getCluService().search(searchRequest, ContextUtils.getContextInfo());
+                    return resolveLoSearchResults(searchResult, this.getCluService());
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -175,14 +185,11 @@ public class CluInformationHelper {
                 SearchRequestInfo searchRequest = new SearchRequestInfo();
                 searchRequest.setSearchKey(membershipQuery.getSearchTypeKey());
                 searchRequest.setParams(membershipQuery.getQueryParamValues());
+                searchRequest.setSortColumn("lu.resultColumn.luOptionalCode");
 
                 try {
                     SearchResultInfo searchResult = this.getCluService().search(searchRequest, ContextUtils.getContextInfo());
-                    if(membershipQuery.getSearchTypeKey().equals(CluSetRangeHelper.LO_SEARCH_LODESC)) {
-                        return resolveLoSearchResults(searchResult);
-                    } else {
-                        return resolveCluSearchResultSet(searchResult);
-                    }
+                    return resolveCluSearchResultSet(searchResult);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -240,22 +247,39 @@ public class CluInformationHelper {
         return clus;
     }
 
-    public static List<CluInformation> resolveLoSearchResults(SearchResultInfo searchResult) {
+    /**
+     * Create a new CluInformation object from the CluInfo dto.
+     *
+     * @param cluInfo
+     * @return
+     */
+    private static CluInformation cluInformationFromCluInfo(CluInfo cluInfo) {
+        CluInformation cluInformation = new CluInformation(cluInfo.getOfficialIdentifier().getCode(), cluInfo.getOfficialIdentifier().getShortName().toUpperCase(), "");
+        cluInformation.setCluId(cluInfo.getId());
+        cluInformation.setDescription(cluInfo.getDescr().getPlain());
+        cluInformation.setState(cluInfo.getStateKey());
+        cluInformation.setTitle(cluInfo.getOfficialIdentifier().getLongName());
+        cluInformation.setShortName(cluInfo.getOfficialIdentifier().getShortName());
+        cluInformation.setType(cluInfo.getTypeKey());
+        cluInformation.setVerIndependentId(cluInfo.getVersion().getVersionIndId());
+        return cluInformation;
+    }
+
+    public static List<CluInformation> resolveLoSearchResults(SearchResultInfo searchResult, CluService cluService) {
         List<CluInformation> clus = new ArrayList<CluInformation>();
         List<SearchResultRowInfo> rows = searchResult.getRows();
         for (SearchResultRowInfo row : rows) {
-            List<SearchResultCellInfo> cells = row.getCells();
-            CluInformation cluInformation = new CluInformation();
-            for (SearchResultCellInfo cell : cells) {
-                if (cell.getKey().equals("lo.resultColumn.loCluId")) {
-                    cluInformation.setCluId(cell.getValue());
-                } else if (cell.getKey().equals("lo.resultColumn.loCluCode")) {
-                    cluInformation.setCode(cell.getValue());
-                } else if (cell.getKey().equals("lo.resultColumn.loLuOptionalVersionIndId")) {
-                    cluInformation.setVerIndependentId(cell.getValue());
+            try {
+                List<SearchResultCellInfo> cells = row.getCells();
+                for (SearchResultCellInfo cell : cells) {
+                    if (cell.getKey().equals("lo.resultColumn.loCluId")) {
+                        CluInfo cluInfo = cluService.getClu(cell.getValue(), ContextUtils.getContextInfo());
+                        clus.add(cluInformationFromCluInfo(cluInfo));
+                    }
                 }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
-            clus.add(cluInformation);
         }
         return clus;
     }

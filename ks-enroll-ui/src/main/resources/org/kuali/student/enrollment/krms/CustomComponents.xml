@@ -488,13 +488,15 @@ limitations under the License.
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
+                <bean parent="Uif-MessageField" p:messageText="No courses match the current search criteria."
+                    p:style="width: 450px; margin: 0px;" p:render="@{#dp.clusInRangeSize eq 0}"/>
                 <ref bean="KRMS-CourseRangeResult"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
                       p:align="right"/>
             </list>
         </property>
     </bean>
-    <bean id="KRMS-WarningMessagedYesNo" parent="Uif-Yes-No-DialogGroup" p:promptText="Single value enterted for plural rule statement, Are you sure you want to continue?"/>
+    <bean id="KRMS-WarningMessagedYesNo" parent="Uif-Yes-No-DialogGroup" p:promptText="Single value entered for plural rule statement, Are you sure you want to continue?"/>
 
     <bean id="KRMS-CourseRangeResult" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3"
           p:renderAddLine="false">

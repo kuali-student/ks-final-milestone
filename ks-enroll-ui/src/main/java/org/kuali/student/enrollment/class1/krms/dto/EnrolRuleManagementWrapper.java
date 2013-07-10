@@ -56,6 +56,10 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
         this.clusInRange = clusInRange;
     }
 
+    public int getClusInRangeSize(){
+        return this.getClusInRange().size();
+    }
+
     public CourseOfferingContextBar getContextBar() {
         return contextBar;
     }
