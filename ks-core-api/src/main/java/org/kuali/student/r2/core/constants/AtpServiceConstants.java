@@ -50,6 +50,8 @@ public class AtpServiceConstants {
     public static final String ATP_FY_TYPE_KEY = "kuali.atp.type.FY";
     // terms
     public static final String ATP_TERM_GROUPING_TYPE_KEY = "kuali.atp.type.group.term";
+    public static final String ATP_SUBTERM_GROUPING_TYPE_KEY = "kuali.atp.type.group.term.subterm";
+    public static final String ATP_PARENT_TERM_GROUPING_TYPE_KEY = "kuali.atp.type.group.term.parent";
     
     public static final String ATP_FALL_TYPE_KEY = "kuali.atp.type.Fall";
     public static final String ATP_HALF_FALL_1_TYPE_KEY = "kuali.atp.type.HalfFall1";
