@@ -1128,8 +1128,11 @@ public class AcademicCalendarController extends UifControllerBase {
                     // Save the term to the database and update wrapper information.
                     TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,helperService.createContextInfo());
                     termWrapper.setTermInfo(newTerm);
-                    // Add term to the calendar
+                    // Add link to parent term
                     getAcalService().addTermToTerm(termWrapper.getParentTermInfo().getId(), termWrapper.getTermInfo().getId(), helperService.createContextInfo());
+
+                    // Add link to calendar
+                    getAcalService().addTermToAcademicCalendar(form.getAcademicCalendarInfo().getId(),termWrapper.getTermInfo().getId(),helperService.createContextInfo());
                 }
             }else {
                 //If term already exists
