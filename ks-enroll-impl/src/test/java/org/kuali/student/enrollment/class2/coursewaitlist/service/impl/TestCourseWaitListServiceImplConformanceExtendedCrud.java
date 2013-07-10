@@ -89,6 +89,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         offerings.add("5");
         expected.setFormatOfferingIds(offerings);
         expected.setAutomaticallyProcessed(true);
+        expected.setRegisterInFirstAvailableActivityOffering(false);
         expected.setConfirmationRequired(true);
 		expected.setMaxSize(200);
 		expected.setCheckInRequired(true);
@@ -132,6 +133,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
             assertNull(actual.getFormatOfferingIds());
         }
 		assertEquals (expected.getAutomaticallyProcessed(), actual.getAutomaticallyProcessed());
+        assertEquals (expected.getRegisterInFirstAvailableActivityOffering(), actual.getRegisterInFirstAvailableActivityOffering());
         assertEquals (expected.getConfirmationRequired(), actual.getConfirmationRequired());
 		assertEquals (expected.getMaxSize(), actual.getMaxSize());
 		assertEquals (expected.getCheckInRequired(), actual.getCheckInRequired());
@@ -161,6 +163,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         expected.setFormatOfferingIds(offerings);
 		expected.setConfirmationRequired(false);
         expected.setAutomaticallyProcessed(false);
+        expected.setRegisterInFirstAvailableActivityOffering(true);
 		expected.setMaxSize(1234);
 		expected.setCheckInRequired(false);
 		expected.setCheckInFrequency(null);
@@ -198,6 +201,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         } else {
             assertNull(actual.getFormatOfferingIds());
         }
+        assertEquals (expected.getRegisterInFirstAvailableActivityOffering(), actual.getRegisterInFirstAvailableActivityOffering());
         assertEquals (expected.getAutomaticallyProcessed(), actual.getAutomaticallyProcessed());
         assertEquals (expected.getConfirmationRequired(), actual.getConfirmationRequired());
         assertEquals (expected.getMaxSize(), actual.getMaxSize());
@@ -229,6 +233,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         expected.setFormatOfferingIds(offerings);
         expected.setConfirmationRequired(true);
         expected.setAutomaticallyProcessed(true);
+        expected.setRegisterInFirstAvailableActivityOffering(false);
         expected.setMaxSize(4321);
         expected.setCheckInRequired(false);
         expected.setCheckInFrequency(null);

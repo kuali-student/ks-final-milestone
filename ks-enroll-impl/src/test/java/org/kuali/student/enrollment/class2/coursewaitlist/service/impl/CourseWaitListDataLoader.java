@@ -62,6 +62,7 @@ public class CourseWaitListDataLoader extends AbstractMockServicesAwareDataLoade
             info.setAutomaticallyProcessed(true);
             info.setConfirmationRequired(false);
             info.setMaxSize(10 + i);
+            info.setRegisterInFirstAvailableActivityOffering(true);
             info.setAllowHoldUntilEntries(true);
             info.setStateKey("active");
             info.setTypeKey(COURSE_WAIT_LIST_TYPE_KEY + "." + (i + 1));
