@@ -67,6 +67,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+	<bean id="CourseWaitListInfo.registerInFirstAvailableActivityOffering" parent="CourseWaitListInfo.registerInFirstAvailableActivityOffering-parent"/>
+	<bean id="CourseWaitListInfo.registerInFirstAvailableActivityOffering-parent" abstract="true" parent="CourseWaitListInfo.registerInFirstAvailableActivityOffering-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
 	<bean id="CourseWaitListInfo.automaticallyProcessed" parent="CourseWaitListInfo.automaticallyProcessed-parent"/>
 	<bean id="CourseWaitListInfo.automaticallyProcessed-parent" abstract="true" parent="CourseWaitListInfo.automaticallyProcessed-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->

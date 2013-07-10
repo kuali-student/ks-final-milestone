@@ -72,6 +72,7 @@ permissions and limitations under the License.
 				<ref bean="CourseWaitListInfo.id"/>
 				<ref bean="CourseWaitListInfo.typeKey"/>
 				<ref bean="CourseWaitListInfo.stateKey"/>
+				<ref bean="CourseWaitListInfo.registerInFirstAvailableActivityOffering"/>
 				<ref bean="CourseWaitListInfo.automaticallyProcessed"/>
 				<ref bean="CourseWaitListInfo.confirmationRequired"/>
 				<ref bean="CourseWaitListInfo.maxSize"/>
@@ -159,6 +160,26 @@ The format offering Ids associated with this CourseWaitList.
 		</property>
 		<property name="minOccurs" value="0"/>
 		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="CourseWaitListInfo.registerInFirstAvailableActivityOffering-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="registerInFirstAvailableActivityOffering"/>
+		<property name="shortLabel" value="Register In First Available Activity Offering"/>
+		<property name="summary">
+			<value>
+Indicates if the entries in this wait list may be added using any activity offering
+associated with this wait list.
+			</value>
+		</property>
+		<property name="label" value="Register In First Available Activity Offering"/>
+		<property name="description">
+			<value>
+Indicates if the entries in this wait list may be added using any activity offering
+associated with this wait list.  If set to false only the registration group associated
+with the entry should be used.
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="CourseWaitListInfo.automaticallyProcessed-generated" abstract="true" parent="BaseKuali.boolean">

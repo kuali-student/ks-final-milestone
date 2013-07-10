@@ -34,7 +34,8 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseWaitListInfo", propOrder = {
         "id", "typeKey", "stateKey","activityOfferingIds",
-        "formatOfferingIds", "automaticallyProcessed", "confirmationRequired", "maxSize",
+        "formatOfferingIds", "registerInFirstAvailableActivityOffering",
+        "automaticallyProcessed", "confirmationRequired", "maxSize",
         "checkInRequired", "checkInFrequency", "allowHoldUntilEntries", "effectiveDate", "expirationDate",
         "meta", "attributes", "_futureElements" })
 public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWaitList, Serializable {
@@ -45,6 +46,8 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
     private List<String> activityOfferingIds;
     @XmlElement
     private List<String> formatOfferingIds;
+    @XmlElement
+    private Boolean registerInFirstAvailableActivityOffering;
     @XmlElement
     private Boolean automaticallyProcessed;
     @XmlElement
@@ -80,6 +83,7 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
                 setFormatOfferingIds(new ArrayList<String>(waitList.getFormatOfferingIds()));
             }
 
+            setRegisterInFirstAvailableActivityOffering(waitList.getRegisterInFirstAvailableActivityOffering());
             setAutomaticallyProcessed(waitList.getAutomaticallyProcessed());
             setConfirmationRequired(waitList.getConfirmationRequired());
             setMaxSize(waitList.getMaxSize());
@@ -113,6 +117,15 @@ public class CourseWaitListInfo extends IdNamelessEntityInfo implements CourseWa
 
     public void setActivityOfferingIds(List<String> activityOfferingIds) {
         this.activityOfferingIds = activityOfferingIds;
+    }
+
+    @Override
+    public Boolean getRegisterInFirstAvailableActivityOffering() {
+        return registerInFirstAvailableActivityOffering;
+    }
+
+    public void setRegisterInFirstAvailableActivityOffering(Boolean registerInFirstAvailableActivityOffering) {
+        this.registerInFirstAvailableActivityOffering = registerInFirstAvailableActivityOffering;
     }
 
     @Override
