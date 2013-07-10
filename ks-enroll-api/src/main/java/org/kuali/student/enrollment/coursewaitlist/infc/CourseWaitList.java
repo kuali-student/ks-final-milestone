@@ -61,6 +61,14 @@ public interface CourseWaitList extends IdNamelessEntity, HasEffectiveDates {
     Integer getMaxSize();
 
     /**
+     * Indicates if the entries in this wait list may be added using any activity offering
+     * associated with this wait list.  If set to false only the registration group associated
+     * with the entry should be used.
+     * @name Register In First Available Activity Offering
+     */
+    Boolean getRegisterInFirstAvailableActivityOffering();
+
+    /**
      * Indicates if the CourseWaitListEntries associated with this CourseWaitList are automatically processed.
      * @name Is Automatically Processed
      */
