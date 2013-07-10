@@ -284,7 +284,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             Collections.sort(termWrappers, new Comparator<AcademicTermWrapper>() {
                 @Override
                 public int compare(AcademicTermWrapper termInfo1, AcademicTermWrapper termInfo2) {
-                    return termInfo1.getTermInfo().getStartDate().compareTo(termInfo2.getTermInfo().getStartDate());
+                    return termInfo1.getStartDate().compareTo(termInfo2.getStartDate());
                 }
             });
 
