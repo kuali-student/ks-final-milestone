@@ -95,7 +95,8 @@
                         <bean parent="Uif-SecondaryActionButton"
                               p:methodToCall="copy"
                               p:actionLabel="Copy Holiday Calendar"
-                              p:render="@{holidayCalendarInfo != null}"/>
+                              p:render="@{holidayCalendarInfo != null}"
+                              p:performClientSideValidation="true" />
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
                     </list>
                 </property>
