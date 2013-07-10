@@ -507,12 +507,6 @@ limitations under the License.
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
-        <property name="layoutManager.richTable.templateOptions">
-            <map>
-                <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
-            </map>
-        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="Code" p:propertyName="code" p:width="65"/>
