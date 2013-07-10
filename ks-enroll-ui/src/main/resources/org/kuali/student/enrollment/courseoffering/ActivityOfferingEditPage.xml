@@ -56,8 +56,8 @@
                             <bean parent="Uif-HorizontalBoxSection" p:colSpan="2">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-NavigationActionLink"  id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
-                                              p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"/>
+                                        <bean parent="Uif-NavigationActionLink" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
+                                              p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');" p:componentSecurity.performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
                                     </list>
                                 </property>
                             </bean>
