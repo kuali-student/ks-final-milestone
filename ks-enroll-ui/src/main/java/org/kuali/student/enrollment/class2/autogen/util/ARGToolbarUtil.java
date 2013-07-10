@@ -189,6 +189,8 @@ public class ARGToolbarUtil {
         form.setEnableAddClusterButton(false);
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
+        String coState=form.getCurrentCourseOfferingWrapper().getStateKey();
+
         String socStateKey = form.getSocStateKey();
         String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
         String socSchedulingState = form.getSocSchedulingStateKey();
@@ -213,7 +215,7 @@ public class ARGToolbarUtil {
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
         //for Add Activity button
-        if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "addAO")) {
+        if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "addAO", "")) {
             //check role permission
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addAO");
             if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
@@ -224,7 +226,7 @@ public class ARGToolbarUtil {
 
 
         //for add cluster button
-        if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "addCluster")) {
+        if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "addCluster", "")) {
             //check role permission
             permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addCluster");
             if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
@@ -254,7 +256,7 @@ public class ARGToolbarUtil {
                 activityWrapper.setEnableDraftButton(false);
 
                 //for approve AO button
-                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, "approveAO")) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, "approveAO", coState)) {
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveAO");
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
@@ -263,7 +265,7 @@ public class ARGToolbarUtil {
                 }
 
                 //for Delete AO button
-                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "deleteAO")) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "deleteAO", "")) {
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteAO");
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
@@ -272,7 +274,7 @@ public class ARGToolbarUtil {
                 }
 
                 //for Set as Draft button
-                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, "setDraftAO")) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, "setDraftAO", "")) {
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "setDraftAO");
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
@@ -281,7 +283,7 @@ public class ARGToolbarUtil {
                 }
 
                 //for move to button
-                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "moveAO")) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "moveAO", "")) {
                     //check role permission
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveAO");
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
@@ -346,10 +348,11 @@ public class ARGToolbarUtil {
         return bzEnableButton;
     }
 
-    private static boolean checkBzLogicForAOButtons(String socState, String socSchedulingState, String aoStateKey, String actionEvent){
+    private static boolean checkBzLogicForAOButtons(String socState, String socSchedulingState, String aoStateKey, String actionEvent, String coState){
         boolean bzEnableButton = false;
         if(StringUtils.equals(actionEvent, "approveAO")) {
             if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) &&
+                    !(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) &&
                     (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
                             StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
                             isSOCLockedAndMSEInProgress(socState, socSchedulingState))){
