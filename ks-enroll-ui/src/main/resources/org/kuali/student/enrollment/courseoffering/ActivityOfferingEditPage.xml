@@ -36,9 +36,17 @@
     <bean id="ActivityOfferingEdit_SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="submit"
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Update"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return preSubmitCheck();"/>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                <bean parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Save Progress"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return preSubmitCheck();">
+                    <property name="actionParameters">
+                      <map>
+                        <entry key="aoId" value="@{#dp.aoInfo.id}"/>
+                      </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
@@ -510,6 +518,39 @@
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-NavigationConfirmation" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+        <property name="headerText" value="Unsaved Changes"/>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="You are about to leave this page and any unsaved changes will not be retained?"/>
+
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="edit_ao_save_and_continue" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Save and Continue">
+                                <property name="actionParameters">
+                                  <map>
+                                    <entry key="aoId" value=""/>
+                                  </map>
+                                </property>
+                            </bean>
+                            <bean id="edit_ao_cancel" parent="Uif-SecondaryActionButton-Small" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Continue Without Saving">
+                                <property name="actionParameters">
+                                  <map>
+                                    <entry key="aoId" value=""/>
+                                  </map>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:actionLabel="Cancel"/>
+                        </list>
+                    </property>
+                </bean>
+
             </list>
         </property>
     </bean>

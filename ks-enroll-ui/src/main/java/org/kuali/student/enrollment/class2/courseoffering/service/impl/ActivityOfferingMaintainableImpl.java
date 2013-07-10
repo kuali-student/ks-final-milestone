@@ -519,6 +519,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
             getScheduleHelper().loadSchedules(wrapper,contextInfo);
 
+            loadNavigationDetails(wrapper);
+
             return wrapper;
 
         }catch (AuthorizationException ae){
@@ -585,6 +587,31 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
         wrapper.getEditRenderHelper().getManageSeperateEnrollmentList().add(a);
 
+    }
+
+    protected void loadNavigationDetails(ActivityOfferingWrapper wrapper) throws Exception {
+        List<ActivityOfferingInfo> aos = getCourseOfferingService().getActivityOfferingsByCourseOffering(wrapper.getAoInfo().getCourseOfferingId(),createContextInfo());
+        wrapper.getEditRenderHelper().getAoCodes().clear();
+        for (ActivityOfferingInfo ao : aos){
+            if (StringUtils.equals(ao.getId(),wrapper.getAoInfo().getId())){
+                int index = aos.indexOf(ao);
+                if (index > 0){
+                    wrapper.getEditRenderHelper().setPrevAO(aos.get(index - 1));
+                } else {
+                    wrapper.getEditRenderHelper().setPrevAO(new ActivityOfferingInfo());
+                }
+                if (index < aos.size() - 1){
+                    wrapper.getEditRenderHelper().setNextAO(aos.get(index+1));
+                } else {
+                    wrapper.getEditRenderHelper().setNextAO(new ActivityOfferingInfo());
+                }
+                wrapper.getEditRenderHelper().setSelectedAO(ao.getId());
+            }
+            ConcreteKeyValue keyValue = new ConcreteKeyValue();
+            keyValue.setKey(ao.getId());
+            keyValue.setValue(ao.getFormatOfferingName() + " " + ao.getActivityCode());
+            wrapper.getEditRenderHelper().getAoCodes().add(keyValue);
+        }
     }
 
     @Override

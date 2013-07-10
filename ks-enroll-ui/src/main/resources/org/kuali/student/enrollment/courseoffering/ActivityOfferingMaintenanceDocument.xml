@@ -55,6 +55,7 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
+        <property name="formClass" value="org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm"/>
 
         <!-- Statically set the title and then dynamically replace the View-title using JS-onDocumentReadyScript so the browser's title remains unchanged.
              ie: from "Edit Activity Offering" to "ENGL250 - Lecture A"
@@ -132,6 +133,7 @@
 
                 <!-- This is needed for autosuggest-->
                 <bean parent="Uif-InputField" p:propertyName="termId" p:hidden="true"/>
+                <ref bean="ActivityOfferingEdit-NavigationConfirmation"/>
             </list>
         </property>
         <property name="dialogs">
@@ -141,17 +143,57 @@
           </list>
         </property>
         <property name="header.cssClasses">
-            <list >
-                <value>ks-borderBottom4</value>
+            <list merge="true">
+                <value>ks-unified-header</value>
             </list>
         </property>
-
         <property name="viewHelperService.helperClasses">
               <map>
                 <entry key="scheduleHelper">
                   <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelperImpl</value>
                   </entry>
             </map>
+        </property>
+        <property name="header.rightGroup">
+            <ref bean="ActivityOfferingEdit-Header-Right-Group"/>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-Header-Right-Group" parent="KS-Unified-Header-Right-Group">
+        <property name="items">
+            <list>
+                <ref bean="ActivityOfferingEdit-Header-Right-SubGroup"/>
+                <!--<ref bean="KS-Unified-Right-Header-Group-Status"/>-->
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-Header-Right-SubGroup" parent="KS-Unified-Header-Action-Group">
+        <property name="items">
+            <list>
+                <bean id="edit_ao_prev" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.prevAO.id != null}" p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.prevAO.id}&quot;);" p:actionLabel="@{#dp.editRenderHelper.prevAO.formatOfferingName} - @{#dp.editRenderHelper.prevAO.activityCode}" p:methodToCall="route">
+                    <property name="actionParameters">
+                      <map>
+                        <entry key="aoId" value="@{#dp.editRenderHelper.prevAO.id}"/>
+                      </map>
+                    </property>
+                </bean>
+                <bean id="edit_ao_select" parent="Uif-InputField" p:propertyName="editRenderHelper.selectedAO" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:onChangeScript="handleAOSelection(this);"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingCodesKeyValues" p:addBlankOption="false"/>
+                    </property>
+                </bean>
+                <bean id="edit_ao_next" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.nextAO.id != null}" p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.nextAO.id}&quot;);" p:actionLabel="@{#dp.editRenderHelper.nextAO.formatOfferingName} - @{#dp.editRenderHelper.nextAO.activityCode}" p:methodToCall="route">
+                    <property name="actionParameters">
+                      <map>
+                        <entry key="aoId" value="@{#dp.editRenderHelper.nextAO.id}"/>
+                      </map>
+                    </property>
+                </bean>
+            </list>
         </property>
     </bean>
 

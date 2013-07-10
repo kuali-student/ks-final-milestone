@@ -83,6 +83,7 @@ function activityEditDocumentOnLoad(){
 
     jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
     jQuery("#shared_max_enr_control").addClass("ignoreValid");
+    jQuery('.new_rdl_components').addClass("ignoreValid");
 
     if(jQuery("#is_co_located_control").length != 0) {
         setupColoCheckBoxChange(jQuery("#is_co_located_control"));
@@ -622,4 +623,53 @@ function displayAOsubTerm(subTermNameId, subTermTypeId, popoverId, dirtyId, subT
     }
 
     jQuery("#"+popoverId).HideBubblePopup();
+}
+
+
+function handleAOSelection(component){
+    var aoId = jQuery("#edit_ao_select_control").val();
+    handleAONavigation(component,aoId);
+}
+
+/*
+  This is the method which handles AO navigation.
+ */
+function handleAONavigation(component, aoId){
+
+    var isValidForm = validateForm();
+
+//    if (!isValidForm){
+
+        var saveAndContinue = jQuery("#edit_ao_save_and_continue").attr("data-submit_data");
+        var cancelSaveAndLoad = jQuery("#edit_ao_cancel").attr("data-submit_data");
+        var submit_data_array = saveAndContinue.split(',');
+        var i = 0;
+        for (; i<submit_data_array.length; ){
+            var data = submit_data_array[i].split(':');
+            if (data[0] == '"actionParameters[aoId]"'){
+                data[1] = '"' + aoId + '"';
+                submit_data_array[i] = data[0] + ":" + data[1];
+                break;
+            }
+            i++;
+        }
+        jQuery("#edit_ao_save_and_continue").attr("data-submit_data",submit_data_array.join());
+
+        var cancel_data_array = cancelSaveAndLoad.split(',');
+        i = 0;
+        for (; i<cancel_data_array.length; ){
+            var data = cancel_data_array[i].split(':');
+            if (data[0] == '"actionParameters[aoId]"'){
+                data[1] = '"' + aoId + '"';
+                cancel_data_array[i] = data[0] + ":" + data[1];
+                break;
+            }
+            i++;
+        }
+        jQuery("#edit_ao_cancel").attr("data-submit_data",cancel_data_array.join());
+
+        showLightboxComponent('ActivityOfferingEdit-NavigationConfirmation');
+//    } else {
+//        actionInvokeHandler(component);
+//    }
 }

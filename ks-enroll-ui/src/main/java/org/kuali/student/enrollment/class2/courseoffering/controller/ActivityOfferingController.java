@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -119,11 +120,33 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return getUIFModelAndView(form);
         }
 
+        String loadNewAO = form.getActionParameters().get("aoId");
+        String returnLocation = form.getReturnLocation();
+
         String url;
-        if (!form.getReturnLocation().contains("methodToCall=")){ //This happens when we display a list of COs and then user click on Manage action
-            url = form.getReturnLocation() + "&methodToCall=show";
+        if (StringUtils.contains(returnLocation,"viewId=courseOfferingManagementView")) {
+            if (!returnLocation.contains("methodToCall=")){ //This happens when we display a list of COs and then user click on Manage action
+                url = returnLocation + "&methodToCall=show";
+            } else {
+                url = returnLocation.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
+            }
         } else {
-            url = form.getReturnLocation().replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
+            url = returnLocation;
+        }
+
+        if (StringUtils.isNotBlank(loadNewAO)){
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+            Properties urlParameters = new Properties();
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+            urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, loadNewAO);
+            urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, activityOfferingWrapper.getAoInfo().getCourseOfferingId());
+            urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
+            urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+            urlParameters.put(CalendarConstants.GROWL_MESSAGE, ActivityOfferingConstants.MSG_INFO_AO_MODIFIED);
+            urlParameters.put("returnLocation", url);
+
+            GlobalVariables.getUifFormManager().removeSessionForm(form);
+            return performRedirect(form, "activityOffering", urlParameters);
         }
 
         // clear current form from session
@@ -143,12 +166,38 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     public ModelAndView cancel(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
 
-        String url = form.getReturnLocation().replaceFirst("methodToCall="+ UifConstants.MethodToCallNames.START,"methodToCall=show");
-        form.setReturnLocation(url);
-
         DocumentFormBase documentForm = (DocumentFormBase) form;
         performWorkflowAction(documentForm, UifConstants.WorkflowAction.CANCEL, false);
 
+        String loadNewAO = form.getActionParameters().get("aoId");
+        String returnLocation = form.getReturnLocation();
+
+        String url;
+        if (StringUtils.contains(returnLocation,"viewId=courseOfferingManagementView")) {
+            if (!returnLocation.contains("methodToCall=")){ //This happens when we display a list of COs and then user click on Manage action
+                url = returnLocation + "&methodToCall=show";
+            } else {
+                url = returnLocation.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
+            }
+        } else {
+            url = returnLocation;
+        }
+
+        if (StringUtils.isNotBlank(loadNewAO)){
+            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+            Properties urlParameters = new Properties();
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+            urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, loadNewAO);
+            urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, activityOfferingWrapper.getAoInfo().getCourseOfferingId());
+            urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
+            urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+            urlParameters.put("returnLocation", url);
+
+            GlobalVariables.getUifFormManager().removeSessionForm(form);
+            return performRedirect(form, "activityOffering", urlParameters);
+        }
+
+        form.setReturnLocation(url);
         return back(form,result,request,response);
     }
 
