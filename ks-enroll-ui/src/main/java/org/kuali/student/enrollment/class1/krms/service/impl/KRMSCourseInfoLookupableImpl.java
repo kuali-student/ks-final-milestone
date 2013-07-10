@@ -90,6 +90,7 @@ public class KRMSCourseInfoLookupableImpl extends LookupableImpl {
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setParams(searchParams);
         searchRequest.setSearchKey("lu.search.mostCurrent.union");
+        searchRequest.setSortColumn("lu.resultColumn.luOptionalCode");
 
         try {
             SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());

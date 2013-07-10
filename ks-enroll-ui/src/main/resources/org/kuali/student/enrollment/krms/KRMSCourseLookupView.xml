@@ -104,9 +104,9 @@ limitations under the License.
         <property name="resultFields">
             <list>
                 <bean parent="Uif-DataField" p:propertyName="title" p:label="Course Title"/>
-                <bean parent="Uif-InputField" p:propertyName="code" p:label="Course Code"/>
-                <bean parent="Uif-InputField" p:propertyName="state" p:label="State"/>
-                <bean parent="Uif-InputField" p:propertyName="description" p:label="Description"/>
+                <bean parent="Uif-DataField" p:propertyName="code" p:label="Course Code"/>
+                <bean parent="Uif-DataField" p:propertyName="state" p:label="State"/>
+                <bean parent="Uif-DataField" p:propertyName="description" p:label="Description"/>
             </list>
         </property>
         <property name="additionalCssFiles">
