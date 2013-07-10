@@ -825,7 +825,7 @@ textarea,
    Masks the term code input control as a simple data field.
 */
 input[disabled].acal_term_code{
-    background-color: #ffffff;
+    background-color: transparent;
     color: #000000;
     border: none;
     cursor: text;

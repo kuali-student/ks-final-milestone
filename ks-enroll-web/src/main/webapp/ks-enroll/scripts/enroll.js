@@ -806,7 +806,6 @@ function addBootstrapImageToLink(containerId) {
 }
 
 /**
- * POC KSENROLL-7698
  * Gathers property names of all fields that have been changed on the page.
  * Properties are stored in a csv string and returned by the passed in object.
  */

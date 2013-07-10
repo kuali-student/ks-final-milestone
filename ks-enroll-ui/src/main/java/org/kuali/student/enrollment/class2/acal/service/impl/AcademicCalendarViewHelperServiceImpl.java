@@ -370,24 +370,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     }
 
     /**
-     * Creates an academic calendar
-     *
-     * @param acalForm
-     * @return
-     * @throws Exception
-     */
-    public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
-        AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
-        acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_DRAFT_STATE_KEY);
-        acalInfo.setTypeKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
-        RichTextInfo rti = new RichTextInfo();
-        rti.setPlain(acalInfo.getName());
-        acalInfo.setDescr(rti);
-        AcademicCalendarInfo newAcal = getAcalService().createAcademicCalendar(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY, acalInfo, createContextInfo());
-        return newAcal;
-    }
-
-    /**
      * This method finds the latest Academic Calendar.
      * It first tries to find the current year acal. If there is no match found, it looks for last year
      *
@@ -460,45 +442,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
           form.setTermWrapperList(newTermList);
           form.setMeta(orgAcalInfo.getMeta());
 
-    }
-
-    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event,boolean isAcalOfficial) throws Exception{
-        AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event,isAcalOfficial);
-        AcalEventInfo createdEventInfo = getAcalService().createAcalEvent(acalId, eventInfo.getTypeKey(), eventInfo, createContextInfo());
-        event.setAcalEventInfo(createdEventInfo);
-        return event;
-    }
-
-    public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception {
-        AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event,false);
-        AcalEventInfo updatedEventInfo = getAcalService().updateAcalEvent(eventId, eventInfo, createContextInfo());
-        event.setAcalEventInfo(updatedEventInfo);
-        return event;
-    }
-
-    /**
-     * Construct a new <code>AcalEventInfo</code> from a wrapper instance
-     *
-     * @param eventWrapper event wrapper
-     * @return  AcalEventInfo dto
-     */
-    private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper,boolean isAcalOfficial){
-        AcalEventInfo eventInfo = eventWrapper.getAcalEventInfo();
-
-        RichTextInfo rti = new RichTextInfo();
-        rti.setPlain(eventWrapper.getEventTypeKey());
-        eventInfo.setDescr(rti);
-        if (!isAcalOfficial){
-            eventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-        } else {
-            eventInfo.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
-        }
-        eventInfo.setTypeKey(eventWrapper.getEventTypeKey());
-        eventInfo.setStartDate(eventWrapper.getStartDate());
-        eventInfo.setIsAllDay(eventWrapper.isAllDay());
-        eventInfo.setStartDate(getStartDateWithUpdatedTime(eventWrapper,true));
-        setEventEndDate(eventWrapper);
-        return eventInfo;
     }
 
     /**
@@ -1036,108 +979,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
-    /* TODO:
-     *  Design review and code cleanup: shall we take out 'boolean isOfficial' from the method
-     *  signature given we have decided to separate make official from save function -- by Bonnie
-     */
-    /**
-     * Saves the term and subterm
-     *
-     * @param termWrapper wrapper around terminfo
-     * @param acalId acal id
-     * @param isOfficial whether the term is official or not so that state can be changed
-     * @throws Exception
-     */
-    public void saveTerm(AcademicTermWrapper termWrapper, String acalId, boolean isOfficial,boolean calculateInstrDays) throws Exception {
-
-        TermInfo term = termWrapper.getTermInfo();
-
-        term.setEndDate(termWrapper.getEndDate());
-        term.setStartDate(termWrapper.getStartDate());
-        term.setName(termWrapper.getName());
-        term.setTypeKey(termWrapper.getTermType());
-        
-        if (termWrapper.isNew() && !termWrapper.isSubTerm()){ //handle term
-            term = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
-            termWrapper.setTermInfo(term);
-            getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),createContextInfo());
-        }else if(termWrapper.isNew() && termWrapper.isSubTerm()){ //handle subterm
-            //the parent term must exist in DB
-            String parentTermTypeKey = termWrapper.getParentTerm();
-            TermInfo parentTermInfo = getParentTerm(acalId, parentTermTypeKey);
-            if(parentTermInfo == null){
-                throw new Exception("Parent Term does not exist. Therefor unable to save subterm.");
-            }else{
-                termWrapper.setParentTermInfo(parentTermInfo);
-                term = getAcalService().createTerm(termWrapper.getTermType(),term,createContextInfo());
-                termWrapper.setTermInfo(term);
-                getAcalService().addTermToTerm(termWrapper.getParentTermInfo().getId(), termWrapper.getTermInfo().getId(), createContextInfo());
-            }
-        }else {
-            //Update the term
-            term = getAcalService().updateTerm(term.getId(),term,createContextInfo());
-            termWrapper.setTermInfo(term);
-        }
-
-        for (KeyDateWrapper keyDateWrapper : termWrapper.getKeyDatesToDeleteOnSave()) {
-            getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),createContextInfo());
-        }
-
-        //Keydates
-        if (termWrapper.getKeyDatesGroupWrappers() != null && !termWrapper.getKeyDatesGroupWrappers().isEmpty()){
-            for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
-                for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
-
-                    KeyDateInfo keyDate = keyDateWrapper.getKeyDateInfo();
-
-                    keyDate.setTypeKey(keyDateWrapper.getKeyDateType());
-                    //Add by Bonnie
-                    keyDate.setName(keyDateWrapper.getKeyDateNameUI());
-                    keyDate.setStartDate(keyDateWrapper.getStartDate());
-                    keyDate.setEndDate(keyDateWrapper.getEndDate());
-                    keyDate.setIsAllDay(keyDateWrapper.isAllDay());
-                    keyDate.setStartDate(getStartDateWithUpdatedTime(keyDateWrapper,true));
-                    setKeyDateEndDate(keyDateWrapper);
-
-                    if (keyDateWrapper.isNew()){
-                        keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-                        KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,createContextInfo());
-                        if (isOfficial){
-                            //Make official once created
-                            getAcalService().changeKeyDateState(newKeyDate.getId(),AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY,createContextInfo());
-                        }
-                        keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(newKeyDate.getId(),createContextInfo()));
-                    } else {
-                        KeyDateInfo updatedKeyDate = getAcalService().updateKeyDate(keyDate.getId(), keyDate, createContextInfo());
-                        keyDateWrapper.setKeyDateInfo(updatedKeyDate);
-                        /*if (!isOfficial){
-                            keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(updatedKeyDate.getId(),createContextInfo()));
-                        }*/
-                    }
-                }
-            }
-        }
-
-        if (isOfficial){
-            StatusInfo statusInfo = getAcalService().changeTermState(term.getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,createContextInfo());
-            if (!statusInfo.getIsSuccess()){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
-                return;
-            }
-            termWrapper.setTermInfo(getAcalService().getTerm(term.getId(),createContextInfo()));
-            for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
-                for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
-                    keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),createContextInfo()));
-                }
-            }
-        }
-
-        if (calculateInstrDays){
-            populateInstructionalDays(termWrapper);
-        }
-
-    }
-
     protected Date getStartDateWithUpdatedTime(TimeSetWrapper timeSetWrapper,boolean isSaveAction){
         //If start time not blank, set that with the date. If it's empty, just update with default
         if (!timeSetWrapper.isAllDay()){
@@ -1386,17 +1227,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
             if (parentTermType.equals(termType)){
                 return termWrapper;
-            }
-        }
-        return null;
-    }
-
-    private TermInfo getParentTerm(String acalId, String parentTermTypeKey) throws Exception{
-        
-        List<TermInfo> termInfoList =  getAcalService().getTermsForAcademicCalendar(acalId, createContextInfo());
-        for(TermInfo termInfo : termInfoList){
-            if (parentTermTypeKey.equals(termInfo.getTypeKey())) {
-                return termInfo;
             }
         }
         return null;

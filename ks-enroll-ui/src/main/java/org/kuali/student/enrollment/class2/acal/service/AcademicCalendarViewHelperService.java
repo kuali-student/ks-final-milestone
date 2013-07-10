@@ -33,19 +33,11 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public void populateAcademicCalendar(String acalId, AcademicCalendarForm acalForm);
 
-    public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
-
     public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception;
 
     public void copyToCreateAcademicCalendar(AcademicCalendarForm form);
 
     public List<AcalEventWrapper> populateEventWrappers(String acalId) throws Exception;
-
-    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event,boolean isAcalOfficial) throws Exception;
-
-    public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception;
-
-    public void saveTerm(AcademicTermWrapper termWrapper, String acalId,boolean isOfficial,boolean calculateInstrDays) throws Exception;
 
     public void populateInstructionalDays(AcademicTermWrapper termWrapper);
 

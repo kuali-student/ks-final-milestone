@@ -84,7 +84,6 @@ limitations under the License.
                         </value>
                     </property>
                 </bean>
-                <!-- Hidden field for passing back dirty fields  POC KSENROLL-7698-->
                 <bean id="AcalEdit-DirtyFields" parent="Uif-InputField" p:propertyName="dirtyFields">
                     <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
                     <property name="control">
@@ -110,7 +109,6 @@ limitations under the License.
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                                           p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}" p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP">
-                                        <!-- POC KSENROLL-7698 -->
                                         <property name="onClickScript" value="findDirtyFields('AcalEdit-DirtyFields');"/>
                                     </bean>
                                     <bean parent="Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"

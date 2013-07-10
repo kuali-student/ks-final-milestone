@@ -52,8 +52,6 @@ public class AcademicCalendarForm extends KSUifForm {
 
     private List<AcalEventWrapper> eventsToDeleteOnSave;
     private List<AcademicTermWrapper> termsToDeleteOnSave;
-    // POC KSENROLL-7698
-    private boolean holidayCalendarDeleted;
 
     private boolean reload;
 
@@ -71,7 +69,6 @@ public class AcademicCalendarForm extends KSUifForm {
     private String makeOfficialName;
     private String messageForDeleteTermOrSubterm;
 
-    // POC KSENROLL-7698
     private String dirtyFields;
 
     public String getValidationJSONString() {
@@ -101,7 +98,6 @@ public class AcademicCalendarForm extends KSUifForm {
         defaultTabToShow = CalendarConstants.ACAL_INFO_TAB;
         eventsToDeleteOnSave = new ArrayList<AcalEventWrapper>();
         termsToDeleteOnSave = new ArrayList<AcademicTermWrapper>();
-        holidayCalendarDeleted = false;
         addLineValid = true;
         validationJSONString = new String();
     }
@@ -428,7 +424,7 @@ public class AcademicCalendarForm extends KSUifForm {
 
     /**
      * A list of properties that have been changed (are dirty) contained in a csv string.
-     * POC KSENROLL-7698
+     *
      *
      * @return
      */
@@ -442,7 +438,7 @@ public class AcademicCalendarForm extends KSUifForm {
 
     /**
      * A list of Events that have been deleted in the UI and need to be deleted during save.
-     * POC KSENROLL-7698
+     *
      * @return
      */
     public List<AcalEventWrapper> getEventsToDeleteOnSave() {
@@ -452,18 +448,4 @@ public class AcademicCalendarForm extends KSUifForm {
     public void setEventsToDeleteOnSave(List<AcalEventWrapper> eventsToDeleteOnSave) {
         this.eventsToDeleteOnSave = eventsToDeleteOnSave;
     }
-
-    /**
-     * Boolean flag that a holiday calendar has been deleted in the UI and changes need to be saved.
-     * POC KSENROLL-7698
-     * @return
-     */
-    public boolean isHolidayCalendarDeleted() {
-        return holidayCalendarDeleted;
-    }
-
-    public void setHolidayCalendarDeleted(boolean holidayCalendarDeleted) {
-        this.holidayCalendarDeleted = holidayCalendarDeleted;
-    }
-
 }
