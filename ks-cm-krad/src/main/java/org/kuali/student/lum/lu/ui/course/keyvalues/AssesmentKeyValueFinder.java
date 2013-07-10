@@ -32,7 +32,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
@@ -55,18 +55,20 @@ public class AssesmentKeyValueFinder extends KeyValuesBase {
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        Predicate predicate = PredicateFactory.in("id", LrcServiceConstants.RESULT_SCALE_KEY_GRADE_COMPLETED,
-                LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER,
-                LrcServiceConstants.RESULT_SCALE_KEY_GRADE_PF,
-                LrcServiceConstants.RESULT_SCALE_KEY_GRADE_PERCENTAGE,
-                LrcServiceConstants.RESULT_SCALE_KEY_GRADE_ADMIN
-                );
-        qBuilder.setPredicates(predicate);
+        Predicate typePredicate = PredicateFactory.in("type", LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED,
+                LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE,
+                LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
+        Predicate idPredicate = PredicateFactory.in("id", LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER,
+                LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL,
+                LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY,
+                LrcServiceConstants.RESULT_GROUP_KEY_GRADE_COMPLETEDNOTATION,
+                LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PERCENTAGE);
+        qBuilder.setPredicates(PredicateFactory.and(typePredicate, idPredicate));
         try
         {
-            List<ResultScaleInfo> list = this.getLRCService().searchForResultScales(qBuilder.build(), getContextInfo());
+            List<ResultValuesGroupInfo> list = this.getLRCService().searchForResultValuesGroups(qBuilder.build(), getContextInfo());
             if (list != null) {
-                for (ResultScaleInfo info : list) {
+                for (ResultValuesGroupInfo info : list) {
                     keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
                 }
             }

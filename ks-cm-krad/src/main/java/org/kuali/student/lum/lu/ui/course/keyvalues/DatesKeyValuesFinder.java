@@ -47,8 +47,6 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DatesKeyValuesFinder.class);
     private transient AtpService atpService;
 
-    private boolean blankOption;
-
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
@@ -62,10 +60,6 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
         QueryByCriteria qbc = qbcBuilder.build();
         try {
             List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc, getContextInfo());
-
-            if (blankOption) {
-                keyValues.add(new ConcreteKeyValue("", ""));
-            }
 
             Collections.sort(searchResult, new Comparator<AtpInfo>() {
                 public int compare(AtpInfo m1, AtpInfo m2) {
@@ -101,19 +95,5 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
         contextInfo.setLocale(localeInfo);
 
         return contextInfo;
-    }
-
-    /**
-     * @return the blankOption
-     */
-    public boolean isBlankOption() {
-        return this.blankOption;
-    }
-
-    /**
-     * @param blankOption the blankOption to set
-     */
-    public void setBlankOption(boolean blankOption) {
-        this.blankOption = blankOption;
     }
 }

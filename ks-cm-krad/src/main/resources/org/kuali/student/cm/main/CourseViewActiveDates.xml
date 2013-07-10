@@ -43,7 +43,7 @@
 						<bean parent="Uif-DropdownControl" />
 					</property>
 					<property name="optionsFinder">
-    					<bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:blankOption="true"/>
+    					<bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:addBlankOption="true"/>
   					</property>
 					<property name="help">
 						<bean parent="Uif-Help"
@@ -71,7 +71,7 @@
 						<bean parent="Uif-DropdownControl" p:disabled="@{!courseInfo.pilotCourse}" />
 					</property>
 					<property name="optionsFinder">
-    					<bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:blankOption="true"/>
+    					<bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder" p:addBlankOption="true"/>
   					</property>
 					<property name="help">
 						<bean parent="Uif-Help"

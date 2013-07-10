@@ -38,7 +38,6 @@ public class FrequencyKeyValueFinder extends UifKeyValuesFinderBase {
         @Override
         public List<KeyValue> getKeyValues(ViewModel model) {
             List<KeyValue> labels = new ArrayList<KeyValue>();
-            labels.add(new ConcreteKeyValue("", ""));
             labels.add(new ConcreteKeyValue("1", "per Day"));
             labels.add(new ConcreteKeyValue("2", "per Month"));
             labels.add(new ConcreteKeyValue("3", "per week"));

@@ -37,8 +37,8 @@
 			</list>
 		</property>
 		<property name="footer">
-            <ref bean="KS-CourseView-Footer" />
-        </property>
+			<ref bean="KS-CourseView-Footer" />
+		</property>
 	</bean>
 	<bean id="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets"
 		parent="Uif-VerticalBoxSection" p:headerText="Scheduling">
@@ -56,7 +56,8 @@
 					</property>
 					<property name="optionsFinder">
 						<bean
-							class="org.kuali.student.lum.lu.ui.course.keyvalues.TermsKeyValueFinder" />
+							class="org.kuali.student.lum.lu.ui.course.keyvalues.TermsKeyValueFinder"
+							p:addBlankOption="false" />
 					</property>
 				</bean>
 			</list>
@@ -141,7 +142,6 @@
 		parent="Uif-VerticalBoxSection" p:headerText="Final Exam">
 		<property name="items">
 			<list>
-				<!-- p:width="auto" -->
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamStatus"
 					p:label="Final Exam Status" p:required="true">
 					<property name="control">
@@ -149,12 +149,13 @@
 					</property>
 					<property name="optionsFinder">
 						<bean
-							class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder" />
+							class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder"
+							p:addBlankOption="false" />
 					</property>
 				</bean>
 				<bean id="KS-FinalExamRationale" parent="Uif-InputField-LabelTop"
 					p:label="Final Exam Rationale"
-					p:progressiveRender="#dp.finalExamStatus eq 'NONE' and #dp.finalExamStatus eq 'ALTERNATE'"
+					p:progressiveRender="#dp.finalExamStatus eq 'NONE' or #dp.finalExamStatus eq 'ALTERNATE'"
 					p:propertyName="finalExamRationale">
 					<property name="control">
 						<bean parent="Uif-LargeTextAreaControl" p:maxLength="255"
@@ -195,13 +196,25 @@
 				</bean>
 				<bean parent="Uif-InputField-LabelTop"
 					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.fixed'"
-					p:label="Credit Value" p:propertyName="resultValueRange.minValue" />
+					p:label="Credit Value" p:propertyName="resultValueRange.minValue">
+					<property name="validCharactersConstraint">
+						<bean parent="NumericPatternConstraint" />
+					</property>
+				</bean>
 				<bean parent="Uif-InputField-LabelTop"
 					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.range'"
-					p:label="Minimum Credit Value" p:propertyName="resultValueRange.minValue" />
+					p:label="Minimum Credit Value" p:propertyName="resultValueRange.minValue">
+					<property name="validCharactersConstraint">
+						<bean parent="NumericPatternConstraint" />
+					</property>
+				</bean>
 				<bean parent="Uif-InputField-LabelTop"
 					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.range'"
-					p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue" />
+					p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue">
+					<property name="validCharactersConstraint">
+						<bean parent="NumericPatternConstraint" />
+					</property>
+				</bean>
 			</list>
 		</property>
 		<property name="subCollections">
@@ -216,7 +229,11 @@
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Credit Value"
-								p:propertyName="creditValueDisplay" />
+								p:propertyName="creditValueDisplay">
+								<property name="validCharactersConstraint">
+									<bean parent="NumericPatternConstraint" />
+								</property>
+							</bean>
 						</list>
 					</property>
 				</bean>
@@ -227,7 +244,6 @@
 		parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
 		p:propertyName="courseInfo.formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
 		<property name="layoutManager.summaryTitle" value="Activity" />
-		<!-- <property name="renderAddBlankLineButton" value="true" /> -->
 		<property name="addLinePlacement" value="BOTTOM" />
 		<property name="addBlankLineAction.actionLabel" value="Add Another Outcome" />
 		<property name="subCollections">
@@ -235,7 +251,6 @@
 				<bean parent="Uif-StackedSubCollection-WithinSection"
 					p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.ActivityInfo"
 					p:propertyName="activities">
-					<!-- <property name="renderAddBlankLineButton" value="true" /> -->
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="addBlankLineAction.actionLabel" value="Add" />
 
