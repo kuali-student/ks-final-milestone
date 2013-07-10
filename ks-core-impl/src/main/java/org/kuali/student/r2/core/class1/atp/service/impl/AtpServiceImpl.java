@@ -665,7 +665,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class, AlreadyExistsException.class}, rollbackFor = {Throwable.class})
     public StatusInfo addMilestoneToAtp(String milestoneId,String atpId, ContextInfo contextInfo)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
