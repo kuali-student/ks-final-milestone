@@ -29,7 +29,10 @@ import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -56,12 +59,19 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
     @Resource(name="atpService")
     private AtpService atpService;
 
+    @Resource(name="typeService")
+    private TypeService typeService;
+
     public void setAcalService(AcademicCalendarService acalService) {
         this.acalService = acalService;
     }
 
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
     }
 
     @Override
@@ -301,6 +311,34 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo("atp.search.relatedAtpIdsByAtpId");
         searchRequestInfo.addParam("atp.queryParam.parentAtpId", atpId);
+        SearchResultInfo results = atpService.search(searchRequestInfo, context);
+
+        for(SearchResultRowInfo row : results.getRows()){
+            for(SearchResultCellInfo cell: row.getCells()){
+                if("atp.resultColumn.relatedAtpId".equals(cell.getKey())){
+                    includedTermIds.add(cell.getValue());
+                }
+            }
+        }
+
+        return includedTermIds;
+    }
+
+    @Override
+    public List<String> getTermIdsForAcademicCalendar(String acalId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        //Perform an atp search to get the search results
+        List<String> includedTermIds = new ArrayList<String>();
+
+        //Get a list of term types
+        List<TypeTypeRelationInfo> typeRelations = typeService.getTypeTypeRelationsByOwnerAndType(AtpServiceConstants.ATP_PARENT_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
+        List<String> termTypeIds = new ArrayList<String>();
+        for(TypeTypeRelationInfo typeRelation:typeRelations){
+            termTypeIds.add(typeRelation.getRelatedTypeKey());
+        }
+
+        SearchRequestInfo searchRequestInfo = new SearchRequestInfo("atp.search.relatedAtpIdsByAtpId");
+        searchRequestInfo.addParam("atp.queryParam.parentAtpId", acalId);
+        searchRequestInfo.addParam("atp.queryParam.relatedAtpTypes", termTypeIds);
         SearchResultInfo results = atpService.search(searchRequestInfo, context);
 
         for(SearchResultRowInfo row : results.getRows()){

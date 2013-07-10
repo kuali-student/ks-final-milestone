@@ -88,7 +88,7 @@ public interface AcademicCalendarServiceFacade {
 
     /**
      * Returns related ATP ids for the given parent ATP id
-     * @param acalId the parent atp Id
+     * @param termId the parent atp Id
      * @param context call context
      * @return related ATP ids for the given parent ATP id
      * @throws InvalidParameterException
@@ -96,5 +96,18 @@ public interface AcademicCalendarServiceFacade {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<String> getIncludedTermidsInTerm(String acalId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getIncludedTermidsInTerm(String termId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * Returns (non subterm) term ids for a given academic calendar
+     * @param acalId
+     * @param context
+     * @return (non subterm) terms for a given academic calendar
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<String> getTermIdsForAcademicCalendar(String acalId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 }
