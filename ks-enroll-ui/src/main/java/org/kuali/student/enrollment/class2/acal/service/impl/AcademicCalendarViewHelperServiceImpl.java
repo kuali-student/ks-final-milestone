@@ -259,9 +259,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                                     subTermWrapper.setSubTerm(true);
                                     termWrapper.setHasSubterm(true);
                                     termWrapper.getSubterms().add(subTermWrapper);
-                                    if (!isCopy){
-                                        subTermWrapper.setParentTermInfo(termInfo);
-                                    }
+
+                                    // Allow parent term info to be set to copied term for sorting.
+                                    subTermWrapper.setParentTermInfo(termInfo);
+
                                     termWrappers.add(subTermWrapper);
                                     processedTerms.add(tInfo);  // this term has now been processed
                                 }
@@ -283,10 +284,43 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             //Sort the termWrappers by start date
             Collections.sort(termWrappers, new Comparator<AcademicTermWrapper>() {
                 @Override
-                public int compare(AcademicTermWrapper termInfo1, AcademicTermWrapper termInfo2) {
-                    return termInfo1.getStartDate().compareTo(termInfo2.getStartDate());
+                public int compare(AcademicTermWrapper termWrapper1, AcademicTermWrapper termWrapper2) {
+                    int ret = 0;
+                    if(!termWrapper1.isSubTerm() && !termWrapper2.isSubTerm()){ // term comp term
+                        ret = termWrapper1.getStartDate().compareTo(termWrapper2.getStartDate());
+                    }
+                    if(!termWrapper1.isSubTerm() && termWrapper2.isSubTerm()){ // term comp subterm
+                        if(termWrapper2.getParentTerm().compareTo(termWrapper1.getTermType()) == 0){ // term is  parent
+                            ret = -1; // term > direct subterm
+                        } else {      // term comp subterm.parent
+                            ret = termWrapper1.getStartDate().compareTo(termWrapper2.getParentTermInfo().getStartDate());
+                        }
+                    }
+                    if(termWrapper1.isSubTerm() && !termWrapper2.isSubTerm()){ // subterm comp term
+                        if(termWrapper1.getParentTerm().compareTo(termWrapper2.getTermType()) == 0){ // term is  parent
+                            ret = 1; // direct subterm < parent term
+                        } else {      // subterm.parent comp term
+                            ret = termWrapper1.getParentTermInfo().getStartDate().compareTo(termWrapper2.getStartDate());
+                        }
+                    }
+                    if(termWrapper1.isSubTerm() && termWrapper2.isSubTerm()){ // subterm comp subterm
+                        if(termWrapper1.getParentTerm().compareTo(termWrapper2.getParentTerm()) == 0){ // same parent
+                            ret = termWrapper1.getStartDate().compareTo(termWrapper2.getStartDate());
+                        } else {
+                            ret = termWrapper1.getParentTermInfo().getStartDate().compareTo(termWrapper2.getParentTermInfo().getStartDate());
+                        }
+                    }
+                    return ret;
                 }
             });
+
+            // If copying reset subterm parent info to null after sorting list.
+            if(isCopy){
+                for(int i = 0; i<termWrappers.size();i++){
+                    if(termWrappers.get(i).isSubTerm())termWrappers.get(i).setParentTermInfo(null);
+                }
+            }
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -1233,10 +1267,9 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     }
 
     private void populateParentTermToSubterm(AcademicTermWrapper parentTermWrapper, AcademicTermWrapper newLine){
-        
         List<KeyDatesGroupWrapper> newKeyDatesGroupWrappers = new ArrayList<KeyDatesGroupWrapper>();
         for(KeyDatesGroupWrapper keyDatesGroupWrapper : parentTermWrapper.getKeyDatesGroupWrappers()){
-            KeyDatesGroupWrapper newKeyDatesGroup = 
+            KeyDatesGroupWrapper newKeyDatesGroup =
                     new KeyDatesGroupWrapper(keyDatesGroupWrapper.getKeyDateGroupType(),
                                              keyDatesGroupWrapper.getKeyDateGroupNameUI());
             List<KeyDateWrapper> newKeyDates = newKeyDatesGroup.getKeydates();
