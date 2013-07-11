@@ -130,6 +130,11 @@ public class CourseOfferingSetServiceConstants {
     // scheduling
     public static final String RUN_SCHEDULING_SYNCHRONOUSLY_OPTION_KEY = "kuali.scheduling.processing.run.synchronously";
 
+    // Whether to check target term/subterm for official states at the rolloverCourseOffering level
+    // Or at the rolloverSoc level.  If this option key exists, then no need for rolloverCourseOffering
+    // to make this check.
+    public static final String TARGET_TERM_VALIDATED_OPTION_KEY = "kuali.rollover.option.targetterm.validated";
+
     // dynamic attributes for rollover info
     public static final String CO_CREATED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.course.offerings.created";
     public static final String CO_SKIPPED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.course.offerings.skipped";
