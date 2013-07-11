@@ -32,6 +32,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 
@@ -83,11 +84,13 @@ public class ActivityOfferingSubtermKeyValues extends UifKeyValuesFinderBase imp
             }
 
             for (TermInfo term : terms) {
-                ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                TypeInfo type = getTypeService().getType(term.getTypeKey(), context);
-                keyValue.setKey(term.getId());
-                keyValue.setValue(type.getName());
-                keyValues.add(keyValue);
+                if (term.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
+                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
+                    TypeInfo type = getTypeService().getType(term.getTypeKey(), context);
+                    keyValue.setKey(term.getId());
+                    keyValue.setValue(type.getName());
+                    keyValues.add(keyValue);
+                }
             }
 
         } catch (Exception e) {
