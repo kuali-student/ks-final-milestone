@@ -91,7 +91,16 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         if((compareEditor!=null)&&(compareEditor.getProposition()!=null)){
             this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compareEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         }
-        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compareEditor);
+
+        //Build the Tree
+        RuleEditor compareParent = null;
+       if (compareEditor!=null) {
+        compareParent = original.getParent().getParent();
+        if((compareParent!=null)&&(compareParent.getProposition()!=null)){
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compareParent.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        }
+        }
+        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(compareParent, compareEditor);
 
         return compareTree;
     }

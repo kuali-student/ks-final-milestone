@@ -48,7 +48,7 @@ limitations under the License.
         <property name="viewName" value="AOAgendaManagementView"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper"/>
         <property name="viewHelperServiceClass"
-                  value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleViewHelperServiceImpl"/>
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.AORuleViewHelperServiceImpl"/>
         <property name="items">
             <list>
                 <bean id="KSAO-AgendaMaintenance-Page" parent="KSAO-AgendaMaintenance-Page-parent"/>
@@ -57,7 +57,10 @@ limitations under the License.
         </property>
         <property name="dialogs">
             <list>
-                <bean id="compareRuleLightBox" parent="KRMS-CompareRule"/>
+                <bean id="compareRuleLightBox" parent="KRMS-CompareRule">
+                    <property name="headerText" value="CLU and CO Rules"/>
+                </bean>
+
                 <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
             </list>
         </property>
@@ -139,7 +142,7 @@ limitations under the License.
     <property name="items">
         <list>
             <bean id="KSAO-RuleEdit-ActionLinks" parent="KSAO-RuleEdit-Links" p:align="right"/>
-            <bean id="KSAO-RuleView-ActionLinks" parent="KSAO-RuleView-Links" p:align="right"/>
+            <!--<bean id="KSAO-RuleView-ActionLinks" parent="KSAO-RuleView-Links" p:align="right"/>-->
             <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
             <bean id="KSAO-ViewTree-Group" parent="Uif-VerticalBoxGroup"
                   p:cssClasses="viewModeNode">
@@ -175,13 +178,14 @@ limitations under the License.
     <bean id="KSAO-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Copy and  Edit CO Rule" p:methodToCall="goToRuleView"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Revert to CO" p:methodToCall="deleteRule"/>
             </list>
         </property>
     </bean>
@@ -189,7 +193,7 @@ limitations under the License.
     <bean id="KSAO-RuleView-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
@@ -357,7 +361,7 @@ limitations under the License.
     <bean id="KSAO-RulePreview-Links" parent="KRMS-RulePreview-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>

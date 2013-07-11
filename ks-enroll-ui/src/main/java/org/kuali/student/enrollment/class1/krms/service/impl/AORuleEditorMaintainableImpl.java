@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -27,10 +28,13 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContra
 import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.AgendaTypeInfo;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
+import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
@@ -41,6 +45,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
@@ -58,6 +63,7 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,6 +84,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     private transient RuleViewTreeBuilder viewTreeBuilder;
     private transient NaturalLanguageHelper nlHelper;
+    private AlphaIterator alphaIterator = new AlphaIterator(StringUtils.EMPTY);
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
@@ -196,9 +203,29 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         try {
             activityOfferingInfo = this.getCourseOfferingService().getActivityOffering(refObjectId, ContextUtils.createDefaultContextInfo());
         } catch (Exception e) {
+            throw new RuntimeException("Could not retrieve activity offering for " + refObjectId);
+        }
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lui.type.course.offering", activityOfferingInfo.getCourseOfferingId());
+    }
+    /**
+     * Return the clu id from the canonical course that is linked to the given course offering id.
+     *
+     * @param refObjectId - the course offering id.
+     * @return
+     * @throws Exception
+     */
+    public List<ReferenceObjectBinding> getCOParentRefOjbects(String refObjectId) {
+        CourseOfferingInfo courseOffering = null;
+        ActivityOfferingInfo activityOfferingInfo = null;
+        try {
+            activityOfferingInfo = this.getCourseOfferingService().getActivityOffering(refObjectId, ContextUtils.createDefaultContextInfo());
+            if(activityOfferingInfo !=null){
+            courseOffering = this.getCourseOfferingService().getCourseOffering(activityOfferingInfo.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+            }
+        } catch (Exception e) {
             throw new RuntimeException("Could not retrieve course offering for " + refObjectId);
         }
-        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lu.type.CreditCourse", activityOfferingInfo.getActivityId());
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lu.type.CreditCourse", courseOffering.getCourseId());
     }
 
     /**
@@ -251,7 +278,150 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
         return null;
     }
+    /**
+     * Override this method to return the reference object id of the parent object.
+     *
+     * @param refObjectId
+     * @return
+     */
+    @Override
+    protected List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId) {
+        // Initialize new array lists.
+        List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
+        List<AgendaEditor> sortedAgendas = new ArrayList<AgendaEditor>();
+        List<AgendaEditor> parentAgendas = new ArrayList<AgendaEditor>();
+        List<AgendaEditor> parentOfParentAgendas = new ArrayList<AgendaEditor>();
 
+        // Get the list of existing agendas
+        List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(discriminatorType, refObjectId);
+        for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
+            agendas.add(this.getAgendaEditor(referenceObjectBinding.getKrmsObjectId()));
+        }
+            // Get the list of parent agendas
+            List<ReferenceObjectBinding> parentRefObjects = this.getParentRefOjbects(refObjectId);
+            for (ReferenceObjectBinding referenceObject : parentRefObjects) {
+                parentAgendas.add(this.getAgendaEditor(referenceObject.getKrmsObjectId()));
+            }
+            // Get the list of parent agendas
+            List<ReferenceObjectBinding> parentOfParentRefObjects = this.getCOParentRefOjbects(refObjectId);
+            for (ReferenceObjectBinding referenceObject : parentOfParentRefObjects) {
+                parentOfParentAgendas.add(this.getAgendaEditor(referenceObject.getKrmsObjectId()));
+            }
+
+
+        // Lookup existing agenda by type
+        for (AgendaTypeInfo agendaTypeInfo : this.getTypeRelationships()) {
+            AgendaEditor agenda = null;
+            for (AgendaEditor existingAgenda : agendas) {
+                if (existingAgenda.getTypeId().equals(agendaTypeInfo.getId())) {
+                    agenda = existingAgenda;
+                    break;
+                }
+            }
+            if (agenda == null) {
+                agenda = new AgendaEditor();
+                agenda.setTypeId(agendaTypeInfo.getId());
+            }
+
+            //Set the parent agenda.
+            for (AgendaEditor parent : parentAgendas) {
+                if (agenda.getTypeId().equals(agenda.getTypeId())) {
+                    agenda.setParent(parent);
+                    break;
+                }
+            }
+            //Set the parent of parent agenda.
+            for (AgendaEditor parentOfparent : parentOfParentAgendas) {
+                if (agenda.getTypeId().equals(agenda.getTypeId())) {
+                    agenda.getParent().setParent(parentOfparent);
+                    break;
+                }
+            }
+
+            agenda.setAgendaTypeInfo(agendaTypeInfo);
+            agenda.setRuleEditors(this.getRulesForAgendas(agenda));
+            sortedAgendas.add(agenda);
+        }
+
+        return sortedAgendas;
+    }
+    /**
+     * Override this method to return the rules for agendas.
+     *
+     * @param agenda
+     * @return
+     */
+    @Override
+    public Map<String, RuleEditor> getRulesForAgendas(AgendaEditor agenda) {
+
+        //Get all existing rules.
+        List<RuleEditor> existingRules = null;
+        if (agenda.getId() != null) {
+            AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+            existingRules = getRuleEditorsFromTree(firstItem, true);
+        }
+
+        //Get the parent rules
+        List<RuleEditor> parentRules = null;
+        if (agenda.getParent() != null) {
+            AgendaItemDefinition parentItem = this.getRuleManagementService().getAgendaItem(agenda.getParent().getFirstItemId());
+            parentRules = getRuleEditorsFromTree(parentItem, false);
+        }
+
+        //Get the parent rules
+        List<RuleEditor> parentOfParentRules = null;
+        if (agenda.getParent().getParent() != null) {
+            AgendaItemDefinition parentOfParentItem = this.getRuleManagementService().getAgendaItem(agenda.getParent().getParent().getFirstItemId());
+            parentOfParentRules = getRuleEditorsFromTree(parentOfParentItem, false);
+        }
+
+        //Add dummy RuleEditors for empty rule types.
+        Map<String, RuleEditor> ruleEditors = new LinkedHashMap<String, RuleEditor>();
+        for (RuleTypeInfo ruleType : agenda.getAgendaTypeInfo().getRuleTypes()) {
+            RuleEditor ruleEditor = null;
+
+            // Add all existing rules of this type.
+            if (existingRules != null) {
+                for (RuleEditor rule : existingRules) {
+                    if (rule.getTypeId().equals(ruleType.getId()) && (!rule.isDummy())) {
+                        ruleEditor = rule;
+                    }
+                }
+            }
+
+            // If the ruletype does not exist, add an empty rule section
+            if (ruleEditor == null) {
+                ruleEditor = new RuleEditor();
+                ruleEditor.setDummy(true);
+                ruleEditor.setTypeId(ruleType.getId());
+            }
+
+            ruleEditor.setKey((String) alphaIterator.next());
+            ruleEditor.setRuleTypeInfo(ruleType);
+            ruleEditors.put(ruleEditor.getKey(), ruleEditor);
+
+            //Set the parent agenda.
+            if (parentRules != null) {
+                for (RuleEditor parent : parentRules) {
+                    if (ruleEditor.getTypeId().equals(parent.getTypeId())) {
+                        ruleEditor.setParent(parent);
+                        break;
+                    }
+                }
+            }
+            //Set the parent of a parent agenda.
+            if (parentOfParentRules != null) {
+                for (RuleEditor parentofparent : parentOfParentRules) {
+                    if (ruleEditor.getTypeId().equals(parentofparent.getTypeId())) {
+                        ruleEditor.getParent().setParent(parentofparent);
+                        break;
+                    }
+                }
+            }
+        }
+
+        return ruleEditors;
+    }
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (this.viewTreeBuilder == null) {
             viewTreeBuilder = new EnrolRuleViewTreeBuilder();
