@@ -136,7 +136,6 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CreateSocPage-SelectTermPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingInfoLookupAndInquiryView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/KSPersonMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultInfoLookpAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultItemInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoLookupAndInquiryView.xml</value>
