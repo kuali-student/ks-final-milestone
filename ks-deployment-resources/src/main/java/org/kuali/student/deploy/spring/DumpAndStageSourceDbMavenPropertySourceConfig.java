@@ -8,6 +8,7 @@ import org.kuali.common.impex.MavenProjectContext;
 import org.kuali.common.jdbc.JdbcProjectContext;
 import org.kuali.common.util.MetaInfSqlProjectContext;
 import org.kuali.common.util.ProjectContext;
+import org.kuali.common.util.ScmProjectContext;
 import org.kuali.common.util.property.ProjectProperties;
 import org.kuali.common.util.spring.ConfigUtils;
 import org.kuali.common.util.spring.MavenPropertySourceConfig;
@@ -22,6 +23,7 @@ public class DumpAndStageSourceDbMavenPropertySourceConfig extends MavenProperty
 		ProjectContext dump = new DumpAndStageProjectContext();
 		ProjectContext mavenImpex = new MavenProjectContext();
 		ProjectContext metaInfSql = new MetaInfSqlProjectContext();
+		ProjectContext scm = new ScmProjectContext();
 		ProjectContext dumpSourceDb = new DumpAndStageSourceDbProjectContext();
 		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, dump, mavenImpex, metaInfSql, dumpSourceDb));
 	}

@@ -18,6 +18,7 @@ public class DumpAndStageSourceDbProjectContext extends DefaultProjectContext {
 		list.add(prefix + "/common.properties");
 		list.add(prefix + "/dump.properties");
 		list.add(prefix + "/staging.properties");
+		list.add(prefix + "/scm.properties");
 		return list;
 	}
 
