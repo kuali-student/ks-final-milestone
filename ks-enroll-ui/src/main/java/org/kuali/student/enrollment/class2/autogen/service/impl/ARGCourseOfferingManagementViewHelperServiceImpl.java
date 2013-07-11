@@ -906,6 +906,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
     private List<RegistrationGroupWrapper> processRgData(SearchResultInfo searchResults, ARGCourseOfferingManagementForm form, Map<String, List<ActivityOfferingWrapper>> sch2aoMap, Map<String, ActivityOfferingClusterWrapper> clusterMap, Map<String, ActivityOfferingWrapper> aoMap, ContextInfo defaultContextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         Map<String, RegistrationGroupWrapper> rgMap = new HashMap<String, RegistrationGroupWrapper>();
+        Map<String, List<ActivityOfferingWrapper>> storedAOs = new HashMap<String, List<ActivityOfferingWrapper>>();
+
         for (SearchResultRowInfo row : searchResults.getRows()) {
 
             String aoId = null;
@@ -923,25 +925,15 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     rgState = cell.getValue();
                 }
             }
-
             ActivityOfferingWrapper aoWrapper = aoMap.get(aoId);
-            ActivityOfferingClusterWrapper clusterWrapper = clusterMap.get(aoWrapper.getAoClusterID());
-            String lineBreaks = "";
-
-            //if there are more than one instructors re-arrange the rows
-            if (aoWrapper.getInstructorDisplayNames().contains("<br>")) {   //more than one instructor
-                String s = aoWrapper.getInstructorDisplayNames();
-                for( int i=0; i<s.length(); i++ ) {    //add lines according to number of instructors
-                    if( s.contains("<br>")) {
-                        lineBreaks = lineBreaks + "<br/>";
-                        s = s.substring(s.indexOf("<br>")+4);
-                    }
-                }
-            }
-
             RegistrationGroupWrapper rgWrapper = rgMap.get(rgId);
             boolean newLine = true;
             if (rgWrapper == null) {
+
+                storedAOs.put(rgId, new ArrayList<ActivityOfferingWrapper>());
+
+                ActivityOfferingClusterWrapper clusterWrapper = clusterMap.get(aoWrapper.getAoClusterID());
+
                 newLine = false;
                 rgWrapper = new RegistrationGroupWrapper();
                 rgWrapper.setAoCluster(clusterWrapper.getAoCluster());
@@ -964,25 +956,68 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 rgMap.put(rgId, rgWrapper);
                 clusterWrapper.getRgWrapperList().add(rgWrapper);
             }
-            rgWrapper.getRgInfo().getActivityOfferingIds().add(aoId);
-
-            rgWrapper.setAoMaxEnrText(rgWrapper.getAoMaxEnrText() + (newLine ? "<br/>" : "") + (aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment()) + lineBreaks);
-            rgWrapper.setAoStateNameText(rgWrapper.getAoStateNameText() + (newLine ? "<br/>" : "") + aoWrapper.getStateName() + lineBreaks);
-            //sub-term icon and tooltip setup
-            if(!aoWrapper.getSubTermName().equals("None")){  //sub-term? > icon + name and dates
-                rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode()
-                        + "&nbsp;&nbsp;&nbsp;<img src=\"../ks-enroll/images/subterm_icon.png\" title=\"This activity is in "+aoWrapper.getSubTermName()+" -\n"+aoWrapper.getTermStartEndDate()+"\">" + lineBreaks);
-            } else {
-                rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode() + lineBreaks);
-            }
-            rgWrapper.setAoTypeNameText(rgWrapper.getAoTypeNameText() + (newLine ? "<br/>" : "") + aoWrapper.getTypeName() + lineBreaks);
-            rgWrapper.setStartTimeDisplay(rgWrapper.getStartTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getStartTimeDisplay() + lineBreaks);
-            rgWrapper.setEndTimeDisplay(rgWrapper.getEndTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getEndTimeDisplay() + lineBreaks);
-            rgWrapper.setDaysDisplayName(rgWrapper.getDaysDisplayName() + (newLine ? "<br/>" : "") + aoWrapper.getDaysDisplayName() + lineBreaks);
-            rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName() + lineBreaks);
-            rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaks);
-            rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()));
+            storedAOs.get(rgId).add(aoWrapper);
         }
+
+        List<String> keyList = new ArrayList<String>(storedAOs.keySet());
+        for(int i=0;i<keyList.size();i++){
+
+            RegistrationGroupWrapper rgWrapper = rgMap.get(keyList.get(i));
+            List<ActivityOfferingWrapper> aoList = storedAOs.get(keyList.get(i));
+
+            //Sort aoList
+            Collections.sort(aoList,new Comparator<ActivityOfferingWrapper>() {
+                @Override
+                public int compare(ActivityOfferingWrapper ao1, ActivityOfferingWrapper ao2) {
+                    if(ao1.getTypeName().compareTo("Lecture")==0){
+                        return -1;
+                    }
+                    return ao1.getTypeName().compareTo(ao2.getTypeName());
+                }
+            });
+
+            for(int j=0;j<aoList.size();j++){
+                boolean newLine = true;
+                if(j==0){
+                    newLine=false;
+                }
+                ActivityOfferingWrapper aoWrapper = aoList.get(j);
+
+                rgWrapper.getRgInfo().getActivityOfferingIds().add(aoWrapper.getAoInfo().getId());
+
+                String lineBreaks = "";
+                //if there are more than one instructors re-arrange the rows
+                if (aoWrapper.getInstructorDisplayNames().contains("<br>")) {   //more than one instructor
+                    String s = aoWrapper.getInstructorDisplayNames();
+                    for( int k=0; k<s.length(); k++ ) {    //add lines according to number of instructors
+                        if( s.contains("<br>")) {
+                            lineBreaks = lineBreaks + "<br/>";
+                            s = s.substring(s.indexOf("<br>")+4);
+                        }
+                    }
+                }
+
+                rgWrapper.setAoMaxEnrText(rgWrapper.getAoMaxEnrText() + (newLine ? "<br/>" : "") + (aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment()) + lineBreaks);
+                rgWrapper.setAoStateNameText(rgWrapper.getAoStateNameText() + (newLine ? "<br/>" : "") + aoWrapper.getStateName() + lineBreaks);
+                //sub-term icon and tooltip setup
+                if(!aoWrapper.getSubTermName().equals("None")){  //sub-term? > icon + name and dates
+                    rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode()
+                            + "&nbsp;&nbsp;&nbsp;<img src=\"../ks-enroll/images/subterm_icon.png\" title=\"This activity is in "+aoWrapper.getSubTermName()+" -\n"+aoWrapper.getTermStartEndDate()+"\">" + lineBreaks);
+                } else {
+                    rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode() + lineBreaks);
+                }
+                rgWrapper.setAoTypeNameText(rgWrapper.getAoTypeNameText() + (newLine ? "<br/>" : "") + aoWrapper.getTypeName() + lineBreaks);
+                rgWrapper.setStartTimeDisplay(rgWrapper.getStartTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getStartTimeDisplay() + lineBreaks);
+                rgWrapper.setEndTimeDisplay(rgWrapper.getEndTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getEndTimeDisplay() + lineBreaks);
+                rgWrapper.setDaysDisplayName(rgWrapper.getDaysDisplayName() + (newLine ? "<br/>" : "") + aoWrapper.getDaysDisplayName() + lineBreaks);
+                rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName() + lineBreaks);
+                rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaks);
+                rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()));
+
+            }
+        }
+
+
 
         return new ArrayList<RegistrationGroupWrapper>(rgMap.values());
     }
