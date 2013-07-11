@@ -9,12 +9,6 @@
     <artifactId>ks-impex-bundled-db</artifactId>
     <name>KS Impex Bundled DB</name>
     <description>Kuali Student Impex Bundled Database</description>
-    <properties>
-        <jdbc.username>KSBUNDLED${db.branch.qualifier}</jdbc.username>
-        <impex.import.rice>META-INF/ks-impex-app-db-data.resources</impex.import.rice>
-        <impex.import.app>META-INF/ks-impex-rice-db-data.resources</impex.import.app>
-        <sql.data.concurrent>${impex.import.rice},${impex.import.app}</sql.data.concurrent>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.kuali.student.db</groupId>

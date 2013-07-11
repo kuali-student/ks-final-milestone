@@ -9,9 +9,6 @@
     <artifactId>ks-impex-app-db</artifactId>
     <name>KS Impex App DB</name>
     <description>Kuali Student Impex Application Database</description>
-    <properties>
-        <jdbc.username>KSAPP${db.branch.qualifier}</jdbc.username>
-    </properties>
     <build>
         <plugins>
             <plugin>

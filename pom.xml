@@ -31,6 +31,12 @@
             </modules>
         </profile>
         <profile>
+            <id>sql-only</id>
+            <modules>
+                <module>ks-deployment-resources</module>
+            </modules>
+        </profile>
+        <profile>
             <id>web-only</id>
             <modules>
                 <module>ks-web</module>

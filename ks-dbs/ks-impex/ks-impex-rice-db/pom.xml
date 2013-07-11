@@ -9,9 +9,6 @@
     <artifactId>ks-impex-rice-db</artifactId>
     <name>KS Impex Rice DB</name>
     <description>Kuali Student Impex Rice Database</description>
-    <properties>
-        <ks.propertysource.provider>org.kuali.student.deploy.spring.RiceDbPropertiesProvider</ks.propertysource.provider>
-    </properties>
     <build>
         <plugins>
             <plugin>

@@ -16,7 +16,7 @@
         <module>ks-impex-bundled-db</module>
     </modules>
     <properties>
-        <impex.metainf.context>org.kuali.util.spring.MetaInfMpxExecutableConfig</impex.metainf.context>
+        <impex.metainf.context>org.kuali.common.util.spring.MetaInfMpxExecutableConfig</impex.metainf.context>
     </properties>
     <profiles>
         <profile>
