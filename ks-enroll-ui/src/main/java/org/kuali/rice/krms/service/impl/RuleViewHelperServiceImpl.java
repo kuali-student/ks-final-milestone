@@ -48,6 +48,7 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleEditTreeBuilder;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.dto.TemplateInfo;
@@ -104,7 +105,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     @Override
     protected void addCustomContainerComponents(View view, Object model, Container container) {
-        if ("KRMS-PropositionEdit-DetailSection".equals(container.getId())) {
+        if (KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID.equals(container.getId())) {
             customizePropositionEditSection(view, model, container);
         }
     }

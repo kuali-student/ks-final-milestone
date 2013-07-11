@@ -15,6 +15,7 @@ public class KRMSConstants {
     public static final String KRMS_RULE_TABS_ID = "KRMS-TabsWidget";
     public static final String KRMS_RULE_EDITWITHOBJECT_ID = "KRMS-EditWithObject-EditSection";
     public static final String KRMS_RULE_EDITWITHLOGIC_ID = "KRMS-EditWithLogic-EditSection";
+    public static final String KRMS_PROPOSITION_DETAILSECTION_ID = "KRMS-PropositionEdit-DetailSection";
 
     // Parameters
     public static final String KRMS_PARM_ACTIVE_TAB = "activeTab";

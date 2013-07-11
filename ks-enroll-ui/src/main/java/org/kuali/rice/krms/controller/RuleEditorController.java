@@ -38,7 +38,9 @@ import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
+import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -879,9 +881,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public ModelAndView updateProposition(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
+
+        String dialogId = "warningMessagedYesNo";
         RuleEditor ruleEditor = getRuleEditor(form);
-        String dialog1 = "warningMessagedYesNo";
-        boolean choice = false;
         if (ruleEditor.getProposition() != null) {
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
         }
@@ -897,15 +899,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
 
             if (!GlobalVariables.getMessageMap().getWarningMessages().isEmpty()) {
-                if (!hasDialogBeenAnswered(dialog1, form)) {
-                    // redirect back to client to display lightbox
-                    return showDialog(dialog1, form, request, response);
+                if (!hasDialogBeenAnswered(dialogId, form)) {
+                    return showDialog(dialogId, form, request, response);
                 }
-                // Get value from chosen button
-                choice = getBooleanDialogResponse(dialog1, form, request, response);
-                if (!choice) {
-                    form.getDialogManager().removeDialog(dialog1);
 
+                String dialogResponse = getStringDialogResponse(dialogId, form, request, response);
+                if ("N".equals(dialogResponse)) {
+                    form.getDialogManager().resetDialogStatus(dialogId);
                     return getUIFModelAndView(form);
                 }
             }
@@ -925,6 +925,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
 
         }
+
+        // clear dialog history so user can press the button again
+        form.getDialogManager().resetDialogStatus(dialogId);
 
         //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);

@@ -21,6 +21,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.dto.TermParameterEditor;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetRangeInformation;
@@ -123,8 +124,7 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             GlobalVariables.getMessageMap().putError(propName, KSKRMSConstants.KSKRMS_MSG_ERROR_MULTICOURSE_REQUIRED);
         }
         if(cluSet.getClus().size()==1){
-            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "multipleCourseType");
-            GlobalVariables.getMessageMap().putWarning(propName, KSKRMSConstants.KSKRMS_MSG_WARNING_MULTICOURSE_PLURAL);
+            GlobalVariables.getMessageMap().putWarningForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KSKRMSConstants.KSKRMS_MSG_WARNING_MULTICOURSE_PLURAL);
         }
     }
 

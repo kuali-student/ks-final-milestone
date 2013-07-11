@@ -496,7 +496,6 @@ limitations under the License.
             </list>
         </property>
     </bean>
-    <bean id="KRMS-WarningMessagedYesNo" parent="Uif-Yes-No-DialogGroup" p:promptText="Single value entered for plural rule statement, Are you sure you want to continue?"/>
 
     <bean id="KRMS-CourseRangeResult" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3"
           p:renderAddLine="false">
