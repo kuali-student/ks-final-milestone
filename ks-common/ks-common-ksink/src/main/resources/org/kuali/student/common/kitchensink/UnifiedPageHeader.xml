@@ -55,7 +55,7 @@
         </property>
         <property name="items">
             <list>
-                <bean id="Demo-StandardLayout-CollectionSectionsPage" parent="KS-Uif-Page" p:headerText="Page Title">
+                <bean id="Demo-StandardLayout-CollectionSectionsPage" parent="KS-Uif-Page" p:headerText="Page Title" >
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-TextField-Example5">
@@ -86,6 +86,31 @@
                             <bean parent="KS-KitchenSink-TextAreaField-Example-Holder-Future" />
                         </list>
                     </property>
+
+                    <property name="footer">
+                        <bean parent="KS-Uif-FooterBase">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-HorizontalBoxGroup">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>ac_stickyfooter</value>
+                                            </list>
+                                        </property>
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:jumpToIdAfterSubmit="TOP" />
+                                                <bean parent="KS-Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload" />
+                                                <bean parent="KS-Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete Calendar Draft" />
+                                                <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()" />
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+
                 </bean>
             </list>
         </property>
