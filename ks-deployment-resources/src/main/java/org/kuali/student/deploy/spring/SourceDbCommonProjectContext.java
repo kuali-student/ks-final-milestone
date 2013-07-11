@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 import org.kuali.common.util.DefaultProjectContext;
 
-public class StudentMetaInfSqlProjectContext extends DefaultProjectContext {
+public class SourceDbCommonProjectContext extends DefaultProjectContext {
 
-	public StudentMetaInfSqlProjectContext() {
+	public SourceDbCommonProjectContext() {
 		super(Constants.GROUP_ID, Constants.ARTIFACT_ID, Arrays.asList(Constants.KS_SOURCE_DB_COMMON));
 	}
 

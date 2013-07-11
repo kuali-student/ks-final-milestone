@@ -15,7 +15,7 @@ public class MetaInfSqlMavenPropertySourceConfig extends MavenPropertySourceConf
 	@Override
 	protected List<ProjectProperties> getOtherProjectProperties() {
 		ProjectContext metaInf1 = new MetaInfSqlProjectContext();
-		ProjectContext metaInf2 = new StudentMetaInfSqlProjectContext();
+		ProjectContext metaInf2 = new SourceDbCommonProjectContext();
 		return ConfigUtils.getProjectProperties(metaInf1, metaInf2);
 	}
 
