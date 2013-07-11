@@ -25,7 +25,7 @@ public class DumpAndStageSourceDbMavenPropertySourceConfig extends MavenProperty
 		ProjectContext metaInfSql = new MetaInfSqlProjectContext();
 		ProjectContext scm = new ScmProjectContext();
 		ProjectContext dumpSourceDb = new DumpAndStageSourceDbProjectContext();
-		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, dump, mavenImpex, metaInfSql, dumpSourceDb));
+		return ConfigUtils.getProjectProperties(Arrays.asList(jdbc, dump, mavenImpex, metaInfSql, scm, dumpSourceDb));
 	}
 
 }
