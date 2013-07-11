@@ -110,12 +110,18 @@
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl"/>
     <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5"/>
 
+    <bean id="acalServiceFacade" class="org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacadeImpl">
+        <property name="acalService" ref="acalService" />
+        <property name="atpService" ref="atpService" />
+        <property name="typeService" ref="typeService" />
+    </bean>
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="courseOfferingService" />
         <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+        <property name="acalServiceFacade" ref="acalServiceFacade" />
     </bean>
 
     <bean id="krmsRuleManagementCopyMethods" class="org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsMockImpl">
