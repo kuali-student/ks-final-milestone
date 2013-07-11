@@ -22,6 +22,7 @@
 		<property name="viewName" value="courseView" />
 		<property name="headerText" value="Course View" />
 		<property name="header.render" value="false" />
+        <property name="header" ref="KS-CourseView-Header" />
 		<property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
 		<property name="navigation">
 			<ref bean="KS-CourseNavigation-Menu" />
@@ -128,5 +129,35 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="KS-CourseView-Header" parent="Uif-HeaderTwo">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-header</value>
+            </list>
+        </property>
+        <property name="upperGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-LinkGroup" p:linkSeparator="|">
+                            <property name="items">
+                                <list>
+<!--
+                                    <bean parent="Uif-DataField" p:label="Proposal Status" p:shortLabel="Status" p:labelPlacement="LEFT"  p:propertyName="dataField1" />
+-->
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Comments" />
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Decisions" />
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    
+    
+    <bean id="decisionsDialog" parent="Uif-DialogGroup"/>
 
 </beans>
