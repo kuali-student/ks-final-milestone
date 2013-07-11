@@ -294,7 +294,7 @@ public class ActivityOfferingWrapper implements Serializable{
 
     /**
      * This method returns whether editing of the activity code is allowed or not.
-     * This method reads the configuration property <code>kuali.ks.enrollment.options.edit-activity-offering-allowed</code>
+     * This method reads the configuration property <code>kuali.ks.enrollment.options.edit-activity-offering-code-allowed</code>
      * and returns it's value (true/false). This is to allow the institutional configuration to decide whether the users
      * should be allowed to edit the activity code.
      *
