@@ -901,6 +901,7 @@
     <bean id="acalServiceFacade" class="org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacadeImpl">
         <property name="acalService" ref="AcademicCalendarService" />
         <property name="atpService" ref="AtpService" />
+        <property name="typeService" ref="typeService" />
     </bean>
     <!-- Put facade on the bus KSENROLL-7384 -->
     <bean id="ks.exp.acalServiceFacade" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
