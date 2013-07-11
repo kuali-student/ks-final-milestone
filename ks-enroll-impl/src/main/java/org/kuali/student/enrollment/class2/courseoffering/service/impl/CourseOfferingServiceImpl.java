@@ -68,6 +68,8 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
@@ -132,6 +134,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private RoomService roomService;
     private StateTransitionsHelper stateTransitionsHelper;
     private SearchService searchService;
+    private AtpService atpService;
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceImpl.class);
 
@@ -399,6 +402,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     public void setActivityOfferingClusterDao(ActivityOfferingClusterDaoApi activityOfferingClusterDao) {
         this.activityOfferingClusterDao = activityOfferingClusterDao;
+    }
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 
     @Override
@@ -1230,8 +1241,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ao.setCourseOfferingCode(coCode);
         ao.setCourseOfferingTitle(coLongName);
 
-        TermInfo term = getAcalService().getTerm(ao.getTermId(), context);
-        ao.setTermCode(term.getCode());
+        // KSENROLL-7795 Use AtpService to make it more efficient to set code
+        AtpInfo termAtp = getAtpService().getAtp(ao.getTermId(), context);
+        ao.setTermCode(termAtp.getCode());
     }
 
     @Override
@@ -1358,8 +1370,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ao.setCourseOfferingCode(co.getCourseOfferingCode());
         ao.setCourseOfferingTitle(co.getCourseOfferingTitle());
         String aoTermId = ao.getTermId();
-        TermInfo term = getAcalService().getTerm(aoTermId, context);
-        ao.setTermCode(term.getCode());
+        // KSENROLL-7795 Use AtpService to make this quicker since loading ATP is faster than loading
+        // a TermInfo.
+        AtpInfo termAtp = getAtpService().getAtp(aoTermId, context);
+        ao.setTermCode(termAtp.getCode());
         return ao;
     }
 
@@ -1384,10 +1398,22 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         CourseOfferingInfo co = this.getCourseOffering(fo.getCourseOfferingId(), context);
         if (aoInfo.getTermId() != null) {
             if (!aoInfo.getTermId().equals(fo.getTermId())) {
-                throw new InvalidParameterException(aoInfo.getTermId() + " term in the activity offering does not match the one in the format offering " + fo.getTermId());
+                // KSENROLL-7795: AO must be a subterm of FO's term.  Verify this is the case
+                List<TermInfo> parentTerms = acalService.getContainingTerms(aoInfo.getTermId(), context);
+                // KSENROLL-7795 Should just be one parent term given tree assumption about parent-child terms
+                if (parentTerms == null || parentTerms.size() != 1) {
+                    throw new InvalidParameterException("In createActivityOffering, can only have one parent term for a subterm");
+                }
+                String parentTermId = parentTerms.get(0).getId();
+                if (!parentTermId.equals(fo.getTermId())) {
+                    // KSENROLL-7795 Throw exception if the parent term ID of the AO term does not match FO's term ID
+                    throw new InvalidParameterException(aoInfo.getTermId() + " term in the activity offering is not subterm of format offering term (" + fo.getTermId() + ")");
+                }
             }
+        } else {
+            // KSENROLL-7795 Since AO termID is null, set it to the same as the FO
+            aoInfo.setTermId(fo.getTermId());
         }
-        aoInfo.setTermId(fo.getTermId());
 
         // check that the passed in activity code does not already exist for that course offering
         if (context.getAttributeValue("skip.aocode.validation") == null ||
@@ -1705,7 +1731,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         ao.setFormatOfferingName(foInfo.getName());
         ao.setCourseOfferingCode(coInfo.getCourseOfferingCode());
         ao.setCourseOfferingTitle(coInfo.getCourseOfferingTitle());
-        TermInfo term = getAcalService().getTerm(ao.getTermId(), context);
+        // KSENROLL-7795 Fetching Atp is more efficient than fetching Term
+        AtpInfo term = getAtpService().getAtp(ao.getTermId(), context);
         ao.setTermCode(term.getCode());
         return ao;
     }

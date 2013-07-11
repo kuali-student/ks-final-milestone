@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
@@ -34,6 +35,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOfferingSetServiceBusinessLogic {
 
@@ -130,6 +132,19 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         return count > 0;
     }
 
+    private String _verifyTermsOfficial(TermInfo targetTerm, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        if (!targetTerm.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
+            return targetTerm.getId();
+        }
+        List<TermInfo> childTerms = acalService.getIncludedTermsInTerm(targetTerm.getId(), contextInfo);
+        for (TermInfo termInfo: childTerms) {
+            if (!termInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
+                return termInfo.getId();
+            }
+        }
+        return null;
+    }
+
     @Override
     public SocInfo rolloverSoc(String sourceSocId, String targetTermId, List<String> optionKeys, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -144,12 +159,23 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         if (sourceSoc.getTermId().equals(targetTermId)) {
             throw new InvalidParameterException("The term of the source soc and the target term must be different");
         }
+        String termId = null;
+        if ((termId = _verifyTermsOfficial(targetTerm, context)) != null) {
+            throw new OperationFailedException("Target (sub)term (id=" + termId + ") does not have official state.  Can't rollover");
+        } else {
+            // That way, rolloverCourseOffering can do less validation
+            if (!optionKeys.contains(CourseOfferingSetServiceConstants.TARGET_TERM_VALIDATED_OPTION_KEY)) {
+                optionKeys = new ArrayList<String>(optionKeys); // create a shallow copy so original is unmodified
+                optionKeys.add(CourseOfferingSetServiceConstants.TARGET_TERM_VALIDATED_OPTION_KEY);
+            }
+        }
         // DanS says if there are any offerings in the target term, we shouldn't perform rollover.  The implication
         // is that any courses that were copied from canonical prior to a rollover would prevent a rollover from
         // happening. DanS has said this is fine (as of 5/20/2012)
         if (_hasOfferingsInTargetTerm(targetTerm)) {
             throw new OperationFailedException("Can't rollover if course offerings exist in target term");
         }
+
         // Reuse SOC in target term
         SocInfo targetSoc = _findTargetSoc(targetTermId);
         boolean foundTargetSoc = true;

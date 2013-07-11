@@ -44,19 +44,27 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
@@ -70,7 +78,7 @@ import java.util.Random;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * View helper service impl for running AFUTs for state propagation.
  *
  * @author Kuali Student Team
  */
@@ -90,9 +98,13 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private String primaryAoId;
     private String secondaryAoId;
     private String secondAoState = LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY;
+    private TermInfo targetTerm;
+    private TermInfo subtermOne;
+    private TermInfo subtermTwo;
 
     // Constants
-    public static final String SAMPLE_TERM = "200001";
+    public static final String SAMPLE_TERM = "200008";
+    public static final String SAMPLE_ROLLOVER_TERM = "200108";
     public static final String COURSE_OFFERING_KEY = "courseOfferingKey";
     private ContextInfo CONTEXT;
 
@@ -209,15 +221,15 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         socInfo = _createSocForTerm(SAMPLE_TERM);
     }
 
-    private void _reset(boolean createCourseOffering) throws Exception {
-        socInfo = _getMainSocForTerm(SAMPLE_TERM);
-        if (socInfo != null) {
+    private void _cleanSoc(String termCode) throws Exception {
+        SocInfo socInfoLocal = _getMainSocForTerm(termCode);
+        if (socInfoLocal != null) {
             List<String> coIds = null;
             try {
-                coIds = socService.getCourseOfferingIdsBySoc(socInfo.getId(), CONTEXT);
+                coIds = socService.getCourseOfferingIdsBySoc(socInfoLocal.getId(), CONTEXT);
                 if (coIds != null) {
                     if (coIds.size() > 1) {
-                       throw new PseudoUnitTestException("Should only have 1 CO in this term");
+                        throw new PseudoUnitTestException("Should only have 1 CO in this term");
                     } else if (!coIds.isEmpty()) { // Has one CO
                         coService.deleteCourseOfferingCascaded(coIds.get(0), CONTEXT);
                     }
@@ -225,12 +237,37 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             } catch (DoesNotExistException e) {
                 // Do nothing
             }
-            socService.deleteSoc(socInfo.getId(), CONTEXT);
+            socService.deleteSoc(socInfoLocal.getId(), CONTEXT);
         }
+    }
+
+    private void _cleanSubterms(String parentTermCode)
+            throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+        AtpService atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE,
+                AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+        TermInfo term = getTermByTermCode(parentTermCode);
+        List<TermInfo> childTerms = acalService.getIncludedTermsInTerm(term.getId(), CONTEXT);
+        for (TermInfo child: childTerms) {
+            // Force into draft state so it can be deleted
+            AtpInfo atpInfo = atpService.getAtp(child.getId(), CONTEXT);
+            atpInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+            atpService.updateAtp(atpInfo.getId(), atpInfo, CONTEXT);
+            // Then delete
+            acalService.deleteTerm(child.getId(), CONTEXT);
+        }
+    }
+
+    private void _reset(boolean createCourseOffering) throws Exception {
+        _cleanSoc(SAMPLE_TERM);
+        _cleanSoc(SAMPLE_ROLLOVER_TERM);
+        // Fortunately, subterms are indepedent of SOCs
+        _cleanSubterms(SAMPLE_TERM);
+        _cleanSubterms(SAMPLE_ROLLOVER_TERM);
         socInfo = _createSocForTerm(SAMPLE_TERM);
         if (createCourseOffering) {
             Map<String, Object> keyToValues =
-                    rolloverCourseOfferingFromSourceTermToTargetTerm("CHEM237", "201201", "200001");
+                    rolloverCourseOfferingFromSourceTermToTargetTerm("CHEM237", "201201", SAMPLE_TERM);
+            targetTerm = getTermByTermCode(SAMPLE_TERM);
             courseOfferingInfo = (CourseOfferingInfo) keyToValues.get(COURSE_OFFERING_KEY);
             // Get FOs (should only be 1)
             foInfos = coService.getFormatOfferingsByCourseOffering(courseOfferingInfo.getId(), CONTEXT);
@@ -296,8 +333,60 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         return coStateComputed;
     }
 
+    private void _testRollover() throws Exception {
+        _reset(true);
+        TermInfo halfFallOne = new TermInfo();
+        halfFallOne.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        halfFallOne.setTypeKey(AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY);
+        halfFallOne.setStartDate(targetTerm.getStartDate());
+        halfFallOne.setEndDate(targetTerm.getEndDate());
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain("foo");
+        richTextInfo.setFormatted("bar");
+        halfFallOne.setDescr(richTextInfo);
+        subtermOne = acalService.createTerm(halfFallOne.getTypeKey(), halfFallOne, CONTEXT);
+        // Attach subterm to term
+        acalService.addTermToTerm(targetTerm.getId(), subtermOne.getId(), CONTEXT);
+        // Change primary AO to refer to this term
+        ActivityOfferingInfo aoInfo = coService.getActivityOffering(primaryAoId, CONTEXT);
+        aoInfo.setTermId(subtermOne.getId());
+        aoInfo.setTermCode(null);
+        coService.updateActivityOffering(aoInfo.getId(), aoInfo, CONTEXT);
+        // Create SOC in another term to rollover
+        SocInfo socInfo2 = _createSocForTerm(SAMPLE_ROLLOVER_TERM);
+        TermInfo newTargetTerm = getTermByTermCode(SAMPLE_ROLLOVER_TERM);
+        // Create fall subterm in new target term
+        TermInfo halfFallTwo = new TermInfo();
+        halfFallTwo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        halfFallTwo.setTypeKey(AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY);
+        halfFallTwo.setStartDate(newTargetTerm.getStartDate());
+        halfFallTwo.setEndDate(newTargetTerm.getEndDate());
+        richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain("foo");
+        richTextInfo.setFormatted("bar");
+        halfFallTwo.setDescr(richTextInfo);
+        //
+        subtermTwo = acalService.createTerm(halfFallTwo.getTypeKey(), halfFallTwo, CONTEXT);
+        // Attach subterm to term
+        acalService.addTermToTerm(newTargetTerm.getId(), subtermTwo.getId(), CONTEXT);
+        AcademicCalendarServiceFacade acalServiceFacade
+            = (AcademicCalendarServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acalServiceFacade", "AcademicCalendarServiceFacade"));
+        acalServiceFacade.makeTermOfficialCascaded(subtermTwo.getId(), CONTEXT);
+        // Rollover (should cause exception)
+        try {
+            Map<String, Object> keyToValues =
+                    rolloverCourseOfferingFromSourceTermToTargetTerm("CHEM237", SAMPLE_TERM, SAMPLE_ROLLOVER_TERM);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+
+        List<String> coIds = socService.getCourseOfferingIdsBySoc(socInfo2.getId(), CONTEXT);
+        List<ActivityOfferingInfo> aoInfos = coService.getActivityOfferingsByCourseOffering(coIds.get(0), CONTEXT);
+        System.err.println("Hi");
+    }
+
     @Override
-    public String[] runTests(TestStatePropagationForm form) throws Exception {
+    public void runTests(TestStatePropagationForm form) throws Exception {
         _initServices();
         // Now begin to test AO state transitions
         System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
@@ -321,7 +410,6 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         grid = testRegistrationGroupInvalid(false);
         _printRegGroupInvalid(grid, false, form);
         System.err.println("<<<<<<<<<<<<<< END RG Invalid tests >>>>>>>>>>>>");
-        return null;
     }
 
      private void _printRegGroupInvalid(PseudoUnitTestStateTransitionGrid grid, boolean isRgOffered, TestStatePropagationForm form) {

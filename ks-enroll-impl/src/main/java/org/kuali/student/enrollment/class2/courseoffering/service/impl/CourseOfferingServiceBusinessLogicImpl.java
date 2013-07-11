@@ -21,10 +21,12 @@ import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
+import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
@@ -68,13 +70,24 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     @Resource
     private CourseOfferingTransformer courseOfferingTransformer;
-    
+
+    @Resource
+    private AcademicCalendarServiceFacade acalServiceFacade;
+
     public CourseOfferingService getCoService() {
         return coService;
     }
 
     public void setCoService(CourseOfferingService coService) {
         this.coService = coService;
+    }
+
+    public void setAcalServiceFacade(AcademicCalendarServiceFacade acalServiceFacade) {
+        this.acalServiceFacade = acalServiceFacade;
+    }
+
+    public AcademicCalendarServiceFacade getAcalServiceFacade() {
+        return acalServiceFacade;
     }
 
     public AcademicCalendarService getAcalService() {
@@ -137,6 +150,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         if (acalService == null){
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,
                     AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+
+        if (acalServiceFacade == null) {
+            acalServiceFacade = (AcademicCalendarServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acalServiceFacade", "AcademicCalendarServiceFacade"));
         }
     }
 
@@ -283,6 +300,103 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return targetFo;
     }
 
+    private Map<String, List<ActivityOfferingInfo>> _prefetchAOs(List<FormatOfferingInfo> fos, CourseOfferingInfo sourceCo,
+                                                                 ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+                   OperationFailedException, DoesNotExistException {
+        Map<String, List<ActivityOfferingInfo>> foIdsToAOList = new HashMap<String, List<ActivityOfferingInfo>>();
+        for (FormatOfferingInfo sourceFo: fos) {
+            // Pass in some context attributes so these values don't need to be looked up again
+            List<AttributeInfo> originalContextAttributes = context.getAttributes();
+            List<AttributeInfo> newContextAttributes = new ArrayList<AttributeInfo>(originalContextAttributes);
+            newContextAttributes.add(new AttributeInfo("FOId", sourceFo.getId()));
+            newContextAttributes.add(new AttributeInfo("FOShortName", sourceFo.getShortName()));
+            newContextAttributes.add(new AttributeInfo("COId", sourceCo.getId()));
+            newContextAttributes.add(new AttributeInfo("COCode", sourceCo.getCourseCode()));
+            newContextAttributes.add(new AttributeInfo("COLongName", sourceCo.getCourseOfferingTitle()));
+            context.setAttributes(newContextAttributes);
+
+            // Make the call with the additional contextAttributes
+            List<ActivityOfferingInfo> aos = this.getCoService().getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
+
+            // Reset the attributes to avoid side affects
+            context.setAttributes(originalContextAttributes);
+
+            foIdsToAOList.put(sourceFo.getId(), aos);
+        }
+        return foIdsToAOList;
+    }
+
+    /**
+     * Assumes target term is "official" as are its subterms
+     * @param foIdsToAoList A map of Format Offering ID to a list of AO infos associated with the FO
+     * @param sourceTermId The source term ID of the rollover
+     * @param targetTermId The target tern ID of the rollover
+     * @param sourceTermIdToTargetTermId Assumes an empty Map<String, String> object.  Filled in as part of
+     *               the method from sourceTerm ID to targetTerm Id.
+     * @param contextInfo
+     * @return true, if the target term has the required subterms
+     */
+    private boolean
+    _createSourceTermIdToTargetTermIdMapping(Map<String, List<ActivityOfferingInfo>> foIdsToAoList,
+                                 String sourceTermId, String targetTermId,
+                                 Map<String, String> sourceTermIdToTargetTermId,
+                                 ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+                   OperationFailedException, DoesNotExistException {
+        sourceTermIdToTargetTermId.clear();
+        // Assumes a check has been made for target term with official states
+        if (sourceTermId.equals(targetTermId)) {
+            return true;
+        }
+
+        Map<String, String> sourceTermTypeToTermId = new HashMap<String, String>(); // Assumes unique subterm types per term type
+        TermInfo sourceTerm = acalService.getTerm(sourceTermId, contextInfo);
+        sourceTermTypeToTermId.put(sourceTerm.getTypeKey(), sourceTermId);
+        // Scan through AOs for subterm IDs
+        for (String foId: foIdsToAoList.keySet()) {
+            List<ActivityOfferingInfo> aos = foIdsToAoList.get(foId);
+            for (ActivityOfferingInfo ao: aos) {
+                String termId = ao.getTermId();
+                if (sourceTermTypeToTermId.containsValue(termId) || termId.equals(sourceTermId)) {
+                    continue;  // Skip it, we've seen this termID before
+                }
+                TermInfo termInfo = acalService.getTerm(termId, contextInfo);
+                String termType = termInfo.getTypeKey();
+                sourceTermTypeToTermId.put(termType, termId);
+            }
+        }
+        if (sourceTermTypeToTermId.size() == 1) { // Found no subterms, so we're good (size 1 is parent term)
+            return true;
+        }
+        // Now verify the term types (only go one level deep since, currently, subterms don't
+        // have subterms).
+        TermInfo targetTerm = acalService.getTerm(targetTermId, contextInfo);
+        // Put in the parent source/target term IDs
+        sourceTermIdToTargetTermId.put(sourceTermTypeToTermId.get(targetTerm.getTypeKey()), targetTerm.getId());
+        List<TermInfo> targetSubterms = acalService.getIncludedTermsInTerm(targetTermId, contextInfo);
+        for (TermInfo term: targetSubterms) {
+            String sourceTermIdLocal = sourceTermTypeToTermId.get(term.getTypeKey());
+            if (sourceTermIdLocal != null) {
+                sourceTermIdToTargetTermId.put(sourceTermIdLocal, term.getId()); // Map source term ID to target term ID
+            }
+        }
+        // Valid only if the number of source terms equals the number of target terms and there
+        // is a 1-1 mapping
+        return sourceTermIdToTargetTermId.size() == sourceTermTypeToTermId.size();
+    }
+
+
+    private String _verifyTermsOfficial(Map<String,String> sourceTermIdToTargetTermId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        for (String targetTermId: sourceTermIdToTargetTermId.values()) {
+            TermInfo termInfo = acalService.getTerm(targetTermId, contextInfo);
+            if (!termInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
+                return termInfo.getId();
+            }
+        }
+        return null;
+    }
+
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SocRolloverResultItemInfo rolloverCourseOffering(String sourceCoId,
@@ -327,35 +441,41 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 throw new InvalidParameterException("skipped because there is a new version of the canonical course");
             }
         }
+
         // Create the course offering
         CourseOfferingInfo targetCo = _RCO_createTargetCourseOffering(sourceCo, targetTermId, targetCourse, optionKeys, context);
         // Get ready to rollover FOs and AOs
         List<FormatOfferingInfo> foInfos = coService.getFormatOfferingsByCourseOffering(sourceCo.getId(), context);
+        // KSENROLL-7795: Prefetch AOs.  Needs to do this because we have to check AO term IDs to find
+        // its term type and see if there is a corresponding subterm of the same type in the target term.
+        // If not, then, no CO/FO/AO, etc. are rolled over.
+        Map<String, List<ActivityOfferingInfo>> foIdsToAOList = _prefetchAOs(foInfos, sourceCo, context);
+        // KSENROLL-7795 Verify whether target terms have correct subterms
+        Map<String, String> sourceTermIdToTargetTermId = new HashMap<String, String>();
+        if (!_createSourceTermIdToTargetTermIdMapping(foIdsToAOList, sourceCo.getTermId(), targetTermId, sourceTermIdToTargetTermId, context)) {
+            throw new DataValidationErrorException("Target term does not have subterm types found in AOs");
+        }
+
+        // KSENROLL-7795 If option key doesn't exist, validate the target term for official state
+        if (!optionKeys.contains(CourseOfferingSetServiceConstants.TARGET_TERM_VALIDATED_OPTION_KEY)) {
+            // Put key into constants file soon
+            String termId;
+            if ((termId = _verifyTermsOfficial(sourceTermIdToTargetTermId, context)) != null) {
+                throw new DataValidationErrorException("ERROR: Target (sub)term (" + termId + ") is not official");
+            }
+        }
+
         int aoCount = 0;
         for (FormatOfferingInfo sourceFo : foInfos) {
             //TODO FIXME if the  IF_NO_NEW_VERSION_OPTION_KEY is not set and the Course version is different,
             // this call will always fail because the format from the old CO will never match the format on the new Course version
             // Logic will need to be added that reconciles the formats based on activity types
+            // cclin -- It's assumed that both the CO/FO have term IDs that are parent terms so targetTermId works
             FormatOfferingInfo targetFo = _RCO_createTargetFormatOffering(sourceFo, targetCo, targetTermId, context);
 
-            // Pass in some context attributes so these values don't need to be looked up again
-            List<AttributeInfo> originalContextAttributes = context.getAttributes();
-            List<AttributeInfo> newContextAttributes = new ArrayList<AttributeInfo>(originalContextAttributes);
-            newContextAttributes.add(new AttributeInfo("FOId",sourceFo.getId()));
-            newContextAttributes.add(new AttributeInfo("FOShortName",sourceFo.getShortName()));
-            newContextAttributes.add(new AttributeInfo("COId",sourceCo.getId()));
-            newContextAttributes.add(new AttributeInfo("COCode",sourceCo.getCourseCode()));
-            newContextAttributes.add(new AttributeInfo("COLongName",sourceCo.getCourseOfferingTitle()));
-            context.setAttributes(newContextAttributes);
-
-            // Make the call with the additional contextAttributes
-            List<ActivityOfferingInfo> aoInfoList = this.getCoService().getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
-
-            // Reset the attributes to avoid side affects
-            context.setAttributes(originalContextAttributes);
-
             Map<String, String> sourceAoIdToTargetAoId = new HashMap<String, String>();
-            for (ActivityOfferingInfo sourceAo : aoInfoList) {
+            List<ActivityOfferingInfo> aoList = foIdsToAOList.get(sourceFo.getId());
+            for (ActivityOfferingInfo sourceAo : aoList) {
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY) &&
                         StringUtils.equals(sourceAo.getTypeKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
                     continue;
@@ -363,8 +483,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
                 sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
 
+                // Find appropriate target term ID
+                String targetTermIdCustom = targetTermId;
+                // KSENROLL-7795 If the source AO has a different ID from the CO (which is always a parent term)
+                // find the appropriate mapping to the target subterm ID.  Assumption: no subterm type exists
+                // more than once for the term.
+                if (!sourceAo.getTermId().equals(sourceCo.getTermId())) {
+                    // Handle subterm case
+                    targetTermIdCustom = sourceTermIdToTargetTermId.get(sourceAo.getTermId());
+                }
                 ActivityOfferingInfo targetAo =
-                        _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermId, optionKeys, context);
+                        _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermIdCustom, optionKeys, context);
                 sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
 
                 if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
