@@ -179,6 +179,15 @@
     <bean id="propositionTemplater"
           class="org.kuali.rice.krms.impl.repository.language.PropositionNaturalLanguageTemplater">
         <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryService"/>
+        <property name="contextRegistry" ref="contextRegistry"/>
+    </bean>
+
+    <bean id="contextRegistry"
+          class="org.kuali.rice.krms.impl.repository.language.ContextRegistry">
+        <constructor-arg>
+            <map>
+            </map>
+        </constructor-arg>
     </bean>
 
 </beans>

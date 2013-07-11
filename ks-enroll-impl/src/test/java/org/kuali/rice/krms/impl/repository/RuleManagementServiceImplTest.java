@@ -1259,7 +1259,7 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
 
     @Test
     public void testTranslateNaturalLanguageForProposition() {
-        /*ContextDefinition context = this.findCreateContext();
+        ContextDefinition context = this.findCreateContext();
         AgendaDefinition agenda = createCheckEmptyAgenda(context);
         agenda = updateCheckAgendaFirstItemAddingEmptyRule(agenda);
 
@@ -1276,7 +1276,18 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         RuleDefinition.Builder ruleBldr = RuleDefinition.Builder.create(firstItem.getRule());
         ruleBldr.setProposition(orPropBldr);
 
-        this.ruleManagementService.translateNaturalLanguageForProposition("edit", orPropBldr.build(), "en");*/
+        AgendaItemDefinition.Builder itemBldr = AgendaItemDefinition.Builder.create(firstItem);
+        itemBldr.setRule(ruleBldr);
+        AgendaItemDefinition item2Update = itemBldr.build();
+        this.ruleManagementService.updateAgendaItem(item2Update);
+        agenda = this.ruleManagementService.getAgenda(agenda.getId());
+        firstItem = this.ruleManagementService.getAgendaItem(firstItem.getId());
+
+        List<NaturalLanguageUsage> usages = this.ruleManagementService.getNaturalLanguageUsagesByNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
+
+        System.out.println(this.ruleManagementService.translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1000", "agenda", agenda.getId(), "en"));
+        System.out.println(this.ruleManagementService.translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1000", "rule", firstItem.getRule().getId(), "en"));
+        System.out.println(this.ruleManagementService.translateNaturalLanguageForObject("KS-KRMS-NL-USAGE-1000", "proposition", firstItem.getRule().getProposition().getId(), "en"));
 
     }
 }

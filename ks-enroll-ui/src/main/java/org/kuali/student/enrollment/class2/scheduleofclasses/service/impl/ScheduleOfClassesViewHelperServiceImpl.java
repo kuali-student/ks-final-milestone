@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.service.impl;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -96,7 +97,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     private TypeService typeService;
     private RuleManagementService ruleManagementService;
 
-    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception{
+    public void loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -109,9 +110,9 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         QueryByCriteria criteria = qbcBuilder.build();
         List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
-        if(courseOfferingIds.size() > 0){
+        if (courseOfferingIds.size() > 0) {
             form.getCoDisplayWrapperList().clear();
-            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),getRuleManagementService(), contextInfo));
+            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds, getCourseOfferingService(), getRuleManagementService(), contextInfo));
         } else {
             LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError("Term & courseCode", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "courseCode", courseCode, termId);
@@ -151,25 +152,25 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
             List<String> courseOfferingIds = null;
 
-            if(luiIds != null && !luiIds.isEmpty()){
+            if (luiIds != null && !luiIds.isEmpty()) {
                 //Now find all the COs with Aos that are attached to that instructor.
                 // Build a query
                 QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
                 qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.in("aoid", luiIds.toArray()),
-                    PredicateFactory.equalIgnoreCase("atpId", termId)),
-                    PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
+                        PredicateFactory.in("aoid", luiIds.toArray()),
+                        PredicateFactory.equalIgnoreCase("atpId", termId)),
+                        PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
                 QueryByCriteria criteria = qbcBuilder.build();
                 courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
-                if(courseOfferingIds.size() > 0){
+                if (courseOfferingIds.size() > 0) {
                     form.getCoDisplayWrapperList().clear();
-                    form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(),getRuleManagementService(),contextInfo));
+                    form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds, getCourseOfferingService(), getRuleManagementService(), contextInfo));
                 }
             }
 
             //If nothing was found then error
-            if(courseOfferingIds == null || courseOfferingIds.isEmpty()) {
+            if (courseOfferingIds == null || courseOfferingIds.isEmpty()) {
                 LOG.error("Error: Can't find any Course Offering for selected Instructor in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Instructor", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "instructor", instructorId, termId);
                 form.getCoDisplayWrapperList().clear();
@@ -177,7 +178,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         }
     }
 
-    public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception{
+    public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -200,16 +201,16 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
             }
         } else {
             qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal("luiContentOwner", organizationId),
-                PredicateFactory.equal("atpId", termId),
-                PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
-                PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)));
+                    PredicateFactory.equal("luiContentOwner", organizationId),
+                    PredicateFactory.equal("atpId", termId),
+                    PredicateFactory.equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY),
+                    PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)));
             QueryByCriteria criteria = qbcBuilder.build();
             List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
-            if(courseOfferingIds.size() > 0){
+            if (courseOfferingIds.size() > 0) {
                 form.getCoDisplayWrapperList().clear();
-                form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(), getRuleManagementService(), contextInfo));
+                form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds, getCourseOfferingService(), getRuleManagementService(), contextInfo));
             } else {            //If nothing was found then error
                 LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
                 GlobalVariables.getMessageMap().putError("Term & Department", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "department", organizationName, termId);
@@ -229,7 +230,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
         for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
             //Only returned offered AOS
-            if(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(aoDisplayInfo.getStateKey())){
+            if (LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(aoDisplayInfo.getStateKey())) {
                 ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
                 aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
 
@@ -242,7 +243,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 // Adding subterm
                 String termId = aoDisplayInfo.getTermId();
                 String subTermDisplay = "";
-                if(!form.getTermCode().equals(termId)) {
+                if (!form.getTermCode().equals(termId)) {
                     if (subTermInfoMap.isEmpty() || subTermInfoMap.get(termId) == null) {
                         TermInfo subTerm = getAcademicCalendarService().getTerm(termId, contextInfo);
                         // check if term or subterm
@@ -253,7 +254,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                             subTermDisplay = "This activity is in " + subTermType.getName() + " - " + getTermStartEndDate(subTerm);
                             subTermInfoMap.put(termId, subTermDisplay);
                             // displaying information
-                           information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_SUBTERM_IMG + " title=\"" + subTermDisplay + "\"> ";
+                            information = information + "<img src=" + ScheduleOfClassesConstants.SOC_RESULT_PAGE_SUBTERM_IMG + " title=\"" + subTermDisplay + "\"> ";
                         }
                     } else {
                         subTermDisplay = subTermInfoMap.get(termId);
@@ -263,21 +264,21 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
                 aoDisplayWrapper.setInformation(information);
 
-                if(aoDisplayInfo.getScheduleDisplay()!=null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()){
+                if (aoDisplayInfo.getScheduleDisplay() != null && !aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays().isEmpty()) {
                     //TODO handle TBA state
                     List<? extends ScheduleComponentDisplay> scheduleComponentDisplays = aoDisplayInfo.getScheduleDisplay().getScheduleComponentDisplays();
                     for (ScheduleComponentDisplay scheduleComponentDisplay : scheduleComponentDisplays) {
-                        if(scheduleComponentDisplay.getBuilding() != null){
+                        if (scheduleComponentDisplay.getBuilding() != null) {
                             aoDisplayWrapper.setBuildingName(scheduleComponentDisplay.getBuilding().getBuildingCode(), true);
                         }
-                        if(scheduleComponentDisplay.getRoom() != null){
+                        if (scheduleComponentDisplay.getRoom() != null) {
                             aoDisplayWrapper.setRoomName(scheduleComponentDisplay.getRoom().getRoomCode(), true);
                         }
-                        if(!scheduleComponentDisplay.getTimeSlots().isEmpty()){
-                            if(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null){
+                        if (!scheduleComponentDisplay.getTimeSlots().isEmpty()) {
+                            if (scheduleComponentDisplay.getTimeSlots().get(0).getStartTime() != null) {
                                 aoDisplayWrapper.setStartTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getStartTime().getMilliSeconds()), true);
                             }
-                            if(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null){
+                            if (scheduleComponentDisplay.getTimeSlots().get(0).getEndTime() != null) {
                                 aoDisplayWrapper.setEndTimeDisplay(millisToTime(scheduleComponentDisplay.getTimeSlots().get(0).getEndTime().getMilliSeconds()), true);
                             }
                             aoDisplayWrapper.setDaysDisplayName(getDays(scheduleComponentDisplay.getTimeSlots().get(0).getWeekdays()), true);
@@ -310,8 +311,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY),
                 PredicateFactory.and(
                         PredicateFactory.or(
-                           PredicateFactory.like("plain", "%" + titleOrDescription + "%"), // this is for the description
-                           PredicateFactory.like("longName", titleOrDescription + "%")     // this is for the title
+                                PredicateFactory.like("plain", "%" + titleOrDescription + "%"), // this is for the description
+                                PredicateFactory.like("longName", titleOrDescription + "%")     // this is for the title
                         )
                 )
 
@@ -319,9 +320,9 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         QueryByCriteria criteria = qbcBuilder.build();
         List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
 
-        if(courseOfferingIds.size() > 0){
+        if (courseOfferingIds.size() > 0) {
             form.getCoDisplayWrapperList().clear();
-            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds,getCourseOfferingService(), getRuleManagementService(), contextInfo));
+            form.setCoDisplayWrapperList(getCourseOfferingDisplayWrappersByIds(courseOfferingIds, getCourseOfferingService(), getRuleManagementService(), contextInfo));
         } else {    //If nothing was found then error
             LOG.error("Error: Can't find any Course Offering for selected Department in term: " + termId);
             GlobalVariables.getMessageMap().putError("Title & Description", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "title or description", titleOrDescription, termId);
@@ -330,10 +331,13 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
     }
 
-    protected static List<CourseOfferingDisplayWrapper> getCourseOfferingDisplayWrappersByIds(List<String> courseOfferingIds, CourseOfferingService courseOfferingService, RuleManagementService ruleManagementService, ContextInfo contextInfo) throws Exception{
+    protected static List<CourseOfferingDisplayWrapper> getCourseOfferingDisplayWrappersByIds(List<String> courseOfferingIds, CourseOfferingService courseOfferingService, RuleManagementService ruleManagementService, ContextInfo contextInfo) throws Exception {
         List<CourseOfferingDisplayWrapper> coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
 
-        if(courseOfferingIds.size() > 0){
+        if (courseOfferingIds.size() > 0) {
+
+            String descriptionUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+            String editUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
 
             List<CourseOfferingDisplayInfo> coDisplayInfoList = courseOfferingService.getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
 
@@ -341,7 +345,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
                 coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
 
-                coDisplayWrapper.setRequisites(retrieveRequisites(coDisplayInfo.getId(), ruleManagementService));
+                coDisplayWrapper.setRequisites(retrieveRequisites(coDisplayInfo.getId(), ruleManagementService, editUsageId));
 
                 // Adding Information (icons)
                 String information = "";
@@ -382,78 +386,22 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
      * @param ruleManagementService
      * @return Map of course offering requisites
      */
-    protected static String retrieveRequisites(String courseOfferingId, RuleManagementService ruleManagementService) {
-        String requisites = StringUtils.EMPTY;
+    protected static String retrieveRequisites(String courseOfferingId, RuleManagementService ruleManagementService, String editUsageId) {
+
         //Retrieve reference object bindings for course offering
         List<ReferenceObjectBinding> refObjectsBindings = ruleManagementService.findReferenceObjectBindingsByReferenceObject(KSKRMSServiceConstants.RULE_DISCR_TYPE_COURSE_OFFERING, courseOfferingId);
 
-        //If reference object bindings found, build requisite string, else set requisite string to null so that it does not display
-        if(refObjectsBindings != null) {
-
-            String descriptionUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
-            String ruleTypeUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
-
-            //Retrieve agenda's for course offering
-            for(ReferenceObjectBinding referenceObjectBinding : refObjectsBindings){
-                //For each krms object (agenda) retrieve rules
-                AgendaTreeDefinition agendaTree = ruleManagementService.getAgendaTree(referenceObjectBinding.getKrmsObjectId());
-                List<RuleDefinition> rules = getRuleEditorsFromTree(agendaTree.getEntries(), ruleManagementService);
-                //For each rule build requisite string
-                for(RuleDefinition rule : rules) {
-                    String ruleDescription = getDescriptionForTypeAndUsage(rule.getTypeId(), descriptionUsageId, ruleManagementService);
-                    String ruleRequisite = ruleManagementService.translateNaturalLanguageForProposition(ruleTypeUsageId, rule.getProposition(), KSKRMSServiceConstants.LANGUAGE_CODE_ENGLISH);
-
-                    requisites += ruleDescription + ": " + ruleRequisite + ".<br>";
-                }
-            }
-        } else {
-            requisites = null;
+        //Retrieve agenda's for course offering
+        String requisites = StringUtils.EMPTY;
+        for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
+            requisites += ruleManagementService.translateNaturalLanguageForObject(editUsageId, "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
         }
-        //Return requisites string
-        return requisites;
+
+        return requisites.replaceAll(System.getProperty("line.separator"), "<br>");
     }
 
-    /**
-     * Retrieve rules from agenda tree.
-     *
-     * @param agendaTreeEntries
-     * @return  List of existing rules
-     */
-    protected static List<RuleDefinition> getRuleEditorsFromTree(List<AgendaTreeEntryDefinitionContract> agendaTreeEntries, RuleManagementService ruleManagementService) {
-
-        List<RuleDefinition> rules = new ArrayList<RuleDefinition>();
-        for (AgendaTreeEntryDefinitionContract treeEntry : agendaTreeEntries) {
-            if (treeEntry instanceof AgendaTreeRuleEntry) {
-
-                AgendaItemDefinition agendaItem = ruleManagementService.getAgendaItem(treeEntry.getAgendaItemId());
-                if (agendaItem.getRule() != null) {
-                    RuleDefinition ruleDefinition = agendaItem.getRule();
-                    rules.add(ruleDefinition);
-                }
-            }
-        }
-        return rules;
-    }
-
-    /**
-     * Method to retrieve discription of rule type
-     *
-     * @param typeId
-     * @param usageId
-     * @return String of rule description
-     */
-    protected static String getDescriptionForTypeAndUsage(String typeId, String usageId, RuleManagementService ruleManagementService) {
-        NaturalLanguageTemplate template = null;
-        try {
-            template = ruleManagementService.findNaturalLanguageTemplateByLanguageCodeTypeIdAndNluId("en", typeId, usageId);
-            return template.getTemplate();
-        } catch (Exception e) {
-            return StringUtils.EMPTY;
-        }
-    }
-
-    private String millisToTime(Long milliseconds){
-        if(milliseconds == null){
+    private String millisToTime(Long milliseconds) {
+        if (milliseconds == null) {
             return null;
         }
         final Calendar cal = Calendar.getInstance();
@@ -461,7 +409,6 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(cal.getTime());
 
     }
-
 
     private CourseOfferingService getCourseOfferingService() {
         if (coService == null) {
@@ -480,8 +427,8 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     }
 
 
-    private OrganizationService getOrganizationService(){
-        if(organizationService == null) {
+    private OrganizationService getOrganizationService() {
+        if (organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
         }
         return organizationService;
@@ -547,11 +494,11 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     private String getDays(List<Integer> intList) {
 
         StringBuilder sb = new StringBuilder();
-        if(intList == null){
+        if (intList == null) {
             return sb.toString();
         }
 
-        for(Integer d : intList) {
+        for (Integer d : intList) {
             sb.append(convertIntoDaysDisplay(d));
         }
 
