@@ -60,6 +60,7 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
@@ -329,12 +330,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 wrapper.setSubTermName(subTermType.getName());
             }
 
-            //Find available sub-terms for term
-            List<TermInfo> availableSubTerms=getAcademicCalendarService().getIncludedTermsInTerm(term.getId(), contextInfo);
-            if(availableSubTerms!=null && !availableSubTerms.isEmpty()) {
-                wrapper.setHasSubTerms(true);
-            }
-
             wrapper.setTerm(term);
             if (term != null) {
                 wrapper.setTermName(term.getName());
@@ -346,11 +341,16 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 wrapper.setTermStartEndDate(getTermStartEndDate(term));
             }
 
+            //Find available sub-terms for term
+            List<TermInfo> availableSubTerms=getAcademicCalendarService().getIncludedTermsInTerm(term.getId(), contextInfo);
             //Now setup start/end date for all subterms to support subterm changes on the screen
             HashMap<String,String> subTermDates= new HashMap();
             subTermDates.put("none",getTermStartEndDate(term));
             for (TermInfo availSubTerm : availableSubTerms) {
-                subTermDates.put(availSubTerm.getId(),this.getTermStartEndDate(availSubTerm));
+                if (availSubTerm.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
+                    subTermDates.put(availSubTerm.getId(),this.getTermStartEndDate(availSubTerm));
+                    wrapper.setHasSubTerms(true);
+                }
             }
             ObjectMapper mapper = new ObjectMapper();
             wrapper.setSubTermDatesJsonString(mapper.writeValueAsString(subTermDates));
