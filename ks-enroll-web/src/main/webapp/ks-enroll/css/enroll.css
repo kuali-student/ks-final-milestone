@@ -881,13 +881,13 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 
 #ks-uif-primaryActionButton.uif-boxLayoutHorizontalItem ~ .uif-boxLayoutHorizontalItem{
-    float: right  !important;
+    /*float: right  !important;*/
     padding-top: 6px;
     padding-right: 6px;
 }
 
 #ks-uif-secondaryActionButton.uif-boxLayoutHorizontalItem ~ .uif-boxLayoutHorizontalItem{
-    float: right  !important;
+    /*float: right  !important;*/
 }
 
 .ks-krad-tab-gridgroup-fix th,
