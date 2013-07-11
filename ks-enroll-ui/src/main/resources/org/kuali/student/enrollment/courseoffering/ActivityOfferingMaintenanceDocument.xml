@@ -177,6 +177,10 @@
                         <entry key="aoId" value="@{#dp.editRenderHelper.prevAO.id}"/>
                       </map>
                     </property>
+                    <property name="actionImage">
+                      <bean parent="Uif-Image" p:altText=""
+                            p:source="@{#ConfigProperties['ks.externalizable.images.url']}/icon-arrow-left.png"/>
+                    </property>
                 </bean>
                 <bean id="edit_ao_select" parent="Uif-InputField" p:propertyName="editRenderHelper.selectedAO" >
                     <property name="control">
@@ -191,6 +195,10 @@
                       <map>
                         <entry key="aoId" value="@{#dp.editRenderHelper.nextAO.id}"/>
                       </map>
+                    </property>
+                    <property name="actionImage">
+                      <bean parent="Uif-Image" p:altText="A"
+                            p:source="@{#ConfigProperties['ks.externalizable.images.url']}/icon-arrow-right.png"/>
                     </property>
                 </bean>
             </list>
