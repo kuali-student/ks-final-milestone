@@ -146,18 +146,7 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
             description = description.substring(0,97) + "...";
         }
         this.description = description;
-
-        if(this.description!=null){
-            LOG.info("Description Length: " + this.description.length());
-            if(this.description.contains("&nbsp;")){
-                LOG.info("term parameter contains &nbsp;");
-            }
-        }
         LOG.info(this.description);
-        LOG.info("Default Charset=" + Charset.defaultCharset());
-        LOG.info("file.encoding=" + System.getProperty("file.encoding"));
-        OutputStreamWriter writer = new OutputStreamWriter(new ByteArrayOutputStream());
-        LOG.info("Writer encoding"+writer.getEncoding());
     }
 
     public void setRuleId(String ruleId) {
@@ -243,16 +232,12 @@ public class PropositionEditor implements PropositionDefinitionContract, Seriali
         this.termParameter = termParameter;
 
         if(this.termParameter!=null){
-            LOG.info("TermParameter Length: " + this.termParameter.length());
-            if(this.termParameter.contains("&nbsp;")){
-                LOG.info("term parameter contains &nbsp;");
-            }
+            LOG.info(this.termParameter);
+
+            //This is just temp code to prove what the actual problem is.
+            this.termParameter.replaceAll("\\u00a0","");
         }
         LOG.info(termParameter);
-        LOG.info("Default Charset=" + Charset.defaultCharset());
-        LOG.info("file.encoding=" + System.getProperty("file.encoding"));
-        OutputStreamWriter writer = new OutputStreamWriter(new ByteArrayOutputStream());
-        LOG.info("Writer encoding"+writer.getEncoding());
     }
 
     public List<TermParameter> getTermParameterList() {

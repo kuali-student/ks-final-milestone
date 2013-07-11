@@ -431,38 +431,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
         //Update the root item.
         AgendaItemDefinition updateItem = rootItemBuilder.build();
-        this.printAgendaItemToLog(updateItem);
         this.getRuleManagementService().updateAgendaItem(updateItem);
 
         return updateItem;
-    }
-
-    private void printAgendaItemToLog(AgendaItemDefinition agendaItem) {
-        if (agendaItem.getRule() != null) {
-            this.printRuleToLog(agendaItem.getRule());
-        }
-        if (agendaItem.getWhenTrue() != null) {
-            this.printAgendaItemToLog(agendaItem.getWhenTrue());
-        }
-    }
-
-    private void printRuleToLog(RuleDefinition rule) {
-        LOG.info("Rule Name: " + rule.getName());
-        if (rule.getProposition() != null) {
-            this.printPropositionToLog(rule.getProposition());
-        }
-    }
-
-    private void printPropositionToLog(PropositionDefinition proposition) {
-        LOG.info(proposition.getDescription());
-        if (proposition.getCompoundComponents() != null) {
-            for (PropositionDefinition child : proposition.getCompoundComponents()) {
-                if (proposition.getCompoundComponents().indexOf(child) > 0) {
-                    LOG.info(proposition.getCompoundOpCode());
-                }
-                this.printPropositionToLog(child);
-            }
-        }
     }
 
     protected void deleteAgendaItems(AgendaItemDefinition agendaItem) {
