@@ -52,9 +52,9 @@ public class ProgramInfoLookupableImpl extends LookupableImpl {
 
     public enum QueryParamEnum {
         ID("lu.queryParam.luOptionalId","id"),
-        TITLE("lu.queryParam.luOptionalLongName", "shortTitle"),
+        TITLE("lu.queryParam.luOptionalLongName", "title"),
         CODE("lu.queryParam.luOptionalCode", "code"),
-        DESCRIPTION("lu.queryParam.luOptionalDescr", "descr");
+        DESCRIPTION("lu.queryParam.luOptionalDescr", "description");
 
         private final String fieldValue;
         private final String queryKey;
