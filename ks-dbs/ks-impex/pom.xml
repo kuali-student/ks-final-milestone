@@ -16,9 +16,7 @@
         <module>ks-impex-bundled-db</module>
     </modules>
     <properties>
-        <impex.metainf.context>org.kuali.student.deploy.spring.DataMetaInfConfig</impex.metainf.context>
-        <impex.data.resources>META-INF/${project.artifactId}-data.resources</impex.data.resources>
-        <impex.metainf.outputFile>${project.build.outputDirectory}/${impex.data.resources}</impex.metainf.outputFile>
+        <impex.metainf.context>org.kuali.util.spring.MetaInfMpxExecutableConfig</impex.metainf.context>
     </properties>
     <profiles>
         <profile>
