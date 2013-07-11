@@ -27,7 +27,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import java.util.List;
 
 /**
- * We expect to replace the void
+ * The facade represents a layer that sits on top of AcademicCalendarServiceImpl to provide additional methods
+ * not supported by the services.  It can also serve as an experimental testbed for new service methods.
  *
  * @author Kuali Student Team
  */
@@ -46,8 +47,8 @@ public interface AcademicCalendarServiceFacade {
      * Cascaded version of delete. This method will delete the given term and all its sub terms (if any sub term also has
      * sub terms, they will be deleted as well ) only if all the term/sub terms have the draft state. As long as there is
      * one term or sub term with the official state, none of the term or sub term in the tree will be deleted.
-     * @param termId
-     * @param context
+     * @param termId The term ID of the term to be deleted
+     * @param context The context info
      * @return the status of the operation. This must always be true.
      */
     StatusInfo deleteTermCascaded(String termId, ContextInfo context) throws
@@ -57,7 +58,7 @@ public interface AcademicCalendarServiceFacade {
     /**
      * deleteCalendarCascaded
      * @param academicCalendarId ID for academic calendar
-     * @param context
+     * @param context The context info
      */
     StatusInfo deleteCalendarCascaded(String academicCalendarId, ContextInfo context) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -65,25 +66,28 @@ public interface AcademicCalendarServiceFacade {
 
     /**
      * Determines if a term and its descendants are valid.  The rule for validity is if a term is draft,
-     * its descendant tree must be draft.  If any terms in the descendant tree is official, then it's
-     * not a valid.  In particular, this code attempts to find parent-child where parent is draft and
-     * child is official.
+     * its descendant term tree must be draft.  If any terms in the descendant tree is official, then it's
+     * not a valid term (tree).  In particular, this code attempts to find parent-child where parent state
+     * is draft and whose child state  is official.
      * @param termId The term to verify
-     * @param context
+     * @param context The context info
      * @return true, if term and descendants are valid
      */
-    boolean validateTerm(String termId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
+    boolean validateTerm(String termId, ContextInfo context) throws PermissionDeniedException,
+            MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
 
     /**
      * Determines if a calendar and its descendants are valid.  The rule for validity is if a calendar is draft,
      * its descendant tree must be draft.  If any terms in the descendant tree is official, then it's
-     * not a valid.  In particular, this code attempts to find parent-child where parent is draft and
-     * child is official.
+     * not a valid.  In particular, this code attempts to find parent-child where parent state is draft and
+     * whose child state is official.
      * @param acalId The term to verify
-     * @param context
+     * @param context The context info
      * @return true, if term and descendants are valid
      */
-    boolean validateCalendar(String acalId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
+    boolean validateCalendar(String acalId, ContextInfo context) throws PermissionDeniedException,
+            MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException;
+
 
 
     /**

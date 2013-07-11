@@ -250,7 +250,9 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
     }
 
     @Override
-    public boolean validateTerm(String termId, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    public boolean validateTerm(String termId, ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+                   OperationFailedException, DoesNotExistException {
         Set<String> processedTermIds = new HashSet<String>();
         processedTermIds.add(termId);
         return _validateTermRecursive(termId, processedTermIds, context);
