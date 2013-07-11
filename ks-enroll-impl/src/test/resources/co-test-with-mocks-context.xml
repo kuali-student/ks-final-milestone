@@ -48,6 +48,7 @@
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
         <property name="schedulingService" ref="schedulingService"/>
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao"/>
+        <property name="atpService" ref="atpService" />
     </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
@@ -75,12 +76,19 @@
 
     <bean id="personService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.PersonServiceMockImpl"/>
 
+    <bean id="acalServiceFacade" class="org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacadeImpl">
+        <property name="acalService" ref="acalService" />
+        <property name="atpService" ref="atpService" />
+        <property name="typeService" ref="typeService" />
+    </bean>
+
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
         <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
-        <property name="courseOfferingTransformer" ref="courseOfferingTransformer" /> 
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+        <property name="acalServiceFacade" ref="acalServiceFacade" />
     </bean>
     <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
 
