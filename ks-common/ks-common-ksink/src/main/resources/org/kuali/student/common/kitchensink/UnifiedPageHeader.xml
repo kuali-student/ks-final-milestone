@@ -99,10 +99,9 @@
                                         </property>
                                         <property name="items">
                                             <list>
-                                                <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" p:jumpToIdAfterSubmit="TOP" />
-                                                <bean parent="KS-Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload" />
-                                                <bean parent="KS-Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete Calendar Draft" />
-                                                <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()" />
+                                                <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Primary" p:jumpToIdAfterSubmit="TOP" p:actionScript="alert('Primary Action Button');" />
+                                                <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Secondary/Default" p:actionScript="alert('Secodary or Default Action Button');"/>
+                                                <bean parent="KS-Uif-ActionLink" p:actionLabel="Link" p:actionScript="alert('Action Link');" />
                                             </list>
                                         </property>
                                     </bean>
