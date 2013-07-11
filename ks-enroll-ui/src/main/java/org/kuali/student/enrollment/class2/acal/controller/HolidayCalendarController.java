@@ -207,6 +207,8 @@ public class HolidayCalendarController extends UifControllerBase {
             String calendarId = request.getParameter(CalendarConstants.CALENDAR_ID);
             if (calendarId != null && !calendarId.trim().isEmpty()) {
                 hcInfo = getHolidayCalendarFormHelper(form).getHolidayCalendar(calendarId);
+            } else if (StringUtils.equals(request.getParameter(CalendarConstants.PAGE_ID), CalendarConstants.HOLIDAYCALENDAR_COPYPAGE)) { //if it goes to HCAL copy page, retrieve the latest HCAL for copy create
+                hcInfo = getHolidayCalendarFormHelper(form).getNewestHolidayCalendar();
             }
         }
         catch (Exception e) {
