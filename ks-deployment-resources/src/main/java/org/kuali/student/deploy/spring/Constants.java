@@ -10,5 +10,6 @@ public abstract class Constants {
 	public static final String KS_DB_GROUP_ID = "org.kuali.student.db";
 	public static final String KS_SOURCE_DB = "ks-source-db";
 	public static final String KS_SOURCE_DB_RESOURCE_PREFIX = ProjectUtils.getClassPathPrefix(Constants.GROUP_ID_BASE, Constants.KS_SOURCE_DB);
+	public static final String KS_SOURCE_DB_COMMON = KS_SOURCE_DB_RESOURCE_PREFIX + "/common.properties";
 
 }
