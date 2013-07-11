@@ -593,23 +593,28 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         List<ActivityOfferingInfo> aos = getCourseOfferingService().getActivityOfferingsByCourseOffering(wrapper.getAoInfo().getCourseOfferingId(),createContextInfo());
         wrapper.getEditRenderHelper().getAoCodes().clear();
         for (ActivityOfferingInfo ao : aos){
+            TypeInfo typeInfo = getTypeService().getType(ao.getTypeKey(), createContextInfo());
             if (StringUtils.equals(ao.getId(),wrapper.getAoInfo().getId())){
                 int index = aos.indexOf(ao);
                 if (index > 0){
                     wrapper.getEditRenderHelper().setPrevAO(aos.get(index - 1));
+                    wrapper.getEditRenderHelper().setPrevAOTypeName(typeInfo.getName());
                 } else {
                     wrapper.getEditRenderHelper().setPrevAO(new ActivityOfferingInfo());
+                    wrapper.getEditRenderHelper().setPrevAOTypeName(StringUtils.EMPTY);
                 }
                 if (index < aos.size() - 1){
                     wrapper.getEditRenderHelper().setNextAO(aos.get(index+1));
+                    wrapper.getEditRenderHelper().setNextAOTypeName(typeInfo.getName());
                 } else {
                     wrapper.getEditRenderHelper().setNextAO(new ActivityOfferingInfo());
+                    wrapper.getEditRenderHelper().setNextAOTypeName(StringUtils.EMPTY);
                 }
                 wrapper.getEditRenderHelper().setSelectedAO(ao.getId());
             }
             ConcreteKeyValue keyValue = new ConcreteKeyValue();
             keyValue.setKey(ao.getId());
-            keyValue.setValue(ao.getFormatOfferingName() + " " + ao.getActivityCode());
+            keyValue.setValue(typeInfo.getName() + " " + ao.getActivityCode());
             wrapper.getEditRenderHelper().getAoCodes().add(keyValue);
         }
     }

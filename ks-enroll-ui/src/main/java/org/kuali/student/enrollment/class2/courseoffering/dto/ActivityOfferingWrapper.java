@@ -954,6 +954,9 @@ public class ActivityOfferingWrapper implements Serializable{
         private boolean isPersistedRDLsExists;
         private String selectedAO;
 
+        private String prevAOTypeName;
+        private String nextAOTypeName;
+
         private ActivityOfferingInfo prevAO;
         private ActivityOfferingInfo nextAO;
 
@@ -1041,6 +1044,22 @@ public class ActivityOfferingWrapper implements Serializable{
 
         public void setNextAO(ActivityOfferingInfo nextAO) {
             this.nextAO = nextAO;
+        }
+
+        public String getPrevAOTypeName() {
+            return prevAOTypeName;
+        }
+
+        public void setPrevAOTypeName(String prevAOTypeName) {
+            this.prevAOTypeName = prevAOTypeName;
+        }
+
+        public String getNextAOTypeName() {
+            return nextAOTypeName;
+        }
+
+        public void setNextAOTypeName(String nextAOTypeName) {
+            this.nextAOTypeName = nextAOTypeName;
         }
 
     }
