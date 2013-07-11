@@ -24,7 +24,7 @@ limitations under the License.
           p:propertyName="proposition.parameters[1].value" p:showLabel="true" p:label="Value" p:maxLength="255"
           p:required="true">
         <property name="control">
-            <bean parent="Uif-TextControl" p:style="margin-top:null 2px;" p:watermarkText="Enter a Literal Value"/>
+            <bean parent="Uif-TextControl" p:style="margin-top:null 2px;"/>
         </property>
         <property name="validCharactersConstraint">
             <bean parent="IntegerPatternConstraint" p:allowNegative="false"/>
