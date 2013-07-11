@@ -146,6 +146,7 @@
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator"/>
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer"/>
         <property name="schedulingService" ref="schedulingService"/>
+        <property name="atpService" ref="atpService"/>
     </bean>
 
     <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl">
