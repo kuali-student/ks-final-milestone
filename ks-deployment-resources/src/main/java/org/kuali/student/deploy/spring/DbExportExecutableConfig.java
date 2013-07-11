@@ -22,13 +22,14 @@ import org.kuali.common.impex.spring.DumpDatabaseConfig;
 import org.kuali.common.impex.spring.ProjectStagingConfig;
 import org.kuali.common.util.execute.Executable;
 import org.kuali.common.util.execute.ExecutablesExecutable;
+import org.kuali.common.util.spring.BuildUpdateScmConfig;
 import org.kuali.common.util.spring.ExecutableConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({ DumpDatabaseConfig.class, ProjectStagingConfig.class, SyncFilesConfig.class })
+@Import({ DumpDatabaseConfig.class, ProjectStagingConfig.class, BuildUpdateScmConfig.class })
 public class DbExportExecutableConfig extends ExecutableConfig {
 
 	@Autowired
@@ -38,7 +39,7 @@ public class DbExportExecutableConfig extends ExecutableConfig {
 	ProjectStagingConfig projectStagingConfig;
 
 	@Autowired
-	SyncFilesConfig syncFilesConfig;
+	BuildUpdateScmConfig buildUpdateScmConfig;
 
 	@Override
 	protected Executable getExecutable() {
@@ -55,8 +56,8 @@ public class DbExportExecutableConfig extends ExecutableConfig {
 		// directories that are not also present in the staging directories are deleted.
 		executables.add(projectStagingConfig.projectStagingExecutable());
 
-		// Then split them up as needed into the various sub directories
-		executables.add(syncFilesConfig.syncFilesExecutable());
+		// Connect to the SCM system and add/update/delete files as needed
+		executables.add(buildUpdateScmConfig.buildScmExecutable());
 
 		// Setup an executable that will execute things in the right order
 		return new ExecutablesExecutable(executables);
