@@ -2,12 +2,17 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -24,9 +29,13 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -49,6 +58,8 @@ public class CourseOfferingServiceValidationDecorator
     private DataDictionaryValidator validator;
     private TypeService typeService;
     private CluService cluService;
+    private CourseOfferingService coService;
+    private CourseOfferingSetService socService;
 
     @Override
     public DataDictionaryValidator getValidator() {
@@ -120,6 +131,9 @@ public class CourseOfferingServiceValidationDecorator
     @Override
     public List<ValidationResultInfo> validateCourseOffering(String validationType, CourseOfferingInfo courseOfferingInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        verifySocStatePermitsAccess(courseOfferingInfo, context);
+
         // validate
         List<ValidationResultInfo> errors;
         try {
@@ -133,6 +147,43 @@ public class CourseOfferingServiceValidationDecorator
 
         return errors;
     }
+
+/*BJG*/
+    private void verifySocStatePermitsAccess( CourseOfferingInfo courseOfferingInfo, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        String socStateKey = getSocState( courseOfferingInfo, contextInfo );
+/*BJG*/        //socStateKey = CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY;
+
+        denyAccessOnSocState( CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being published." );
+        denyAccessOnSocState( CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being scheduled." );
+
+    }
+
+    private String getSocState( CourseOfferingInfo courseOfferingInfo, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        String socStateKey = StringUtils.EMPTY;
+        List<String> socIds = getSocService().getSocIdsByTerm( courseOfferingInfo.getTermId(), contextInfo );
+        if( !socIds.isEmpty() ) {
+            for( SocInfo soc : this.getSocService().getSocsByIds(socIds, contextInfo) ) {
+                if( soc.getTypeKey().equals( CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY ) ) {
+                    socStateKey = soc.getStateKey();
+                }
+            }
+        }
+
+/*BJG*/        System.out.println( "*********** soc is -> " + socStateKey );
+        return socStateKey;
+    }
+
+    private void denyAccessOnSocState( String socStateKeyToDenyAccess, String socStateKey, String denialErrorMessage ) throws OperationFailedException {
+        denialErrorMessage = StringUtils.defaultIfEmpty( denialErrorMessage, "Access to course offerings is not permitted while this term's Set of Courses (SOC) is in state: " + socStateKey );
+
+        if( StringUtils.equalsIgnoreCase( socStateKeyToDenyAccess, socStateKey ) ) {
+            throw new OperationFailedException( denialErrorMessage );
+        }
+    }
+/*BJG*/
+
 
     @Override
     public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo, ContextInfo context)
@@ -354,30 +405,6 @@ public class CourseOfferingServiceValidationDecorator
         return errors;
     }
 
-    // RegGroupTemplates are out of scope for M4
-//	@Override
-//	public ActivityOfferingClusterInfo updateRegistrationGroupTemplate(String registrationGroupTemplateId, ActivityOfferingClusterInfo registrationGroupTemplateInfo, ContextInfo context)
-//		throws DataValidationErrorException
-//		      ,DoesNotExistException
-//		      ,InvalidParameterException
-//		      ,MissingParameterException
-//		      ,OperationFailedException
-//		      ,PermissionDeniedException
-//		      ,ReadOnlyException
-//		      ,VersionMismatchException
-//	{
-//		// update
-//		try {
-//		    List<ValidationResultInfo> errors = 
-//		      this.validateRegistrationGroupTemplate(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), registrationGroupTemplateInfo, context);
-//		    if (checkForErrors(errors)) {
-//		       throw new DataValidationErrorException("Error(s) occurred validating", errors);
-//		    }
-//		} catch (DoesNotExistException ex) {
-//		    throw new OperationFailedException("Error validating", ex);
-//		}
-//		return getNextDecorator().updateRegistrationGroupTemplate(registrationGroupTemplateId, registrationGroupTemplateInfo, context);
-//	}
     @Override
     public SeatPoolDefinitionInfo createSeatPoolDefinition(SeatPoolDefinitionInfo seatPoolDefinitionInfo, ContextInfo context)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -486,6 +513,18 @@ public class CourseOfferingServiceValidationDecorator
 
         return super.deleteFormatOffering(formatOfferingId, context);
     }
+
+/*BJG*/
+    @Override
+    public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        CourseOfferingInfo courseOfferingInfo = getCoService().getCourseOffering( courseOfferingId, context );
+
+        verifySocStatePermitsAccess(courseOfferingInfo, context);
+
+        return getNextDecorator().deleteCourseOfferingCascaded(courseOfferingId, context);
+    }
+/*BJG*/
 
     @Override
     public StatusInfo deleteCourseOffering(String courseOfferingId,
@@ -644,6 +683,7 @@ public class CourseOfferingServiceValidationDecorator
     public void _initServices() {
         getCluService();
         getTypeService();
+        getSocService();
     }
 
     public CluService getCluService() {
@@ -667,4 +707,29 @@ public class CourseOfferingServiceValidationDecorator
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
     }
+
+/*BJG*/
+    public CourseOfferingService getCoService() {
+    if( coService == null ) {
+        coService = (CourseOfferingService) GlobalResourceLoader.getService( new QName( CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART ) );
+    }
+    return coService;
+}
+
+    public void setCoService( CourseOfferingService coService ) {
+        this.coService = coService;
+    }
+
+    public CourseOfferingSetService getSocService() {
+        if( socService == null ) {
+            socService = (CourseOfferingSetService) GlobalResourceLoader.getService( new QName( CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART ) );
+        }
+        return socService;
+    }
+
+    public void setSocService( CourseOfferingSetService socService ) {
+        this.socService = socService;
+    }
+/*BJG*/
+
 }
