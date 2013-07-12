@@ -6,9 +6,9 @@ import java.util.List;
 import org.kuali.common.util.DefaultProjectContext;
 import org.kuali.common.util.ProjectUtils;
 
-public class DumpAndStageSourceDbProjectContext extends DefaultProjectContext {
+public class PrepareProjectContext extends DefaultProjectContext {
 
-	public DumpAndStageSourceDbProjectContext() {
+	public PrepareProjectContext() {
 		super(Constants.GROUP_ID, Constants.ARTIFACT_ID, getLocations());
 	}
 
