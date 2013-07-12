@@ -516,12 +516,12 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-GPA-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.parameters[1].value"
-          p:label="GPA" p:minLength="3" p:maxLength="3" p:required="true">
+          p:label="GPA" p:minLength="3" p:maxLength="4" p:required="true">
         <property name="control">
             <bean parent="Uif-TextControl"/>
         </property>
         <property name="validCharactersConstraint">
-            <bean parent="FixedPointPatternConstraint" p:precision="2" p:scale="1" p:allowNegative="false"/>
+            <bean parent="FixedPointPatternConstraint" p:precision="3" p:scale="2" p:allowNegative="false"/>
         </property>
     </bean>
     <bean id="KRMS-GPA-Field" parent="KRMS-GPA-Field-Parent"/>
