@@ -6,9 +6,9 @@ import java.util.List;
 import org.kuali.common.util.DefaultProjectContext;
 import org.kuali.common.util.ProjectUtils;
 
-public class PrepareProjectContext extends DefaultProjectContext {
+public class UpdateScmProjectContext extends DefaultProjectContext {
 
-	public PrepareProjectContext() {
+	public UpdateScmProjectContext() {
 		super(Constants.GROUP_ID, Constants.ARTIFACT_ID, getLocations());
 	}
 

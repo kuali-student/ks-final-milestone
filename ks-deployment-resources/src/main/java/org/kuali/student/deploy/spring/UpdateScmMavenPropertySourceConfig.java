@@ -13,7 +13,7 @@ import org.kuali.common.util.spring.MavenPropertySourceConfig;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class PrepareMavenPropertySourceConfig extends MavenPropertySourceConfig {
+public class UpdateScmMavenPropertySourceConfig extends MavenPropertySourceConfig {
 
 	@Override
 	protected List<ProjectProperties> getOtherProjectProperties() {
@@ -23,7 +23,7 @@ public class PrepareMavenPropertySourceConfig extends MavenPropertySourceConfig 
 		ProjectContext jdbc = new JdbcProjectContext();
 		ProjectContext staging = new StagingProjectContext();
 		ProjectContext maven = new MavenProjectContext();
-		ProjectContext prepare = new PrepareProjectContext();
+		ProjectContext prepare = new UpdateScmProjectContext();
 		return ConfigUtils.getProjectProperties(scm, jdbc, staging, maven, prepare);
 	}
 
