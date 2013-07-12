@@ -250,7 +250,7 @@ limitations under the License.
                         <bean parent="Uif-FooterBase">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Close"
                                           p:actionScript="jQuery.fancybox.close();"/>
                                 </list>
                             </property>
