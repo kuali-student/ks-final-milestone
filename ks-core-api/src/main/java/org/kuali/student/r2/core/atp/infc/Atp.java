@@ -50,9 +50,9 @@ public interface Atp
     public Date getStartDate();
    
     /**
-     * The ending date and time of the academic time period
-     * expires. This may not bound milestones associated with this
-     * time period, but instead indicates the time period proper.
+     * The ending date and time of the academic time period. This may
+     * not bound milestones associated with this time period, but
+     * instead indicates the time period proper.
      *
      * The end date must be greater than or equal to the start date.
      *
