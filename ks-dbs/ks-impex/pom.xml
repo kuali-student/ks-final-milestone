@@ -56,7 +56,7 @@
                         <artifactId>spring-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>load</id>
+                                <id>dump</id>
                                 <phase>generate-resources</phase>
                                 <goals>
                                     <goal>load</goal>
@@ -65,6 +65,31 @@
                                     <forceMojoExecution>true</forceMojoExecution>
                                     <propertySourcesConfig>org.kuali.student.deploy.spring.DumpSourceDbMavenPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClass>org.kuali.common.impex.spring.DumpDatabaseExecutableConfig</annotatedClass>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>prepare</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>spring-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>dump</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>load</goal>
+                                </goals>
+                                <configuration>
+                                    <forceMojoExecution>true</forceMojoExecution>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.PrepareMavenPropertySourceConfig</propertySourcesConfig>
+                                    <annotatedClass>org.kuali.common.impex.spring.ProjectStagingExecutableConfig</annotatedClass>
                                 </configuration>
                             </execution>
                         </executions>
