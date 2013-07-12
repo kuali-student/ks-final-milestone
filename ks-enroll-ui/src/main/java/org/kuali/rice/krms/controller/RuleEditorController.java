@@ -823,6 +823,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 }
             }
             PropositionTreeUtil.removeCompoundProp(ruleEditor);
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
         } else { // no parent, it is the root
             ruleEditor.reset();
         }
