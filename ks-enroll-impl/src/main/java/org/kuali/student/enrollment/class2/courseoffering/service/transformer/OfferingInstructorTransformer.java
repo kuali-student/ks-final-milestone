@@ -31,7 +31,6 @@ import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -144,12 +143,14 @@ public class OfferingInstructorTransformer {
 
         //construct the map of principalId to List<Person>
         for (Person person : people) {
-            List<Person> personList = lpr2PersonMap.get(person.getPrincipalId());
-            if (personList == null) {
-                personList = new ArrayList<Person>();
-                lpr2PersonMap.put(person.getPrincipalId(), personList);
+            if (person != null) {
+                List<Person> personList = lpr2PersonMap.get(person.getPrincipalId());
+                if (personList == null) {
+                    personList = new ArrayList<Person>();
+                    lpr2PersonMap.put(person.getPrincipalId(), personList);
+                }
+                personList.add(person);
             }
-            personList.add(person);
         }
 
         //iterate the lpr list and transform them one by one into OfferingInstructorInfo

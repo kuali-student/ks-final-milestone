@@ -14,6 +14,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -81,6 +82,7 @@ import javax.xml.namespace.QName;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -590,7 +592,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     protected void loadNavigationDetails(ActivityOfferingWrapper wrapper) throws Exception {
-        List<ActivityOfferingInfo> aos = getCourseOfferingService().getActivityOfferingsByCourseOffering(wrapper.getAoInfo().getCourseOfferingId(),createContextInfo());
+        List<ActivityOfferingInfo> aos = getCourseOfferingService().getActivityOfferingsByCourseOffering(wrapper.getAoInfo().getCourseOfferingId(), createContextInfo());
         wrapper.getEditRenderHelper().getAoCodes().clear();
         for (ActivityOfferingInfo ao : aos){
             TypeInfo typeInfo = getTypeService().getType(ao.getTypeKey(), createContextInfo());
@@ -685,6 +687,11 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 wrapper.getInstructors().add(instructorWrapper);
             }
         }
+        if(wrapper.getInstructors().isEmpty()) {
+            // add a empty line to have the personnel table starts
+            OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper();
+            wrapper.getInstructors().add(instructorWrapper);
+        }
     }
 
     private void disassembleInstructorsWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo) {
@@ -730,8 +737,20 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     @Override
     protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
-        if (!collectionGroup.getPropertyName().equals("seatpools")) {
+//        if (!(collectionGroup.getPropertyName().equals("seatpools") || collectionGroup.getPropertyName().equals("instructors"))) {
+        if (!(collectionGroup.getPropertyName().equals("seatpools") || collectionGroup.getPropertyName().equals("instructors"))) {
             super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
+        }  else if(collectionGroup.getPropertyName().equals("instructors")) {
+                if (model instanceof MaintenanceDocumentForm) {
+                    MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+                    MaintenanceDocument document = maintenanceForm.getDocument();
+                    // get the old object's collection
+                    Collection<Object> oldCollection = ObjectPropertyUtils.getPropertyValue(document.getOldMaintainableObject().getDataObject(),
+                            collectionGroup.getPropertyName());
+                    if(oldCollection.size() -1 >= lineIndex) {
+                        super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
+                    }
+                }
         }
     }
 

@@ -141,6 +141,8 @@
                                 <property name="layoutManager.richTable.render" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="renderAddBlankLineButton" value="true" />
+                                <property name="addLinePlacement" value="BOTTOM" />
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-DataField" p:label="Affiliated Personnel Name" p:propertyName="offeringInstructorInfo.personName" />
@@ -652,27 +654,43 @@
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="6"
                       p:layoutManager.style="width: 100%; display:block;">
-                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo" />
-                    <property name="propertyName" value="courseOfferingInfo.instructors" />
+                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
+                    <property name="propertyName" value="instructors" />
                     <property name="layoutManager.renderSequenceField" value="false" />
                     <property name="layoutManager.separateAddLine" value="false" />
-                    <property name="layoutManager.richTable.render" value="false" />
+                    <property name="layoutManager.richTable.render" value="true" />
                     <property name="layoutManager.applyDefaultCellWidths" value="false" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-                    <property name="addLineItems">
+                    <property name="renderAddBlankLineButton" value="true" />
+                    <property name="addLinePlacement" value="BOTTOM" />
+                    <property name="layoutManager.richTable">
+                        <!-- see http://datatables.net/ref for all options -->
+                        <bean parent="Uif-PagedRichTable">
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="aaSorting" value="[[1,'desc']]"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="Items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID" p:cssClasses="col_5">
+                            <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
+                                  p:label="ID" p:required="true" p:cssClasses="col_5">
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
-                                        <entry key="name" value="personName"/>
-                                        <entry key="principalId" value="personId"/>
+                                        <entry key="name" value="offeringInstructorInfo.personName"/>
+                                        <entry key="principalId" value="offeringInstructorInfo.personId"/>
                                     </map>
                                 </property>
                                 <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
+                                <property name="quickfinder.lightBoxLookup">
+                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="personName" p:label="Name" p:readOnly="true" />
-                            <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION">
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
                                 </property>
@@ -680,16 +698,23 @@
                         </list>
                     </property>
 
-                    <property name="items">
+                    <property name="lineActions">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="personId" p:label="ID" />
-                            <bean parent="Uif-DataField" p:propertyName="personName" p:label="Name" />
-                            <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION">
-                                <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
-                                </property>
-                            </bean>
+                            <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteLine" p:actionLabel="delete"
+                                  p:actionEvent="deleteLine" />
                         </list>
+                    </property>
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-SecondaryActionButton-Small" p:hidden="@{#parent.readOnly}">
+                            <property name="methodToCall" value="addBlankLine"/>
+                            <property name="actionEvent" value="addBlankLine"/>
+                            <property name="actionLabel" value="Add Another Personnel"/>
+                            <property name="actionImagePlacement" value="LEFT"/>
+                            <property name="actionImage">
+                                <bean parent="Uif-Image" p:source="../ks-common-ksink/images/plus_15px.png"/>
+                            </property>
+                            <property name="style" value="margin-top:30px; margin-left:-150px; margin-bottom:15px"/>
+                        </bean>
                     </property>
 
                 </bean>

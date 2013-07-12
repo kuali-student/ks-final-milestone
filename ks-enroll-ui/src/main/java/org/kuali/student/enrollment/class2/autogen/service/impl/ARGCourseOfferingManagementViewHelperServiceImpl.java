@@ -618,7 +618,11 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         if (aoIds != null) {
                             for (String aoId : aoIds) {
                                 ActivityOfferingWrapper activityOfferingWrapper = aoMap.get(aoId);
-                                activityOfferingWrapper.setInstructorDisplayNames(entity.getName().getCompositeName(), true);
+                                if(entity.getName() != null) {
+                                    activityOfferingWrapper.setInstructorDisplayNames(entity.getName().getCompositeName(), true);
+                                } else {
+                                    activityOfferingWrapper.setInstructorDisplayNames(principal.getPrincipalId());
+                                }
                             }
                         }
                     }

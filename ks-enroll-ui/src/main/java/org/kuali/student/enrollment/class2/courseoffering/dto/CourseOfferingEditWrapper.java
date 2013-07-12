@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -70,11 +71,24 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         studentRegOptions = new ArrayList<String>();
         alternateCourseCodesSuffixStripped = new ArrayList<String>();
+        instructors = new ArrayList<OfferingInstructorWrapper>();
+        OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper();
+        instructors.add(instructorWrapper);
     }
 
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
         super(info);
         alternateCourseCodesSuffixStripped = new ArrayList<String>();
+        instructors = new ArrayList<OfferingInstructorWrapper>();
+        if(info.getInstructors() == null || info.getInstructors().isEmpty()) {
+            OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper();
+            instructors.add(instructorWrapper);
+        } else if(info.getInstructors().size() > 0) {
+            for(OfferingInstructorInfo instructorInfo : info.getInstructors()) {
+                OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructorInfo);
+                instructors.add(instructorWrapper);
+            }
+        }
     }
 
     public List<FormatOfferingInfo> getFormatOfferingList() {

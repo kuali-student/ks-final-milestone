@@ -23,12 +23,14 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -69,6 +71,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -172,8 +175,10 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 coInfo.getStudentRegistrationGradingOptions().remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
             }
 
+            updateInstructors(coEditWrapper,coInfo);
+
             //Save cross lists
-            loadCrossListedCOs(coEditWrapper,coInfo);
+            loadCrossListedCOs(coEditWrapper, coInfo);
 
             getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
@@ -182,6 +187,32 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
         }   catch (Exception ex){
             throw new RuntimeException(ex);
+        }
+
+    }
+
+    private void updateInstructors(CourseOfferingEditWrapper coEditWrapper, CourseOfferingInfo coInfo) {
+        List<OfferingInstructorWrapper> instructors = coEditWrapper.getInstructors();
+        List<OfferingInstructorInfo> coInstructors = coInfo.getInstructors();
+        coInstructors.clear();
+
+        for(OfferingInstructorWrapper instructorWrapper : instructors)  {
+           if(instructorWrapper != null) {
+               OfferingInstructorInfo info = instructorWrapper.getOfferingInstructorInfo();
+               if((info != null) && (info.getPersonId() != null)) {
+                   if(info.getStateKey() == null) {
+                       info.setStateKey(LprServiceConstants.TENTATIVE_STATE_KEY);
+                   }
+                   if(info.getPersonName() == null) {
+                       List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(info.getPersonId());
+                       if(personList.size() == 1) {
+                           info.setPersonName(personList.get(0).getName());
+                       }
+
+                   }
+               }
+               coInstructors.add(info);
+           }
         }
 
     }
@@ -338,6 +369,25 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             // make sure state is not null
             if(instructorInfo.getStateKey() == null) {
                 instructorInfo.setStateKey(LprServiceConstants.TENTATIVE_STATE_KEY);
+            }
+        }
+    }
+
+    @Override
+    protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
+//        if (!(collectionGroup.getPropertyName().equals("seatpools") || collectionGroup.getPropertyName().equals("instructors"))) {
+        if (!(collectionGroup.getPropertyName().endsWith("seatpools") || collectionGroup.getPropertyName().endsWith("instructors"))) {
+            super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
+        }  else if(collectionGroup.getPropertyName().endsWith("instructors")) {
+            if (model instanceof MaintenanceDocumentForm) {
+                MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+                MaintenanceDocument document = maintenanceForm.getDocument();
+                // get the old object's collection
+                Collection<Object> oldCollection = ObjectPropertyUtils.getPropertyValue(document.getOldMaintainableObject().getDataObject(),
+                        collectionGroup.getPropertyName());
+                if(oldCollection.size() -1 >= lineIndex) {
+                    super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
+                }
             }
         }
     }

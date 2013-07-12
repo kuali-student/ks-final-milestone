@@ -37,7 +37,6 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -86,10 +85,10 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         //clean up termCode, inputCode, and theCourseOffering value in the form to prevent the
         //side effect of the authorization.
         //form.setTermCode(null);
-        form.setInputCode(null);
+        //form.setInputCode(null);
 
         //TODO: Workaround for KRMS return
-        if(!form.getMethodToCall().contains("refresh")) {
+        if(!(form.getMethodToCall().contains("edit") || form.getMethodToCall().contains("refresh"))) {
             form.setCurrentCourseOfferingWrapper(null);
         }
 
