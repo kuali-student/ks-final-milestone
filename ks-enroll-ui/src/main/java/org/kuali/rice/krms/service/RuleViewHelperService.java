@@ -48,6 +48,8 @@ public interface RuleViewHelperService {
 
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) throws Exception;
 
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception;
+
     public Boolean compareRules(RuleEditor original);
 
     public PropositionEditor copyProposition(PropositionEditor proposition);

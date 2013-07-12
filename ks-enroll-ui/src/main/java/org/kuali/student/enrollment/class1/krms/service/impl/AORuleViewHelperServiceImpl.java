@@ -36,6 +36,7 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.tree.AORuleCompareTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.tree.AORuleViewCoCluTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
@@ -57,6 +58,7 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     private RulePreviewTreeBuilder previewTreeBuilder;
     private RuleViewTreeBuilder viewTreeBuilder;
     private RuleCompareTreeBuilder compareTreeBuilder;
+    private RuleCompareTreeBuilder viewCoCluTreeBuilder;
 
     /**
      *
@@ -95,6 +97,36 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
 
         return compareTree;
     }
+
+    /**
+     * Builds view tree for  view CO and CLU lightbox links.
+     *
+     * @param coRuleEditor
+     * @param cluRuleEditor
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception {
+
+        //Set the original nl if not already exists.
+        if (coRuleEditor.getProposition()!=null){
+            PropositionEditor originalRoot = coRuleEditor.getPropositionEditor();
+            if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
+                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+            }
+        }
+
+        //Build the Tree
+        if((cluRuleEditor!=null)&&(cluRuleEditor.getProposition()!=null)){
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(cluRuleEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        }
+
+        Tree<CompareTreeNode, String> compareTree = this.getViewCoCluTreeBuilder().buildTree(coRuleEditor, cluRuleEditor);
+
+        return compareTree;
+    }
+
 
     /**
      * Initializes the proposition, populating the type and terms.
@@ -174,6 +206,14 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
             compareTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return compareTreeBuilder;
+    }
+
+    protected RuleCompareTreeBuilder getViewCoCluTreeBuilder() {
+        if (viewCoCluTreeBuilder == null) {
+            viewCoCluTreeBuilder = new AORuleViewCoCluTreeBuilder();
+            viewCoCluTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
+        }
+        return viewCoCluTreeBuilder;
     }
 
 }

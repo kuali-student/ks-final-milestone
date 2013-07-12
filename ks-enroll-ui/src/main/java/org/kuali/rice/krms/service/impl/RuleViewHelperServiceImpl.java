@@ -310,6 +310,14 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     }
 
+    @Override
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception {
+
+        //Build the Tree
+        return this.getCompareTreeBuilder().buildTree(coRuleEditor, cluRuleEditor);
+
+    }
+
     /**
      * Compare all the propositions in a rule tree with a parent rule tree. Returns false if any proposition's type
      * or term parameters are not the same.

@@ -165,7 +165,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                 }
             }
             //Build the compare rule tree
-            ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(aoRuleEditor.getParent(), cluRuleEditor));
+            ruleWrapper.setCompareTree(this.getViewHelper(form).buildMultiViewTree(aoRuleEditor.getParent(), cluRuleEditor));
             ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
         }
 

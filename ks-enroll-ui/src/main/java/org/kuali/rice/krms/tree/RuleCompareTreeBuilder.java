@@ -103,7 +103,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         return rootNode;
     }
 
-    private void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionEditor original, PropositionEditor compared) {
+    protected void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionEditor original, PropositionEditor compared) {
         if ((original == null) && (compared == null)) {
             return;
         }
@@ -123,7 +123,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         this.addCompoundTreeNode(newNode, original, compared);
     }
 
-    private void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionEditor original, PropositionEditor compared) {
+    protected void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionEditor original, PropositionEditor compared) {
 
         // Retrieve the opreator code of the original proposition
         String originalOpCode = " ";
@@ -179,7 +179,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         return children;
     }
 
-    private void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String originial, String compared) {
+    protected void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String originial, String compared) {
         Node<CompareTreeNode, String> opNode = new Node<CompareTreeNode, String>();
         if (!originial.equals(compared)){
             opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
