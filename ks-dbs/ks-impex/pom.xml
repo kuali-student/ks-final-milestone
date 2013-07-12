@@ -73,7 +73,7 @@
             </build>
         </profile>
         <profile>
-            <id>prepare</id>
+            <id>stage</id>
             <build>
                 <plugins>
                     <plugin>
@@ -81,7 +81,7 @@
                         <artifactId>spring-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>prepare</id>
+                                <id>stage</id>
                                 <phase>process-resources</phase>
                                 <goals>
                                     <goal>load</goal>
