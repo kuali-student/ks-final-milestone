@@ -110,7 +110,7 @@ limitations under the License.
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean id="update-button" parent="Uif-SecondaryActionButton-Small"
+                        <bean id="update-button" parent="Uif-PrimaryActionButton"
                               p:performClientSideValidation="true">
                             <property name="actionLabel" value="Update Rule"/>
                             <property name="methodToCall" value="updateRule"/>
