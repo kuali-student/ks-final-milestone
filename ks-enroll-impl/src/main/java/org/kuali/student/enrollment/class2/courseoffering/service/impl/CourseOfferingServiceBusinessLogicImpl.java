@@ -345,11 +345,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
                    OperationFailedException, DoesNotExistException {
         sourceTermIdToTargetTermId.clear();
-        // Assumes a check has been made for target term with official states
-        if (sourceTermId.equals(targetTermId)) {
-            return true;
-        }
-
+        // Note: even if sourceTermId and targetTermId are the same, we still need to create the map
+        //       for sourceTermIdToTargetTermId
         Map<String, String> sourceTermTypeToTermId = new HashMap<String, String>(); // Assumes unique subterm types per term type
         TermInfo sourceTerm = acalService.getTerm(sourceTermId, contextInfo);
         sourceTermTypeToTermId.put(sourceTerm.getTypeKey(), sourceTermId);
