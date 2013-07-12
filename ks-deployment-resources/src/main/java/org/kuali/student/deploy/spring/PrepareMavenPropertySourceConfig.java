@@ -2,7 +2,6 @@ package org.kuali.student.deploy.spring;
 
 import java.util.List;
 
-import org.kuali.common.impex.DumpProjectContext;
 import org.kuali.common.impex.MavenProjectContext;
 import org.kuali.common.impex.StagingProjectContext;
 import org.kuali.common.jdbc.JdbcProjectContext;
@@ -22,12 +21,10 @@ public class PrepareMavenPropertySourceConfig extends MavenPropertySourceConfig 
 		ProjectContext scm = new ScmProjectContext();
 		// General JDBC related config
 		ProjectContext jdbc = new JdbcProjectContext();
-		// General dump related config
-		ProjectContext dump = new DumpProjectContext();
 		ProjectContext maven = new MavenProjectContext();
 		ProjectContext staging = new StagingProjectContext();
 		ProjectContext prepare = new PrepareProjectContext();
-		return ConfigUtils.getProjectProperties(scm, jdbc, dump, maven, staging, prepare);
+		return ConfigUtils.getProjectProperties(scm, jdbc, maven, staging, prepare);
 	}
 
 }
