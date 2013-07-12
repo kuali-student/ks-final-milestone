@@ -50,11 +50,10 @@
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
         <property name="formClass" value="org.kuali.rice.krad.web.form.MaintenanceDocumentForm"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl" />
-        <property name="singlePageView" value="true"/>
+        <property name="singlePageView" value="false"/>
+        <property name="entryPageId" value="courseOfferingCreatePage"/>
 
         <property name="headerText" value="Create Course Offering"/>   <!-- This gets updated dynamically by JS via 'viewHeaderUpdater'-div -->
-        <property name="page.headerText" value="@{(document.newMaintainableObject.dataObject.catalogCourseCode eq null)? '' : document.newMaintainableObject.dataObject.showCopyCourseOffering ? 'Copy Course Offering' : 'Create Course Offering'}" />
-
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -91,26 +90,6 @@
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
 
-        <property name="page.items">
-            <list>
-                <!-- This dynamically updates the view-header -->
-                <bean id="viewHeaderUpdater" parent="Uif-HorizontalBoxSection">
-                    <property name="render" value="@{#showAllSections}" />
-                    <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.catalogCourseCode}' );" />
-                </bean>
-
-                <ref bean="KS-CourseOffering-MetaSection"/>
-                <ref bean="KS-CourseOffering-NewCourseOffering"/>
-                <ref bean="KS-CourseOffering-Buttons"/>
-
-
-            </list>
-        </property>
-
-        <property name="page.footer.items">
-            <list />
-        </property>
-        <property name="page.header.lowerGroup.render" value="false"/>
         <property name="header.cssClasses">
           <list >
             <value>ks-borderBottom4</value>
@@ -129,6 +108,13 @@
                 <entry key="noOfTermOfferings" value="document.newMaintainableObject.dataObject.noOfTermOfferings"/>
                 <entry key="selectCrossListingAllowed" value="document.newMaintainableObject.dataObject.selectCrossListingAllowed"/>
             </map>
+        </property>
+
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOffering-CopyPage"/>
+                <bean parent="KS-CourseOffering-CreatePage"/>
+            </list>
         </property>
         <property name="dialogs">
           <list>
@@ -186,19 +172,6 @@
             <list>
                 <ref bean="KS-CourseOffering-LinkSection"/>
                 <ref bean="KS-CreateFromCatalog"/>
-                <ref bean="KS-CreateFromExistingOffering"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseOffering-Buttons" parent="Uif-HorizontalBoxSection" p:componentSecurity.editAuthz="true">
-        <property name="items">
-            <list>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:id="createOfferingButton" p:actionLabel="Create Offering" p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:disabled="@{!document.newMaintainableObject.dataObject.enableCreateButton}">
-                </bean>
-                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
     </bean>
@@ -487,13 +460,126 @@
          </property>
     </bean>
 
+
+    <!-- Create Course Offering Start -->
+
+    <bean id="KS-CourseOffering-CreatePage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}" >
+        <property name="id" value="courseOfferingCreatePage"/>
+        <property name="headerText" value=""/>
+        <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <!-- This dynamically updates the view-header -->
+                <bean id="viewHeaderUpdater" parent="Uif-HorizontalBoxSection">
+                    <property name="render" value="@{#showAllSections}" />
+                    <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.catalogCourseCode}' );" />
+                </bean>
+
+                <ref bean="KS-CourseOffering-MetaSection"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ac_stickyfooter</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"/>
+                                    <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- Create Course Offering End -->
+
     <!-- Copy Course Offerings Start -->
 
+    <bean id="KS-CourseOffering-CopyPage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}">
+        <property name="id" value="courseOfferingCopyPage"/>
+        <property name="headerText" value="Copy Course Offering"/>
+        <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Create Course Offering"/>
+                    <property name="url.viewId" value="createCourseOfferingPage"/>
+                    <property name="url.controllerMapping" value="courseOfferingCreate"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="methodToCall" value="start"/>
+                            <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="showMaintenanceLinks" value="true"/>
+                            <entry key="viewName" value="Create Course Offering"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Create @{document.newMaintainableObject.dataObject.catalogCourseCode}"/>
+                </bean>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <ref bean="KS-CreateFromExistingOffering"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="render" value="true" />
+                    <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.catalogCourseCode}' );" />
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ac_stickyfooter</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="createFromCopy" p:actionLabel="Create" p:render="@{!#view.readOnly}"/>
+                                    <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
+                                          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
 
 
 
     <!--This will be displayed when user selects create from existing COs-->
-    <bean id="KS-CreateFromExistingOffering" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.showCopyCourseOffering}">
+    <bean id="KS-CreateFromExistingOffering" parent="Uif-VerticalBoxSection">
         <property name="items">
         <list>
             <ref bean="KS-ExistingOffering-ListCOs"/>

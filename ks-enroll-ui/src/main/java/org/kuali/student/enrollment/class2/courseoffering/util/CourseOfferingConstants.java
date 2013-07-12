@@ -77,6 +77,7 @@ public class CourseOfferingConstants {
     public static final String MANAGE_THE_CO_PAGE = "manageTheCourseOfferingPage";
     public static final String MANAGE_ARG_CO_PAGE = "manageCourseOfferingsPage";
     public static final String MANAGE_ARG_DELETE_CLUSTER_CONFIRM_PAGE = "ClusterDeleteConfirmationPage";
+    public static final String COURSE_OFFERING_COPY_PAGE = "courseOfferingCopyPage";
 
 
     // Display text

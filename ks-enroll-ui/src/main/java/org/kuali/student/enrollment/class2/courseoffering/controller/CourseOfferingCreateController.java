@@ -440,6 +440,20 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=continueFromCreate")
+    public ModelAndView continueFromCreate(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+
+        return getUIFModelAndView(form, "courseOfferingCopyPage");
+    }
+
+    @RequestMapping(params = "methodToCall=createFromCopy")
+    public ModelAndView createFromCopy(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
+
+        return getUIFModelAndView(form, CourseOfferingConstants.COURSE_OFFERING_COPY_PAGE);
+    }
+
 
     private TermInfo getTerm(String termCode) {
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
