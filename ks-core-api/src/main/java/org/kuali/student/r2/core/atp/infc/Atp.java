@@ -38,13 +38,11 @@ public interface Atp
     public String getCode();
     
     /**
-     * Date and time the academic time period became effective. This
-     * does not provide a bound on date ranges or milestones
-     * associated with this time period, but instead indicates the
-     * time period proper. This is a similar concept to the effective
-     * date on enumerated values. When an expiration date has been
-     * specified, this field must be less than or equal to the
-     * expiration date.
+     * The starting date and time of the academic time period. This
+     * may not bound milestones associated with this time period, but
+     * instead indicates the time period proper.
+     *
+     * The start date must be less than or equal to the end date.
      *
      * @name Start Date
      * @required
@@ -52,13 +50,11 @@ public interface Atp
     public Date getStartDate();
    
     /**
-     * Date and time the academic time period expires. This does not
-     * provide a bound on date ranges or milestones associated with
-     * this time period, but instead indicates the time period
-     * proper. If specified, this must be greater than or equal to the
-     * effective date. If this field is not specified, then no
-     * expiration date has been currently defined and should
-     * automatically be considered greater than the effective date.
+     * The ending date and time of the academic time period
+     * expires. This may not bound milestones associated with this
+     * time period, but instead indicates the time period proper.
+     *
+     * The end date must be greater than or equal to the start date.
      *
      * @name End Date
      * @required
