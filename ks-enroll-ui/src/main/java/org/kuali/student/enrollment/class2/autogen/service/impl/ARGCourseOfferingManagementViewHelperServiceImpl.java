@@ -383,8 +383,18 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         form.getClusterResultList().clear();
         form.getClusterResultList().addAll(clusterWrapperList);
 
+        //fix for KSENROLL-7886: foIds was populated in processAoClusterData method.
+        //However if one FO does not have a cluster and AO, that FO won't be added to foIds, which causes NPE error later.
+        foIds = new HashMap<String, FormatOfferingInfo>();
+        List<FormatOfferingInfo> foList = getCourseOfferingService().getFormatOfferingsByCourseOffering(coId,ContextUtils.createDefaultContextInfo());
+        for(FormatOfferingInfo fo:foList){
+            foIds.put(fo.getId(), fo);
+        }
         //Get the mapping of formatids to AO types
-        processRelatedTypeKeysForFos(coId, foIds, contextInfo);
+        //by Bonnie: why do we need this method? It causes the dropdown list
+        //because of this method, in manage the CO page, when click Add Activity button from toolbar
+        //in the popover form, Activity Type dropdown list would display every AO type twice. I comment this method out for now
+//        processRelatedTypeKeysForFos(coId, foIds, contextInfo);
 
         form.setFoId2aoTypeMap(foIds);
 
