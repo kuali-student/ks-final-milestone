@@ -172,6 +172,19 @@
             <list>
                 <ref bean="KS-CourseOffering-LinkSection"/>
                 <ref bean="KS-CreateFromCatalog"/>
+                <ref bean="KS-CreateFromExistingOffering"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOffering-Buttons" parent="Uif-HorizontalBoxSection" p:componentSecurity.editAuthz="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:id="createOfferingButton" p:actionLabel="Create Offering" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:disabled="@{!document.newMaintainableObject.dataObject.enableCreateButton}">
+                </bean>
+                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
     </bean>
@@ -485,6 +498,8 @@
                 </bean>
 
                 <ref bean="KS-CourseOffering-MetaSection"/>
+                <ref bean="KS-CourseOffering-NewCourseOffering"/>
+                <ref bean="KS-CourseOffering-Buttons"/>
             </list>
         </property>
         <property name="footer">
@@ -577,9 +592,8 @@
     </bean>
 
 
-
     <!--This will be displayed when user selects create from existing COs-->
-    <bean id="KS-CreateFromExistingOffering" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CreateFromExistingOffering" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.showCopyCourseOffering}">
         <property name="items">
         <list>
             <ref bean="KS-ExistingOffering-ListCOs"/>
