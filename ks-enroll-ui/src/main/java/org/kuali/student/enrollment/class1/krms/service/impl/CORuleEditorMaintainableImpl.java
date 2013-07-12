@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -28,6 +29,7 @@ import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
@@ -54,6 +56,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
 import javax.xml.namespace.QName;
@@ -110,6 +113,18 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
             } catch (Exception e) {
                 throw new RuntimeException("Could not retrieve atp for " + courseOffering.getTermId());
+            }
+
+            List<String> orgIds = courseOffering.getUnitsDeploymentOrgIds();
+            if(orgIds !=null && !orgIds.isEmpty()){
+                // managing multiple orgs
+                String orgIDs = "";
+                for (String orgId : orgIds) {
+                    orgIDs = orgIDs + orgId + ",";
+                }
+                if (orgIDs.length() > 0) {
+                    dataObject.setAdminOrg(orgIDs.substring(0, orgIDs.length()- 1));
+                }
             }
 
             //Set the description and atp used on the screen.

@@ -31,7 +31,8 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
     private String cluTermCode;
     private List<CluInformation> clusInRange;
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
-    private String socStateKey;
+
+    private String adminOrg;
 
     public String getCluDescription() {
         return cluDescription;
@@ -82,5 +83,13 @@ public class EnrolRuleManagementWrapper extends RuleManagementWrapper {
 
     public void setCluTermCode(String cluTermCode) {
         this.cluTermCode = cluTermCode;
+    }
+
+    public String getAdminOrg() {
+        return adminOrg;
+    }
+
+    public void setAdminOrg(String adminOrg) {
+        this.adminOrg = adminOrg;
     }
 }

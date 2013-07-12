@@ -80,6 +80,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private RuleTypeInfo ruleTypeInfo;
     private RuleEditor parent;
 
+    //For toolbar buttons permissions
+    private PermissionWrapper permission;
+
     public RuleEditor() {
         super();
     }
@@ -89,6 +92,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         this.setDummy(dummy);
         this.setTypeId(ruleTypeInfo.getId());
         this.setRuleTypeInfo(ruleTypeInfo);
+        this.permission = new PermissionWrapper();
     }
 
     public RuleEditor(RuleDefinitionContract definition) {
@@ -103,6 +107,8 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
             this.proposition = createPropositionEditor(definition.getProposition());
         }
         this.versionNumber = definition.getVersionNumber();
+
+        this.permission = new PermissionWrapper();
 
         //TODO: Actions
         //this.actions = new ArrayList<ActionBo>();
@@ -364,5 +370,13 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
         this.setSimpleKeys(null);
         this.setCompoundKeys(null);
         this.setSelectedKey(StringUtils.EMPTY);
+    }
+
+    public PermissionWrapper getPermission() {
+        return permission;
+    }
+
+    public void setPermission(PermissionWrapper permission) {
+        this.permission = permission;
     }
 }

@@ -46,7 +46,7 @@ public class AgendaBuilder {
     private RuleViewHelperService viewHelperService;
 
     /**
-     * This method dynamically build the components on the screen to render an angenda.
+     * This method dynamically build the components on the screen to render an agenda.
      *
      * @param agenda
      * @return

@@ -194,6 +194,8 @@ limitations under the License.
                 <bean parent="KSCO-RulePreview-Links" p:render="@{#line.dummy and #line.parent != null}"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <!--bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:disabled="@{!#line.permission.addRequisiteAction}"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" /-->
             </list>
         </property>
     </bean>
@@ -208,6 +210,7 @@ limitations under the License.
                 </bean>
                 <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"/>
+                <!--bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:disabled="@{!#line.permission.deleteRequisiteAction}"/-->
             </list>
         </property>
     </bean>
@@ -383,6 +386,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules">
+                <!--bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compareAction}"-->
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
@@ -442,6 +446,8 @@ limitations under the License.
                         <list>
                             <ref bean="KRMS-RuleEditorView-AddButton"/>
                             <ref bean="KRMS-RuleEditorView-EditButton"/>
+                            <!--ref bean="KRMS-RuleEditorView-AddButtonGroup"/>
+                            <ref bean="KRMS-RuleEditorView-EditButtonGroup"/-->
                         </list>
                     </property>
                 </bean>
@@ -452,6 +458,9 @@ limitations under the License.
                             <ref bean="KRMS-RuleEditorView-GroupButton"/>
                             <ref bean="KRMS-RuleEditorView-LeftButton"/>
                             <ref bean="KRMS-RuleEditorView-RightButton"/>
+                            <!--ref bean="KRMS-RuleEditorView-GroupButtonGroup"/>
+                            <ref bean="KRMS-RuleEditorView-LeftButtonGroup"/>
+                            <ref bean="KRMS-RuleEditorView-RightButtonGroup"/-->
                         </list>
                     </property>
                 </bean>
@@ -461,6 +470,8 @@ limitations under the License.
                         <list>
                             <ref bean="KRMS-RuleEditorView-UpButton"/>
                             <ref bean="KRMS-RuleEditorView-DownButton"/>
+                            <!--ref bean="KRMS-RuleEditorView-UpButtonGroup"/>
+                            <ref bean="KRMS-RuleEditorView-DownButtonGroup"/-->
                         </list>
                     </property>
                 </bean>
@@ -472,6 +483,10 @@ limitations under the License.
                             <ref bean="KRMS-RuleEditorView-CutButton"/>
                             <ref bean="KRMS-RuleEditorView-PasteButton"/>
                             <ref bean="KRMS-RuleEditorView-DeleteButton"/>
+                            <!--ref bean="KRMS-RuleEditorView-CopyButtonGroup"/>
+                            <ref bean="KRMS-RuleEditorView-CutButtonGroup"/>
+                            <ref bean="KRMS-RuleEditorView-PasteButtonGroup"/>
+                            <ref bean="KRMS-RuleEditorView-DeleteButtonGroup"/-->
                         </list>
                     </property>
                 </bean>

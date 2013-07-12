@@ -36,12 +36,10 @@ import org.kuali.rice.krms.tree.node.SimplePropositionEditNode;
 import org.kuali.rice.krms.tree.node.SimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.student.enrollment.class1.krms.util.KSKRMSPermissionHelper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.rice.krms.util.RuleLogicExpressionParser;
-import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.common.uif.util.KSUifUtils;
-import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -72,6 +70,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+
+        KSKRMSPermissionHelper.processActionPermissionForUser(document);
 
         return getUIFModelAndView(form);
     }

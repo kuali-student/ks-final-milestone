@@ -25,6 +25,7 @@ public class RuleTypeInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;
+    private String type;
     private String description;
     private String instruction;
 
@@ -50,5 +51,13 @@ public class RuleTypeInfo implements Serializable {
 
     public void setInstruction(String instruction) {
         this.instruction = instruction;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

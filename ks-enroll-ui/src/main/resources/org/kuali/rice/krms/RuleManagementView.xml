@@ -88,6 +88,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules"/>
+                <!--bean parent="Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compareAction}"/-->
             </list>
         </property>
     </bean>
@@ -297,6 +298,7 @@ limitations under the License.
                 <bean parent="Uif-MessageField" p:messageText="@{#np.data}"/>
                 <bean parent="Uif-SpaceField"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey">
+                <!--bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey" p:disabled="@{!#dp.ruleEditor.permission.editRuleLogicTab}"-->
                     <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"

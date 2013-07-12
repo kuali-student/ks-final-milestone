@@ -290,6 +290,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             for (TypeTypeRelation ruleRelationship : ruleRelationships) {
                 RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
                 ruleTypeInfo.setId(ruleRelationship.getToTypeId());
+                //KrmsTypeDefinition ruleType = this.getKrmsTypeRepositoryService().getTypeById(ruleTypeInfo.getId());
+                //ruleTypeInfo.setType(ruleType.getName());
                 ruleTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(ruleRelationship.getToTypeId(), descriptionUsageId));
                 if (ruleTypeInfo.getDescription().isEmpty()) {
                     ruleTypeInfo.setDescription("Description is unset rule type");
