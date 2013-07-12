@@ -169,7 +169,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     coWrapper.setCourse(course);
                     coWrapper.setCreditCount(CourseOfferingViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue()));
                     coWrapper.setShowAllSections(true);
-                    coWrapper.setShowCatalogLink(false);
+                    coWrapper.setShowCopyCourseOffering(false);
                     coWrapper.setShowTermOfferingLink(true);
 
                     coWrapper.setContextBar( CourseOfferingContextBar.NEW_INSTANCE(coWrapper.getTerm(), coWrapper.getSocInfo(),
@@ -265,7 +265,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
-        wrapper.setShowCatalogLink(false);
+        wrapper.setShowCopyCourseOffering(false);
         wrapper.setShowTermOfferingLink(true);
 
         return getUIFModelAndView(form);
@@ -336,7 +336,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     public ModelAndView createFromTermOffering(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-        wrapper.setShowCatalogLink(true);
+        wrapper.setShowCopyCourseOffering(true);
         wrapper.setShowTermOfferingLink(false);
 
         return getUIFModelAndView(form);

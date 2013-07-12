@@ -53,7 +53,7 @@
         <property name="singlePageView" value="true"/>
 
         <property name="headerText" value="Create Course Offering"/>   <!-- This gets updated dynamically by JS via 'viewHeaderUpdater'-div -->
-        <property name="page.headerText" value="@{(document.newMaintainableObject.dataObject.catalogCourseCode eq null)? '' : 'Create Course Offering'}" />
+        <property name="page.headerText" value="@{(document.newMaintainableObject.dataObject.catalogCourseCode eq null)? '' : document.newMaintainableObject.dataObject.showCopyCourseOffering ? 'Copy Course Offering' : 'Create Course Offering'}" />
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -102,6 +102,8 @@
                 <ref bean="KS-CourseOffering-MetaSection"/>
                 <ref bean="KS-CourseOffering-NewCourseOffering"/>
                 <ref bean="KS-CourseOffering-Buttons"/>
+
+
             </list>
         </property>
 
@@ -121,7 +123,7 @@
         </property>
         <property name="expressionVariables">
             <map merge="true">
-                <entry key="showCatalogLink" value="document.newMaintainableObject.dataObject.showCatalogLink"/>
+                <entry key="showCopyCourseOffering" value="document.newMaintainableObject.dataObject.showCopyCourseOffering"/>
                 <entry key="showAllSections" value="document.newMaintainableObject.dataObject.showAllSections"/>
                 <entry key="showTermOfferingLink" value="document.newMaintainableObject.dataObject.showTermOfferingLink"/>
                 <entry key="noOfTermOfferings" value="document.newMaintainableObject.dataObject.noOfTermOfferings"/>
@@ -211,8 +213,8 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseOffering-ContextBar" />
-                <bean parent="Uif-ActionLink" p:methodToCall="createFromCatalog" p:style="font-weight:bold;" p:actionLabel="Create from Catalog" p:render="@{#showCatalogLink}"/>
-                <bean parent="Uif-Message" p:messageText="Create from Catalog" p:style="font-weight:bold;" p:render="@{!#showCatalogLink}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createFromCatalog" p:style="font-weight:bold;" p:actionLabel="Create from Catalog" p:render="@{#showCopyCourseOffering}"/>
+                <bean parent="Uif-Message" p:messageText="Create from Catalog" p:style="font-weight:bold;" p:render="@{!#showCopyCourseOffering}"/>
                 <bean parent="Uif-Message" p:messageText="  |  " p:style="font-weight:bold;"/>
                 <bean id="KS-CourseOffering-LinkSection_CreateFromExistingOffering" parent="Uif-ActionLink" p:methodToCall="createFromTermOffering" p:style="font-weight:bold;" p:actionLabel="Create from Existing Offering (@{#noOfTermOfferings})" p:render="@{#showTermOfferingLink}"/>
                 <bean parent="Uif-Message" p:messageText="Create from Existing Offering (@{#noOfTermOfferings})" p:style="font-weight:bold;" p:render="@{!#showTermOfferingLink}"/>
@@ -257,7 +259,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CreateFromCatalog" parent="Uif-VerticalBoxSection" p:render="@{!#showCatalogLink and #showAllSections}">
+    <bean id="KS-CreateFromCatalog" parent="Uif-VerticalBoxSection" p:render="@{!#showCopyCourseOffering and #showAllSections}">
          <property name="items">
             <list>
                  <ref bean="KS-Catalog-CourseOfferingCodeSubSection"/>
@@ -485,26 +487,28 @@
          </property>
     </bean>
 
+    <!-- Copy Course Offerings Start -->
+
+
+
+
     <!--This will be displayed when user selects create from existing COs-->
-    <bean id="KS-CreateFromExistingOffering" parent="Uif-VerticalBoxSection" p:render="@{!#showTermOfferingLink and #showAllSections}">
+    <bean id="KS-CreateFromExistingOffering" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.showCopyCourseOffering}">
         <property name="items">
         <list>
-            <ref bean="KS-ExistingOffering-ConfigureCopySubSection"/>
             <ref bean="KS-ExistingOffering-ListCOs"/>
+            <ref bean="KS-ExistingOffering-ConfigureCopySubSection"/>
         </list>
         </property>
     </bean>
 
-    <bean id="KS-ExistingOffering-ConfigureCopySubSection" parent="Uif-VerticalBoxSection" p:disclosure.render="true" p:disclosure.defaultOpen="false">
-        <property name="header">
-            <bean parent="Uif-HeaderSix" p:headerText="Configure Course Offering Copy"/>
-        </property>
+    <bean id="KS-ExistingOffering-ConfigureCopySubSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:disclosure.defaultOpen="false" p:headerText="Options">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
-                            <property name="checkboxLabel" value="Exclude cancelled activity offerings"/>
+                            <property name="checkboxLabel" value="Exclude cancelled Activity Offerings"/>
                         </bean>
                     </property>
                 </bean>
@@ -527,27 +531,30 @@
     </bean>
 
     <!-- Displays a list of COs from current and previous terms-->
-    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false">
-		<property name="headerText" value="Previous Term Offerings" />
+    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:collectionLookup.render="false" p:renderAddLine="false">
+		<property name="headerText" value="Course Offerings Available for Copying" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
 		<property name="propertyName" value="existingTermOfferings" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
 		<property name="items">
            <list>
-               <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="COURSE OFFERING CODE"/>
-               <bean parent="Uif-DataField" p:propertyName="termCode" p:label="OFFERED TERM"/>
-               <bean parent="Uif-DataField" p:propertyName="courseTitle" p:label="COURSE TITLE"/>
-               <bean parent="Uif-DataField" p:propertyName="credits" p:label="CREDITS"/>
-               <bean parent="Uif-DataField" p:propertyName="grading" p:label="GRADING"/>
+               <bean parent="Uif-InputField" p:propertyName="selected" p:label="">
+                   <property name="control">
+                       <bean parent="Uif-CheckboxControl"/>
+                   </property>
+               </bean>
+               <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="Course Offering Code"/>
+               <bean parent="Uif-DataField" p:propertyName="termCode" p:label="Offered Term"/>
+               <bean parent="Uif-DataField" p:propertyName="courseTitle" p:label="Course Title"/>
+               <bean parent="Uif-DataField" p:propertyName="credits" p:label="Credits"/>
+               <bean parent="Uif-DataField" p:propertyName="grading" p:label="Grading"/>
            </list>
          </property>
-        <property name="lineActions">
-            <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="copyExistingCourseOffering" p:actionLabel="Copy" />
-            </list>
-        </property>
+         <property name="renderLineActions" value="false"/>
     </bean>
+
+    <!-- Copy Course Offerings End-->
 
     <!-- MAINTENACE DOCUMENT DEFINITION -->
 

@@ -10,6 +10,8 @@ public class ExistingCourseOffering {
     private String credits;
     private String grading;
 
+    private boolean selected;
+
     private CourseOfferingInfo courseOfferingInfo;
 
     public ExistingCourseOffering(){
@@ -70,4 +72,11 @@ public class ExistingCourseOffering {
         this.courseOfferingInfo = courseOfferingInfo;
     }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

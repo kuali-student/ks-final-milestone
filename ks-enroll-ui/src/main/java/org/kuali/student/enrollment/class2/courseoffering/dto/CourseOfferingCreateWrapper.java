@@ -41,7 +41,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private String creditCount;
 
     private boolean showTermOfferingLink;
-    private boolean showCatalogLink;
+    private boolean showCopyCourseOffering;
     private boolean showAllSections;
     private boolean enableCreateButton;
 
@@ -132,12 +132,12 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.showTermOfferingLink = showTermOfferingLink;
     }
 
-    public boolean isShowCatalogLink() {
-        return showCatalogLink;
+    public boolean isShowCopyCourseOffering() {
+        return showCopyCourseOffering;
     }
 
-    public void setShowCatalogLink(boolean showCatalogLink) {
-        this.showCatalogLink = showCatalogLink;
+    public void setShowCopyCourseOffering(boolean showCopyCourseOffering) {
+        this.showCopyCourseOffering = showCopyCourseOffering;
     }
 
     public String getCourseOfferingSuffix() {
