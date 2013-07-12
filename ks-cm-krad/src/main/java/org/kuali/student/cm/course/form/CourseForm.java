@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -50,7 +51,11 @@ public class CourseForm extends UifFormBase {
 	
 	private String finalExamRationale;
 	
-	private String comments;
+	private CommentInfo commentInfo;
+	
+	private String dialog1;
+	
+	private String Field1;
 
 	public CourseForm() {
 		this.courseInfo = new CourseInfo();
@@ -59,6 +64,7 @@ public class CourseForm extends UifFormBase {
 		
 		this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoDisplay>();
 		this.courseJointDisplays = new ArrayList<CourseJointInfoDisplay>();
+		this.commentInfo = new CommentInfo();
 	}
 
 	public CourseInfo getCourseInfo() {
@@ -134,12 +140,28 @@ public class CourseForm extends UifFormBase {
         this.finalExamRationale = finalExamRationale;
     }
 
-    public String getComments() {
-        return comments;
+    public CommentInfo getCommentInfo() {
+        return commentInfo;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setCommentInfo(CommentInfo commentInfo) {
+        this.commentInfo = commentInfo;
+    }
+
+    public String getDialog1() {
+        return dialog1;
+    }
+
+    public void setDialog1(String dialog1) {
+        this.dialog1 = dialog1;
+    }
+
+    public String getField1() {
+        return Field1;
+    }
+
+    public void setField1(String field1) {
+        Field1 = field1;
     }
 
 }

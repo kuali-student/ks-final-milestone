@@ -150,9 +150,7 @@
 					p:progressiveRender="#dp.finalExamStatus eq 'NONE' or #dp.finalExamStatus eq 'ALTERNATE'"
 					p:propertyName="finalExamRationale">
 					<property name="control">
-						<bean parent="Uif-LargeTextAreaControl" p:maxLength="255"
-							p:width="400"
-							p:onDocumentReadyScript="jQuery('#KS-FinalExamRationale_control').jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});" />
+						<bean parent="Uif-LargeTextAreaControl" p:maxLength="255"/>
 					</property>
 				</bean>
 			</list>

@@ -15,7 +15,6 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
@@ -33,13 +29,11 @@ import org.kuali.student.cm.course.form.CourseForm;
 import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
 import org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl;
 import org.kuali.student.logging.FormattedLogger;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.service.CommentService;
+import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -63,6 +57,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class CourseController extends UifControllerBase {
 
     private CourseService courseService;
+	private CommentService commentService;
     
     private enum CourseViewPages {
     	COURSE_INFO("KS-CourseView-CourseInfoPage"), 
@@ -228,6 +223,44 @@ public class CourseController extends UifControllerBase {
 		}
 		return nextPageId;
     }
+     
+    @RequestMapping(params = "methodToCall=createComment")
+    public ModelAndView createComment(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+    	String commentDialogKey = "commentsDialog";
+        if (!hasDialogBeenAnswered(commentDialogKey, form)){
+            
+            // redirect back to client to display lightbox
+            return showDialog(commentDialogKey, form, request, response);
+        }
+        
+        // Get value from chosen radio button
+        boolean choice = getBooleanDialogResponse(commentDialogKey, form, request, response);
+        
+        // clear dialog history so they can press the button again
+        form.getDialogManager().removeDialog(commentDialogKey);
+        
+        if (choice) {
+            CommentInfo commentInfo = form.getCommentInfo();
+            commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
+            commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
+            //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
+            commentInfo.setReferenceId("temp_reference_id");
+            commentInfo.setReferenceTypeKey("referenceType.clu.proposal");
+            commentInfo.setStateKey(DtoState.ACTIVE.toString());
+            CommentInfo newComment = null;
+            try {
+                newComment = getCommentService().createComment_KRAD(commentInfo.getReferenceId(),
+                        commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
+                        ContextUtils.getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException("Error creating a new comment.", e);
+            }
+            form.setCommentInfo(newComment);
+        }
+    	return getUIFModelAndView(form);
+    }
     
     
     
@@ -236,6 +269,13 @@ public class CourseController extends UifControllerBase {
     		courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
     	}
     	return courseService;
+    }
+    
+    private CommentService getCommentService() {
+    	if (commentService == null) {
+    		commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, "CommentService"));
+    	}
+    	return commentService;
     }
 
 }

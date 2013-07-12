@@ -46,7 +46,7 @@
 		</property>
 		<property name="dialogs">
 			<list>
-				<bean id="myDropdownLightBox" parent="KRAD-LightBox" />
+				<ref bean="commentsDialog" />
 			</list>
 		</property>
 		<!-- CSS Styling -->
@@ -64,21 +64,40 @@
 		</property>
 	</bean>
 
-	<bean id="KRAD-LightBox" parent="Uif-VerticalBoxSection"
-		p:layoutManager.orientation="VERTICAL">
-		<property name="hidden" value="true" />
+	<bean id="commentsDialog" parent="Uif-DialogGroup" p:promptText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal">
+		<property name="headerText" value="Proposal Comments" />
+		<property name="availableResponses">
+			<list>
+				<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Submit"/>
+				<!-- <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/> -->
+			</list>
+		</property>
+		<property name="responseInputField">
+			<bean parent="Uif-MainteanceDialogResponse" />
+		</property>
+		<property name="explanation">
+			<bean parent="Uif-MainteanceDialogExplanation" />
+		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="comments"
-					p:label="Title" p:labelPlacement="TOP">
+				<bean parent="Uif-InputField" p:propertyName="commentInfo.commentText.plain"
+					p:label="Leave a Comment" p:labelPlacement="TOP">
 					<property name="control">
 						<bean parent="Uif-TextAreaControl" p:rows="5" p:cols="80" />
 					</property>
 				</bean>
-				<bean parent="Uif-ActionLink" p:actionLabel="Submit"
-					p:actionScript="confirmDeletion()" />
+				<!-- <bean parent="Uif-ActionLink" p:actionLabel="Submit"
+					p:methodToCall="createComment" /> -->
 			</list>
 		</property>
+	</bean>
+
+	<bean id="Uif-MainteanceDialogResponse" parent="Uif-DialogResponse">
+		<property name="bindingInfo.bindToForm" value="true" />
+	</bean>
+
+	<bean id="Uif-MainteanceDialogExplanation" parent="Uif-DialogExplanation">
+		<property name="bindingInfo.bindToForm" value="true" />
 	</bean>
 
 	<bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
@@ -87,12 +106,11 @@
 				<bean parent="Uif-PrimaryActionButton" p:methodToCall="saveAndContinue"
 					p:actionLabel="Save and Continue" p:performClientSideValidation="true"
 					p:loadingMessageText="Saving..." />
-				<bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-					p:methodToCall="close" />
+				<bean parent="Uif-PrimaryActionButton" p:actionLabel="Cancel" p:methodToCall="cancel"/>
 			</list>
 		</property>
 	</bean>
-	
+
 	<bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup">
 		<property name="items">
 			<list>
@@ -145,8 +163,9 @@
                                 <list>
 <!--
                                     <bean parent="Uif-DataField" p:label="Proposal Status" p:shortLabel="Status" p:labelPlacement="LEFT"  p:propertyName="dataField1" />
--->
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Comments" />
+-->									
+									<bean parent="Uif-ActionLink" p:actionLabel="Comments"
+										p:methodToCall="createComment" />
                                     <bean parent="Uif-ActionLink" p:actionLabel="Decisions" />
                                 </list>
                             </property>
