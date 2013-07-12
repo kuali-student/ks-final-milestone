@@ -178,7 +178,7 @@ limitations under the License.
     <bean id="KSAO-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
@@ -193,7 +193,7 @@ limitations under the License.
     <bean id="KSAO-RuleView-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
@@ -361,7 +361,7 @@ limitations under the License.
     <bean id="KSAO-RulePreview-Links" parent="KRMS-RulePreview-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>

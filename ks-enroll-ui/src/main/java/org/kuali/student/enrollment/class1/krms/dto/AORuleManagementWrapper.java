@@ -16,13 +16,28 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author Kuali Student Team
  */
 public class AORuleManagementWrapper extends EnrolRuleManagementWrapper {
+
+    private List<AgendaEditor> cluAgendas = new ArrayList<AgendaEditor>();
+
+
+    public List<AgendaEditor> getCluAgendas() {
+        return cluAgendas;
+    }
+
+    public void setCluAgendas(List<AgendaEditor> cluAgendas) {
+        this.cluAgendas = cluAgendas;
+    }
+
 
 }

@@ -67,12 +67,12 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
      * Builds compare tree for the compare CO and CLU lightbox links.
      *
      * @param original
-     * @param refObjectId
+     * @param compare
      * @return
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, String refObjectId) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) throws Exception {
 
         //Set the original nl if not already exists.
         if (original.getProposition()!=null){
@@ -83,11 +83,10 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         }
 
         //Build the Tree
-        RuleEditor compareEditor = original.getParent();
-        if((compareEditor!=null)&&(compareEditor.getProposition()!=null)){
-            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compareEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        if((compare!=null)&&(compare.getProposition()!=null)){
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compare.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         }
-        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compareEditor);
+        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compare);
 
         return compareTree;
     }

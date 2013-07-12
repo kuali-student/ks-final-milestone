@@ -46,7 +46,7 @@ public interface RuleViewHelperService {
 
     public void refreshViewTree(RuleEditor rule);
 
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, String refObjectId) throws Exception;
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) throws Exception;
 
     public Boolean compareRules(RuleEditor original);
 

@@ -303,10 +303,10 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, String refObjectId) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) throws Exception {
 
         //Build the Tree
-        return this.getCompareTreeBuilder().buildTree(original, original.getParent());
+        return this.getCompareTreeBuilder().buildTree(original, compare);
 
     }
 
