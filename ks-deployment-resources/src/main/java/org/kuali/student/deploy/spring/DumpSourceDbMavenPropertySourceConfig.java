@@ -2,6 +2,7 @@ package org.kuali.student.deploy.spring;
 
 import java.util.List;
 
+import org.kuali.common.impex.DumpProjectContext;
 import org.kuali.common.jdbc.JdbcProjectContext;
 import org.kuali.common.util.ProjectContext;
 import org.kuali.common.util.property.ProjectProperties;
@@ -15,8 +16,9 @@ public class DumpSourceDbMavenPropertySourceConfig extends MavenPropertySourceCo
 	@Override
 	protected List<ProjectProperties> getOtherProjectProperties() {
 		ProjectContext jdbc = new JdbcProjectContext();
-		ProjectContext dump = new DumpSourceDbProjectContext();
-		return ConfigUtils.getProjectProperties(jdbc, dump);
+		ProjectContext dump = new DumpProjectContext();
+		ProjectContext sourceDb = new DumpSourceDbProjectContext();
+		return ConfigUtils.getProjectProperties(jdbc, dump, sourceDb);
 	}
 
 }

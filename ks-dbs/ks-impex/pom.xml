@@ -56,13 +56,6 @@
                         <artifactId>spring-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>source-db-setup</id>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>load</goal>
-                                </goals>
-                            </execution>
-                            <execution>
                                 <id>load</id>
                                 <phase>generate-resources</phase>
                                 <goals>
@@ -70,29 +63,11 @@
                                 </goals>
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
-                                    <propertySourcesConfig>org.kuali.student.deploy.spring.DumpAndStageSourceDbMavenPropertySourceConfig</propertySourcesConfig>
-                                    <annotatedClass>org.kuali.student.deploy.spring.DbExportExecutableConfig</annotatedClass>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.DumpSourceDbMavenPropertySourceConfig</propertySourcesConfig>
+                                    <annotatedClass>org.kuali.common.impex.spring.DumpDatabaseConfig</annotatedClass>
                                 </configuration>
                             </execution>
                         </executions>
-                        <dependencies>
-                            <!-- Add in the module specific dependencies -->
-                            <dependency>
-                                <groupId>org.kuali.student.db</groupId>
-                                <artifactId>ks-impex-rice-db</artifactId>
-                                <version>${project.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.student.db</groupId>
-                                <artifactId>ks-impex-app-db</artifactId>
-                                <version>${project.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.student.db</groupId>
-                                <artifactId>ks-impex-bundled-db</artifactId>
-                                <version>${project.version}</version>
-                            </dependency>
-                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
