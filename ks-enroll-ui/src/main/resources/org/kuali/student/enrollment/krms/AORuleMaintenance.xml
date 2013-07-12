@@ -57,7 +57,7 @@ limitations under the License.
         </property>
         <property name="dialogs">
             <list>
-                <bean id="viewRuleLightBox" parent="KRMS-CompareRule">
+                <bean id="viewCluAndCoRuleLightBox" parent="KRMS-CompareRule">
                     <property name="headerText" value="View CLU and CO Rules"/>
                 </bean>
                 <bean id="compareCluCoAndAoRuleLightBox" parent="KRMS-CompareRule">

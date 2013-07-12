@@ -160,7 +160,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-RuleMaintenance-Page");
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KRMSConstants.KRMS_RULE_MAINTENANCE_PAGE_ID);
         }
         return super.navigate(form, result, request, response);
     }
@@ -221,9 +221,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=copyRule")
     public ModelAndView copyRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                  HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        //TODO: Copy rule to a different Co or AO
-
         return super.refresh(form, result, request, response);
     }
 
@@ -883,7 +880,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        String dialogId = "warningMessagedYesNo";
         RuleEditor ruleEditor = getRuleEditor(form);
         if (ruleEditor.getProposition() != null) {
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
@@ -900,13 +896,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
 
             if (!GlobalVariables.getMessageMap().getWarningMessages().isEmpty()) {
-                if (!hasDialogBeenAnswered(dialogId, form)) {
-                    return showDialog(dialogId, form, request, response);
+                if (!hasDialogBeenAnswered(KRMSConstants.KSKRMS_DIALOG_YESNO_WARNING, form)) {
+                    return showDialog(KRMSConstants.KSKRMS_DIALOG_YESNO_WARNING, form, request, response);
                 }
 
-                String dialogResponse = getStringDialogResponse(dialogId, form, request, response);
+                String dialogResponse = getStringDialogResponse(KRMSConstants.KSKRMS_DIALOG_YESNO_WARNING, form, request, response);
                 if ("N".equals(dialogResponse)) {
-                    form.getDialogManager().resetDialogStatus(dialogId);
+                    form.getDialogManager().resetDialogStatus(KRMSConstants.KSKRMS_DIALOG_YESNO_WARNING);
                     return getUIFModelAndView(form);
                 }
             }
@@ -928,7 +924,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
 
         // clear dialog history so user can press the button again
-        form.getDialogManager().resetDialogStatus(dialogId);
+        form.getDialogManager().resetDialogStatus(KRMSConstants.KSKRMS_DIALOG_YESNO_WARNING);
 
         //Compare rule with parent rule.
         compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
@@ -1011,7 +1007,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
 
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-AgendaMaintenance-Page");
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KRMSConstants.KRMS_AGENDA_MAINTENANCE_PAGE_ID);
         }
         return super.navigate(form, result, request, response);
     }
@@ -1164,7 +1160,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor());
 
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
-            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, "KRMS-AgendaMaintenance-Page");
+            form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KRMSConstants.KRMS_AGENDA_MAINTENANCE_PAGE_ID);
         }
         return super.navigate(form, result, request, response);
     }
@@ -1208,7 +1204,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         doCompareRules(form);
 
         // redirect back to client to display lightbox
-        return showDialog("compareRuleLightBox", form, request, response);
+        return showDialog(KRMSConstants.KSKRMS_DIALOG_COMPARE, form, request, response);
     }
 
     protected void doCompareRules(UifFormBase form) throws Exception {
@@ -1216,7 +1212,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
         if (dataObject instanceof RuleManagementWrapper) {
             RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) dataObject;
-            String ruleId = document.getActionParamaterValue("ruleKey");
+            String ruleId = document.getActionParamaterValue(KRMSConstants.KRMS_PARM_RULE_KEY);
             RuleEditor ruleEditor = null;
             if ((ruleId != null) && (StringUtils.isNotBlank(ruleId))) {
                 //Get a specific ruleEditor based on the ruleId.

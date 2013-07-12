@@ -17,6 +17,9 @@ public class KSKRMSConstants {
 
     // dialogs
     public static final String KSKRMS_DIALOG_COURSERANGE_LOOKUP = "courseRangeLookup";
+    public static final String KSKRMS_DIALOG_COMPARE_CLU_CO_AO = "compareCluCoAndAoRuleLightBox";
+    public static final String KSKRMS_DIALOG_COMPARE_CLU_CO = "compareCluAndCoRuleLightBox";
+    public static final String KSKRMS_DIALOG_VIEW_CLU_CO = "viewCluAndCoRuleLightBox";
 
     // Property Names
     public static final String KSKRMS_PROPERTY_NAME_CLUS = "proposition.cluSet.clus";

@@ -148,7 +148,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         doCompareRules(form);
 
         // redirect back to client to display lightbox
-        return showDialog("compareCluCoAndAoRuleLightBox", form, request, response);
+        return showDialog(KSKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO_AO, form, request, response);
     }
 
     /**
@@ -191,7 +191,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         }
 
         // redirect back to client to display lightbox
-        return showDialog("viewRuleLightBox", form, request, response);
+        return showDialog(KSKRMSConstants.KSKRMS_DIALOG_VIEW_CLU_CO, form, request, response);
     }
 
     /**

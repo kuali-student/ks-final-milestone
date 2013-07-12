@@ -141,7 +141,7 @@ public class CORuleEditorController extends EnrolRuleEditorController {
         doCompareRules(form);
 
         // redirect back to client to display lightbox
-        return showDialog("compareCluAndCoRuleLightBox", form, request, response);
+        return showDialog(KSKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO, form, request, response);
     }
 
 }
