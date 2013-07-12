@@ -987,16 +987,35 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
                 String lineBreaks = "";
                 //if there are more than one instructors re-arrange the rows
+                String lineBreaksInstructors = "";
                 if (aoWrapper.getInstructorDisplayNames().contains("<br>")) {   //more than one instructor
                     String s = aoWrapper.getInstructorDisplayNames();
                     for( int k=0; k<s.length(); k++ ) {    //add lines according to number of instructors
                         if( s.contains("<br>")) {
-                            lineBreaks = lineBreaks + "<br/>";
+                            lineBreaksInstructors = lineBreaksInstructors + "<br/>";
                             s = s.substring(s.indexOf("<br>")+4);
                         }
                     }
                 }
+                //if there are more than one delivery logistics re-arrange the rows
+                String lineBreaksDeliveries = "";
+                if (aoWrapper.getDaysDisplayName().contains("<br>")) {   //more than one delivery logistics
+                    String s = aoWrapper.getDaysDisplayName();
+                    for( int k=0; k<s.length(); k++ ) {    //add lines according to number of delivery logistics
+                        if( s.contains("<br>")) {
+                            lineBreaksDeliveries = lineBreaksDeliveries + "<br/>";
+                            s = s.substring(s.indexOf("<br>")+4);
+                        }
+                    }
+                }
+                //Set different line breaks according to number of instructors and number of delivery logistics
+                if (lineBreaksInstructors.length() < lineBreaksDeliveries.length()) {
+                    lineBreaks = lineBreaksDeliveries;
+                } else {
+                    lineBreaks = lineBreaksInstructors;
+                }
 
+                //Set the wrapper
                 rgWrapper.setAoMaxEnrText(rgWrapper.getAoMaxEnrText() + (newLine ? "<br/>" : "") + (aoWrapper.getAoInfo().getMaximumEnrollment() == null ? "" : aoWrapper.getAoInfo().getMaximumEnrollment()) + lineBreaks);
                 rgWrapper.setAoStateNameText(rgWrapper.getAoStateNameText() + (newLine ? "<br/>" : "") + aoWrapper.getStateName() + lineBreaks);
                 //sub-term icon and tooltip setup
@@ -1007,12 +1026,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode() + lineBreaks);
                 }
                 rgWrapper.setAoTypeNameText(rgWrapper.getAoTypeNameText() + (newLine ? "<br/>" : "") + aoWrapper.getTypeName() + lineBreaks);
-                rgWrapper.setStartTimeDisplay(rgWrapper.getStartTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getStartTimeDisplay() + lineBreaks);
-                rgWrapper.setEndTimeDisplay(rgWrapper.getEndTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getEndTimeDisplay() + lineBreaks);
-                rgWrapper.setDaysDisplayName(rgWrapper.getDaysDisplayName() + (newLine ? "<br/>" : "") + aoWrapper.getDaysDisplayName() + lineBreaks);
-                rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName() + lineBreaks);
-                rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaks);
-                rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()));
+                rgWrapper.setStartTimeDisplay(rgWrapper.getStartTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getStartTimeDisplay() + lineBreaksInstructors);
+                rgWrapper.setEndTimeDisplay(rgWrapper.getEndTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getEndTimeDisplay() + lineBreaksInstructors);
+                rgWrapper.setDaysDisplayName(rgWrapper.getDaysDisplayName() + (newLine ? "<br/>" : "") + aoWrapper.getDaysDisplayName() + lineBreaksInstructors);
+                rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName() + lineBreaksInstructors);
+                rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaksInstructors);
+                rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()) + lineBreaksDeliveries);
 
             }
         }
