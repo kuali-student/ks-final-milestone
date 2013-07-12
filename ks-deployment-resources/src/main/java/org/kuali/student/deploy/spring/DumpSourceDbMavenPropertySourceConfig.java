@@ -16,11 +16,15 @@ public class DumpSourceDbMavenPropertySourceConfig extends MavenPropertySourceCo
 
 	@Override
 	protected List<ProjectProperties> getOtherProjectProperties() {
+		// General JDBC related config
 		ProjectContext jdbc = new JdbcProjectContext();
+		// General dump related config
 		ProjectContext dump = new DumpProjectContext();
+		// Config specific to dumping a database using Maven
 		ProjectContext mavenDump = new MavenProjectContext();
-		ProjectContext sourceDb = new DumpSourceDbProjectContext();
-		return ConfigUtils.getProjectProperties(jdbc, dump, mavenDump, sourceDb);
+		// Database specific config for the actual db to dump
+		ProjectContext db = new DumpSourceDbProjectContext();
+		return ConfigUtils.getProjectProperties(jdbc, dump, mavenDump, db);
 	}
 
 }
