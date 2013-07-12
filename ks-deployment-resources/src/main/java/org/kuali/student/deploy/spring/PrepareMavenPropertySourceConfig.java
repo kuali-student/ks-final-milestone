@@ -21,10 +21,10 @@ public class PrepareMavenPropertySourceConfig extends MavenPropertySourceConfig 
 		ProjectContext scm = new ScmProjectContext();
 		// General JDBC related config
 		ProjectContext jdbc = new JdbcProjectContext();
-		ProjectContext maven = new MavenProjectContext();
 		ProjectContext staging = new StagingProjectContext();
+		ProjectContext maven = new MavenProjectContext();
 		ProjectContext prepare = new PrepareProjectContext();
-		return ConfigUtils.getProjectProperties(scm, jdbc, maven, staging, prepare);
+		return ConfigUtils.getProjectProperties(scm, jdbc, staging, maven, prepare);
 	}
 
 }
