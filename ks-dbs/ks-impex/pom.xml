@@ -64,7 +64,7 @@
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
                                     <propertySourcesConfig>org.kuali.student.deploy.spring.DumpSourceDbMavenPropertySourceConfig</propertySourcesConfig>
-                                    <annotatedClass>org.kuali.common.impex.spring.DumpDatabaseConfig</annotatedClass>
+                                    <annotatedClass>org.kuali.common.impex.spring.DumpDatabaseExecutableConfig</annotatedClass>
                                 </configuration>
                             </execution>
                         </executions>
