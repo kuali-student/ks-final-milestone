@@ -85,7 +85,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         CORuleManagementWrapper dataObject = new CORuleManagementWrapper();
 
         dataObject.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
-        dataObject.setRefDiscriminatorType("kuali.lui.type.course.offering");
+        dataObject.setRefDiscriminatorType(KSKRMSServiceConstants.RULE_DISCR_TYPE_COURSE_OFFERING);
 
         String coId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(coId);
@@ -200,7 +200,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         } catch (Exception e) {
             throw new RuntimeException("Could not retrieve course offering for " + refObjectId);
         }
-        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lu.type.CreditCourse", courseOffering.getCourseId());
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(KSKRMSServiceConstants.RULE_DISCR_TYPE_CREDIT, courseOffering.getCourseId());
     }
 
     /**

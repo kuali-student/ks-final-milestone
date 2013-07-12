@@ -47,14 +47,14 @@ public class CourseOfferingAgendaBuilder extends AgendaBuilder {
 
         //Add warning messages for empty or deleted rules.
         if (rule.isDummy() && rule.getParent() != null)  {
-            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), "warning.krms.agenda.rule.co.hasparent");
+            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_HASPARENT);
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
-            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), "warning.krms.agenda.rule.co.empty");
+            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMSConstants.KSKRMS_MSG_WARNING_CO_RULE_EMPTY);
         }
 
         //Add Info message if co rule differs from clu rule.
         if (!this.getViewHelperService().compareRules(rule)) {
-            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), "info.krms.agenda.rule.co.changed");
+            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), KSKRMSConstants.KSKRMS_MSG_INFO_CO_RULE_CHANGED);
         }
 
         return group;

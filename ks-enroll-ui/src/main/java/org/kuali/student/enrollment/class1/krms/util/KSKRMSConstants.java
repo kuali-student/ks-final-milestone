@@ -42,6 +42,14 @@ public class KSKRMSConstants {
     public static final String KSKRMS_MSG_ERROR_APPROVED_COURSE_REQUIRED = "error.krms.approved.course.required";
     public static final String KSKRMS_MSG_ERROR_COURSESETS_REQUIRED = "error.krms.coursesets.required";
     public static final String KSKRMS_MSG_ERROR_MULTICOURSE_REQUIRED = "error.krms.multicourse.required";
+
     public static final String KSKRMS_MSG_WARNING_MULTICOURSE_PLURAL = "warning.krms.agenda.rule.co.multicourse.plural";
+    public static final String KSKRMS_MSG_WARNING_CO_RULE_HASPARENT = "warning.krms.agenda.rule.co.hasparent";
+    public static final String KSKRMS_MSG_WARNING_CO_RULE_EMPTY = "warning.krms.agenda.rule.co.empty";
+    public static final String KSKRMS_MSG_WARNING_AO_RULE_HASPARENT = "warning.krms.agenda.rule.ao.hasparent";
+    public static final String KSKRMS_MSG_WARNING_AO_RULE_EMPTY = "warning.krms.agenda.rule.ao.empty";
+
+    public static final String KSKRMS_MSG_INFO_CO_RULE_CHANGED = "info.krms.agenda.rule.co.changed";
+    public static final String KSKRMS_MSG_INFO_AO_RULE_CHANGED = "info.krms.agenda.rule.ao.changed";
 
 }
