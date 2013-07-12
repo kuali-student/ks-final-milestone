@@ -408,7 +408,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                             <bean parent="Uif-Message" p:messageText="None"/>
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-Message" p:messageText="(Source: Course Catalog)"
+                                                    <bean parent="Uif-Message" p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')})"
                                                           >
                                                         <property name="cssClasses">
                                                             <list merge="true">
@@ -484,7 +484,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                                       p:render="@{dataObject.courseSummaryDetails.scheduledTerms.size() eq 0}">
                                                                 </bean>
                                                                 <bean parent="Uif-Message" 
-                                                                      p:messageText="(Source: Time Schedule)">
+                                                                      p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')})">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
                                                                             <value>fl-font-size-80</value>
@@ -541,8 +541,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                                               p:messageText="Check with the department or your adviser for more information about this course."/>
                                                                     </property>
                                                                 </bean>
-                                                                <bean parent="Uif-Message" 
-                                                                      p:messageText="(Source: Course Catalog)">
+                                                                <bean parent="Uif-Message"
+                                                                      p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')})">
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
                                                                             <value>fl-font-size-80</value>
@@ -640,7 +640,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-Label" p:labelText="Curriculum"
+                                                    <bean parent="Uif-Label" p:labelText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}"
                                                           p:renderColon="false"/>
                                                 </list>
                                             </property>
