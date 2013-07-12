@@ -81,7 +81,7 @@
                         <artifactId>spring-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>dump</id>
+                                <id>prepare</id>
                                 <phase>process-resources</phase>
                                 <goals>
                                     <goal>load</goal>
@@ -93,6 +93,24 @@
                                 </configuration>
                             </execution>
                         </executions>
+                        <dependencies>
+                            <!-- Add in the module specific dependencies -->
+                            <dependency>
+                                <groupId>org.kuali.student.db</groupId>
+                                <artifactId>ks-impex-rice-db</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.kuali.student.db</groupId>
+                                <artifactId>ks-impex-app-db</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                            <dependency>
+                                <groupId>org.kuali.student.db</groupId>
+                                <artifactId>ks-impex-bundled-db</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
