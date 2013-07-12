@@ -988,7 +988,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 String lineBreaks = "";
                 //if there are more than one instructors re-arrange the rows
                 String lineBreaksInstructors = "";
-                if (aoWrapper.getInstructorDisplayNames().contains("<br>")) {   //more than one instructor
+                if (StringUtils.contains(aoWrapper.getInstructorDisplayNames(),("<br>"))) {   //more than one instructor
                     String s = aoWrapper.getInstructorDisplayNames();
                     for( int k=0; k<s.length(); k++ ) {    //add lines according to number of instructors
                         if( s.contains("<br>")) {
@@ -999,7 +999,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 }
                 //if there are more than one delivery logistics re-arrange the rows
                 String lineBreaksDeliveries = "";
-                if (aoWrapper.getDaysDisplayName().contains("<br>")) {   //more than one delivery logistics
+                if (StringUtils.contains(aoWrapper.getDaysDisplayName(),"<br>")) {   //more than one delivery logistics
                     String s = aoWrapper.getDaysDisplayName();
                     for( int k=0; k<s.length(); k++ ) {    //add lines according to number of delivery logistics
                         if( s.contains("<br>")) {
