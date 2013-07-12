@@ -22,6 +22,12 @@
         </property>
     </bean>
 
+    <!-- Override the atp service to use a hacked version that looks at the acal service mock -->
+    <bean id="atpService"
+          class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceHackMockImpl">
+        <property name="acalService" ref="acalService" />
+    </bean>
+
     <bean id="acalServiceFacade" class=" org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacadeImpl" autowire="byName" />
 
 

@@ -29,6 +29,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
@@ -71,7 +72,12 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
 
     @Override
     public List<String> getKeyDateIdsForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getKeyDateIdsForTerm unsupported");
+        List<KeyDateInfo> keyDates = getKeyDatesForTerm(termId, contextInfo);
+        List<String> keyDateIds = new ArrayList<String>();
+        for (KeyDateInfo keyDate: keyDates) {
+            keyDateIds.add(keyDate.getId());
+        }
+        return keyDateIds;
     }
 
 	@Override
@@ -225,6 +231,10 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
         // associated with it
         if (!terms.containsKey(termId)) {
             throw new DoesNotExistException("termId=" + termId + " does not exist");
+        }
+        TermInfo term = getTerm(termId, contextInfo);
+        if (term.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
+            throw new OperationFailedException("Can't delete term that is official");
         }
         List<TermInfo> childTerms = getIncludedTermsInTerm(termId, contextInfo);
         // For each of the child terms, remove its link to termId (which may make it "stranded")
