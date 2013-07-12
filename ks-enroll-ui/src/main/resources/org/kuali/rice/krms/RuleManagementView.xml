@@ -236,7 +236,6 @@ limitations under the License.
     <!--Compare Link-->
     <bean id="KRMS-CompareRule-parent" parent="Uif-VerticalBoxSection" p:style="width: 850px;">
         <property name="hidden" value="true"/>
-        <property name="headerText" value="Compare CLU and CO Rules"/>
         <property name="items">
             <list>
                 <bean parent="KRMS-VerticalBoxSection">

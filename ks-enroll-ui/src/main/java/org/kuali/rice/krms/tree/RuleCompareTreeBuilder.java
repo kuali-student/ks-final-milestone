@@ -15,19 +15,14 @@
  */
 package org.kuali.rice.krms.tree;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,28 +37,11 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
     private static final long serialVersionUID = 1L;
 
     public Tree<CompareTreeNode, String> buildTree(RuleEditor original, RuleEditor compare) {
-        Tree<CompareTreeNode, String> myTree = new Tree<CompareTreeNode, String>();
-
-        Node<CompareTreeNode, String> rootNode = createCompareNode();
-        myTree.setRootElement(rootNode);
-
-        Node<CompareTreeNode, String> firstNode = createCompareNode();
-        rootNode.getChildren().add(firstNode);
-
-        //Get the root original proposition.
-        PropositionEditor originalProp = null;
-        if(original!=null){
-            originalProp = original.getPropositionEditor();
-        }
-
-        //Get the root compare proposition.
-        PropositionEditor compareProp = null;
-        if(compare!=null){
-            compareProp = compare.getPropositionEditor();
-        }
+        Tree<CompareTreeNode, String> myTree = initCompareTree();
+        Node<CompareTreeNode, String> firstNode = myTree.getRootElement().getChildren().get(0);
 
         //Add the nodes recursively.
-        addTreeNode(firstNode, originalProp, compareProp);
+        addTreeNode(firstNode, getRootProposition(original), getRootProposition(compare));
 
         //Underline the first node in the preview.
         if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)){
@@ -84,14 +62,20 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         return myTree;
     }
 
+    protected PropositionEditor getRootProposition(RuleEditor rule){
+        if(rule!=null){
+            return rule.getPropositionEditor();
+        }
+        return null;
+    }
+
     public static Tree<CompareTreeNode, String> initCompareTree() {
         Tree<CompareTreeNode, String> myTree = new Tree<CompareTreeNode, String>();
 
         Node<CompareTreeNode, String> rootNode = createCompareNode();
         myTree.setRootElement(rootNode);
 
-        Node<CompareTreeNode, String> firstNode = createCompareNode();
-        rootNode.getChildren().add(firstNode);
+        rootNode.getChildren().add(createCompareNode());
 
         return myTree;
     }
@@ -125,38 +109,14 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
 
     protected void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionEditor original, PropositionEditor compared) {
 
-        // Retrieve the opreator code of the original proposition
-        String originalOpCode = " ";
-        if(original!=null){
-            originalOpCode = PropositionTreeUtil.getLabelForOperator(original.getCompoundOpCode());
-        }
-
-        // Retrieve the opreator code of the compare to proposition
-        String compareOpCode = " ";
-        if(compared!=null){
-            compareOpCode = PropositionTreeUtil.getLabelForOperator(compared.getCompoundOpCode());
-        }
-
-        // Get the children form both nodes.
-        List<PropositionEditor> originalChildren = getChildPropositions(original);
-        List<PropositionEditor> comparedChildren = getChildPropositions(compared);
+        // Retrieve the opreator code of the propositions
+        String originalOpCode = this.getLabelForOperator(original);
+        String compareOpCode = this.getLabelForOperator(compared);
 
         // Get the size of the biggest children list
-        int size = Math.max(originalChildren.size(), comparedChildren.size());
+        int size = Math.max(getChildrenSize(original), getChildrenSize(compared));
 
         for (int i = 0; i < size; i++) {
-
-            // Get the original child proposition at current position
-            PropositionEditor originalChild = null;
-            if (originalChildren.size() > i){
-                originalChild = originalChildren.get(i);
-            }
-
-            // Get the compare child proposition at current position
-            PropositionEditor compareChild = null;
-            if (comparedChildren.size() > i){
-                compareChild = comparedChildren.get(i);
-            }
 
             // add an opcode node in between each of the children.
             if (i>0) {
@@ -164,19 +124,32 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
             }
 
             // call to build the childs node
-            addTreeNode(newNode, originalChild, compareChild);
+            addTreeNode(newNode, getChildForIndex(original, i), getChildForIndex(compared, i));
         }
 
     }
 
-    private List<PropositionEditor> getChildPropositions(PropositionEditor parent) {
-        List<PropositionEditor> children;
-        if ((parent != null) && (parent.getCompoundComponents()!=null)){
-            children = parent.getCompoundEditors();
-        } else {
-            children = new ArrayList<PropositionEditor>();
+    protected String getLabelForOperator(PropositionEditor proposition){
+        if(proposition!=null){
+            return PropositionTreeUtil.getLabelForOperator(proposition.getCompoundOpCode());
         }
-        return children;
+        return " ";
+    }
+
+    private int getChildrenSize(PropositionEditor parent) {
+        if ((parent != null) && (parent.getCompoundComponents()!=null)){
+            return parent.getCompoundEditors().size();
+        }
+        return 0;
+    }
+
+    private PropositionEditor getChildForIndex(PropositionEditor parent, int index) {
+        if ((parent != null) && (parent.getCompoundComponents()!=null)){
+            if(parent.getCompoundComponents().size() > index){
+                return parent.getCompoundEditors().get(index);
+            }
+        }
+        return null;
     }
 
     protected void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String originial, String compared) {

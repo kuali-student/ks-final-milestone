@@ -110,7 +110,7 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception {
 
         //Set the original nl if not already exists.
-        if (coRuleEditor.getProposition()!=null){
+        if ((coRuleEditor!=null) && (coRuleEditor.getProposition()!=null)){
             PropositionEditor originalRoot = coRuleEditor.getPropositionEditor();
             if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
                 this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());

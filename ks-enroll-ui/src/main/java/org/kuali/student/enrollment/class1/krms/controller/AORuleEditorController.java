@@ -9,6 +9,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.springframework.stereotype.Controller;
@@ -140,6 +141,26 @@ public class AORuleEditorController extends EnrolRuleEditorController {
      * @return
      * @throws Exception
      */
+    @RequestMapping(params = "methodToCall=compareRules")
+    public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        doCompareRules(form);
+
+        // redirect back to client to display lightbox
+        return showDialog("compareCluCoAndAoRuleLightBox", form, request, response);
+    }
+
+    /**
+     * Test method for a controller that invokes a dialog lightbox.
+     *
+     * @param form     - test form
+     * @param result   - Spring form binding result
+     * @param request  - http request
+     * @param response - http response
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=viewCoAndCluRules")
     public ModelAndView viewCoAndCluRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -170,6 +191,37 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         }
 
         // redirect back to client to display lightbox
-        return showDialog("compareRuleLightBox", form, request, response);
+        return showDialog("viewRuleLightBox", form, request, response);
+    }
+
+    /**
+     * Deletes selected rule from agenda on Manage Course Requistes page
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=deleteRuleStatements")
+    public ModelAndView deleteRuleStatements(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+        String ruleKey = AgendaUtilities.getRuleKey(document);
+
+        AgendaEditor agenda = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleKey);
+        if (agenda != null) {
+            RuleEditor ruleEditor = agenda.getRuleEditors().get(ruleKey);
+            ruleEditor.setProposition(null);
+
+            //Compare rule with parent rule.
+            compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+            this.getViewHelper(form).refreshInitTrees(ruleEditor);
+        }
+
+        return getUIFModelAndView(document);
     }
 }

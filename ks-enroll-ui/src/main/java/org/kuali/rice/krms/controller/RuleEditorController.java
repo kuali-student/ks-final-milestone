@@ -964,7 +964,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
     }
 
-    private void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) throws Exception {
+    protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) throws Exception {
 
         RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
@@ -1205,6 +1205,13 @@ public class RuleEditorController extends MaintenanceDocumentController {
     public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        doCompareRules(form);
+
+        // redirect back to client to display lightbox
+        return showDialog("compareRuleLightBox", form, request, response);
+    }
+
+    protected void doCompareRules(UifFormBase form) throws Exception {
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
         if (dataObject instanceof RuleManagementWrapper) {
@@ -1223,9 +1230,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
             ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(ruleEditor, ruleEditor.getParent()));
             ruleWrapper.setCompareLightBoxHeader(ruleEditor.getRuleTypeInfo().getDescription());
         }
-
-        // redirect back to client to display lightbox
-        return showDialog("compareRuleLightBox", form, request, response);
     }
 
     /**

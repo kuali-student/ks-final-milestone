@@ -52,8 +52,8 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
             // Set the headers on the first root child
             if (childNode.getData() != null) {
                 CompareTreeNode compareTreeNode = childNode.getData();
-                compareTreeNode.setOriginal("CO Rules");
-                compareTreeNode.setCompared("CLU Rules");
+                compareTreeNode.setOriginal("AO Rules");
+                compareTreeNode.setCompared("CO Rules");
             }
 
         }

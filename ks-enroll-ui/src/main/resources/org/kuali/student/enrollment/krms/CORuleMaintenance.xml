@@ -58,7 +58,9 @@ limitations under the License.
         </property>
         <property name="dialogs">
             <list>
-                <bean id="compareRuleLightBox" parent="KRMS-CompareRule"/>
+                <bean id="compareCluAndCoRuleLightBox" parent="KRMS-CompareRule">
+                    <property name="headerText" value="Compare CLU and CO Rules"/>
+                </bean>
                 <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"/>
             </list>
@@ -191,7 +193,7 @@ limitations under the License.
     <bean id="KSCO-RuleAdd-Links" parent="KRMS-RuleAdd-Links">
         <property name="items">
             <list>
-                <bean parent="KSCO-RulePreview-Links" p:render="@{#line.dummy and #line.parent != null}"/>
+                <bean parent="KSCO-RuleView-Links" p:render="@{#line.dummy and #line.parent != null}"/>
                 <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
                 <!--bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:disabled="@{!#line.permission.addRequisiteAction}"

@@ -123,4 +123,25 @@ public class CORuleEditorController extends EnrolRuleEditorController {
 
         return this.goToEditProposition(form, result, request, response);
     }
+
+    /**
+     * Test method for a controller that invokes a dialog lightbox.
+     *
+     * @param form     - test form
+     * @param result   - Spring form binding result
+     * @param request  - http request
+     * @param response - http response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=compareRules")
+    public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        doCompareRules(form);
+
+        // redirect back to client to display lightbox
+        return showDialog("compareCluAndCoRuleLightBox", form, request, response);
+    }
+
 }
