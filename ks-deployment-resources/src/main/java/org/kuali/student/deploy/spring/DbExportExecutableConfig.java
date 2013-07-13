@@ -18,7 +18,7 @@ package org.kuali.student.deploy.spring;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.common.impex.database.DumpDatabaseConfig;
+import org.kuali.common.impex.spring.DumpDatabaseConfig;
 import org.kuali.common.impex.spring.ProjectStagingConfig;
 import org.kuali.common.util.execute.Executable;
 import org.kuali.common.util.execute.ExecutablesExecutable;
