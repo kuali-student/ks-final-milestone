@@ -64,9 +64,11 @@
 
     <bean id="coService" class=" org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
         <property name="nextDecorator" ref="coServiceImpl"/>
-
         <property name="validator" ref="validator" />
+        <property name="socService" ref="socService" />
     </bean>
+
+    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImpl"/>
     
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
     
