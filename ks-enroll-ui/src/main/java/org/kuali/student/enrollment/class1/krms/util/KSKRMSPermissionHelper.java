@@ -73,7 +73,7 @@ public class KSKRMSPermissionHelper {
                     rule.getPermission().setDeleteRequisiteAction(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "compareAction");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "compare");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     rule.getPermission().setCompareAction(true);
                 }
@@ -88,27 +88,27 @@ public class KSKRMSPermissionHelper {
                     rule.getPermission().setEditRuleAction(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "groupRule");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "createGroup");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     rule.getPermission().setGroupRuleAction(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveUpRule");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveUp");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     rule.getPermission().setMoveUpRuleAction(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveDownRule");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveDown");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     rule.getPermission().setMoveDownRuleAction(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveInRule");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveIn");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     rule.getPermission().setMoveInRuleAction(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveOutRule");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveOut");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     rule.getPermission().setMoveOutRuleAction(true);
                 }
@@ -133,7 +133,7 @@ public class KSKRMSPermissionHelper {
                     rule.getPermission().setDeleteRuleAction(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editLogic");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editRuleLogic");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     rule.getPermission().setEditRuleLogicTab(true);
                 }

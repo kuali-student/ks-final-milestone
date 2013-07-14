@@ -446,9 +446,8 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <ref bean="KRMS-RuleEditorView-AddButton-Parent"/>
-                            <ref bean="KRMS-RuleEditorView-AddButton"/>
-                            <ref bean="KRMS-RuleEditorView-EditButton"/>
+                            <bean parent="KRMS-RuleEditorView-AddButtons"/>
+                            <bean parent="KRMS-RuleEditorView-EditButton"/>
                         </list>
                     </property>
                 </bean>
@@ -456,9 +455,9 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <ref bean="KRMS-RuleEditorView-GroupButton"/>
-                            <ref bean="KRMS-RuleEditorView-LeftButton"/>
-                            <ref bean="KRMS-RuleEditorView-RightButton"/>
+                            <bean parent="KRMS-RuleEditorView-GroupButton"/>
+                            <bean parent="KRMS-RuleEditorView-LeftButton"/>
+                            <bean parent="KRMS-RuleEditorView-RightButton"/>
                         </list>
                     </property>
                 </bean>
@@ -466,8 +465,8 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <ref bean="KRMS-RuleEditorView-UpButton"/>
-                            <ref bean="KRMS-RuleEditorView-DownButton"/>
+                            <bean parent="KRMS-RuleEditorView-UpButton"/>
+                            <bean parent="KRMS-RuleEditorView-DownButton"/>
                         </list>
                     </property>
                 </bean>
@@ -475,10 +474,10 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <ref bean="KRMS-RuleEditorView-CopyButton"/>
-                            <ref bean="KRMS-RuleEditorView-CutButton"/>
-                            <ref bean="KRMS-RuleEditorView-PasteButton"/>
-                            <ref bean="KRMS-RuleEditorView-DeleteButton"/>
+                            <bean parent="KRMS-RuleEditorView-CopyButton"/>
+                            <bean parent="KRMS-RuleEditorView-CutButton"/>
+                            <bean parent="KRMS-RuleEditorView-PasteButton"/>
+                            <bean parent="KRMS-RuleEditorView-DeleteButton"/>
                         </list>
                     </property>
                 </bean>
