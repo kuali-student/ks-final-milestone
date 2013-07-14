@@ -446,10 +446,9 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
+                            <ref bean="KRMS-RuleEditorView-AddButton-Parent"/>
                             <ref bean="KRMS-RuleEditorView-AddButton"/>
                             <ref bean="KRMS-RuleEditorView-EditButton"/>
-                            <!--ref bean="KRMS-RuleEditorView-AddButtonGroup"/>
-                            <ref bean="KRMS-RuleEditorView-EditButtonGroup"/-->
                         </list>
                     </property>
                 </bean>
@@ -460,9 +459,6 @@ limitations under the License.
                             <ref bean="KRMS-RuleEditorView-GroupButton"/>
                             <ref bean="KRMS-RuleEditorView-LeftButton"/>
                             <ref bean="KRMS-RuleEditorView-RightButton"/>
-                            <!--ref bean="KRMS-RuleEditorView-GroupButtonGroup"/>
-                            <ref bean="KRMS-RuleEditorView-LeftButtonGroup"/>
-                            <ref bean="KRMS-RuleEditorView-RightButtonGroup"/-->
                         </list>
                     </property>
                 </bean>
@@ -472,8 +468,6 @@ limitations under the License.
                         <list>
                             <ref bean="KRMS-RuleEditorView-UpButton"/>
                             <ref bean="KRMS-RuleEditorView-DownButton"/>
-                            <!--ref bean="KRMS-RuleEditorView-UpButtonGroup"/>
-                            <ref bean="KRMS-RuleEditorView-DownButtonGroup"/-->
                         </list>
                     </property>
                 </bean>
@@ -485,10 +479,6 @@ limitations under the License.
                             <ref bean="KRMS-RuleEditorView-CutButton"/>
                             <ref bean="KRMS-RuleEditorView-PasteButton"/>
                             <ref bean="KRMS-RuleEditorView-DeleteButton"/>
-                            <!--ref bean="KRMS-RuleEditorView-CopyButtonGroup"/>
-                            <ref bean="KRMS-RuleEditorView-CutButtonGroup"/>
-                            <ref bean="KRMS-RuleEditorView-PasteButtonGroup"/>
-                            <ref bean="KRMS-RuleEditorView-DeleteButtonGroup"/-->
                         </list>
                     </property>
                 </bean>
