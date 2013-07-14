@@ -108,7 +108,7 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" p:watermarkText="Type principal name or use search"/>
                                 </property>
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
                                 <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
                                 <property name="quickfinder.fieldConversions">
                                     <map>

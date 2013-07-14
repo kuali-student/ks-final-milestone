@@ -677,7 +677,7 @@
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
                                   p:label="ID" p:required="true" p:cssClasses="col_5">
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
+                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
                                         <entry key="name" value="offeringInstructorInfo.personName"/>
