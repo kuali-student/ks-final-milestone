@@ -199,16 +199,14 @@ INSERT INTO KRMS_TYP_RELN_T (ACTV,FROM_TYP_ID,RELN_TYP,SEQ_NO,TO_TYP_ID,TYP_RELN
 INSERT INTO KRMS_TYP_RELN_T (ACTV,FROM_TYP_ID,RELN_TYP,SEQ_NO,TO_TYP_ID,TYP_RELN_ID,VER_NBR)
   VALUES ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq'),'A',25,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.less.than.class.standing'),'KS-KRMS-NL-USAGE-1158',0)
 /
-
---KSENROLL 7076 antireqs
 INSERT INTO KRMS_TYP_RELN_T (ACTV,FROM_TYP_ID,RELN_TYP,SEQ_NO,TO_TYP_ID,TYP_RELN_ID,VER_NBR)
-  VALUES ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.academicReadiness.antireq'),'A',7,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.notadmitted.to.program'),'KS-KRMS-NL-USAGE-1159',0)
+  VALUES ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq'),'A',7,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.notadmitted.to.program'),'KS-KRMS-NL-USAGE-1159',0)
 /
 INSERT INTO KRMS_TYP_RELN_T (ACTV,FROM_TYP_ID,RELN_TYP,SEQ_NO,TO_TYP_ID,TYP_RELN_ID,VER_NBR)
-  VALUES ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.academicReadiness.antireq'),'A',8,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.notadmitted.to.program.in.class.standing'),'KS-KRMS-NL-USAGE-1160',0)
+  VALUES ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq'),'A',8,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.notadmitted.to.program.in.class.standing'),'KS-KRMS-NL-USAGE-1160',0)
 /
 INSERT INTO KRMS_TYP_RELN_T (ACTV,FROM_TYP_ID,RELN_TYP,SEQ_NO,TO_TYP_ID,TYP_RELN_ID,VER_NBR)
-  VALUES ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.academicReadiness.antireq'),'A',9,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.notin.class.standing'),'KS-KRMS-NL-USAGE-1161',0)
+  VALUES ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq'),'A',9,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.notin.class.standing'),'KS-KRMS-NL-USAGE-1161',0)
 /
 
 --KSENROLL 7076 remove relationships
