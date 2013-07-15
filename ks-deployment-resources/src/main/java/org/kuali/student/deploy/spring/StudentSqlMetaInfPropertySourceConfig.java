@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class StudentSqlMetaInfPropertySourceConfig extends SqlMetaInfPropertySourceConfig {
 
-	protected static final String KS_METAINF_SQL_CONFIG_ID = Constants.GROUP_ID + ":" + Constants.ARTIFACT_ID + ":" + SqlMetaInfPropertySourceConfig.METAINF_SQL_CONTEXT_ID;
+	protected static final String KS_METAINF_SQL_CONFIG_ID = getConfigId();
 
 	@Override
 	protected List<String> getConfigIds() {
@@ -17,6 +17,16 @@ public class StudentSqlMetaInfPropertySourceConfig extends SqlMetaInfPropertySou
 		configIds.addAll(super.getConfigIds());
 		configIds.add(KS_METAINF_SQL_CONFIG_ID);
 		return configIds;
+	}
+
+	protected static String getConfigId() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(Constants.GROUP_ID);
+		sb.append(":");
+		sb.append(Constants.ARTIFACT_ID);
+		sb.append(":");
+		sb.append(SqlMetaInfPropertySourceConfig.METAINF_SQL_CONTEXT_ID);
+		return sb.toString();
 	}
 
 }
