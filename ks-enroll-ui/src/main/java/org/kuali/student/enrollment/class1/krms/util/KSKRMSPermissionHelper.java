@@ -24,7 +24,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PermissionWrapper;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class KSKRMSPermissionHelper {
     private static PermissionService permissionService = getPermissionService();
 
     public static void processActionPermissionForUser(MaintenanceDocumentForm document) {
-        CORuleManagementWrapper wrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+        EnrolRuleManagementWrapper wrapper = (EnrolRuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
 
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
