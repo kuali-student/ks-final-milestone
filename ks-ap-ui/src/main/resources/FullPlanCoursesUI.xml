@@ -99,7 +99,7 @@
                             </bean>
 
                             <bean parent="Uif-MessageField" p:label="Document is accurate at the time of creation"
-                                  p:messageText="@{T(org.kuali.student.myplan.utils.TimeStringMillisConverter).displayCurrentDateTime('MM/dd/yy - h:mm a')}">
+                                  p:messageText="@{T(org.kuali.rice.core.api.CoreApiServiceLocator).getDateTimeService().toDateTimeString(new java.util.Date())}">
                                 <property name="style" value="margin:0;"/>
                                 <property name="fieldLabel.cssClasses">
                                     <list merge="true">
@@ -132,7 +132,7 @@
                 </bean>
                 <ref bean="full_planned_courses_detail"/>
                 <bean parent="Uif-MessageField" p:label="Document was created"
-                      p:messageText="@{T(org.kuali.student.myplan.utils.TimeStringMillisConverter).displayCurrentDateTime('MM/dd/yy - h:mm a')} [End of document]">
+                      p:messageText="@{T(org.kuali.rice.core.api.CoreApiServiceLocator).getDateTimeService().toDateTimeString(new java.util.Date())} [End of document]">
                     <property name="fieldLabel.renderColon" value="false"/>
                     <property name="style" value="padding:10px; margin:0;"/>
                     <property name="fieldLabel.cssClasses">
