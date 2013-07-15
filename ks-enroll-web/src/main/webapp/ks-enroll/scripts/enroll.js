@@ -986,3 +986,23 @@ function validateForm() {
 
     return validForm;
 }
+
+function replaceCheckBoxWithRadio(containerId) {
+    var selectedRadio;
+    jQuery("#" + containerId).find("input:checkbox").each(function () {
+        jQuery(this).replaceWith(
+            jQuery("<input>", {
+                    type:'radio',
+                    id:jQuery(this).attr('id'),
+                    name:jQuery(this).attr('name'),
+                    value:jQuery(this).attr('value')
+                }
+            ).click(function(){
+                      if(selectedRadio !== null){
+                          jQuery(selectedRadio).prop("checked", false);
+                      }
+                    selectedRadio = this;
+                })
+        );
+    });
+}
