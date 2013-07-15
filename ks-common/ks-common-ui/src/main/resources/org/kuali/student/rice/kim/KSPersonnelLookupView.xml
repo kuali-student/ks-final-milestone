@@ -10,10 +10,10 @@
             <property name="name" value="KSPersonImpl"/>
             <property name="dataObjectClass" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
             <property name="objectLabel" value="Person"/>
-            <property name="titleAttribute" value="person.principalId"/>
+            <property name="titleAttribute" value="principalId"/>
             <property name="primaryKeys">
                 <list>
-                    <value>person.principalId</value>
+                    <value>principalId</value>
                 </list>
             </property>
         </bean>
@@ -33,7 +33,7 @@
 
             <property name="headerText" value="Person Lookup"/>
             <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
-            <property name="defaultSortAttributeNames" value="person.name"/>
+            <property name="defaultSortAttributeNames" value="name"/>
 
             <property name="criteriaGroup">
               <bean parent="KS-Person-LookupCriteriaGroup"/>
@@ -50,9 +50,9 @@
             </property>
             <property name="resultFields">
                 <list>
-                    <bean parent="KS-Uif-DataField-Simple" p:propertyName="person.name"/>
-                    <bean parent="KS-Uif-DataField-Simple" p:propertyName="person.principalId" p:label="ID"/>
-                    <bean parent="KS-Uif-DataField-Simple" p:propertyName="person.primaryDepartmentCode" p:label="Department"/>
+                    <bean parent="KS-Uif-DataField-Simple" p:propertyName="name" p:label="Name"/>
+                    <bean parent="KS-Uif-DataField-Simple" p:propertyName="principalId" p:label="ID"/>
+                    <bean parent="KS-Uif-DataField-Simple" p:propertyName="primaryDepartmentCode" p:label="Department"/>
                     <bean parent="KS-Uif-DataField-Simple" p:propertyName="personAffiliationType" p:label="Role"/>
                 </list>
             </property>

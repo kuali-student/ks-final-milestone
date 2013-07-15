@@ -104,4 +104,12 @@ public class KSPersonImpl implements KSPerson{
         }
     }
 
+    public String getPrimaryDepartmentCode(){
+        if (person != null){
+            return person.getPrimaryDepartmentCode();
+        } else {
+            return StringUtils.EMPTY;
+        }
+    }
+
 }
