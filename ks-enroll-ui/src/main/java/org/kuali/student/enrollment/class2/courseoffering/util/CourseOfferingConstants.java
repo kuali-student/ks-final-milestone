@@ -83,6 +83,8 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED = "error.courseOffering.create.parameter.required";
     public static final String COURSEOFFERING_CREATE_ERROR_MULTIPLE_COURSE_MATCHES = "error.courseOffering.create.multiple.course.matches";
     public static final String COURSEOFFERING_CREATE_ERROR_TERM_INVALID = "error.courseOffering.create.term.invalid";
+    public static final String COURSEOFFERING_CREATE_ERROR_TERM_RESTRICTED = "error.courseOffering.create.term.restricted";
+    public static final String COURSEOFFERING_CREATE_ERROR_COURSE_RESTRICTED = "error.courseOffering.create.course.restricted";
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";
