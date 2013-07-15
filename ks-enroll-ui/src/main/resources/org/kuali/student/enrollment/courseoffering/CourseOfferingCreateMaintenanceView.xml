@@ -552,7 +552,7 @@
 
 
     <!--This will be displayed when user selects create from existing COs-->
-    <bean id="KS-CreateFromExistingOffering" parent="Uif-VerticalBoxSection" p:render="@{document.newMaintainableObject.dataObject.showCopyCourseOffering}">
+    <bean id="KS-CreateFromExistingOffering" parent="Uif-VerticalBoxSection">
         <property name="items">
         <list>
             <ref bean="KS-ExistingOffering-ListCOs"/>
