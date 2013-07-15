@@ -14,7 +14,7 @@ public class MetaInfSqlMavenPropertySourceConfig extends SqlMetaInfPropertySourc
 	@Override
 	protected List<String> getConfigIds() {
 		List<String> configIds = new ArrayList<String>();
-		configIds.add(SqlMetaInfPropertySourceConfig.UTIL_METAINF_SQL_CONFIG_ID);
+		configIds.addAll(super.getConfigIds());
 		configIds.add(KS_METAINF_SQL_CONFIG_ID);
 		return configIds;
 	}
