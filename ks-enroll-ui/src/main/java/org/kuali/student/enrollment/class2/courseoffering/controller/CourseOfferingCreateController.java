@@ -446,7 +446,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
     @RequestMapping(params = "methodToCall=continueFromCreate")
     public ModelAndView continueFromCreate(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject());
         String courseCode = coWrapper.getCatalogCourseCode();
@@ -476,11 +476,43 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         if (matchingCourses.size() == 1) {
             CourseInfo course = matchingCourses.get(0);
-            if (coWrapper.isCreateFromCatalog()) {
-                Properties urlParameters = _buildCOURLParameters(course.getId(), term.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
-                return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
+
+            // set organization IDs and check if the user is authorized to create a course
+            List<String> orgIds = course.getUnitsContentOwner();
+            if(orgIds != null && !orgIds.isEmpty()){
+                String orgIDs = "";
+                for (String orgId : orgIds) {
+                    orgIDs = orgIDs + orgId + ",";
+                }
+                if (orgIDs.length() > 0) {
+                    coWrapper.setAdminOrg(orgIDs.substring(0, orgIDs.length()-1));
+                }
+            }
+            coWrapper.setCourse(course);
+            Person user = GlobalVariables.getUserSession().getPerson();
+            boolean canOpenView = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
+
+            if (!canOpenView) {    // checking authz for course
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "You are not authorized to create a New Course Offering from " + courseCode + " Catalog Course Code");
+                coWrapper.setAdminOrg(null);
+                coWrapper.setCourse(null);
+
+                return getUIFModelAndView(form);
             } else {
-                return getUIFModelAndView(form, "courseOfferingCopyPage");
+                // check if SOC state is "published"
+                ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+                List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(term.getId(), contextInfo);
+                if (socIds != null && !socIds.isEmpty()){
+                    if (coWrapper.isCreateFromCatalog()) {
+                        Properties urlParameters = _buildCOURLParameters(course.getId(), term.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+                        return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
+                    } else {
+                        return getUIFModelAndView(form, "courseOfferingCopyPage");
+                    }
+                } else {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
+                    return getUIFModelAndView(form);
+                }
             }
         } else {
             if (matchingCourses.size() > 1) {
