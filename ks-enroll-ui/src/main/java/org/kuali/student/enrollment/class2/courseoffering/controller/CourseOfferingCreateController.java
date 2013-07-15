@@ -30,9 +30,12 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.enrollment.class2.autogen.controller.ARGCourseOfferingHandler;
+import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
@@ -119,7 +122,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     /**
      * This is called when the user clicks on the <i>'show'</i> button after entering the term and course code.
      */
-    @RequestMapping(params = "methodToCall=loadCourseCatalog")
+    /*@RequestMapping(params = "methodToCall=loadCourseCatalog")
     public ModelAndView loadCourseCatalog(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, HttpServletRequest request) throws Exception {
 
         CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject());
@@ -246,7 +249,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         }
 
         return getUIFModelAndView(form);
-    }
+    }*/
 
     private String getGradingOption(String gradingOptionId) throws Exception {
         String gradingOption = "";
@@ -447,7 +450,6 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     @RequestMapping(params = "methodToCall=continueFromCreate")
     public ModelAndView continueFromCreate(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject());
         String courseCode = coWrapper.getCatalogCourseCode();
         String termCode = coWrapper.getTargetTermCode();
@@ -477,7 +479,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         if (matchingCourses.size() == 1) {
             CourseInfo course = matchingCourses.get(0);
 
-            // set organization IDs and check if the user is authorized to create a course
+            // set organization IDs and check if the user can edit the course
             List<String> orgIds = course.getUnitsContentOwner();
             if(orgIds != null && !orgIds.isEmpty()){
                 String orgIDs = "";
@@ -492,12 +494,84 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             Person user = GlobalVariables.getUserSession().getPerson();
             boolean canOpenView = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 
-            if (!canOpenView) {    // checking authz for course
+            if (!canOpenView) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "You are not authorized to create a New Course Offering from " + courseCode + " Catalog Course Code");
                 coWrapper.setAdminOrg(null);
                 coWrapper.setCourse(null);
+                coWrapper.setEnableCreateButton(false);
 
                 return getUIFModelAndView(form);
+            } else {
+                // check if SOC state is "published"
+                ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+                List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(term.getId(), contextInfo);
+                if (socIds != null && !socIds.isEmpty()){
+                    SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
+                    coWrapper.setSocInfo(soc);
+
+                    //Get all the course offerings in a term
+                    List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
+
+                    coWrapper.setCourse(course);
+                    coWrapper.setCreditCount(CourseOfferingViewHelperUtil.trimTrailing0(getLrcService().getResultValue(course.getCreditOptions().get(0).getResultValueKeys().get(0), contextInfo).getValue()));
+                    coWrapper.setShowAllSections(true);
+                    coWrapper.setShowCopyCourseOffering(false);
+                    coWrapper.setShowTermOfferingLink(true);
+
+                    coWrapper.setContextBar( CourseOfferingContextBar.NEW_INSTANCE(coWrapper.getTerm(), coWrapper.getSocInfo(),
+                            getStateService(), getAcademicCalendarService(), contextInfo) );
+
+                    coWrapper.getExistingTermOfferings().clear();
+                    coWrapper.getExistingOfferingsInCurrentTerm().clear();
+
+                    for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
+                        if (StringUtils.equals(courseOfferingInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)) {
+                            ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
+                            co.setCredits(courseOfferingInfo.getCreditCnt());
+                            co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
+                            coWrapper.getExistingOfferingsInCurrentTerm().add(co);
+                        }
+                    }
+
+                    //Get past 5 years CO
+                    Calendar termStart = Calendar.getInstance();
+                    termStart.setTime(term.getStartDate());
+                    String termYear = Integer.toString(termStart.get(Calendar.YEAR));
+
+                    org.kuali.student.r2.core.search.dto.SearchRequestInfo searchRequest = new org.kuali.student.r2.core.search.dto.SearchRequestInfo(CourseOfferingHistorySearchImpl.PAST_CO_SEARCH.getKey());
+                    searchRequest.addParam(CourseOfferingHistorySearchImpl.COURSE_ID, coWrapper.getCourse().getId());
+
+                    searchRequest.addParam(CourseOfferingHistorySearchImpl.TARGET_YEAR_PARAM, termYear);
+                    org.kuali.student.r2.core.search.dto.SearchResultInfo searchResult = getSearchService().search(searchRequest, null);
+
+                    List<String> courseOfferingIds = new ArrayList<String>(searchResult.getTotalResults());
+                    for (org.kuali.student.r2.core.search.dto.SearchResultRowInfo row : searchResult.getRows()) {
+                        courseOfferingIds.add(row.getCells().get(0).getValue());
+                    }
+
+                    courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds, contextInfo);
+
+                    for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
+                        ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
+                        TermInfo termInfo = getAcademicCalendarService().getTerm(courseOfferingInfo.getTermId(), contextInfo);
+                        co.setTermCode(termInfo.getCode());
+                        co.setCredits(courseOfferingInfo.getCreditCnt());
+                        co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
+                        coWrapper.getExistingTermOfferings().add(co);
+                    }
+
+                    CourseOfferingCreateMaintainableImpl maintainable = (CourseOfferingCreateMaintainableImpl)KSControllerHelper.getViewHelperService(form);
+                    maintainable.loadCourseJointInfos(coWrapper, form.getViewId());
+                    //Enable the create button
+                    coWrapper.setEnableCreateButton(true);
+                } else {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
+                }
+            }
+
+            if (coWrapper.isCreateFromCatalog()) {
+                Properties urlParameters = _buildCOURLParameters(course.getId(), term.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+                return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
             } else {
                 // check if SOC state is "published"
                 ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -526,9 +600,64 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
     @RequestMapping(params = "methodToCall=createFromCopy")
     public ModelAndView createFromCopy(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        return getUIFModelAndView(form, CourseOfferingConstants.COURSE_OFFERING_COPY_PAGE);
+        CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        CourseOfferingInfo existingCO = null;
+        for(int i = 0; i<createWrapper.getExistingTermOfferings().size(); i++){
+            if(createWrapper.getExistingTermOfferings().get(i).isSelected()){
+                existingCO = createWrapper.getExistingTermOfferings().get(i).getCourseOfferingInfo();
+                break;
+            }
+        }
+
+        List<String> optionKeys = this.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
+
+        if (createWrapper.isExcludeInstructorInformation()) {
+            optionKeys.add(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY);
+        }
+
+        if (createWrapper.isExcludeSchedulingInformation()) {
+            optionKeys.add(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY);
+        }
+
+        if (createWrapper.isExcludeCancelledActivityOfferings()) {
+            optionKeys.add(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY);
+        }
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        // if source term differs from target term determine if add suffix or not
+        if (StringUtils.equals(existingCO.getTermId(), createWrapper.getTerm().getId())) {
+            optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
+        } else {
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.and(
+                    PredicateFactory.like("courseOfferingCode", existingCO.getCourseOfferingCode() + "%"),
+                    PredicateFactory.equalIgnoreCase("atpId", createWrapper.getTerm().getId())));
+            QueryByCriteria criteria = qbcBuilder.build();
+            List<String> courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
+
+            if (courseOfferingIds.size() > 0) {
+                optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_IN_SUFFIX_OPTION_KEY);
+            }
+        }
+
+        SocRolloverResultItemInfo item = getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),
+                createWrapper.getTerm().getId(),
+                optionKeys,
+                contextInfo);
+
+        CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
+        Properties urlParameters;
+        urlParameters = ARGUtil._buildCOURLParameters(courseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+
+        if (createWrapper.isCrossListed()){
+            urlParameters.put("editCrossListedCoAlias", BooleanUtils.toStringTrueFalse(true));
+        } else {
+            urlParameters.put("editCrossListedCoAlias", BooleanUtils.toStringTrueFalse(false));
+        }
+        return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
     }
 
 

@@ -562,6 +562,11 @@
     </bean>
 
     <bean id="KS-ExistingOffering-ConfigureCopySubSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:disclosure.defaultOpen="false" p:headerText="Options">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>co_copy_tables</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
@@ -591,7 +596,12 @@
 
     <!-- Displays a list of COs from current and previous terms-->
     <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:collectionLookup.render="false" p:renderAddLine="false" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');">
-		<property name="headerText" value="Course Offerings Available for Copying" />
+		<property name="cssClasses">
+            <list merge="true">
+                <value>co_copy_tables</value>
+            </list>
+		</property>
+        <property name="headerText" value="Course Offerings Available for Copying" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
 		<property name="propertyName" value="existingTermOfferings" />
 		<property name="layoutManager.renderSequenceField" value="false" />

@@ -948,3 +948,14 @@ div#Uif-ApplicationHeader-Wrapper{
     float:  right;
     margin-top: -1.4em;
 }
+
+/*
+    CO Create Copy Document
+    Table spacing for course offerings and options.
+*/
+
+.co_copy_tables {
+    padding-bottom: 20px;
+    padding-top: 20px;
+    width: 75%;
+}
