@@ -596,7 +596,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         wrapper.getEditRenderHelper().getAoCodes().clear();
         ContextInfo context = createContextInfo();
         for (ActivityOfferingInfo ao : aos){
-            TypeInfo typeInfo = getTypeService().getType(ao.getTypeKey(), context);
+            TypeInfo typeInfo;
             if (StringUtils.equals(ao.getId(),wrapper.getAoInfo().getId())){
                 int index = aos.indexOf(ao);
                 if (index > 0){
@@ -619,6 +619,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
                 wrapper.getEditRenderHelper().setSelectedAO(ao.getId());
             }
+            typeInfo = getTypeService().getType(ao.getTypeKey(), context);
             ConcreteKeyValue keyValue = new ConcreteKeyValue();
             keyValue.setKey(ao.getId());
             keyValue.setValue(typeInfo.getName() + " " + ao.getActivityCode());
