@@ -932,3 +932,19 @@ div#Uif-ApplicationHeader-Wrapper{
     transition: background 3s linear;
     background-color: #ffffcc; background-color: #ffffff;
 }
+
+/*
+    Instructional text for radio button
+*/
+.it_radiobutton {
+    display: block;
+    font-size: 0.9em;
+    font-weight: normal;
+    margin-bottom: 0.4em;
+    width: 600em;
+}
+.co_radiobutton_label {
+    margin-left: 1.6em;
+    float:  right;
+    margin-top: -1.4em;
+}
