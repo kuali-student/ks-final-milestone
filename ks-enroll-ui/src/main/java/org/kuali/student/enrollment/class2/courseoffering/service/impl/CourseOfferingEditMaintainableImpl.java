@@ -199,7 +199,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         for(OfferingInstructorWrapper instructorWrapper : instructors)  {
            if(instructorWrapper != null) {
                OfferingInstructorInfo info = instructorWrapper.getOfferingInstructorInfo();
-               if((info != null) && (info.getPersonId() != null)) {
+               if((info != null) && (info.getPersonId() != null) && !info.getPersonId().isEmpty()) {
                    if(info.getStateKey() == null) {
                        info.setStateKey(LprServiceConstants.TENTATIVE_STATE_KEY);
                    }
@@ -210,8 +210,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                        }
 
                    }
+                   coInstructors.add(info);
                }
-               coInstructors.add(info);
            }
         }
 
