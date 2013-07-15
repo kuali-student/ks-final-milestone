@@ -366,7 +366,7 @@
                         <bean parent="Uif-SecondaryActionButton-Small" p:hidden="@{#parent.readOnly}">
                             <property name="methodToCall" value="addBlankLine"/>
                             <property name="actionEvent" value="addBlankLine"/>
-                            <property name="actionLabel" value="Add Another Personnel"/>
+                            <property name="actionLabel" value="Add Personnel"/>
                             <property name="actionImagePlacement" value="LEFT"/>
                             <property name="actionImage">
                                 <bean parent="Uif-Image" p:source="../ks-common-ksink/images/plus_15px.png"/>
