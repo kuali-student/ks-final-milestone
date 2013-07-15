@@ -79,6 +79,10 @@ public class CourseOfferingConstants {
     public static final String MANAGE_ARG_DELETE_CLUSTER_CONFIRM_PAGE = "ClusterDeleteConfirmationPage";
     public static final String COURSE_OFFERING_COPY_PAGE = "courseOfferingCopyPage";
 
+    // Create Course Offering errors
+    public static final String COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED = "error.courseOffering.create.parameter.required";
+    public static final String COURSEOFFERING_CREATE_ERROR_MULTIPLE_COURSE_MATCHES = "error.courseOffering.create.multiple.course.matches";
+    public static final String COURSEOFFERING_CREATE_ERROR_TERM_INVALID = "error.courseOffering.create.term.invalid";
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";
