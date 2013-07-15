@@ -1002,6 +1002,9 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     if(ao1.getTypeName().compareTo("Lecture")==0){
                         return -1;
                     }
+                    if(ao2.getTypeName().compareTo("Lecture")==0){
+                        return 1;
+                    }
                     return ao1.getTypeName().compareTo(ao2.getTypeName());
                 }
             });
