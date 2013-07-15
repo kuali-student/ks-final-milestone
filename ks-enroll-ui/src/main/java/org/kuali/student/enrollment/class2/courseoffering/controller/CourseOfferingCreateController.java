@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -22,6 +23,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -30,6 +32,7 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
@@ -80,6 +83,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
@@ -444,7 +448,48 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     public ModelAndView continueFromCreate(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
 
-        return getUIFModelAndView(form, "courseOfferingCopyPage");
+        CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject());
+        String courseCode = coWrapper.getCatalogCourseCode();
+        String termCode = coWrapper.getTargetTermCode();
+
+        // check if term or course is empty
+        if( StringUtils.isBlank(termCode) ) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Term");
+        }
+        if( StringUtils.isBlank(courseCode) ) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Course Code");
+        }
+        if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
+            return getUIFModelAndView(form);
+        }
+
+        TermInfo term = getTerm(termCode);
+        if (term == null) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_TERM_INVALID, termCode);
+            return getUIFModelAndView(form);
+        }
+
+        coWrapper.setTerm(term);
+
+        List<CourseInfo> matchingCourses = retrieveMatchingCourses(courseCode, term);
+        coWrapper.clear();
+
+        if (matchingCourses.size() == 1) {
+            CourseInfo course = matchingCourses.get(0);
+            if (coWrapper.isCreateFromCatalog()) {
+                Properties urlParameters = _buildCOURLParameters(course.getId(), term.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+                return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
+            } else {
+                return getUIFModelAndView(form, "courseOfferingCopyPage");
+            }
+        } else {
+            if (matchingCourses.size() > 1) {
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_MULTIPLE_COURSE_MATCHES, courseCode);
+            } else if (matchingCourses.isEmpty()) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.ERROR_INVALID_CLU_VERSION, courseCode, termCode);
+            }
+            return getUIFModelAndView(form);
+        }
     }
 
     @RequestMapping(params = "methodToCall=createFromCopy")
@@ -541,6 +586,15 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         return courseInfoList;
     }
 
+    private static Properties _buildCOURLParameters(String courseInfoId, String termId, String methodToCall) {
+        Properties props = new Properties();
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        props.put("courseInfo.id", courseInfoId);
+        props.put("term.id", termId);
+        props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName());
+        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        return props;
+    }
     protected TypeService getTypeService() {
         if(typeService == null) {
             typeService = CourseOfferingResourceLoader.loadTypeService();
