@@ -196,6 +196,12 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             } else {
                 setSocStateKeys(form, socIds);
 
+/*BJG*/
+//form.setSocStateKey( "kuali.soc.scheduling.state.inprogress" );
+                blockUserIfSocStateIs( form, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, ManageSocConstants.MessageKeys.ERROR_CANNOT_ACCESS_COURSE_OFFERING_WHILE_SOC_IS_PUBLISHING);
+                blockUserIfSocStateIs( form, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, ManageSocConstants.MessageKeys.ERROR_CANNOT_ACCESS_COURSE_OFFERING_WHILE_SOC_IS_IN_PROGRESS );
+/*BJG*/
+
                 // setting term first day of classes
                 List<KeyDateInfo> keyDateInfoList = getAcalService().getKeyDatesForTerm(form.getTermInfo().getId(), createContextInfo());
                 Date termClassStartDate = null;
@@ -217,6 +223,16 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
 
     }
+
+/*BJG*/
+    private void blockUserIfSocStateIs( ARGCourseOfferingManagementForm form, String socStateKeyToBlockUserOn, String errorMessageKey ) {
+        errorMessageKey = StringUtils.defaultIfEmpty( errorMessageKey, ManageSocConstants.MessageKeys.ERROR_CANNOT_ACCESS_COURSE_OFFERING_WHILE_SOC_INVALID_STATE_DEFAULT);
+
+        if( StringUtils.equalsIgnoreCase( form.getSocStateKey(), socStateKeyToBlockUserOn ) ) {
+            GlobalVariables.getMessageMap().putError( KRADConstants.GLOBAL_ERRORS, errorMessageKey );
+        }
+    }
+/*BJG*/
 
     /**
      * This method loads all the course offerings for a term and course code.
