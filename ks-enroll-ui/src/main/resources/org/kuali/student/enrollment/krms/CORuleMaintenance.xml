@@ -150,7 +150,19 @@ limitations under the License.
             </list>
         </property>
         <property name="footer">
-            <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
+            <ref bean="KSCO-DocumentPageFooter-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KSCO-DocumentPageFooter-SubmitCancel"  parent="KSCO-DocumentPageFooter-SubmitCancel-parent"/>
+    <bean id="KSCO-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
         </property>
     </bean>
 
@@ -446,7 +458,7 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-AddButton"/>
+                            <bean id="KSCO-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-AddButton"/>
                             <bean parent="KRMS-RuleEditorView-EditButton"/>
                         </list>
                     </property>
