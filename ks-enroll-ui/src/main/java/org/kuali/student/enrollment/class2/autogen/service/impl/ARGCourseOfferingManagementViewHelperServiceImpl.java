@@ -1095,8 +1095,23 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
         List<ActivityOfferingClusterInfo> aoClusters = ARGUtil.getArgServiceAdapter().getActivityOfferingClusterByCourseOffering(coId);
 
+        //A fix for KSENROLL-8097: clusterMap was populated in processAoClusterData method.
+        //However if one cluster does not have an AO, that cluster sometimes won't be added to clusterMap, which causes NPE error later.
+        //The walkaround solution here is to add the missing cluster to clusterMap
         for (ActivityOfferingClusterInfo aoc : aoClusters) {
-            clusterMap.get(aoc.getId()).setAoCluster(aoc);
+            if (clusterMap.get(aoc.getId()) != null){
+                clusterMap.get(aoc.getId()).setAoCluster(aoc);
+            }
+            else{
+                    ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
+                    aoClusterWrapper.setAoCluster(aoc);
+                    aoClusterWrapper.setActivityOfferingClusterId(aoc.getId());
+                    aoClusterWrapper.setClusterNameForDisplay(aoc.getName());
+                    String formatName = getCourseOfferingService().getFormatOffering(aoc.getFormatOfferingId(),ContextUtils.createDefaultContextInfo()).getName();
+                    aoClusterWrapper.setFormatNameForDisplay(formatName);
+                    aoClusterWrapper.setFormatOfferingId(aoc.getFormatOfferingId());
+                    clusterMap.put(aoc.getId(), aoClusterWrapper);
+            }
         }
 
     }
