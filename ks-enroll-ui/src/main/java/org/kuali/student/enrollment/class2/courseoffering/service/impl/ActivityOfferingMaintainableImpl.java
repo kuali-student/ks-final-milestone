@@ -594,19 +594,24 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     protected void loadNavigationDetails(ActivityOfferingWrapper wrapper) throws Exception {
         List<ActivityOfferingInfo> aos = getCourseOfferingService().getActivityOfferingsByCourseOffering(wrapper.getAoInfo().getCourseOfferingId(), createContextInfo());
         wrapper.getEditRenderHelper().getAoCodes().clear();
+        ContextInfo context = createContextInfo();
         for (ActivityOfferingInfo ao : aos){
-            TypeInfo typeInfo = getTypeService().getType(ao.getTypeKey(), createContextInfo());
+            TypeInfo typeInfo = getTypeService().getType(ao.getTypeKey(), context);
             if (StringUtils.equals(ao.getId(),wrapper.getAoInfo().getId())){
                 int index = aos.indexOf(ao);
                 if (index > 0){
-                    wrapper.getEditRenderHelper().setPrevAO(aos.get(index - 1));
+                    ActivityOfferingInfo prevAO = aos.get(index - 1);
+                    wrapper.getEditRenderHelper().setPrevAO(prevAO);
+                    typeInfo = getTypeService().getType(prevAO.getTypeKey(), context);
                     wrapper.getEditRenderHelper().setPrevAOTypeName(typeInfo.getName());
                 } else {
                     wrapper.getEditRenderHelper().setPrevAO(new ActivityOfferingInfo());
                     wrapper.getEditRenderHelper().setPrevAOTypeName(StringUtils.EMPTY);
                 }
                 if (index < aos.size() - 1){
-                    wrapper.getEditRenderHelper().setNextAO(aos.get(index+1));
+                    ActivityOfferingInfo nextAO = aos.get(index + 1);
+                    wrapper.getEditRenderHelper().setNextAO(nextAO);
+                    typeInfo = getTypeService().getType(nextAO.getTypeKey(), context);
                     wrapper.getEditRenderHelper().setNextAOTypeName(typeInfo.getName());
                 } else {
                     wrapper.getEditRenderHelper().setNextAO(new ActivityOfferingInfo());
