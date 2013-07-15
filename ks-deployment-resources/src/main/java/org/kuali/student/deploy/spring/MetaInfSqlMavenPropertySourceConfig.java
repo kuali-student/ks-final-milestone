@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MetaInfSqlMavenPropertySourceConfig extends SqlMetaInfPropertySourceConfig {
 
-	protected static final String KS_METAINF_SQL_CONFIG_ID = "org.kuali.student.db:ks-deployment-resources:metainf:sql";
+	protected static final String KS_METAINF_SQL_CONFIG_ID = "org.kuali.student.deployments:ks-deployment-resources:metainf:sql";
 
 	@Override
 	protected List<String> getConfigIds() {
