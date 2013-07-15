@@ -1041,11 +1041,15 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         }
                     }
                 }
-                //Set different line breaks according to number of instructors and number of delivery logistics
+                //Set different line breaks according to number of instructors and number of delivery logistics (can it be simpler?)
                 if (lineBreaksInstructors.length() < lineBreaksDeliveries.length()) {
                     lineBreaks = lineBreaksDeliveries;
+                    lineBreaksDeliveries = lineBreaksDeliveries.substring(0, lineBreaksDeliveries.length() - lineBreaksInstructors.length());
+                    lineBreaksInstructors = "";
                 } else {
                     lineBreaks = lineBreaksInstructors;
+                    lineBreaksInstructors = lineBreaksInstructors.substring(0, lineBreaksInstructors.length() - lineBreaksDeliveries.length());
+                    lineBreaksDeliveries = "";
                 }
 
                 //Set the wrapper
