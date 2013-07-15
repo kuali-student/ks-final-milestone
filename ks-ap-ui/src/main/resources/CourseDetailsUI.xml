@@ -623,76 +623,78 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
                             <!--Curriculum-->
                             <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="fieldLabel.renderColon" value="false"/>
-                                <property name="group.validationMessages">
-                                    <null/>
-                                </property>
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-HorizontalBoxGroup">
-                                            <property name="validationMessages">
-                                                <null/>
-                                            </property>
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>myplan-course-detail-label</value>
-                                                </list>
-                                            </property>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-Label" p:labelText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}"
-                                                          p:renderColon="false"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                        <bean parent="Uif-HorizontalBoxGroup">
-                                            <property name="validationMessages">
-                                                <null/>
-                                            </property>
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>myplan-course-detail-field</value>
-                                                </list>
-                                            </property>
-                                            <property name="items">
-                                                <list>
-                                                    <bean parent="Uif-DataField" 
-                                                          p:propertyName="courseSummaryDetails.curriculumTitle">
-                                                        <property name="fieldLabel.renderColon" value="false"/>
-                                                        <property name="fieldLabel.render" value="false"/>
-                                                    </bean>
-                                                    <bean parent="Uif-Message" p:messageText=", "
-                                                          
-                                                          p:render="@{dataObject.courseSummaryDetails.campusLocations.size() gt 0 ? true : false}"/>
-                                                    <bean parent="Uif-DataField" 
-                                                          p:propertyName="courseSummaryDetails.campusLocations"
-                                                          p:escapeHtmlInPropertyValue="false"
-                                                          p:render="@{dataObject.courseSummaryDetails.campusLocations.size() gt 0 ? true : false}">
-                                                        <property name="fieldLabel.renderColon" value="false"/>
-                                                        <property name="cssClasses">
-                                                            <list merge="true">
-                                                                <value>myplan-data-list</value>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-MessageField"
-                                                          p:fieldLabel.render="false"
-                                                          p:render="@{dataObject.courseSummaryDetails.campusLocations.size() eq 0}">
-                                                        <property name="message">
-                                                            <bean parent="Uif-Message" p:messageText="None"/>
-                                                        </property>
-                                                    </bean>
-                                                    <bean parent="Uif-Message" p:messageText="Campus"
-                                                          p:render="@{dataObject.courseSummaryDetails.campusLocations.size() gt 0 ? true : false}"/>
-                                                </list>
-                                            </property>
-                                        </bean>
-                                    </list>
-                                </property>
-                            </bean>
+						        <property name="fieldLabel.renderColon" value="false"/>
+						        <property name="group.validationMessages">
+						            <null/>
+						        </property>
+						        <property name="items">
+						            <list>
+						                <bean parent="Uif-HorizontalBoxGroup">
+						                    <property name="validationMessages">
+						                        <null/>
+						                    </property>
+						                    <property name="cssClasses">
+						                        <list merge="true">
+						                            <value>myplan-course-detail-label</value>
+						                        </list>
+						                    </property>
+						                    <property name="items">
+						                        <list>
+						                            <bean parent="Uif-Label" p:labelText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}"
+						                                  p:renderColon="false"/>
+						                        </list>
+						                    </property>
+						                </bean>
+			                            <ref bean="ksapCurriculumSection" />
+			                        </list>
+			                    </property>
+			                </bean>
                         </list>
                     </property>
                 </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ksapCurriculumSection" parent="ksapCurriculumSection-parent" />
+    <bean id="ksapCurriculumSection-parent" parent="Uif-HorizontalBoxGroup">
+        <property name="validationMessages">
+            <null/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>myplan-course-detail-field</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" 
+                      p:propertyName="courseSummaryDetails.curriculumTitle">
+                    <property name="fieldLabel.renderColon" value="false"/>
+                    <property name="fieldLabel.render" value="false"/>
+                </bean>
+                <bean parent="Uif-Message" p:messageText=", "
+                      p:render="@{dataObject.courseSummaryDetails.campusLocations.size() gt 0 ? true : false}"/>
+                <bean parent="Uif-DataField" 
+                      p:propertyName="courseSummaryDetails.campusLocations"
+                      p:escapeHtmlInPropertyValue="false"
+                      p:render="@{dataObject.courseSummaryDetails.campusLocations.size() gt 0 ? true : false}">
+                    <property name="fieldLabel.renderColon" value="false"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>myplan-data-list</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-MessageField"
+                      p:fieldLabel.render="false"
+                      p:render="@{dataObject.courseSummaryDetails.campusLocations.size() eq 0}">
+                    <property name="message">
+                        <bean parent="Uif-Message" p:messageText="None"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-Message" p:messageText="Campus"
+                      p:render="@{dataObject.courseSummaryDetails.campusLocations.size() gt 0 ? true : false}"/>
             </list>
         </property>
     </bean>
@@ -870,7 +872,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
     </bean>
 
-    <bean id="course_details_activity_data" parent="Uif-TableCollectionSection" >
+    <bean id="course_details_activity_data" parent="course_details_activity_data-parent" />
+    <bean id="course_details_activity_data-parent" parent="Uif-TableCollectionSection" >
         <property name="validationMessages">
             <null/>
         </property>
@@ -1057,7 +1060,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             </list>
         </property>
     </bean>
-
 
     <bean id="activityCode" parent="Uif-VerticalFieldGroup" p:rowSpan="3" p:colSpan="1" p:valign="TOP">
         <property name="group.validationMessages">

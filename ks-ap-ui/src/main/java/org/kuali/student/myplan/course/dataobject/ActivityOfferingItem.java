@@ -425,6 +425,10 @@ public class ActivityOfferingItem implements Serializable {
 	public ActivityOfferingItem getActivityItem() {
 		return this;
 	}
+	
+	public ActivityOfferingItem getOtherInformationActivity() {
+		return this;
+	}
 
 	public String getPrimaryActivityOfferingId() {
 		return primaryActivityOfferingId;
