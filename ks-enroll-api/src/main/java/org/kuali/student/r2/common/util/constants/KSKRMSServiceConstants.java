@@ -188,13 +188,18 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_NUMBEROFENROLLEDCOURSES = "NumberOfEnrolledCourses";
     public static final String TERM_RESOLVER_GPAFORCOURSES = "GPAForCourses";
     public static final String TERM_RESOLVER_GRADETYPEFORCOURSES = "GradeTypeForCourses";
-    public static final String TERM_RESOLVER_NUMBEROFCREDITS = "NumberOfCredits";
     public static final String TERM_RESOLVER_NUMBEROFCREDITSFROMORGANIZATION = "NumberOfCreditsFromOrganization";
     public static final String TERM_RESOLVER_ADMINORGANIZATIONPERMISSIONREQUIRED = "AdminOrganizationPermissionRequired";
     public static final String TERM_RESOLVER_SCOREONTEST = "ScoreOnTest";
-    public static final String TERM_RESOLVER_ADMITTEDTOPROGRAM = "AdmittedToProgram";
-    public static final String TERM_RESOLVER_ADMITTEDTOPROGRAMLIMITCOURSESINORGFORDURATION = "AdmittedToProgramLimitCoursesInOrgForDuration";
     public static final String TERM_RESOLVER_FREEFORMTEXT = "FreeFormText";
+    public static final String TERM_RESOLVER_ADMITTEDTOPROGRAMLIMITCOURSESINORGFORDURATION = "AdmittedToProgramLimitCoursesInOrgForDuration";
+    public static final String TERM_RESOLVER_ADMITTEDTOPROGRAM = "AdmittedToProgram";
+    public static final String TERM_RESOLVER_ADMITTEDTOPROGRAMATCOURSECAMPUS = "AdmittedToProgramAtCourseCampus";
+    public static final String TERM_RESOLVER_ADMITTEDTOPROGRAMWITHCLASSSTANDING = "AdmittedToProgramWithClassStanding";
+    public static final String TERM_RESOLVER_COMPLETEDCOURSEFORTERM = "CompletedCourseForTerm";
+    public static final String TERM_RESOLVER_COMPLETEDCOURSEBETWEENTERMS = "CompletedCourseBetweenTerms";
+    public static final String TERM_RESOLVER_CLASSSTANDING = "ClassStanding";
+    public static final String TERM_RESOLVER_INSTRUCTORPERMISSION = "InstructorPermission";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
@@ -208,6 +213,7 @@ public class KSKRMSServiceConstants {
     // term prerequisite
     public static final String TERM_PREREQUISITE_CONTEXTINFO = "contextInfo";
     public static final String TERM_PREREQUISITE_PERSON_ID = "personId";
+    public static final String TERM_PREREQUISITE_CLU_ID = "cluId";
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////
