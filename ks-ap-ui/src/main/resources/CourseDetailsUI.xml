@@ -1280,6 +1280,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
          -->
     </bean>
 
+	<bean id="ksapOtherInformation" parent="KSAP-NoSpanMessage"
+	      p:messageText="@{#line.otherInformation}"
+	      p:render="@{#line.otherInformation ne null}" />
+
     <bean id="activityOther" parent="Uif-VerticalFieldGroup" p:valign="TOP" p:rowSpan="1" p:colSpan="3">
         <property name="group.validationMessages">
             <null/>
@@ -1292,12 +1296,10 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="items">
             <list>
                 <bean parent="Uif-Label" p:labelText="Other" p:renderColon="false" />
+                <ref bean="ksapOtherInformation" />
                 <bean parent="KSAP-NoSpanMessage"
                       p:messageText="@{#line.gradingOption}"
                       p:render="@{#line.gradingOption ne null}"/>
-                <bean parent="KSAP-NoSpanMessage"
-                      p:messageText="@{#line.otherInformation}"
-                      p:render="@{#line.otherInformation ne null}"/>
                 <bean parent="KSAP-NoSpanMessage"
                       p:messageText="Distance learning"
                       p:render="@{#line.distanceLearning}"/>
@@ -1322,7 +1324,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                       p:messageText="Course Fee $@{#line.feeAmount}"
                       p:render="@{#line.feeAmount ne null}"/>
                 <bean parent="KSAP-NoSpanMessage" p:messageText="--" 
-                      p:render="@{#line.gradingOption eq null AND
+                      p:render="@{#line.otherInformation eq null AND
+                      			#line.gradingOption eq null AND
                                  !#line.distanceLearning AND
                                  !#line.honorsSection AND
                                  !#line.jointOffering AND
