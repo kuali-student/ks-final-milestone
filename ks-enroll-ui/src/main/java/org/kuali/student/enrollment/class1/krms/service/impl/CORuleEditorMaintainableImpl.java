@@ -92,7 +92,6 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         String coId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(coId);
-
         dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), coId));
 
         //Retrieve the Clu information
@@ -107,13 +106,6 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         //Populate Clu Identification Information
         if (courseOffering != null) {
-            //Get the atp code.
-            AtpInfo atp = null;
-            try {
-                atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
-            } catch (Exception e) {
-                throw new RuntimeException("Could not retrieve atp for " + courseOffering.getTermId());
-            }
 
             List<String> orgIds = courseOffering.getUnitsDeploymentOrgIds();
             if(orgIds !=null && !orgIds.isEmpty()){
@@ -130,13 +122,14 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             //Set the description and atp used on the screen.
             dataObject.setCluDescription(courseOffering.getCourseOfferingCode());
 
-            //Set the term code for breadcrumb link
-            dataObject.setCluTermCode(atp.getCode());
-
             //Set the subjectArea for breadcrumb link
             dataObject.setCluSubjectCode(courseOffering.getSubjectArea());
 
             try {
+                //Get the atp code.
+                AtpInfo atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
+                //Set the term code for breadcrumb link
+                dataObject.setCluTermCode(atp.getCode());
                 populateContextBar(dataObject, atp.getCode());
             } catch (Exception e) {
                 throw new RuntimeException("Could not populate context bar.");
