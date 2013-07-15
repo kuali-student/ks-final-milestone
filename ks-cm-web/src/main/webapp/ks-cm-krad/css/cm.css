@@ -6,3 +6,7 @@
 .cm-collection-width {
 	width: 45em;
 }
+
+.ks-cm-page-header {
+    border-bottom : thick solid #000000
+}
