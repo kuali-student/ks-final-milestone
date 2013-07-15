@@ -76,21 +76,18 @@ public class KSPersonLookupableImpl extends PersonLookupableImpl{
     }
 
     /**
-     * This default implementation returns all the active affiliations for the Person's primary campus. This implementation
-     * can be changed to return person's default affiliation.
+     * This default implementation returns the default active affiliation
      *
      * @param person
      * @return
      */
     protected String getAffiliationToDisplay(PersonImpl person){
-        String affiliationType = StringUtils.EMPTY;
-        //Get the Affiliation type for the primary campus of the person and make sure it's active.
         for (EntityAffiliationContract affiliation : ((PersonImpl) person).getAffiliations()){
-            if (StringUtils.equals(person.getCampusCode(),affiliation.getCampusCode()) && affiliation.isActive()){
-                affiliationType = affiliationType + affiliation.getAffiliationType().getName() + "/";
+            if (affiliation.isDefaultValue() && affiliation.isActive()){
+                return affiliation.getAffiliationType().getName();
             }
         }
-        return StringUtils.removeEnd(affiliationType,"/");
+        return StringUtils.EMPTY;
     }
 
 }
