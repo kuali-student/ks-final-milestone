@@ -230,6 +230,18 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
         additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, view.getNamespaceCode());
         additionalPermissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, model.getViewId());
 
+        // checking soc state
+        Object dataObjectForContext = getDataObjectContext(view, model);
+        if (dataObjectForContext instanceof CourseOfferingCreateWrapper) {
+            CourseOfferingCreateWrapper theForm = (CourseOfferingCreateWrapper) dataObjectForContext;
+            // SOC State
+            if (theForm.getSocInfo() != null) {
+                String socState = theForm.getSocInfo().getStateKey();
+                socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
+                additionalPermissionDetails.put("socState", socState);
+            }
+        }
+
         if (permissionExistsByTemplate(model, "KS-ENR",
                 KimConstants.PermissionTemplateNames.OPEN_VIEW, additionalPermissionDetails)) {
             return isAuthorizedByTemplate(model, "KS-ENR",
@@ -276,13 +288,6 @@ public class KsMaintenanceViewAuthorizerBase extends MaintenanceViewAuthorizerBa
                 GlobalVariables.getMessageMap().putError(view.getId(), messageKey);
             }
 
-            if (model != null && model instanceof MaintenanceDocumentForm) {
-                MaintenanceDocumentForm form = (MaintenanceDocumentForm) model;
-                if (form.getDocument().getNewMaintainableObject().getDataObject() instanceof CourseOfferingCreateWrapper) {
-                    CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject());
-                    coWrapper.setEnableCreateButton(false);
-                }
-            }
         }
 
         return bRet;
