@@ -3,6 +3,7 @@ package org.kuali.student.deploy.spring;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.common.util.metainf.MetaInfContext;
 import org.kuali.common.util.metainf.spring.SqlMetaInfPropertySourceConfig;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,7 +26,7 @@ public class StudentSqlMetaInfPropertySourceConfig extends SqlMetaInfPropertySou
 		sb.append(":");
 		sb.append(Constants.ARTIFACT_ID);
 		sb.append(":");
-		sb.append(SqlMetaInfPropertySourceConfig.METAINF_SQL_CONTEXT_ID);
+		sb.append(MetaInfContext.SQL_CONTEXT_ID);
 		return sb.toString();
 	}
 
