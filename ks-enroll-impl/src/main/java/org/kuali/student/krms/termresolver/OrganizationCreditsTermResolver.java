@@ -11,29 +11,29 @@ import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
- * User: Peggy
- * Date: 2013/07/06
- * Time: 1:44 PM
+ * User: SW Genis
+ * Date: 2013/07/15
+ * Time: 1:50 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ProgramCourseCampusTermResolver implements TermResolver<Integer> {
+public class OrganizationCreditsTermResolver implements TermResolver<Integer> {
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> temp = new HashSet<String>(2);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        return Collections.unmodifiableSet(temp);
+        Set<String> prereqs = new HashSet<String>(2);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(prereqs);
     }
 
     @Override
     public String getOutput() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITSFROMORGANIZATION;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class ProgramCourseCampusTermResolver implements TermResolver<Integer> {
     }
 
     @Override
-    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Integer resolve(Map<String, Object> stringObjectMap, Map<String, String> stringStringMap) throws TermResolutionException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

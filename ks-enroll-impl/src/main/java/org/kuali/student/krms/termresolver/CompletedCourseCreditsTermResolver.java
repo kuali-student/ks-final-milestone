@@ -39,21 +39,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class NumberOfCreditsTermResolver implements TermResolver<Integer> {
+public class CompletedCourseCreditsTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> temp = new HashSet<String>(2);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        return Collections.unmodifiableSet(temp);
+        Set<String> prereqs = new HashSet<String>(2);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(prereqs);
     }
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITS;
+        return KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITSFROMCOMPLETEDCOURSES;
     }
 
     @Override

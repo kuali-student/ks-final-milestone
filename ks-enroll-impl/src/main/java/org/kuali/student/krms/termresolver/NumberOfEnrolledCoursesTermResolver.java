@@ -23,20 +23,20 @@ public class NumberOfEnrolledCoursesTermResolver implements TermResolver<Integer
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> temp = new HashSet<String>(2);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        return Collections.unmodifiableSet(temp);
+        Set<String> prereqs = new HashSet<String>(2);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(prereqs);
     }
 
     @Override
     public String getOutput() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFENROLLEDCOURSES;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
     }
 
     @Override

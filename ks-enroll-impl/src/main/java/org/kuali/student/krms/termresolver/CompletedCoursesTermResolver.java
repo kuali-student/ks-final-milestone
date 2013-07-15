@@ -19,15 +19,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2013/01/25
- * Time: 2:19 PM
- *
  * This TermResolver returns TRUE if a student has passed all the courses in the list of courses passed as a parameter.
  *
- * The "list of courses" could be only a single courseId or courseCode, or a courseSetId of a comma seperated list of
- * coursecodes. The CluService is used to retrieve courseCodes based on the courseId and courseSetId.
+ * The "list of courses" is obtained from a courseSetId passed as a parameter. The CluService is used to retrieve
+ * courseCodes from the courseSetId.
  *
  * The studentId is passed as a resolvedPrereq.
  *
@@ -36,10 +31,10 @@ public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Set<String> getPrerequisites() {
-        Set<String> temp = new HashSet<String>(2);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        return Collections.unmodifiableSet(temp);
+        Set<String> prereqs = new HashSet<String>(2);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(prereqs);
     }
 
     @Override

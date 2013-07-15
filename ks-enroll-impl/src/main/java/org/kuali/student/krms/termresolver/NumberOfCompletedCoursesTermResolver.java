@@ -23,13 +23,7 @@ import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.Collections;
@@ -38,6 +32,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Return the number of completed courses from a given course list.
+ *
+ * The "list of courses" is obtained from a courseSetId passed as a parameter. The CluService is used to retrieve
+ * courseCodes from the courseSetId.
+ *
+ * The studentId is passed as a resolvedPrereq.
+ */
 public class NumberOfCompletedCoursesTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;

@@ -24,22 +24,21 @@ import java.util.Set;
  * Time: 03:11 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ClassStandingTermResolver implements TermResolver<Integer> {
+public class ClassStandingTermResolver implements TermResolver<Boolean> {
 
     private PopulationService populationService;
 
     @Override
     public Set<String> getPrerequisites() {
-
-        Set<String> temp = new HashSet<String>(2);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        temp.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        return Collections.unmodifiableSet(temp);
+        Set<String> prereqs = new HashSet<String>(2);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        return Collections.unmodifiableSet(prereqs);
     }
 
     @Override
     public String getOutput() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates. TERM_PARAMETER_TYPE_CLASS_STANDING_KEY
+        return KSKRMSServiceConstants.TERM_RESOLVER_CLASSSTANDING;
     }
 
     @Override
@@ -52,19 +51,20 @@ public class ClassStandingTermResolver implements TermResolver<Integer> {
     }
 
     @Override
-    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String classStadingId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY);
+        String classStandingId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY);
         PopulationInfo populationInfo = null;
-        if (classStadingId != null) {
+        if (classStandingId != null) {
             try {
-                 populationInfo = this.getPopulationService().getPopulation(classStadingId, context);
+                 populationInfo = this.getPopulationService().getPopulation(classStandingId, context);
+                 return true;
             } catch (Exception e) {
                 KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
             }
 
         }
-        return 1;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
     public PopulationService getPopulationService() {

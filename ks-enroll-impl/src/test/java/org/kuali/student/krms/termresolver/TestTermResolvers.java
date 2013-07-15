@@ -4,11 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.rice.krms.impl.repository.ContextBoService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.krms.service.impl.KSTermResolverTypeService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
@@ -69,77 +67,6 @@ public class TestTermResolvers {
     }
 
     @Test
-    public void testAdminOrgPermissionRequiredTermResolver() {
-        OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
-        orgDataLoader.loadData();
-
-        //Setup the term resolver
-        AdminOrgPermRequiredTermResolver termResolver = new AdminOrgPermRequiredTermResolver();
-        termResolver.setOrganizationService(organizationService);
-
-        //Add prerequisite
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "1");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_ADMINORGANIZATIONPERMISSIONREQUIRED);
-
-        //Evaluate term Resolver
-        Boolean hasPermission = termResolver.resolve(resolvedPrereqs, parameters);
-
-        assertNotNull(hasPermission);
-        assertTrue(hasPermission);
-
-    }
-
-    @Test
-    public void testClassStandingTermResolver() {
-        //Setup the term resolver
-        ClassStandingTermResolver termResolver = new ClassStandingTermResolver();
-        termResolver.setPopulationService(populationService);
-
-        //Add prerequisite
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY, "1");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                null);
-
-        //Evaluate term Resolver
-       // Integer classStanding = termResolver.resolve(resolvedPrereqs, parameters);
-
-       // assertNotNull(classStanding);
-
-    }
-
-    @Test
-    public void testCompletedCoursesTermResolver() {
-        //Setup the term resolver
-        CompletedCoursesTermResolver termResolver = new CompletedCoursesTermResolver();
-
-        //Add prerequisite
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "1");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSES);
-
-        //Evaluate term Resolver
-       // Boolean courseCompleted = termResolver.resolve(resolvedPrereqs, parameters);
-
-        //assertNotNull(courseCompleted);
-    }
-
-    @Test
     public void testCompletedCourseTermResolver() {
         //Setup the term resolver
         CompletedCourseTermResolver termResolver = new CompletedCourseTermResolver();
@@ -159,83 +86,35 @@ public class TestTermResolvers {
         Boolean isCompleted = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(isCompleted);
         assertTrue(isCompleted);
+
+        //Replace clu parameter with non existing course.
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "AAA999");
+
+        //Evaluate term Resolver
+        isCompleted = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isCompleted);
+        assertFalse(isCompleted);
     }
 
     @Test
-    public void testEnrolledCoursesTermResolver() {
+    public void testCompletedCoursesTermResolver() {
         //Setup the term resolver
-        EnrolledCoursesTermResolver termResolver = new EnrolledCoursesTermResolver();
+        CompletedCoursesTermResolver termResolver = new CompletedCoursesTermResolver();
 
-    }
-
-    @Test
-    public void testEnrolledCourseTermResolver() {
-        //Setup the term resolver
-        EnrolledCourseTermResolver termResolver = new EnrolledCourseTermResolver();
-        termResolver.setCourseRegistrationService(courseRegistrationService);
-
-        //Add prerequisites
+        //Add prerequisite
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
 
         //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "DTC102");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "1");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_ENROLLEDCOURSE);
+                KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSES);
 
         //Evaluate term Resolver
-        //boolean academicRecord = termResolver.resolve(resolvedPrereqs, parameters);
-
-        //assertNotNull(academicRecord);
-    }
-
-    @Test
-    public void testFreeTextTermResolver() {
-        //Setup the term resolver
-        FreeFormTextTermResolver termResolverForm = new FreeFormTextTermResolver();
-
-        //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
-
-        //Validate the term resolver
-        validateTermResolver(termResolverForm, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_FREEFORMTEXT);
-
-        //Evaluate term Resolver
-        //Boolean result = termResolverForm.resolve(resolvedPrereqs, parameters);
-
-        //assertNotNull(result);
-        //assertTrue(result);
-    }
-
-    @Test
-    public void testGPATermResolver() {
-        //Setup the term resolver
-        GPATermResolver termResolver = new GPATermResolver();
-        termResolver.setAcademicRecordService(academicRecordService);
-
-        //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
-
-        //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "DTC101");
-
-        //Validate the term resolver
-        validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_GPAFORCOURSES);
-
-        //Evaluate term Resolver
-        //Integer result = termResolver.resolve(resolvedPrereqs, parameters);
-
-        //assertNotNull(result);
-    }
-
-    @Test
-    public void testGradeTypeTermResolver() {
-        //Setup the term resolver
-        GradeTypeTermResolver termResolver = new GradeTypeTermResolver();
-
+        //Boolean isAllCompleted = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(isAllCompleted);
+        //assertTrue(isAllCompleted);
     }
 
     @Test
@@ -257,16 +136,15 @@ public class TestTermResolvers {
                 KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCOMPLETEDCOURSES);
 
         //Evaluate term Resolver
-        //Integer acadRecords = termResolver.resolve(resolvedPrereqs, parameters);
-
-        //assertNotNull(acadRecords);
-        //assertEquals(2, acadRecords.intValue());
+        //Integer numberOfCompletedCourses = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(numberOfCompletedCourses);
+        //assertEquals(new Integer(0), numberOfCompletedCourses);
     }
 
     @Test
     public void testNumberOfCreditsTermResolver() {
         //Setup the term resolver
-        NumberOfCreditsTermResolver termResolver = new NumberOfCreditsTermResolver();
+        CompletedCourseCreditsTermResolver termResolver = new CompletedCourseCreditsTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisites
@@ -277,12 +155,55 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITS);
+                KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITSFROMCOMPLETEDCOURSES);
 
         //Evaluate term Resolver
-        //Integer result = termResolver.resolve(resolvedPrereqs, parameters);
+        Integer numberOfCredits = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(numberOfCredits);
+        //assertEquals(new Integer(0), numberOfCredits);
+    }
 
-        //assertNotNull(result);
+    @Test
+    public void testEnrolledCourseTermResolver() {
+        //Setup the term resolver
+        EnrolledCourseTermResolver termResolver = new EnrolledCourseTermResolver();
+        termResolver.setCourseRegistrationService(courseRegistrationService);
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "DTC102");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_ENROLLEDCOURSE);
+
+        //Evaluate term Resolver
+        Boolean isEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isEnrolled);
+        //assertTrue(isEnrolled);
+    }
+
+    @Test
+    public void testEnrolledCoursesTermResolver() {
+        //Setup the term resolver
+        EnrolledCoursesTermResolver termResolver = new EnrolledCoursesTermResolver();
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Add Parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "2");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_ENROLLEDCOURSES);
+
+        //Evaluate term Resolver
+        Boolean isAllEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(isAllEnrolled);
+        //assertTrue(isAllEnrolled);
     }
 
     @Test
@@ -290,20 +211,111 @@ public class TestTermResolvers {
         //Setup the term resolver
         NumberOfEnrolledCoursesTermResolver termResolver = new NumberOfEnrolledCoursesTermResolver();
 
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "DTC101");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFENROLLEDCOURSES);
+
+        //Evaluate term Resolver
+        Integer numberOfEnrolledCourses = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(numberOfEnrolledCourses);
+        //assertEquals(new Integer(0), numberOfEnrolledCourses);
     }
 
     @Test
-    public void testNumberOfEnrollmentsForCourseTermResolver() {
+    public void testGPATermResolver() {
         //Setup the term resolver
-        NumberOfEnrollmentsForCourseTermResolver termResolver = new NumberOfEnrollmentsForCourseTermResolver();
+        GPATermResolver termResolver = new GPATermResolver();
+        termResolver.setAcademicRecordService(academicRecordService);
 
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "DTC101");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_GPAFORCOURSES);
+
+        //Evaluate term Resolver
+        Integer gpa = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(gpa);
+        //assertEquals(new Integer(0), gpa);
     }
 
     @Test
-    public void testProgramCourseCampusTermResolver() {
+    public void testGradeTypeTermResolver() {
         //Setup the term resolver
-        ProgramCourseCampusTermResolver termResolver = new ProgramCourseCampusTermResolver();
+        GradeTypeTermResolver termResolver = new GradeTypeTermResolver();
 
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "1");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY, "1");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY, "2");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_GRADETYPEFORCOURSES);
+
+        //Evaluate term Resolver
+        Integer gradeType = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(gradeType);
+        //assertEquals(new Integer(0), gradeType);
+    }
+
+    @Test
+    public void testOrganizationCreditsTermResolver() {
+        //Setup the term resolver
+        OrganizationCreditsTermResolver termResolver = new OrganizationCreditsTermResolver();
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "1");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITSFROMORGANIZATION);
+
+        //Evaluate term Resolver
+        Integer credits = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(credits);
+        //assertEquals(new Integer(0), credits);
+    }
+
+    @Test
+    public void testAdminOrgPermissionRequiredTermResolver() {
+        OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
+        orgDataLoader.loadData();
+
+        //Setup the term resolver
+        AdminOrgPermissionTermResolver termResolver = new AdminOrgPermissionTermResolver();
+        termResolver.setOrganizationService(organizationService);
+
+        //Add prerequisite
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "1");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_ADMINORGANIZATIONPERMISSIONREQUIRED);
+
+        //Evaluate term Resolver
+        Boolean hasPermission = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(hasPermission);
+        assertTrue(hasPermission);
     }
 
     @Test
@@ -311,7 +323,213 @@ public class TestTermResolvers {
         //Setup the term resolver
         ScoreTermResolver termResolver = new ScoreTermResolver();
 
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TEST_CLU_KEY, "1");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_SCOREONTEST);
+
+        //Evaluate term Resolver
+        //Integer score = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(score);
+        //assertEquals(new Integer(0), score);
     }
+
+    @Test
+    public void testFreeTextTermResolver() {
+        //Setup the term resolver
+        FreeFormTextTermResolver termResolver = new FreeFormTextTermResolver();
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_FREEFORMTEXT);
+
+        //Evaluate term Resolver
+        Boolean result = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(result);
+        assertTrue(result);
+    }
+
+    @Test
+    public void testProgramCoursesOrgDurationTermResolver() {
+        //Setup the term resolver
+        ProgramCoursesOrgDurationTermResolver termResolver = new ProgramCoursesOrgDurationTermResolver();
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "1");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_DURATION_KEY, "1");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_DURATION_TYPE_KEY, "1");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAMLIMITCOURSESINORGFORDURATION);
+
+        //Evaluate term Resolver
+        Integer result = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(result);
+        //assertEquals(new Integer(0), result);
+    }
+
+    @Test
+    public void testAdmittedToProgramTermResolver() {
+        //Setup the term resolver
+        AdmittedProgramTermResolver termResolver = new AdmittedProgramTermResolver();
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Add parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "2");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAM);
+
+        //Evaluate term Resolver
+        Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(isAdmitted);
+        //assertTrue(isAdmitted);
+    }
+
+    @Test
+    public void testAdmittedToProgramAtCourseCampusTermResolver() {
+        //Setup the term resolver
+        AdmittedProgramAtCourseCampusTermResolver termResolver = new AdmittedProgramAtCourseCampusTermResolver();
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CLU_ID, studentID);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAMATCOURSECAMPUS);
+
+        //Evaluate term Resolver
+        Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(isAdmitted);
+        //assertTrue(isAdmitted);
+    }
+
+    @Test
+    public void testAdmittedToProgramWithClassStandingTermResolver() {
+        //Setup the term resolver
+        AdmittedProgramTermResolver termResolver = new AdmittedProgramTermResolver();
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "1");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAM);
+
+        //Evaluate term Resolver
+        Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(isAdmitted);
+        //assertTrue(isAdmitted);
+    }
+
+    @Test
+    public void testCompletedCourseForTermTermResolver() {
+        //Setup the term resolver
+        CompletedCourseForTermTermResolver termResolver = new CompletedCourseForTermTermResolver();
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "2");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE_KEY, "2");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSEFORTERM);
+
+        //Evaluate term Resolver
+        Integer completed = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(completed);
+        //assertEquals(new Integer(0), completed);
+    }
+
+    @Test
+    public void testCompletedCourseBetweenTermsTermResolver() {
+        //Setup the term resolver
+        CompletedCourseBetweenTermsTermResolver termResolver = new CompletedCourseBetweenTermsTermResolver();
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "1");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE_KEY, "2");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE2_KEY, "3");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSEBETWEENTERMS);
+
+        //Evaluate term Resolver
+        Boolean isCompleted = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(isCompleted);
+        //assertTrue(isCompleted);
+    }
+
+    @Test
+    public void testClassStandingTermResolver() {
+        //Setup the term resolver
+        ClassStandingTermResolver termResolver = new ClassStandingTermResolver();
+        termResolver.setPopulationService(populationService);
+
+        //Add prerequisite
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+
+        //Create parameters
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY, "1");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_CLASSSTANDING);
+
+        //Evaluate term Resolver
+        //Boolean isInClassStanding = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(isInClassStanding);
+        //assertTrue(isInClassStanding);
+
+    }
+
+    @Test
+    public void testInstructorPermissionTermResolver() {
+        //Setup the term resolver
+        InstructorPermissionTermResolver termResolver = new InstructorPermissionTermResolver();
+
+        //Add prerequisites
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CLU_ID, "1");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_INSTRUCTORPERMISSION);
+
+        //Evaluate term Resolver
+        Boolean hasPermission = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(hasPermission);
+        //assertTrue(hasPermission);
+    }
+
+    //@Test
+    //public void testNumberOfEnrollmentsForCourseTermResolver() {
+        //Setup the term resolver
+    //    NumberOfEnrollmentsForCourseTermResolver termResolver = new NumberOfEnrollmentsForCourseTermResolver();
+    //}
 
     private void validateTermResolver(TermResolver termResolver, Map<String, Object> prereqs, Map<String, String> parameters, String output) {
 
@@ -326,6 +544,9 @@ public class TestTermResolvers {
     }
 
     private void validateAttributeSet(String message, Set<String> names, Set<String> keys) {
+        if(keys==null){
+            return;
+        }
 
         for (String key : keys) {
             assertTrue(message + key, names.contains(key));

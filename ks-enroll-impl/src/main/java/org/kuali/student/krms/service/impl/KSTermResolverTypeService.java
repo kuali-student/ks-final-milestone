@@ -5,12 +5,12 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.krms.termresolver.AdminOrgPermRequiredTermResolver;
+import org.kuali.student.krms.termresolver.AdminOrgPermissionTermResolver;
+import org.kuali.student.krms.termresolver.CompletedCourseCreditsTermResolver;
 import org.kuali.student.krms.termresolver.FreeFormTextTermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCompletedCoursesTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
 import org.kuali.student.krms.termresolver.GPATermResolver;
-import org.kuali.student.krms.termresolver.NumberOfCreditsTermResolver;
 import org.kuali.student.krms.termresolver.ScoreTermResolver;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -37,7 +37,7 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_NUMBEROFCREDITS)) {
-			NumberOfCreditsTermResolver resolver = new NumberOfCreditsTermResolver();
+			CompletedCourseCreditsTermResolver resolver = new CompletedCourseCreditsTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_SCOREONTEST)) {
@@ -45,7 +45,7 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_ADMINORGANIZATIONPERMISSIONREQUIRED)) {
-			AdminOrgPermRequiredTermResolver resolver = new AdminOrgPermRequiredTermResolver();
+			AdminOrgPermissionTermResolver resolver = new AdminOrgPermissionTermResolver();
 			resolver.setOrganizationService(organizationService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_NUMBEROFCOMPLETEDCOURSES)) {

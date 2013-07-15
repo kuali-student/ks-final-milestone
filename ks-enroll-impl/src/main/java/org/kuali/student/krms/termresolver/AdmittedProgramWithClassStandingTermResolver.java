@@ -2,30 +2,21 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2013/01/25
- * Time: 2:15 PM
+ * User: SW Genis
+ * Date: 2013/07/15
+ * Time: 1:56 PM
  * To change this template use File | Settings | File Templates.
  */
-public class NumberOfEnrollmentsForCourseTermResolver implements TermResolver<Integer> {
-
+public class AdmittedProgramWithClassStandingTermResolver implements TermResolver<Boolean> {
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<String>(2);
@@ -36,12 +27,12 @@ public class NumberOfEnrollmentsForCourseTermResolver implements TermResolver<In
 
     @Override
     public String getOutput() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAMWITHCLASSSTANDING;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY);
     }
 
     @Override
@@ -50,7 +41,7 @@ public class NumberOfEnrollmentsForCourseTermResolver implements TermResolver<In
     }
 
     @Override
-    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Boolean resolve(Map<String, Object> stringObjectMap, Map<String, String> stringStringMap) throws TermResolutionException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
