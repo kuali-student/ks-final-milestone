@@ -6,6 +6,13 @@ delete from KRIM_PERM_ATTR_DATA_T where PERM_ID = '10065'
 /
 delete from KRIM_PERM_T where PERM_ID = '10065'
 /
+-- deleting existing permissions for Create CO - not used anymore
+delete from KRIM_ROLE_PERM_T where ROLE_PERM_ID in ('KS-KRIM-ROLE-PERM-1060', 'KS-KRIM-ROLE-PERM-1061', 'KS-KRIM-ROLE-PERM-1062')
+/
+delete from KRIM_PERM_ATTR_DATA_T where ATTR_DATA_ID in ('KS-KRIM-PERM-ATTR-DATA-1139', 'KS-KRIM-PERM-ATTR-DATA-1140', 'KS-KRIM-PERM-ATTR-DATA-1141', , 'KS-KRIM-PERM-ATTR-DATA-1142', , 'KS-KRIM-PERM-ATTR-DATA-1143')
+/
+delete from KRIM_PERM_T where PERM_ID in ('KS-KRIM-PERM-1059', 'KS-KRIM-PERM-1060')
+/
 -- creating new view Create CO permissions for DSC
 insert into KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND) values ('KS-KRIM-PERM-3017', SYS_GUID(), 1, (SELECT perm_tmpl_id FROM krim_perm_tmpl_t where nm = 'Open View' and nmspc_cd = 'KS-ENR'), 'KS-ENR', 'View for Create New Course Offering', 'Allows the user to go to View for Create New Course Offering', 'Y')
 /
