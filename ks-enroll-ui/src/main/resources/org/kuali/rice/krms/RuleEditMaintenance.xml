@@ -203,39 +203,6 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-Button-Disabled" parent="Uif-SecondaryActionButton" abstract="true">
-        <property name="actionImagePlacement" value="TOP"/>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-AddButtons" parent="Uif-HorizontalBoxGroup">
-        <property name="items">
-            <list>
-                <bean id="KRMS-RuleEditorView-AddButton-Disabled" parent="KRMS-RuleEditorView-Button-Disabled" p:render="@{!#dp.ruleEditor.permission.addRuleAction}"
-                      p:actionLabel="Add Statement" p:disabled="true">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconAdd.png"
-                              p:altText="Add"/>
-                    </property>
-                </bean>
-
-                <bean id="KRMS-RuleEditorView-AddButton-Enabled" parent="KRMS-RuleEditorView-Button" p:render="@{#dp.ruleEditor.permission.addRuleAction}"
-                      p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');" p:actionLabel="Add Statement">
-                    <property name="actionImage">
-                        <bean parent="Uif-Image"
-                              p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconAdd.png"
-                              p:altText="Add"/>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>kr-add-button</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
-
     <bean id="KRMS-RuleEditorView-AddButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.addRuleAction}"
           p:actionLabel="Add Statement">
         <property name="actionImage">

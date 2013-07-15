@@ -446,7 +446,7 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-AddButtons"/>
+                            <bean parent="KRMS-RuleEditorView-AddButton"/>
                             <bean parent="KRMS-RuleEditorView-EditButton"/>
                         </list>
                     </property>
