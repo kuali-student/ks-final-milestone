@@ -1,22 +1,22 @@
 package org.kuali.student.deploy.spring;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.common.util.MetaInfSqlProjectContext;
-import org.kuali.common.util.ProjectContext;
-import org.kuali.common.util.property.ProjectProperties;
-import org.kuali.common.util.spring.ConfigUtils;
-import org.kuali.common.util.spring.MavenPropertySourceConfig;
+import org.kuali.common.util.metainf.spring.SqlMetaInfPropertySourceConfig;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class MetaInfSqlMavenPropertySourceConfig extends MavenPropertySourceConfig {
+public class MetaInfSqlMavenPropertySourceConfig extends SqlMetaInfPropertySourceConfig {
+
+	protected static final String KS_METAINF_SQL_CONFIG_ID = "org.kuali.student.db:ks-deployment-resources:metainf:sql";
 
 	@Override
-	protected List<ProjectProperties> getOtherProjectProperties() {
-		ProjectContext metaInf1 = new MetaInfSqlProjectContext();
-		ProjectContext metaInf2 = new SourceDbCommonProjectContext();
-		return ConfigUtils.getProjectProperties(metaInf1, metaInf2);
+	protected List<String> getConfigIds() {
+		List<String> configIds = new ArrayList<String>();
+		configIds.add(SqlMetaInfPropertySourceConfig.UTIL_METAINF_SQL_CONFIG_ID);
+		configIds.add(KS_METAINF_SQL_CONFIG_ID);
+		return configIds;
 	}
 
 }
