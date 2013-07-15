@@ -26,7 +26,6 @@ limitations under the License.
         <property name="header" ref="KS-CourseView-Header" />
         <property name="items">
             <list>
-<!--             	<ref bean="KS-Comments-CourseInfoPage-Widgets" /> -->
             	<ref bean="KS-CourseView-CourseInfoPage-Widgets" />
             </list>
         </property>
@@ -34,14 +33,6 @@ limitations under the License.
             <ref bean="KS-CourseView-Footer" />
         </property>
     </bean>
-<!--     	<bean id="KS-Comments-CourseInfoPage-Widgets" parent="Uif-VerticalBoxSection"> -->
-<!-- 		<property name="items"> -->
-<!-- 			<list> -->
-<!-- 				<bean parent="Uif-ActionLink" p:actionLabel="Comments" -->
-<!-- 					p:methodToCall="createComment" /> -->
-<!-- 			</list> -->
-<!-- 		</property> -->
-<!-- 	</bean> -->
     <bean id="KS-CourseView-CourseInfoPage-Widgets" parent="Uif-VerticalBoxSection">
 		<property name="items">
 			<list>

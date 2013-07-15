@@ -13,7 +13,8 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="KS-CourseView-CourseLogisticsPage" parent="Uif-Page"
-		p:headerText="Course Logistics" p:disclosure.render="false">
+		p:headerText="Course Logistics" p:disclosure.render="false" 
+		p:instructionalText="Indicate the scheduling, learning results and course format for this course.">
         <property name="header" ref="KS-CourseView-Header" />
 		<property name="items">
 			<list>
@@ -37,12 +38,8 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.termsOffered"
-					p:label="Term">
-					<property name="help">
-						<bean parent="Uif-Help"
-							p:tooltipHelpContent="Selecting a single term will restrict this course to only that term. Any will allow the 
-								course to be offered&lt;br&gt;in any term that matches the duration selected below." />
-					</property>
+					p:label="Term" p:instructionalText="Selecting a single term will restrict this course to only that term. Any will allow the 
+								course to be offered&lt;br&gt;in any term that matches the duration selected below.">
 					<property name="control">
 						<bean parent="Uif-VerticalCheckboxesControl" />
 					</property>
@@ -135,7 +132,8 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamStatus"
-					p:label="Final Exam Status" p:required="true">
+					p:label="Final Exam Status">
+					<property name="constraintText" value="Required on Submit" />
 					<property name="control">
 						<bean parent="Uif-VerticalRadioControl" />
 					</property>
@@ -146,7 +144,7 @@
 					</property>
 				</bean>
 				<bean id="KS-FinalExamRationale" parent="Uif-InputField-LabelTop"
-					p:label="Final Exam Rationale"
+					p:label="Final Exam Rationale" p:required="true"
 					p:progressiveRender="#dp.finalExamStatus eq 'NONE' or #dp.finalExamStatus eq 'ALTERNATE'"
 					p:propertyName="finalExamRationale">
 					<property name="control">
@@ -161,13 +159,13 @@
 		p:propertyName="creditOptionsDisplay"
 		p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoDisplay">
 		<property name="layoutManager.summaryTitle" value="Outcome" />
-		<property name="renderAddBlankLineButton" value="true" />
+		<property name="renderAddBlankLineButton" value="false" />
 		<property name="addLinePlacement" value="BOTTOM" />
 		<property name="addBlankLineAction.actionLabel" value="Add Another Outcome" />
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="typeKey"
-					p:label="Type">
+					p:label="Type" p:required="true">
 					<property name="control">
 						<bean parent="Uif-DropdownControl">
 							<property name="options">
@@ -213,7 +211,7 @@
 					p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysDisplay"
 					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.multiple'"
 					p:propertyName="resultValueKeysDisplay">
-					<property name="renderAddBlankLineButton" value="true" />
+					<property name="renderAddBlankLineButton" value="false" />
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="addBlankLineAction.actionLabel" value="Add" />
 					<property name="items">
@@ -233,17 +231,25 @@
 	<bean id="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets"
 		parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
 		p:propertyName="courseInfo.formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
+		<property name="instructionalText"
+			value="Each course format can consist of any number of activities, and you may have more than one course format for this&lt;br&gt;course." />
+		<property name="help">
+			<bean parent="Uif-Help"
+				p:tooltipHelpContent="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats." />
+		</property>
+		<property name="renderAddBlankLineButton" value="true" />
 		<property name="layoutManager.summaryTitle" value="Activity" />
 		<property name="addLinePlacement" value="BOTTOM" />
-		<property name="addBlankLineAction.actionLabel" value="Add Another Outcome" />
+<!-- 		<property name="addBlankLineAction.actionLabel" value="Add" /> -->
 		<property name="subCollections">
 			<list>
 				<bean parent="Uif-StackedSubCollection-WithinSection"
 					p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.ActivityInfo"
 					p:propertyName="activities">
 					<property name="addLinePlacement" value="BOTTOM" />
-					<property name="addBlankLineAction.actionLabel" value="Add" />
-
+					<property name="renderAddBlankLineButton" value="false" />
+					<property name="addBlankLineAction.actionLabel" value="Add Activity" />
+					
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:propertyName="typeKey"
@@ -253,7 +259,7 @@
 									<bean parent="Uif-DropdownControl" />
 								</property>
 							</bean>
-							<bean parent="Uif-InputField-LabelTop" p:label="Contacted Hours"
+							<bean parent="Uif-InputField-LabelTop" p:label="Contacted Hours" p:required="false"
 								p:propertyName="contactHours.unitQuantity">
 								<property name="validCharactersConstraint">
 									<bean parent="NumericPatternConstraint" />
@@ -268,7 +274,7 @@
 								</property>
 							</bean>
 							<bean parent="Uif-InputField-LabelTop" p:propertyName="contactHours.unitTypeKey"
-								p:label="Frequency"
+								p:label="Frequency" p:required="false"
 								p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.FrequencyKeyValueFinder">
 								<property name="control">
 									<bean parent="Uif-DropdownControl" />
