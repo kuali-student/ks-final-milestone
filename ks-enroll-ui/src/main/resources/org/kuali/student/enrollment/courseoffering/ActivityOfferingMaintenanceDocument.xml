@@ -171,7 +171,7 @@
     <bean id="ActivityOfferingEdit-Header-Right-SubGroup" parent="KS-Unified-Header-Action-Group" p:render="@{#dp.editRenderHelper.aoCodes.size() > 1}">
         <property name="items">
             <list>
-                <bean id="edit_ao_prev" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.prevAO.id != null}" p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.prevAO.id}&quot;);" p:actionImagePlacement="LEFT" p:actionLabel="@{#dp.typeName} @{#dp.editRenderHelper.prevAO.activityCode}" p:methodToCall="route">
+                <bean id="edit_ao_prev" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.prevAO.id != null}" p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.prevAO.id}&quot;);" p:actionImagePlacement="LEFT" p:actionLabel="@{#dp.editRenderHelper.prevAOTypeName} @{#dp.editRenderHelper.prevAO.activityCode}" p:methodToCall="route">
                     <property name="actionParameters">
                       <map>
                         <entry key="aoId" value="@{#dp.editRenderHelper.prevAO.id}"/>
@@ -190,7 +190,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingCodesKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean id="edit_ao_next" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.nextAO.id != null}" p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.nextAO.id}&quot;);" p:actionImagePlacement="RIGHT" p:actionLabel="@{#dp.typeName} @{#dp.editRenderHelper.nextAO.activityCode}" p:methodToCall="route">
+                <bean id="edit_ao_next" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.nextAO.id != null}" p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.nextAO.id}&quot;);" p:actionImagePlacement="RIGHT" p:actionLabel="@{#dp.editRenderHelper.nextAOTypeName} @{#dp.editRenderHelper.nextAO.activityCode}" p:methodToCall="route">
                     <property name="actionParameters">
                       <map>
                         <entry key="aoId" value="@{#dp.editRenderHelper.nextAO.id}"/>
