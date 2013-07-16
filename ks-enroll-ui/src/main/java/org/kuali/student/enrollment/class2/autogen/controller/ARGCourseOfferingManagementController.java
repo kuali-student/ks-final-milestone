@@ -345,6 +345,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteBulkCos")
     public ModelAndView deleteBulkCos(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGCourseOfferingHandler.deleteBulkCos(theForm);
+        ARGCourseOfferingHandler.loadCOs(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_ARG_CO_PAGE);
     }
 
@@ -353,7 +354,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=cancelDeleteBulkCos")
     public ModelAndView cancelDeleteBulkCos(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
-        ARGCourseOfferingHandler.cancelDeleteBulkCos(theForm);
+        ARGCourseOfferingHandler.loadCOs(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_ARG_CO_PAGE);
     }
 

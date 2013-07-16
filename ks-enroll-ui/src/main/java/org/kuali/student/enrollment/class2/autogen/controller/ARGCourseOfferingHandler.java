@@ -20,30 +20,29 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.util.ContextBuilder;
+import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCopyWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
-import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
-import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
-import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.common.uif.util.GrowlIcon;
-import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
-import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysServiceImpl;
 
 /**
  * This class is used by the ARGCourseOfferingManagementController to handle AO operations
@@ -218,8 +217,6 @@ public class ARGCourseOfferingHandler {
         } else {
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS);
         }
-
-        ARGUtil.reloadCourseOfferings(theForm);
     }
 
     public static void cancelDeleteBulkCos(ARGCourseOfferingManagementForm theForm) throws Exception {
