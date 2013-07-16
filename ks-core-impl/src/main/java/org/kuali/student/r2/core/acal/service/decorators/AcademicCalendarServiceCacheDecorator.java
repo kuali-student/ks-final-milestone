@@ -1,14 +1,6 @@
 package org.kuali.student.r2.core.acal.service.decorators;
 
 import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-import org.apache.commons.collections.keyvalue.MultiKey;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 /**
  * Cache Decorator for the Academic Calendar service. This class will grow as caching needs arise.
@@ -22,6 +14,12 @@ public class AcademicCalendarServiceCacheDecorator extends AcademicCalendarServi
 
     protected static final String ACAL_SERVICE_CACHE = "AcademicCalendarServiceCache";
     protected static final String INSTR_DAYS_FOR_TERM_KEY = "getInstructionalDaysForTerm";
+
+    /* The cache is causing problems for the users. They update some part of the acal and are expecting to see
+     the instructional days get updated, but they don't because of the cache. Since almost any change to a calendard or
+     ATP should invalidate the cache, it's not reasonable to cache this method unless absolutly necessary.
+     Recently we have improved the performance of getInstructionalDays considerably so this cache might not be as
+      necessary. Commenting out for now. KSENROLL-7800
 
     @Override
     public Integer getInstructionalDaysForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException,
@@ -39,6 +37,7 @@ public class AcademicCalendarServiceCacheDecorator extends AcademicCalendarServi
 
         return (Integer)result;
     }
+    */
 
     public CacheManager getCacheManager() {
         if (cacheManager == null){
