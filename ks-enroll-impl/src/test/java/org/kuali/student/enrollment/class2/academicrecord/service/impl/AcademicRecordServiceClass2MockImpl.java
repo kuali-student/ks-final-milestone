@@ -170,13 +170,11 @@ public class AcademicRecordServiceClass2MockImpl implements
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
-        for (StudentCourseRecordInfo courseRecord : courseRecordInfoList) {
-            if (courseRecord.getPersonId().equals(personId) && (courseRecord.getAssignedGradeValue() != null || courseRecord.getAdministrativeGradeValue() != null)) {
-                courseRecords.add(courseRecord);
-            }
-        }
-        return courseRecords;
+
+        if (!studentToCourseRecordsMap.keySet().contains(personId))
+            throw new DoesNotExistException("No course records for student Id = " + personId);
+
+        return studentToCourseRecordsMap.get(personId);
     }
 
     /* (non-Javadoc)

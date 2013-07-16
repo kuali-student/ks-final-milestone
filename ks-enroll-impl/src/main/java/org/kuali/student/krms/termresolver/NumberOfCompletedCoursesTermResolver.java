@@ -24,8 +24,10 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -71,22 +73,26 @@ public class NumberOfCompletedCoursesTermResolver implements TermResolver<Intege
 
     @Override
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-
+        int counter = 0;
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
 
-        int counter = 0;
         try {
-            List<StudentCourseRecordInfo> recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
-            List<String> cluIds = this.cluService.getAllCluIdsInCluSet(cluSetId, context);
+            //Retrieve the list of cluIds from the cluset.
+            String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+            List<String> cluIds = new ArrayList<String>();    //Create new list so that we can remove the once that are already checked.
+            cluIds.addAll(this.cluService.getAllCluIdsInCluSet(cluSetId, context));
 
+            //Retrieve the students academic record.
+            List<StudentCourseRecordInfo> recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
             for(StudentCourseRecordInfo studentRecord : recordInfoList){
+                //We need the course offering to retrieve the courseid in order to retrieve the original course
                 CourseOffering courseOffering = this.courseOfferingService.getCourseOffering(studentRecord.getCourseOfferingId(), context);
-                for(String cluId : cluIds){
-                    if(cluId.equals(courseOffering.getCourseId())){
-                        counter++;
-                    }
+                CluInfo clu = this.cluService.getClu(courseOffering.getCourseId(), context);
+                //If the version independent id is in the list, remove it and increment the counter.
+                if (cluIds.contains(clu.getVersion().getVersionIndId())){
+                    cluIds.remove(clu.getVersion().getVersionIndId());
+                    counter++;
                 }
             }
         } catch (Exception e) {

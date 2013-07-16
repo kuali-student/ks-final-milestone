@@ -19,10 +19,13 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -36,6 +39,8 @@ import java.util.Set;
 public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
+    private CourseOfferingService courseOfferingService;
+    private CluService cluService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -63,18 +68,24 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-
-        ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        String courseId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
 
         try {
-            List<StudentCourseRecordInfo> recordInfos = academicRecordService.getCompletedCourseRecordsForCourse(personId, courseId, contextInfo);
-            if(recordInfos.size()>=1){
-                return true;
+            //Retrieve the version independent clu id.
+            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+
+            //Retrieve the students academic record.
+            List<StudentCourseRecordInfo> recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
+            for(StudentCourseRecordInfo studentRecord : recordInfoList){
+                //We need the course offering to retrieve the courseid in order to retrieve the original course
+                CourseOffering courseOffering = this.courseOfferingService.getCourseOffering(studentRecord.getCourseOfferingId(), context);
+                CluInfo clu = this.cluService.getClu(courseOffering.getCourseId(), context);
+                //If the version independent id is in the list, remove it.
+                if (cluId.equals(clu.getVersion().getVersionIndId())){
+                    return true;
+                }
             }
-        } catch (DoesNotExistException dne){
-            return false;
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
@@ -88,5 +99,21 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
     public void setAcademicRecordService(AcademicRecordService academicRecordService) {
         this.academicRecordService = academicRecordService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
+    public CluService getCluService() {
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 }

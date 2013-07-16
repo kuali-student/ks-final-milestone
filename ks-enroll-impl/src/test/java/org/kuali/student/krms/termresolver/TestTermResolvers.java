@@ -1,5 +1,6 @@
 package org.kuali.student.krms.termresolver;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -7,24 +8,42 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataUtils;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.TestAutogenRegGroupUserStoryThreeCourseOfferingCreationDetails;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoader;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lu.service.impl.CluDataLoader;
 import org.kuali.student.r2.lum.lu.service.impl.CluSetDataLoader;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,9 +58,6 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(locations = {"classpath:krms-test-with-mocks-context.xml"})
 public class TestTermResolvers {
 
-    @Resource
-    private KRMSEnrollmentEligibilityDataLoader acadRecordDataLoader;
-
     public ContextInfo contextInfo = null;
     Map<String, Object> resolvedPrereqs = null;
     Map<String, String> parameters = null;
@@ -54,8 +70,14 @@ public class TestTermResolvers {
     @Resource(name = "cluService")
     private CluService cluService;
 
+    @Resource(name = "courseService")
+    private CourseService courseService;
+
     @Resource(name = "acadRecordService")
     private AcademicRecordService academicRecordService;
+
+    @Resource
+    private KRMSEnrollmentEligibilityDataLoader acadRecordDataLoader;
 
     @Resource(name = "courseRegistrationService")
     private CourseRegistrationService courseRegistrationService;
@@ -73,23 +95,30 @@ public class TestTermResolvers {
         contextInfo.setLocale(new LocaleInfo());
         contextInfo.setPrincipalId("admin");
 
+        loadCluData();
+        loadAcadRecordData();
+
         resolvedPrereqs = getDefaultPrerequisites();
         parameters = getDefaultParameters();
     }
 
-    @Test
-    public void testCompletedCourseTermResolver() {
-        loadAcadRecordData();
+    @After
+    public void teardown() throws Exception {
+        acadRecordDataLoader.afterTest();
+    }
 
+    @Test
+    public void testCompletedCourseTermResolver() throws Exception {
         //Setup the term resolver
         CompletedCourseTermResolver termResolver = new CompletedCourseTermResolver();
-        termResolver.setAcademicRecordService(this.academicRecordService);
+        termResolver.setAcademicRecordService(academicRecordService);
+        termResolver.setCluService(cluService);
+        termResolver.setCourseOfferingService(courseOfferingService);
 
-        //Add prerequisite
+        //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-
-        //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID);
+        String versionIndId = cluService.getClu("COURSE1", contextInfo).getVersion().getVersionIndId();
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -111,18 +140,14 @@ public class TestTermResolvers {
 
     @Test
     public void testCompletedCoursesTermResolver() {
-        loadCluData(true);
-        loadAcadRecordData();
-
         //Setup the term resolver
         CompletedCoursesTermResolver termResolver = new CompletedCoursesTermResolver();
-        termResolver.setAcademicRecordService(this.academicRecordService);
-        termResolver.setCluService(this.cluService);
+        termResolver.setAcademicRecordService(academicRecordService);
+        termResolver.setCluService(cluService);
+        termResolver.setCourseOfferingService(courseOfferingService);
 
-        //Add prerequisite
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
-
-        //Create parameters
+        //Setup data
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "COURSE-SET2");
 
         //Validate the term resolver
@@ -132,33 +157,41 @@ public class TestTermResolvers {
         //Evaluate term Resolver
         Boolean isAllCompleted = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(isAllCompleted);
-        //assertTrue(isAllCompleted);
+        assertFalse(isAllCompleted);
+
+        //Reset to student 2 and re-evaluate.
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
+        isAllCompleted = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isAllCompleted);
+        assertTrue(isAllCompleted);
     }
 
     @Test
     public void testNumberOfCompletedCoursesTermResolver() {
-        loadCluData(true);
-
         //Setup the term resolver
         NumberOfCompletedCoursesTermResolver termResolver = new NumberOfCompletedCoursesTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
         termResolver.setCluService(cluService);
         termResolver.setCourseOfferingService(courseOfferingService);
 
-        //Add prerequisite
+        //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-
-        //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "DTC101,DTC102");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "COURSE-SET3");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCOMPLETEDCOURSES);
 
         //Evaluate term Resolver
-        //Integer numberOfCompletedCourses = termResolver.resolve(resolvedPrereqs, parameters);
-        //assertNotNull(numberOfCompletedCourses);
-        //assertEquals(new Integer(0), numberOfCompletedCourses);
+        Integer numberOfCompletedCourses = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(numberOfCompletedCourses);
+        assertEquals(new Integer(1), numberOfCompletedCourses);
+
+        //Reset to student 2 and re-evaluate.
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
+        numberOfCompletedCourses = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(numberOfCompletedCourses);
+        assertEquals(new Integer(2), numberOfCompletedCourses);
     }
 
     @Test
@@ -178,8 +211,8 @@ public class TestTermResolvers {
                 KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITSFROMCOMPLETEDCOURSES);
 
         //Evaluate term Resolver
-        Integer numberOfCredits = termResolver.resolve(resolvedPrereqs, parameters);
-        assertNotNull(numberOfCredits);
+        //Integer numberOfCredits = termResolver.resolve(resolvedPrereqs, parameters);
+        //assertNotNull(numberOfCredits);
         //assertEquals(new Integer(0), numberOfCredits);
     }
 
@@ -584,42 +617,76 @@ public class TestTermResolvers {
         return parameters;
     }
 
-    private void loadCluData(boolean includeCluSet) {
+    private void loadCluData() {
         CluDataLoader cluDataLoader = new CluDataLoader();
         cluDataLoader.setCluService(cluService);
         cluDataLoader.setContextInfo(contextInfo);
         cluDataLoader.load();
 
-        if (includeCluSet) {
-            CluSetDataLoader cluSetDataLoader = new CluSetDataLoader();
-            cluSetDataLoader.setCluService(cluService);
-            cluSetDataLoader.setContextInfo(contextInfo);
-            cluSetDataLoader.load();
-        }
+        CluSetDataLoader cluSetDataLoader = new CluSetDataLoader();
+        cluSetDataLoader.setCluService(cluService);
+        cluSetDataLoader.setContextInfo(contextInfo);
+        cluSetDataLoader.load();
     }
 
     private void loadAcadRecordData() {
+
         try {
             acadRecordDataLoader.beforeTest();
 
             // setup the test data for student 1
-            StudentCourseRecordInfo courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), "DTC101", "Dummy Test Course 101");
-            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID, courseRecord);
-
-            courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), "DTC102", "Dummy Test Course 102");
-            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE2_ID, courseRecord);
-
-            courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), "ENGL123", "Comparative English Literature");
-            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE3_ID, courseRecord);
+            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), "COURSE1");
+            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), "COURSE2");
+            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), "COURSE4");
 
             // setup the test data for student 2
-            courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "AAA101", "A Course 101");
-            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "COURSE2", courseRecord);
+            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "COURSE2");
+            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "COURSE3");
+            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "COURSE4");
+            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "COURSE5");
 
-            courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "AAA102", "A Course 102");
-            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "COURSE3", courseRecord);
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
+
+    private void createStudentCourseRecord(String personId, String termId, String courseId) throws Exception {
+        CourseInfo course = this.getCourse(courseId);
+        CourseOffering courseOffering = this.getCourseOffering(course, termId);
+        StudentCourseRecordInfo courseRecord = acadRecordDataLoader.createStudentCourseRecord(personId, termId, course.getCode(), course.getCourseTitle());
+        courseRecord.setCourseOfferingId(courseOffering.getId());
+        acadRecordDataLoader.storeStudentCourseRecord(personId, termId, courseId, courseRecord);
+    }
+
+    private CourseInfo getCourse(String courseId) throws Exception {
+        try {
+            return courseService.getCourse(courseId, contextInfo);
+        } catch (DoesNotExistException dne) {
+            //Create a course from the cluService if it does not exist.
+            CluInfo clu = cluService.getClu(courseId, contextInfo);
+            CourseInfo course = new CourseInfo();
+            course.setId(clu.getId());
+            course.setCode(clu.getOfficialIdentifier().getCode());
+            course.setCourseTitle(clu.getOfficialIdentifier().getLongName());
+            course.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
+            ResultValuesGroupInfo rvg = new ResultValuesGroupInfo();
+            rvg.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0);
+            course.getCreditOptions().add(rvg);
+
+            return courseService.createCourse(course, contextInfo);
+        }
+    }
+
+    private CourseOffering getCourseOffering(CourseInfo course, String termId) throws Exception {
+        String coId = "CO:" + course.getId();
+        try {
+            return courseOfferingService.getCourseOffering(coId, contextInfo);
+        } catch (DoesNotExistException dne) {
+            //Create a course offering from the course if it does not exist.
+            CourseOfferingInfo courseOffering = CourseOfferingServiceTestDataUtils.createCourseOffering(course, termId);
+            courseOffering.setId(coId);
+
+            return courseOfferingService.createCourseOffering(course.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, new ArrayList<String>(), contextInfo);
         }
     }
 
