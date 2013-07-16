@@ -2,9 +2,9 @@ package org.kuali.student.deploy.config;
 
 import org.kuali.common.util.metainf.SqlMetaInfConfig;
 
-public class StudentSqlMetaInfConfig extends DeploymentConfigRequest {
+public class StudentSqlMetaInfConfigRequest extends DeploymentConfigRequest {
 
-	public StudentSqlMetaInfConfig() {
+	public StudentSqlMetaInfConfigRequest() {
 		super(SqlMetaInfConfig.CONTEXT_ID);
 	}
 
