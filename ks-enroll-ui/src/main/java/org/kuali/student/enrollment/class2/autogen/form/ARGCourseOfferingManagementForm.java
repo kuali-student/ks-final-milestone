@@ -185,6 +185,9 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
+    //Requisite link read only flag
+    private boolean requisiteLink;
+
     public boolean getHasAOCluster() {
         return hasAOCluster;
     }
@@ -754,4 +757,11 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.contextBar = contextBar;
     }
 
+    public boolean isRequisiteLink() {
+        return requisiteLink;
+    }
+
+    public void setRequisiteLink(boolean requisiteLink) {
+        this.requisiteLink = requisiteLink;
+    }
 }

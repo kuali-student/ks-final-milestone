@@ -26,6 +26,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
@@ -740,4 +741,26 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         }
     }
 
+
+    /**
+     * Redirect to Manage Course Offering Requisite View
+     *
+     * @param form model
+     * @return ModelAndView
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=manageCORequisites")
+    public ModelAndView manageCORequisites(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm form) throws Exception {
+
+        Properties urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+        urlParameters.put("viewTypeName", "MAINTENANCE");
+        urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CORuleManagementWrapper.class.getName());
+        urlParameters.put("viewName", "COAgendaManagementView");
+        urlParameters.put(KRADConstants.OVERRIDE_KEYS, "refObjectId");
+        urlParameters.put("refObjectId", form.getCurrentCourseOfferingWrapper().getCourseOfferingId());
+        urlParameters.put("returnFormKey", form.getFormKey());
+
+        return super.performRedirect(form, "courseOfferingRules", urlParameters);
+    }
 }

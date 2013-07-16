@@ -24,7 +24,9 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PermissionWrapper;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
+import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -103,6 +105,27 @@ public class KSKRMSPermissionHelper {
                     rule.getPermission().setDeleteRule(true);
                 }
             }
+        }
+    }
+
+    public static void processManageRequisiteLinkForUser(ARGCourseOfferingManagementForm form) {
+        form.setRequisiteLink(false);
+
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+
+        String socState = StringUtils.lowerCase(form.getContextBar().getTermSocState());
+
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        Map<String,String> roleQualifications = new HashMap<String,String>();
+
+        roleQualifications.put("offeringAdminOrgId", form.getAdminOrg());
+
+        permissionDetails.put("socState", socState);
+        permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
+
+        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "requisiteLink");
+        if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+            form.setRequisiteLink(true);
         }
     }
 
