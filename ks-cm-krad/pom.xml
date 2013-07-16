@@ -38,11 +38,6 @@
             <version>${ks.api.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.common</groupId>
-            <artifactId>ks-lum-api</artifactId>
-            <version>${ks.api.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common</artifactId>
             <version>${ks.api.version}</version>
