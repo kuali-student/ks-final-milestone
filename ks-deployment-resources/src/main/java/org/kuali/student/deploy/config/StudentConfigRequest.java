@@ -14,7 +14,7 @@ public class StudentConfigRequest extends ConfigRequest {
 	}
 
 	public StudentConfigRequest(String artifactId, String contextId) {
-		super(ProjectConstants.GROUP_ID, ProjectConstants.ARTIFACT_ID, contextId);
+		super(ProjectConstants.GROUP_ID, artifactId, contextId);
 	}
 
 }
