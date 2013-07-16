@@ -51,6 +51,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.springframework.stereotype.Controller;
@@ -82,6 +83,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     private CourseOfferingSetService socService;
     private CourseOfferingService coService;
     private StateService stateService;
+    private AcademicCalendarService acalService;
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingRolloverController.class);
     public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
@@ -279,6 +281,31 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         List<TermInfo> targetTermsByCode = helper.findTermByTermCode(targetTermCd);
         List<TermInfo> sourceTermsByCode = helper.findTermByTermCode(sourceTermCd);
+        //collect sub-terms if any
+        List<TermInfo> targetSubTermsByCode = _getAcalService().getIncludedTermsInTerm(targetTermsByCode.get(0).getId(), new ContextInfo());
+        List<TermInfo> sourceSubTermsByCode =_getAcalService().getIncludedTermsInTerm(sourceTermsByCode.get(0).getId(), new ContextInfo());
+        //validate target sub-terms
+        if (targetSubTermsByCode != null && targetSubTermsByCode.size() > 0) {
+            for (TermInfo targetSubTerm : targetSubTermsByCode) {
+                if(!StringUtils.equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, targetSubTerm.getStateKey())) {
+                    GlobalVariables.getMessageMap().putError("targetTermCode", "error.rollover.targetTerm.notOfficial");
+                    form.setSourceTermInfoDisplay(getTermDisplayString(targetTermsByCode.get(0).getId(), targetTermsByCode.get(0)));
+                    form.setTargetTermInfoDisplay(getTermDisplayString(sourceTermsByCode.get(0).getId(), sourceTermsByCode.get(0)));
+                    return false;
+                }
+            }
+        }
+        //validate source sub-terms
+        if (sourceSubTermsByCode != null && sourceSubTermsByCode.size() > 0) {
+            for (TermInfo sourceSubTerm : sourceSubTermsByCode) {
+                if(!StringUtils.equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, sourceSubTerm.getStateKey())) {
+                    GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.notOfficial");
+                    form.setSourceTermInfoDisplay(getTermDisplayString(targetTermsByCode.get(0).getId(), targetTermsByCode.get(0)));
+                    form.setTargetTermInfoDisplay(getTermDisplayString(sourceTermsByCode.get(0).getId(), sourceTermsByCode.get(0)));
+                    return false;
+                }
+            }
+        }
 
         boolean sourceTermValid = (sourceTermsByCode != null && sourceTermsByCode.size() == 1);
         boolean targetTermValid = (targetTermsByCode != null && targetTermsByCode.size() == 1);
@@ -708,5 +735,12 @@ public class CourseOfferingRolloverController extends UifControllerBase {
                     StateServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return stateService;
+    }
+    private AcademicCalendarService _getAcalService() {
+        if (acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE,
+                   AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return acalService;
     }
 }
