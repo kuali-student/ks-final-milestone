@@ -3,12 +3,12 @@ package org.kuali.student.deploy.spring;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.common.util.config.spring.BuildPropertySourceConfig;
 import org.kuali.common.util.metainf.MetaInfContext;
-import org.kuali.common.util.metainf.spring.SqlMetaInfPropertySourceConfig;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class StudentSqlMetaInfPropertySourceConfig extends SqlMetaInfPropertySourceConfig {
+public class StudentSqlMetaInfPropertySourceConfig extends BuildPropertySourceConfig {
 
 	protected static final String KS_METAINF_SQL_CONFIG_ID = getConfigId();
 
@@ -22,9 +22,9 @@ public class StudentSqlMetaInfPropertySourceConfig extends SqlMetaInfPropertySou
 
 	protected static String getConfigId() {
 		StringBuilder sb = new StringBuilder();
-		sb.append(Constants.GROUP_ID);
+		sb.append(ProjectConstants.GROUP_ID);
 		sb.append(":");
-		sb.append(Constants.ARTIFACT_ID);
+		sb.append(ProjectConstants.ARTIFACT_ID);
 		sb.append(":");
 		sb.append(MetaInfContext.SQL_CONTEXT_ID);
 		return sb.toString();

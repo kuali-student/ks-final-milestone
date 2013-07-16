@@ -9,11 +9,11 @@ import org.kuali.common.util.ProjectUtils;
 public class UpdateScmProjectContext extends DefaultProjectContext {
 
 	public UpdateScmProjectContext() {
-		super(Constants.GROUP_ID, Constants.ARTIFACT_ID, getLocations());
+		super(ProjectConstants.GROUP_ID, ProjectConstants.ARTIFACT_ID, getLocations());
 	}
 
 	protected static List<String> getLocations() {
-		String prefix = ProjectUtils.getClassPathPrefix(Constants.GROUP_ID_BASE, Constants.KS_SOURCE_DB);
+		String prefix = ProjectUtils.getClassPathPrefix(ProjectConstants.GROUP_ID_BASE, ProjectConstants.KS_SOURCE_DB);
 		List<String> list = new ArrayList<String>();
 		list.add(prefix + "/common.properties");
 		list.add(prefix + "/dump.properties");
