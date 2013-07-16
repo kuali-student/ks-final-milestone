@@ -306,7 +306,7 @@
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
                       p:label="* Key Date Group Type" p:labelPlacement="TOP"
                       p:finalizeMethodToCall="populateKeyDateGroupTypes" >
-
+                    <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000);" />
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -357,6 +357,7 @@
                       p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
                       p:label="* Key Date Type"
                       p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;">
+                    <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000);" />
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
