@@ -48,6 +48,17 @@ import java.util.Map;
 public class ExamServiceMapImpl implements MockService, ExamService
 {
 
+    /////////////////////////////
+    // DATA VARIABLES
+    /////////////////////////////
+
+    // The LinkedHashMap is just so the values come back in a predictable order
+    private Map<String, ExamInfo> examMap = new LinkedHashMap<String, ExamInfo>();
+
+    /////////////////////////////
+    // FUNCTIONALS
+    /////////////////////////////
+
     @Override
     public void clear()
     {
@@ -65,9 +76,6 @@ public class ExamServiceMapImpl implements MockService, ExamService
         // validate
         return new ArrayList<ValidationResultInfo>();
     }
-    // cache variable
-    // The LinkedHashMap is just so the values come back in a predictable order
-    private Map<String, ExamInfo> examMap = new LinkedHashMap<String, ExamInfo>();
 
     @Override
     public ExamInfo createExam(String examTypeKey, ExamInfo examInfo, ContextInfo contextInfo)
