@@ -12,7 +12,7 @@ public class InitializeSourceDbPropertySourceConfig extends BasicPropertySourceC
 
 	@Override
 	protected List<String> getConfigIds() {
-		return ConfigUtils.getConfigIds(DeployConfigConstants.INIT_SOURCE_DB);
+		return ConfigUtils.getConfigIds(DeployConfigConstants.INIT_SOURCE_DB_CONFIG);
 	}
 
 }

@@ -8,7 +8,7 @@ import org.kuali.common.util.config.ConfigRequest;
 
 public class DeployConfigConstants {
 
-	public static final List<ConfigRequest> INIT_SOURCE_DB = getInitSourceDbConfigRequests();
+	public static final List<ConfigRequest> INIT_SOURCE_DB_CONFIG = getInitSourceDbConfigRequests();
 
 	protected static List<ConfigRequest> getInitSourceDbConfigRequests() {
 		List<ConfigRequest> requests = new ArrayList<ConfigRequest>();
