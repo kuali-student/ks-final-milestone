@@ -7,12 +7,12 @@ import org.kuali.common.jdbc.config.JdbcConfigRequest;
 import org.kuali.common.jdbc.config.SqlConfigRequest;
 import org.kuali.common.util.config.ConfigRequest;
 import org.kuali.common.util.config.ConfigUtils;
-import org.kuali.common.util.config.spring.BuildPropertySourceConfig;
+import org.kuali.common.util.config.spring.BasicPropertySourceConfig;
 import org.kuali.student.deploy.config.InitializeSourceDbConfigRequest;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class InitializeSourceDbBuildPropertySourceConfig extends BuildPropertySourceConfig {
+public class InitializeSourceDbPropertySourceConfig extends BasicPropertySourceConfig {
 
 	protected static final List<ConfigRequest> CONFIG_REQUESTS = getConfigRequests();
 
