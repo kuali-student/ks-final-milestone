@@ -641,8 +641,8 @@ public class CluServiceMockImpl implements CluService {
     @Override
     public List<String> getAllCluIdsInCluSet(String cluSetId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // UNKNOWN
-        throw new OperationFailedException("getAllCluIdsInCluSet has not been implemented");
+        CluSetInfo cluSetInfo = cluSetMap.get(cluSetId);
+        return cluSetInfo.getCluIds();
     }
 
     @Override

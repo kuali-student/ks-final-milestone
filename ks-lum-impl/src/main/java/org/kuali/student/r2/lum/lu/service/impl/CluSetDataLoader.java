@@ -40,9 +40,9 @@ public class CluSetDataLoader {
     }
 
     public void load() {
-        loadCourseSet("COURSE-SET1", "COURSE1");
-        loadCourseSet("COURSE-SET2", "COURSE2", "COURSE3");
-        loadCourseSet("COURSE-SET3", "COURSE4", "COURSE5", "COURSE6", "COURSE7");
+        loadCourseSet("COURSE-SET1", "COURSE-SET1-NAME", "COURSE1");
+        loadCourseSet("COURSE-SET2", "COURSE-SET2-NAME", "COURSE2", "COURSE3");
+        loadCourseSet("COURSE-SET3", "COURSE-SET3-NAME", "COURSE4", "COURSE5", "COURSE6", "COURSE7");
     }
 
     public CluSetInfo loadCourseSet(String id,
