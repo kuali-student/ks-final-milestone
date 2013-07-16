@@ -12,7 +12,7 @@ import org.kuali.student.deploy.config.InitializeSourceDbConfigRequest;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class InitializeSourceDbPropertySourceConfig extends BuildPropertySourceConfig {
+public class InitializeSourceDbBuildPropertySourceConfig extends BuildPropertySourceConfig {
 
 	protected static final List<ConfigRequest> CONFIG_REQUESTS = getConfigRequests();
 
