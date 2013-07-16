@@ -39,7 +39,7 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common</artifactId>
+            <artifactId>ks-common-util</artifactId>
             <version>${ks.api.version}</version>
         </dependency>
     </dependencies>
