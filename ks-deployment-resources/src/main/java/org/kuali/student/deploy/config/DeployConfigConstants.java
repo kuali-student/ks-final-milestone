@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.common.jdbc.config.JdbcConfigConstants;
 import org.kuali.common.util.config.ConfigRequest;
+import org.kuali.common.util.metainf.RuntimeSqlMetaInfConfig;
 
 public class DeployConfigConstants {
 
@@ -15,7 +16,7 @@ public class DeployConfigConstants {
 		// Need all the sql and jdbc related properties
 		requests.addAll(JdbcConfigConstants.JDBC_CONFIG);
 		// Re-use the properties from metainf:sql that created the .resources files
-		requests.add(new ConfigRequest("org.kuali.common:kuali-util:metainf:sql:runtime"));
+		requests.add(new RuntimeSqlMetaInfConfig());
 		// KS specific config for connecting to Amazon RDS
 		requests.add(new InitializeSourceDbConfigRequest());
 		return requests;
