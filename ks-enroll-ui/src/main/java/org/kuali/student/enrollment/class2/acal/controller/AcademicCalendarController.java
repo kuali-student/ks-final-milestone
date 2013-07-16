@@ -869,7 +869,7 @@ public class AcademicCalendarController extends UifControllerBase {
             return academicCalendarForm;
         }
 
-        // Create list of dirty fields by seperating string from page (See enroll.js:findDirtyFields())
+        // Create list of dirty fields by seperating string from page (See enroll.js:saveAcalPreProcess())
         String[] tempFields = academicCalendarForm.getDirtyFields().split(",");
         List<String> dirtyFields = new ArrayList<String>();
         for(String field : tempFields){

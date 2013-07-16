@@ -812,7 +812,17 @@ function addBootstrapImageToLink(containerId) {
  * Properties are stored in a csv string and returned by the passed in object.
  */
 
-function findDirtyFields(returnFieldId){
+function saveAcalPreProcess(returnFieldId){
+    //set the default tab to the current active tab
+    var activeTabIndexId = jQuery("#acal_tabs_tabs").tabs("option", "active");
+    var defaultTabToShow = jQuery("#default_tab_to_show_control");
+    if (activeTabIndexId == "0") {
+        defaultTabToShow.val("info");
+    } else if (activeTabIndexId == "1") {
+        defaultTabToShow.val("term");
+    }
+
+    //find the dirty fields
     var dirtyFields = jQuery('.dirty');
     var returnObject = jQuery('#'+returnFieldId+'_control');
     var returnString="";

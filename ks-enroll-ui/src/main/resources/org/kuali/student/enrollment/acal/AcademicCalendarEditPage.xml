@@ -71,7 +71,7 @@ limitations under the License.
                 <!-- This adds the file names to the page HTML -->
                 <ref bean="KS-SourceFile-Comment-Group"/>
 
-                <bean parent="Uif-TabGroup" >
+                <bean parent="Uif-TabGroup" p:id="acal_tabs">
                     <property name="items">
                         <list>
                             <ref bean="KS-AcademicCalendar-EditSection"/>
@@ -109,7 +109,7 @@ limitations under the License.
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save"
                                           p:performClientSideValidation="true" p:render="@{!#view.readOnly and !reload}" p:disabled="@{reload}"
                                           p:jumpToIdAfterSubmit="TOP">
-                                        <property name="onClickScript" value="findDirtyFields('AcalEdit-DirtyFields');"/>
+                                        <property name="onClickScript" value="saveAcalPreProcess('AcalEdit-DirtyFields');"/>
                                     </bean>
                                     <bean parent="KS-Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
                                           p:performClientSideValidation="true" p:render="@{reload}" />
@@ -247,7 +247,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <!-- Hidden field to set focus to instead of one with client side validation -->
-                <bean parent="Uif-InputField" p:propertyName="defaultTabToShow">
+                <bean parent="Uif-InputField" p:id="default_tab_to_show" p:propertyName="defaultTabToShow">
                     <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
                     <property name="control">
                         <bean parent="Uif-HiddenControl">
