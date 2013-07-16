@@ -330,7 +330,7 @@
                     <property name="Items">
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
-                                   p:label="ID" p:required="true" p:cssClasses="col_5">
+                                   p:label="ID" p:required="false" p:cssClasses="col_5">
                                 <property name="quickfinder.dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
                                 <property name="quickfinder.fieldConversions">
                                     <map>
@@ -343,13 +343,13 @@
                                     <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION">
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:required="true" p:exclusiveMin="0" p:inclusiveMax="100">
+                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:required="false" p:exclusiveMin="0" p:inclusiveMax="100">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="10" />
                                 </property>

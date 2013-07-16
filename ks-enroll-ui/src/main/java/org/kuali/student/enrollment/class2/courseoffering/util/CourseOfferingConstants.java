@@ -96,7 +96,10 @@ public class CourseOfferingConstants {
     public static final String DELIVERY_FORMAT_SECTION_ID = "KS-Catalog-FormatOfferingSubSection";
     public static final String DELIVERY_FORMAT_REQUIRED_ERROR = "error.courseoffering.create.deliveryformat.required";
     public static final String JOINT_COURSE_FORMATS_DELETE_DIALOG = "jointCourseFormatsDeleteDialog";
-
+    public static final String COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID = "error.info.enroll.courseoffering.edit.personnel.id";
+    public static final String COURSEOFFERING_ERROR_UNMATCHING_PERSONNEL_NAME = "error.info.enroll.courseoffering.edit.personnel.name";
+    public static final String COURSEOFFERING_ERROR_PERSONNEL_AFFILIATION = "error.info.enroll.courseoffering.edit.personnel.instructor_type";
+    public static final String COURSEOFFERING_ERROR_PERSONNEL_EFFORT = "error.info.enroll.courseoffering.edit.personnel.effort";
     public static final String ERROR_INVALID_CLU_VERSION = "error.enroll.courseoffering.create.clu.version.invalid";
     /**
      * Course Offering Informational Constants

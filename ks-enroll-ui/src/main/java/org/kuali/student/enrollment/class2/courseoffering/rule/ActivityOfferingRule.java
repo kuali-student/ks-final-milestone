@@ -3,25 +3,29 @@ package org.kuali.student.enrollment.class2.courseoffering.rule;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
+import javax.xml.namespace.QName;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.xml.namespace.QName;
 
 
 public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
@@ -37,6 +41,8 @@ public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
         boolean result = true;
         ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)maintenanceDocument.getNewMaintainableObject().getDataObject();
 
+        // validate Personnel
+        result &= validatePersonnel(aoWrapper);
         // validate Seat Pool population
         result &= validateSeatpools(aoWrapper);
 
@@ -107,6 +113,67 @@ public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
         return validFlag;
     }
 
+    protected boolean validatePersonnel(ActivityOfferingWrapper activityOfferingWrapper) {
+        List<OfferingInstructorWrapper> instructors = activityOfferingWrapper.getInstructors();
+        boolean noError = true;
+
+        if (instructors != null && !instructors.isEmpty()) {
+            for (OfferingInstructorWrapper instructorWrapper : instructors)   {
+                if (instructorWrapper != null) {
+                    OfferingInstructorInfo info = instructorWrapper.getOfferingInstructorInfo();
+                    if(info == null ) {
+                        if(instructorWrapper.getsEffort() != null && !instructorWrapper.getsEffort().isEmpty()) {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(
+                                    "ActivityOfferingEdit-PersonnelSection",
+                                    CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, info.getPersonId());
+                            noError &= false;
+                        }
+                    } else if(info.getPersonId().isEmpty() && (!info.getTypeKey().isEmpty() || !info.getPersonName().isEmpty()
+                            ||  ((instructorWrapper.getsEffort() != null && !instructorWrapper.getsEffort().isEmpty()))
+                            )) {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(
+                                "ActivityOfferingEdit-PersonnelSection",
+                                CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, info.getPersonId());
+                        noError &= false;
+                    }
+                    if ((info != null) && (info.getPersonId() != null) && !info.getPersonId().isEmpty()) {
+                        // verify this is a legal personId
+                        List<Person> personList = CourseOfferingViewHelperUtil.getInstructorByPersonId(info.getPersonId());
+                        if (personList.isEmpty()) {
+                            GlobalVariables.getMessageMap().putErrorForSectionId(
+                                    "ActivityOfferingEdit-PersonnelSection",
+                                    CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, info.getPersonId());
+                            noError &= false;
+                        } else {
+                            String instructorName = personList.get(0).getName().trim();
+                            if(instructorName != null && !instructorName.isEmpty()) {
+                                if(!instructorName.equals(info.getPersonName())) {
+                                    GlobalVariables.getMessageMap().putErrorForSectionId(
+                                            "ActivityOfferingEdit-PersonnelSection",
+                                            CourseOfferingConstants.COURSEOFFERING_ERROR_UNMATCHING_PERSONNEL_NAME, info.getPersonName(), instructorName);
+                                    noError &= false;
+                                }
+                            }
+                            if(info.getTypeKey() == null || info.getTypeKey().isEmpty()) {
+                                    GlobalVariables.getMessageMap().putErrorForSectionId(
+                                            "ActivityOfferingEdit-PersonnelSection",
+                                            CourseOfferingConstants.COURSEOFFERING_ERROR_PERSONNEL_AFFILIATION);
+                                    noError &= false;
+                            }
+                            String effort = instructorWrapper.getsEffort();
+                            if(effort == null || effort.isEmpty()) {
+                                GlobalVariables.getMessageMap().putErrorForSectionId("ActivityOfferingEdit-PersonnelSection",
+                                        CourseOfferingConstants.COURSEOFFERING_ERROR_PERSONNEL_EFFORT);
+                                noError &= false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return noError;
+    }
 
     private PopulationService getPopulationService() {
         if (populationService == null) {
