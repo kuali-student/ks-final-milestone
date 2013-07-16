@@ -21,4 +21,10 @@
       <location value="${ks.source.db.common}" />
     </context>
   </context>
+  <context id="sourcedb">
+    <context id="initialize">
+      <location value="${ks.source.db.common}" />
+      <location value="${ks.source.db.prefix}/initialize.properties" />
+    </context>
+  </context>
 </project>
