@@ -606,6 +606,11 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             }
         }
 
+        if(existingCO==null){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Selected Course");
+            return getUIFModelAndView(form);
+        }
+
         List<String> optionKeys = this.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
 
         if (createWrapper.isExcludeInstructorInformation()) {
@@ -644,15 +649,17 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                 contextInfo);
 
         CourseOfferingInfo courseOfferingInfo = getCourseOfferingService().getCourseOffering(item.getTargetCourseOfferingId(), contextInfo);
-        Properties urlParameters;
-        urlParameters = ARGUtil._buildCOURLParameters(courseOfferingInfo, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
 
-        if (createWrapper.isCrossListed()){
-            urlParameters.put("editCrossListedCoAlias", BooleanUtils.toStringTrueFalse(true));
-        } else {
-            urlParameters.put("editCrossListedCoAlias", BooleanUtils.toStringTrueFalse(false));
-        }
-        return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
+        Properties urlParameters;
+        urlParameters = new Properties();
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
+        urlParameters.put("termCode",createWrapper.getTargetTermCode());
+        urlParameters.put("inputCode",courseOfferingInfo.getCourseOfferingCode());
+        urlParameters.put("viewId",CourseOfferingConstants.MANAGE_CO_VIEW_ID);
+        urlParameters.put("pageId",CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+        urlParameters.put("withinPortal","false");
+
+        return super.performRedirect(form, CourseOfferingConstants.MANAGE_CO_CONTROLLER_PATH, urlParameters);
     }
 
 
