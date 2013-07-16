@@ -903,6 +903,17 @@ public class AcademicCalendarController extends UifControllerBase {
             // Check for deleted key dates and delete them from database
             AcademicTermWrapper term = academicCalendarForm.getTermWrapperList().get(i);
             deleteKeyDates(term, viewHelperService);
+
+            // update instructionalDays
+            try{
+                term.setInstructionalDays(getAcalService().getInstructionalDaysForTerm(term.getTermInfo().getId(), viewHelperService.createContextInfo()));
+            }catch (Exception ex){
+                // If the save fails message user
+                if (LOG.isDebugEnabled()){
+                    LOG.error("Save Academic calendar failed - " + ex.getMessage());
+                }
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED);
+            }
         }
 
         // Reset values
@@ -1244,7 +1255,7 @@ public class AcademicCalendarController extends UifControllerBase {
     /**
      * Determines kay dates that have been deleted in the UI and deletes them from the database
      *
-     * @param form - View form containing the Calendar information
+     * @param term - term wrapper from form
      * @param helperService - View Helper service
      */
     private void deleteKeyDates(AcademicTermWrapper term, AcademicCalendarViewHelperService helperService){
