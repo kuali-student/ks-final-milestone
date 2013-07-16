@@ -63,14 +63,13 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
     public static final Date END_FALL_TERM_DATE = new DateTime().withDate(2012, 12, 29).toDate();
     
     public static final String STUDENT_ONE_ID = "student1";
+    public static final String STUDENT_TWO_ID = "student2";
     
     public static final String FAKE_COURSE_ID = "course1";
-
+    public static final String FAKE_COURSE2_ID = "course2";
+    public static final String FAKE_COURSE3_ID = "course3";
 
     private AtpInfo springAtpInfo;
-
-
-
     private AtpInfo fallAtpInfo;
     
     

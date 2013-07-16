@@ -4,13 +4,17 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -28,6 +32,9 @@ import java.util.Set;
  *
  */
 public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
+
+    private CluService cluService;
+    private AcademicRecordService academicRecordService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -49,19 +56,50 @@ public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
 
     @Override
     public int getCost() {
-        // TODO Analyze, though probably not much to check here
-        return 1;
+        return 5;
     }
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
         //Get the number of completed courses in list.
-        TermResolver<Integer> numberOfCompletedCoursesTermResolver = new NumberOfCompletedCoursesTermResolver();
-        int completedCourses = numberOfCompletedCoursesTermResolver.resolve(resolvedPrereqs, parameters);
+        ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
 
         String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
 
-        return completedCourses >= 2;
+        try {
+            List<String> cluIds = this.getCluService().getAllCluIdsInCluSet(cluSetId, ContextUtils.getContextInfo());
+            for(String cluId : cluIds){
+
+                //CluIds from Clusets are always version independent ids. Is this method using an version independentId or a canonical id?
+                List<StudentCourseRecordInfo> recordInfos = academicRecordService.getCompletedCourseRecordsForCourse(personId, cluId, contextInfo);
+                if(recordInfos.size()==0){
+                    return false;
+                }
+            }
+        } catch (DoesNotExistException dne){
+            return false;
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        }
+
+        return true;
+    }
+
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
+
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
+    }
+
+    public CluService getCluService() {
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 }

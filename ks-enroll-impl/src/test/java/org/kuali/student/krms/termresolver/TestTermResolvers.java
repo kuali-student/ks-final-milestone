@@ -1,23 +1,31 @@
 package org.kuali.student.krms.termresolver;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoader;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.lu.service.impl.CluDataLoader;
+import org.kuali.student.r2.lum.lu.service.impl.CluSetDataLoader;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -31,10 +39,12 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(locations = {"classpath:krms-test-with-mocks-context.xml"})
 public class TestTermResolvers {
 
+    @Resource
+    private KRMSEnrollmentEligibilityDataLoader acadRecordDataLoader;
+
     public ContextInfo contextInfo = null;
     Map<String, Object> resolvedPrereqs = null;
     Map<String, String> parameters = null;
-    private String studentID = "12020303";
     private String termID = "1001";
     private String calcTypeID = "mockTypeKey3";
 
@@ -58,6 +68,7 @@ public class TestTermResolvers {
 
     @Before
     public void setUp() {
+
         contextInfo = new ContextInfo();
         contextInfo.setLocale(new LocaleInfo());
         contextInfo.setPrincipalId("admin");
@@ -68,15 +79,17 @@ public class TestTermResolvers {
 
     @Test
     public void testCompletedCourseTermResolver() {
+        loadAcadRecordData();
+
         //Setup the term resolver
         CompletedCourseTermResolver termResolver = new CompletedCourseTermResolver();
         termResolver.setAcademicRecordService(this.academicRecordService);
 
         //Add prerequisite
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "DTC101");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -98,27 +111,34 @@ public class TestTermResolvers {
 
     @Test
     public void testCompletedCoursesTermResolver() {
+        loadCluData(true);
+        loadAcadRecordData();
+
         //Setup the term resolver
         CompletedCoursesTermResolver termResolver = new CompletedCoursesTermResolver();
+        termResolver.setAcademicRecordService(this.academicRecordService);
+        termResolver.setCluService(this.cluService);
 
         //Add prerequisite
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
 
         //Create parameters
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "1");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "COURSE-SET2");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_COMPLETEDCOURSES);
 
         //Evaluate term Resolver
-        //Boolean isAllCompleted = termResolver.resolve(resolvedPrereqs, parameters);
-        //assertNotNull(isAllCompleted);
+        Boolean isAllCompleted = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isAllCompleted);
         //assertTrue(isAllCompleted);
     }
 
     @Test
     public void testNumberOfCompletedCoursesTermResolver() {
+        loadCluData(true);
+
         //Setup the term resolver
         NumberOfCompletedCoursesTermResolver termResolver = new NumberOfCompletedCoursesTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
@@ -126,7 +146,7 @@ public class TestTermResolvers {
         termResolver.setCourseOfferingService(courseOfferingService);
 
         //Add prerequisite
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "DTC101,DTC102");
@@ -148,7 +168,7 @@ public class TestTermResolvers {
         termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         //parameters.put(KSKRMSServiceConstants.CALC_TYPE_KEY_TERM_PROPERTY, calcTypeID);
@@ -170,7 +190,7 @@ public class TestTermResolvers {
         termResolver.setCourseRegistrationService(courseRegistrationService);
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "DTC102");
@@ -191,7 +211,7 @@ public class TestTermResolvers {
         EnrolledCoursesTermResolver termResolver = new EnrolledCoursesTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Add Parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "2");
@@ -212,7 +232,7 @@ public class TestTermResolvers {
         NumberOfEnrolledCoursesTermResolver termResolver = new NumberOfEnrolledCoursesTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "DTC101");
@@ -234,7 +254,7 @@ public class TestTermResolvers {
         termResolver.setAcademicRecordService(academicRecordService);
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "DTC101");
@@ -255,7 +275,7 @@ public class TestTermResolvers {
         GradeTypeTermResolver termResolver = new GradeTypeTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "1");
@@ -278,7 +298,7 @@ public class TestTermResolvers {
         OrganizationCreditsTermResolver termResolver = new OrganizationCreditsTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "1");
@@ -303,7 +323,7 @@ public class TestTermResolvers {
         termResolver.setOrganizationService(organizationService);
 
         //Add prerequisite
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "1");
@@ -324,7 +344,7 @@ public class TestTermResolvers {
         ScoreTermResolver termResolver = new ScoreTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TEST_CLU_KEY, "1");
@@ -360,7 +380,7 @@ public class TestTermResolvers {
         ProgramCoursesOrgDurationTermResolver termResolver = new ProgramCoursesOrgDurationTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "1");
@@ -383,7 +403,7 @@ public class TestTermResolvers {
         AdmittedProgramTermResolver termResolver = new AdmittedProgramTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Add parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "2");
@@ -404,8 +424,8 @@ public class TestTermResolvers {
         AdmittedProgramAtCourseCampusTermResolver termResolver = new AdmittedProgramAtCourseCampusTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CLU_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CLU_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -423,7 +443,7 @@ public class TestTermResolvers {
         AdmittedProgramTermResolver termResolver = new AdmittedProgramTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "1");
@@ -444,7 +464,7 @@ public class TestTermResolvers {
         CompletedCourseForTermTermResolver termResolver = new CompletedCourseForTermTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "2");
@@ -466,7 +486,7 @@ public class TestTermResolvers {
         CompletedCourseBetweenTermsTermResolver termResolver = new CompletedCourseBetweenTermsTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "1");
@@ -490,7 +510,7 @@ public class TestTermResolvers {
         termResolver.setPopulationService(populationService);
 
         //Add prerequisite
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
 
         //Create parameters
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY, "1");
@@ -512,7 +532,7 @@ public class TestTermResolvers {
         InstructorPermissionTermResolver termResolver = new InstructorPermissionTermResolver();
 
         //Add prerequisites
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, studentID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CLU_ID, "1");
 
         //Validate the term resolver
@@ -527,7 +547,7 @@ public class TestTermResolvers {
 
     //@Test
     //public void testNumberOfEnrollmentsForCourseTermResolver() {
-        //Setup the term resolver
+    //Setup the term resolver
     //    NumberOfEnrollmentsForCourseTermResolver termResolver = new NumberOfEnrollmentsForCourseTermResolver();
     //}
 
@@ -544,7 +564,7 @@ public class TestTermResolvers {
     }
 
     private void validateAttributeSet(String message, Set<String> names, Set<String> keys) {
-        if(keys==null){
+        if (keys == null) {
             return;
         }
 
@@ -562,6 +582,45 @@ public class TestTermResolvers {
     private Map<String, String> getDefaultParameters() {
         Map<String, String> parameters = new HashMap<String, String>();
         return parameters;
+    }
+
+    private void loadCluData(boolean includeCluSet) {
+        CluDataLoader cluDataLoader = new CluDataLoader();
+        cluDataLoader.setCluService(cluService);
+        cluDataLoader.setContextInfo(contextInfo);
+        cluDataLoader.load();
+
+        if (includeCluSet) {
+            CluSetDataLoader cluSetDataLoader = new CluSetDataLoader();
+            cluSetDataLoader.setCluService(cluService);
+            cluSetDataLoader.setContextInfo(contextInfo);
+            cluSetDataLoader.load();
+        }
+    }
+
+    private void loadAcadRecordData() {
+        try {
+            acadRecordDataLoader.beforeTest();
+
+            // setup the test data for student 1
+            StudentCourseRecordInfo courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), "DTC101", "Dummy Test Course 101");
+            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID, courseRecord);
+
+            courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), "DTC102", "Dummy Test Course 102");
+            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE2_ID, courseRecord);
+
+            courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), "ENGL123", "Comparative English Literature");
+            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, acadRecordDataLoader.getFallTermId(), KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE3_ID, courseRecord);
+
+            // setup the test data for student 2
+            courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "AAA101", "A Course 101");
+            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "COURSE2", courseRecord);
+
+            courseRecord = acadRecordDataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "AAA102", "A Course 102");
+            acadRecordDataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, acadRecordDataLoader.getFallTermId(), "COURSE3", courseRecord);
+        } catch (Exception e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
     }
 
 }

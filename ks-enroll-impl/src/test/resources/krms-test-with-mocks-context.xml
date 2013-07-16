@@ -82,8 +82,10 @@
     <bean id="cluService" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl">
     </bean>
 
+    <bean id="acadRecordDataLoader" class="org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader"/>
+
     <bean id="acadRecordService"
-          class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMockImpl">
+          class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceClass2MockImpl">
     </bean>
 
     <bean id="courseRegistrationService"
