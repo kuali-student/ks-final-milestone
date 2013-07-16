@@ -10,7 +10,7 @@ public class DeploymentConfigRequest extends ConfigRequest {
 	}
 
 	public DeploymentConfigRequest(String contextId) {
-		super(ProjectConstants.GROUP_ID, ProjectConstants.ARTIFACT_ID);
+		super(ProjectConstants.GROUP_ID, ProjectConstants.ARTIFACT_ID, contextId);
 	}
 
 }

@@ -17,6 +17,10 @@ public class SqlMetaInfPropertySourceConfig extends BuildPropertySourceConfig {
 
 	@Override
 	protected List<String> getConfigIds() {
+		List<String> configIds = ConfigUtils.getConfigIds(CONFIG_REQUESTS);
+		for (String configId : configIds) {
+			System.out.println("configId=" + configId);
+		}
 		return ConfigUtils.getConfigIds(CONFIG_REQUESTS);
 	}
 
