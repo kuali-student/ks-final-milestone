@@ -9,7 +9,7 @@ public class SourceDbConfigRequest extends StudentConfigRequest {
 	}
 
 	public SourceDbConfigRequest(String contextId) {
-		super(ProjectConstants.SOURCE_DB_ARTIFACT_ID, contextId);
+		super(ProjectConstants.KS_SOURCE_DB_ARTIFACT_ID, contextId);
 	}
 
 }

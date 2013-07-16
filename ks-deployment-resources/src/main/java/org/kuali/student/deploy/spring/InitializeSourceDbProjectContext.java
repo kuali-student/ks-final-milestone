@@ -14,7 +14,7 @@ public class InitializeSourceDbProjectContext extends DefaultProjectContext {
 
 	@Override
 	public List<String> getPropertyLocations() {
-		String prefix = ProjectUtils.getClassPathPrefix(ProjectConstants.GROUP_ID_BASE, ProjectConstants.KS_SOURCE_DB);
+		String prefix = ProjectUtils.getClassPathPrefix(ProjectConstants.GROUP_ID_BASE, ProjectConstants.KS_SOURCE_DB_ARTIFACT_ID);
 		List<String> list = new ArrayList<String>();
 		list.add(prefix + "/common.properties");
 		list.add(prefix + "/initialize.properties");
