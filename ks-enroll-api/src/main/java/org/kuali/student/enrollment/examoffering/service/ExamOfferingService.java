@@ -471,7 +471,7 @@ public interface ExamOfferingService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getExamOfferingRelationIdsByType(@WebParam(name = "relationshipTypeKey") List<String> relationshipTypeKey,
+    public List<String> getExamOfferingRelationIdsByType(@WebParam(name = "relationshipTypeKey") String relationshipTypeKey,
                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
