@@ -38,7 +38,7 @@
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
                                     <removeExistingPropertySources>true</removeExistingPropertySources>
-                                    <propertySourcesConfig>org.kuali.student.deploy.spring.InitializeSourceDbMavenPropertySourceConfig</propertySourcesConfig>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.InitializeSourceDbPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClass>org.kuali.common.jdbc.spring.SqlControllerExecutableConfig</annotatedClass>
                                 </configuration>
                             </execution>
