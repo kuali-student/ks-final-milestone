@@ -22,6 +22,7 @@
                         </goals>
                         <phase>prepare-package</phase>
                         <configuration>
+                            <propertySourcesConfig>${impex.metainf.propertySource}</propertySourcesConfig>
                             <annotatedClass>${impex.metainf.context}</annotatedClass>
                         </configuration>
                     </execution>
