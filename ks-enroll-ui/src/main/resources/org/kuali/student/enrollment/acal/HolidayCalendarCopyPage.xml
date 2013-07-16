@@ -50,7 +50,7 @@
                         <bean parent="Uif-Message"
                               p:messageText="When copying a Holiday Calendar, all holiday names as well as dates and times from the source calendar are copied."
                               p:style="margin-bottom:0;"/>
-                        <bean parent="Uif-ActionLink"
+                        <bean parent="KS-Uif-ActionLink"
                               p:methodToCall="toCreate"
                               p:actionLabel="Start a blank calendar instead?"/>
                     </list>
@@ -97,7 +97,7 @@
                               p:actionLabel="Copy Holiday Calendar"
                               p:render="@{holidayCalendarInfo != null}"
                               p:performClientSideValidation="true" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
+                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
                     </list>
                 </property>
             </bean>
@@ -139,7 +139,7 @@
                       p:messageText="A recent holiday calendar could not be found."
                       p:render="@{holidayCalendarInfo == null}"
                       p:style="font-size:125%;"/>
-                <bean parent="Uif-ActionLink"
+                <bean parent="KS-Uif-ActionLink"
                       p:actionLabel="@{holidayCalendarInfo != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}"
                       p:methodToCall="search"/>
             </list>

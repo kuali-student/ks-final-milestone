@@ -63,7 +63,7 @@
                                 </property>
                                 <property name="quickfinder.readOnlySearchFields" value="courseInfo.courseTitle" />
                                 <property name="quickfinder.quickfinderAction">
-                                    <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode">
+                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchCourseCode">
                                         <property name="actionImage">
                                             <bean parent="Uif-QuickLookupImage"/>
                                         </property>

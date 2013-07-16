@@ -196,7 +196,7 @@
             <property name="items">
                 <list>
                     <bean parent="Uif-PrimaryActionButton" p:actionLabel="Create Copy" p:methodToCall="copyCourseOfferingCreateCopy"/>
-                    <bean parent="Uif-ActionLink" p:methodToCall="copyCourseOfferingCancel" p:actionLabel="Cancel" />
+                    <bean parent="KS-Uif-ActionLink" p:methodToCall="copyCourseOfferingCancel" p:actionLabel="Cancel" />
                 </list>
             </property>
         </bean>

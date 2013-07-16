@@ -64,7 +64,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Search" p:methodToCall="searchForTerm"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
+                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
                     </list>
                 </property>
             </bean>

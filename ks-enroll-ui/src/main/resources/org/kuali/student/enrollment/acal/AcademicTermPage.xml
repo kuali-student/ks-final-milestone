@@ -69,10 +69,10 @@
                                             <property name="items">
                                                 <list>
 
-                                                    <bean id="term_official" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official"
+                                                    <bean id="term_official" parent="KS-Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official"
                                                           p:render="@{!#line.official and !#view.readOnly}"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"  />
-                                                    <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="@{#line.isSubTerm()? 'Delete Subterm Draft' : 'Delete Term Draft'}"
+                                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="@{#line.isSubTerm()? 'Delete Subterm Draft' : 'Delete Term Draft'}"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                                                           p:render="@{!#line.official and !#view.readOnly}"/>
                                                     <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}"/>
@@ -80,7 +80,7 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean id="term_cancel_button" parent="Uif-ActionLink"
+                                        <bean id="term_cancel_button" parent="KS-Uif-ActionLink"
                                               p:methodToCall="cancelTerm" p:actionLabel="Cancel"
                                               p:render="@{#line.termInfo == null or #line.termInfo.id == null }"
                                               p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"/>
@@ -439,7 +439,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean  id="key_date_delete_button" parent="Uif-ActionLink"  p:methodToCall="deleteKeyDate" p:actionLabel="Delete" />
+                <bean  id="key_date_delete_button" parent="KS-Uif-ActionLink"  p:methodToCall="deleteKeyDate" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>

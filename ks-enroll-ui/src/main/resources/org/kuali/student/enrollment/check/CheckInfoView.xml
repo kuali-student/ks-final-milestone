@@ -75,7 +75,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="" p:actionLabel="Select" />
+                <bean parent="KS-Uif-ActionLink" p:methodToCall="" p:actionLabel="Select" />
             </list>
         </property>
     </bean>

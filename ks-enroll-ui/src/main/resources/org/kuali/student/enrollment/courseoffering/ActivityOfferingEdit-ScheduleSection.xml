@@ -141,7 +141,7 @@
                     <bean parent="Uif-DropdownControl" p:multiple="true" p:size="7" p:options-ref="features-options"/>
                   </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Clear selections" p:preSubmitCall="clearFeaturesSelected();"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Clear selections" p:preSubmitCall="clearFeaturesSelected();"/>
             </list>
         </property>
     </bean>

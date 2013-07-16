@@ -106,7 +106,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Save'}" p:methodToCall="@{isSaveSuccess ? 'close' : 'create'}" p:performDirtyValidation="false"/>
-                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close" p:hidden="@{isSaveSuccess}"/>
+                                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close" p:hidden="@{isSaveSuccess}"/>
                                     </list>
                                 </property>
                             </bean>

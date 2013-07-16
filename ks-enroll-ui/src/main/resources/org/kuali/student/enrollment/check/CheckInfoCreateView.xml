@@ -81,7 +81,7 @@
                         </map>
                     </property>
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
+                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
                     </property>
                     <property name="quickfinder.lightBoxLookup">
                         <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
@@ -101,7 +101,7 @@
                         </map>
                     </property>
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
+                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
                     </property>
                     <property name="quickfinder.lightBoxLookup">
                         <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
@@ -119,7 +119,7 @@
                         </map>
                     </property>
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
+                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
                     </property>
                     <property name="quickfinder.lightBoxLookup">
                         <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
@@ -148,7 +148,7 @@
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Create Check"
                                   p:methodToCall="create"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                            <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
                         </list>
                     </property>
                 </bean>

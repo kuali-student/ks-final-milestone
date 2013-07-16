@@ -216,7 +216,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="markCourseForJointOffering" p:actionEvent="createNewCO"
+                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="markCourseForJointOffering" p:actionEvent="createNewCO"
                       p:performClientSideValidation="false" p:actionLabel="@{!#lp.selectedToJointlyOfferred ? 'Create New' : 'Deselect'}" p:onClickScript="writeHiddenToForm(&quot;document.newMaintainableObject.dataObject.selectedIndex&quot;, &quot;@{#index}&quot;);" p:render="@{!#lp.alreadyOffered and #line.isEnableCreateNewCOActionLink()}"/>
             </list>
         </property>
@@ -234,10 +234,10 @@
                             <bean parent="Uif-HorizontalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean id="showCreateFormatLink" parent="Uif-ActionLink" p:methodToCall="showCreateFormatSection" p:style="font-weight:bold;" p:actionLabel="Add Formats" p:render="@{#dp.showJointOption and !#dp.showCreateFormatSection}"/>
+                                        <bean id="showCreateFormatLink" parent="KS-Uif-ActionLink" p:methodToCall="showCreateFormatSection" p:style="font-weight:bold;" p:actionLabel="Add Formats" p:render="@{#dp.showJointOption and !#dp.showCreateFormatSection}"/>
                                         <bean id="hideCreateFormatLink" parent="Uif-Message" p:messageText="Add Formats" p:style="font-weight:bold;" p:render="@{#dp.showJointOption and #dp.showCreateFormatSection}"/>
                                         <bean parent="Uif-Message" p:messageText="  |  " p:style="font-weight:bold;" p:render="@{#dp.showJointOption}"/>
-                                        <bean id="showCopyFormatLink" parent="Uif-ActionLink" p:methodToCall="showCopyFromJointOffering" p:style="font-weight:bold;" p:actionLabel="Copy from Joint Offering" p:render="@{#dp.showJointOption and !#dp.showCopyFormatSection}"/>
+                                        <bean id="showCopyFormatLink" parent="KS-Uif-ActionLink" p:methodToCall="showCopyFromJointOffering" p:style="font-weight:bold;" p:actionLabel="Copy from Joint Offering" p:render="@{#dp.showJointOption and !#dp.showCopyFormatSection}"/>
                                         <bean id="hideCopyFormatLink" parent="Uif-Message" p:messageText="Copy from Joint Offering" p:style="font-weight:bold;" p:render="@{#dp.showJointOption and #dp.showCopyFormatSection}"/>
                                     </list>
                                 </property>
@@ -424,7 +424,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"/>
-                                    <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
+                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
                                 </list>
                             </property>
                         </bean>
@@ -449,7 +449,7 @@
                         </map>
                     </property>
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup"/>
+                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup"/>
                     </property>
                     <property name="quickfinder.lightBoxLookup">
                         <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
@@ -539,7 +539,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="createFromCopy" p:actionLabel="Create" p:render="@{!#view.readOnly}"/>
-                                    <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
+                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
                                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
                                 </list>
                             </property>

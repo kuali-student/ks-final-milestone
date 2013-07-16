@@ -93,10 +93,10 @@
                                     <bean parent="KS-Uif-PrimaryActionButton"
                                           p:methodToCall="save"
                                           p:actionLabel="Save"  p:performClientSideValidation="true" />
-                                    <bean parent="Uif-ActionLink" p:methodToCall="delete"
+                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="delete"
                                           p:actionLabel="Delete Calendar Draft"
                                           p:render="@{!newCalendar and !officialUI}"/>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"
                                             p:style="float: right  !important;"/>
                                 </list>
                             </property>
@@ -262,7 +262,7 @@
 		</property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="deleteHoliday" p:actionLabel="delete"/>
+                <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteHoliday" p:actionLabel="delete"/>
             </list>
         </property>
 	</bean>

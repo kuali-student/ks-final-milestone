@@ -59,9 +59,9 @@
             <bean parent="Uif-HorizontalBoxGroup" p:id="copyEditDeleteHeader" p:componentSecurity.viewAuthz="true">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;"/>
-                        <bean parent="Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;"/>
-                        <bean parent="Uif-ActionLink" p:render="@{!officialUI}" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;"/>
+                        <bean parent="KS-Uif-ActionLink" p:methodToCall="toCopy" p:actionLabel="Copy" p:style="text-align:center;"/>
+                        <bean parent="KS-Uif-ActionLink" p:methodToCall="toEdit" p:actionLabel="Edit" p:style="text-align:center;"/>
+                        <bean parent="KS-Uif-ActionLink" p:render="@{!officialUI}" p:methodToCall="delete" p:actionLabel="Delete" p:style="text-align:center;"/>
                     </list>
                 </property>
             </bean>

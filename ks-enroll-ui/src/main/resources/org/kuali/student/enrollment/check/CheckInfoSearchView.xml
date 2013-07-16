@@ -97,7 +97,7 @@
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Clear Values" p:methodToCall="clear"/>
-                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
+                                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
                                     </list>
                                 </property>
                             </bean>
@@ -187,7 +187,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Update" p:methodToCall="update"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="back"/>
+                            <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="back"/>
                         </list>
                     </property>
                 </bean>

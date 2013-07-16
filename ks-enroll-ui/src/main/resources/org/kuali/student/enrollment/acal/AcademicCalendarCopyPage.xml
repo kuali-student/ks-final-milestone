@@ -46,7 +46,7 @@ limitations under the License.
                             <bean parent="Uif-Message"
                                   p:messageText="All term and milestone types will be copied to the new Academic Calendar without dates and times."
                                   p:style="margin-bottom:0;"/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Create Blank Academic Calendar"/>
+                            <bean parent="KS-Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Create Blank Academic Calendar"/>
                         </list>
                     </property>
                 </bean>
@@ -89,7 +89,7 @@ limitations under the License.
                               p:methodToCall="copy"
                               p:actionLabel="Copy Academic Calendar"
                               p:render="@{academicCalendarInfo != null}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
+                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
                     </list>
                 </property>
             </bean>
@@ -165,7 +165,7 @@ limitations under the License.
                                   p:messageText="A recent academic calendar could not be found."
                                   p:render="@{copyFromAcal == null}"
                                   p:style="font-size:125%;"/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="search" p:align="center"
+                            <bean parent="KS-Uif-ActionLink" p:methodToCall="search" p:align="center"
                                   p:actionLabel="@{copyFromAcal != null ? 'Find a different calendar to copy' : 'Choose a Calendar'}"/>
                         </list>
                     </property>

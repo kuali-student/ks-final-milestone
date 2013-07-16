@@ -37,7 +37,7 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
                       p:style="margin-right: 15px;"/>
                 <bean parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3"
                       p:renderAddLine="false">
@@ -68,7 +68,7 @@ limitations under the License.
                     </property>
                 </bean>
                 <ref bean="KRMS-TestTree-Section"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Progressive Disclosure with dropdown on LightBox" p:actionScript="showLightboxComponent('myDropdownLightBox');"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Progressive Disclosure with dropdown on LightBox" p:actionScript="showLightboxComponent('myDropdownLightBox');"/>
             </list>
         </property>
         <property name="dialogs">
@@ -116,7 +116,7 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
                       p:align="right"/>
             </list>
         </property>

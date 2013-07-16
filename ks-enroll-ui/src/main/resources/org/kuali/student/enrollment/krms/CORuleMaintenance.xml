@@ -160,7 +160,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
@@ -206,7 +206,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="KSCO-RuleView-Links" p:render="@{#line.dummy and #line.parent != null}"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:disabled="@{!#line.permission.addEditRequisite}"
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:disabled="@{!#line.permission.addEditRequisite}"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>
@@ -215,13 +215,13 @@ limitations under the License.
     <bean id="KSCO-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:disabled="@{!#line.permission.addEditRequisite}"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:disabled="@{!#line.permission.deleteRequisite}"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:disabled="@{!#line.permission.addEditRequisite}"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:disabled="@{!#line.permission.deleteRequisite}"/>
             </list>
         </property>
     </bean>
@@ -229,7 +229,7 @@ limitations under the License.
     <bean id="KSCO-RuleView-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
@@ -285,13 +285,13 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
+                <bean parent="KS-Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Show Courses">
                     <property name="actionImage">
                         <null/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
+                <bean parent="KS-Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Hide Courses" p:style="margin-left: 1em;">
                     <property name="actionImage">
                         <null/>
@@ -396,7 +396,7 @@ limitations under the License.
     <bean id="KSCO-RulePreview-Links" parent="KRMS-RulePreview-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>

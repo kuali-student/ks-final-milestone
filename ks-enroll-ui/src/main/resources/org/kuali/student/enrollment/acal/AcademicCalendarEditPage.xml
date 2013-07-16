@@ -235,7 +235,7 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official" p:render="@{!#line.official and !#view.readOnly}" />
+                <bean id="term_makeofficial_link" parent="KS-Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official" p:render="@{!#line.official and !#view.readOnly}" />
             </list>
         </property>
     </bean>
@@ -428,7 +428,7 @@ limitations under the License.
              <bean parent="Uif-HorizontalBoxGroup">
                  <property name="items">
                     <list>
-                       <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar"
+                       <bean parent="KS-Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar"
                              p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
                     </list>
                  </property>
@@ -448,7 +448,7 @@ limitations under the License.
                                     <list>
                                         <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
                                         <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
-                                        <bean parent="Uif-ActionLink" p:methodToCall="deleteHolidayCalendar" p:actionLabel="Delete" p:ajaxSubmit="true"
+                                        <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteHolidayCalendar" p:actionLabel="Delete" p:ajaxSubmit="true"
                                               p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                                               p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
                                     </list>

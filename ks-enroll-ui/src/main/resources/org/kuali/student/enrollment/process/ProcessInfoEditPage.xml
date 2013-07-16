@@ -76,7 +76,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-PrimaryActionButton" p:actionLabel="Update" p:methodToCall="update"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Cancel'}" p:methodToCall="back" />
+                            <bean parent="KS-Uif-ActionLink" p:actionLabel="@{isSaveSuccess ? 'Back' : 'Cancel'}" p:methodToCall="back" />
                         </list>
                     </property>
                 </bean>

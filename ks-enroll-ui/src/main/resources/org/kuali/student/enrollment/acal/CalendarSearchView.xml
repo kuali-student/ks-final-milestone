@@ -149,7 +149,7 @@
                                                           p:actionLabel="Search"
                                                           p:methodToCall="search"/>
 
-                                                    <bean parent="Uif-ActionLink" p:style="margin-top: 5px"
+                                                    <bean parent="KS-Uif-ActionLink" p:style="margin-top: 5px"
                                                           p:actionLabel="Cancel"
                                                           p:methodToCall="close" />
                                                 </list>
