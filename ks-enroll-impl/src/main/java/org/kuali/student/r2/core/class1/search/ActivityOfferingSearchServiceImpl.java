@@ -15,6 +15,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -223,6 +224,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
 
     @Override
+    @Transactional(readOnly = true)
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // As this class expands, you can add multiple searches. Ie. right now there is only one search (so only one search key).
@@ -488,7 +490,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             String aoId = (String)resultRow[RESULTROW_AOID_OFFSET];
 
             SearchResultRowInfo row;
-            if((row = aoMap.get(aoId)) == null) {
+            if(aoId == null || (row = aoMap.get(aoId)) == null) {
                 row = new SearchResultRowInfo();
                 row.addCell(SearchResultColumns.FO_ID, (String)resultRow[i++]);
                 row.addCell(SearchResultColumns.FO_NAME, (String)resultRow[i++]);
