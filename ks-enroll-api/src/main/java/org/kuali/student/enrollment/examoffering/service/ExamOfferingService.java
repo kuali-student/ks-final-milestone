@@ -347,11 +347,11 @@ public interface ExamOfferingService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public ExamInfo createExamOfferingRelation(@WebParam(name = "formatOfferingId") String formatOfferingId,
-                                               @WebParam(name = "examOfferingId") String examOfferingId,
-                                               @WebParam(name = "examOfferingTypeKey") String examOfferingTypeKey,
-                                               @WebParam(name = "examOfferingRelationInfo") ExamOfferingRelationInfo examOfferingRelationInfo,
-                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public ExamOfferingRelationInfo createExamOfferingRelation(@WebParam(name = "formatOfferingId") String formatOfferingId,
+                                                               @WebParam(name = "examOfferingId") String examOfferingId,
+                                                               @WebParam(name = "examOfferingTypeKey") String examOfferingTypeKey,
+                                                               @WebParam(name = "examOfferingRelationInfo") ExamOfferingRelationInfo examOfferingRelationInfo,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -379,9 +379,9 @@ public interface ExamOfferingService {
      * @throws VersionMismatchException an optimistic locking failure or the action was attempted on an out
      * of data version
      */
-    public ExamInfo updateExamOfferingRelation (@WebParam(name = "examOfferingRelationId") String examOfferingRelationId,
-                                                @WebParam(name = "examOfferingRelationInfo") ExamOfferingRelationInfo examOfferingRelationInfo,
-                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public ExamOfferingRelationInfo updateExamOfferingRelation (@WebParam(name = "examOfferingRelationId") String examOfferingRelationId,
+                                                                @WebParam(name = "examOfferingRelationInfo") ExamOfferingRelationInfo examOfferingRelationInfo,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
