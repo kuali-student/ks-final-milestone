@@ -15,7 +15,7 @@ public class DeployConfigConstants {
 		List<ConfigRequest> requests = new ArrayList<ConfigRequest>();
 		// Need all the sql and jdbc related properties
 		requests.addAll(JdbcConfigConstants.JDBC_CONFIG);
-		// Re-use the properties from metainf:sql used when creating the .resources files
+		// Re-use the properties from metainf:sql that created the .resources files
 		requests.add(new SqlMetaInfConfig());
 		// KS specific config for connecting to Amazon RDS
 		requests.add(new InitializeSourceDbConfigRequest());
