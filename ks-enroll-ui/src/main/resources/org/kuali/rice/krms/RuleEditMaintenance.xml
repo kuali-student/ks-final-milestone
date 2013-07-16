@@ -89,11 +89,11 @@ limitations under the License.
     <bean id="KRMS-LogicArea-InputField" parent="Uif-InputField" p:propertyName="logicArea"
           p:style="margin-left: 5px; margin-top: 5px">
         <property name="control">
-            <bean parent="Uif-MediumTextAreaControl" p:style="width:612px"/>
+            <bean parent="Uif-MediumTextAreaControl" p:style="width:612px" p:disabled="@{!#dp.ruleEditor.permission.editLogic}"/>
         </property>
     </bean>
 
-    <bean id="KRMS-LogicPreview-Button" parent="Uif-SecondaryActionButton-Small" p:style="margin-left: 5px"
+    <bean id="KRMS-LogicPreview-Button" parent="Uif-SecondaryActionButton-Small" p:style="margin-left: 5px" p:disabled="@{!#dp.ruleEditor.permission.editLogic}"
           p:methodToCall="updatePreview">
         <property name="actionLabel" value="Preview Change"/>
     </bean>
@@ -203,17 +203,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-AddButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.addRuleAction}"
-          p:actionLabel="Add Statement">
+    <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.addEditGroupRule}"
+          p:actionLabel="Add Statement" p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconAdd.png"
                   p:altText="Add"/>
         </property>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-AddButton-Parent" p:render="@{#dp.ruleEditor.permission.addRuleAction}"
-          p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');">
         <property name="cssClasses">
             <list merge="true">
                 <value>kr-add-button</value>
@@ -221,8 +217,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-EditButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.editRuleAction}"
-          p:actionLabel="Edit">
+    <bean id="KRMS-RuleEditorView-EditButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.addEditGroupRule}"
+          p:actionLabel="Edit" p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconEdit.png"
@@ -230,11 +226,8 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-EditButton" parent="KRMS-RuleEditorView-EditButton-Parent" p:render="@{#dp.ruleEditor.permission.editRuleAction}"
-          p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'KRMS-RuleEditor-TreeGroup');"/>
-
-    <bean id="KRMS-RuleEditorView-GroupButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.editRuleAction}"
-          p:actionLabel="Create Group">
+    <bean id="KRMS-RuleEditorView-GroupButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.addEditGroupRule}"
+          p:actionLabel="Create Group" p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconGroup.png"
@@ -242,20 +235,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-GroupButton" parent="KRMS-RuleEditorView-GroupButton-Parent" p:render="@{#dp.ruleEditor.permission.groupRuleAction}"
-          p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','KRMS-RuleEditor-TreeGroup');"/>
-
-    <bean id="KRMS-RuleEditorView-LeftButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.moveOutRuleAction}"
-          p:actionLabel="Move Out">
+    <bean id="KRMS-RuleEditorView-LeftButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.moveRule}"
+          p:actionLabel="Move Out" p:actionScript="ajaxCallPropositionTree('movePropositionLeft','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconLeft.png"
                   p:altText="Left"/>
         </property>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-LeftButton" parent="KRMS-RuleEditorView-LeftButton-Parent" p:render="@{#dp.ruleEditor.permission.moveOutRuleAction}"
-          p:actionScript="ajaxCallPropositionTree('movePropositionLeft','KRMS-RuleEditor-TreeGroup');">
         <property name="cssClasses">
             <list merge="true">
                 <value>kr-move-button</value>
@@ -264,17 +250,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-RightButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.moveInRuleAction}"
-          p:actionLabel="Move In">
+    <bean id="KRMS-RuleEditorView-RightButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.moveRule}"
+          p:actionLabel="Move In" p:actionScript="ajaxCallPropositionTree('movePropositionRight','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconRight.png"
                   p:altText="Right"/>
         </property>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-RightButton" parent="KRMS-RuleEditorView-RightButton-Parent" p:render="@{#dp.ruleEditor.permission.moveInRuleAction}"
-          p:actionScript="ajaxCallPropositionTree('movePropositionRight','KRMS-RuleEditor-TreeGroup');">
         <property name="cssClasses">
             <list merge="true">
                 <value>kr-move-button</value>
@@ -283,17 +265,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-UpButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.moveUpRuleAction}"
-          p:actionLabel="Move Up">
+    <bean id="KRMS-RuleEditorView-UpButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.moveRule}"
+          p:actionLabel="Move Up" p:actionScript="ajaxCallPropositionTree('movePropositionUp','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconUp.png"
                   p:altText="Up"/>
         </property>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-UpButton" parent="KRMS-RuleEditorView-UpButton-Parent" p:render="@{#dp.ruleEditor.permission.moveUpRuleAction}"
-          p:actionScript="ajaxCallPropositionTree('movePropositionUp','KRMS-RuleEditor-TreeGroup');">
         <property name="cssClasses">
             <list merge="true">
                 <value>kr-move-button</value>
@@ -302,17 +280,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-DownButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.moveDownRuleAction}"
-          p:actionLabel="Move Down">
+    <bean id="KRMS-RuleEditorView-DownButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.moveRule}"
+          p:actionLabel="Move Down" p:actionScript="ajaxCallPropositionTree('movePropositionDown','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconDown.png"
                   p:altText="Down"/>
         </property>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-DownButton" parent="KRMS-RuleEditorView-DownButton-Parent" p:render="@{#dp.ruleEditor.permission.moveDownRuleAction}"
-          p:actionScript="ajaxCallPropositionTree('movePropositionDown','KRMS-RuleEditor-TreeGroup');">
         <property name="cssClasses">
             <list merge="true">
                 <value>kr-move-button</value>
@@ -321,17 +295,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-CopyButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.copyRuleAction}"
-          p:actionLabel="Copy">
+    <bean id="KRMS-RuleEditorView-CopyButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.copyCutRule}"
+          p:actionLabel="Copy" p:actionScript="ajaxCopyPropositionTree();">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconCopy.png"
                   p:altText="Copy"/>
         </property>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-CopyButton" parent="KRMS-RuleEditorView-CopyButton-Parent" p:render="@{#dp.ruleEditor.permission.copyRuleAction}"
-          p:actionScript="ajaxCopyPropositionTree();">
         <property name="cssClasses">
             <list merge="true">
                 <value>kr-cut-button</value>
@@ -340,17 +310,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-CutButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.cutRuleAction}"
-          p:actionLabel="Cut">
+    <bean id="KRMS-RuleEditorView-CutButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.copyCutRule}"
+          p:actionLabel="Cut" p:actionScript="ajaxCutPropositionTree();">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconCut.png"
                   p:altText="Cut"/>
         </property>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-CutButton" parent="KRMS-RuleEditorView-CutButton-Parent" p:render="@{#dp.ruleEditor.permission.cutRuleAction}"
-          p:actionScript="ajaxCutPropositionTree();">
         <property name="cssClasses">
             <list merge="true">
                 <value>kr-cut-button</value>
@@ -358,17 +324,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-PasteButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.pasteRuleAction}"
-          p:actionLabel="Paste">
+    <bean id="KRMS-RuleEditorView-PasteButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxPastePropositionTree('pasteProposition', 'KRMS-RuleEditor-TreeGroup');" p:actionLabel="Paste">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconPaste.png"
                   p:altText="Paste"/>
         </property>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-PasteButton" parent="KRMS-RuleEditorView-PasteButton-Parent" p:render="@{#dp.ruleEditor.permission.pasteRuleAction}"
-          p:actionScript="ajaxPastePropositionTree('pasteProposition', 'KRMS-RuleEditor-TreeGroup');">
         <property name="cssClasses">
             <list merge="true">
                 <value>kr-paste-button</value>
@@ -376,17 +338,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleEditorView-DeleteButton-Parent" parent="KRMS-RuleEditorView-Button" p:render="@{!#dp.ruleEditor.permission.deleteRuleAction}"
-          p:actionLabel="Delete">
+    <bean id="KRMS-RuleEditorView-DeleteButton" parent="KRMS-RuleEditorView-Button" p:disabled="@{!#dp.ruleEditor.permission.deleteRule}"
+          p:actionLabel="Delete" p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
             <bean parent="Uif-Image"
                   p:source="@{#ConfigProperties['application.url']}/ks-enroll/css/images/iconDelete.png"
                   p:altText="Delete"/>
         </property>
-    </bean>
-
-    <bean id="KRMS-RuleEditorView-DeleteButton" parent="KRMS-RuleEditorView-DeleteButton-Parent" p:render="@{#dp.ruleEditor.permission.deleteRuleAction}"
-          p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');">
         <property name="cssClasses">
             <list merge="true">
                 <value>kr-delete-button</value>

@@ -87,8 +87,7 @@ limitations under the License.
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules"/>
-                <!--bean parent="Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compareAction}"/-->
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}"/>
             </list>
         </property>
     </bean>
@@ -262,7 +261,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-CompareRule" parent="KRMS-CompareRule-parent"/>
 
-    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Tree-Section">
+    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Tree-Section" >
         <property name="propertyName" value="previewTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
@@ -296,8 +295,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{#np.data}"/>
                 <bean parent="Uif-SpaceField"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey">
-                <!--bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey" p:disabled="@{!#dp.ruleEditor.permission.editRuleLogicTab}"-->
+                <bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey" p:disabled="@{!#dp.ruleEditor.permission.editLogic}">
                     <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
