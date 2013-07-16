@@ -1,7 +1,7 @@
 package org.kuali.student.deploy.config;
 
 import org.kuali.common.util.config.ConfigRequest;
-import org.kuali.student.deploy.spring.ProjectConstants;
+import org.kuali.student.deploy.spring.DeployProjectConstants;
 
 public class StudentConfigRequest extends ConfigRequest {
 
@@ -14,7 +14,7 @@ public class StudentConfigRequest extends ConfigRequest {
 	}
 
 	public StudentConfigRequest(String artifactId, String contextId) {
-		super(ProjectConstants.GROUP_ID, artifactId, contextId);
+		super(DeployProjectConstants.GROUP_ID, artifactId, contextId);
 	}
 
 }

@@ -7,7 +7,7 @@ import org.kuali.common.util.DefaultProjectContext;
 public class SourceDbCommonProjectContext extends DefaultProjectContext {
 
 	public SourceDbCommonProjectContext() {
-		super(ProjectConstants.GROUP_ID, ProjectConstants.ARTIFACT_ID, Arrays.asList(ProjectConstants.KS_SOURCE_DB_COMMON));
+		super(DeployProjectConstants.GROUP_ID, DeployProjectConstants.ARTIFACT_ID, Arrays.asList(DeployProjectConstants.KS_SOURCE_DB_COMMON));
 	}
 
 }

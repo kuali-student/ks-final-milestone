@@ -23,7 +23,7 @@ import org.kuali.common.util.DefaultProjectContext;
 public class RiceDbProjectContext extends DefaultProjectContext {
 
     public RiceDbProjectContext() {
-        super(ProjectConstants.GROUP_ID, ProjectConstants.ARTIFACT_ID);
+        super(DeployProjectConstants.GROUP_ID, DeployProjectConstants.ARTIFACT_ID);
     }
 
     @Override

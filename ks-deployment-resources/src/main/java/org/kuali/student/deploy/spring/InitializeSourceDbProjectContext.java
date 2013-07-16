@@ -9,12 +9,12 @@ import org.kuali.common.util.ProjectUtils;
 public class InitializeSourceDbProjectContext extends DefaultProjectContext {
 
 	public InitializeSourceDbProjectContext() {
-		super(ProjectConstants.GROUP_ID, ProjectConstants.ARTIFACT_ID);
+		super(DeployProjectConstants.GROUP_ID, DeployProjectConstants.ARTIFACT_ID);
 	}
 
 	@Override
 	public List<String> getPropertyLocations() {
-		String prefix = ProjectUtils.getClassPathPrefix(ProjectConstants.GROUP_ID_BASE, ProjectConstants.KS_SOURCE_DB_ARTIFACT_ID);
+		String prefix = ProjectUtils.getClassPathPrefix(DeployProjectConstants.GROUP_ID_BASE, DeployProjectConstants.KS_SOURCE_DB_ARTIFACT_ID);
 		List<String> list = new ArrayList<String>();
 		list.add(prefix + "/common.properties");
 		list.add(prefix + "/initialize.properties");

@@ -2,7 +2,7 @@ package org.kuali.student.deploy.spring;
 
 import org.kuali.common.util.ProjectUtils;
 
-public abstract class ProjectConstants {
+public abstract class DeployProjectConstants {
 
 	public static final String GROUP_ID = org.kuali.common.util.ProjectConstants.STUDENT_GROUP_ID;
 	public static final String ARTIFACT_ID = "ks-deployment-resources";
