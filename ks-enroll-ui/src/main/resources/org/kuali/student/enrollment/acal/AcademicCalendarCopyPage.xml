@@ -44,9 +44,9 @@ limitations under the License.
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
-                                  p:messageText="When copying an Academic Calendar, all term and milestone names, as well as dates and times from the source calendar are copied."
+                                  p:messageText="All term and milestone types will be copied to the new Academic Calendar without dates and times."
                                   p:style="margin-bottom:0;"/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Start a blank calendar instead?"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="createBlankCalendar" p:actionLabel="Create Blank Academic Calendar"/>
                         </list>
                     </property>
                 </bean>
@@ -85,7 +85,7 @@ limitations under the License.
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-SecondaryActionButton"
+                        <bean parent="Uif-PrimaryActionButton"
                               p:methodToCall="copy"
                               p:actionLabel="Copy Academic Calendar"
                               p:render="@{academicCalendarInfo != null}"/>
@@ -97,7 +97,7 @@ limitations under the License.
     </bean>
 
     <bean id="KS-AcademicCalendar-CopyPage-From" parent="Uif-VerticalBoxSubSection"
-          p:headerText="Copy From:">
+          p:headerText="Copy from most recent calendar">
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
         </property>
@@ -111,13 +111,62 @@ limitations under the License.
                                   p:propertyName="copyFromAcal.name"
                                   p:id="copyFromAcalName"
                                   p:style="font-size:125%;"
-                                  p:showLabel="false"/>
-                            <bean parent="Uif-DataField"
-                                  p:propertyName="copyFromAcal.startDate"
-                                  p:label="Start Date"/>
-                            <bean parent="Uif-DataField"
-                                  p:propertyName="copyFromAcal.endDate"
-                                  p:label="End Date"/>
+                                  p:showLabel="false">
+                                <property name="align" value="center;"/>
+                                  </bean>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-calendar-copy-content</value>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-VerticalBoxGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message">
+                                                        <property name="style" value="font-weight: bold;"/>
+                                                        <property name="messageText" value='Start Date'/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                    <bean parent="Uif-Message">
+                                                        <property name="style" value="font-weight: bold;"/>
+                                                        <property name="messageText" value='End Date'/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-VerticalBoxGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="copyFromAcal.startDate">
+                                                        <property name="labelRendered" value="true"/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="copyFromAcal.endDate">
+                                                        <property name="labelRendered" value="true"/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-Message" p:align="center"
+                                  p:messageText="A recent academic calendar could not be found."
+                                  p:render="@{copyFromAcal == null}"
+                                  p:style="font-size:125%;"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="search" p:align="center"
+                                  p:actionLabel="@{copyFromAcal != null ? 'Find a different calendar to copy' : 'Choose a Calendar'}"/>
                         </list>
                     </property>
                     <property name="cssClasses">
@@ -126,12 +175,7 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-Message"
-                      p:messageText="A recent academic calendar could not be found."
-                      p:render="@{copyFromAcal == null}"
-                      p:style="font-size:125%;"/>
-                <bean parent="Uif-ActionLink" p:methodToCall="search"
-                      p:actionLabel="@{copyFromAcal != null ? 'Choose a Different Calendar' : 'Choose a Calendar'}"/>
+
             </list>
         </property>
     </bean>
