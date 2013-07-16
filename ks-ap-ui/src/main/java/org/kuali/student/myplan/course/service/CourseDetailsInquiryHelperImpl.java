@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -830,6 +831,25 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		List<ActivityOfferingItem> rv = new java.util.ArrayList<ActivityOfferingItem>(
 				c);
+		Collections.sort(rv, new Comparator<ActivityOfferingItem>() {
+			@Override
+			public int compare(ActivityOfferingItem o1, ActivityOfferingItem o2) {
+				if (o1 == null && o2 == null)
+					return 0;
+				if (o1 == null)
+					return -1;
+				if (o2 == null)
+					return 1;
+				String l1 = o1.getLuiId(), l2 = o2.getLuiId();
+				if (l1 == null && l2 == null)
+					return 0;
+				if (l1 == null)
+					return -1;
+				if (l2 == null)
+					return 1;
+				return l1.compareTo(l2);
+			}
+		});
 		for (List<ActivityOfferingItem> aol : activityOfferingItemsByPrimary
 				.values()) {
 			for (ActivityOfferingItem ao : aol)
