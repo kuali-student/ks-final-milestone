@@ -23,167 +23,87 @@ import java.io.Serializable;
  */
 public class PermissionWrapper implements Serializable {
 
-    private boolean addRequisiteAction;
-    private boolean deleteRequisiteAction;
-    private boolean compareAction;
-    private boolean addRuleAction;
-    private boolean editRuleAction;
-    private boolean groupRuleAction;
-    private boolean moveUpRuleAction;
-    private boolean moveDownRuleAction;
-    private boolean moveOutRuleAction;
-    private boolean moveInRuleAction;
-    private boolean copyRuleAction;
-    private boolean cutRuleAction;
-    private boolean pasteRuleAction;
-    private boolean deleteRuleAction;
-    private boolean editRuleLogicTab;
-    private boolean updateRuleAction;
+    private boolean addEditRequisite;
+    private boolean deleteRequisite;
+    private boolean compare;
+    private boolean addEditGroupRule;
+    private boolean moveRule;
+    private boolean copyCutRule;
+    private boolean editLogic;
+    private boolean deleteRule;
 
     public PermissionWrapper() {
-        this.addRequisiteAction = true;
-        this.deleteRequisiteAction = true;
-        this.compareAction = true;
-        this.addRuleAction = true;
-        this.editRuleAction = true;
-        this.groupRuleAction = true;
-        this.moveUpRuleAction = true;
-        this.moveDownRuleAction = true;
-        this.moveOutRuleAction = true;
-        this.moveInRuleAction = true;
-        this.copyRuleAction = true;
-        this.cutRuleAction = true;
-        this.pasteRuleAction = true;
-        this.deleteRuleAction = true;
-        this.editRuleLogicTab = true;
-        this.updateRuleAction = true;
+        this.addEditRequisite = true;
+        this.deleteRequisite = true;
+        this.compare = true;
+        this.addEditGroupRule = true;
+        this.moveRule = true;
+        this.copyCutRule = true;
+        this.editLogic = true;
+        this.deleteRule = true;
     }
 
-    public boolean isAddRequisiteAction() {
-        return addRequisiteAction;
+    public boolean isAddEditRequisite() {
+        return addEditRequisite;
     }
 
-    public void setAddRequisiteAction(boolean addRequisiteAction) {
-        this.addRequisiteAction = addRequisiteAction;
+    public void setAddEditRequisite(boolean addEditRequisite) {
+        this.addEditRequisite = addEditRequisite;
     }
 
-    public boolean isDeleteRequisiteAction() {
-        return deleteRequisiteAction;
+    public boolean isDeleteRequisite() {
+        return deleteRequisite;
     }
 
-    public void setDeleteRequisiteAction(boolean deleteRequisiteAction) {
-        this.deleteRequisiteAction = deleteRequisiteAction;
+    public void setDeleteRequisite(boolean deleteRequisite) {
+        this.deleteRequisite = deleteRequisite;
     }
 
-    public boolean isCompareAction() {
-        return compareAction;
+    public boolean isCompare() {
+        return compare;
     }
 
-    public void setCompareAction(boolean compareAction) {
-        this.compareAction = compareAction;
+    public void setCompare(boolean compare) {
+        this.compare = compare;
     }
 
-    public boolean isAddRuleAction() {
-        return addRuleAction;
+    public boolean isAddEditGroupRule() {
+        return addEditGroupRule;
     }
 
-    public void setAddRuleAction(boolean addRuleAction) {
-        this.addRuleAction = addRuleAction;
+    public void setAddEditGroupRule(boolean addEditGroupRule) {
+        this.addEditGroupRule = addEditGroupRule;
     }
 
-    public boolean isEditRuleAction() {
-        return editRuleAction;
+    public boolean isMoveRule() {
+        return moveRule;
     }
 
-    public void setEditRuleAction(boolean editRuleAction) {
-        this.editRuleAction = editRuleAction;
+    public void setMoveRule(boolean moveRule) {
+        this.moveRule = moveRule;
     }
 
-    public boolean isGroupRuleAction() {
-        return groupRuleAction;
+    public boolean isCopyCutRule() {
+        return copyCutRule;
     }
 
-    public void setGroupRuleAction(boolean groupRuleAction) {
-        this.groupRuleAction = groupRuleAction;
+    public void setCopyCutRule(boolean copyCutRule) {
+        this.copyCutRule = copyCutRule;
     }
 
-    public boolean isMoveUpRuleAction() {
-        return moveUpRuleAction;
+    public boolean isEditLogic() {
+        return editLogic;
     }
 
-    public void setMoveUpRuleAction(boolean moveUpRuleAction) {
-        this.moveUpRuleAction = moveUpRuleAction;
+    public void setEditLogic(boolean editLogic) {
+        this.editLogic = editLogic;
     }
 
-    public boolean isMoveDownRuleAction() {
-        return moveDownRuleAction;
+    public boolean isDeleteRule() {
+        return deleteRule;
     }
 
-    public void setMoveDownRuleAction(boolean moveDownRuleAction) {
-        this.moveDownRuleAction = moveDownRuleAction;
-    }
-
-    public boolean isMoveOutRuleAction() {
-        return moveOutRuleAction;
-    }
-
-    public void setMoveOutRuleAction(boolean moveOutRuleAction) {
-        this.moveOutRuleAction = moveOutRuleAction;
-    }
-
-    public boolean isMoveInRuleAction() {
-        return moveInRuleAction;
-    }
-
-    public void setMoveInRuleAction(boolean moveInRuleAction) {
-        this.moveInRuleAction = moveInRuleAction;
-    }
-
-    public boolean isCopyRuleAction() {
-        return copyRuleAction;
-    }
-
-    public void setCopyRuleAction(boolean copyRuleAction) {
-        this.copyRuleAction = copyRuleAction;
-    }
-
-    public boolean isCutRuleAction() {
-        return cutRuleAction;
-    }
-
-    public void setCutRuleAction(boolean cutRuleAction) {
-        this.cutRuleAction = cutRuleAction;
-    }
-
-    public boolean isPasteRuleAction() {
-        return pasteRuleAction;
-    }
-
-    public void setPasteRuleAction(boolean pasteRuleAction) {
-        this.pasteRuleAction = pasteRuleAction;
-    }
-
-    public boolean isDeleteRuleAction() {
-        return deleteRuleAction;
-    }
-
-    public void setDeleteRuleAction(boolean deleteRuleAction) {
-        this.deleteRuleAction = deleteRuleAction;
-    }
-
-    public boolean isEditRuleLogicTab() {
-        return editRuleLogicTab;
-    }
-
-    public void setEditRuleLogicTab(boolean editRuleLogicTab) {
-        this.editRuleLogicTab = editRuleLogicTab;
-    }
-
-    public boolean isUpdateRuleAction() {
-        return updateRuleAction;
-    }
-
-    public void setUpdateRuleAction(boolean updateRuleAction) {
-        this.updateRuleAction = updateRuleAction;
+    public void setDeleteRule(boolean deleteRule) {
+        this.deleteRule = deleteRule;
     }
 }

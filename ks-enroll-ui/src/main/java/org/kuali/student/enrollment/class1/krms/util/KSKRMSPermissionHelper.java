@@ -63,106 +63,58 @@ public class KSKRMSPermissionHelper {
 
                 permissionDetails.put("ruleType", rule.getRuleTypeInfo().getType());
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addRequisite");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addEditRequisite");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setAddRequisiteAction(true);
+                    rule.getPermission().setAddEditRequisite(true);
                 }
 
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteRequisite");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setDeleteRequisiteAction(true);
+                    rule.getPermission().setDeleteRequisite(true);
                 }
 
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "compare");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setCompareAction(true);
+                    rule.getPermission().setCompare(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addRule");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addEditGroupRule");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setAddRuleAction(true);
+                    rule.getPermission().setAddEditGroupRule(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editRule");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveRule");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setEditRuleAction(true);
+                    rule.getPermission().setMoveRule(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "createGroup");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyCutRule");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setGroupRuleAction(true);
+                    rule.getPermission().setCopyCutRule(true);
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveUp");
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editLogic");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setMoveUpRuleAction(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveDown");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setMoveDownRuleAction(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveIn");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setMoveInRuleAction(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveOut");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setMoveOutRuleAction(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "copyRule");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setCopyRuleAction(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cutRule");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setCutRuleAction(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "pasteRule");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setPasteRuleAction(true);
+                    rule.getPermission().setEditLogic(true);
                 }
 
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteRule");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setDeleteRuleAction(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editRuleLogic");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setEditRuleLogicTab(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "updateRule");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    rule.getPermission().setUpdateRuleAction(true);
+                    rule.getPermission().setDeleteRule(true);
                 }
             }
         }
     }
 
     private static void resetActions(RuleEditor ruleEditor) {
-        ruleEditor.getPermission().setAddRequisiteAction(false);
-        ruleEditor.getPermission().setDeleteRequisiteAction(false);
-        ruleEditor.getPermission().setCompareAction(false);
-        ruleEditor.getPermission().setAddRuleAction(false);
-        ruleEditor.getPermission().setEditRuleAction(false);
-        ruleEditor.getPermission().setGroupRuleAction(false);
-        ruleEditor.getPermission().setMoveUpRuleAction(false);
-        ruleEditor.getPermission().setMoveDownRuleAction(false);
-        ruleEditor.getPermission().setMoveOutRuleAction(false);
-        ruleEditor.getPermission().setMoveInRuleAction(false);
-        ruleEditor.getPermission().setCopyRuleAction(false);
-        ruleEditor.getPermission().setCutRuleAction(false);
-        ruleEditor.getPermission().setPasteRuleAction(false);
-        ruleEditor.getPermission().setDeleteRuleAction(false);
-        ruleEditor.getPermission().setEditRuleLogicTab(false);
-        ruleEditor.getPermission().setUpdateRuleAction(false);
+        ruleEditor.getPermission().setAddEditRequisite(false);
+        ruleEditor.getPermission().setDeleteRequisite(false);
+        ruleEditor.getPermission().setCompare(false);
+        ruleEditor.getPermission().setAddEditGroupRule(false);
+        ruleEditor.getPermission().setMoveRule(false);
+        ruleEditor.getPermission().setCopyCutRule(false);
+        ruleEditor.getPermission().setEditLogic(false);
+        ruleEditor.getPermission().setDeleteRule(false);
     }
 
     private static PermissionService getPermissionService() {
