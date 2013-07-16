@@ -3,13 +3,17 @@ package org.kuali.student.deploy.config;
 import org.kuali.common.util.config.ConfigRequest;
 import org.kuali.student.deploy.spring.ProjectConstants;
 
-public class DeploymentConfig extends ConfigRequest {
+public class StudentConfigRequest extends ConfigRequest {
 
-	public DeploymentConfig() {
+	public StudentConfigRequest() {
 		this(null);
 	}
 
-	public DeploymentConfig(String contextId) {
+	public StudentConfigRequest(String artifactId) {
+		this(artifactId, null);
+	}
+
+	public StudentConfigRequest(String artifactId, String contextId) {
 		super(ProjectConstants.GROUP_ID, ProjectConstants.ARTIFACT_ID, contextId);
 	}
 
