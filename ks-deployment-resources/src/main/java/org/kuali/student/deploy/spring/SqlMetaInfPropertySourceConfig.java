@@ -7,7 +7,7 @@ import org.kuali.common.util.config.ConfigRequest;
 import org.kuali.common.util.config.ConfigUtils;
 import org.kuali.common.util.config.spring.BuildPropertySourceConfig;
 import org.kuali.common.util.metainf.SqlMetaInfConfig;
-import org.kuali.student.deploy.spring.config.StudentSqlMetaInfConfig;
+import org.kuali.student.deploy.config.StudentSqlMetaInfConfig;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
