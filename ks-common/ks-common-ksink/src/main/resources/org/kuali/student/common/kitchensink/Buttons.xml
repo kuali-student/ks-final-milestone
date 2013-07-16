@@ -399,6 +399,11 @@
                                     </bean>
                                 </property>
                             </bean>
+                            <bean parent="KS-Uif-PrimaryActionButton" p:actionScript="return false;" p:actionImagePlacement="LEFT">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/plus_white.png"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -431,6 +436,11 @@
                                     <bean parent="Uif-Tooltip">
                                         <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Mini&quot; p:buttonSize=&quot;mini&quot;/&gt;"/>
                                     </bean>
+                                </property>
+                            </bean>
+                            <bean parent="KS-Uif-SecondaryActionButton" p:actionScript="return false;" p:actionImagePlacement="LEFT">
+                                <property name="actionImage">
+                                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/plus_grey.png"/>
                                 </property>
                             </bean>
                         </list>
