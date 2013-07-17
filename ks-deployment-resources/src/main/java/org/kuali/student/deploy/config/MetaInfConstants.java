@@ -7,7 +7,7 @@ import java.util.List;
 import org.kuali.common.util.Str;
 import org.kuali.student.deploy.spring.DeployProjectConstants;
 
-public class MetaInfConfigConstants {
+public class MetaInfConstants {
 
 	// Shorthand for GroupId + ArtifactId
 	private static final String GA = Str.getId(DeployProjectConstants.GROUP_ID, DeployProjectConstants.ARTIFACT_ID);
