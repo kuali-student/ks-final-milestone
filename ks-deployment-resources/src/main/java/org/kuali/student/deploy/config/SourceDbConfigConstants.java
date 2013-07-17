@@ -18,19 +18,44 @@ public class SourceDbConfigConstants {
 	// TODO Move to kuali-jdbc?
 	public static final String SOURCE_DB = "source-db";
 
-	// Config related to initializing something
+	// Config related to dumping something
 	// TODO Move to kuali-jdbc?
 	public static final String INITIALIZE = "initialize";
+
+	// Config related to initializing something
+	// TODO Move to kuali-jdbc?
+	public static final String DUMP = "dump";
+
+	// Context id for config related to initializing a source database
+	// TODO Move to kuali-jdbc?
+	public static final String DUMP_SOURCE_DB_CONTEXT_ID = ConfigUtils.getIdString(SOURCE_DB, DUMP);
 
 	// Context id for config related to initializing a source database
 	// TODO Move to kuali-jdbc?
 	public static final String INIT_SOURCE_DB_CONTEXT_ID = ConfigUtils.getIdString(SOURCE_DB, INITIALIZE);
+
+	// Fully qualified config id related to dumping KS_SOURCE_DB
+	public static final String DUMP_SOURCE_DB_CONFIG_ID = ConfigUtils.getIdString(GA, DUMP_SOURCE_DB_CONTEXT_ID);
 
 	// Fully qualified config id related to initializing KS_SOURCE_DB
 	public static final String INIT_SOURCE_DB_CONFIG_ID = ConfigUtils.getIdString(GA, INIT_SOURCE_DB_CONTEXT_ID);
 
 	// The complete list of configId's needed to initialize KS_SOURCE_DB
 	public static final List<String> INIT_SOURCE_DB_CONFIG_IDS = getInitSourceDbConfigIds();
+
+	// The complete list of configId's needed to dump KS_SOURCE_DB
+	public static final List<String> DUMP_SOURCE_DB_CONFIG_IDS = getDumpSourceDbConfigIds();
+
+	protected static List<String> getDumpSourceDbConfigIds() {
+		List<String> ids = new ArrayList<String>();
+
+		// We are connecting to a database so we need whatever it is JDBC needs
+		ids.addAll(JdbcConfigConstants.CONFIG_IDS);
+
+		// KS specific config for connecting to Amazon RDS
+		ids.add(DUMP_SOURCE_DB_CONFIG_ID);
+		return Collections.unmodifiableList(ids);
+	}
 
 	protected static List<String> getInitSourceDbConfigIds() {
 		List<String> ids = new ArrayList<String>();
