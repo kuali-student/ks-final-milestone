@@ -10,7 +10,7 @@ import org.kuali.student.deploy.spring.DeployProjectConstants;
 public class MetaInfConfigConstants {
 
 	// Shorthand for GroupId + ArtifactId
-	private static final String GA = DeployProjectConstants.GROUP_ID + ":" + DeployProjectConstants.ARTIFACT_ID;
+	private static final String GA = ConfigUtils.getIdString(DeployProjectConstants.GROUP_ID, DeployProjectConstants.ARTIFACT_ID);
 
 	// Shorthand for stuff in the kuali-util constants area
 	private static final String UTIL_SQL_CONTEXT_ID = org.kuali.common.util.metainf.MetaInfConfigConstants.SQL_CONTEXT_ID;
