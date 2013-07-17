@@ -299,6 +299,27 @@ public interface ExamOfferingService {
             PermissionDeniedException;
 
     /**
+     * Retrieves a list of ExamOfferings that are associated with a specified ExamPeriod id.
+     *
+     * @param examPeriodId      The id of the ExamPeriod these ExamOfferings are associated with
+     * @param contextInfo       Context information containing the principalId and locale
+     *                          information about the caller of service operation
+     * @return List of exam offerings associated with the ExamPeriod that match the given examPeriodId
+     * @throws DoesNotExistException     One or more examOfferingIds not found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException examPeriodId or contextInfo are absent (missing or null)
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ExamOfferingInfo> getExamOfferingsByExamPeriod (@WebParam(name = "examPeriodId") String examPeriodId,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Validates an ExamOfferingRelation.
      *
      * @param formatOfferingId  Unique key of the FormatOffering for which the relation is being validated
