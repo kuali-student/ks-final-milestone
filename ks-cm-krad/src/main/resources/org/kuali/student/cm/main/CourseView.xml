@@ -128,6 +128,7 @@
 				</bean>
 				<bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink"
 					p:navigateToPageId="KS-CourseView-GovernancePage" p:actionLabel="Governance">
+					<!-- <property name="template" value="/cm/WEB-INF/jsp/templates/field/navigationActionLink.jsp"/> -->
 				</bean>
 				<bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink"
 					p:navigateToPageId="KS-CourseView-CourseLogisticsPage"
@@ -149,7 +150,8 @@
 					p:navigateToPageId="KS-CourseView-SupportingDocumentsPage"
 					p:actionLabel="Supporting Documents" />
 				<bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"
-					p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" />
+					p:navigateToPageId="KS-CourseView-ReviewProposalPage"
+					p:actionLabel="Review Proposal" />
 			</list>
 		</property>
 	</bean>
@@ -181,9 +183,7 @@
                         <bean parent="Uif-LinkGroup" p:linkSeparator="|">
                             <property name="items">
                                 <list>
-<!--
-                                    <bean parent="Uif-DataField" p:label="Proposal Status" p:shortLabel="Status" p:labelPlacement="LEFT"  p:propertyName="dataField1" />
--->									
+                                    <bean parent="Uif-DataField" p:label="Proposal Status" p:shortLabel="Status" p:labelPlacement="LEFT"  p:propertyName="courseInfo.stateKey" />
 									<bean parent="Uif-ActionLink" p:actionLabel="Comments"
 										p:methodToCall="createComment" />
                                     <bean parent="Uif-ActionLink" p:actionLabel="Decisions" />

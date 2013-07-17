@@ -28,7 +28,6 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-
 public class CourseForm extends UifFormBase {
 
 	private static final long serialVersionUID = -988885314122936950L;
