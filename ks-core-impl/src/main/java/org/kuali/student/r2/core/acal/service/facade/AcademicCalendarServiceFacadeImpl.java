@@ -178,7 +178,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
         //delete the associated keydates
         deleteKeyDatesbyTermId(termId, context);
-        //delete term/sub term
+        //delete term/subterm
         acalService.deleteTerm(termId, context);
 
         statusInfo.setSuccess(Boolean.TRUE);
@@ -191,7 +191,6 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
             if (keyDateIds!=null && !keyDateIds.isEmpty()) {
                 for (String keyDateId : keyDateIds) {
                     acalService.deleteKeyDate(keyDateId, context);
-                    //System.out.println("Delete keydate id: " + keyDateId + " - termId: " + termId);
                 }
             }
         } catch (Exception e) {
