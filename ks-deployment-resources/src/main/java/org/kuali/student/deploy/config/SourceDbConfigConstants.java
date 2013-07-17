@@ -57,7 +57,7 @@ public class SourceDbConfigConstants {
 		ids.addAll(ExportConfigConstants.DUMP_CONFIG_IDS);
 
 		// KS launches this via the Maven CLI as a build process
-		ids.add(ExportConfigConstants.BUILD_DUMP_CONFIG_ID);
+		ids.add(ExportConfigConstants.DUMP_BUILD_CONFIG_ID);
 
 		// KS specific config for connecting to Amazon RDS
 		ids.add(DUMP_SOURCE_DB_CONFIG_ID);
