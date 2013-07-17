@@ -19,7 +19,7 @@ public class MetaInfConstants {
 	// Re-use the context id from kuali-util
 	public static final String SQL_METAINF_CONFIG_ID = Str.getId(GA, UTIL_SQL_CONTEXT_ID);
 
-	// Produce the unmodifiable list of config ids needed to property package KS SQL
+	// The unmodifiable list of config ids needed to properly package KS SQL
 	public static final List<String> SQL_METAINF_CONFIG_IDS = getSqlMetaInfConfigIds();
 
 	protected static List<String> getSqlMetaInfConfigIds() {
