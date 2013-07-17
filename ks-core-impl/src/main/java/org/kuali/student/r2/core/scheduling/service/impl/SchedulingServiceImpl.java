@@ -365,18 +365,12 @@ public class SchedulingServiceImpl implements SchedulingService {
         return getScheduleRequestInfoList(entityList);
     }
 
-
-
     @Override
     public List<String> searchForScheduleRequestIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> results = new ArrayList<String>();
-        GenericQueryResults<ScheduleRequestEntity> entities = criteriaLookupService.lookup(ScheduleRequestEntity.class, criteria);
-        if (null != entities && entities.getResults().size() > 0) {
-            for (ScheduleRequestEntity entity : entities.getResults()) {
-                results.add(entity.getId());
-            }
-        }
-        return results;
+
+        GenericQueryResults<String> srIds = criteriaLookupService.lookupIds(ScheduleRequestEntity.class, criteria);
+        return srIds.getResults();
+
     }
 
     @Override
@@ -860,14 +854,8 @@ public class SchedulingServiceImpl implements SchedulingService {
 
     @Override
     public List<String> searchForScheduleRequestSetIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> results = new ArrayList<String>();
-        GenericQueryResults<ScheduleRequestSetEntity> entities = criteriaLookupService.lookup(ScheduleRequestSetEntity.class, criteria);
-        if (null != entities && entities.getResults().size() > 0) {
-            for (ScheduleRequestSetEntity entity : entities.getResults()) {
-                results.add(entity.getId());
-            }
-        }
-        return results;
+        GenericQueryResults<String> srsIds = criteriaLookupService.lookupIds(ScheduleRequestSetEntity.class, criteria);
+        return srsIds.getResults();
     }
 
     @Override
