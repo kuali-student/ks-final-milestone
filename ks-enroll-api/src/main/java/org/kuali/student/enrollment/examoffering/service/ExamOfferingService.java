@@ -17,13 +17,13 @@
 package org.kuali.student.enrollment.examoffering.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.exam.dto.ExamInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -291,6 +291,27 @@ public interface ExamOfferingService {
     public StatusInfo changeExamOfferingState(@WebParam(name = "examOfferingId") String examOfferingId,
                                               @WebParam(name = "stateKey") String stateKey,
                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ExamOfferings that are associated with a specified ExamPeriod id.
+     *
+     * @param examPeriodId      The id of the ExamPeriod these ExamOfferings are associated with
+     * @param contextInfo       Context information containing the principalId and locale
+     *                          information about the caller of service operation
+     * @return List of exam offerings associated with the ExamPeriod that match the given examPeriodId
+     * @throws DoesNotExistException     One or more examOfferingIds not found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException examPeriodId or contextInfo are absent (missing or null)
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ExamOfferingInfo> getExamOfferingsByExamPeriod (@WebParam(name = "examPeriodId") String examPeriodId,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,

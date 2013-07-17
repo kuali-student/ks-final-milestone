@@ -14,7 +14,7 @@
  *
  * Created by Mezba Mahtab (mezba.mahtab@utoronto.ca) on 1/17/13
  */
-package org.kuali.student.r2.common.constants;
+package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 

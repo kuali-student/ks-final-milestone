@@ -12,7 +12,7 @@ package org.kuali.student.enrollment.exam.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.exam.dto.ExamInfo;
-import org.kuali.student.r2.common.constants.ExamServiceConstants;
+import org.kuali.student.r2.common.util.constants.ExamServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
