@@ -369,7 +369,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         StatusInfo statusInfo;
         try {
-            statusInfo = getAcalService().deleteAcademicCalendar(acalForm.getAcademicCalendarInfo().getId(), getAcalViewHelperService(acalForm).createContextInfo());
+            statusInfo = getAcademicCalendarServiceFacade().deleteCalendarCascaded(acalForm.getAcademicCalendarInfo().getId(), getAcalViewHelperService(acalForm).createContextInfo());
         } catch (Exception e) {
             throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
         }
@@ -758,10 +758,10 @@ public class AcademicCalendarController extends UifControllerBase {
     }
 
     public AcademicCalendarServiceFacade getAcademicCalendarServiceFacade() {
-        if (academicCalendarServiceFacade == null) {
-            academicCalendarServiceFacade = (AcademicCalendarServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/acalServiceFacade", "AcademicCalendarServiceFacade"));
+        if(academicCalendarServiceFacade == null) {
+            academicCalendarServiceFacade = (AcademicCalendarServiceFacade) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.FACADE_NAMESPACE, AcademicCalendarServiceConstants.FACADE_SERVICE_NAME_LOCAL_PART));
         }
-        return academicCalendarServiceFacade;
+        return this.academicCalendarServiceFacade;
     }
 
     protected AcademicCalendarViewHelperService getAcalViewHelperService(AcademicCalendarForm acalForm){
@@ -902,17 +902,6 @@ public class AcademicCalendarController extends UifControllerBase {
             // Check for deleted key dates and delete them from database
             AcademicTermWrapper term = academicCalendarForm.getTermWrapperList().get(i);
             deleteKeyDates(term, viewHelperService);
-
-            // update instructionalDays
-            try{
-                term.setInstructionalDays(getAcalService().getInstructionalDaysForTerm(term.getTermInfo().getId(), viewHelperService.createContextInfo()));
-            }catch (Exception ex){
-                // If the save fails message user
-                if (LOG.isDebugEnabled()){
-                    LOG.error("Save Academic calendar failed - " + ex.getMessage());
-                }
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED);
-            }
         }
 
         // Reset values

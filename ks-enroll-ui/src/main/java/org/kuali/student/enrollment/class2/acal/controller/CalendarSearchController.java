@@ -37,6 +37,7 @@ import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -67,6 +68,7 @@ import java.util.Properties;
 public class CalendarSearchController  extends UifControllerBase {
 
     private transient AcademicCalendarService acalService;
+    private transient AcademicCalendarServiceFacade acalServiceFacade;
     private ContextInfo contextInfo;
 
     @Override
@@ -342,7 +344,7 @@ public class CalendarSearchController  extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
             }
         } else if(CalendarConstants.ACADEMICCALENDER.equals(atp.getAcalSearchTypeKey())) {
-            StatusInfo status = getAcademicCalendarService().deleteAcademicCalendar(atp.getId(), getContextInfo());
+            StatusInfo status = getAcalServiceFacade().deleteCalendarCascaded(atp.getId(), getContextInfo());
             if (status.getIsSuccess()){
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS,CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic calendar", atp.getName());
                 searchForm.getSearchResults().remove(atp);
@@ -350,7 +352,7 @@ public class CalendarSearchController  extends UifControllerBase {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, status.getMessage());
             }
         } else if(CalendarConstants.TERM.equals(atp.getAcalSearchTypeKey())){
-            StatusInfo status = getAcademicCalendarService().deleteTerm(atp.getId(), getContextInfo());
+            StatusInfo status = getAcalServiceFacade().deleteTermCascaded(atp.getId(), getContextInfo());
             if (status.getIsSuccess()){
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CalendarConstants.MessageKeys.INFO_SEARCH_DELETE_SUCCESS, "Academic term", atp.getName());
                 searchForm.getSearchResults().remove(atp);
@@ -396,5 +398,12 @@ public class CalendarSearchController  extends UifControllerBase {
             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return acalService;
+    }
+
+    public AcademicCalendarServiceFacade getAcalServiceFacade() {
+        if(acalServiceFacade == null) {
+            acalServiceFacade = (AcademicCalendarServiceFacade) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.FACADE_NAMESPACE, AcademicCalendarServiceConstants.FACADE_SERVICE_NAME_LOCAL_PART));
+        }
+        return this.acalServiceFacade;
     }
 }

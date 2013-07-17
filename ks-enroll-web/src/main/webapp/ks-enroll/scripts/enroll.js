@@ -77,7 +77,7 @@ function toggleAssignButton() {
 
 function toggleAddAOCButton(buttonId, controlId) {
     if ((buttonId=="moveAOCButton" && jQuery("#clusterIDListForAOMove_control").val()== "createNewCluster")
-            || buttonId=="addAOCButton" || buttonId=="renameAOCButton") {
+        || buttonId=="addAOCButton" || buttonId=="renameAOCButton") {
         if (jQuery("#"+controlId).val() == "" ) {
             jQuery("#"+buttonId).attr("disabled", "disabled");
         } else {
@@ -715,11 +715,11 @@ function highlightElements(validationJSONString, isValid, url) {
 }
 
 /*
-Because the context bar resides in the topGroup, it only gets loaded once when the view is loaded. Because the context
-bar needs to update every time the page loads, we have to create some custom JS to update items in the context bar.
+ Because the context bar resides in the topGroup, it only gets loaded once when the view is loaded. Because the context
+ bar needs to update every time the page loads, we have to create some custom JS to update items in the context bar.
 
-Note: passing null for the 1st-argument (or if an element for 1st-argument is not found) will result in element targeted
-by 2nd-argument being emptied without getting a replacement.
+ Note: passing null for the 1st-argument (or if an element for 1st-argument is not found) will result in element targeted
+ by 2nd-argument being emptied without getting a replacement.
  */
 function updateContextBar(srcId, contextBarId){
 
@@ -757,14 +757,14 @@ function updateViewHeader(newHeaderTextSource){
 }
 
 /*
-The users wanted to have a small strip of color that coincides with the term. If the user hasn't configured
-an explicit color then use the default coloring from a gradient.
+ The users wanted to have a small strip of color that coincides with the term. If the user hasn't configured
+ an explicit color then use the default coloring from a gradient.
 
-In this implementation we pass in the day of the year that you want to show a color for.
-Ie. Jan 1 = 1st day of year. The code does 1/365 = some %. that % is used to find how far
-down the gradient we pick a color.
-The default gradient goes : ice blue(winter), green(spring),yellow(summer), brown(fall), ice blue(winter).
-two winters because winter starts at the end of the year and goes through February.
+ In this implementation we pass in the day of the year that you want to show a color for.
+ Ie. Jan 1 = 1st day of year. The code does 1/365 = some %. that % is used to find how far
+ down the gradient we pick a color.
+ The default gradient goes : ice blue(winter), green(spring),yellow(summer), brown(fall), ice blue(winter).
+ two winters because winter starts at the end of the year and goes through February.
  */
 function setSeasonalColor(objectToColor, dayOfYear, baseUrl) {
     var image = jQuery('<img src="' + baseUrl + '/ks-enroll/images/season_gradient.png"/>');
@@ -841,9 +841,9 @@ function findDirtyFields(returnFieldId){
 }
 
 /*
-The users want the page titling to be dynamically-updated depending on which particular page is showing at the time.
-For example, when the ManageCO landing-page is first shown, by default the view-title is 'Course Offerings' but
-if you conduct a subject-search (say, WMST) they want the view-title to be "WMST: Women's Studies".
+ The users want the page titling to be dynamically-updated depending on which particular page is showing at the time.
+ For example, when the ManageCO landing-page is first shown, by default the view-title is 'Course Offerings' but
+ if you conduct a subject-search (say, WMST) they want the view-title to be "WMST: Women's Studies".
  */
 function updateViewHeaderText( value ) {
     jQuery( 'div.uif-view h1.uif-headerText span.uif-headerText-span' ).html( value );
@@ -1016,9 +1016,9 @@ function replaceCheckBoxWithRadio(containerId) {
                     value:jQuery(this).attr('value')
                 }
             ).click(function(){
-                      if(selectedRadio !== null){
-                          jQuery(selectedRadio).prop("checked", false);
-                      }
+                    if(selectedRadio !== null){
+                        jQuery(selectedRadio).prop("checked", false);
+                    }
                     selectedRadio = this;
                 })
         );
