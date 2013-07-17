@@ -3,7 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
     <context:annotation-config/>
@@ -61,11 +60,12 @@
         the validation method for createFormatOffering which requires a CluService that is not mocked out -->
     <alias alias="CourseOfferingService" name="coServiceImpl" />
 
-    <bean id="coService" class=" org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
+   <!--
+   <bean id="coService" class=" org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
         <property name="nextDecorator" ref="coServiceImpl"/>
         <property name="typeService" ref="typeService"/>
         <property name="validator" ref="validator" />
-    </bean>
+    </bean>       -->
 
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
 

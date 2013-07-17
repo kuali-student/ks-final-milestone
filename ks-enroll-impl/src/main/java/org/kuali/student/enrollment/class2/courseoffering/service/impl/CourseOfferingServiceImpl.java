@@ -1643,10 +1643,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     public ActivityOfferingInfo updateActivityOffering(String activityOfferingId,
                                                        ActivityOfferingInfo activityOfferingInfo,
                                                        ContextInfo context)
-            throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException,
-            ReadOnlyException, VersionMismatchException {
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+                OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // validate params
         if (!activityOfferingId.equals(activityOfferingInfo.getId())) {
             throw new InvalidParameterException(activityOfferingId + " does not match the corresponding value in the object " + activityOfferingInfo.getId());
@@ -1654,19 +1652,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         // get it
         LuiInfo lui = luiService.getLui(activityOfferingId, context);
         // TODO: check that the lui being updated is an activity not another kind of lui
-
-        //Check that the lu code is unique. If it is a duplicate, do not change it
-        List<ActivityOfferingInfo> existingAoInfos = getActivityOfferingsByCourseOffering(activityOfferingInfo.getCourseOfferingId(), context);
-        boolean duplicateAoCode = false;
-        for (ActivityOfferingInfo existingAoInfo : existingAoInfos) {
-            if (activityOfferingInfo.getActivityCode().equals(existingAoInfo.getActivityCode())) {
-                duplicateAoCode = true;
-                break;
-            }
-        }
-        if (!duplicateAoCode) {
-            activityOfferingInfo.setActivityCode(lui.getOfficialIdentifier().getCode());
-        }
 
         // copy to lui
         ActivityOfferingTransformer.activity2Lui(activityOfferingInfo, lui);

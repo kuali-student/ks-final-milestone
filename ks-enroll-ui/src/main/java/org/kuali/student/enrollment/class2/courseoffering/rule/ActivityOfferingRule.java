@@ -1,8 +1,10 @@
 package org.kuali.student.enrollment.class2.courseoffering.rule;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -15,9 +17,15 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -31,6 +39,7 @@ import java.util.Set;
 public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
 
     private transient PopulationService populationService;
+    private transient CourseOfferingService courseOfferingService;
 
     @Override
     protected boolean isDocumentValidForSave(MaintenanceDocument maintenanceDocument) {
@@ -38,24 +47,55 @@ public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
             return false;
         }
 
-        boolean result = true;
+        boolean isValid = true;
         ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper)maintenanceDocument.getNewMaintainableObject().getDataObject();
 
-        // validate Personnel
-        result &= validatePersonnel(aoWrapper);
-        // validate Seat Pool population
-        result &= validateSeatpools(aoWrapper);
+        isValid &= validateActivityOffering(aoWrapper);
+        isValid &= validatePersonnel(aoWrapper);
+        isValid &= validateSeatpools(aoWrapper);
 
         // validate colocated Activity Offerings
         if (aoWrapper.isColocatedAO() && aoWrapper.getColocatedActivities().isEmpty()) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,
                     ActivityOfferingConstants.MSG_ERROR_COLOCATED_NOTFOUND);
-            result = false;
+            isValid = false;
         }
 
-        return result;
+        return isValid;
     }
 
+    /**
+     * Performs a service layer validation of the AO. This validation is repeated in the call to
+     * CourseOfferingService#updateActivityOffering(), but with maintenance documents there isn't a sensible way to
+     * handle validation errors from within the call to saveDataObject().
+     *
+     * @param activityOfferingWrapper
+     * @return  True if the validation succeeds. Otherwise, false.
+     */
+    private boolean validateActivityOffering(ActivityOfferingWrapper activityOfferingWrapper) {
+        boolean isValid = true;
+
+        ActivityOfferingInfo aoInfo = activityOfferingWrapper.getAoInfo();
+        ContextInfo context = createContextInfo();
+        List<ValidationResultInfo> errors = Collections.emptyList();
+        try {
+            errors = getCourseOfferingService().validateActivityOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), aoInfo, context);
+        } catch (Exception e) {
+            //  Capture the error is the service call fails.
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, e.getMessage());
+            isValid = false;
+        }
+
+        //  If any errors were found, put them in the message map.
+        if (! errors.isEmpty()) {
+            isValid = false;
+            for (ValidationResultInfo error : errors) {
+                GlobalVariables.getMessageMap().putError(error.getElement(), RiceKeyConstants.ERROR_CUSTOM, error.getMessage());
+            }
+        }
+
+        return isValid;
+    }
 
     private boolean validateSeatpools(ActivityOfferingWrapper activityOfferingWrapper){
         List<SeatPoolWrapper> seatPoolWrappers = activityOfferingWrapper.getSeatpools();
@@ -182,8 +222,15 @@ public class ActivityOfferingRule extends KsMaintenanceDocumentRuleBase {
         return populationService;
     }
 
+    private CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            courseOfferingService = (CourseOfferingService)
+                    GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseOfferingService;
+    }
+
     private ContextInfo createContextInfo() {
         return ContextUtils.createDefaultContextInfo();
     }
-
 }

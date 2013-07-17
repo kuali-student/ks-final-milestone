@@ -342,6 +342,7 @@
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
     <property name="nextDecorator" ref="coServiceImpl" />
     <property name="validator" ref="validator" />
+    <property name="searchService" ref="searchService" />
   </bean>
 
   <bean id="coServiceImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">

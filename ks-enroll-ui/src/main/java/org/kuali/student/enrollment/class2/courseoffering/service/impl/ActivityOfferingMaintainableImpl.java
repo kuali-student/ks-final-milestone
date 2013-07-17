@@ -107,8 +107,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     private transient SearchService searchService;
     private transient LuiService luiService;
 
-    private static final String SCHEDULE_HELPER = "scheduleHelper";
-
     @Override
     public void saveDataObject() {
         if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
@@ -150,7 +148,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
             /**
-             * Even if the user doesnt change any RDL data, here are the scenarios whether we need to process schedules
+             * Even if the user doesn't change any RDL data, here are the scenarios whether we need to process schedules
              * 1. If the user checks/unchecks the colo checkbox even the user has not changed anything in the schedules
              * 2. If the user opens an activity after scheduling and without changing any schedule details, submits the doc.
              * Once user submits a doc after scheduling complemented, all the RDLs should be converted to ADLs
@@ -163,7 +161,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 getScheduleHelper().saveSchedules(activityOfferingWrapper,contextInfo);
             }
 
-
             /**
              * Now that the Ao & the schedule has been updated, we need to update the registration groups
              */
@@ -172,7 +169,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
-
 
             //All the details on the current AO saved successfully.. Now, update the max enrollment on other AOs in the coloset
             try {
@@ -1138,7 +1134,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     protected ActivityOfferingScheduleHelperImpl getScheduleHelper(){
-//        return (ActivityOfferingScheduleHelperImpl)getHelper(SCHEDULE_HELPER);
         return new ActivityOfferingScheduleHelperImpl();
     }
 

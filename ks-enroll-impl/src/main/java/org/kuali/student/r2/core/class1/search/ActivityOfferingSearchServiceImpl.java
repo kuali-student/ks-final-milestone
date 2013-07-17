@@ -43,6 +43,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
+    public static final TypeInfo AO_CODES_BY_CO_ID_SEARCH_TYPE;
 
     public static final String SCH_IDS_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdsByAoId";
     public static final TypeInfo COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
@@ -55,6 +56,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String COLOCATED_AOS_BY_AO_IDS_SEARCH_KEY = "kuali.search.type.lui.searchForAosByAoIds";
     public static final String FO_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForFOByCoId";
     public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
+    public static final String AO_CODES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesByCoId";
+
     private static final int RESULTROW_AOID_OFFSET = 6;
     private static final int RESULTROW_SCHED_OFFSET = 9;
 
@@ -85,7 +88,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String RG_STATE = "rgState";
         public static final String ATP_ID = "atpId";
     }
-
 
     static {
         TypeInfo info = new TypeInfo();
@@ -174,8 +176,18 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE = info;
 
-    }
+        info = new TypeInfo();
+        info.setKey(AO_CODES_BY_CO_ID_SEARCH_KEY);
+        info.setName("AO codes for course offering id");
+        info.setDescr(new RichTextHelper().fromPlain("Returns a list of AO codes for a given CO id"));
 
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code");
+        }
+        AO_CODES_BY_CO_ID_SEARCH_TYPE = info;
+    }
 
     @Override
     public TypeInfo getSearchType() {
@@ -209,6 +221,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE;
         }
+        if (AO_CODES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
+            return AO_CODES_BY_CO_ID_SEARCH_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -219,17 +234,15 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
                 REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
-                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE);
+                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE);
     }
-
 
     @Override
     @Transactional(readOnly = true)
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        // As this class expands, you can add multiple searches. Ie. right now there is only one search (so only one search key).
         if (SCH_IDS_BY_AO_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
-            return searchForScheduleIdsByAoId(searchRequestInfo,contextInfo);
+            return searchForScheduleIdsByAoId(searchRequestInfo, contextInfo);
         } 
         else if (AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAOsAndClustersByCoId(searchRequestInfo);
@@ -248,6 +261,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         else if (RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForRelatedAoTypesByCoId(searchRequestInfo);
+        }
+        else if (AO_CODES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForAoCodesByCoId(searchRequestInfo);
         }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -280,6 +296,40 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             resultInfo.getRows().add(row);
         }
 
+        return resultInfo;
+    }
+
+    /**
+     * Finds a list of AO codes and Ids given a CO id.
+     */
+    private SearchResultInfo searchForAoCodesByCoId(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String coId = requestHelper.getParamAsString(SearchParameters.CO_ID);
+
+        String queryStr =
+                "SELECT luiId.lui.id, " +
+                        "luiId.code " +
+                "FROM  LuiIdentifierEntity luiId," +
+                      "LuiLuiRelationEntity co2fo," +
+                      "LuiLuiRelationEntity fo2ao " +
+                "WHERE co2fo.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                "  AND fo2ao.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.fo2ao' " +
+                "  AND co2fo.lui.id = :coId " +
+                "  AND co2fo.relatedLui.id = fo2ao.lui.id " +
+                "  AND luiId.lui.id = fo2ao.relatedLui";
+
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.CO_ID, coId);
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
         return resultInfo;
     }
 
@@ -365,7 +415,6 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
 
         return resultInfo;
-
     }
 
     /**
@@ -600,6 +649,4 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
-
-
 }

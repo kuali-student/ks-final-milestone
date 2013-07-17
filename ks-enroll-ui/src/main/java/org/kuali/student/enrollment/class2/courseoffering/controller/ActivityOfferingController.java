@@ -107,15 +107,28 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-
+     /**
+      * There is an override to the default KRAD transaction interceptor config (ks-web/.../krad-base-servlet.xml) to
+      * exclude this method. If this isn't in place any problems encountered in the services layer which result in a
+      * rollback will cause an UnexpectedRollbackException <b>after<b/> this method completes which means the exception
+      * cannot be handled.
+      */
     @Override
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
+        /**
+         * The route method will call ActivityOfferingRule#isDocumentValidForSave() followed by
+         * ActivityOfferingMaintainableImpl#saveDataObject(). Validation will happen in isDocumentValidForSave() and
+         * stored in the message map. Any problems which happen in saveDataObject() have to be thrown, caught here, unwrapped
+         * and put in the message map.
+         */
+        try {
+            super.route(form,result,request, response);
+        } catch (Exception e) {
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, unwrapException(e).getMessage());
+        }
 
-        super.route(form,result,request, response);
-
-        // If AO has errors, display them on the same page instead of doing a redirect
         if (GlobalVariables.getMessageMap().hasErrors()) {
             return getUIFModelAndView(form);
         }
@@ -160,6 +173,17 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return performRedirect(form, url, urlParameters);
     }
 
+    /**
+     * Fish out the original cause.
+     * @param e
+     * @return
+     */
+    private Throwable unwrapException(Throwable e) {
+        if (e.getCause() != null) {
+             unwrapException(e.getCause());
+        }
+        return e;
+    }
 
     @RequestMapping(params = "methodToCall=cancel")
     @Override

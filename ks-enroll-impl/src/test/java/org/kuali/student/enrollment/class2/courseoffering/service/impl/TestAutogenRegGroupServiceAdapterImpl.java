@@ -359,7 +359,7 @@ public class TestAutogenRegGroupServiceAdapterImpl {
     @Test
     public void testUserStoryEight () throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
         
-AtpInfo atp = atpService.getAtp(CourseOfferingServiceTestDataLoader.FALL_2012_TERM_ID, contextInfo);
+        AtpInfo atp = atpService.getAtp(CourseOfferingServiceTestDataLoader.FALL_2012_TERM_ID, contextInfo);
         
         TermInfo term = new TermInfo();
         

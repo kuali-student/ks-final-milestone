@@ -2,8 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -30,25 +28,26 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class CourseOfferingServiceValidationDecorator
@@ -58,6 +57,7 @@ public class CourseOfferingServiceValidationDecorator
     private DataDictionaryValidator validator;
     private TypeService typeService;
     private CluService cluService;
+    private SearchService searchService;
     private CourseOfferingService coService;
     private CourseOfferingSetService socService;
 
@@ -309,7 +309,62 @@ public class CourseOfferingServiceValidationDecorator
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
+        validateActivityOfferingCode(errors, activityOfferingInfo, context);
         return errors;
+    }
+
+    /**
+     * Validate the AO code is unique on add or update.
+     * Query for all AOs for the CO associated with this AO and build a Map where the key is an AO id and the value is the AO activity code.
+     * If AOInfo#activityCode doesn't appear in the Map (or the Map is empty) then the code isn't a dup.
+     * If AOInfo#activityCode appears in the Map and the AOInfo#id matches the Map id then this call is for an update and isn't a problem.
+     * If, however, the code on the AOInfo appears in the Map and the AOInfo#id doesn't match the map id then it's a duplicate,
+     * so add the error to the list.
+     */
+    private void validateActivityOfferingCode(List<ValidationResultInfo> errors, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
+            throws OperationFailedException, MissingParameterException, InvalidParameterException, PermissionDeniedException {
+
+        // Query for AO id and codes, and build a Map.
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AO_CODES_BY_CO_ID_SEARCH_KEY);
+        request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, activityOfferingInfo.getCourseOfferingId());
+        SearchResultInfo result = searchService.search(request, context);
+        List<SearchResultRowInfo> rows = result.getRows();
+        //  If there are no rows assume the operation is an add and skip the check.
+        if ( ! rows.isEmpty()) {
+            Map<String, String> activityCodes = new HashMap<String, String>();
+            for (SearchResultRowInfo row: rows) {
+                List<SearchResultCellInfo> cells = row.getCells();
+                String key = null;
+                String code = null;
+                for (SearchResultCellInfo cell: cells) {
+                    if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ID)) {
+                        key = cell.getValue();
+                    } else if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_CODE)) {
+                        code = cell.getValue();
+                    } else {
+                        throw new OperationFailedException("Query for AO id and code was missing a column.");
+                    }
+                }
+                activityCodes.put(key, code);
+            }
+
+            // If the AO id is in the Map (currentCode is not null) and
+            // The current code and the requested code are different then make sure the requested code isn't in use.
+            // Otherwise, this is an add or an update where the code wasn't changed and the check can be skipped.
+            String currentCode = activityCodes.get(activityOfferingInfo.getId());
+            String requestedAoCode = activityOfferingInfo.getActivityCode();
+            if (currentCode != null && ! StringUtils.equals(requestedAoCode, currentCode)) {
+                for (String existingCode: activityCodes.values()) {
+                    if (StringUtils.equals(requestedAoCode, existingCode)) {
+                        ValidationResultInfo resultInfo = new ValidationResultInfo();
+                        resultInfo.setElement("activityCode");
+                        resultInfo.setError(String.format("Code %s is already in use.", requestedAoCode));
+                        errors.add(resultInfo);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -677,6 +732,7 @@ public class CourseOfferingServiceValidationDecorator
         getCluService();
         getTypeService();
         getSocService();
+        getSearchService();
     }
 
     public CluService getCluService() {
@@ -699,6 +755,15 @@ public class CourseOfferingServiceValidationDecorator
 
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
+    }
+
+
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
+    }
+
+    public SearchService getSearchService() {
+        return searchService;
     }
 
     public CourseOfferingService getCoService() {
