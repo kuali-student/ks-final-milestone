@@ -340,13 +340,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
             //Find available sub-terms for term
-            List<TermInfo> availableSubTerms=getAcademicCalendarService().getIncludedTermsInTerm(term.getId(), contextInfo);
+            List<TermInfo> availableSubTerms = getAcademicCalendarService().getIncludedTermsInTerm(term.getId(), contextInfo);
             //Now setup start/end date for all subterms to support subterm changes on the screen
-            HashMap<String,String> subTermDates= new HashMap();
-            subTermDates.put("none",getTermStartEndDate(term));
+            HashMap<String,String> subTermDates = new HashMap();
+            subTermDates.put("none", getTermStartEndDate(term));
             for (TermInfo availSubTerm : availableSubTerms) {
-                if (availSubTerm.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)) {
-                    subTermDates.put(availSubTerm.getId(),this.getTermStartEndDate(availSubTerm));
+                if (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(availSubTerm.getStateKey())) {
+                    subTermDates.put(availSubTerm.getId(), this.getTermStartEndDate(availSubTerm));
                     wrapper.setHasSubTerms(true);
                 }
             }
