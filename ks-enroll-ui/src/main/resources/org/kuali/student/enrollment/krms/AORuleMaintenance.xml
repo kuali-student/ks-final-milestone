@@ -407,7 +407,6 @@ limitations under the License.
     </bean>
 
     <bean id="KSAO-EditRule-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
-        <property name="onDocumentReadyScript" value="loadControlsInit();"/>
         <property name="items">
             <list>
 

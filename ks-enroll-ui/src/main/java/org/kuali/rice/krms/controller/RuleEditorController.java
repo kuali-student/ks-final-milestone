@@ -747,9 +747,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 ruleEditor.setProposition(newParent);
             }
 
-
             //Refresh the tree.
             PropositionTreeUtil.removeCompoundProp(ruleEditor);
+            ruleEditor.setSelectedKey(StringUtils.EMPTY);
             viewHelper.refreshInitTrees(ruleEditor);
         }
 
@@ -1108,7 +1108,6 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //If first root and not yet updated, clear rule root
         if (root.isNewProp() && root.isEditMode()) {
             ruleEditor.reset();
-            form.getView().setOnDocumentReadyScript("loadControlsInit();");
         } else {
             PropositionTreeUtil.cancelNewProp(root);
             PropositionTreeUtil.removeCompoundProp(ruleEditor);

@@ -32,22 +32,9 @@ function getPropositionIdFromParentLi(parentLiNode) {
 function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
-
-    //Disable all buttons when add of proposition is in progress
-    if(controllerMethod == "addProposition") {
-        var actionRevealCallBack = function (htmlContent) {
-            disableTreeButtons();
-        };
-    }
-
-    //Only enable add button after deletion of proposition
-    if(controllerMethod == "deleteProposition") {
-        var actionRevealCallBack = function (htmlContent) {
-            disableTreeButtons();
-            enableAddButton();
-        };
-    }
-
+    var actionRevealCallBack = function (htmlContent) {
+        resetControlKeys();
+    };
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
@@ -157,7 +144,6 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
     var actionRevealCallBack = function (htmlContent) {
-        jq('.editModeNode').find(".actionReveal").first().hide();
 
         resetControlKeys();
 
@@ -333,6 +319,9 @@ function initRuleTree(componentId) {
         /* make the tree load with all nodes expanded */
         jq('#' + componentId).jstree('open_all');
 
+        //Reset the tree buttons.
+        loadControlsInit();
+
         //Display error message
         jq('#' + componentId).find("div[data-role='InputField']").andSelf().filter("div[data-role='InputField']").each(function () {
             var data = jQuery(this).data(kradVariables.VALIDATION_MESSAGES);
@@ -498,44 +487,6 @@ function initPreviewTree(componentId) {
         'dnd': { 'drag_target': false, 'drop_target': false }
     });
 
-}
-
-function createAutoComplete(controlId, options, queryFieldId, queryParameters, localSource, suggestOptions) {
-    if (localSource) {
-        options.source = suggestOptions;
-    }
-    else {
-        options.source = function (request, response) {
-            var queryData = {};
-
-            queryData.methodToCall = 'performFieldSuggest';
-            queryData.ajaxRequest = true;
-            queryData.ajaxReturnType = 'update-none';
-            queryData.formKey = jQuery("input#formKey").val();
-            queryData.queryTerm = request.term;
-            queryData.queryFieldId = queryFieldId;
-
-            for (var parameter in queryParameters) {
-                queryData['queryParameter.' + parameter] = coerceValue(queryParameters[parameter]);
-            }
-
-            jQuery.ajax({
-                url: jQuery("form#kualiForm").attr("action"),
-                dataType: "json",
-                beforeSend: null,
-                complete: null,
-                error: null,
-                data: queryData,
-                success: function (data) {
-                    response(data.resultData);
-                }
-            });
-        };
-    }
-
-    jQuery(document).ready(function () {
-        jQuery("#" + controlId).autocomplete(options);
-    });
 }
 
 
