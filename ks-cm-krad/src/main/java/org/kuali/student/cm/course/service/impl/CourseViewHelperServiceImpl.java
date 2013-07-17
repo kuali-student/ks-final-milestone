@@ -64,10 +64,6 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		return instance;
 	}
 	
-	private CourseViewHelperServiceImpl() {
-		super();
-	}
-
 	public List<CluInstructorInfoDisplay> getInstructorsForSuggest(
 			String instructorName) {
 		List<CluInstructorInfoDisplay> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoDisplay>();
