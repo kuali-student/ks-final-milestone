@@ -387,7 +387,7 @@
     </bean>
 
     <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection" parent="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent"/>-->
-    <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent" parent="KS-Uif-NavigationActionLink" class="org.kuali.student.common.uif.container.KSNavigationLineActionLinkSeperatorerator" abstract="true" scope="prototype">-->
+    <!--<bean id="KS-Uif-HorizontalBoxGroup-NavigationActionLinkSection-parent" parent="Uif-NavigationActionLink" class="org.kuali.student.common.uif.container.KSNavigationLineActionLinkSeperatorerator" abstract="true" scope="prototype">-->
         <!--<property name="template" value="/ks-enroll/WEB-INF/ftl/ksNavigationActionLinkSection.ftl"/>-->
         <!--<property name="templateName" value="ks_NavigationActionLinkSection"/>-->
     <!--</bean>-->
@@ -521,37 +521,37 @@
             </list>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Copy" parent="KS-Uif-ActionLink"  p:actionLabel="Copy" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Copy" parent="Uif-ActionLink"  p:actionLabel="Copy" p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Copy" p:title="Copy" p:style="icon-plus-sign"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Comment" parent="KS-Uif-ActionLink"  p:actionLabel="Comment" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Comment" parent="Uif-ActionLink"  p:actionLabel="Comment" p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:style="icon-comment" />
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Print" parent="KS-Uif-ActionLink"  p:actionLabel="Print" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Print" parent="Uif-ActionLink"  p:actionLabel="Print" p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:style="icon-print"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Delete" parent="KS-Uif-ActionLink"  p:actionLabel="Delete" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Delete" parent="Uif-ActionLink"  p:actionLabel="Delete" p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="icon-remove"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Edit" parent="KS-Uif-ActionLink"  p:actionLabel="Edit" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Edit" parent="Uif-ActionLink"  p:actionLabel="Edit" p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:style="icon-edit"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-Manage" parent="KS-Uif-ActionLink" p:actionLabel="Manage" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-Manage" parent="Uif-ActionLink" p:actionLabel="Manage" p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:style="icon-wrench"/>
         </property>
     </bean>
-    <bean id="Unified-Right-Header-Group-Action-MakeOfficial" parent="KS-Uif-ActionLink" p:actionLabel="Make Official" p:actionImagePlacement="LEFT">
+    <bean id="Unified-Right-Header-Group-Action-MakeOfficial" parent="Uif-ActionLink" p:actionLabel="Make Official" p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Make Official" p:title="Make Official" p:style="icon-check"/>
         </property>
@@ -588,15 +588,6 @@
         </property>
     </bean>
 
-    <bean id="KS-Uif-SecondaryActionButton" abstract="true" parent="KS-Uif-SecondaryActionButton-parentBean"/>
-    <bean id="KS-Uif-SecondaryActionButton-parentBean" parent="Uif-SecondaryActionButton" p:id="ks-uif-secondaryActionButton" p:buttonSize="default" class="org.kuali.student.common.uif.element.KSUifActionButton">
-        <property name="cssClasses">
-            <list merge="false">
-                <value>btn</value>
-            </list>
-        </property>
-    </bean>
-
     <bean id="KS-Uif-ActionLink" parent="KS-Uif-ActionLink-parentBean" abstract="true"/>
     <bean id="KS-Uif-ActionLink-parentBean" parent="Uif-ActionLink" class="org.kuali.student.common.uif.element.KSUifActionButton">
         <property name="cssClasses">
@@ -607,12 +598,11 @@
         </property>
     </bean>
 
-    <bean id="KS-Uif-NavigationActionLink" parent="KS-Uif-NavigationActionLink-parentBean" abstract="true"/>
-    <bean id="KS-Uif-NavigationActionLink-parentBean" parent="Uif-NavigationActionLink" class="org.kuali.student.common.uif.element.KSUifActionButton">
+    <bean id="KS-Uif-SecondaryActionButton" abstract="true" parent="KS-Uif-SecondaryActionButton-parentBean"/>
+    <bean id="KS-Uif-SecondaryActionButton-parentBean" parent="Uif-SecondaryActionButton" p:id="ks-uif-secondaryActionButton" p:buttonSize="default" class="org.kuali.student.common.uif.element.KSUifActionButton">
         <property name="cssClasses">
             <list merge="false">
                 <value>btn</value>
-                <value>btn-link</value>
             </list>
         </property>
     </bean>
