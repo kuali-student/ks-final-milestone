@@ -172,7 +172,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="KSAO-RuleView-Links" p:render="@{#line.dummy and #line.parent != null}"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>
@@ -181,10 +181,10 @@ limitations under the License.
     <bean id="KSAO-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit CO Rule" p:methodToCall="goToRuleView"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRuleStatements"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Revert to CO" p:methodToCall="deleteRule"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Copy and  Edit CO Rule" p:methodToCall="goToRuleView"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRuleStatements"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Revert to CO" p:methodToCall="deleteRule"/>
             </list>
         </property>
     </bean>
@@ -192,7 +192,7 @@ limitations under the License.
     <bean id="KSAO-RuleView-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules"/>
             </list>
         </property>
     </bean>
@@ -244,13 +244,13 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
+                <bean parent="Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Show Courses">
                     <property name="actionImage">
                         <null/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
+                <bean parent="Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Hide Courses" p:style="margin-left: 1em;">
                     <property name="actionImage">
                         <null/>
@@ -356,7 +356,7 @@ limitations under the License.
     <bean id="KSAO-RulePreview-Links" parent="KRMS-RulePreview-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU, CO and AO Rules"/>
                     </property>

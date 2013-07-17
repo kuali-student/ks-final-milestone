@@ -167,7 +167,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <!--<bean parent="Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
+                <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
                     <!--<property name="seperatedActions">-->
                         <!--<list>-->
                             <!-- Note by Bonnie: turn on authz on copy and edit links now -->

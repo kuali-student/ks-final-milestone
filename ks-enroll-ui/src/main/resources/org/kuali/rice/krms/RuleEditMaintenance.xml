@@ -157,13 +157,13 @@ limitations under the License.
     <bean id="KRMS-RuleEditor-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="jq('.jstree').jstree('open_all');"
+                <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('open_all');"
                       p:actionLabel="[+] expand all" p:style="margin-left: 2em;">
                     <property name="actionImage">
                         <null/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="jq('.jstree').jstree('close_all');"
+                <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('close_all');"
                       p:actionLabel="[-] collapse all" p:style="margin-right: 15pt;margin-left:1em">
                     <property name="actionImage">
                         <null/>

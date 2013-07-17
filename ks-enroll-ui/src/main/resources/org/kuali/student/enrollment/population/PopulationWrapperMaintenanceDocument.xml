@@ -63,7 +63,7 @@
                       p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_createPopulation"/>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update" p:performClientSideValidation="true"
                       p:render="@{(maintenanceAction eq 'Edit') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_updatePopulation"/>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="stepBrowserBack()" p:actionLabel="Cancel"
+                <bean parent="Uif-ActionLink" p:actionScript="stepBrowserBack()" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}" p:id="link_cancelPopulation"/>
             </list>
         </property>
@@ -83,9 +83,9 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{!#dp.createByRule}" p:id="link_byRule"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{!#dp.createByRule}" p:id="link_byRule"/>
                 <bean parent="Uif-MessageField" p:messageText="By Rule" p:style="font-weight:bold;" p:render="@{#dp.createByRule}"/>
-                <bean parent="KS-Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Using Populations" p:render="@{#dp.createByRule}" p:id="link_byUsingPopulations"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="createByCombiningPopulations" p:style="font-weight:bold;" p:actionLabel="By Using Populations" p:render="@{#dp.createByRule}" p:id="link_byUsingPopulations"/>
                 <bean parent="Uif-MessageField" p:messageText="By Using Populations" p:style="font-weight:bold;" p:render="@{!#dp.createByRule}"/>
             </list>
         </property>
@@ -183,7 +183,7 @@
                     <!-- Hide the state option, and default it to Active -->
                     <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchRefPopulation">
+                        <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchRefPopulation">
                             <property name="actionImage">
                                 <bean parent="Uif-QuickLookupImage"/>
                             </property>
@@ -239,7 +239,7 @@
                                 <!-- Hide the state option, and default it to Active -->
                                 <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
                                 <property name="quickfinder.quickfinderAction">
-                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
+                                    <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
                                         <property name="actionImage">
                                             <bean parent="Uif-QuickLookupImage"/>
                                         </property>

@@ -69,7 +69,7 @@
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Confirm Release Courses" p:id="releaseToDeptsButton"
                                               p:actionParameters="confirm:do" p:methodToCall="confirmReleaseToDepts" p:disabled="@{releaseToDeptsDisabled}"/>
-                                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:onClickScript="e.preventDefault();closeLightbox();return false;"  p:style="padding-top:5px;"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:onClickScript="e.preventDefault();closeLightbox();return false;"  p:style="padding-top:5px;"/>
                                     </list>
                                 </property>
                             </bean>

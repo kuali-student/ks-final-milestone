@@ -256,7 +256,7 @@ limitations under the License.
         <!--property name="collectionLookup">
             <bean parent="KRMS-CourseSet-QuickFinder" p:multipleValuesSelect="false">
                 <property name="quickfinderAction">
-                    <bean parent="KS-Uif-ActionLink" p:progressiveRender="#np.proposition.multipleCourseType eq '2'">
+                    <bean parent="Uif-ActionLink" p:progressiveRender="#np.proposition.multipleCourseType eq '2'">
                         <property name="methodToCall" value="performLookup"/>
                         <property name="actionLabel" value="Search for Course Sets"/>
                         <property name="style" value="display:block;color: #3F7826;"/>
@@ -330,7 +330,7 @@ limitations under the License.
         <!--property name="collectionLookup">
             <bean parent="KRMS-ApprovedCourses-QuickFinder" p:multipleValuesSelect="false">
                 <property name="quickfinderAction">
-                    <bean parent="KS-Uif-ActionLink" p:progressiveRender="#np.proposition.multipleCourseType eq '1'">
+                    <bean parent="Uif-ActionLink" p:progressiveRender="#np.proposition.multipleCourseType eq '1'">
                         <property name="methodToCall" value="performLookup"/>
                         <property name="actionLabel" value="Search for Approved Courses"/>
                         <property name="style" value="display:block;color: #3F7826;"/>
@@ -464,7 +464,7 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
+                <bean parent="Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
                       p:style="margin-right: 15px;" p:actionParameters="selectedIndex:@{#index}"/>
                 <bean parent="Uif-DeleteLineAction">
                     <property name="cssClasses">
@@ -491,7 +491,7 @@ limitations under the License.
                 <bean parent="Uif-MessageField" p:messageText="No courses match the current search criteria."
                     p:style="width: 450px; margin: 0px;" p:render="@{#dp.clusInRangeSize eq 0}"/>
                 <ref bean="KRMS-CourseRangeResult"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
+                <bean parent="Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
                       p:align="right"/>
             </list>
         </property>
@@ -587,7 +587,7 @@ limitations under the License.
             </map>
         </property>
         <property name="quickfinder.quickfinderAction">
-            <bean parent="KS-Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block"
+            <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block"
                   p:methodToCall="performLookup"/>
         </property>
         <property name="quickfinder.lightBoxLookup">

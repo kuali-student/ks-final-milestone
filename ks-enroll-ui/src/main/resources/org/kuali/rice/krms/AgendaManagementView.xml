@@ -69,13 +69,13 @@ limitations under the License.
     <bean id="KRMS-AgendaMaintenance-DisclosureLinks" parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="expandDisclosures();"
+                <bean parent="Uif-ActionLink" p:actionScript="expandDisclosures();"
                       p:actionLabel="[+] expand all">
                     <property name="actionImage">
                         <null/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="collapseDisclosures();"
+                <bean parent="Uif-ActionLink" p:actionScript="collapseDisclosures();"
                       p:actionLabel="[-] collapse all" p:style="margin-left:1em">
                     <property name="actionImage">
                         <null/>
@@ -115,7 +115,7 @@ limitations under the License.
                             <property name="actionLabel" value="Update Rule"/>
                             <property name="methodToCall" value="updateRule"/>
                         </bean>
-                        <bean id="cancel-button" parent="KS-Uif-ActionLink"
+                        <bean id="cancel-button" parent="Uif-ActionLink"
                               p:style="margin-left: 0.5em;margin-top: 0.3em;">
                             <property name="actionLabel" value="Cancel"/>
                             <property name="methodToCall" value="cancelEditRule"/>
@@ -203,9 +203,9 @@ limitations under the License.
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:disabled="@{!#line.permission.addEditRequisite}"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:disabled="@{!#line.permission.deleteRequisite}"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:disabled="@{!#line.permission.addEditRequisite}"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:disabled="@{!#line.permission.deleteRequisite}"/>
             </list>
         </property>
     </bean>
@@ -214,7 +214,7 @@ limitations under the License.
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare with parent"/>
                     </property>
@@ -227,9 +227,9 @@ limitations under the License.
         <property name="linkSeparator" value="@{#line.dummy and #line.parent != null ? ' | ' : ''}"/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}"
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}"
                       p:render="@{#line.dummy and #line.parent != null}" />
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:disabled="@{!#line.permission.addEditRequisite}"
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:disabled="@{!#line.permission.addEditRequisite}"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>

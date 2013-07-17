@@ -143,11 +143,11 @@
                                                 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" p:inquiryParameters="currentCourseOfferingWrapper.courseOfferingId" />
                                             </property>
                                         </bean>
-                                        <bean id="edit_co" parent="KS-Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit" p:disabled="@{#parent.readOnly}" p:componentSecurity.performActionAuthz="true" p:actionEvent="editCO"/>
-                                        <bean id="delete_co" parent="KS-Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel=" | Delete" p:disabled="@{#parent.readOnly}" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
-                                        <bean parent="KS-Uif-ActionLink" p:actionLabel=" | View All Registration Groups (@{rgResultList.size()})"
+                                        <bean id="edit_co" parent="Uif-ActionLink" p:methodToCall="editTheCO" p:actionLabel=" | Edit" p:disabled="@{#parent.readOnly}" p:componentSecurity.performActionAuthz="true" p:actionEvent="editCO"/>
+                                        <bean id="delete_co" parent="Uif-ActionLink" p:id="ActivityOfferingResultSection-deleteOneCoWithLink" p:methodToCall="deleteOneCoWithLink" p:actionLabel=" | Delete" p:disabled="@{#parent.readOnly}" p:render = "@{currentCourseOfferingWrapper.stateKey eq 'kuali.lui.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.draft' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.planned'  or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.activity.offering.state.offered' or currentCourseOfferingWrapper.stateKey eq 'kuali.lui.course.offering.state.offered'}" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
+                                        <bean parent="Uif-ActionLink" p:actionLabel=" | View All Registration Groups (@{rgResultList.size()})"
                                               p:actionScript = "showLightboxComponent('KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering', '@{#ConfigProperties['application.url']}');"/>
-                                        <bean parent="KS-Uif-ActionLink" p:actionLabel="| Manage Course Offering Requisites " p:disabled="@{!requisiteLink}" p:methodToCall="manageCORequisites" />
+                                        <bean parent="Uif-ActionLink" p:actionLabel="| Manage Course Offering Requisites " p:disabled="@{!requisiteLink}" p:methodToCall="manageCORequisites" />
                                     </list>
                                 </property>
                             </bean>
@@ -157,11 +157,11 @@
                 <bean parent="Uif-LinkGroup" p:style="float:right">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-ActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingWrapper != null ? previousCourseOfferingWrapper.courseOfferingCode : ''}" p:render="@{previousCourseOfferingWrapper != null}" p:id="LoadPrev"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadPreviousCO" p:actionLabel="&lt; @{previousCourseOfferingWrapper != null ? previousCourseOfferingWrapper.courseOfferingCode : ''}" p:render="@{previousCourseOfferingWrapper != null}" p:id="LoadPrev"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{previousCourseOfferingWrapper != null}"/>
-                            <bean parent="KS-Uif-ActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" p:id="ListAll"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadCOs" p:actionLabel="List All" p:id="ListAll"/>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{nextCourseOfferingWrapper != null}"/>
-                            <bean parent="KS-Uif-ActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingWrapper != null ? nextCourseOfferingWrapper.courseOfferingCode : ''} &gt;" p:render="@{nextCourseOfferingWrapper != null}" p:id="LoadNext"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="loadNextCO" p:actionLabel="@{nextCourseOfferingWrapper != null ? nextCourseOfferingWrapper.courseOfferingCode : ''} &gt;" p:render="@{nextCourseOfferingWrapper != null}" p:id="LoadNext"/>
                         </list>
                     </property>
                 </bean>

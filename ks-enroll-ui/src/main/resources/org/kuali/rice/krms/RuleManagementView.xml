@@ -87,7 +87,7 @@ limitations under the License.
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}"/>
             </list>
         </property>
     </bean>
@@ -249,7 +249,7 @@ limitations under the License.
                         <bean parent="Uif-FooterBase">
                             <property name="items">
                                 <list>
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Close"
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Close"
                                           p:actionScript="jQuery.fancybox.close();"/>
                                 </list>
                             </property>
@@ -295,7 +295,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{#np.data}"/>
                 <bean parent="Uif-SpaceField"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey" p:disabled="@{!#dp.ruleEditor.permission.editLogic}">
+                <bean parent="Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey" p:disabled="@{!#dp.ruleEditor.permission.editLogic}">
                     <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
                     <property name="toolTip">
                         <bean parent="Uif-TooltipFocus" p:onMouseHover="true"

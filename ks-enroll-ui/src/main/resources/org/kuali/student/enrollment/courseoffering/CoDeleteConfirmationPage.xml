@@ -58,7 +58,7 @@
                     <list>
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Delete Course Offerings" p:id="coDeleteConfirmationResultSection_confirmDeleteButton"
                               p:methodToCall="deleteBulkCos"/>
-                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:id="coDeleteConfirmationResultSection_cancelDeleteButton" p:methodToCall="cancelDeleteBulkCos"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:id="coDeleteConfirmationResultSection_cancelDeleteButton" p:methodToCall="cancelDeleteBulkCos"/>
                     </list>
                 </property>
             </bean>

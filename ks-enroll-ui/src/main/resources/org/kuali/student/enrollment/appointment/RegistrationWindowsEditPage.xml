@@ -186,7 +186,7 @@
 
                  <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
                  <property name="quickfinder.quickfinderAction">
-                        <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
+                        <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
                             <property name="actionImage">
                                 <bean parent="Uif-QuickLookupImage"/>
                             </property>
@@ -213,7 +213,7 @@
 
                     <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="KS-Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
+                        <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
                             <property name="actionImage">
                                 <bean parent="Uif-QuickLookupImage"/>
                             </property>

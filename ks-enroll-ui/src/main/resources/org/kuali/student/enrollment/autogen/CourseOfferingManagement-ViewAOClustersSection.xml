@@ -206,7 +206,7 @@
 
         <property name="lineActions">
             <list>
-                <!--<bean parent="Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
+                <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
                     <!--<property name="seperatedActions">-->
                         <!--<list>-->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"

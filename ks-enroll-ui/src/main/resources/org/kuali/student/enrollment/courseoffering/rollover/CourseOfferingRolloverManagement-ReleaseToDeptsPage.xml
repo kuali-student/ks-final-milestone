@@ -46,7 +46,7 @@
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Release to Departments"
                                               p:methodToCall="releaseToDepts" p:disabled="@{releaseToDeptsDisabled}"/>
-                                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="showRolloverResults"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="showRolloverResults"/>
                                     </list>
                                 </property>
                             </bean>

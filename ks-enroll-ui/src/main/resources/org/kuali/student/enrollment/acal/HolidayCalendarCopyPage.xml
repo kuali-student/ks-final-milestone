@@ -50,7 +50,7 @@
                         <bean parent="Uif-Message"
                               p:messageText="All holidays, including dates and times, will be copied to the new Holiday Calendar"
                               p:style="margin-bottom:0;"/>
-                        <bean parent="KS-Uif-ActionLink"
+                        <bean parent="Uif-ActionLink"
                               p:methodToCall="toCreate"
                               p:actionLabel="Create Blank Holiday Calendar"/>
                     </list>
@@ -97,7 +97,7 @@
                               p:actionLabel="Copy Holiday Calendar"
                               p:render="@{holidayCalendarInfo != null}"
                               p:performClientSideValidation="true" />
-                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
                     </list>
                 </property>
             </bean>

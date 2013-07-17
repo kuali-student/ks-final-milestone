@@ -160,7 +160,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
@@ -285,13 +285,13 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
+                <bean parent="Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Show Courses">
                     <property name="actionImage">
                         <null/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
+                <bean parent="Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Hide Courses" p:style="margin-left: 1em;">
                     <property name="actionImage">
                         <null/>
@@ -396,7 +396,7 @@ limitations under the License.
     <bean id="KSCO-RulePreview-Links" parent="KRMS-RulePreview-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>

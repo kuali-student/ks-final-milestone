@@ -46,7 +46,7 @@
                       </map>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
@@ -226,7 +226,7 @@
                     </property>
                     <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
                     </property>
                     <property name="quickfinder.autoSearch" value="true"/>
                     <property name="quickfinder.fieldConversions">
@@ -562,7 +562,7 @@
                                   </map>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-ActionLink" p:actionScript="closeLightbox();" p:actionLabel="Cancel"/>
+                            <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:actionLabel="Cancel"/>
                         </list>
                     </property>
                 </bean>
