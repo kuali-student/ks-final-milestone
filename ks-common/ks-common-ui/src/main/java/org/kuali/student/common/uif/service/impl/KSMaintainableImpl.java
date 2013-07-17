@@ -129,8 +129,9 @@ public class KSMaintainableImpl extends MaintainableImpl implements KSMaintainab
             return new RuntimeException("Operation Failed - " + ex.getMessage(),ex);
         } else if (ex instanceof PermissionDeniedException){
             return new RuntimeException("Permission Denied - " + ex.getMessage(),ex);
+        } else if (ex instanceof DataValidationErrorException){
+            return new RuntimeException("Data Validation Error - " + ex.getMessage(), ex);
         } else {
-//            throw new IllegalArgumentException("KSViewHelperServiceImpl.convertServiceExceptionsToUI() doesn't support this exception " + ex.getClass().getSimpleName(),ex);
             return new RuntimeException(ex.getMessage(),ex);
         }
     }
