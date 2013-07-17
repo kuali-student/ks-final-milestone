@@ -97,6 +97,13 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             //Set the cluset to null to force the builder to create a new cluset.
             if(newProposition.getCluSet()!=null){
                 newProposition.getCluSet().setCluSetInfo(null);
+            } else if(newProposition.getPropositionTypeCode().equals("C")) {
+                for(int i = 0; i < newProposition.getCompoundEditors().size(); i++) {
+                    EnrolPropositionEditor prop = (EnrolPropositionEditor) newProposition.getCompoundEditors().get(i);
+                    if(prop.getCluSet() != null) {
+                        prop.getCluSet().setCluSetInfo(null);
+                    }
+                }
             }
 
             //Use a deepcopy to create new references to inner objects such as string.
