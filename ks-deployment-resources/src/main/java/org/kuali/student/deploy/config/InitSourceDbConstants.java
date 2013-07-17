@@ -7,7 +7,7 @@ import java.util.List;
 import org.kuali.common.jdbc.config.JdbcConfigConstants;
 import org.kuali.common.util.Str;
 import org.kuali.common.util.metainf.SqlMetaInfConstants;
-import org.kuali.student.deploy.spring.DeployProjectConstants;
+import org.kuali.student.deploy.DeployProjectConstants;
 
 public class InitSourceDbConstants {
 

@@ -1,4 +1,4 @@
-package org.kuali.student.deploy.spring;
+package org.kuali.student.deploy;
 
 import org.kuali.common.util.KualiProjectConstants;
 import org.kuali.common.util.ProjectUtils;

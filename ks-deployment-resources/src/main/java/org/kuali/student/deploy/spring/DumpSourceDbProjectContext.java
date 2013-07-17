@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.common.util.DefaultProjectContext;
 import org.kuali.common.util.ProjectUtils;
+import org.kuali.student.deploy.DeployProjectConstants;
 
 public class DumpSourceDbProjectContext extends DefaultProjectContext {
 

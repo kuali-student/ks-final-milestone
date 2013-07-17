@@ -15,25 +15,22 @@
 
 package org.kuali.student.deploy.spring;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.common.util.DefaultProjectContext;
-import org.kuali.student.deploy.DeployProjectConstants;
+import org.kuali.common.util.config.spring.BuildPropertySourceConfig;
+import org.kuali.student.deploy.config.InitApplicationDbConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 
-public class RiceDbProjectContext extends DefaultProjectContext {
+@Configuration
+public class InitializeApplicationDbPropertySourceConfig extends BuildPropertySourceConfig {
 
-    public RiceDbProjectContext() {
-        super(DeployProjectConstants.GROUP_ID, DeployProjectConstants.ARTIFACT_ID);
-    }
+    @Autowired
+    Environment env;
 
     @Override
-    public List<String> getPropertyLocations() {
-        List<String> locations = new ArrayList<String>();
-
-        locations.add("classpath:org/kuali/student/ks-initialize-db/common.properties");
-        locations.add("classpath:org/kuali/student/ks-initialize-db/ks-impex-rice-db.properties");
-
-        return locations;
+    protected List<String> getConfigIds() {
+        String baseConfigId = InitApplicationDbConstants.BASE_CONFIG_ID;
     }
 }

@@ -3,6 +3,7 @@ package org.kuali.student.deploy.spring;
 import java.util.Arrays;
 
 import org.kuali.common.util.DefaultProjectContext;
+import org.kuali.student.deploy.DeployProjectConstants;
 
 public class SourceDbCommonProjectContext extends DefaultProjectContext {
 
