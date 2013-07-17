@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.kuali.common.impex.ExportConfigConstants;
 import org.kuali.common.jdbc.config.JdbcConfigConstants;
-import org.kuali.common.util.config.ConfigUtils;
+import org.kuali.common.util.Str;
 import org.kuali.common.util.metainf.MetaInfConfigConstants;
 import org.kuali.student.deploy.spring.DeployProjectConstants;
 
@@ -29,17 +29,17 @@ public class SourceDbConfigConstants {
 
 	// Context id for config related to initializing a source database
 	// TODO Move to kuali-jdbc?
-	public static final String DUMP_SOURCE_DB_CONTEXT_ID = ConfigUtils.getId(SOURCE_DB, DUMP);
+	public static final String DUMP_SOURCE_DB_CONTEXT_ID = Str.getId(SOURCE_DB, DUMP);
 
 	// Context id for config related to initializing a source database
 	// TODO Move to kuali-jdbc?
-	public static final String INIT_SOURCE_DB_CONTEXT_ID = ConfigUtils.getId(SOURCE_DB, INITIALIZE);
+	public static final String INIT_SOURCE_DB_CONTEXT_ID = Str.getId(SOURCE_DB, INITIALIZE);
 
 	// Fully qualified config id related to dumping KS_SOURCE_DB
-	public static final String DUMP_SOURCE_DB_CONFIG_ID = ConfigUtils.getId(GA, DUMP_SOURCE_DB_CONTEXT_ID);
+	public static final String DUMP_SOURCE_DB_CONFIG_ID = Str.getId(GA, DUMP_SOURCE_DB_CONTEXT_ID);
 
 	// Fully qualified config id related to initializing KS_SOURCE_DB
-	public static final String INIT_SOURCE_DB_CONFIG_ID = ConfigUtils.getId(GA, INIT_SOURCE_DB_CONTEXT_ID);
+	public static final String INIT_SOURCE_DB_CONFIG_ID = Str.getId(GA, INIT_SOURCE_DB_CONTEXT_ID);
 
 	// The complete list of configId's needed to initialize KS_SOURCE_DB
 	public static final List<String> INIT_SOURCE_DB_CONFIG_IDS = getInitSourceDbConfigIds();
