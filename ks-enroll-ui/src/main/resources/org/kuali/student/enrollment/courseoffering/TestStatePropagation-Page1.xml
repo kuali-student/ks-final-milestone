@@ -28,8 +28,6 @@
                 <property name="items">
                     <list>
 
-                        <ref bean="changeSocStateBean" />
-
                         <bean parent="Uif-HorizontalBoxSection" id="testButtonSection">
                             <property name="items">
                                 <list>
@@ -341,17 +339,6 @@
 
                     </list>
                 </property>
-    </bean>
-
-    <bean id="changeSocStateBean" parent="Uif-VerticalBoxSection">
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:label="Term" p:propertyName="termCodeForSocStateChange" />
-                <bean parent="Uif-InputField" p:label="Soc State" p:propertyName="newSocStateForSocStateChange" />
-                <bean parent="Uif-PrimaryActionButton" p:actionLabel="Change SOC State" p:methodToCall="changeSocState" />
-            </list>
-        </property>
-
     </bean>
 
 
