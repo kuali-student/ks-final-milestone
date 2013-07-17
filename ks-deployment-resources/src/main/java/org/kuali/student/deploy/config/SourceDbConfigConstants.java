@@ -16,23 +16,23 @@ public class SourceDbConfigConstants {
 	private static final String GA = DeployProjectConstants.GROUP_ID + ":" + DeployProjectConstants.ARTIFACT_ID;
 
 	// Config for interacting with a source database
-	// TODO Move to kuali-jdbc?
+	// TODO Move to kuali-impex-export?
 	public static final String SOURCE_DB = "source-db";
 
 	// Config related to dumping something
-	// TODO Move to kuali-jdbc?
+	// TODO Move to kuali-impex-export?
 	public static final String INITIALIZE = "initialize";
 
 	// Config related to initializing something
-	// TODO Move to kuali-jdbc?
+	// TODO Move to kuali-impex-export?
 	public static final String DUMP = "dump";
 
 	// Context id for config related to initializing a source database
-	// TODO Move to kuali-jdbc?
+	// TODO Move to kuali-impex-export?
 	public static final String DUMP_SOURCE_DB_CONTEXT_ID = Str.getId(SOURCE_DB, DUMP);
 
 	// Context id for config related to initializing a source database
-	// TODO Move to kuali-jdbc?
+	// TODO Move to kuali-impex-export?
 	public static final String INIT_SOURCE_DB_CONTEXT_ID = Str.getId(SOURCE_DB, INITIALIZE);
 
 	// Fully qualified config id related to dumping KS_SOURCE_DB
