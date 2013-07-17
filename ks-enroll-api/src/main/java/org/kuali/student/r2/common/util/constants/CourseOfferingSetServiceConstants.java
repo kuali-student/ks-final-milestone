@@ -126,6 +126,7 @@ public class CourseOfferingSetServiceConstants {
     public static final String LOG_FREQUENCY_OPTION_KEY_PREFIX = "kuali.rollover.processing.log.frequency.";
     public static final String HALT_ERRORS_MAX_OPTION_KEY_PREFIX = "kuali.rollover.processing.halt.error.max.";
     public static final String RUN_SYNCHRONOUSLY_OPTION_KEY = "kuali.rollover.processing.run.synchronously";
+    public static final String BYPASS_BUSINESS_LOGIC_ON_SOC_STATE_CHANGE_FOR_AFT_TESTING = "kuali.aft-decorator.bypass.business.logic";
     
     // scheduling
     public static final String RUN_SCHEDULING_SYNCHRONOUSLY_OPTION_KEY = "kuali.scheduling.processing.run.synchronously";
