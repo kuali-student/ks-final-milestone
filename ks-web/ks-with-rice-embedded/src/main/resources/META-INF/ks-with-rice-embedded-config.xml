@@ -113,6 +113,9 @@
     <param name="ksb.mode">THIN</param>
     <param name="krms.mode">LOCAL</param>
 
+    <!-- krad module name is kr for now, to be fixed when KULRICE-6532 is resolved -->
+    <param name="kr.mode">LOCAL</param>
+
     <!-- additional config files -->
     <!--
         Setting this property allows selective loading lum or core project or both

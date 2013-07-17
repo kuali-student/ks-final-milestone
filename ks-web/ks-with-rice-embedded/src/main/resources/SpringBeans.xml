@@ -24,6 +24,7 @@
    	</bean>
 
    	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+        <property name="initialize" value="true"/>
    		<property name="configLocations">
    			<list>
    				<value>classpath:META-INF/ks-with-rice-embedded-config.xml</value>
