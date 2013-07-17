@@ -11,7 +11,7 @@ public class InitializeSourceDbPropertySourceConfig extends BuildPropertySourceC
 
 	@Override
 	protected List<String> getConfigIds() {
-		return InitSourceDbConstants.INIT_SOURCE_DB_CONFIG_IDS;
+		return InitSourceDbConstants.SOURCE_DB_CONFIG_IDS;
 	}
 
 }

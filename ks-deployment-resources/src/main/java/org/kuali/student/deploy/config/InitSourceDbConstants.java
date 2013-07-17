@@ -20,15 +20,15 @@ public class InitSourceDbConstants {
 
 	// Config related to initializing a source database
 	// TODO Move to kuali-impex-export?
-	public static final String INIT_SOURCE_DB_CONTEXT_ID = Str.getId(SourceDbConstants.SOURCE_DB, INITIALIZE);
+	public static final String SOURCE_DB_CONTEXT_ID = Str.getId(SourceDbConstants.SOURCE_DB, INITIALIZE);
 
 	// Fully qualified config id related to initializing KS_SOURCE_DB
-	public static final String INIT_SOURCE_DB_CONFIG_ID = Str.getId(GA, INIT_SOURCE_DB_CONTEXT_ID);
+	public static final String SOURCE_DB_CONFIG_ID = Str.getId(GA, SOURCE_DB_CONTEXT_ID);
 
 	// The complete list of configId's needed to initialize KS_SOURCE_DB
-	public static final List<String> INIT_SOURCE_DB_CONFIG_IDS = getInitSourceDbConfigIds();
+	public static final List<String> SOURCE_DB_CONFIG_IDS = getSourceDbConfigIds();
 
-	protected static List<String> getInitSourceDbConfigIds() {
+	protected static List<String> getSourceDbConfigIds() {
 		List<String> ids = new ArrayList<String>();
 
 		// We are connecting to a database so we need whatever it is JDBC needs
@@ -38,7 +38,7 @@ public class InitSourceDbConstants {
 		ids.addAll(MetaInfConfigConstants.SQL_CONFIG_IDS);
 
 		// KS specific config for connecting to Amazon RDS
-		ids.add(INIT_SOURCE_DB_CONFIG_ID);
+		ids.add(SOURCE_DB_CONFIG_ID);
 		return Collections.unmodifiableList(ids);
 	}
 

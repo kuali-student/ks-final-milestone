@@ -11,7 +11,7 @@ public class DumpSourceDbPropertySourceConfig extends BuildPropertySourceConfig 
 
 	@Override
 	protected List<String> getConfigIds() {
-		return DumpSourceDbConstants.DUMP_SOURCE_DB_CONFIG_IDS;
+		return DumpSourceDbConstants.SOURCE_DB_CONFIG_IDS;
 	}
 
 }
