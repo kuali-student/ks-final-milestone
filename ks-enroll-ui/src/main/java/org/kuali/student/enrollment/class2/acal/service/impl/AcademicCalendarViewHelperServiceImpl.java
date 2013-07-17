@@ -885,6 +885,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     public void validateTerm(List<AcademicTermWrapper> termWrapper,int termToValidateIndex,AcademicCalendarInfo acal) {
 
         AcademicTermWrapper termWrapperToValidate = termWrapper.get(termToValidateIndex);
+        String termSectionName="term_section_line"+termToValidateIndex;
+        String keyDateGroupSectionName="acal-term-keydatesgroup_line"+termToValidateIndex;
 
         int index2 = 0;
         //Validate duplicate term name
@@ -892,24 +894,24 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             index2++;
             if (wrapper != termWrapperToValidate){
                 if (StringUtils.equalsIgnoreCase(wrapper.getName(),termWrapperToValidate.getName())){
-                    GlobalVariables.getMessageMap().putErrorForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_DUPLICATE_TERM_NAME,""+ NumberUtils.min(new int[]{termToValidateIndex,index2}),""+NumberUtils.max(new int[]{termToValidateIndex,index2}));
+                    GlobalVariables.getMessageMap().putErrorForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_DUPLICATE_TERM_NAME,""+ NumberUtils.min(new int[]{termToValidateIndex,index2}),""+NumberUtils.max(new int[]{termToValidateIndex,index2}));
                 }
             }
         }
 
         if (!CommonUtils.isValidDateRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate())){
-            GlobalVariables.getMessageMap().putErrorForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,termWrapperToValidate.getName(),CommonUtils.formatDate(termWrapperToValidate.getStartDate()),CommonUtils.formatDate(termWrapperToValidate.getEndDate()));
+            GlobalVariables.getMessageMap().putErrorForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,termWrapperToValidate.getName(),CommonUtils.formatDate(termWrapperToValidate.getStartDate()),CommonUtils.formatDate(termWrapperToValidate.getEndDate()));
         }
 
         if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),termWrapperToValidate.getStartDate()) ||
             !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),termWrapperToValidate.getEndDate())){
-            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_ACAL_RANGE,termWrapperToValidate.getName());
+            GlobalVariables.getMessageMap().putWarningForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_ACAL_RANGE,termWrapperToValidate.getName());
         }
         if(termWrapperToValidate.isSubTerm()){
             if(termWrapperToValidate.getParentTermInfo()!= null){
                 if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(),termWrapperToValidate.getParentTermInfo().getEndDate(),termWrapperToValidate.getStartDate()) ||
                         !CommonUtils.isDateWithinRange(termWrapperToValidate.getParentTermInfo().getStartDate(),termWrapperToValidate.getParentTermInfo().getEndDate(),termWrapperToValidate.getEndDate())){
-                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,termWrapperToValidate.getName(),termWrapperToValidate.getParentTermInfo().getName());
+                    GlobalVariables.getMessageMap().putWarningForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,termWrapperToValidate.getName(),termWrapperToValidate.getParentTermInfo().getName());
                 }
             }else{
                 // Find term manually if calendar hasn't already been saved.
@@ -927,7 +929,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
                 if (!CommonUtils.isDateWithinRange(parentTerm.getStartDate(),parentTerm.getEndDate(),termWrapperToValidate.getStartDate()) ||
                         !CommonUtils.isDateWithinRange(parentTerm.getStartDate(),parentTerm.getEndDate(),termWrapperToValidate.getEndDate())){
-                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term", CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,termWrapperToValidate.getName(),parentTerm.getName());
+                    GlobalVariables.getMessageMap().putWarningForSectionId(termSectionName, CalendarConstants.MessageKeys.ERROR_TERM_NOT_IN_TERM_RANGE,termWrapperToValidate.getName(),parentTerm.getName());
                 }
             }
         }
@@ -937,18 +939,18 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
                 // Start Date should not be null
                 if(keyDateWrapper.getStartDate()==null){
-                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, keyDateWrapper.getKeyDateNameUI());
+                    GlobalVariables.getMessageMap().putWarningForSectionId(keyDateGroupSectionName, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, keyDateWrapper.getKeyDateNameUI());
                 }
 
                 // If Date Range is checked
                 if(keyDateWrapper.isDateRange()){
                     // End date should not be null
                     if(keyDateWrapper.getEndDate()==null){
-                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_DATE_END_REQUIRED,keyDateWrapper.getKeyDateNameUI());
+                        GlobalVariables.getMessageMap().putWarningForSectionId(keyDateGroupSectionName, CalendarConstants.MessageKeys.ERROR_DATE_END_REQUIRED,keyDateWrapper.getKeyDateNameUI());
                     }else{
                         // The start date should come before the end date
                         if (!CommonUtils.isValidDateRange(keyDateWrapper.getStartDate(),keyDateWrapper.getEndDate())){
-                            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
+                            GlobalVariables.getMessageMap().putWarningForSectionId(keyDateGroupSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,keyDateWrapper.getKeyDateNameUI(),CommonUtils.formatDate(keyDateWrapper.getStartDate()),CommonUtils.formatDate(keyDateWrapper.getEndDate()));
                         }
                     }
                 }
@@ -957,20 +959,20 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 if(!keyDateWrapper.isAllDay()){
                     // Start time should not be null
                     if(StringUtils.isEmpty(keyDateWrapper.getStartTime())){
-                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED,keyDateWrapper.getKeyDateNameUI());
+                        GlobalVariables.getMessageMap().putWarningForSectionId(keyDateGroupSectionName, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED,keyDateWrapper.getKeyDateNameUI());
                     }else{
                         // If start date is entered Am or Pm should be selected
                         if(StringUtils.isEmpty(keyDateWrapper.getStartTimeAmPm())){
-                            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_TIME_START_AMPM_REQUIRED,keyDateWrapper.getKeyDateNameUI());
+                            GlobalVariables.getMessageMap().putWarningForSectionId(keyDateGroupSectionName, CalendarConstants.MessageKeys.ERROR_TIME_START_AMPM_REQUIRED,keyDateWrapper.getKeyDateNameUI());
                         }
                     }
                     // End time should not be null
                     if(StringUtils.isEmpty(keyDateWrapper.getEndTime())){
-                        GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_KEY_DATE_END_DATE_REQUIRED,keyDateWrapper.getKeyDateNameUI());
+                        GlobalVariables.getMessageMap().putWarningForSectionId(keyDateGroupSectionName, CalendarConstants.MessageKeys.ERROR_KEY_DATE_END_DATE_REQUIRED,keyDateWrapper.getKeyDateNameUI());
                     }else{
                         // If end date is entered Am or Pm should be selected
                         if(StringUtils.isEmpty(keyDateWrapper.getEndTimeAmPm())){
-                            GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_TIME_END_AMPM_REQUIRED,keyDateWrapper.getKeyDateNameUI());
+                            GlobalVariables.getMessageMap().putWarningForSectionId(keyDateGroupSectionName, CalendarConstants.MessageKeys.ERROR_TIME_END_AMPM_REQUIRED,keyDateWrapper.getKeyDateNameUI());
                         }
                     }
                 }
@@ -978,7 +980,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 // Start and End Dates of the key date entry should be within the start and end dates of the term.
                 if (!CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getStartDate()) ||
                         !CommonUtils.isDateWithinRange(termWrapperToValidate.getStartDate(),termWrapperToValidate.getEndDate(),keyDateWrapper.getEndDate())){
-                    GlobalVariables.getMessageMap().putWarningForSectionId("acal-term-keydatesgroup_line"+termToValidateIndex, CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
+                    GlobalVariables.getMessageMap().putWarningForSectionId(keyDateGroupSectionName, CalendarConstants.MessageKeys.ERROR_INVALID_DATERANGE_KEYDATE,keyDateWrapper.getKeyDateNameUI(),termWrapperToValidate.getName());
                 }
             }
         }

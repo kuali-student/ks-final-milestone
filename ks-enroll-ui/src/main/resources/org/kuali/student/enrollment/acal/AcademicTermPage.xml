@@ -10,6 +10,7 @@
         <property name="header.render" value="false"/>
         <property name="cssClasses" value="ac_disclosure"/>
         <property name="header.style" value="margin-bottom:0"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <ref bean="KS-AcademicCalendar-Overview-WithoutTerms" />
@@ -47,6 +48,7 @@
         <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000);" />
         <!--<property name="header.render" value="false" />-->
         <property name="headerText" value="Terms"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.addLineGroup.header.render" value="true"/>
         <!-- Move the add button to the right of the fields -->
         <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
@@ -55,6 +57,7 @@
 
         <property name="layoutManager.lineGroupPrototype">
             <bean id="term_section" parent="Uif-CollectionVerticalBoxItem">
+
                 <property name="disclosure.render" value="true"/>
                 <property name="disclosure.defaultOpen" value="false"/>
                 <property name="header">
