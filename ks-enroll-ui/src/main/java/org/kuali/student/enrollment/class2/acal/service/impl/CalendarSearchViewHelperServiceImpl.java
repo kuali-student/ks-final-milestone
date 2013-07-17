@@ -84,7 +84,8 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
 
         //Add the year and name params if they are set
         if(nameParam!=null&&!nameParam.isEmpty()){
-            searchRequest.addParam("atp.advancedAtpSearchParam.atpShortName", nameParam);
+            String name = nameParam.replace('*', '%');
+            searchRequest.addParam("atp.advancedAtpSearchParam.atpShortName", name);
         }
         if(yearParam!=null&&!yearParam.isEmpty()){
             searchRequest.addParam("atp.advancedAtpSearchParam.atpYear", yearParam);
