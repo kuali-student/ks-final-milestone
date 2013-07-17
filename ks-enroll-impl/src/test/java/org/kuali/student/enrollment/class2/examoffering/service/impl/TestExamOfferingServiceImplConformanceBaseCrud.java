@@ -527,6 +527,10 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
     public abstract void test_changeExamOfferingState()
             throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 
+    /* Method Name: getExamOfferingsByExamPeriod */
+    public abstract void test_getExamOfferingsByExamPeriod()
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException  ;
+
     /* Method Name: validateExamOfferingRelation */
     @Test
     public abstract void test_validateExamOfferingRelation()

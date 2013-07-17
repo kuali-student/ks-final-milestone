@@ -224,6 +224,11 @@ public class TestExamOfferingServiceImplConformanceExtendedCrud extends TestExam
             throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
     }
 
+    /* Method Name: getExamOfferingsByExamPeriod */
+    public void test_getExamOfferingsByExamPeriod()
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException  {
+    }
+
     /* Method Name: validateExamOfferingRelation */
     @Test
     public void test_validateExamOfferingRelation()

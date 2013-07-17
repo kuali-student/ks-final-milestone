@@ -41,6 +41,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import javax.jws.WebParam;
+
 
 public class ExamOfferingServiceMapImpl implements MockService, ExamOfferingService
 {
@@ -224,6 +226,17 @@ public class ExamOfferingServiceMapImpl implements MockService, ExamOfferingServ
     {
         // validate
         return new ArrayList<ValidationResultInfo> ();
+    }
+
+    @Override
+    public List<ExamOfferingInfo> getExamOfferingsByExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ExamOfferingInfo> list = new ArrayList<ExamOfferingInfo> ();
+        for (ExamOfferingInfo info: examOfferingMap.values ()) {
+            if (examPeriodId.equals(info.getExamPeriodId())) {
+                list.add (this.getExamOffering(info.getId (), contextInfo));
+            }
+        }
+        return list;
     }
 
     @Override
