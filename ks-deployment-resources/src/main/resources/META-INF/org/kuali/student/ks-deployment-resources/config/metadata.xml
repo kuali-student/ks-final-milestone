@@ -28,7 +28,6 @@
     </context>
     <context id="dump">
       <location value="${ks.source.db.common}" />
-      <location value="${ks.source.db.prefix}/extract.properties" />
       <location value="${ks.source.db.prefix}/dump.properties" />
     </context>
   </context>

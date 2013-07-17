@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.kuali.common.impex.ExportConfigConstants;
 import org.kuali.common.jdbc.config.JdbcConfigConstants;
 import org.kuali.common.util.config.ConfigUtils;
 import org.kuali.common.util.metainf.MetaInfConfigConstants;
@@ -49,8 +50,14 @@ public class SourceDbConfigConstants {
 	protected static List<String> getDumpSourceDbConfigIds() {
 		List<String> ids = new ArrayList<String>();
 
-		// We are connecting to a database so we need whatever it is JDBC needs
+		// Add whatever kuali-jdbc says it needs
 		ids.addAll(JdbcConfigConstants.CONFIG_IDS);
+
+		// Add whatever kuali-impex-export says it needs
+		ids.addAll(ExportConfigConstants.DUMP_CONFIG_IDS);
+
+		// KS launches this via the Maven CLI as a build process
+		ids.add(ExportConfigConstants.BUILD_DUMP_CONFIG_ID);
 
 		// KS specific config for connecting to Amazon RDS
 		ids.add(DUMP_SOURCE_DB_CONFIG_ID);
