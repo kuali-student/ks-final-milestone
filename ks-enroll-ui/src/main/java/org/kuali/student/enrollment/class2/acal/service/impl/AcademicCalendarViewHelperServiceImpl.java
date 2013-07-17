@@ -24,7 +24,6 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.SelectControl;
@@ -46,8 +45,6 @@ import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelp
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
@@ -794,9 +791,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
 
         //Validate Holiday Calendar are in the date range of the Academic Calendar
+        // With holiday calendars we only want there to be Any overlap between the hcal and the acal
         for (HolidayCalendarWrapper holidayCalendarWrapper : acalForm.getHolidayCalendarList())  {
-            if (!CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),holidayCalendarWrapper.getHolidayCalendarInfo().getStartDate()) ||
-                    !CommonUtils.isDateWithinRange(acal.getStartDate(),acal.getEndDate(),holidayCalendarWrapper.getHolidayCalendarInfo().getEndDate())){
+            if (!CommonUtils.doDatesOverlap(acal.getStartDate(),acal.getEndDate(),
+                    holidayCalendarWrapper.getHolidayCalendarInfo().getStartDate(), holidayCalendarWrapper.getHolidayCalendarInfo().getEndDate())){
                 GlobalVariables.getMessageMap().putWarning(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DATE_NOT_IN_ACAL_RANGE,"Added Holiday Calendar: " + holidayCalendarWrapper.getHolidayCalendarInfo().getName());
             }
         }

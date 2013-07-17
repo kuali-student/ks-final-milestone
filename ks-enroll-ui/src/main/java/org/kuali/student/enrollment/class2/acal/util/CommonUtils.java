@@ -79,6 +79,29 @@ public class CommonUtils {
         return true;
     }
 
+    /**
+     * Allows you to see if a date range overlaps another date range.
+     *
+     * This can be used to determine if a Holiday Calendar overlaps an Academic Calendar.
+     *
+     * @param periodStartDate
+     * @param periodEndDate
+     * @param subStart
+     * @param subEnd
+     * @return
+     */
+    public static boolean doDatesOverlap(Date periodStartDate, Date periodEndDate, Date subStart, Date subEnd){
+        boolean bRet = false;
+
+        int compStart = subStart.compareTo(periodEndDate);
+        int compEnd = subEnd.compareTo(periodStartDate);
+        if (compStart <= 0 && compEnd >= 0) {
+            bRet = true;
+        }
+
+        return bRet;
+    }
+
     public static RichTextInfo buildDesc(String descr){
         RichTextInfo rti = new RichTextInfo();
         rti.setPlain(descr);
