@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 The Kuali Foundation Licensed under the
+ * Copyright 2005-2013 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -25,8 +25,10 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
 import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
 import org.kuali.student.cm.course.form.SubjectCodeDisplay;
+import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -34,6 +36,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 /**
@@ -50,7 +54,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 	private SubjectCodeService subjectCodeService;
 
 	private CluService cluService;
-	
+
 	private static CourseViewHelperServiceImpl instance;
 	
 	public static final CourseViewHelperServiceImpl getInstance() {
@@ -58,6 +62,10 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 			instance = new CourseViewHelperServiceImpl();
 		}
 		return instance;
+	}
+	
+	private CourseViewHelperServiceImpl() {
+		super();
 	}
 
 	public List<CluInstructorInfoDisplay> getInstructorsForSuggest(
@@ -107,6 +115,61 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		return cluInstructorInfoDisplays;
 	}
 	
+	public CluInstructorInfoDisplay getInstructor(String instructorName) {
+		CluInstructorInfoDisplay instructor = null;
+
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+
+		SearchParamInfo displayNameParam = new SearchParamInfo();
+		displayNameParam.setKey("person.queryParam.personGivenName");
+		displayNameParam.getValues().add(instructorName);
+		queryParamValueList.add(displayNameParam);
+
+		SearchRequestInfo searchRequest = new SearchRequestInfo();
+		searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
+		searchRequest.setParams(queryParamValueList);
+		searchRequest.setStartAt(0);
+		searchRequest.setMaxResults(10);
+		searchRequest.setNeededTotalResults(false);
+		searchRequest.setSortColumn("person.resultColumn.DisplayName");
+
+		SearchResultInfo searchResult = null;
+		try {
+			searchResult = getSearchService().search(searchRequest,
+					ContextUtils.getContextInfo());
+			if (searchResult.getRows().size() == 1) {
+				SearchResultRowInfo result = searchResult.getRows().get(0);
+				List<SearchResultCellInfo> cells = result.getCells();
+				instructor = new CluInstructorInfoDisplay();
+				for (SearchResultCellInfo cell : cells) {
+					if ("person.resultColumn.GivenName".equals(cell.getKey())) {
+						instructor.setGivenName(cell.getValue());
+					} else if ("person.resultColumn.PersonId".equals(cell
+							.getKey())) {
+						instructor.setPersonId(cell.getValue());
+					} else if ("person.resultColumn.EntityId".equals(cell
+							.getKey())) {
+						instructor.setId(cell.getValue());
+					} else if ("person.resultColumn.PrincipalName".equals(cell
+							.getKey())) {
+						instructor.setPrincipalName(cell.getValue());
+					} else if ("person.resultColumn.DisplayName".equals(cell
+							.getKey())) {
+						instructor.setDisplayName(cell.getValue());
+					}
+				}
+			} else {
+				FormattedLogger
+						.error("The method getInstructor returned more than 1 search result.");
+			}
+		} catch (Exception e) {
+			FormattedLogger.error(
+					"An error occurred in the getInstructor method.", e);
+		}
+
+		return instructor;
+	}
+	
 	public List<SubjectCodeDisplay> getSubjectCodesForSuggest(String subjectCode) {
         List<SubjectCodeDisplay> retrievedCodes = new ArrayList<SubjectCodeDisplay>();
 
@@ -134,8 +197,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 for (SearchResultCellInfo cell : cells) {
                 	if ("subjectCode.resultColumn.id".equals(cell.getKey())) {
                 		id = cell.getValue();
-                	}
-                	if ("subjectCode.resultColumn.code".equals(cell.getKey())) {
+                	} else if ("subjectCode.resultColumn.code".equals(cell.getKey())) {
                 		code = cell.getValue();
                 	}
                 }
@@ -183,8 +245,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 for (SearchResultCellInfo cell : cells) {
                 	if ("lu.resultColumn.cluId".equals(cell.getKey())) {
                 		id = cell.getValue();
-                	}
-                	if ("lu.resultColumn.luOptionalCode".equals(cell.getKey())) {
+                	} else if ("lu.resultColumn.luOptionalCode".equals(cell.getKey())) {
                 		code = cell.getValue();
                 	}
                 }
@@ -202,6 +263,70 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         }
 		
 		return courseJoints;
+	}
+	
+	/**
+	 * Returns the CourseJointInfoDisplay object for the specified course code.
+	 * @param courseCode The entire course code should be passed.
+	 * @return Only 1 CourseJointInfoDisplay result is expected and will to be returned.
+	 */
+	public CourseJointInfoDisplay getJointOfferingCourse(String courseCode) {
+		CourseJointInfoDisplay courseJointInfo = null;
+		
+		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+		
+		SearchParamInfo codeParam = new SearchParamInfo();
+        codeParam.setKey("lu.queryParam.luOptionalCode");
+        List<String> codeValues = new ArrayList<String>();
+        codeValues.add(courseCode);
+        codeParam.setValues(codeValues);
+        
+        SearchParamInfo typeParam = new SearchParamInfo();
+        typeParam.setKey("lu.queryParam.luOptionalType");
+        List<String> typeValues = new ArrayList<String>();
+        typeValues.add("kuali.lu.type.CreditCourse");
+        typeParam.setValues(typeValues);
+        
+        queryParamValueList.add(codeParam);
+        queryParamValueList.add(typeParam);
+        
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("lu.search.current.quick");
+        searchRequest.setParams(queryParamValueList);
+        
+        SearchResultInfo searchResult = null;
+        try {
+        	searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
+        	//Only 1 item should be retrieved in this search
+        	if (searchResult.getRows().size() == 1) {
+        		SearchResultRowInfo result = searchResult.getRows().get(0);
+        		List<SearchResultCellInfo> cells = result.getCells();
+                String id = "";
+                String code = "";
+                for (SearchResultCellInfo cell : cells) {
+                	if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                		id = cell.getValue();
+                	} else if ("lu.resultColumn.luOptionalCode".equals(cell.getKey())) {
+                		code = cell.getValue();
+                	}
+                }
+                courseJointInfo = new CourseJointInfoDisplay();
+                courseJointInfo.setCourseId(id);
+                courseJointInfo.setCourseCode(code);
+                String subjectArea = code.replaceAll("\\d", "");
+                String numberSuffix = code.replaceAll("\\D", "");
+                courseJointInfo.setSubjectArea(subjectArea);
+                courseJointInfo.setCourseNumberSuffix(numberSuffix);
+                
+        	} else {
+        		FormattedLogger.error("The getJointOfferingCourse method has returned more than 1 result.");
+        	}
+        	
+        } catch (Exception e) {
+        	FormattedLogger.error("An error occurred in getJointOfferingCourse.", e);
+        }
+		
+		return courseJointInfo;
 	}
 	
 	private SearchService getSearchService() {
@@ -224,5 +349,5 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		}
 		return cluService;
 	}	
-
+	
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 The Kuali Foundation
+ * Copyright 2005-2013 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 1.0 (the
  * "License"); you may not use this file except in compliance with the License.
@@ -110,34 +110,16 @@ public class CourseController extends UifControllerBase {
     	//Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
     	if (form.getCourseJointDisplays() != null) {
 	    	for (CourseJointInfoDisplay jointInfoDisplay : form.getCourseJointDisplays()) {
-	    		//Should only get one entry back
-	    		List<CourseJointInfoDisplay> loadedCourseJointDisplays = CourseViewHelperServiceImpl.getInstance().getJointOfferingCourseNumbersForSuggest(jointInfoDisplay.getCourseCode());
-	    		form.getCourseInfo().getJoints().add(loadedCourseJointDisplays.get(0));
+	    		form.getCourseInfo().getJoints().add(CourseViewHelperServiceImpl.getInstance().getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
 	    	}
     	}
     	
     	if (form.getInstructorDisplays() != null) {
     		for (CluInstructorInfoDisplay instructorDisplay : form.getInstructorDisplays()) {
-    			//Should only get one entry back
-    			List<CluInstructorInfoDisplay> loadedInstructorDisplays = CourseViewHelperServiceImpl.getInstance().getInstructorsForSuggest(getInstructorSearchString(instructorDisplay.getDisplayName()));
-    			form.getCourseInfo().getInstructors().add(loadedInstructorDisplays.get(0));
+    			CluInstructorInfoDisplay retrievedInstructor = CourseViewHelperServiceImpl.getInstance().getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
+    			form.getCourseInfo().getInstructors().add(retrievedInstructor);
     		}
     	}
-    	
-//    	//Merge the helper 'display' attributes
-//    	form.getCourseInfo().getJoints().clear();
-//    	if (form.getCourseJointDisplays() != null) {
-//	    	for (CourseJointInfoDisplay jointInfoDisplay : form.getCourseJointDisplays()) {
-//	    		form.getCourseInfo().getJoints().add(jointInfoDisplay);
-//	    	}
-//    	}
-//    	
-//    	form.getCourseInfo().getInstructors().clear();
-//    	if (form.getInstructorDisplays() != null) {
-//    		for (CluInstructorInfoDisplay instructorDisplay : form.getInstructorDisplays()) {
-//	    		form.getCourseInfo().getInstructors().add(instructorDisplay);
-//	    	}
-//    	}
     	
     	//Set derived course fields before saving/updating
         form.setCourseInfo(calculateCourseDerivedFields(form.getCourseInfo()));
@@ -158,7 +140,7 @@ public class CourseController extends UifControllerBase {
     		try {
     			savedCourseInfo = courseService.updateCourse_KRAD(form.getCourseInfo().getId(), form.getCourseInfo(), ContextUtils.getContextInfo());
     		} catch (Exception e) {
-    			throw new RuntimeException("Error updating a course with title: " + form.getCourseInfo().getCourseTitle());
+    			throw new RuntimeException("Error updating a course with title: " + form.getCourseInfo().getCourseTitle(), e);
     		}
     		
         }

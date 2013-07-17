@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -12,13 +27,9 @@
 		<property name="attributes">
 			<list>
 				<ref bean="CourseJointInfoDisplay.typeKey" />
-				<!-- <ref bean="CourseJointInfoDisplay.stateKey"/> -->
 				<ref bean="CourseJointInfoDisplay.name" />
-				<!-- <ref bean="CourseJointInfoDisplay.courseNumberSuffix"/> -->
 				<ref bean="CourseJointInfoDisplay.courseTitle" />
-				<!-- <ref bean="CourseJointInfoDisplay.subjectArea"/> -->
 				<ref bean="CourseJointInfoDisplay.courseId" />
-				<!-- <ref bean="CourseJointInfoDisplay.relationId"/> -->
 				<ref bean="CourseJointInfoDisplay.courseCode" />
 				<ref bean="CourseJointInfoDisplay.level" />
 			</list>
@@ -26,7 +37,6 @@
 		<property name="complexAttributes">
 			<list>
 				<ref bean="CourseJointInfoDisplay.descr" />
-				<!-- <ref bean="CourseJointInfoDisplay.meta"/> -->
 			</list>
 		</property>
 		<property name="primaryKeys">
@@ -185,8 +195,6 @@
 							<bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle" />
 							<bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseCode" />
 							<bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" />
-							<!-- <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseCode" 
-								/> <bean parent="Uif-LookupCriteriaInputField" p:propertyName="level" /> -->
 						</list>
 					</property>
 				</bean>
