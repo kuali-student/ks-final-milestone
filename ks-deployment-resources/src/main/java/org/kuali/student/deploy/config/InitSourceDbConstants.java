@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.kuali.common.jdbc.config.JdbcConfigConstants;
 import org.kuali.common.util.Str;
-import org.kuali.common.util.metainf.MetaInfConfigConstants;
+import org.kuali.common.util.metainf.SqlMetaInfConstants;
 import org.kuali.student.deploy.spring.DeployProjectConstants;
 
 public class InitSourceDbConstants {
@@ -35,7 +35,7 @@ public class InitSourceDbConstants {
 		ids.addAll(JdbcConfigConstants.CONFIG_IDS);
 
 		// Re-use properties from org.kuali.common:kuali-util:metainf:sql that helped create the .resources files
-		ids.addAll(MetaInfConfigConstants.SQL_CONFIG_IDS);
+		ids.addAll(SqlMetaInfConstants.CONFIG_IDS);
 
 		// KS specific config for connecting to Amazon RDS
 		ids.add(SOURCE_DB_CONFIG_ID);
