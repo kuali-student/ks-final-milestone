@@ -27,6 +27,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -108,7 +109,7 @@ public class KSKRMSPermissionHelper {
         }
     }
 
-    public static void processManageRequisiteLinkForUser(ARGCourseOfferingManagementForm form) {
+    public static void processManageCORequisiteLinkForUser(ARGCourseOfferingManagementForm form) {
         form.setRequisiteLink(false);
 
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
@@ -123,9 +124,30 @@ public class KSKRMSPermissionHelper {
         permissionDetails.put("socState", socState);
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
-        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "requisiteLink");
+        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "requisiteCOLink");
         if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
             form.setRequisiteLink(true);
+        }
+    }
+
+    public static void processManageAORequisiteLinkForUser(ARGCourseOfferingManagementForm form, ActivityOfferingWrapper wrapper) {
+        wrapper.setRequisiteLink(false);
+
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
+
+        String socState = StringUtils.lowerCase(form.getContextBar().getTermSocState());
+
+        Map<String,String> permissionDetails = new HashMap<String,String>();
+        Map<String,String> roleQualifications = new HashMap<String,String>();
+
+        roleQualifications.put("offeringAdminOrgId", wrapper.getAdminOrg());
+
+        permissionDetails.put("socState", socState);
+        permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
+
+        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "requisiteAOLink");
+        if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+            wrapper.setRequisiteLink(true);
         }
     }
 

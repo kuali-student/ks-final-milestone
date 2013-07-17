@@ -139,6 +139,9 @@ public class ActivityOfferingWrapper implements Serializable{
      */
     private String subTermDatesJsonString;
 
+    //Permission flag for Manage AO Requisite link
+    private boolean requisiteLink;
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -1105,4 +1108,11 @@ public class ActivityOfferingWrapper implements Serializable{
         this.subTermDatesJsonString = subTermDatesJsonString;
     }
 
+    public boolean isRequisiteLink() {
+        return requisiteLink;
+    }
+
+    public void setRequisiteLink(boolean requisiteLink) {
+        this.requisiteLink = requisiteLink;
+    }
 }

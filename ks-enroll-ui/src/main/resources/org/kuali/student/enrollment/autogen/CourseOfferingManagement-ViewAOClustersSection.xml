@@ -214,7 +214,7 @@
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
                 </bean>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Manage AO Requisites " />
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Manage AO Requisites " p:render="@{#line.requisiteLink}"/>
                 <!--</list>-->
                     <!--</property>-->
                 <!--</bean>-->

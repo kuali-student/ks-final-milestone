@@ -181,7 +181,7 @@ public class ARGUtil {
 
         getViewHelperService(form).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form, currentCOWrapper);
 
-        KSKRMSPermissionHelper.processManageRequisiteLinkForUser(form);
+        KSKRMSPermissionHelper.processManageCORequisiteLinkForUser(form);
         ARGToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
     }
 
