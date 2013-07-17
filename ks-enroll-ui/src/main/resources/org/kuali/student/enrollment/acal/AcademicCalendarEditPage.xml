@@ -474,6 +474,9 @@ limitations under the License.
                         <list>
                             <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}"
                                   p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
+                                <property name="inquiry.directInquiryAction">
+                                    <bean parent="Uif-ActionLink" p:actionLabel="View selected holiday calendar details"/>
+                                </property>
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
                                 </property>
