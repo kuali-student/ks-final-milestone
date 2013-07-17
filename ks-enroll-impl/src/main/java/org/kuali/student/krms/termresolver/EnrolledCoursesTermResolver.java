@@ -2,24 +2,37 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.krms.util.KSKRMSExecutionUtil;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW
- * Date: 2013/01/25
- * Time: 2:15 PM
- * To change this template use File | Settings | File Templates.
+ * This TermResolver returns TRUE if a student has passed all the courses in the list of courses passed as a parameter.
+ *
+ * The "list of courses" is obtained from a courseSetId passed as a parameter. The CluService is used to retrieve
+ * courseCodes from the courseSetId.
+ *
+ * The studentId is passed as a resolvedPrereq.
+ *
  */
 public class EnrolledCoursesTermResolver implements TermResolver<Boolean> {
 
     private CourseRegistrationService courseRegistrationService;
+    private CourseOfferingService courseOfferingService;
+    private CluService cluService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -41,12 +54,40 @@ public class EnrolledCoursesTermResolver implements TermResolver<Boolean> {
 
     @Override
     public int getCost() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 5;
     }
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+
+        try {
+            //Retrieve the list of cluIds from the cluset.
+            String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+            List<String> cluIds = new ArrayList<String>();    //Create new list so that we can remove the once that are already checked.
+            cluIds.addAll(this.cluService.getAllCluIdsInCluSet(cluSetId, context));
+
+            //Retrieve the students academic record.
+            List<CourseRegistrationInfo> recordInfoList = courseRegistrationService.getCourseRegistrationsByStudent(personId, context);
+            for(CourseRegistrationInfo studentRecord : recordInfoList){
+                //We need the course offering to retrieve the courseid in order to retrieve the original course
+                CourseOffering courseOffering = this.courseOfferingService.getCourseOffering(studentRecord.getCourseOfferingId(), context);
+                CluInfo clu = this.cluService.getClu(courseOffering.getCourseId(), context);
+                //If the version independent id is in the list, remove it.
+                if (cluIds.contains(clu.getVersion().getVersionIndId())){
+                    cluIds.remove(clu.getVersion().getVersionIndId());
+                }
+                //An empty list means the student has completed all the courses in the course set.
+                if (cluIds.isEmpty()){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        }
+
+        return false;
     }
 
     public CourseRegistrationService getCourseRegistrationService() {
@@ -55,5 +96,21 @@ public class EnrolledCoursesTermResolver implements TermResolver<Boolean> {
 
     public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
         this.courseRegistrationService = courseRegistrationService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
+    public CluService getCluService() {
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 }

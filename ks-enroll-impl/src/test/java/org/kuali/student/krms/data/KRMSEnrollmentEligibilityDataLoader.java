@@ -24,17 +24,22 @@ import org.joda.time.DateTime;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceClass2MockImpl;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.grading.service.GradingService;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +57,9 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
 
     @Resource
     private AcademicRecordServiceClass2MockImpl recordService;
+
+    @Resource
+    private CourseRegistrationService registrationService;
 
     @Resource
     private AtpService atpService;
@@ -188,6 +196,48 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
         
         return atp;
     }
-    
-    
+
+    /**
+     * Helper to create a new StudentCourseRecordInfo object built using the provided details.
+     *
+     * @param studentId the student that took the course
+     * @param termId the term when the course was taken
+     * @return the non-saved new course record built using the provided details
+     */
+    public RegistrationRequestInfo createRegistrationRequest(String studentId, String termId) {
+
+        RegistrationRequestInfo request = new RegistrationRequestInfo();
+        request.setRequestorId(studentId);
+        request.setTermId(termId);
+        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        return request;
+    }
+
+    /**
+     * Helper to create a new StudentCourseRecordInfo object built using the provided details.
+     *
+     * @param regGroupId the student that took the course
+     * @return the non-saved new course record built using the provided details
+     */
+    public RegistrationRequestItemInfo createRegistrationItem(String studentId, String regGroupId) {
+
+        RegistrationRequestItemInfo requestItem = new RegistrationRequestItemInfo();
+        requestItem.setStudentId(studentId);
+        requestItem.setNewRegistrationGroupId(regGroupId);
+        requestItem.setCredits("3.0");
+        requestItem.setGradingOptionId(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+        requestItem.setTypeKey(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
+        return requestItem;
+    }
+
+    /**
+     * Store a new CourseRecord for the student in the term given.
+     * @param request
+     * @throws DoesNotExistException if the term does not exist.
+     * @throws OperationFailedException  if an exception occurs that prevents the execution of the method.
+     */
+    public void createSubmitRegistration(RegistrationRequestInfo request) throws InvalidParameterException, PermissionDeniedException, OperationFailedException, AlreadyExistsException, MissingParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+        request = registrationService.createRegistrationRequest(request.getTypeKey(), request, context);
+        registrationService.submitRegistrationRequest(request.getId(), context);
+    }
 }

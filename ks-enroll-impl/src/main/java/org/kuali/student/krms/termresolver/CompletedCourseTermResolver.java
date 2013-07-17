@@ -81,7 +81,7 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
                 //We need the course offering to retrieve the courseid in order to retrieve the original course
                 CourseOffering courseOffering = this.courseOfferingService.getCourseOffering(studentRecord.getCourseOfferingId(), context);
                 CluInfo clu = this.cluService.getClu(courseOffering.getCourseId(), context);
-                //If the version independent id is in the list, remove it.
+                //If the version independent id is in the list is the same as parm, return true
                 if (cluId.equals(clu.getVersion().getVersionIndId())){
                     return true;
                 }
@@ -116,4 +116,5 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
     public void setCluService(CluService cluService) {
         this.cluService = cluService;
     }
+
 }

@@ -25,10 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.annotation.Resource;
-import javax.jws.WebParam;
-
-import org.apache.bcel.generic.ARRAYLENGTH;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
@@ -37,18 +33,12 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCredentialRecordIn
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.grading.service.GradingService;
-import org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
