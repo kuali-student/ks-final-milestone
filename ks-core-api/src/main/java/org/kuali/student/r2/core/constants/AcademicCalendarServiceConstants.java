@@ -39,6 +39,8 @@ public class AcademicCalendarServiceConstants {
     // TODO replace "acal" in namespace with "academiccalendar"
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "acal";
     public static final String SERVICE_NAME_LOCAL_PART = "AcademicCalendarService";
+    public static final String FACADE_NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "acalServiceFacade";
+    public static final String FACADE_SERVICE_NAME_LOCAL_PART = "AcademicCalendarServiceFacade";
     public static final String REF_OBJECT_URI_TERM = NAMESPACE + "/" + TermInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_ACADEMIC_CALENDAR = NAMESPACE + "/" + AcademicCalendarInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_HOLIDAY_CALENDAR = NAMESPACE + "/" + HolidayCalendarInfo.class.getSimpleName();
