@@ -148,42 +148,6 @@ public class CourseOfferingServiceValidationDecorator
         return errors;
     }
 
-/*BJG*/
-    private void verifySocStatePermitsAccess( CourseOfferingInfo courseOfferingInfo, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-
-        String socStateKey = getSocState( courseOfferingInfo, contextInfo );
-/*BJG*/        //socStateKey = CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY;
-
-        denyAccessOnSocState( CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being published." );
-        denyAccessOnSocState( CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being scheduled." );
-
-    }
-
-    private String getSocState( CourseOfferingInfo courseOfferingInfo, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-
-        String socStateKey = StringUtils.EMPTY;
-        List<String> socIds = getSocService().getSocIdsByTerm( courseOfferingInfo.getTermId(), contextInfo );
-        if( !socIds.isEmpty() ) {
-            for( SocInfo soc : this.getSocService().getSocsByIds(socIds, contextInfo) ) {
-                if( soc.getTypeKey().equals( CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY ) ) {
-                    socStateKey = soc.getStateKey();
-                }
-            }
-        }
-
-/*BJG*/        System.out.println( "*********** soc is -> " + socStateKey );
-        return socStateKey;
-    }
-
-    private void denyAccessOnSocState( String socStateKeyToDenyAccess, String socStateKey, String denialErrorMessage ) throws OperationFailedException {
-        denialErrorMessage = StringUtils.defaultIfEmpty( denialErrorMessage, "Access to course offerings is not permitted while this term's Set of Courses (SOC) is in state: " + socStateKey );
-
-        if( StringUtils.equalsIgnoreCase( socStateKeyToDenyAccess, socStateKey ) ) {
-            throw new OperationFailedException( denialErrorMessage );
-        }
-    }
-/*BJG*/
-
 
     @Override
     public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo, ContextInfo context)
@@ -514,17 +478,14 @@ public class CourseOfferingServiceValidationDecorator
         return super.deleteFormatOffering(formatOfferingId, context);
     }
 
-/*BJG*/
     @Override
     public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         CourseOfferingInfo courseOfferingInfo = getCoService().getCourseOffering( courseOfferingId, context );
-
         verifySocStatePermitsAccess(courseOfferingInfo, context);
 
         return getNextDecorator().deleteCourseOfferingCascaded(courseOfferingId, context);
     }
-/*BJG*/
 
     @Override
     public StatusInfo deleteCourseOffering(String courseOfferingId,
@@ -680,6 +641,38 @@ public class CourseOfferingServiceValidationDecorator
         return false;
     }
 
+    private void verifySocStatePermitsAccess( CourseOfferingInfo courseOfferingInfo, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        String socStateKey = getSocState( courseOfferingInfo, contextInfo );
+
+        denyAccessOnSocState( CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being scheduled." );
+        denyAccessOnSocState( CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being published." );
+
+    }
+
+    private String getSocState( CourseOfferingInfo courseOfferingInfo, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        String socStateKey = StringUtils.EMPTY;
+        List<String> socIds = getSocService().getSocIdsByTerm( courseOfferingInfo.getTermId(), contextInfo );
+        if( !socIds.isEmpty() ) {
+            for( SocInfo soc : this.getSocService().getSocsByIds(socIds, contextInfo) ) {
+                if( soc.getTypeKey().equals( CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY ) ) {
+                    socStateKey = soc.getStateKey();
+                }
+            }
+        }
+
+        return socStateKey;
+    }
+
+    private void denyAccessOnSocState( String socStateKeyToDenyAccess, String socStateKey, String denialErrorMessage ) throws OperationFailedException {
+        denialErrorMessage = StringUtils.defaultIfEmpty( denialErrorMessage, "Access to course offerings is not permitted while this term's Set of Courses (SOC) is in state: " + socStateKey );
+
+        if( StringUtils.equalsIgnoreCase( socStateKeyToDenyAccess, socStateKey ) ) {
+            throw new OperationFailedException( denialErrorMessage );
+        }
+    }
+
     public void _initServices() {
         getCluService();
         getTypeService();
@@ -708,7 +701,6 @@ public class CourseOfferingServiceValidationDecorator
         this.typeService = typeService;
     }
 
-/*BJG*/
     public CourseOfferingService getCoService() {
     if( coService == null ) {
         coService = (CourseOfferingService) GlobalResourceLoader.getService( new QName( CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART ) );
@@ -730,6 +722,5 @@ public class CourseOfferingServiceValidationDecorator
     public void setSocService( CourseOfferingSetService socService ) {
         this.socService = socService;
     }
-/*BJG*/
 
 }

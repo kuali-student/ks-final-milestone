@@ -37,6 +37,8 @@ public class TestStatePropagationForm extends UifFormBase {
     private List<RGStateWrapper> rgFromTransitionsStatePropagationWrapperList;
     private int failCount;
     private int passCount;
+    private String termCodeForSocStateChange;
+    private String newSocStateForSocStateChange;
 
      public TestStatePropagationForm() {
 
@@ -128,5 +130,20 @@ public class TestStatePropagationForm extends UifFormBase {
         this.passCount = passCount;
     }
 
+    public String getTermCodeForSocStateChange() {
+        return termCodeForSocStateChange;
+    }
+
+    public void setTermCodeForSocStateChange(String termCodeForSocStateChange) {
+        this.termCodeForSocStateChange = termCodeForSocStateChange;
+    }
+
+    public String getNewSocStateForSocStateChange() {
+        return newSocStateForSocStateChange;
+    }
+
+    public void setNewSocStateForSocStateChange(String newSocStateForSocStateChange) {
+        this.newSocStateForSocStateChange = newSocStateForSocStateChange;
+    }
 
 }

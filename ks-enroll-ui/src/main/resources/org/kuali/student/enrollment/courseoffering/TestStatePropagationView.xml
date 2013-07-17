@@ -34,7 +34,7 @@
 
         <property name="items">
             <list>
-                <ref bean="KS-TestStatePropagation-Page1"/>
+                <ref bean="KS-TestStatePropagation-Page1" />
             </list>
         </property>
     </bean>

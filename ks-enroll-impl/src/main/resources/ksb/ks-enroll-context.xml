@@ -33,7 +33,7 @@
   <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
 
   <!-- Top Level Alias -->
-  <alias name="socServiceValidation" alias="CourseOfferingSetService" />
+  <alias name="socServiceAft" alias="CourseOfferingSetService" />
   <alias name="coServiceValidation" alias="CourseOfferingService" />
   <alias name="luiServiceValidationDecorator" alias="LuiService" />
   <alias name="lprServiceValidationDecorator" alias="LprService"/>
@@ -269,6 +269,11 @@
 
     <!-- courseofferingset beans -->
 
+    <bean id="socServiceAft"
+          class="org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceAftDecorator">
+        <property name="nextDecorator" ref="socServiceValidation" />
+        <property name="socDao" ref="socDao" />
+    </bean>
 
     <bean id="socServiceValidation"
           class="org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceValidationDecorator">
@@ -331,6 +336,7 @@
         <property name="acalServiceFacade" ref="acalServiceFacade"/>
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
+
 
   <bean id="coServiceValidation"
     class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">

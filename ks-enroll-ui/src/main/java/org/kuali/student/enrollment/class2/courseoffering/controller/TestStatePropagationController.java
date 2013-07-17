@@ -16,11 +16,37 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import net.sf.ehcache.CacheManager;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagationForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
+import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
+import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceAftDecorator;
+import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceDecorator;
+import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceValidationDecorator;
+import org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -29,8 +55,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
+import javax.naming.OperationNotSupportedException;
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +80,11 @@ public class TestStatePropagationController extends UifControllerBase {
 
     public static final String PAGE_ID = "pageId";
 
+    public static final String CHANGE_SOC_STATE_DEFAULT_TERM = "201301";
+
+    private CourseOfferingSetServiceAftDecorator socService;
+    private AcademicCalendarService acalService;
+
     @Override
     protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
         return new TestStatePropagationForm();
@@ -59,7 +97,9 @@ public class TestStatePropagationController extends UifControllerBase {
         if (!(form instanceof TestStatePropagationForm)){
             throw new RuntimeException("Form object passed into start method was not of expected type TestServiceCallForm. Got " + form.getClass().getSimpleName());
         }
+
         TestStatePropagationForm theForm = (TestStatePropagationForm) form;
+        populateFormWithTargetSocInfo( theForm );
         Map paramMap = request.getParameterMap();
         if (paramMap.containsKey(PAGE_ID)) {
             String pageId = ((String []) paramMap.get(PAGE_ID))[0];
@@ -67,8 +107,8 @@ public class TestStatePropagationController extends UifControllerBase {
                 return _startStatePropagationTest(form, result, request, response);
             }
         }
+
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     private ModelAndView _startStatePropagationTest(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
@@ -98,4 +138,66 @@ public class TestStatePropagationController extends UifControllerBase {
         }
         return viewHelperService;
     }
+
+    @Transactional
+    @RequestMapping(params = "methodToCall=changeSocState")
+    public ModelAndView changeSocState( @ModelAttribute("KualiForm") TestStatePropagationForm form ) throws Exception, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        String environment = StringUtils.defaultIfBlank( ConfigContext.getCurrentContextConfig().getProperty( "environment" ), StringUtils.EMPTY );
+        if( !"DEV".equalsIgnoreCase( environment ) ) {
+            throw new OperationNotSupportedException( "Cannot change state of SOC in non-dev environment (env is:" + environment + ")" );
+        }
+
+        // update soc-state
+        ContextInfo contextInfo = new ContextInfo();
+        SocInfo targetSocInfo = getTargetSocInfoForTerm( form.getTermCodeForSocStateChange(), contextInfo );
+        targetSocInfo.setStateKey( form.getNewSocStateForSocStateChange() );
+        putBypassBusinessLogicFlagOntoContext( contextInfo );
+        this.getSocService().updateSoc( targetSocInfo.getId(), targetSocInfo, contextInfo );
+
+        populateFormWithTargetSocInfo( form );
+
+        return getUIFModelAndView(form);
+    }
+
+    private void populateFormWithTargetSocInfo( TestStatePropagationForm form ) {
+        try {
+            ContextInfo contextInfo = new ContextInfo();
+            SocInfo targetSocInfo = getTargetSocInfoForTerm( CHANGE_SOC_STATE_DEFAULT_TERM, contextInfo );
+            TermInfo targetTermInfo = this.getAcalService().getTerm( targetSocInfo.getTermId(), contextInfo );
+
+            form.setTermCodeForSocStateChange( targetTermInfo.getCode() );
+            form.setNewSocStateForSocStateChange( targetSocInfo.getStateKey() );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private SocInfo getTargetSocInfoForTerm( String targetTermCode, ContextInfo contextInfo ) throws Exception, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        String targetTermId = this.getAcalService().getTermsByCode( targetTermCode, contextInfo ).get(0).getId();
+        String targetSocId = this.getSocService().getSocIdsByTerm( targetTermId, contextInfo ).get(0);
+
+        return this.getSocService().getSoc( targetSocId, contextInfo );
+    }
+
+    private void putBypassBusinessLogicFlagOntoContext( ContextInfo contextInfo ) {
+        List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
+        attrs.add(new AttributeInfo(CourseOfferingSetServiceConstants.BYPASS_BUSINESS_LOGIC_ON_SOC_STATE_CHANGE_FOR_AFT_TESTING, String.valueOf(true)));
+        contextInfo.setAttributes(attrs);
+    }
+
+    private CourseOfferingSetServiceAftDecorator getSocService() throws Exception {
+        if( socService == null ) {
+            socService = (CourseOfferingSetServiceAftDecorator) GlobalResourceLoader.getService( new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART ) );
+        }
+        return socService;
+    }
+
+    private AcademicCalendarService getAcalService() {
+        if( acalService == null ) {
+            acalService = GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return acalService;
+    }
+
 }
