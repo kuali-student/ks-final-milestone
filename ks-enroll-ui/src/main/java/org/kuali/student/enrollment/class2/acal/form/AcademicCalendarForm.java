@@ -70,6 +70,7 @@ public class AcademicCalendarForm extends KSUifForm {
     private String messageForDeleteTermOrSubterm;
 
     private String dirtyFields;
+    private List<String> fieldsToSave;
 
     public String getValidationJSONString() {
         return validationJSONString;
@@ -100,6 +101,7 @@ public class AcademicCalendarForm extends KSUifForm {
         termsToDeleteOnSave = new ArrayList<AcademicTermWrapper>();
         addLineValid = true;
         validationJSONString = new String();
+        fieldsToSave= new ArrayList<String>();
     }
 
     /**
@@ -447,5 +449,13 @@ public class AcademicCalendarForm extends KSUifForm {
 
     public void setEventsToDeleteOnSave(List<AcalEventWrapper> eventsToDeleteOnSave) {
         this.eventsToDeleteOnSave = eventsToDeleteOnSave;
+    }
+
+    public List<String> getFieldsToSave() {
+        return fieldsToSave;
+    }
+
+    public void setFieldsToSave(List<String> fieldsToSave) {
+        this.fieldsToSave = fieldsToSave;
     }
 }

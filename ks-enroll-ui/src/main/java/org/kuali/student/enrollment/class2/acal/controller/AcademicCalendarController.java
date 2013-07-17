@@ -443,6 +443,7 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=makeTermOfficial")
     public ModelAndView makeTermOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) {
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
 
         int selectedLineIndex;
 
@@ -512,6 +513,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         academicCalendarForm.setDefaultTabToShow(CalendarConstants.ACAL_TERM_TAB);
+        academicCalendarForm.getView().setApplyDirtyCheck(true);
         return getUIFModelAndView(academicCalendarForm);
     }
 
@@ -569,6 +571,7 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteTerm")
     public ModelAndView deleteTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
 
         String dialog = CalendarConstants.TERM_DELETE_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, academicCalendarForm)) {
@@ -870,11 +873,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         // Create list of dirty fields by seperating string from page (See enroll.js:saveAcalPreProcess())
-        String[] tempFields = academicCalendarForm.getDirtyFields().split(",");
-        List<String> dirtyFields = new ArrayList<String>();
-        for(String field : tempFields){
-            dirtyFields.add(field);
-        }
+        List<String> dirtyFields = processDirtyFields(academicCalendarForm);
 
         // Save the base Academic calendar info and refresh it in the form
         AcademicCalendarInfo newAcal = saveAcal(academicCalendarForm.getAcademicCalendarInfo(), academicCalendarForm, viewHelperService);
@@ -918,7 +917,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
         // Reset values
         academicCalendarForm.getEventsToDeleteOnSave().clear();
-        academicCalendarForm.setDirtyFields("");
+        academicCalendarForm.getFieldsToSave().clear();
         academicCalendarForm.getTermsToDeleteOnSave().clear();
         academicCalendarForm.setNewCalendar(false);
 
@@ -1432,5 +1431,30 @@ public class AcademicCalendarController extends UifControllerBase {
         academicCalendarForm.setAcademicCalendarInfo(acalInfo);
 
         return acalInfo;
+    }
+
+    /**
+     * Processes the the string of dirty fields on the form and stores
+     * (Mainly to prevent loss during redirects during dialogs)
+     *
+     * @param academicCalendarForm - View form containing the Calendar information
+     * @return List of diry fields passed from the screen.
+     */
+    private List<String> processDirtyFields(AcademicCalendarForm academicCalendarForm){
+        String[] tempFields = academicCalendarForm.getDirtyFields().split(",");
+        List<String> dirtyFields = academicCalendarForm.getFieldsToSave();
+        for(String field : tempFields){
+            boolean alreadySeen = false;
+            for(String field2 : dirtyFields){
+                if(field2.compareTo(field)==0){
+                    alreadySeen=true;
+                    break;
+                }
+            }
+            if(!alreadySeen)dirtyFields.add(field);
+        }
+        academicCalendarForm.setDirtyFields("");
+        return dirtyFields;
+
     }
 }

@@ -807,11 +807,10 @@ function addBootstrapImageToLink(containerId) {
     });
 }
 
-/**
- * Gathers property names of all fields that have been changed on the page.
- * Properties are stored in a csv string and returned by the passed in object.
- */
 
+/**
+ * Processes the form before attempting to save.
+ */
 function saveAcalPreProcess(returnFieldId){
     //set the default tab to the current active tab
     var activeTabIndexId = jQuery("#acal_tabs_tabs").tabs("option", "active");
@@ -823,6 +822,14 @@ function saveAcalPreProcess(returnFieldId){
     }
 
     //find the dirty fields
+   findDirtyFields(returnFieldId);
+}
+
+/**
+ * Gathers property names of all fields that have been changed on the page.
+ * Properties are stored in a csv string and returned by the passed in object.
+ */
+function findDirtyFields(returnFieldId){
     var dirtyFields = jQuery('.dirty');
     var returnObject = jQuery('#'+returnFieldId+'_control');
     var returnString="";
@@ -832,6 +839,7 @@ function saveAcalPreProcess(returnFieldId){
     }
     returnObject[0].value=returnString;
 }
+
 /*
 The users want the page titling to be dynamically-updated depending on which particular page is showing at the time.
 For example, when the ManageCO landing-page is first shown, by default the view-title is 'Course Offerings' but
