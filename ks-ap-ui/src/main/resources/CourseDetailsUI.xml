@@ -971,26 +971,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 <bean parent="activityEnrlData" p:render="@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" />
                 <bean parent="activityEnrlStatus" p:render="@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}" />
 
-                <bean id="activityActionGroup" parent="Uif-VerticalFieldGroup" p:valign="TOP"
-                      p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" p:rowSpan="3" p:colSpan="1">
-                    <property name="label" value="Add"/>
-                    <property name="group.validationMessages">
-                        <null/>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <!-- Add button when active, unplanned, open for planning -->
-                            <bean parent="activityActionButton"
-                                  p:render="@{#line.openForPlanning AND #line.planItemId EQ null AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
-                            <!-- Empty when closed for planning and unplanned or open for planning and not active-->
-                            <bean parent="emptyAction"
-                                  p:render="@{(!#line.openForPlanning AND #line.planItemId EQ null) OR (#line.openForPlanning AND #line.stateKey NE 'kuali.lui.activity.offering.state.offered' AND #line.planItemId EQ null)}"/>
-                            <!-- Added link when planned -->
-                            <bean parent="activityActionLink"
-                                  p:render="@{#line.planItemId NE null}"/>
-                        </list>
-                    </property>
-                </bean>
+				<ref bean="activityActionGroup" />
+				
                 <bean parent="activityActionGroup" p:render="@{!#line.primary OR #line.stateKey NE 'kuali.lui.activity.offering.state.offered'}"
                       p:rowSpan="1"/>
 
@@ -1061,11 +1043,33 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
     </bean>
 
+    <bean id="activityActionGroup" parent="activityActionGroup-parent" />
+    <bean id="activityActionGroup-parent" parent="Uif-VerticalFieldGroup" p:valign="TOP"
+          p:render="@{#line.primary AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}" p:rowSpan="3" p:colSpan="1">
+        <property name="label" value="Add"/>
+        <property name="group.validationMessages">
+            <null/>
+        </property>
+        <property name="items">
+            <list>
+                <!-- Add button when active, unplanned, open for planning -->
+                <bean parent="activityActionButton"
+                      p:render="@{#line.openForPlanning AND #line.planItemId EQ null AND #line.stateKey EQ 'kuali.lui.activity.offering.state.offered'}"/>
+                <!-- Empty when closed for planning and unplanned or open for planning and not active-->
+                <bean parent="emptyAction"
+                      p:render="@{(!#line.openForPlanning AND #line.planItemId EQ null) OR (#line.openForPlanning AND #line.stateKey NE 'kuali.lui.activity.offering.state.offered' AND #line.planItemId EQ null)}"/>
+                <!-- Added link when planned -->
+                <bean parent="activityActionLink"
+                      p:render="@{#line.planItemId NE null}"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="activityCode" parent="Uif-VerticalFieldGroup" p:rowSpan="3" p:colSpan="1" p:valign="TOP">
         <property name="group.validationMessages">
             <null/>
         </property>
-        <property name="label" value="Section"/>
+        <property name="label" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_SECTION_NUMBER_HEADING')}"/>
         <!-- 
         <property name="onDocumentReadyScript" value="
             var row = jQuery('#@{#line.luiIdXmlSafe}').parents('tr');
@@ -1120,7 +1124,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="group.validationMessages">
             <null/>
         </property>
-        <property name="label" value="Type (Credit)"/>
+        <property name="label" value="Type (#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CREDITS_HEADING')})"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>activityType</value>
