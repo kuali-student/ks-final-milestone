@@ -1005,6 +1005,11 @@ function validateForm() {
     return validForm;
 }
 
+/*
+Replaces the checkbox inputs with radio in a table.
+It does not change the name attribute and therefore each radio button
+has a click event which deselects the previous selected radio button.
+*/
 function replaceCheckBoxWithRadio(containerId) {
     var selectedRadio;
     jQuery("#" + containerId).find("input:checkbox").each(function () {
