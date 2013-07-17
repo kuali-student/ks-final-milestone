@@ -162,4 +162,6 @@
     <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
         <property name="entityManager" ref="entityManager"/>
     </bean>
+
+    <bean id="krmsServices" class="org.kuali.student.krms.mock.KRMSEngineService"/>
 </beans>

@@ -57,7 +57,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author Kuali Student Team
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations="classpath:ks-krms-enrollment-eligibility-mock-context.xml")
+@ContextConfiguration(locations="classpath:krms-test-with-mocks-context.xml")
 public class TestKRMSEnrollmentEligibility {
 
 	@Resource
