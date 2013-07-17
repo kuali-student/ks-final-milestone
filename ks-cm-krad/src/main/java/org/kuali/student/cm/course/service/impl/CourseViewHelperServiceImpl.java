@@ -28,7 +28,6 @@ import org.kuali.student.cm.course.form.SubjectCodeDisplay;
 import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -36,8 +35,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 /**
