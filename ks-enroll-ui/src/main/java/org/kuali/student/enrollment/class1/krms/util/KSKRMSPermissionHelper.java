@@ -140,7 +140,7 @@ public class KSKRMSPermissionHelper {
         Map<String,String> permissionDetails = new HashMap<String,String>();
         Map<String,String> roleQualifications = new HashMap<String,String>();
 
-        roleQualifications.put("offeringAdminOrgId", wrapper.getAdminOrg());
+        roleQualifications.put("offeringAdminOrgId", form.getAdminOrg());
 
         permissionDetails.put("socState", socState);
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
