@@ -12,7 +12,7 @@ import org.kuali.student.deploy.spring.DeployProjectConstants;
 public class InitSourceDbConstants {
 
 	// Shorthand for GroupId + ArtifactId
-	private static final String GA = DeployProjectConstants.GROUP_ID + ":" + DeployProjectConstants.ARTIFACT_ID;
+	private static final String GA = Str.getId(DeployProjectConstants.GROUP_ID, DeployProjectConstants.ARTIFACT_ID);
 
 	// Config related to initializing something
 	// TODO Move to kuali-impex-export?
