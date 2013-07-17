@@ -2,9 +2,8 @@ package org.kuali.student.deploy.spring;
 
 import java.util.List;
 
-import org.kuali.common.util.config.ConfigUtils;
 import org.kuali.common.util.config.spring.BuildPropertySourceConfig;
-import org.kuali.student.deploy.config.DeployConfigConstants;
+import org.kuali.student.deploy.config.SourceDbConfigConstants;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
@@ -12,7 +11,7 @@ public class InitializeSourceDbPropertySourceConfig extends BuildPropertySourceC
 
 	@Override
 	protected List<String> getConfigIds() {
-		return ConfigUtils.getConfigIds(DeployConfigConstants.INIT_SOURCE_DB_CONFIG);
+		return SourceDbConfigConstants.INIT_SOURCE_DB_CONFIG_IDS;
 	}
 
 }
