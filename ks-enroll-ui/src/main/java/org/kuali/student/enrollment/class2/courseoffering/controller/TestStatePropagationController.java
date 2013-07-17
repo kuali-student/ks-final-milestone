@@ -163,7 +163,8 @@ public class TestStatePropagationController extends UifControllerBase {
     private void populateFormWithTargetSocInfo( TestStatePropagationForm form ) {
         try {
             ContextInfo contextInfo = new ContextInfo();
-            SocInfo targetSocInfo = getTargetSocInfoForTerm( CHANGE_SOC_STATE_DEFAULT_TERM, contextInfo );
+            String targetTermId = StringUtils.defaultIfEmpty( form.getTermCodeForSocStateChange(), CHANGE_SOC_STATE_DEFAULT_TERM );
+            SocInfo targetSocInfo = getTargetSocInfoForTerm( targetTermId, contextInfo );
             TermInfo targetTermInfo = this.getAcalService().getTerm( targetSocInfo.getTermId(), contextInfo );
 
             form.setTermCodeForSocStateChange( targetTermInfo.getCode() );
