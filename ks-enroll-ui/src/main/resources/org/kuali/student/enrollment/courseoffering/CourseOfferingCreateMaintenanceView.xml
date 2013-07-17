@@ -614,7 +614,15 @@
                        <bean parent="Uif-CheckboxControl"/>
                    </property>
                </bean>
-               <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="Course Offering Code"/>
+               <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="Course Offering Code">
+                   <property name="inquiry">
+                       <bean parent="Uif-Inquiry">
+                           <property name="enableDirectInquiry" value="true"/>
+                           <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
+                           <property name="inquiryParameters" value="id:id"/>
+                       </bean>
+                   </property>
+               </bean>
                <bean parent="Uif-DataField" p:propertyName="termCode" p:label="Offered Term"/>
                <bean parent="Uif-DataField" p:propertyName="courseTitle" p:label="Course Title"/>
                <bean parent="Uif-DataField" p:propertyName="credits" p:label="Credits"/>
