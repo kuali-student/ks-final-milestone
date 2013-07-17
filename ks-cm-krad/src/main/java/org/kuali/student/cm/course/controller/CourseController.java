@@ -28,7 +28,7 @@ import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
 import org.kuali.student.cm.course.form.CourseForm;
 import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
 import org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl;
-import org.kuali.student.logging.FormattedLogger;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
@@ -45,6 +45,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import static org.kuali.student.logging.FormattedLogger.*;
+
 
 /**
  * This controller handles all the request from Academic calendar UI.
@@ -126,7 +129,7 @@ public class CourseController extends UifControllerBase {
     	
     	CourseInfo savedCourseInfo = null;
     	if (form.getCourseInfo().getId() == null) {
-			FormattedLogger.debug("Create the course proposal");
+			debug("Create the course proposal");
 			try {
 				savedCourseInfo = getCourseService().createCourse_KRAD(
 						form.getCourseInfo(), ContextUtils.getContextInfo());
@@ -136,7 +139,7 @@ public class CourseController extends UifControllerBase {
 			}
 			
     	} else {
-    		FormattedLogger.debug("Update the course proposal");
+    		debug("Update the course proposal");
     		try {
     			savedCourseInfo = courseService.updateCourse_KRAD(form.getCourseInfo().getId(), form.getCourseInfo(), ContextUtils.getContextInfo());
     		} catch (Exception e) {
@@ -204,6 +207,16 @@ public class CourseController extends UifControllerBase {
 			}
 		}
 		return nextPageId;
+    }
+
+    @Override
+    @RequestMapping(params = "methodToCall=start")
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) { 
+        final CourseForm courseForm = (CourseForm) form;
+
+    	courseForm.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
+        return super.start(courseForm, result, request, response);
     }
      
     @RequestMapping(params = "methodToCall=createComment")
