@@ -18,6 +18,9 @@
     <properties>
         <impex.metainf.context>org.kuali.common.util.metainf.spring.MetaInfExecutableConfig</impex.metainf.context>
         <impex.metainf.propertySource>org.kuali.common.util.metainf.spring.MpxMetaInfPropertySourceConfig</impex.metainf.propertySource>
+        
+        <!-- <impex.metainf.phase>prepare-package</impex.metainf.phase>  -->
+        <impex.metainf.phase>none</impex.metainf.phase>
     </properties>
     <profiles>
         <profile>
@@ -89,7 +92,7 @@
                                 </goals>
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
-                                    <propertySourcesConfig>org.kuali.student.deploy.spring.UpdateScmMavenPropertySourceConfig</propertySourcesConfig>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.UpdateScmPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClass>org.kuali.common.impex.spring.UpdateScmExecutableConfig</annotatedClass>
                                 </configuration>
                             </execution>
