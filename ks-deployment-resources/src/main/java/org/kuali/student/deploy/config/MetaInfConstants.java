@@ -4,25 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.common.util.Str;
-import org.kuali.common.util.metainf.SqlMetaInfConstants;
-import org.kuali.student.deploy.DeployProjectConstants;
+import org.kuali.common.util.config.KualiUtilConfig;
 
 public class MetaInfConstants {
-
-	// Shorthand for GroupId + ArtifactId
-	private static final String GA = Str.getId(DeployProjectConstants.GROUP_ID, DeployProjectConstants.ARTIFACT_ID);
-
-	// Re-use the context id from kuali-util
-	public static final String SQL_METAINF_CONFIG_ID = Str.getId(GA, SqlMetaInfConstants.CONTEXT_ID);
 
 	// The unmodifiable list of config ids needed to properly package KS SQL
 	public static final List<String> SQL_METAINF_CONFIG_IDS = getSqlMetaInfConfigIds();
 
 	protected static List<String> getSqlMetaInfConfigIds() {
 		List<String> list = new ArrayList<String>();
-		list.addAll(SqlMetaInfConstants.BUILD_CONFIG_IDS);
-		list.add(SQL_METAINF_CONFIG_ID);
+		list.add(KualiUtilConfig.METAINF_SQL_BUILD.getConfigId());
+		list.add(KSDeploymentResourcesConfig.METAINF_SQL.getConfigId());
 		return Collections.unmodifiableList(list);
 	}
 
