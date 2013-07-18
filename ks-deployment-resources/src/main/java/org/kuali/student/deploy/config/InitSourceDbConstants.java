@@ -32,7 +32,7 @@ public class InitSourceDbConstants {
 		List<String> ids = new ArrayList<String>();
 
 		// We are connecting to a database so we need whatever it is JDBC needs
-		ids.addAll(JdbcConfigConstants.CONFIG_IDS);
+		ids.addAll(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
 
 		// Re-use properties from org.kuali.common:kuali-util:metainf:sql that helped create the .resources files
 		ids.addAll(SqlMetaInfConstants.CONFIG_IDS);

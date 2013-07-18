@@ -32,7 +32,7 @@ public class DumpSourceDbConstants {
 		List<String> ids = new ArrayList<String>();
 
 		// Add whatever kuali-jdbc says it needs
-		ids.addAll(JdbcConfigConstants.CONFIG_IDS);
+		ids.addAll(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
 
 		// Add whatever kuali-impex-export says it needs
 		ids.addAll(DumpConfigConstants.CONFIG_IDS);
