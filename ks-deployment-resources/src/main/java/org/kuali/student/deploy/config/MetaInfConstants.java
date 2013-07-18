@@ -8,7 +8,9 @@ import org.kuali.common.util.config.KualiUtilConfig;
 
 public class MetaInfConstants {
 
-	// The unmodifiable list of configuration ids needed to properly package KS SQL
+	/**
+	 * The unmodifiable list of configuration ids needed by the process that generates META-INF listings of KS Oracle SQL
+	 */
 	public static final List<String> SQL_METAINF_CONFIG_IDS = getSqlMetaInfConfigIds();
 
 	protected static List<String> getSqlMetaInfConfigIds() {
