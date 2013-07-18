@@ -93,7 +93,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement), null, null, null);
+        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement));
         tNode.setFirstElementItems(this.getListItems(firstElement));
         tNode.setSecondElementItems(this.getListItems(secondElement));
         newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
@@ -157,7 +157,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         if (!firstElement.equals(secondElement)){
             opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
         }
-        opNode.setData(new CompareTreeNode(firstElement, secondElement, null, null, null));
+        opNode.setData(new CompareTreeNode(firstElement, secondElement));
         newNode.getChildren().add(opNode);
     }
 

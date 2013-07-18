@@ -32,20 +32,34 @@ public class CompareTreeNode implements Serializable {
     private List<String> secondElementItems;
     private String thirdElement;
     private List<String> thirdElementItems;
-    private String forthElement;
-    private List<String> forthElementItems;
+    private String fourthElement;
+    private List<String> fourthElementItems;
     private String firthElement;
     private List<String> firthElementItems;
 
     public CompareTreeNode(){
     }
 
-    public CompareTreeNode(String firstElement, String secondElement, String thirdElement, String forthElement, String firthElement){
-        this.firstElement = firstElement;
-        this.secondElement = secondElement;
-        this.thirdElement = thirdElement;
-        this.forthElement = forthElement;
-        this.firthElement = firthElement;
+    public CompareTreeNode(String... elements){
+        for (int i = 0; i < elements.length; i++) {
+            switch (i) {
+                case 0:
+                    this.firstElement = elements[0];
+                    break;
+                case 1:
+                    this.secondElement = elements[1];
+                    break;
+                case 2:
+                    this.thirdElement = elements[2];
+                    break;
+                case 3:
+                    this.fourthElement= elements[3];
+                    break;
+                case 4:
+                    this.firthElement = elements[4];
+                    break;
+            }
+        }
     }
 
     public String getFirstElement() {
@@ -106,22 +120,22 @@ public class CompareTreeNode implements Serializable {
     }
 
     public String getForthElement() {
-        if((this.forthElement == null) || (this.forthElement.isEmpty())){
+        if((this.fourthElement == null) || (this.fourthElement.isEmpty())){
             return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
         }
-        return forthElement;
+        return fourthElement;
     }
 
     public void setForthElement(String forthElement) {
-        this.forthElement = forthElement;
+        this.fourthElement = forthElement;
     }
 
     public List<String> getForthElementItems() {
-        return forthElementItems;
+        return fourthElementItems;
     }
 
     public void setForthElementItems(List<String> forthElementItems) {
-        this.forthElementItems = forthElementItems;
+        this.fourthElementItems = forthElementItems;
     }
 
     public String getFirthElement() {

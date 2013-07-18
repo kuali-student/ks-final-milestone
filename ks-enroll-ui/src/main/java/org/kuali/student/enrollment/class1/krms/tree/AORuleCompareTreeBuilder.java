@@ -113,7 +113,7 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement),this.getDescription(thirdElement), null, null );
+        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement),this.getDescription(thirdElement));
         tNode.setFirstElementItems(this.getListItems(firstElement));
         tNode.setSecondElementItems(this.getListItems(secondElement));
         tNode.setThirdElementItems(this.getListItems(thirdElement));
@@ -163,7 +163,7 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
 else  if (!cluOpCode.equals(aoOpCode)){
             opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
         }
-        opNode.setData(new CompareTreeNode(coOpCode, cluOpCode,aoOpCode, null, null ));
+        opNode.setData(new CompareTreeNode(coOpCode, cluOpCode,aoOpCode));
         newNode.getChildren().add(opNode);
     }
 
