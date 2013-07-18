@@ -71,24 +71,11 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor aoRuleEditor, RuleEditor cluRuleEditor ) throws Exception {
 
         //Set the original nl if not already exists.
-        if ((aoRuleEditor!=null) && (aoRuleEditor.getProposition()!=null)){
-            PropositionEditor originalRoot = aoRuleEditor.getPropositionEditor();
-            if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
-                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
-            }
-        }
-        //Build the Tree
-        RuleEditor coCompare = aoRuleEditor.getParent();
-        if((coCompare!=null)&&(coCompare.getProposition()!=null)){
-            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(coCompare.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
-        }
+        checkNaturalLanguageForTree(aoRuleEditor);
+        checkNaturalLanguageForTree(aoRuleEditor.getParent());
+        checkNaturalLanguageForTree(cluRuleEditor);
 
-        //Build the Tree
-        if((cluRuleEditor!=null)&&(cluRuleEditor.getProposition()!=null)){
-            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(cluRuleEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
-        }
-
-        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(coCompare, cluRuleEditor, aoRuleEditor);
+        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(aoRuleEditor.getParent(), cluRuleEditor, aoRuleEditor);
 
         return compareTree;
     }
@@ -105,17 +92,8 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception {
 
         //Set the original nl if not already exists.
-        if ((coRuleEditor!=null) && (coRuleEditor.getProposition()!=null)){
-            PropositionEditor originalRoot = coRuleEditor.getPropositionEditor();
-            if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
-                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
-            }
-        }
-
-        //Build the Tree
-        if((cluRuleEditor!=null)&&(cluRuleEditor.getProposition()!=null)){
-            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(cluRuleEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
-        }
+        checkNaturalLanguageForTree(coRuleEditor);
+        checkNaturalLanguageForTree(cluRuleEditor);
 
         Tree<CompareTreeNode, String> compareTree = this.getViewCoCluTreeBuilder().buildTree(coRuleEditor, cluRuleEditor);
 

@@ -75,17 +75,9 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) throws Exception {
 
         //Set the original nl if not already exists.
-        if (original.getProposition()!=null){
-            PropositionEditor originalRoot = original.getPropositionEditor();
-            if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
-                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
-            }
-        }
+        checkNaturalLanguageForTree(original);
+        checkNaturalLanguageForTree(compare);
 
-        //Build the Tree
-        if((compare!=null)&&(compare.getProposition()!=null)){
-            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compare.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
-        }
         Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compare);
 
         return compareTree;

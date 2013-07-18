@@ -106,6 +106,7 @@ public class EnrolRuleEditorController extends RuleEditorController {
 
         RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(document);
         EnrolRuleEditor enrolRuleEditor = new EnrolRuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+        enrolRuleEditor.setParent(ruleEditor.getParent());
         AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
 
         this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);

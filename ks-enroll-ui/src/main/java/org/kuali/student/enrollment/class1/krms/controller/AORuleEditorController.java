@@ -34,7 +34,6 @@ import java.util.Map;
 public class AORuleEditorController extends EnrolRuleEditorController {
 
     /**
-     *
      * @param form
      * @param result
      * @param request
@@ -165,7 +164,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
      */
     @RequestMapping(params = "methodToCall=viewCoAndCluRules")
     public ModelAndView viewCoAndCluRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
@@ -183,7 +182,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
             }
             for (AgendaEditor agendaEditor : ruleWrapper.getCluAgendas()) {
                 if (agendaEditor.getRuleEditors().containsKey(aoRuleEditor.getTypeId())) {
-                    AgendaEditor selectedAgendaEditor  = agendaEditor;
+                    AgendaEditor selectedAgendaEditor = agendaEditor;
                     cluRuleEditor = selectedAgendaEditor.getRuleEditors().get(aoRuleEditor.getTypeId());
                 }
             }
@@ -208,7 +207,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
      */
     @RequestMapping(params = "methodToCall=deleteRuleStatements")
     public ModelAndView deleteRuleStatements(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                             @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
@@ -240,32 +239,22 @@ public class AORuleEditorController extends EnrolRuleEditorController {
      */
     @RequestMapping(params = "methodToCall=multiCompare")
     public ModelAndView multiCompare(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                          HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        Object dataObject = document.getDocument().getNewMaintainableObject().getDataObject();
-        if (dataObject instanceof AORuleManagementWrapper) {
-            AORuleManagementWrapper ruleWrapper = (AORuleManagementWrapper) dataObject;
-            String ruleId = document.getActionParamaterValue("ruleKey");
-            RuleEditor aoRuleEditor = null;
-            RuleEditor cluRuleEditor = null;
-            if ((ruleId != null) && (StringUtils.isNotBlank(ruleId))) {
-                //Get a specific ruleEditor based on the ruleId.
-                aoRuleEditor = AgendaUtilities.getSelectedRuleEditor(ruleWrapper, ruleId);
-            } else {
-                //Get the current editing ruleEditor.
-                aoRuleEditor = ruleWrapper.getRuleEditor();
+        AORuleManagementWrapper ruleWrapper = (AORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+
+        RuleEditor aoRuleEditor = ruleWrapper.getRuleEditor();
+        RuleEditor cluRuleEditor = null;
+        for (AgendaEditor agendaEditor : ruleWrapper.getCluAgendas()) {
+            if (agendaEditor.getRuleEditors().containsKey(aoRuleEditor.getTypeId())) {
+                AgendaEditor selectedAgendaEditor = agendaEditor;
+                cluRuleEditor = selectedAgendaEditor.getRuleEditors().get(aoRuleEditor.getTypeId());
             }
-            for (AgendaEditor agendaEditor : ruleWrapper.getCluAgendas()) {
-                if (agendaEditor.getRuleEditors().containsKey(aoRuleEditor.getTypeId())) {
-                    AgendaEditor selectedAgendaEditor  = agendaEditor;
-                    cluRuleEditor = selectedAgendaEditor.getRuleEditors().get(aoRuleEditor.getTypeId());
-                }
-            }
-            //Build the compare rule tree
-            ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(aoRuleEditor, cluRuleEditor));
-            ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
         }
+        //Build the compare rule tree
+        ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(aoRuleEditor, cluRuleEditor));
+        ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
 
         // redirect back to client to display lightbox
         return showDialog(KSKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO_AO, form, request, response);

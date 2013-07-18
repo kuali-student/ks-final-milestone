@@ -310,6 +310,15 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
     }
 
+    protected void checkNaturalLanguageForTree(RuleEditor ruleEditor) {
+        if ((ruleEditor !=null) && (ruleEditor.getProposition()!=null)){
+            PropositionEditor originalRoot = ruleEditor.getPropositionEditor();
+            if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
+                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+            }
+        }
+    }
+
     @Override
     public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception {
 
