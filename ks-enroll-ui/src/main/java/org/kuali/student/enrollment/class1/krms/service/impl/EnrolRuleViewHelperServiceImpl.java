@@ -21,6 +21,7 @@ import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TermEditor;
@@ -114,12 +115,12 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
         //Set cluSetInfo recursively to null to force builder to create new cluset.
         if(propositionEditor.getCluSet()!=null){
             propositionEditor.getCluSet().setCluSetInfo(null);
-        } else if(propositionEditor.getPropositionTypeCode().equals("C")) {
+        } else if(propositionEditor.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
             for(int i = 0; i < propositionEditor.getCompoundEditors().size(); i++) {
                 EnrolPropositionEditor prop = (EnrolPropositionEditor) propositionEditor.getCompoundEditors().get(i);
                 if(prop.getCluSet() != null) {
                     prop.getCluSet().setCluSetInfo(null);
-                } else if(prop.getPropositionTypeCode().equals("C")) {
+                } else if(prop.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
                     nullifyCluSetInfo(prop);
                 }
             }
