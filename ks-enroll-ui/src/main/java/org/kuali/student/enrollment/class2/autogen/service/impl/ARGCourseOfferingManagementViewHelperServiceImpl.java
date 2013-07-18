@@ -1022,6 +1022,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         if( s.contains("<br>")) {
                             lineBreaksInstructors = lineBreaksInstructors + "<br/>";
                             s = s.substring(s.indexOf("<br>")+4);
+                        } else {
+                            break;
                         }
                     }
                 }
@@ -1033,6 +1035,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                         if( s.contains("<br>")) {
                             lineBreaksDeliveries = lineBreaksDeliveries + "<br/>";
                             s = s.substring(s.indexOf("<br>")+4);
+                        } else {
+                            break;
                         }
                     }
                 }
