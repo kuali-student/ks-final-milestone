@@ -8,14 +8,14 @@ import org.kuali.common.util.config.KualiUtilConfig;
 
 public class MetaInfConstants {
 
-	// The unmodifiable list of config ids needed to properly package KS SQL
+	// The unmodifiable list of configuration ids needed to properly package KS SQL
 	public static final List<String> SQL_METAINF_CONFIG_IDS = getSqlMetaInfConfigIds();
 
 	protected static List<String> getSqlMetaInfConfigIds() {
-		List<String> list = new ArrayList<String>();
-		list.add(KualiUtilConfig.METAINF_SQL_BUILD.getConfigId());
-		list.add(KSDeploymentResourcesConfig.METAINF_SQL.getConfigId());
-		return Collections.unmodifiableList(list);
+		List<String> configIds = new ArrayList<String>();
+		configIds.add(KualiUtilConfig.METAINF_SQL_BUILD.getConfigId());
+		configIds.add(KSDeploymentResourcesConfig.METAINF_SQL.getConfigId());
+		return Collections.unmodifiableList(configIds);
 	}
 
 }
