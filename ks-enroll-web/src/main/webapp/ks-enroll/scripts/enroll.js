@@ -793,6 +793,14 @@ function rgbToHex(r, g, b) {
     return ((r << 16) | (g << 8) | b).toString(16);
 }
 
+/*
+    This function changes the UifImage components to bootsrtap links
+     It only converts images that have their styles starting with the word icon
+
+     It was originally using the src attribute but according to Cody this might cause a problem
+     with KRAD. I think if using the src attribute is not causing any problem for the KRAD we should
+      go back to using the src attribute.
+ */
 function addBootstrapImageToLink(containerId) {
     jQuery("#" + containerId).find('img').each(function () {
         /*Style is used instead of src to prevent errors in krad*/
