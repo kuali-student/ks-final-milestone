@@ -18,7 +18,6 @@ public class DumpSourceDbPropertySourceConfig extends BuildPropertySourceConfig 
 		List<String> ids = new ArrayList<String>();
 		ids.add(KualiSqlConfig.DEFAULT.getConfigId());
 		ids.add(KualiJdbcConfig.DEFAULT.getConfigId());
-		ids.add(KualiImpexExportConfig.DUMP.getConfigId());
 		ids.add(KualiImpexExportConfig.DUMP_BUILD.getConfigId());
 		ids.add(KSDeploymentResourcesConfig.SOURCE_DB_DUMP.getConfigId());
 		return ids;
