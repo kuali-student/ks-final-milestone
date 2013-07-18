@@ -44,7 +44,7 @@ public class KeyValueConstants {
      * in which class it will be declared
      */
     public static final String ALT_EXAM_FINAL_ENUM_KEY = "ALT";
-    public static final String ALTERNATIVE_STRING_EXAM_FINAL_ENUM = "ALTERNATIVE";
+    public static final String ALTERNATE_STRING_EXAM_FINAL_ENUM = "ALTERNATE";
     public static final String NONE_EXAM_ENUM_KEY = "None";
     public static final String NONE_STRING_EXAM_ENUM = "NONE";
     public static final String STD_EXAM_FINAL_ENUM_KEY = "STD";
