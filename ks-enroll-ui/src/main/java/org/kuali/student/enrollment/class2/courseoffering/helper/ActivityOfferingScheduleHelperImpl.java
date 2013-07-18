@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.helper;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -273,7 +275,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     ContextInfo contextInfo = createContextInfo();
 
                     // if a building code exists, validate the building code and populate the building info
-                    List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(scheduleWrapper.getBuildingCode(), contextInfo);
+                    List<BuildingInfo> buildings = retrieveBuildingInfo(scheduleWrapper.getBuildingCode(),true);
                     if (buildings.isEmpty()) {
                         addErrorMessage(ScheduleInput.BUILDING, "Facility code was invalid");
                     } else {
@@ -281,7 +283,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     }
 
                     // if a building code exists and a room code exists, validate the room code and populate the room info
-                    if (StringUtils.isNotEmpty(scheduleWrapper.getRoomCode())) {
+                    if (!buildings.isEmpty() && StringUtils.isNotEmpty(scheduleWrapper.getRoomCode())) {
                         List<RoomInfo> rooms = getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(), scheduleWrapper.getRoomCode(), contextInfo);
                         if (rooms.isEmpty()) {
                             addErrorMessage(ScheduleInput.ROOM, "Room code was invalid");
@@ -883,4 +885,18 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         return ContextUtils.createDefaultContextInfo();
     }
 
+
+    public List<BuildingInfo> retrieveBuildingInfo(String buildingCode,boolean strictMatch) throws Exception{
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        if (!strictMatch){
+            buildingCode = StringUtils.upperCase(buildingCode) + "%";
+        }
+        qbcBuilder.setPredicates(PredicateFactory.like("buildingCode", buildingCode));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<BuildingInfo> b = getRoomService().searchForBuildings(criteria, createContextInfo());
+        return b;
+    }
 }

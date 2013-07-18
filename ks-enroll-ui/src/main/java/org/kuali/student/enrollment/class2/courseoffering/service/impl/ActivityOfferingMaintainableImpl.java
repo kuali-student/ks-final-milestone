@@ -950,14 +950,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     public List<BuildingInfo> retrieveBuildingInfo(String buildingCode){
 
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.like("buildingCode", StringUtils.upperCase(buildingCode) + "%"));
-
-        QueryByCriteria criteria = qbcBuilder.build();
-
         try {
-            List<BuildingInfo> b = getScheduleHelper().getRoomService().searchForBuildings(criteria, createContextInfo());
-            return b;
+            return getScheduleHelper().retrieveBuildingInfo(buildingCode,false);
         } catch (Exception e) {
             throw convertServiceExceptionsToUI(e);
         }
