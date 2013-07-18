@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.common.impex.config.KualiImpexExportConfig;
-import org.kuali.common.jdbc.config.KualiJdbcConfig;
-import org.kuali.common.jdbc.config.KualiSqlConfig;
+import org.kuali.common.jdbc.config.JdbcConfigConstants;
 import org.kuali.common.util.config.KualiUtilConfig;
 
 public class SourceDbConstants {
@@ -19,8 +18,7 @@ public class SourceDbConstants {
 
 	protected static List<String> getInitSourceDbConfigIds() {
 		List<String> ids = new ArrayList<String>();
-		ids.add(KualiSqlConfig.DEFAULT.getConfigId());
-		ids.add(KualiJdbcConfig.DEFAULT.getConfigId());
+		ids.addAll(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
 		ids.add(KualiUtilConfig.METAINF_SQL.getConfigId());
 		ids.add(KSDeploymentResourcesConfig.SOURCE_DB_INIT.getConfigId());
 		return Collections.unmodifiableList(ids);
@@ -28,8 +26,7 @@ public class SourceDbConstants {
 
 	protected static List<String> getDumpSourceDbConfigIds() {
 		List<String> ids = new ArrayList<String>();
-		ids.add(KualiSqlConfig.DEFAULT.getConfigId());
-		ids.add(KualiJdbcConfig.DEFAULT.getConfigId());
+		ids.addAll(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
 		ids.add(KualiImpexExportConfig.DUMP_BUILD.getConfigId());
 		ids.add(KSDeploymentResourcesConfig.SOURCE_DB_DUMP.getConfigId());
 		return Collections.unmodifiableList(ids);
