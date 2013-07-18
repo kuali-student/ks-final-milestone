@@ -809,13 +809,13 @@ textarea,
 
 
 
-/************************************** EDIT ACADEMIC CALENDAR STICKY FOOTER **********************
+/************************************** STICKY FOOTER **********************
    Alignment of action buttons.
  */
-.ac_stickyfooter {
+.ks-uif-footer div {
     float: right;
 }
-/************************************** END EDIT ACADEMIC CALENDAR STICKY FOOTER **********************/
+/************************************** STICKY FOOTER **********************/
 
 
 
