@@ -515,8 +515,14 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                         return getUIFModelAndView(form);
                     } else {
                         if (coWrapper.isCreateFromCatalog()) {
-                            Properties urlParameters = _buildCOURLParameters(course.getId(), term.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
-                            return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
+                            List<CourseOfferingInfo> coInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
+                            if (coInfos != null && coInfos.size() > 0) {
+                                Properties urlParameters = _buildCOURLParameters(coInfos.get(0).getId(), term.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
+                                return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
+                            } else {
+                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND);
+                                return getUIFModelAndView(form);
+                            }
                         } else {  // Copy part
                             //Get all the course offerings in a term
                             List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
@@ -749,10 +755,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         return courseInfoList;
     }
 
-    private static Properties _buildCOURLParameters(String courseInfoId, String termId, String methodToCall) {
+    private static Properties _buildCOURLParameters(String courseOfferingInfoId, String termId, String methodToCall) {
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("courseInfo.id", courseInfoId);
+        props.put("courseOfferingInfo.id", courseOfferingInfoId);
         props.put("term.id", termId);
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName());
         props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
