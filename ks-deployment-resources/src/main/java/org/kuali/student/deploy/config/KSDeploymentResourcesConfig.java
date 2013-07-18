@@ -16,10 +16,6 @@ public enum KSDeploymentResourcesConfig implements ProjectConfig {
 	private final String contextId;
 	private final String configId;
 
-	private KSDeploymentResourcesConfig() {
-		this(null);
-	}
-
 	private KSDeploymentResourcesConfig(String contextId) {
 		this.contextId = contextId;
 		this.configId = ConfigUtils.getConfigId(this);
