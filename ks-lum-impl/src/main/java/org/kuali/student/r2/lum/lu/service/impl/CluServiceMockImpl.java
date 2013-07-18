@@ -44,6 +44,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
@@ -59,6 +60,8 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 public class CluServiceMockImpl implements CluService {
     // cache variable 
     // The LinkedHashMap is just so the values come back in a predictable order
+
+    private SearchService searchService;
 
     private Map<String, TypeInfo> typeMap = new LinkedHashMap<String, TypeInfo>();
     private Map<String, CluInfo> cluMap = new LinkedHashMap<String, CluInfo>();
@@ -1153,11 +1156,8 @@ public class CluServiceMockImpl implements CluService {
 
     @Override
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getSearchService().search(searchRequestInfo, contextInfo);
     }
-
-    
-    
     
     private StatusInfo newStatus() {
         StatusInfo status = new StatusInfo();
@@ -1181,5 +1181,13 @@ public class CluServiceMockImpl implements CluService {
         meta.setUpdateTime(new Date());
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
+    }
+
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
+    }
+
+    public SearchService getSearchService() {
+        return this.searchService;
     }
 }
