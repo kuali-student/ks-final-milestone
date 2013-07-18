@@ -48,8 +48,9 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-Message"
-                              p:messageText="All holidays, including dates and times, will be copied to the new Holiday Calendar"
+                              p:messageText="All holidays, including dates and times, will be copied to the new Holiday Calendar."
                               p:style="margin-bottom:0;"/>
+                        <bean parent="Uif-SpaceField"/>
                         <bean parent="Uif-ActionLink"
                               p:methodToCall="toCreate"
                               p:actionLabel="Create Blank Holiday Calendar"/>
@@ -76,11 +77,14 @@
             <list>
                 <!-- This adds the file names to the page HTML -->
                 <ref bean="KS-SourceFile-Comment-Group"/>
-                <bean parent="Uif-VerticalBoxSection"
+                <bean parent="Uif-HorizontalBoxSection"
                       p:style="margin-bottom:0; padding-bottom:0;">
                     <property name="items">
                         <list>
-                            <ref bean="KS-HolidayCalendar-CopyPage-From"/>
+                            <ref bean="KS-HolidayCalendar-CopyPage-From" />
+                            <bean parent="Uif-SpaceField"/>
+                            <bean parent="Uif-SpaceField"/>
+                            <bean parent="Uif-SpaceField"/>
                             <ref bean="KS-HolidayCalendar-CopyPage-To"/>
                             <ref bean="KS-HolidayCalendarView-Header-Right-Group"/>
                         </list>
@@ -116,6 +120,7 @@
                     <property name="align" value="CENTER"/>
                     <property name="items">
                         <list>
+                            <bean parent="Uif-SpaceField"/>
                             <bean parent="Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.name"
                                   p:showLabel="false"
@@ -167,14 +172,13 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup"
-                      p:layoutManager.numberOfColumns="2"
-                      p:layoutManager.applyDefaultCellWidths="false">
+                <bean parent="Uif-VerticalBoxSubSection">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField"
                                   p:propertyName="newCalendarName" p:id="newCalendarName"
                                   p:label="Name"
+                                  p:labelPlacement="TOP"
                                   p:required="true"
                                   p:fieldLabel.renderColon="false"
                                   p:fieldLabel.requiredMessagePlacement="RIGHT">
@@ -194,6 +198,7 @@
                             <bean parent="Uif-InputField"
                                   p:propertyName="newCalendarStartDate" p:id="newCalendarStartDate"
                                   p:label="Start Date"
+                                  p:labelPlacement="TOP"
                                   p:required="true"
                                   p:fieldLabel.renderColon="false"
                                   p:fieldLabel.requiredMessagePlacement="RIGHT">
@@ -208,6 +213,7 @@
                             <bean parent="Uif-InputField"
                                   p:propertyName="newCalendarEndDate" p:id="newCalendarEndDate"
                                   p:label="End Date"
+                                  p:labelPlacement="TOP"
                                   p:required="true"
                                   p:fieldLabel.renderColon="false"
                                   p:fieldLabel.requiredMessagePlacement="RIGHT">
@@ -226,7 +232,6 @@
                             <value>ks-calendar-copy-to</value>
                         </list>
                     </property>
-
                 </bean>
             </list>
         </property>
