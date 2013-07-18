@@ -38,17 +38,17 @@
     </context>
   </context>
   <context id="init-app">
-      <context id="ks-impex-app-db">
-          <location value="${ks.init.db.common}" />
-          <location value="${ks.init.db.prefix}/ks-impex-app-db.properties" />
-      </context>
-      <context id="ks-impex-bundled-db">
-          <location value="${ks.init.db.common}" />
-          <location value="${ks.init.db.prefix}/ks-impex-bundled-db.properties" />
-      </context>
-      <context id="ks-impex-rice-db">
-          <location value="${ks.init.db.common}" />
-          <location value="${ks.init.db.prefix}/ks-impex-rice-db.properties" />
-      </context>
+    <context id="ks-impex-app-db">
+      <location value="${ks.init.db.common}" />
+      <location value="${ks.init.db.prefix}/ks-impex-app-db.properties" />
+    </context>
+    <context id="ks-impex-bundled-db">
+      <location value="${ks.init.db.common}" />
+      <location value="${ks.init.db.prefix}/ks-impex-bundled-db.properties" />
+    </context>
+    <context id="ks-impex-rice-db">
+      <location value="${ks.init.db.common}" />
+      <location value="${ks.init.db.prefix}/ks-impex-rice-db.properties" />
+    </context>
   </context>
 </project>
