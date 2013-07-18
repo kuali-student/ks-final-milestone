@@ -85,7 +85,6 @@ limitations under the License.
                     </property>
                 </bean>
                 <bean id="AcalEdit-DirtyFields" parent="Uif-InputField" p:propertyName="dirtyFields">
-                    <property name="style" value="visibility:hidden;width:2px;height:2px;"/>
                     <property name="control">
                         <bean parent="Uif-HiddenControl">
                             <property name="tabIndex" value="1"/>

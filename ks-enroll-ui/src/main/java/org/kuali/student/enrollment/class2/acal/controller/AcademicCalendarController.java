@@ -684,6 +684,16 @@ public class AcademicCalendarController extends UifControllerBase {
 
     }
 
+    /**
+     * Removes the the selected holiday for delete from the list of holidays.
+     * No changes are made to database until save.
+     *
+     * @param academicCalendarForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(params = "methodToCall=deleteHolidayCalendar")
     public ModelAndView deleteHolidayCalendar(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
@@ -694,13 +704,24 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
-        HolidayCalendarWrapper calendarDeleted = academicCalendarForm.getHolidayCalendarList().get(selectedLineIndex);
 
         academicCalendarForm.getHolidayCalendarList().remove(selectedLineIndex);
 
         return getUIFModelAndView(academicCalendarForm);
 
     }
+
+    /**
+     * Removes the the selected event for delete from the list of events.
+     * Event is added to the list of events to be deleted during save if it is in the database.
+     * No changes are made to database until save.
+     *
+     * @param academicCalendarForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(params = "methodToCall=deleteAcalEvent")
     public ModelAndView deleteAcalEvent(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
@@ -792,7 +813,7 @@ public class AcademicCalendarController extends UifControllerBase {
      * Changes the state of the term from draft to official
      *
      * @param term - The Term to make official
-     * @param acalForm - THe page form
+     * @param acalForm - Tee page form
      * @return true if the term was made official successfully, false otherwise.
      */
     private boolean makeTermOfficial(AcademicTermWrapper term, AcademicCalendarForm acalForm){
@@ -828,21 +849,29 @@ public class AcademicCalendarController extends UifControllerBase {
                 }
             }
         } catch (Exception e) {
+            LOG.error("Make Official Failed for Term",e);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_OFFICIAL_FAILED + " - " + e.getMessage());
             return false;
         }
         return true;
     }
 
+    /**
+     * Attempts to make the academic calendar official.
+     *
+     * @param acalForm - Tee page form
+     * @return True if calendar state is successfully changed
+     */
     private boolean makeAcalOfficial(AcademicCalendarForm acalForm){
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
-        StatusInfo statusInfo = null;
         try {
+            StatusInfo statusInfo = null;
             statusInfo = getAcalService().changeAcademicCalendarState(acalForm.getAcademicCalendarInfo().getId(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,viewHelperService.createContextInfo());
             if (!statusInfo.getIsSuccess()){
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
                 return false;
             } else{
+                // Refresh form information
                 acalForm.setAcademicCalendarInfo(getAcalService().getAcademicCalendar(acalForm.getAcademicCalendarInfo().getId(), viewHelperService.createContextInfo()));
                 acalForm.setOfficialCalendar(true);
                 for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
@@ -850,6 +879,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 }
             }
         } catch (Exception e) {
+            LOG.error("Make Official Failed for Acal",e);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_OFFICIAL_FAILED + " - " + e.getMessage());
             return false;
         }
@@ -942,8 +972,7 @@ public class AcademicCalendarController extends UifControllerBase {
         List<String> updatedFields = new ArrayList<String>();
 
         // Cycle through the dirty field list and save the individual properties.
-        for(int i=0;i<dirtyFields.size();i++){
-            String field = dirtyFields.get(i);
+        for(String field : dirtyFields){
             if(field.isEmpty()) continue;
 
             // Remove sub properties from the one to save
@@ -997,9 +1026,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
             } else {
                 // Signal that there is an unknown field found.
-                if (LOG.isDebugEnabled()){
-                    LOG.error("Unknown field encounter during save: "+field);
-                }
+                LOG.warn("Unknown field encounter during save: "+field);
             }
         }
         return form;
@@ -1047,9 +1074,7 @@ public class AcademicCalendarController extends UifControllerBase {
         } catch(Exception e) {
 
             // If the save fails message user
-            if (LOG.isDebugEnabled()){
-                LOG.error("Add/update Academic calendar failed - " + e.getMessage());
-            }
+            LOG.error("Add/update Academic calendar failed", e);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED);
             return acal;
         }
@@ -1079,10 +1104,10 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
         // Save subterms from before
-        for(int i = 0;i<subTermsToSave.size();i++){
-            int index = form.getTermWrapperList().indexOf(subTermsToSave.get(i));
+        for(AcademicTermWrapper subterm : subTermsToSave){
+            int index = form.getTermWrapperList().indexOf(subterm);
             // Save the new term and refresh it in the form
-            AcademicTermWrapper newTerm = saveTerm(subTermsToSave.get(i),form,helperService);
+            AcademicTermWrapper newTerm = saveTerm(subterm,form,helperService);
             form.getTermWrapperList().set(index,newTerm);
         }
 
@@ -1146,9 +1171,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 termWrapper.setTermInfo(updatedTerm);
             }
         }catch(Exception e){
-            if (LOG.isDebugEnabled()){
-                LOG.error("Save term has failed - " + e.getMessage());
-            }
+            LOG.error("Save term has failed", e);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_SAVE_FAILED,
                     termWrapper.getName(), e.getLocalizedMessage());
         }
@@ -1163,14 +1186,11 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      */
     private void deleteTerms(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
-        for (int i = 0; i< form.getTermsToDeleteOnSave().size();i++){
-            AcademicTermWrapper term = form.getTermsToDeleteOnSave().get(i);
+        for (AcademicTermWrapper term : form.getTermsToDeleteOnSave()){
             try{
                 getAcademicCalendarServiceFacade().deleteTermCascaded(term.getTermInfo().getId(),helperService.createContextInfo());
             }catch(Exception e){
-                if (LOG.isDebugEnabled()){
-                    LOG.error("Delete term has failed - " + e.getMessage());
-                }
+                LOG.error("Delete term has failed",e);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING,"Term",term.getName());
 
             }
@@ -1236,9 +1256,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 keyDateWrapper.setKeyDateInfo(updatedKeyDate);
             }
         }catch(Exception e){
-            if (LOG.isDebugEnabled()){
-                LOG.error("Save keydate has failed - " + e.getMessage());
-            }
+                LOG.error("Save keydate has failed",e);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_KEYDATE_FAILED,keyDateWrapper.getKeyDateNameUI(),term.getName());
 
         }
@@ -1253,14 +1271,11 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      */
     private void deleteKeyDates(AcademicTermWrapper term, AcademicCalendarViewHelperService helperService){
-        for(int j = 0; j < term.getKeyDatesToDeleteOnSave().size();j++){
-            KeyDateWrapper keyDate = term.getKeyDatesToDeleteOnSave().get(j);
+        for(KeyDateWrapper keyDate : term.getKeyDatesToDeleteOnSave()){
             try{
                 getAcalService().deleteKeyDate(keyDate.getKeyDateInfo().getId(),helperService.createContextInfo());
             }catch(Exception e){
-                if (LOG.isDebugEnabled()){
-                    LOG.error("Delete key date has failed - " + e.getMessage());
-                }
+                LOG.error("Delete key date has failed",e);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING,term.getName(),keyDate.getKeyDateNameUI());
             }
         }
@@ -1328,9 +1343,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 event.setAcalEventInfo(updatedEventInfo);
             }
         }catch(Exception e){
-            if (LOG.isDebugEnabled()){
-                LOG.error("Save calendar event has failed - " + e.getMessage());
-            }
+            LOG.error("Save calendar event has failed" , e);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_EVENT_FAILED,event.getEventTypeName());
 
         }
@@ -1345,14 +1358,11 @@ public class AcademicCalendarController extends UifControllerBase {
      * @param helperService - View Helper service
      */
     private void deleteAcalEvents(AcademicCalendarForm form, AcademicCalendarViewHelperService helperService){
-        for(int i=0;i<form.getEventsToDeleteOnSave().size();i++){
-            AcalEventWrapper event = form.getEventsToDeleteOnSave().get(i);
+        for(AcalEventWrapper event : form.getEventsToDeleteOnSave()){
             try{
                 getAcalService().deleteAcalEvent(event.getAcalEventInfo().getId(),helperService.createContextInfo());
             }catch(Exception e){
-                if (LOG.isDebugEnabled()){
-                    LOG.error("Delete calendar event has failed - " + e.getMessage());
-                }
+                LOG.error("Delete calendar event has failed" , e);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING,"Calendar event",event.getEventTypeName());
             }
         }
