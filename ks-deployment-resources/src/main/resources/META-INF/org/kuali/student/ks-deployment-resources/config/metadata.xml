@@ -30,5 +30,11 @@
       <location value="${ks.source.db.common}" />
       <location value="${ks.source.db.prefix}/dump.properties" />
     </context>
+    <context id="staging">
+      <location value="${ks.source.db.common}" />
+      <location value="${ks.source.db.prefix}/dump.properties" />
+      <location value="${ks.source.db.prefix}/staging.properties" />
+      <location value="${ks.source.db.prefix}/scm.properties" />
+    </context>
   </context>
 </project>

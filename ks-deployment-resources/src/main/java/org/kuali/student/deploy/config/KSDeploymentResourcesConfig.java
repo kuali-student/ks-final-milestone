@@ -10,7 +10,8 @@ public enum KSDeploymentResourcesConfig implements ProjectConfig {
 
 	METAINF_SQL(KualiUtilConfig.METAINF_SQL.getContextId()), //
 	SOURCE_DB_INIT("source-db:initialize"), //
-	SOURCE_DB_DUMP("source-db:dump");
+	SOURCE_DB_DUMP("source-db:dump"), //
+	STAGING("staging");
 
 	private final ImmutableProject project = DeployProjectConstants.PROJECT;
 	private final String contextId;
