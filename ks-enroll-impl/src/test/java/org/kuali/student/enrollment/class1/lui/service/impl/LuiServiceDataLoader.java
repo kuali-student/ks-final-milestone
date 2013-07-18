@@ -87,8 +87,8 @@ public class LuiServiceDataLoader {
                          Integer minSeats,
                          String refUrl)
             throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+                MissingParameterException, OperationFailedException, PermissionDeniedException,
+                DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
         LuiInfo luiInfo = new LuiInfo();
         luiInfo.setId(id);
         luiInfo.setCluId(cluId);

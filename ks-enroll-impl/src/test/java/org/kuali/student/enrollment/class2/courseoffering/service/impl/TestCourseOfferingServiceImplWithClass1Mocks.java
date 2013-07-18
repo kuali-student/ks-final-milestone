@@ -40,6 +40,7 @@ import org.kuali.student.r2.core.scheduling.SchedulingServiceDataLoader;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
@@ -61,10 +62,11 @@ import static org.junit.Assert.fail;
 @ContextConfiguration(locations = {"classpath:co-test-with-mocks-context.xml"})
 public class TestCourseOfferingServiceImplWithClass1Mocks {
 
+    public static String principalId = "123";
+    public ContextInfo callContext = new ContextInfo();
+
     @Resource(name = "coService")
     protected CourseOfferingService courseOfferingService;
-    public static String principalId = "123";
-    public ContextInfo callContext = null;
     @Resource(name = "courseService")
     protected CourseService courseService;
     @Resource(name = "stateService")
@@ -84,7 +86,6 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
 
     @Before
     public void setUp() {
-        callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
         try {
             new CourseR1TestDataLoader(this.courseService).loadData();
@@ -259,8 +260,6 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         // TODO: test for these things 
 //        assertEquals(course.getUnitsContentOwnerOrgIds(), info.getUnitsContentOwnerOrgIds());
 //        assertEquals(course.getUnitsDeploymentOrgIds(), info.getUnitsDeploymentOrgIds());
-//        assertEquals(course.getGradingOptions(), info.getGradingOptionIds());
-//        assertEquals(course.getCreditOptionIds(), info.getCreditOptionIds
 
 
         // refetch co 
@@ -452,7 +451,6 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         orig = info;
         orig.setMinimumEnrollment(100);
         orig.getScheduleIds().add("testScheduleId4");
-
         info = courseOfferingService.updateActivityOffering(orig.getId(), orig, callContext);
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());

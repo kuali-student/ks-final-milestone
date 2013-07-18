@@ -53,7 +53,7 @@ import java.util.Set;
 public class CourseOfferingServiceValidationDecorator
         extends CourseOfferingServiceDecorator
         implements HoldsValidator {
-    // validator property w/getter & setter
+
     private DataDictionaryValidator validator;
     private TypeService typeService;
     private CluService cluService;
