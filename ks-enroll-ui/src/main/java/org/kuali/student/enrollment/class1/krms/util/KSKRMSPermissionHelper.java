@@ -77,7 +77,7 @@ public class KSKRMSPermissionHelper {
                 }
 
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "compare");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                if (permissionService.hasPermissionByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails)) {
                     rule.getPermission().setCompare(true);
                 }
 
@@ -117,15 +117,12 @@ public class KSKRMSPermissionHelper {
         String socState = StringUtils.lowerCase(form.getContextBar().getTermSocState());
 
         Map<String,String> permissionDetails = new HashMap<String,String>();
-        Map<String,String> roleQualifications = new HashMap<String,String>();
-
-        roleQualifications.put("offeringAdminOrgId", form.getAdminOrg());
 
         permissionDetails.put("socState", socState);
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
         permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "requisiteCOLink");
-        if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+        if (permissionService.hasPermissionByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails)) {
             form.setRequisiteLink(true);
         }
     }
@@ -138,15 +135,12 @@ public class KSKRMSPermissionHelper {
         String socState = StringUtils.lowerCase(form.getContextBar().getTermSocState());
 
         Map<String,String> permissionDetails = new HashMap<String,String>();
-        Map<String,String> roleQualifications = new HashMap<String,String>();
-
-        roleQualifications.put("offeringAdminOrgId", form.getAdminOrg());
 
         permissionDetails.put("socState", socState);
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
         permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "requisiteAOLink");
-        if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+        if (permissionService.hasPermissionByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails)) {
             wrapper.setRequisiteLink(true);
         }
     }
