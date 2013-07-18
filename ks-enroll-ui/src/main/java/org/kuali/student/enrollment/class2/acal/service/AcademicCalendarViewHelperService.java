@@ -51,4 +51,6 @@ public interface AcademicCalendarViewHelperService extends KSViewHelperService {
 
     public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy,boolean calculateInstrDays)throws Exception;
 
+    public void sortTermWrappers(List<AcademicTermWrapper> termWrappers);
+
 }

@@ -920,6 +920,9 @@ public class AcademicCalendarController extends UifControllerBase {
         // Reseting added collection items since they were saved
         academicCalendarForm.setAddedCollectionItems(new ArrayList<Object>());
 
+        //sort term wrappers by start date
+        viewHelperService.sortTermWrappers(academicCalendarForm.getTermWrapperList());
+
         // Return new form
         return academicCalendarForm;
     }
