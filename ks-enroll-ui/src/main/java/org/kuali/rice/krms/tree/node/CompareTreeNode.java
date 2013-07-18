@@ -34,8 +34,8 @@ public class CompareTreeNode implements Serializable {
     private List<String> thirdElementItems;
     private String fourthElement;
     private List<String> fourthElementItems;
-    private String firthElement;
-    private List<String> firthElementItems;
+    private String fithElement;
+    private List<String> fithElementItems;
 
     public CompareTreeNode(){
     }
@@ -56,7 +56,7 @@ public class CompareTreeNode implements Serializable {
                     this.fourthElement= elements[3];
                     break;
                 case 4:
-                    this.firthElement = elements[4];
+                    this.fithElement = elements[4];
                     break;
             }
         }
@@ -119,41 +119,41 @@ public class CompareTreeNode implements Serializable {
         this.thirdElementItems = thirdElementItems;
     }
 
-    public String getForthElement() {
+    public String getFourthElement() {
         if((this.fourthElement == null) || (this.fourthElement.isEmpty())){
             return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
         }
         return fourthElement;
     }
 
-    public void setForthElement(String forthElement) {
-        this.fourthElement = forthElement;
+    public void setFourthElement(String fourthElement) {
+        this.fourthElement = fourthElement;
     }
 
-    public List<String> getForthElementItems() {
+    public List<String> getFourthElementItems() {
         return fourthElementItems;
     }
 
-    public void setForthElementItems(List<String> forthElementItems) {
-        this.fourthElementItems = forthElementItems;
+    public void setFourthElementItems(List<String> fourthElementItems) {
+        this.fourthElementItems = fourthElementItems;
     }
 
-    public String getFirthElement() {
-        if((this.firthElement == null) || (this.firthElement.isEmpty())){
+    public String getFithElement() {
+        if((this.fithElement == null) || (this.fithElement.isEmpty())){
             return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
         }
-        return firthElement;
+        return fithElement;
     }
 
-    public void setFirthElement(String firthElement) {
-        this.firthElement = firthElement;
+    public void setFithElement(String fithElement) {
+        this.fithElement = fithElement;
     }
 
-    public List<String> getFirthElementItems() {
-        return firthElementItems;
+    public List<String> getFithElementItems() {
+        return fithElementItems;
     }
 
-    public void setFirthElementItems(List<String> firthElementItems) {
-        this.firthElementItems = firthElementItems;
+    public void setFithElementItems(List<String> fithElementItems) {
+        this.fithElementItems = fithElementItems;
     }
 }

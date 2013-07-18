@@ -91,7 +91,7 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
                 CompareTreeNode compareTreeNode =  childNode.getData();
 
                 if(!compareTreeNode.getFirstElement().trim().isEmpty()){
-                    compareTreeNode.setFirstElement(compareTreeNode.getFirthElement() + ":");
+                    compareTreeNode.setFirstElement(compareTreeNode.getFirstElement() + ":");
                 }
 
                 if(!compareTreeNode.getSecondElement().trim().isEmpty()){
@@ -118,7 +118,7 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
         tNode.setSecondElementItems(this.getListItems(secondElement));
         tNode.setThirdElementItems(this.getListItems(thirdElement));
         newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
-        if (!tNode.getFirthElement().equals(tNode.getSecondElement())){
+        if (!tNode.getFirstElement().equals(tNode.getSecondElement())){
             addNodeType(newNode, NODE_TYPE_COMPAREELEMENT);
         }
         else  if (!tNode.getSecondElement().equals(tNode.getThirdElement())){
