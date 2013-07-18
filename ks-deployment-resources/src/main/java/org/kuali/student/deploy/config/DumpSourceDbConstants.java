@@ -5,7 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.common.impex.DumpConfigConstants;
-import org.kuali.common.jdbc.config.JdbcConfigConstants;
+import org.kuali.common.jdbc.config.KualiJdbcConfig;
+import org.kuali.common.jdbc.config.KualiSqlConfig;
 import org.kuali.common.util.Str;
 import org.kuali.student.deploy.DeployProjectConstants;
 
@@ -30,9 +31,8 @@ public class DumpSourceDbConstants {
 
 	protected static List<String> getSourceDbConfigIds() {
 		List<String> ids = new ArrayList<String>();
-
-		// Add whatever kuali-jdbc says it needs
-		ids.addAll(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
+		ids.add(KualiSqlConfig.DEFAULT.getConfigId());
+		ids.add(KualiJdbcConfig.DEFAULT.getConfigId());
 
 		// Add whatever kuali-impex-export says it needs
 		ids.addAll(DumpConfigConstants.CONFIG_IDS);
