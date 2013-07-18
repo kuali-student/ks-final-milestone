@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -57,6 +58,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -1449,4 +1452,72 @@ public class AcademicCalendarController extends UifControllerBase {
         return dirtyFields;
 
     }
+
+    /**
+     * Override of the Krad lightbox return function to allow for returning to the controller without a redirect.
+     * Redirect causes a page refresh.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=returnFromLightbox")
+    public ModelAndView returnFromLightbox(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) {
+
+        String newMethodToCall = "";
+
+        // Save user responses from dialog
+        DialogManager dm = form.getDialogManager();
+        String dialogId = dm.getCurrentDialogId();
+        if (dialogId == null) {
+            // may have been invoked by client.
+            // TODO:  handle this case (scheduled for 2.2-m3)
+            // for now, log WARNING and default to start, can we add a growl?
+            newMethodToCall = "start";
+        } else {
+            dm.setDialogAnswer(dialogId, form.getDialogResponse());
+            dm.setDialogExplanation(dialogId, form.getDialogExplanation());
+            newMethodToCall = dm.getDialogReturnMethod(dialogId);
+            dm.setCurrentDialogId(null);
+        }
+
+        // KSENROLL Code Start
+        form.setMethodToCall(newMethodToCall);
+        // Attempt to return to the controller method directly
+        for(Method m:this.getClass().getMethods()) {
+            RequestMapping a = m.getAnnotation(RequestMapping.class);
+            if(a!=null){
+                String[] annotationsParams= a.params();
+                for(String param : annotationsParams){
+                    if(param.contains("methodToCall="+newMethodToCall)){
+                        try{
+                            return (ModelAndView) m.invoke(this,form,result,request,response);
+                        }catch(IllegalAccessException iae){
+                            LOG.error("Reflection Invocation failed",iae);
+                        }catch(InvocationTargetException ite){
+                            LOG.error("Reflection Invocation failed",ite);
+                        }catch(IllegalArgumentException iae){
+                            LOG.error("Reflection Invocation failed",iae);
+                        }
+                    }
+                }
+
+            }
+        }
+        // KSENROLL Code End
+
+        // call intended controller method
+        Properties props = new Properties();
+        props.put(UifParameters.METHOD_TO_CALL, newMethodToCall);
+        props.put(UifParameters.VIEW_ID, form.getViewId());
+        props.put(UifParameters.FORM_KEY, form.getFormKey());
+        props.put(UifParameters.AJAX_REQUEST, "false");
+
+        return performRedirect(form, form.getFormPostUrl(), props);
+    }
+
 }

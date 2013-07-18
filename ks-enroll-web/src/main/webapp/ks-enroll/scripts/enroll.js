@@ -1037,3 +1037,13 @@ function replaceCheckBoxWithRadio(containerId) {
         );
     });
 }
+
+/**
+ * Resets all dialog responses to unchecked
+ */
+function resetDialogResponses(){
+    var dialogResponses = jQuery('input.uif-dialogButtons');
+    for(i =0; i < dialogResponses.length; i++){
+        dialogResponses[i].checked=false;
+    }
+}

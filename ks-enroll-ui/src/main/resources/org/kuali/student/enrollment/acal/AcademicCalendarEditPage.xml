@@ -64,7 +64,7 @@ limitations under the License.
                 </bean>
             </list>
         </property>
-
+        <property name="onDocumentReadyScript" value="resetDialogResponses();"/>
         <property name="items">
             <list>
 
