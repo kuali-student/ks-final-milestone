@@ -146,7 +146,20 @@ public class AORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        doCompareRules(form);
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        AORuleManagementWrapper ruleWrapper = (AORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+
+        RuleEditor aoRuleEditor = ruleWrapper.getRuleEditor();
+        RuleEditor cluRuleEditor = null;
+        for (AgendaEditor agendaEditor : ruleWrapper.getCluAgendas()) {
+            if (agendaEditor.getRuleEditors().containsKey(aoRuleEditor.getTypeId())) {
+                AgendaEditor selectedAgendaEditor = agendaEditor;
+                cluRuleEditor = selectedAgendaEditor.getRuleEditors().get(aoRuleEditor.getTypeId());
+            }
+        }
+        //Build the compare rule tree
+        ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(aoRuleEditor, cluRuleEditor));
+        ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
 
         // redirect back to client to display lightbox
         return showDialog(KSKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO_AO, form, request, response);
@@ -224,40 +237,6 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         }
 
         return getUIFModelAndView(document);
-    }
-
-
-    /**
-     * Test method for a controller that invokes a dialog lightbox.
-     *
-     * @param form     - test form
-     * @param result   - Spring form binding result
-     * @param request  - http request
-     * @param response - http response
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping(params = "methodToCall=multiCompare")
-    public ModelAndView multiCompare(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        AORuleManagementWrapper ruleWrapper = (AORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-
-        RuleEditor aoRuleEditor = ruleWrapper.getRuleEditor();
-        RuleEditor cluRuleEditor = null;
-        for (AgendaEditor agendaEditor : ruleWrapper.getCluAgendas()) {
-            if (agendaEditor.getRuleEditors().containsKey(aoRuleEditor.getTypeId())) {
-                AgendaEditor selectedAgendaEditor = agendaEditor;
-                cluRuleEditor = selectedAgendaEditor.getRuleEditors().get(aoRuleEditor.getTypeId());
-            }
-        }
-        //Build the compare rule tree
-        ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(aoRuleEditor, cluRuleEditor));
-        ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
-
-        // redirect back to client to display lightbox
-        return showDialog(KSKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO_AO, form, request, response);
     }
 }
 

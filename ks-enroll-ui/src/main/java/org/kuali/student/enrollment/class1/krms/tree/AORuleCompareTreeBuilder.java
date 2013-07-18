@@ -157,10 +157,9 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
 
     private void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String coOpCode, String cluOpCode, String aoOpCode) {
         Node<CompareTreeNode, String> opNode = new Node<CompareTreeNode, String>();
-        if (!coOpCode.equals(cluOpCode)){
+        if (!coOpCode.equals(cluOpCode)) {
             opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
-        }
-else  if (!cluOpCode.equals(aoOpCode)){
+        } else if (!cluOpCode.equals(aoOpCode)) {
             opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
         }
         opNode.setData(new CompareTreeNode(coOpCode, cluOpCode,aoOpCode));
