@@ -26,54 +26,120 @@ import java.util.List;
  */
 public class CompareTreeNode implements Serializable {
 
-    private String original;
-    private List<String> originalItems;
-    private String compared;
-    private List<String> comparedItems;
+    private String firstElement;
+    private List<String> firstElementItems;
+    private String secondElement;
+    private List<String> secondElementItems;
+    private String thirdElement;
+    private List<String> thirdElementItems;
+    private String forthElement;
+    private List<String> forthElementItems;
+    private String firthElement;
+    private List<String> firthElementItems;
 
     public CompareTreeNode(){
     }
 
-    public CompareTreeNode(String original, String compared){
-        this.original = original;
-        this.compared = compared;
+    public CompareTreeNode(String firstElement, String secondElement, String thirdElement, String forthElement, String firthElement){
+        this.firstElement = firstElement;
+        this.secondElement = secondElement;
+        this.thirdElement = thirdElement;
+        this.forthElement = forthElement;
+        this.firthElement = firthElement;
     }
 
-    public String getOriginal() {
-        if((this.original == null) || (this.original.isEmpty())){
+    public String getFirstElement() {
+        if((this.firstElement == null) || (this.firstElement.isEmpty())){
             return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
         }
-        return original;
+        return firstElement;
     }
 
-    public void setOriginal(String original) {
-        this.original = original;
+    public void setFirstElement(String firstElement) {
+        this.firstElement = firstElement;
     }
 
-    public List<String> getOriginalItems() {
-        return originalItems;
+    public List<String> getFirstElementItems() {
+        return firstElementItems;
     }
 
-    public void setOriginalItems(List<String> originalItems) {
-        this.originalItems = originalItems;
+    public void setFirstElementItems(List<String> firstElementItems) {
+        this.firstElementItems = firstElementItems;
     }
 
-    public String getCompared() {
-        if((this.compared == null) || (this.compared.isEmpty())){
+    public String getSecondElement() {
+        if((this.secondElement == null) || (this.secondElement.isEmpty())){
             return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
         }
-        return compared;
+        return secondElement;
     }
 
-    public void setCompared(String compared) {
-        this.compared = compared;
+    public void setSecondElement(String secondElement) {
+        this.secondElement = secondElement;
     }
 
-    public List<String> getComparedItems() {
-        return comparedItems;
+    public List<String> getSecondElementItems() {
+        return secondElementItems;
     }
 
-    public void setComparedItems(List<String> comparedItems) {
-        this.comparedItems = comparedItems;
+    public void setSecondElementItems(List<String> secondElementItems) {
+        this.secondElementItems = secondElementItems;
+    }
+
+    public String getThirdElement() {
+        if((this.thirdElement == null) || (this.thirdElement.isEmpty())){
+            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+        }
+        return thirdElement;
+    }
+
+    public void setThirdElement(String thirdElement) {
+        this.thirdElement = thirdElement;
+    }
+
+    public List<String> getThirdElementItems() {
+        return thirdElementItems;
+    }
+
+    public void setThirdElementItems(List<String> thirdElementItems) {
+        this.thirdElementItems = thirdElementItems;
+    }
+
+    public String getForthElement() {
+        if((this.forthElement == null) || (this.forthElement.isEmpty())){
+            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+        }
+        return forthElement;
+    }
+
+    public void setForthElement(String forthElement) {
+        this.forthElement = forthElement;
+    }
+
+    public List<String> getForthElementItems() {
+        return forthElementItems;
+    }
+
+    public void setForthElementItems(List<String> forthElementItems) {
+        this.forthElementItems = forthElementItems;
+    }
+
+    public String getFirthElement() {
+        if((this.firthElement == null) || (this.firthElement.isEmpty())){
+            return org.apache.commons.lang.StringEscapeUtils.escapeHtml(" ");
+        }
+        return firthElement;
+    }
+
+    public void setFirthElement(String firthElement) {
+        this.firthElement = firthElement;
+    }
+
+    public List<String> getFirthElementItems() {
+        return firthElementItems;
+    }
+
+    public void setFirthElementItems(List<String> firthElementItems) {
+        this.firthElementItems = firthElementItems;
     }
 }

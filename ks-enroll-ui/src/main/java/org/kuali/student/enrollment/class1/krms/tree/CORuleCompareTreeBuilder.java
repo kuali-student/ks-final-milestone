@@ -41,8 +41,8 @@ import java.util.List;
 public class CORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
 
     @Override
-    public Tree<CompareTreeNode, String> buildTree(RuleEditor original, RuleEditor compare) {
-        Tree<CompareTreeNode, String> compareTree = super.buildTree(original, compare);
+    public Tree<CompareTreeNode, String> buildTree(RuleEditor firstElement, RuleEditor secondElement) {
+        Tree<CompareTreeNode, String> compareTree = super.buildTree(firstElement, secondElement);
 
         //Set data headers on root node.
         Node<CompareTreeNode, String> node = compareTree.getRootElement();
@@ -52,8 +52,8 @@ public class CORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
             // Set the headers on the first root child
             if (childNode.getData() != null) {
                 CompareTreeNode compareTreeNode = childNode.getData();
-                compareTreeNode.setOriginal("CO Rules");
-                compareTreeNode.setCompared("CLU Rules");
+                compareTreeNode.setFirstElement("CO Rules");
+                compareTreeNode.setSecondElement("CLU Rules");
             }
 
         }

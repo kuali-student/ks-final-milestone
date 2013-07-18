@@ -17,8 +17,6 @@ package org.kuali.student.enrollment.class1.krms.tree;
 
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
@@ -40,9 +38,8 @@ import java.util.List;
  */
 public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
 
-    @Override
-    public Tree<CompareTreeNode, String> buildTree(RuleEditor original, RuleEditor compare) {
-        Tree<CompareTreeNode, String> compareTree = super.buildTree(original, compare);
+    public Tree<CompareTreeNode, String> buildTree(RuleEditor firstElement, RuleEditor secondElement, RuleEditor thirdElement ) {
+        Tree<CompareTreeNode, String> compareTree = this.buildAOTree(firstElement, secondElement, thirdElement);
 
         //Set data headers on root node.
         Node<CompareTreeNode, String> node = compareTree.getRootElement();
@@ -52,8 +49,10 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
             // Set the headers on the first root child
             if (childNode.getData() != null) {
                 CompareTreeNode compareTreeNode = childNode.getData();
-                compareTreeNode.setOriginal("AO Rules");
-                compareTreeNode.setCompared("CO Rules");
+                compareTreeNode.setFirstElement("CO Rule");
+                compareTreeNode.setSecondElement("CLU Rules");
+                compareTreeNode.setThirdElement("AO Rules");
+
             }
 
         }
@@ -78,4 +77,95 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
         }
         return null;
     }
+    private Tree<CompareTreeNode, String> buildAOTree(RuleEditor firstElement, RuleEditor secondElement, RuleEditor thirdElement) {
+        Tree<CompareTreeNode, String> myTree = initCompareTree();
+        Node<CompareTreeNode, String> firstNode = myTree.getRootElement().getChildren().get(0);
+
+        //Add the nodes recursively.
+        addTreeNode(firstNode, getRootProposition(firstElement), getRootProposition(secondElement),getRootProposition(thirdElement) );
+
+        //Underline the first node in the preview.
+        if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)){
+            Node<CompareTreeNode, String> childNode = firstNode.getChildren().get(0);
+            if(childNode.getData() != null){
+                CompareTreeNode compareTreeNode =  childNode.getData();
+
+                if(!compareTreeNode.getFirstElement().trim().isEmpty()){
+                    compareTreeNode.setFirstElement(compareTreeNode.getFirthElement() + ":");
+                }
+
+                if(!compareTreeNode.getSecondElement().trim().isEmpty()){
+                    compareTreeNode.setSecondElement(compareTreeNode.getSecondElement() + ":");
+                }
+                if(!compareTreeNode.getThirdElement().trim().isEmpty()){
+                    compareTreeNode.setThirdElement(compareTreeNode.getThirdElement() + ":");
+                }
+            }
+        }
+
+        return myTree;
+    }
+
+
+    private void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionEditor firstElement, PropositionEditor secondElement, PropositionEditor thirdElement) {
+        if ((firstElement == null) && (secondElement == null) && (thirdElement == null)) {
+            return;
+        }
+
+        Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
+        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement),this.getDescription(thirdElement), null, null );
+        tNode.setFirstElementItems(this.getListItems(firstElement));
+        tNode.setSecondElementItems(this.getListItems(secondElement));
+        tNode.setThirdElementItems(this.getListItems(thirdElement));
+        newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
+        if (!tNode.getFirthElement().equals(tNode.getSecondElement())){
+            addNodeType(newNode, NODE_TYPE_COMPAREELEMENT);
+        }
+        else  if (!tNode.getSecondElement().equals(tNode.getThirdElement())){
+            addNodeType(newNode, NODE_TYPE_COMPAREELEMENT);
+        }
+        newNode.setData(tNode);
+        currentNode.getChildren().add(newNode);
+
+        this.addCompoundTreeNode(newNode, firstElement, secondElement, thirdElement);
+    }
+
+    private void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionEditor firstElement, PropositionEditor secondElement, PropositionEditor thirdElement) {
+
+        // Retrieve the opreator code of the propositions
+        String coOpCode = this.getLabelForOperator(firstElement);
+        String cluOpCode = this.getLabelForOperator(secondElement);
+        String aoOpCode = this.getLabelForOperator(thirdElement);
+
+        // Get the size of the biggest children list
+        int min = Math.max(getChildrenSize(firstElement), getChildrenSize(secondElement));
+        int size =  Math.max(min,getChildrenSize(thirdElement));
+        for (int i = 0; i < size; i++) {
+
+            // add an opcode node in between each of the children.
+            if (i>0) {
+                this.addOperatorTreeNode(newNode, coOpCode, cluOpCode,aoOpCode );
+            }
+
+            // call to build the childs node
+            addTreeNode(newNode, getChildForIndex(firstElement, i), getChildForIndex(secondElement, i), getChildForIndex(thirdElement, i));
+        }
+
+    }
+
+
+
+    private void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String coOpCode, String cluOpCode, String aoOpCode) {
+        Node<CompareTreeNode, String> opNode = new Node<CompareTreeNode, String>();
+        if (!coOpCode.equals(cluOpCode)){
+            opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
+        }
+else  if (!cluOpCode.equals(aoOpCode)){
+            opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
+        }
+        opNode.setData(new CompareTreeNode(coOpCode, cluOpCode,aoOpCode, null, null ));
+        newNode.getChildren().add(opNode);
+    }
+
+
 }

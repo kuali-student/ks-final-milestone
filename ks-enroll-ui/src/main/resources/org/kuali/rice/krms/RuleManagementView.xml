@@ -219,9 +219,9 @@ limitations under the License.
                         </property>
                         <property name="items">
                             <list>
-                                <bean parent="Uif-MessageField" p:messageText="@{#np.original}"
+                                <bean parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
                                       p:style="display: table-cell; width: 350px; margin: 1px;"/>
-                                <bean parent="Uif-MessageField" p:messageText="@{#np.compared}"
+                                <bean parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
                                       p:style="display: table-cell; width: 350px; margin: 1px;"/>
                             </list>
                         </property>
@@ -310,5 +310,61 @@ limitations under the License.
             </list>
         </property>
     </bean>
+    <!--Compare Link-->
+    <bean id="KRMS-AoCompareRule-parent" parent="Uif-VerticalBoxSection" p:style="width: 1250px;">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="KRMS-VerticalBoxSection">
+                    <property name="headerText" value="@{#dp.compareLightBoxHeader}"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="KRMS-AoCompareTree-Section"/>
+                        </list>
+                    </property>
 
+                    <property name="footer">
+                        <bean parent="Uif-FooterBase">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Close"
+                                          p:actionScript="jQuery.fancybox.close();"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-AoCompareRule" parent="KRMS-AoCompareRule-parent"/>
+
+    <bean id="KRMS-AoCompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 1200px;">
+        <property name="propertyName" value="compareTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-GroupBase" p:style="margin-left: 2em;">
+                        <property name="layoutManager">
+                            <bean parent="Uif-BoxLayoutBase" p:style="display: table; width: 1150px; margin: 1px;"/>
+                        </property>
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
+                                      p:style="display: table-cell; width: 350px; margin: 1px;"/>
+                                <bean parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
+                                      p:style="display: table-cell; width: 350px; margin: 1px;"/>
+                                <bean parent="Uif-MessageField" p:messageText="@{#np.thirdElement}"
+                                      p:style="display: table-cell; width: 350px; margin: 1px;"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KRMS-AoCompareTree-Section" parent="KRMS-AoCompareTree-Section-parent"/>
 </beans>

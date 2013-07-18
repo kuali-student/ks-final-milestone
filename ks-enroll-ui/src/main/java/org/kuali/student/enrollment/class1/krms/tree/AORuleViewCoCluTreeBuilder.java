@@ -39,8 +39,8 @@ import java.util.List;
 public class AORuleViewCoCluTreeBuilder extends RuleCompareTreeBuilder {
 
     @Override
-    public Tree<CompareTreeNode, String> buildTree(RuleEditor original, RuleEditor compare) {
-        Tree<CompareTreeNode, String> compareTree = super.buildTree(original, compare);
+    public Tree<CompareTreeNode, String> buildTree(RuleEditor firstElement, RuleEditor secondElement) {
+        Tree<CompareTreeNode, String> compareTree = super.buildTree(firstElement, secondElement);
 
         //Set data headers on root node.
         Node<CompareTreeNode, String> node = compareTree.getRootElement();
@@ -50,8 +50,8 @@ public class AORuleViewCoCluTreeBuilder extends RuleCompareTreeBuilder {
             // Set the headers on the first root child
             if (childNode.getData() != null) {
                 CompareTreeNode compareTreeNode = childNode.getData();
-                compareTreeNode.setOriginal("CO Rules");
-                compareTreeNode.setCompared("CLU Rules");
+                compareTreeNode.setFirstElement("CO Rules");
+                compareTreeNode.setSecondElement("CLU Rules");
             }
 
         }
@@ -78,27 +78,27 @@ public class AORuleViewCoCluTreeBuilder extends RuleCompareTreeBuilder {
     }
 
     @Override
-    protected void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionEditor original, PropositionEditor compared) {
-        if ((original == null) && (compared == null)) {
+    protected void addTreeNode(Node<CompareTreeNode, String> currentNode, PropositionEditor firstElement, PropositionEditor secondElement) {
+        if ((firstElement == null) && (secondElement == null)) {
             return;
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(original), this.getDescription(compared));
-        tNode.setOriginalItems(this.getListItems(original));
-        tNode.setComparedItems(this.getListItems(compared));
+        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement), null, null, null);
+        tNode.setFirstElementItems(this.getListItems(firstElement));
+        tNode.setSecondElementItems(this.getListItems(secondElement));
         newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
 
         newNode.setData(tNode);
         currentNode.getChildren().add(newNode);
 
-        this.addCompoundTreeNode(newNode, original, compared);
+        this.addCompoundTreeNode(newNode, firstElement, secondElement);
     }
 
     @Override
-    protected void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String originial, String compared) {
+    protected void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String firstElement, String secondElement) {
         Node<CompareTreeNode, String> opNode = new Node<CompareTreeNode, String>();
-        opNode.setData(new CompareTreeNode(originial, compared));
+        opNode.setData(new CompareTreeNode(firstElement, secondElement, null, null, null));
         newNode.getChildren().add(opNode);
     }
 }

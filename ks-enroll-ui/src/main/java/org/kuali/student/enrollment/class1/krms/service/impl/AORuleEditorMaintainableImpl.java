@@ -38,6 +38,7 @@ import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
+import org.kuali.student.enrollment.class1.krms.tree.AORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -142,7 +143,6 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
 
         dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
-
         return dataObject;
     }
 

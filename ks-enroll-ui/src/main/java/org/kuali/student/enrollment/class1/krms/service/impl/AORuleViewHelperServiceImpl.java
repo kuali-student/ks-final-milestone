@@ -16,10 +16,7 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krad.util.BeanPropertyComparator;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilder;
@@ -34,19 +31,12 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.tree.AORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.AORuleViewCoCluTreeBuilder;
-import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,7 +47,7 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
 
     private RulePreviewTreeBuilder previewTreeBuilder;
     private RuleViewTreeBuilder viewTreeBuilder;
-    private RuleCompareTreeBuilder compareTreeBuilder;
+    private AORuleCompareTreeBuilder compareTreeBuilder;
     private RuleCompareTreeBuilder viewCoCluTreeBuilder;
 
     /**
@@ -72,28 +62,33 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     /**
      * Builds compare tree for the compare AO and CLU lightbox links.
      *
-     * @param original
-     * @param compare
+     * @param aoRuleEditor
+     * @param cluRuleEditor
      * @return
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor aoRuleEditor, RuleEditor cluRuleEditor ) throws Exception {
 
         //Set the original nl if not already exists.
-        if (original.getProposition()!=null){
-            PropositionEditor originalRoot = original.getPropositionEditor();
+        if ((aoRuleEditor!=null) && (aoRuleEditor.getProposition()!=null)){
+            PropositionEditor originalRoot = aoRuleEditor.getPropositionEditor();
             if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
                 this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey());
             }
         }
-
         //Build the Tree
-        if((compare!=null)&&(compare.getProposition()!=null)){
-            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(compare.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        RuleEditor coCompare = aoRuleEditor.getParent();
+        if((coCompare!=null)&&(coCompare.getProposition()!=null)){
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(coCompare.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
         }
 
-        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(original, compare);
+        //Build the Tree
+        if((cluRuleEditor!=null)&&(cluRuleEditor.getProposition()!=null)){
+            this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(cluRuleEditor.getPropositionEditor(), this.getEditTreeBuilder().getNaturalLanguageUsageKey());
+        }
+
+        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(coCompare, cluRuleEditor, aoRuleEditor);
 
         return compareTree;
     }
@@ -200,7 +195,7 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         return viewTreeBuilder;
     }
 
-    protected RuleCompareTreeBuilder getCompareTreeBuilder() {
+    protected AORuleCompareTreeBuilder getCompareTreeBuilder() {
         if (compareTreeBuilder == null) {
             compareTreeBuilder = new AORuleCompareTreeBuilder();
             compareTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
@@ -215,5 +210,6 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         }
         return viewCoCluTreeBuilder;
     }
+
 
 }
