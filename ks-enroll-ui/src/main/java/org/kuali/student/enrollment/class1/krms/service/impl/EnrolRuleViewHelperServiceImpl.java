@@ -95,21 +95,34 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             EnrolPropositionEditor newProposition = (EnrolPropositionEditor) this.copyPropositionEditor(oldProposition);
 
             //Set the cluset to null to force the builder to create a new cluset.
-            if(newProposition.getCluSet()!=null){
-                newProposition.getCluSet().setCluSetInfo(null);
-            } else if(newProposition.getPropositionTypeCode().equals("C")) {
-                for(int i = 0; i < newProposition.getCompoundEditors().size(); i++) {
-                    EnrolPropositionEditor prop = (EnrolPropositionEditor) newProposition.getCompoundEditors().get(i);
-                    if(prop.getCluSet() != null) {
-                        prop.getCluSet().setCluSetInfo(null);
-                    }
-                }
-            }
+            nullifyCluSetInfo(newProposition);
 
             //Use a deepcopy to create new references to inner objects such as string.
             return (PropositionEditor) ObjectUtils.deepCopy(newProposition);
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    /**
+     * Method to recursively set proposition's cluSetInfo to null.
+     *
+     * @param propositionEditor
+     */
+    protected void nullifyCluSetInfo(EnrolPropositionEditor propositionEditor) {
+
+        //Set cluSetInfo recursively to null to force builder to create new cluset.
+        if(propositionEditor.getCluSet()!=null){
+            propositionEditor.getCluSet().setCluSetInfo(null);
+        } else if(propositionEditor.getPropositionTypeCode().equals("C")) {
+            for(int i = 0; i < propositionEditor.getCompoundEditors().size(); i++) {
+                EnrolPropositionEditor prop = (EnrolPropositionEditor) propositionEditor.getCompoundEditors().get(i);
+                if(prop.getCluSet() != null) {
+                    prop.getCluSet().setCluSetInfo(null);
+                } else if(prop.getPropositionTypeCode().equals("C")) {
+                    nullifyCluSetInfo(prop);
+                }
+            }
         }
     }
 
