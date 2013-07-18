@@ -155,7 +155,7 @@
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>ks-calendar-copy-from</value>
+                            <value>ks-holiday-calendar-copy-from</value>
                         </list>
                     </property>
                 </bean>
