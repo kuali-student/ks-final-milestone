@@ -11,7 +11,7 @@ public class SqlMetaInfPropertySourceConfig extends BuildPropertySourceConfig {
 
 	@Override
 	protected List<String> getConfigIds() {
-		return MetaInfConstants.SQL_METAINF_CONFIG_IDS;
+		return MetaInfConstants.METAINF_SQL_CONFIG_IDS;
 	}
 
 }
