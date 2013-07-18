@@ -16,8 +16,8 @@ public class UpdateScmPropertySourceConfig extends BuildPropertySourceConfig {
 	protected List<String> getConfigIds() {
 		List<String> list = new ArrayList<String>();
 		list.add(KualiUtilConfig.SCM.getConfigId());
-		list.add(KualiImpexExportConfig.STAGING_BUILD.getConfigId());
 		list.add(KualiImpexExportConfig.STAGING.getConfigId());
+		list.add(KualiImpexExportConfig.STAGING_BUILD.getConfigId());
 		list.add(KSDeploymentResourcesConfig.SOURCE_DB_STAGING.getConfigId());
 		return list;
 	}
