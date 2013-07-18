@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2012 The Kuali Foundation
+ * Copyright 2005-2013 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.course.keyvalues;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
@@ -29,9 +28,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -44,7 +41,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  * 
  * copy from 
- * ks-enroll-ui/src/main/java/org/kuali/student/enrollment/class1/krms/keyvalues/GradeScaleValuesFinder.java
+ * GradeScaleValuesFinder.java
  * 
  */
 
@@ -66,14 +63,14 @@ public class AssesmentKeyValueFinder extends KeyValuesBase {
         qBuilder.setPredicates(PredicateFactory.and(typePredicate, idPredicate));
         try
         {
-            List<ResultValuesGroupInfo> list = this.getLRCService().searchForResultValuesGroups(qBuilder.build(), getContextInfo());
+            List<ResultValuesGroupInfo> list = this.getLRCService().searchForResultValuesGroups(qBuilder.build(), ContextUtils.getContextInfo());
             if (list != null) {
                 for (ResultValuesGroupInfo info : list) {
                     keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
                 }
             }
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException("DB could not retrieve any Data for the request: "+ex);
         }
         return keyValues;
     }
@@ -86,17 +83,4 @@ public class AssesmentKeyValueFinder extends KeyValuesBase {
         }
         return lrcService;
     }
-
-    private ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-
-        return contextInfo;
-    }
-
 }

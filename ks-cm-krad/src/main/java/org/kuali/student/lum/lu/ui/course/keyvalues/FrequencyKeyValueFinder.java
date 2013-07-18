@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2012 The Kuali Foundation
+ * Copyright 2005-2013 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 
 /**
- * TODO remove Hardcoded
  * 
  * This is the helper class for CourseView
  * 
@@ -33,14 +32,12 @@ import org.kuali.rice.krad.uif.view.ViewModel;
  * 
  */
 public class FrequencyKeyValueFinder extends UifKeyValuesFinderBase { 
-
-
         @Override
         public List<KeyValue> getKeyValues(ViewModel model) {
             List<KeyValue> labels = new ArrayList<KeyValue>();
-            labels.add(new ConcreteKeyValue("1", "per Day"));
-            labels.add(new ConcreteKeyValue("2", "per Month"));
-            labels.add(new ConcreteKeyValue("3", "per week"));
+            labels.add(new ConcreteKeyValue("1", KeyValueConstants.PER_DAY_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue("2", KeyValueConstants.PER_MONTH_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue("3", KeyValueConstants.PER_WEEK_FREQUENCY_KEY));
             return labels;
         }
     

@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2012 The Kuali Foundation
+ * Copyright 2005-2013 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,16 +30,17 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
+
 /**
  * This is the helper class for CourseView
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class LogisticSchedulingKeyValuesFinder extends UifKeyValuesFinderBase{
-        
-    protected static final String COURSE_SCHEDULING_TERM_ENUM_KEY = "atp.queryParam.atpSeasonType";
+public class LogisticSchedulingKeyValuesFinder extends UifKeyValuesFinderBase {
+
     private static final long serialVersionUID = -1L;
 
     private transient EnumerationManagementService enumerationManagementService;
@@ -49,18 +50,19 @@ public class LogisticSchedulingKeyValuesFinder extends UifKeyValuesFinderBase{
 
         final List<KeyValue> options = new ArrayList<KeyValue>();
         try {
-            final List<EnumeratedValueInfo> enumerationInfos = 
-                getEnumerationManagementService().getEnumeratedValues
-                (COURSE_SCHEDULING_TERM_ENUM_KEY, null, null, null, ContextUtils.createDefaultContextInfo());
+            final List<EnumeratedValueInfo> enumerationInfos =
+                    getEnumerationManagementService().getEnumeratedValues
+                            (KeyValueConstants.COURSE_SCHEDULING_TERM_ENUM_KEY, null, null, null,
+                                    ContextUtils.getContextInfo());
 
             sort(enumerationInfos, new Comparator<EnumeratedValueInfo>() {
-                    @Override
-                    public int compare(final EnumeratedValueInfo o1, final EnumeratedValueInfo o2) {                        
-                        return o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
-                    }
-                });
-            
-            for(final EnumeratedValueInfo enumerationInfo : enumerationInfos) {
+                @Override
+                public int compare(final EnumeratedValueInfo o1, final EnumeratedValueInfo o2) {
+                    return o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
+                }
+            });
+
+            for (final EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                 options.add(new ConcreteKeyValue(enumerationInfo.getCode(), enumerationInfo.getValue()));
             }
         } catch (DoesNotExistException e) {
@@ -68,13 +70,15 @@ public class LogisticSchedulingKeyValuesFinder extends UifKeyValuesFinderBase{
         } catch (Exception e) {
             throw new RuntimeException("Error looking up Campus Locations", e);
         }
-        
+
         return options;
     }
 
     protected EnumerationManagementService getEnumerationManagementService() {
-        if(enumerationManagementService == null) {
-            enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/enumerationmanagement", "EnumerationManagementService"));
+        if (enumerationManagementService == null) {
+            enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName(
+                    EnumerationManagementServiceConstants.NAMESPACE,
+                    EnumerationManagementServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.enumerationManagementService;
     }

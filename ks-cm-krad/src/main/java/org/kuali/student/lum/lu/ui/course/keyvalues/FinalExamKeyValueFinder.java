@@ -1,5 +1,5 @@
 /**
- * Copyright 2012 The Kuali Foundation Licensed under the
+ * Copyright 2013 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -29,8 +29,8 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 
@@ -41,7 +41,7 @@ import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManage
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  * 
- * Copy from ks-enroll/ks-enroll-ui/src/main/java/org/kuali/student/enrollment/class2/courseoffering/keyvalue/FinalExamOptionsKeyValues.java
+ * Copy from FinalExamOptionsKeyValues.java
  * 
  */
 public class FinalExamKeyValueFinder extends UifKeyValuesFinderBase implements Serializable {
@@ -57,20 +57,18 @@ public class FinalExamKeyValueFinder extends UifKeyValuesFinderBase implements S
 
         try {
             List<EnumeratedValueInfo> enumerationInfos = getEnumerationManagementService().getEnumeratedValues(
-                    "kuali.lu.finalExam.status", null, null, null, ContextUtils.createDefaultContextInfo());
+                    KeyValueConstants.FINAL_EXAM_STATUS_ENUM_KEY, null, null, null, ContextUtils.getContextInfo());
             Collections.sort(enumerationInfos, new FinalExamComparator());
 
             for (EnumeratedValueInfo enumerationInfo : enumerationInfos) {
-                if (enumerationInfo.getCode().equals("ALT")) {
-                    keyValues.add(new ConcreteKeyValue("ALTERNATE", enumerationInfo.getValue()));
-                } else if (enumerationInfo.getCode().equals("None")) {
-                    keyValues.add(new ConcreteKeyValue("NONE", enumerationInfo.getValue()));
-                } else if (enumerationInfo.getCode().equals("STD")) {
-                    keyValues.add(new ConcreteKeyValue("STANDARD", enumerationInfo.getValue()));
+                if (enumerationInfo.getCode().equals(KeyValueConstants.ALT_EXAM_FINAL_ENUM_KEY)) {
+                    keyValues.add(new ConcreteKeyValue(KeyValueConstants.ALTERNATIVE_STRING_EXAM_FINAL_ENUM, enumerationInfo.getValue()));
+                } else if (enumerationInfo.getCode().equals(KeyValueConstants.NONE_EXAM_ENUM_KEY)) {
+                    keyValues.add(new ConcreteKeyValue(KeyValueConstants.NONE_STRING_EXAM_ENUM, enumerationInfo.getValue()));
+                } else if (enumerationInfo.getCode().equals(KeyValueConstants.STD_EXAM_FINAL_ENUM_KEY)) {
+                    keyValues.add(new ConcreteKeyValue(KeyValueConstants.STANDARD_STRING_EXAM_ENUM, enumerationInfo.getValue()));
                 }
             }
-        } catch (DoesNotExistException e) {
-            throw new RuntimeException("No subject areas found! There should be some in the database", e);
         } catch (Exception e) {
             throw new RuntimeException("Error looking up Subject Areas", e);
         }
@@ -81,22 +79,17 @@ public class FinalExamKeyValueFinder extends UifKeyValuesFinderBase implements S
     protected EnumerationManagementService getEnumerationManagementService() {
         if (enumerationManagementService == null) {
             enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName(
-                    "http://student.kuali.org/wsdl/enumerationmanagement", "EnumerationManagementService"));
+                    EnumerationManagementServiceConstants.NAMESPACE, EnumerationManagementServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.enumerationManagementService;
     }
 
-    private static class FinalExamComparator implements Comparator, Serializable {
+    private static class FinalExamComparator implements Comparator<EnumeratedValueInfo> {
 
         @Override
-        public int compare(Object o1, Object o2) {
-            if (!(o1 instanceof EnumeratedValueInfo) || !(o2 instanceof EnumeratedValueInfo)) {
-                throw new ClassCastException("Object not of type EnumeratedValueInfo.");
-            }
-            EnumeratedValueInfo enumeratedValue1 = (EnumeratedValueInfo) o1;
-            EnumeratedValueInfo enumeratedValue2 = (EnumeratedValueInfo) o2;
+        public int compare(EnumeratedValueInfo o1, EnumeratedValueInfo o2) {
 
-            int result = enumeratedValue1.getSortKey().compareToIgnoreCase(enumeratedValue2.getSortKey());
+            int result = o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
             return result;
         }
     }

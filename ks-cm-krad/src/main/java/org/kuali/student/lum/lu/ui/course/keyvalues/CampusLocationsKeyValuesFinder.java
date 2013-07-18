@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2012 The Kuali Foundation
+ * Copyright 2005-2013 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,11 @@
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -26,11 +29,9 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
-import javax.xml.namespace.QName;
-
-import static java.util.Collections.sort;
 
 /**
  * Campus location values finder
@@ -39,9 +40,7 @@ import static java.util.Collections.sort;
  */
 
 public class CampusLocationsKeyValuesFinder extends UifKeyValuesFinderBase {
-    protected static final String CAMPUS_LOCATION_ENUM_KEY = "kuali.lu.campusLocation";
     private static final long serialVersionUID = -1L;
-
     private transient EnumerationManagementService enumerationManagementService;
 
     @Override
@@ -49,18 +48,13 @@ public class CampusLocationsKeyValuesFinder extends UifKeyValuesFinderBase {
 
         final List<KeyValue> options = new ArrayList<KeyValue>();
         try {
-            final List<EnumeratedValueInfo> enumerationInfos = 
-                getEnumerationManagementService().getEnumeratedValues
-                (CAMPUS_LOCATION_ENUM_KEY, null, null, null, ContextUtils.createDefaultContextInfo());
-
-            sort(enumerationInfos, new Comparator<EnumeratedValueInfo>() {
-                    @Override
-                    public int compare(final EnumeratedValueInfo o1, final EnumeratedValueInfo o2) {                        
-                        return o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
-                    }
-                });
+            final List<EnumeratedValueInfo> enumerationInfos =
+                    getEnumerationManagementService().getEnumeratedValues
+                            (KeyValueConstants.CAMPUS_LOCATION_ENUM_KEY, null, null, null, ContextUtils.createDefaultContextInfo());
             
-            for(final EnumeratedValueInfo enumerationInfo : enumerationInfos) {
+            Collections.sort(enumerationInfos, new FinalExamComparator());
+
+            for (final EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                 options.add(new ConcreteKeyValue(enumerationInfo.getCode(), enumerationInfo.getValue()));
             }
         } catch (DoesNotExistException e) {
@@ -68,13 +62,24 @@ public class CampusLocationsKeyValuesFinder extends UifKeyValuesFinderBase {
         } catch (Exception e) {
             throw new RuntimeException("Error looking up Campus Locations", e);
         }
-        
+
         return options;
     }
 
+    private static class FinalExamComparator implements Comparator<EnumeratedValueInfo> {
+
+        @Override
+        public int compare(EnumeratedValueInfo o1, EnumeratedValueInfo o2) {
+            int result = o1.getSortKey().compareToIgnoreCase(o2.getSortKey());
+            return result;
+        }
+    }
+
     protected EnumerationManagementService getEnumerationManagementService() {
-        if(enumerationManagementService == null) {
-            enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/enumerationmanagement", "EnumerationManagementService"));
+        if (enumerationManagementService == null) {
+            enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName(
+                    EnumerationManagementServiceConstants.NAMESPACE,
+                    EnumerationManagementServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.enumerationManagementService;
     }

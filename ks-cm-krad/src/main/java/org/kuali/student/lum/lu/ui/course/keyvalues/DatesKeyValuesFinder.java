@@ -1,5 +1,5 @@
 /**
- * Copyright 2005-2012 The Kuali Foundation
+ * Copyright 2005-2013 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
@@ -30,9 +29,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -59,7 +56,7 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
         
         QueryByCriteria qbc = qbcBuilder.build();
         try {
-            List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc, getContextInfo());
+            List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc,ContextUtils.createDefaultContextInfo());
 
             Collections.sort(searchResult, new Comparator<AtpInfo>() {
                 public int compare(AtpInfo m1, AtpInfo m2) {
@@ -71,7 +68,7 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
                 keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
             }
         } catch (Exception ex) {
-            throw new RuntimeException(ex);
+            throw new RuntimeException("Could not retrieve the ATP duration Dates: "+ex);
         }
         return keyValues;
     }
@@ -83,17 +80,5 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
             atpService = (AtpService) GlobalResourceLoader.getService(qname);
         }
         return atpService;
-    }
-
-    private ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-
-        return contextInfo;
     }
 }

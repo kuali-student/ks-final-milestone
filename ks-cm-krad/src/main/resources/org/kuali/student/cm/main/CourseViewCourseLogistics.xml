@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+<!-- Copyright 2007-2013 The Kuali Foundation Licensed under the Educational 
 	Community License, Version 2.0 (the "License"); you may not use this file 
 	except in compliance with the License. You may obtain a copy of the License 
 	at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
@@ -237,10 +237,14 @@
 			<bean parent="Uif-Help"
 				p:tooltipHelpContent="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats." />
 		</property>
-		<property name="renderAddBlankLineButton" value="true" />
 		<property name="layoutManager.summaryTitle" value="Activity" />
 		<property name="addLinePlacement" value="BOTTOM" />
-<!-- 		<property name="addBlankLineAction.actionLabel" value="Add" /> -->
+<!-- 		<property name="addBlankLineAction.actionLabel" value="" /> -->
+		<property name="addLineLabel">
+            <bean parent="Uif-Label">
+                <property name="labelText" value="Add Additional Format"/>
+            </bean>
+        </property>
 		<property name="subCollections">
 			<list>
 				<bean parent="Uif-StackedSubCollection-WithinSection"
