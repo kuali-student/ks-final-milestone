@@ -5,25 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.common.jdbc.config.JdbcConfigConstants;
-import org.kuali.common.util.Str;
-import org.kuali.common.util.metainf.SqlMetaInfConstants;
-import org.kuali.student.deploy.DeployProjectConstants;
+import org.kuali.common.util.config.KualiUtilConfig;
 
 public class InitSourceDbConstants {
-
-	// Shorthand for GroupId + ArtifactId
-	private static final String GA = Str.getId(DeployProjectConstants.GROUP_ID, DeployProjectConstants.ARTIFACT_ID);
-
-	// Config related to initializing something
-	// TODO Move to kuali-impex-export?
-	public static final String INITIALIZE = "initialize";
-
-	// Config related to initializing a source database
-	// TODO Move to kuali-impex-export?
-	public static final String SOURCE_DB_CONTEXT_ID = Str.getId(SourceDbConstants.SOURCE_DB, INITIALIZE);
-
-	// Fully qualified config id related to initializing KS_SOURCE_DB
-	public static final String SOURCE_DB_CONFIG_ID = Str.getId(GA, SOURCE_DB_CONTEXT_ID);
 
 	// The complete list of configId's needed to initialize KS_SOURCE_DB
 	public static final List<String> SOURCE_DB_CONFIG_IDS = getSourceDbConfigIds();
@@ -35,10 +19,12 @@ public class InitSourceDbConstants {
 		ids.addAll(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
 
 		// Re-use properties from org.kuali.common:kuali-util:metainf:sql that helped create the .resources files
-		ids.addAll(SqlMetaInfConstants.CONFIG_IDS);
+		ids.add(KualiUtilConfig.METAINF_SQL.getConfigId());
 
 		// KS specific config for connecting to Amazon RDS
-		ids.add(SOURCE_DB_CONFIG_ID);
+		ids.add(KSDeploymentResourcesConfig.SOURCE_DB_INIT.getConfigId());
+
+		// Make sure the list is read-only
 		return Collections.unmodifiableList(ids);
 	}
 
