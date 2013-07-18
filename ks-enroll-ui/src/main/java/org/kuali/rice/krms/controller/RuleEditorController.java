@@ -999,27 +999,11 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 this.getViewHelper(form).resetDescription(proposition);
             }
         }
-
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         //Replace edited rule with existing rule.
         RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper((MaintenanceDocumentForm) form);
         AgendaEditor agendaEditor = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleEditor.getKey());
-
-        //If all propositions deleted from rule, create dummy rule and persist rule.
-        if(ruleEditor.getProposition() == null && ruleEditor.getPropId() == null) {
-            if (agendaEditor != null) {
-                //Only add rules to delete list that are already persisted.
-                if (ruleEditor.getId() != null) {
-                    agendaEditor.getDeletedRules().add(ruleEditor);
-                }
-
-                RuleEditor dummyRule = new RuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
-                dummyRule.setParent(ruleEditor.getParent());
-                ruleEditor = dummyRule;
-            }
-        }
-
         agendaEditor.getRuleEditors().put(ruleEditor.getKey(), ruleEditor);
 
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
