@@ -424,7 +424,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"/>
-                                    <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
+                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
                                 </list>
                             </property>
                         </bean>
