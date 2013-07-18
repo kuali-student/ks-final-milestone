@@ -123,7 +123,9 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<EnrolPropos
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "multipleCourseType");
             GlobalVariables.getMessageMap().putError(propName, KSKRMSConstants.KSKRMS_MSG_ERROR_MULTICOURSE_REQUIRED);
         }
-        if(cluSet.getClus().size()==1){
+
+        //Add warning message if only a single clu is added to the cluset, and no other clusets or cluranges are added.
+        if((cluSet.getClus().size()==1)&&(cluSet.getCluSets().isEmpty())&&(cluSet.getCluSetRanges().isEmpty())){
             GlobalVariables.getMessageMap().putWarningForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KSKRMSConstants.KSKRMS_MSG_WARNING_MULTICOURSE_PLURAL);
         }
     }
