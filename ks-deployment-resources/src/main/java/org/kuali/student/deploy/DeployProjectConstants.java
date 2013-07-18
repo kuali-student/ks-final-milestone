@@ -1,7 +1,6 @@
 package org.kuali.student.deploy;
 
 import org.kuali.common.util.KualiProjectConstants;
-import org.kuali.common.util.ProjectUtils;
 import org.kuali.common.util.project.ImmutableProject;
 
 public abstract class DeployProjectConstants {
@@ -24,7 +23,7 @@ public abstract class DeployProjectConstants {
 	public static final String GROUP_ID_BASE = GROUP_ID;
 
 	@Deprecated
-	public static final String KS_SOURCE_DB_RESOURCE_PREFIX = ProjectUtils.getClassPathPrefix(GROUP_ID, KS_SOURCE_DB_ARTIFACT_ID);
+	public static final String KS_SOURCE_DB_RESOURCE_PREFIX = null;// ProjectUtils.getClassPathPrefix(GROUP_ID, KS_SOURCE_DB_ARTIFACT_ID);
 
 	@Deprecated
 	public static final String KS_SOURCE_DB_COMMON = KS_SOURCE_DB_RESOURCE_PREFIX + "/common.properties";
