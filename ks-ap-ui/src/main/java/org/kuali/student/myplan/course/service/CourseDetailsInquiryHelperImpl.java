@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.rice.ksb.service.KSBServiceLocator;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -356,25 +356,10 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			courseDetails
 					.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
 							course, termIds));
-		else {
-			// when caching is in place, this will trigger the section details
-			// search
-			// causing details to be preloaded
-			KSBServiceLocator.getThreadPool().submit(new Runnable() {
-				@Override
-				public void run() {
-					getCourseOfferingInstitutions(course, termIds);
-				}
-
-				@Override
-				public String toString() {
-					return "section preload " + course + " " + termIds;
-				}
-			});
+		else
 			courseDetails
 					.setCourseOfferingInstitutionList(new java.util.ArrayList<CourseOfferingInstitution>(
 							0));
-		}
 
 		// Course Plan + Academic Records
 		courseDetails.setPlannedCourseSummary(getPlannedCourseSummary(course,
@@ -440,6 +425,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 									.getContextInfo());
 			if (plans.size() > 0) {
 				LearningPlan plan = plans.get(0);
+				plannedCourseSummary.setLearningPlanId(plan.getId());
 
 				// Fetch the plan items which are associated with the plan.
 				List<PlanItemInfo> planItemsInPlan = academicPlanService
@@ -624,16 +610,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		Map<String, Map<String, PlanItem>> planItemsByTerm = loadStudentsPlanItems();
 
-		// Map<YearTerm, String> atpIdByYearTerm = new
-		// java.util.HashMap<YearTerm, String>();
-		// List<YearTerm> ytList = new ArrayList<YearTerm>();
-		// for (String term : terms) {
-		// YearTerm yt = KsapFrameworkServiceLocator.getTermHelper()
-		// .getYearTerm(term);
-		// ytList.add(yt);
-		// atpIdByYearTerm.put(yt, term);
-		// }
-		// Collections.sort(ytList, Collections.reverseOrder());
 		Collections.sort(terms);
 		for (String termId : terms) {
 			// String termId = atpIdByYearTerm.get(yt);
@@ -855,9 +831,34 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		List<ActivityOfferingItem> rv = new java.util.ArrayList<ActivityOfferingItem>(
 				c);
+		Collections.sort(rv, new Comparator<ActivityOfferingItem>() {
+			@Override
+			public int compare(ActivityOfferingItem o1, ActivityOfferingItem o2) {
+				if (o1 == null && o2 == null)
+					return 0;
+				if (o1 == null)
+					return -1;
+				if (o2 == null)
+					return 1;
+				String l1 = o1.getLuiId(), l2 = o2.getLuiId();
+				if (l1 == null && l2 == null)
+					return 0;
+				if (l1 == null)
+					return -1;
+				if (l2 == null)
+					return 1;
+				return l1.compareTo(l2);
+			}
+		});
 		for (List<ActivityOfferingItem> aol : activityOfferingItemsByPrimary
-				.values())
-			rv.addAll(aol);
+				.values()) {
+			for (ActivityOfferingItem ao : aol)
+				if (ao.isPrimary())
+					rv.add(ao);
+			for (ActivityOfferingItem ao : aol)
+				if (!ao.isPrimary())
+					rv.add(ao);
+		}
 		return rv;
 	}
 
@@ -981,6 +982,11 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 			if ("SectionComments".equalsIgnoreCase(key)) {
 				activity.setSectionComments(value);
+				continue;
+			}
+
+			if ("OtherInformation".equalsIgnoreCase(key)) {
+				activity.setOtherInformation(value);
 				continue;
 			}
 

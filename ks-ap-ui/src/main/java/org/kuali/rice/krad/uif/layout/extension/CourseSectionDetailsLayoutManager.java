@@ -43,21 +43,25 @@ public class CourseSectionDetailsLayoutManager extends TableLayoutManager {
 			StringBuilder r1css = new StringBuilder();
 			r1css.append("row");
 			r1css.append(aoi.isPrimary() ? " primary" : " secondary");
-			if (!LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(aoi
-					.getStateKey()))
+			boolean offered = LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY
+					.equals(aoi.getStateKey());
+			if (!offered)
 				r1css.append(" fl-text-lightgray");
-			StringBuilder r2css = new StringBuilder();
-			if (!aoi.isPrimary())
+			StringBuilder r2css = offered ? new StringBuilder() : null;
+			if (offered && !aoi.isPrimary())
 				r2css.append("collapsible");
 			if (aoi.getPlanItemId() != null) {
-				r1css.append(r2css.length() == 0 ? " " : "").append(
+				r1css.append(r1css.length() == 0 ? " " : "").append(
 						"myplan-section-planned");
-				r2css.append(r2css.length() == 0 ? " " : "").append(
-						"myplan-section-planned");
+				if (offered)
+					r2css.append(r2css.length() == 0 ? " " : "").append(
+							"myplan-section-planned");
 			}
 			rowCss.add(r1css.toString());
-			rowCss.add(r2css.toString());
-			rowCss.add(r2css.toString());
+			if (offered) {
+				rowCss.add(r2css.toString());
+				rowCss.add(r2css.toString());
+			}
 			if (LOG.isDebugEnabled())
 				LOG.debug("AO luiId " + aoi.getLuiId() + " lineIndex = "
 						+ lineIndex + " css(1) " + r1css.toString()

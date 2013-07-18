@@ -243,7 +243,7 @@ function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, clo
         		.attr("name", "script")
         		.attr("data-for", nlid)
         		.val(function (index, value) {
-            return value.replace("'" + linkId + "'", "'" + nlid + "'");
+            return value.replace(linkId, nlid);
         });
         jQuery(this).attr("id", nlid);
         jQuery.each(jQuery(target).data(), function (key, value) {

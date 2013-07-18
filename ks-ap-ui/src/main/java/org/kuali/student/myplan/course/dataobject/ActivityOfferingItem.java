@@ -54,6 +54,7 @@ public class ActivityOfferingItem implements Serializable {
 	private boolean independentStudy;
 	private String gradingOption;
 	private String sectionComments;
+	private String otherInformation;
 	private String summerTerm;
 
 	private String planItemId;
@@ -353,6 +354,14 @@ public class ActivityOfferingItem implements Serializable {
 		this.sectionComments = sectionComments;
 	}
 
+	public String getOtherInformation() {
+		return otherInformation;
+	}
+
+	public void setOtherInformation(String otherInformation) {
+		this.otherInformation = otherInformation;
+	}
+
 	public String getInstituteCode() {
 		return instituteCode;
 	}
@@ -414,6 +423,10 @@ public class ActivityOfferingItem implements Serializable {
 	}
 
 	public ActivityOfferingItem getActivityItem() {
+		return this;
+	}
+	
+	public ActivityOfferingItem getOtherInformationActivity() {
 		return this;
 	}
 

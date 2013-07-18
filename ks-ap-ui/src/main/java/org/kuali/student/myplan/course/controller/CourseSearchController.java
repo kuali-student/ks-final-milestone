@@ -350,6 +350,7 @@ public class CourseSearchController extends UifControllerBase {
 	 */
 	public static class FormKey {
 		private final List<String> criteria;
+		private final boolean savedCourses;
 
 		public FormKey(CourseSearchForm f) {
 			List<String> c = new ArrayList<String>();
@@ -357,6 +358,7 @@ public class CourseSearchController extends UifControllerBase {
 			c.add(f.getSearchTerm());
 			c.addAll(f.getCampusSelect());
 			c.addAll(f.getAdditionalCriteria());
+			savedCourses = f.isSavedCourses();
 			criteria = Collections.unmodifiableList(c);
 		}
 
@@ -366,6 +368,7 @@ public class CourseSearchController extends UifControllerBase {
 			int result = 1;
 			result = prime * result
 					+ ((criteria == null) ? 0 : criteria.hashCode());
+			result = prime * result + (savedCourses ? 1231 : 1237);
 			return result;
 		}
 
@@ -383,8 +386,11 @@ public class CourseSearchController extends UifControllerBase {
 					return false;
 			} else if (!criteria.equals(other.criteria))
 				return false;
+			if (savedCourses != other.savedCourses)
+				return false;
 			return true;
 		}
+
 	}
 
 	/**
@@ -1178,6 +1184,14 @@ public class CourseSearchController extends UifControllerBase {
 	 */
 	private SessionSearchInfo getSearchResults(FormKey k,
 			Callable<SessionSearchInfo> search, HttpServletRequest request) {
+		if (k.savedCourses) // don't cache saved course searches
+			try {
+				return search.call();
+			} catch (RuntimeException e) {
+				throw e;
+			} catch (Exception e) {
+				throw new IllegalStateException("search failed", e);
+			}
 		// Check HTTP session for cached search results
 		@SuppressWarnings("unchecked")
 		Map<FormKey, SessionSearchInfo> results = (Map<FormKey, SessionSearchInfo>) request
@@ -1397,26 +1411,6 @@ public class CourseSearchController extends UifControllerBase {
 				cs.add((String) null);
 			aaData.add(cs);
 		}
-		// when caching is in place, this will trigger the section details search
-		// causing details to be preloaded
-		KSBServiceLocator.getThreadPool().submit(new Runnable() {
-			@Override
-			public void run() {
-				CourseDetailsInquiryHelperImpl iq = new CourseDetailsInquiryHelperImpl();
-				for (String courseId : courseIds)
-					try {
-						iq.retrieveCourseSummaryById(courseId);
-					} catch (Exception e) {
-						LOG.error("Invalid course ID in preload task "
-								+ courseId, e);
-					}
-			}
-
-			@Override
-			public String toString() {
-				return "course search preload task " + courseIds;
-			}
-		});
 		json.put("aaData", aaData);
 		String jsonString = mapper.writeValueAsString(json);
 		if (LOG.isDebugEnabled())

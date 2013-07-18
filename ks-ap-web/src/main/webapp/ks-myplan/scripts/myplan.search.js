@@ -314,7 +314,8 @@ function fnClickFacet(sFilter, fcol, e) {
 function fnGenerateFacetGroup(obj) {
 	var fcol = obj.attr("id");
 	var oData = oFacets.oFacetState[fcol];
-	var jFacets = obj.find(".uif-disclosureContent .uif-boxLayout");
+	var jFacets = obj.find(".uif-disclosureContent");
+	jFacets.empty();
 	var bOne = false; // exactly one facet value
 	var bMore = false; // more than one facet value
 	for (key in oData)

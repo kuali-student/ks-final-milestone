@@ -21,7 +21,7 @@
 
     <bean id="quarter_facet_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
-          <bean parent="MyPlan-Tooltip-Left" p:tooltipContent="Projected courses indicate which quarter the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Time Schedule."/>
+          <bean parent="MyPlan-Tooltip-Left" p:tooltipContent="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
         </property>
     </bean>
 
@@ -213,15 +213,15 @@
     <bean id="course_requisite_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="&lt;strong&gt;Prerequisite&lt;/strong&gt; - a course that must be completed satisfactorily before you can take the course in question. &lt;/br&gt; &lt;/br&gt;
-                                    &lt;strong&gt;Co-requisite&lt;/strong&gt; - a course that must be taken at the same time as the course in question.Co-requisites are sometimes listed in the Time Schedule as &quot;concurrent registration required in....&quot;"/>
+                  p:tooltipContent="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_TOOLTOP_COREQ_TEXT')}
+                                    #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_TOOLTOP_PREREQ_TEXT')}"/>
         </property>
     </bean>
 
     <bean id="course_quarter_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="Projected courses indicate which quarter the course might be offered next. Contact the department for verification. Scheduled courses appear in the current Time Schedule. "/>
+                  p:tooltipContent="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
         </property>
     </bean>
 
@@ -237,14 +237,7 @@
     <bean id="course_gened_help_icon" parent="MyPlanHelpImage">
         <property name="toolTip">
             <bean parent="MyPlan-Tooltip-Left"
-                  p:tooltipContent="&lt;strong&gt;General Education Requirements&lt;/strong&gt; &lt;/br&gt;
-                                                                 &lt;strong&gt;C&lt;/strong&gt; - English Composition&lt;/br&gt;
-                                                                 &lt;strong&gt;W&lt;/strong&gt; - Additional Writing&lt;/br&gt;
-                                                                 &lt;strong&gt;Q&lt;/strong&gt; - Quantitative and Symbolic Reasoning&lt;/br&gt;
-                                                                 &lt;strong&gt;VLPA&lt;/strong&gt;  - Visual, Literary, and Performing Arts&lt;/br&gt;
-                                                                 &lt;strong&gt;I&amp;S&lt;/strong&gt; - Individuals and Societies&lt;/br&gt;
-                                                                 &lt;strong&gt;NW&lt;/strong&gt; - Natural World&lt;/br&gt;
-                                                                 &lt;strong&gt;None&lt;/strong&gt; - Does not count towards General Education Requirements"/>
+                  p:tooltipContent="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_GENED_TOOLTIP_TEXT')}"/>
         </property>
     </bean>
 
@@ -255,8 +248,6 @@
                   &lt;strong&gt;ENRL. RESTR.&lt;/strong&gt; = applicable enrollment restrictions for each section&lt;/br&gt;
                   &lt;strong&gt;OTHER&lt;/strong&gt; = additional information for each section&lt;/br&gt;
                   &lt;strong&gt;PCE&lt;/strong&gt; = Professional &amp; Continuing Education&lt;/br&gt;
-                  &lt;/br&gt;
-                  &lt;a href=javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/#1308');&gt;Learn more about section details.&lt;/a&gt;
                   "/>
         </property>
     </bean>

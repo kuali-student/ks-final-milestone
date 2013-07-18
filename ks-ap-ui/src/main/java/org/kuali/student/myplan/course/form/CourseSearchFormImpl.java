@@ -29,6 +29,7 @@ public class CourseSearchFormImpl extends UifFormBase implements
 	private String searchQuery;
 	private String searchTerm = SEARCH_TERM_ANY_ITEM;
 	private List<String> campusSelect;
+	private boolean savedCourses;
 
 	@Override
 	public String getSearchQuery() {
@@ -67,6 +68,15 @@ public class CourseSearchFormImpl extends UifFormBase implements
 	}
 
 	@Override
+	public boolean isSavedCourses() {
+		return savedCourses;
+	}
+
+	public void setSavedCourses(boolean savedCourses) {
+		this.savedCourses = savedCourses;
+	}
+
+	@Override
 	public List<String> getAdditionalCriteria() {
 		return Collections.emptyList();
 	}
@@ -77,10 +87,13 @@ public class CourseSearchFormImpl extends UifFormBase implements
 		int result = 1;
 		result = prime * result
 				+ ((campusSelect == null) ? 0 : campusSelect.hashCode());
+		result = prime * result + (savedCourses ? 1231 : 1237);
 		result = prime * result
 				+ ((searchQuery == null) ? 0 : searchQuery.hashCode());
 		result = prime * result
 				+ ((searchTerm == null) ? 0 : searchTerm.hashCode());
+		List<String> addl = getAdditionalCriteria();
+		result = prime * result + ((addl == null) ? 0 : addl.hashCode());
 		return result;
 	}
 
@@ -98,6 +111,8 @@ public class CourseSearchFormImpl extends UifFormBase implements
 				return false;
 		} else if (!campusSelect.equals(other.campusSelect))
 			return false;
+		if (savedCourses != other.savedCourses)
+			return false;
 		if (searchQuery == null) {
 			if (other.searchQuery != null)
 				return false;
@@ -108,14 +123,14 @@ public class CourseSearchFormImpl extends UifFormBase implements
 				return false;
 		} else if (!searchTerm.equals(other.searchTerm))
 			return false;
+		List<String> addl = getAdditionalCriteria();
+		List<String> oaddl = other.getAdditionalCriteria();
+		if (addl == null) {
+			if (oaddl != null)
+				return false;
+		} else if (!addl.equals(oaddl))
+			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "CourseSearchFormImpl [searchQuery=" + searchQuery
-				+ ", searchTerm=" + searchTerm + ", campusSelect="
-				+ campusSelect + "]";
 	}
 
 }

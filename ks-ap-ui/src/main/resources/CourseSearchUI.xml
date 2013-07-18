@@ -95,7 +95,7 @@
 
 	<bean id="course_search_criteria_input" parent="course_search_criteria_input-parent" />
 	<bean id="course_search_criteria_input-parent" parent="Uif-TextControl"
-		p:watermarkText="e.g. COM, Math 124, ENGL 1XX, sun">
+		p:watermarkText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('SEARCH_SEARCHTERMS_PLACEHOLDER_TEXT')}">
 		<property name="onDocumentReadyScript"
 			value="
         	if (jQuery('#text_searchQuery_control').val() != '') {
@@ -143,6 +143,13 @@
 		</property>
 	</bean>
 
+	<bean id="hidden_savedCourses" parent="Uif-InputField" p:propertyName="savedCourses"
+		p:fieldLabel.renderColon="false">
+		<property name="control">
+			<bean parent="Uif-HiddenControl" />
+		</property>
+	</bean>
+
 	<bean id="select_searchTerm" parent="Uif-InputField"
 		p:propertyName="searchTerm" p:label="in" p:fieldLabel.renderColon="false"
 		p:validationMessages.render="false">
@@ -173,6 +180,7 @@
 			<list>
 				<ref bean="text_searchQuery" />
 				<ref bean="select_searchTerm" />
+				<ref bean="hidden_savedCourses" />
 				<bean p:id="searchForCourses" parent="Uif-PrimaryActionButton"
 					p:actionLabel="Search" p:disabled="true">
 					<property name="actionScript"
@@ -385,7 +393,7 @@
 		</property>
 	</bean>
 	<bean id="facet_genedureq" parent="facet-parent" p:headerText="Gen. Edu. Req." />
-	<bean id="facet_credits" parent="facet-parent" p:headerText="Credits" />
+	<bean id="facet_credits" parent="facet-parent" p:headerText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
 	<bean id="facet_level" parent="facet-parent" p:headerText="Course Level" />
 	<bean id="facet_curriculum" parent="facet-parent" p:headerText="Course Prefix" />
 	<bean id="facet_keywords" parent="facet-parent" p:headerText="Keywords" />

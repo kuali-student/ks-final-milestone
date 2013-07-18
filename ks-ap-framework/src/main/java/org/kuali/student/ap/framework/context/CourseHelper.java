@@ -17,7 +17,7 @@ public interface CourseHelper {
 	String getLastOfferedTermId(Course course);
 	
 	List<String> getScheduledTerms(Course course);
-
+	
 	String getCourseId(String subjectArea, String number);
 
 	String getCourseIdForTerm(String subjectArea, String number, String termId);

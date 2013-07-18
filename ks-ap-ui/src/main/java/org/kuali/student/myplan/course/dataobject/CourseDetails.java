@@ -12,68 +12,89 @@ import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
  */
 public class CourseDetails {
 
-    private CourseSummaryDetails courseSummaryDetails;
+	private String searchTerm;
+	private boolean backup;
+	
+	private CourseSummaryDetails courseSummaryDetails;
+	private List<CourseOfferingInstitution> courseOfferingInstitutionList;
 
-    private List<CourseOfferingInstitution> courseOfferingInstitutionList;
+	private PlannedCourseSummary plannedCourseSummary;
 
-    private PlannedCourseSummary plannedCourseSummary;
+	public CourseDetails() {
+		plannedCourseSummary = new PlannedCourseSummary();
+	}
 
+	public String getSearchTerm() {
+		return searchTerm;
+	}
 
-    public CourseDetails() {
-        plannedCourseSummary = new PlannedCourseSummary();
-    }
+	public void setSearchTerm(String searchTerm) {
+		this.searchTerm = searchTerm;
+	}
 
+	public boolean isBackup() {
+		return backup;
+	}
 
-    public CourseSummaryDetails getCourseSummaryDetails() {
-        return courseSummaryDetails;
-    }
+	public void setBackup(boolean backup) {
+		this.backup = backup;
+	}
 
-    public void setCourseSummaryDetails(CourseSummaryDetails courseSummaryDetails) {
-        this.courseSummaryDetails = courseSummaryDetails;
-    }
+	public CourseSummaryDetails getCourseSummaryDetails() {
+		return courseSummaryDetails;
+	}
 
-    public List<CourseOfferingInstitution> getCourseOfferingInstitutionList() {
-        if (courseOfferingInstitutionList == null) {
-            courseOfferingInstitutionList = new ArrayList<CourseOfferingInstitution>();
-        }
-        return courseOfferingInstitutionList;
-    }
+	public void setCourseSummaryDetails(
+			CourseSummaryDetails courseSummaryDetails) {
+		this.courseSummaryDetails = courseSummaryDetails;
+	}
 
-    public void setCourseOfferingInstitutionList(List<CourseOfferingInstitution> courseOfferingInstitutionList) {
-        this.courseOfferingInstitutionList = courseOfferingInstitutionList;
-    }
+	public List<CourseOfferingInstitution> getCourseOfferingInstitutionList() {
+		if (courseOfferingInstitutionList == null) {
+			courseOfferingInstitutionList = new ArrayList<CourseOfferingInstitution>();
+		}
+		return courseOfferingInstitutionList;
+	}
 
+	public void setCourseOfferingInstitutionList(
+			List<CourseOfferingInstitution> courseOfferingInstitutionList) {
+		this.courseOfferingInstitutionList = courseOfferingInstitutionList;
+	}
 
-    public PlannedCourseSummary getPlannedCourseSummary() {
-        return plannedCourseSummary;
-    }
+	public PlannedCourseSummary getPlannedCourseSummary() {
+		return plannedCourseSummary;
+	}
 
-    public void setPlannedCourseSummary(PlannedCourseSummary plannedCourseSummary) {
-        this.plannedCourseSummary = plannedCourseSummary;
-    }
+	public void setPlannedCourseSummary(
+			PlannedCourseSummary plannedCourseSummary) {
+		this.plannedCourseSummary = plannedCourseSummary;
+	}
 
-    //TODO: Review why we really need this
-    //  It's because we need access to more than on property in one of the property editors.
-    @JsonIgnore
-    public CourseDetails getThis() {
-        return this;
-    }
+	// TODO: Review why we really need this
+	// It's because we need access to more than on property in one of the
+	// property editors.
+	@JsonIgnore
+	public CourseDetails getThis() {
+		return this;
+	}
 
-    //  Using this as a property for the crudMessageMatrixFormatter property editor
-    // because getThis() is already used for the timeschedule property editor
-    // so it overides crudmessage with timeschedule if we use  the same property .
-    @JsonIgnore
-    public CourseDetails getDetails() {
-        return this;
-    }
+	// Using this as a property for the crudMessageMatrixFormatter property
+	// editor
+	// because getThis() is already used for the timeschedule property editor
+	// so it overides crudmessage with timeschedule if we use the same property
+	// .
+	@JsonIgnore
+	public CourseDetails getDetails() {
+		return this;
+	}
 
-    //  Using this as a property for the scheduleterms property editor
-    // because courseofferinginstitution  is already used for the scheduled terms property editor
-    //In order to use the same list for another property we created this.
-    @JsonIgnore
-    public List<CourseOfferingInstitution> getInstitutionsList() {
-        return getCourseOfferingInstitutionList();
-    }
-
+	// Using this as a property for the scheduleterms property editor
+	// because courseofferinginstitution is already used for the scheduled terms
+	// property editor
+	// In order to use the same list for another property we created this.
+	@JsonIgnore
+	public List<CourseOfferingInstitution> getInstitutionsList() {
+		return getCourseOfferingInstitutionList();
+	}
 
 }

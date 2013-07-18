@@ -56,6 +56,12 @@ public interface CourseSearchForm {
 	 * @return The search term value.
 	 */
 	String getSearchTerm();
+	
+	/**
+	 * Get the saved courses flag.
+	 * @return True if search results should include only bookmarked and planned courses, false to include all courses. 
+	 */
+	boolean isSavedCourses();
 
 	/**
 	 * Return the values of all criteria items added by institution-specific
