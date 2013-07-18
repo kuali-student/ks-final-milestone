@@ -26,6 +26,11 @@
             <version>${kuali-impex.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.common</groupId>
+            <artifactId>kuali-impex-producer</artifactId>
+            <version>${kuali-impex.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.commons</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>

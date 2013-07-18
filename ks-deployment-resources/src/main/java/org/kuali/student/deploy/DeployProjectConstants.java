@@ -7,9 +7,6 @@ public abstract class DeployProjectConstants {
 
 	public static final ImmutableProject PROJECT = new ImmutableProject(KualiProjectConstants.STUDENT_GROUP_ID, "ks-deployment-resources");
 
-	// This isn't a real project, we just use it to logically group process related to KS_SOURCE_DB
-	public static final ImmutableProject KS_SOURCE_DB = new ImmutableProject(KualiProjectConstants.STUDENT_GROUP_ID, "ks-source-db");
-
 	@Deprecated
 	public static final String KS_SOURCE_DB_ARTIFACT_ID = "ks-source-db";
 
