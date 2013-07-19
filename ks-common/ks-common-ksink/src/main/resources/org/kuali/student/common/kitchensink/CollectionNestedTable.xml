@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="KS-NestedTable" parent="Uif-TableCollectionSection" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.common.kitchensink.KitchenSinkMockDisplayScheduleData" />
+        <property name="propertyName" value="displayScheduleMockDataList" />
+        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="true" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:onClickScript="alert('Comming Soon Effects');" p:actionLabel="+" p:methodToCall="getActivities">
+                    <property name="actionParameters">
+                        <map merge="true">
+                            <entry key="index" value="0"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <!--<property name="layoutManager.actionFieldPrototype">-->
+        <!--<bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIVITIES" p:style="display:inline;" p:fieldLabel="+" p:onClickScript="alert('Comming Soon Effects');"/>-->
+        <!--</property>-->
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:label="COURSE ID"
+                      p:propertyName="courseId"/>
+                <bean parent="Uif-DataField"
+                      p:label="TITLE"
+                      p:propertyName="title"/>
+                <bean parent="Uif-DataField"
+                      p:label="CREDITS"
+                      p:propertyName="credits"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-NestedTable-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Collections"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-NestedTable-Page">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-NestedTable-Page" parent="KS-KitchenSink-Page">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection" p:header.headerText="Default">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="KS-NestedTable"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
