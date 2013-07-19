@@ -44,6 +44,7 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -102,11 +103,15 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_EDIT_ACTION)) {
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper)getDataObject(); 
             updateCourseOffering(coEditWrapper);
-        }
-        else{//for new and copy action, report error
+        } else if (getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION)) {
+            CourseOfferingEditWrapper coCreateWrapper = (CourseOfferingEditWrapper)getDataObject();
+            CourseOfferingInfo createdCOInfo = createCourseOfferingInfo(coCreateWrapper);
+            coCreateWrapper.setCourseOfferingInfo(createdCOInfo);
+            updateFormatOfferings(coCreateWrapper);
+        } else { //for copy action, report error
              LOG.error(">>>Do not support!");
-        }        
- 
+        }
+
     }
 
     private void updateCourseOffering(CourseOfferingEditWrapper coEditWrapper){
@@ -191,6 +196,85 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
     }
 
+    protected CourseOfferingInfo createCourseOfferingInfo(CourseOfferingEditWrapper coCreateWrapper) {
+
+        try{
+            //persist unitDeploymentOrgIds
+            List<String> unitDeploymentOrgIds = new ArrayList<String>();
+            for(OrganizationInfoWrapper orgWrapper : coCreateWrapper.getOrganizationNames()){
+                unitDeploymentOrgIds.add(orgWrapper.getId());
+            }
+
+            CourseOfferingInfo coInfo = coCreateWrapper.getCourseOfferingInfo();
+            coInfo.setUnitsDeploymentOrgIds(unitDeploymentOrgIds);
+
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+            // Credit Options (also creates extra-line)
+            if (coCreateWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&
+                    !coCreateWrapper.getCreditOption().getFixedCredit().isEmpty()) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateFixedCreditResultValuesGroup(coCreateWrapper.getCreditOption().getFixedCredit(),
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
+                coInfo.setCreditOptionId(rvgInfo.getKey());
+            } else if (coCreateWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE) &&
+                    !coCreateWrapper.getCreditOption().getMinCredits().isEmpty() && !coCreateWrapper.getCreditOption().getMaxCredits().isEmpty()) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateRangeCreditResultValuesGroup(coCreateWrapper.getCreditOption().getMinCredits(),
+                        coCreateWrapper.getCreditOption().getMaxCredits(), calculateIncrement(coCreateWrapper.getCreditOption().getAllowedCredits()), LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
+                coInfo.setCreditOptionId(rvgInfo.getKey());
+            } else if (coCreateWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) &&
+                    !coCreateWrapper.getCreditOption().getCredits().isEmpty()) {
+                ResultValuesGroupInfo rvgInfo = getLrcService().getCreateMultipleCreditResultValuesGroup(coCreateWrapper.getCreditOption().getCredits(),
+                        LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE, contextInfo);
+                coInfo.setCreditOptionId(rvgInfo.getKey());
+            }
+
+            // CO code
+            List<String> optionKeys = getDefaultOptionKeysService ().getDefaultOptionKeysForCreateCourseOfferingFromCanonical();
+            String courseOfferingCode = coCreateWrapper.getCourse().getCode();
+            coInfo.setCourseNumberSuffix(StringUtils.upperCase(coInfo.getCourseNumberSuffix()));
+            if (!StringUtils.isEmpty(coInfo.getCourseNumberSuffix())) {
+                courseOfferingCode += coInfo.getCourseNumberSuffix();
+                optionKeys.add(CourseOfferingServiceConstants.APPEND_COURSE_OFFERING_CODE_SUFFIX_OPTION_KEY);
+            }
+            coInfo.setCourseOfferingCode(courseOfferingCode);
+
+            // Waitlist
+            if (!coInfo.getHasWaitlist()) {
+                coInfo.setWaitlistTypeKey(null);
+                coInfo.setWaitlistLevelTypeKey(null);
+            }
+
+            //TODO REMOVE THIS AFTER KRAD CHECKLISTS ARE FIXED for student registration options
+            //determine if audit reg options and pass/fail reg options should be added/removed to/from coInfo
+            if(coCreateWrapper.getAuditStudentRegOpts() &&
+                    !coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
+                coInfo.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+            }else if (!coCreateWrapper.getAuditStudentRegOpts() &&
+                    coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
+                coInfo.getStudentRegistrationGradingOptions().remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+            }
+
+            if(coCreateWrapper.getPassFailStudentRegOpts() &&
+                    !coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
+                coInfo.getStudentRegistrationGradingOptions().add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+            }else if (!coCreateWrapper.getPassFailStudentRegOpts() &&
+                    coInfo.getStudentRegistrationGradingOptions().contains(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
+                coInfo.getStudentRegistrationGradingOptions().remove(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+            }
+
+            updateInstructors(coCreateWrapper, coInfo);
+
+            //Save cross lists
+            loadCrossListedCOs(coCreateWrapper, coInfo);
+
+            CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(coInfo.getCourseId(), coInfo.getTermId(), LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, coInfo, optionKeys, contextInfo);
+            return info;
+
+        }   catch (Exception ex){
+            throw new RuntimeException(ex);
+        }
+    }
+
     private void updateInstructors(CourseOfferingEditWrapper coEditWrapper, CourseOfferingInfo coInfo) {
         List<OfferingInstructorWrapper> instructors = coEditWrapper.getInstructors();
         List<OfferingInstructorInfo> coInstructors = coInfo.getInstructors();
@@ -228,58 +312,62 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         return String.valueOf(Float.parseFloat(credits.get(1))-Float.parseFloat(credits.get(0)));
     }
 
-    private void updateFormatOfferings(CourseOfferingEditWrapper coEditWrapper) throws Exception{
-        List<FormatOfferingInfo> updatedFormatOfferingList = new ArrayList<FormatOfferingInfo>();
-        List<FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
-        CourseOfferingInfo coInfo = coEditWrapper.getCourseOfferingInfo();
-        List <String> currentFOIds = getExistingFormatOfferingIds(coInfo.getId());
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        if (formatOfferingList != null && !formatOfferingList.isEmpty())  {
-            for(FormatOfferingInfo formatOfferingInfo : formatOfferingList){
-                if(formatOfferingInfo.getId()!=null &&
-                        !formatOfferingInfo.getId().isEmpty() &&
-                        currentFOIds.contains(formatOfferingInfo.getId())) {
-                    //update FO
-                    if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
-                        formatOfferingInfo.setFinalExamLevelTypeKey(null);
+    private void updateFormatOfferings(CourseOfferingEditWrapper coEditWrapper) {
+        try{
+            List<FormatOfferingInfo> updatedFormatOfferingList = new ArrayList<FormatOfferingInfo>();
+            List<FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
+            CourseOfferingInfo coInfo = coEditWrapper.getCourseOfferingInfo();
+            List <String> currentFOIds = getExistingFormatOfferingIds(coInfo.getId());
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            if (formatOfferingList != null && !formatOfferingList.isEmpty())  {
+                for(FormatOfferingInfo formatOfferingInfo : formatOfferingList){
+                    if(formatOfferingInfo.getId()!=null &&
+                            !formatOfferingInfo.getId().isEmpty() &&
+                            currentFOIds.contains(formatOfferingInfo.getId())) {
+                        //update FO
+                        if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
+                            formatOfferingInfo.setFinalExamLevelTypeKey(null);
+                        }
+                        // Populate AO types (all FOs should "require" this (less important here since it should
+                        // already exist)
+                        CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
+                        FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
+                                updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, contextInfo);
+                        updatedFormatOfferingList.add(updatedFormatOffering);
+                        currentFOIds.remove(formatOfferingInfo.getId());
                     }
-                    // Populate AO types (all FOs should "require" this (less important here since it should
-                    // already exist)
-                    CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
-                    FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
-                            updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, contextInfo);
-                    updatedFormatOfferingList.add(updatedFormatOffering);
-                    currentFOIds.remove(formatOfferingInfo.getId());
-                }
-                else{
-                    //create a new FO
-                    formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
-                    formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-                    formatOfferingInfo.setName(null);//Clear these out so they are generated nicely
-                    formatOfferingInfo.setDescr(null);
-                    formatOfferingInfo.setTermId(coInfo.getTermId());
-                    formatOfferingInfo.setCourseOfferingId(coInfo.getId());
-                    if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
-                        formatOfferingInfo.setFinalExamLevelTypeKey(null);
+                    else{
+                        //create a new FO
+                        formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
+                        formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+                        formatOfferingInfo.setName(null);//Clear these out so they are generated nicely
+                        formatOfferingInfo.setDescr(null);
+                        formatOfferingInfo.setTermId(coInfo.getTermId());
+                        formatOfferingInfo.setCourseOfferingId(coInfo.getId());
+                        if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
+                            formatOfferingInfo.setFinalExamLevelTypeKey(null);
+                        }
+                        // Populate AO types (all FOs should "require" this
+                        CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
+                        FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
+                                createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, contextInfo);
+                        updatedFormatOfferingList.add(createdFormatOffering);
                     }
-                    // Populate AO types (all FOs should "require" this
-                    CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
-                    FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
-                            createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, contextInfo);
-                    updatedFormatOfferingList.add(createdFormatOffering);
                 }
-            }
-            coEditWrapper.setFormatOfferingList(updatedFormatOfferingList);
+                coEditWrapper.setFormatOfferingList(updatedFormatOfferingList);
 
-        }
-        //delete FormatOfferings that have been removed by the user
-        if (currentFOIds != null && currentFOIds.size() > 0){
-            for(String formatOfferingId: currentFOIds){
-                //delete all AOs associated with this FO, then delete FO
-                //Note by bonnie deleteAO invoked in deleteFormatOfferingCascaded seems not completely correct.
-                //I didn't see the code if removing FO-AO relations before deleting AOs....
-                getCourseOfferingService().deleteFormatOfferingCascaded(formatOfferingId, contextInfo);
             }
+            //delete FormatOfferings that have been removed by the user
+            if (currentFOIds != null && currentFOIds.size() > 0){
+                for(String formatOfferingId: currentFOIds){
+                    //delete all AOs associated with this FO, then delete FO
+                    //Note by bonnie deleteAO invoked in deleteFormatOfferingCascaded seems not completely correct.
+                    //I didn't see the code if removing FO-AO relations before deleting AOs....
+                    getCourseOfferingService().deleteFormatOfferingCascaded(formatOfferingId, contextInfo);
+                }
+            }
+        }   catch (Exception ex){
+            throw new RuntimeException(ex);
         }
     }
 
@@ -617,7 +705,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         String termEndDate = new String( DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format( termInfo.getEndDate() ) );
         StringBuilder termStartEnd = new StringBuilder();
         termStartEnd.append( termInfo.getName() );
-        termStartEnd.append( "(" );
+        termStartEnd.append( " (" );
         termStartEnd.append( termStartDate );
         termStartEnd.append( " to " );
         termStartEnd.append( termEndDate );
@@ -675,4 +763,11 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         return stateService;
     }
 
+    private DefaultOptionKeysService defaultOptionKeysService;
+    private DefaultOptionKeysService getDefaultOptionKeysService() {
+        if (defaultOptionKeysService == null) {
+            defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
+        }
+        return this.defaultOptionKeysService;
+    }
 }
