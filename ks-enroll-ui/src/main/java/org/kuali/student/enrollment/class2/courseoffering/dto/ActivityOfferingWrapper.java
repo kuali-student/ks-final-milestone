@@ -7,6 +7,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -145,6 +146,8 @@ public class ActivityOfferingWrapper implements Serializable{
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
+        OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper();
+        instructors.add(instructorWrapper);
         seatpools = new ArrayList<SeatPoolWrapper>();
         populationsForSPValidation = new ArrayList<PopulationInfo>();
         aoInfo.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
@@ -167,6 +170,18 @@ public class ActivityOfferingWrapper implements Serializable{
         this();
         aoInfo = info;
         instructors = new ArrayList<OfferingInstructorWrapper>();
+        if(info.getInstructors() == null || info.getInstructors().isEmpty()) {
+            OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper();
+            instructors.add(instructorWrapper);
+        } else if(info.getInstructors().size() > 0) {
+            for(OfferingInstructorInfo instructorInfo : info.getInstructors()) {
+                OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructorInfo);
+                if (instructorInfo.getPercentageEffort() != null) {
+                    instructorWrapper.setsEffort(Integer.toString(instructorInfo.getPercentageEffort().intValue()));
+                }
+                instructors.add(instructorWrapper);
+            }
+        }
         seatpools = new ArrayList<SeatPoolWrapper>();
         populationsForSPValidation = new ArrayList<PopulationInfo>();
     }

@@ -390,10 +390,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             wrapper.setActivityCode(info.getActivityCode());
             wrapper.setAbbreviatedCourseType(getTypeService().getType(info.getTypeKey(), contextInfo).getName().toUpperCase().substring(0, 3));
 
-            //process instructor effort
-            assembleInstructorWrapper(info.getInstructors(), wrapper);
-
-
             boolean readOnlyView = Boolean.parseBoolean(dataObjectKeys.get("readOnlyView"));
             wrapper.setReadOnlyView(readOnlyView);
 
@@ -701,13 +697,14 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         if (instructors != null && !instructors.isEmpty()) {
             for (OfferingInstructorWrapper instructor : instructors) {
                 if(instructor.getOfferingInstructorInfo() != null && !instructor.getOfferingInstructorInfo().getPersonId().isEmpty())
-                aoInfo.getInstructors().add(disassembleInstructorWrapper(instructor));
+                    aoInfo.getInstructors().add(disassembleInstructorWrapper(instructor));
             }
         }
     }
 
     private OfferingInstructorInfo disassembleInstructorWrapper(OfferingInstructorWrapper instructor) {
         OfferingInstructorInfo instructorInfo = new OfferingInstructorInfo(instructor.getOfferingInstructorInfo());
+        instructorInfo.setId(null);
         if (!StringUtils.isBlank(instructor.getsEffort())) {
             instructorInfo.setPercentageEffort(new Float(instructor.getsEffort()));
         }
