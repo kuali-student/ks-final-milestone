@@ -155,6 +155,7 @@
                                     <map merge="true">
                                         <entry key="iDisplayLength" value="20"/>
                                         <entry key="bAutoWidth" value="false"/>
+                                        <entry key="sPaginationType" value="full_numbers" />
                                     </map>
                                 </property>
                                 <property name="items">
