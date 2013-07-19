@@ -233,7 +233,8 @@ public class AORuleEditorController extends EnrolRuleEditorController {
 
             //Compare rule with parent rule.
             compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
-            this.getViewHelper(form).refreshInitTrees(ruleEditor);
+            this.getViewHelper(form).refreshViewTree(ruleEditor);
+
         }
 
         return getUIFModelAndView(document);
