@@ -16,6 +16,17 @@ public class SourceDbConstants {
 	// The complete list of configId's needed to initialize KS_SOURCE_DB
 	public static final List<String> INIT_SOURCE_DB_CONFIG_IDS = getInitSourceDbConfigIds();
 
+	// The complete list of configId's needed to update SCM 
+	public static final List<String> SCM_SOURCE_DB_CONFIG_IDS = getScmSourceDbConfigIds();
+	
+
+	protected static List<String> getScmSourceDbConfigIds() {
+		List<String> list = new ArrayList<String>();
+		list.add(KualiUtilConfig.SCM.getConfigId());
+		list.add(KualiImpexExportConfig.STAGING_BUILD.getConfigId());
+		list.add(KSDeploymentResourcesConfig.SOURCE_DB_SCM.getConfigId());
+		return Collections.unmodifiableList(list);
+	}
 	protected static List<String> getInitSourceDbConfigIds() {
 		List<String> ids = new ArrayList<String>();
 		ids.addAll(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
