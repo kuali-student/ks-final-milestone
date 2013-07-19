@@ -33,8 +33,10 @@ public class FormatOfferingTypeForEditCOTypeKeyValues extends AbstractFormatOffe
         CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         List<String> availableFormatTypes = new ArrayList<String>();
         List<FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
-        for (FormatOfferingInfo formatOfferingInfo : formatOfferingList) {
-            availableFormatTypes.add(formatOfferingInfo.getFormatId());
+        if (formatOfferingList != null) {
+            for (FormatOfferingInfo formatOfferingInfo : formatOfferingList) {
+                availableFormatTypes.add(formatOfferingInfo.getFormatId());
+            }
         }
         return availableFormatTypes;
     }
