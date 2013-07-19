@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -2529,5 +2530,100 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     public void setSearchService(SearchService searchService) {
         this.searchService = searchService;
+    }
+
+    @Override
+    public List<ExamPeriodInfo> getExamPeriodsForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public TypeInfo getExamPeriodType(String examPeriodTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public List<TypeInfo> getExamPeriodTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public List<TypeInfo> getExamPeriodTypesForTermType(String termTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public StateInfo getExamPeriodState(String examPeriodStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public List<StateInfo> getExamPeriodStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public ExamPeriodInfo getExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public List<ExamPeriodInfo> getExamPeriodsByIds(List<String> examPeriodIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public List<String> getExamPeriodIdsByType(String examPeriodTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public List<ExamPeriodInfo> getExamPeriodsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public List<String> searchForExamPeriodIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public List<ExamPeriodInfo> searchForExamPeriods(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateExamPeriod(String validationTypeKey, String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public ExamPeriodInfo createExamPeriod(String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public ExamPeriodInfo updateExamPeriod(String examPeriodId, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public StatusInfo changeExamPeriodState(String examPeriodId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public StatusInfo deleteExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public StatusInfo addExamPeriodToTerm(String termId, String examPeriodId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
+    @Override
+    public StatusInfo removeExamPeriodFromTerm(String termId, String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
     }
 }
