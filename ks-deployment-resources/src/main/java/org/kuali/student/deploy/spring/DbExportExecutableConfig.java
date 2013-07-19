@@ -22,7 +22,7 @@ import org.kuali.common.impex.spring.DumpDatabaseConfig;
 import org.kuali.common.impex.spring.ProjectStagingConfig;
 import org.kuali.common.util.execute.Executable;
 import org.kuali.common.util.execute.ExecutablesExecutable;
-import org.kuali.common.util.spring.BuildUpdateScmConfig;
+import org.kuali.common.util.scm.BuildUpdateScmConfig;
 import org.kuali.common.util.spring.ExecutableConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
