@@ -108,7 +108,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOp
 public class CourseOfferingCreateController extends CourseOfferingBaseController {
 
     private CluService cluService;
-    private CourseService courseService;
     private AcademicCalendarService academicCalendarService;
     private CourseOfferingService courseOfferingService;
     private transient LRCService lrcService;
@@ -696,13 +695,6 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             academicCalendarService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.academicCalendarService;
-    }
-
-    private CourseService getCourseService() {
-        if (courseService == null) {
-            courseService = CourseOfferingResourceLoader.loadCourseService();
-        }
-        return courseService;
     }
 
     private CourseOfferingService getCourseOfferingService() {
