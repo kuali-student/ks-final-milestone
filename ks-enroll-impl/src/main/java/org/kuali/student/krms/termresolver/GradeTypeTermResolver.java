@@ -20,12 +20,7 @@ import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;

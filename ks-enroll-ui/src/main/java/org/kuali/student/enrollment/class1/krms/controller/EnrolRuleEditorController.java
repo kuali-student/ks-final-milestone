@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -34,6 +35,7 @@ import org.kuali.student.enrollment.class1.krms.service.impl.EnrolRuleViewHelper
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
+import org.kuali.student.enrollment.class1.krms.util.KSKRMSPermissionHelper;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,6 +51,21 @@ import javax.servlet.http.HttpServletResponse;
  * @author Kuali Student Team
  */
 public class EnrolRuleEditorController extends RuleEditorController {
+
+    /**
+     * Setups a new <code>MaintenanceDocumentView</code> with the edit maintenance
+     * action
+     */
+    @RequestMapping(params = "methodToCall=" + KRADConstants.Maintenance.METHOD_TO_CALL_EDIT)
+    public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
+
+        KSKRMSPermissionHelper.processActionPermissionForUser((MaintenanceDocumentForm) form);
+
+        return getUIFModelAndView(form);
+    }
 
     /**
      *

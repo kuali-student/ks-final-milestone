@@ -30,12 +30,8 @@ import org.kuali.student.enrollment.class1.krms.form.KrmsComponentsForm;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.model.ResultValueEntity;
-import org.kuali.student.r2.lum.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 

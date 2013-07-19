@@ -1,17 +1,13 @@
 package org.kuali.student.krms.termresolver;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
-import javax.xml.namespace.QName;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;

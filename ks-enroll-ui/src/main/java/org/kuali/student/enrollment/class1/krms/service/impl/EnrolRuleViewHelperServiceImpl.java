@@ -19,46 +19,49 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krms.api.repository.LogicalOperator;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TermEditor;
 import org.kuali.rice.krms.dto.TermParameterEditor;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.service.impl.RuleViewHelperServiceImpl;
+import org.kuali.rice.krms.tree.RuleEditTreeBuilder;
 import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
+import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
+import org.kuali.student.core.krms.dto.KSPropositionEditor;
+import org.kuali.student.core.krms.tree.KSRuleEditTreeBuilder;
+import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
+import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.dto.KrmsSuggestDisplay;
+import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.util.CluInformationHelper;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
@@ -74,20 +77,22 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
+public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
     private CluService cluService;
     private CourseOfferingService courseOfferingService;
     private ContextInfo contextInfo;
     private OrganizationService organizationService;
 
-    private RulePreviewTreeBuilder previewTreeBuilder;
-    private RuleViewTreeBuilder viewTreeBuilder;
     private CluInformationHelper cluInfoHelper;
+
+    private KSRulePreviewTreeBuilder previewTreeBuilder;
+    private KSRuleViewTreeBuilder viewTreeBuilder;
+    private KSRuleEditTreeBuilder editTreeBuilder;
 
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
-        return EnrolPropositionEditor.class;
+        return KSPropositionEditor.class;
     }
 
     @Override
@@ -103,6 +108,23 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public void setTypeForCompoundOpCode(PropositionEditor proposition, String compoundOpCode) {
+        super.setTypeForCompoundOpCode(proposition, compoundOpCode);
+        if (LogicalOperator.AND.getCode().equalsIgnoreCase(compoundOpCode)) {
+            proposition.setType(KSKRMSServiceConstants.PROPOSITION_TYPE_COMPOUND_AND);
+        } else if (LogicalOperator.OR.getCode().equalsIgnoreCase(compoundOpCode)) {
+            proposition.setType(KSKRMSServiceConstants.PROPOSITION_TYPE_COMPOUND_OR);
+        }
+        try {
+            KrmsTypeDefinition type = KrmsRepositoryServiceLocator.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, proposition.getType());
+            proposition.setTypeId(type.getId());
+        } catch (Exception e) {
+            //ignore if service not available.
+        }
+
     }
 
     /**
@@ -123,6 +145,15 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
                 } else if(prop.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
                     nullifyCluSetInfo(prop);
                 }
+            }
+        }
+    }
+
+    protected void checkNaturalLanguageForTree(RuleEditor ruleEditor) {
+        if ((ruleEditor !=null) && (ruleEditor.getProposition()!=null)){
+            PropositionEditor originalRoot = ruleEditor.getPropositionEditor();
+            if (!originalRoot.getNaturalLanguage().containsKey(this.getEditTreeBuilder().getNaturalLanguageUsageKey())) {
+                this.getNaturalLanguageHelper().setNaturalLanguageTreeForUsage(originalRoot, this.getEditTreeBuilder().getNaturalLanguageUsageKey(), StudentIdentityConstants.KS_NAMESPACE_CD);
             }
         }
     }
@@ -283,7 +314,7 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
 
             //Sort the clus.
             RuleEditor ruleEditor = this.getRuleEditor(model);
-            EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
+                EnrolPropositionEditor propEditor = (EnrolPropositionEditor)PropositionTreeUtil.getProposition(ruleEditor);
             Collections.sort(propEditor.getCluSet().getCluSets(), new Comparator<CluSetInformation>(){
 
                 @Override
@@ -552,6 +583,33 @@ public class EnrolRuleViewHelperServiceImpl extends  RuleViewHelperServiceImpl {
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return organizationService;
+    }
+
+    @Override
+    public RulePreviewTreeBuilder getPreviewTreeBuilder() {
+        if (previewTreeBuilder == null) {
+            previewTreeBuilder = new EnrolRulePreviewTreeBuilder();
+            previewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
+        }
+        return previewTreeBuilder;
+    }
+
+    @Override
+    protected RuleViewTreeBuilder getViewTreeBuilder() {
+        if (viewTreeBuilder == null) {
+            viewTreeBuilder = new EnrolRuleViewTreeBuilder();
+            viewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
+        }
+        return viewTreeBuilder;
+    }
+
+    @Override
+    protected RuleEditTreeBuilder getEditTreeBuilder() {
+        if (editTreeBuilder == null) {
+            editTreeBuilder = new KSRuleEditTreeBuilder();
+            editTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
+        }
+        return editTreeBuilder;
     }
 
 }

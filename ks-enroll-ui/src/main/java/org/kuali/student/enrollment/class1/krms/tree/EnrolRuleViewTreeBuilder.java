@@ -15,21 +15,12 @@
  */
 package org.kuali.student.enrollment.class1.krms.tree;
 
-import org.kuali.rice.core.api.util.tree.Node;
-import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.tree.AbstractTreeBuilder;
-import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
-import org.kuali.rice.krms.tree.node.TreeNode;
-import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
+import org.kuali.student.core.krms.dto.KSPropositionEditor;
+import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +29,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class EnrolRuleViewTreeBuilder extends RuleViewTreeBuilder {
+public class EnrolRuleViewTreeBuilder extends KSRuleViewTreeBuilder {
 
     private static final long serialVersionUID = 1L;
 
@@ -52,4 +43,5 @@ public class EnrolRuleViewTreeBuilder extends RuleViewTreeBuilder {
         }
         return null;
     }
+
 }

@@ -45,7 +45,7 @@ import org.kuali.student.krms.mock.KRMSEngineService;
 import org.kuali.student.krms.proposition.CompletedCourseBetweenTermsProposition;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

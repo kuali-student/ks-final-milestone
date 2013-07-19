@@ -36,6 +36,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-core-ui</artifactId>
+            <version>${ks.core.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-core-api</artifactId>
         </dependency>

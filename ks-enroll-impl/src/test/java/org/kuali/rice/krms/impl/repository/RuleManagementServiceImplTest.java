@@ -42,7 +42,7 @@ import org.kuali.rice.krms.impl.repository.mock.KrmsConfigurationLoader;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.process.krms.KSKRMSTestCase;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -55,7 +55,6 @@ import java.util.Arrays;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethods;
 import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethodsImpl;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 /**
  *

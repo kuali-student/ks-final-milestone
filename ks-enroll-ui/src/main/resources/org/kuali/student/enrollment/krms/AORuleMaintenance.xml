@@ -213,7 +213,7 @@ limitations under the License.
 
     <bean id="KSAO-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
         <property name="layoutManager">
-            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.enrollment.class1.krms.HorizontalActionsStackedLayoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager">
                 <property name="actionsInLineGroup" value="false"/>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionHorizontalBoxItem">
@@ -265,7 +265,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-SimpleTableCollectionLayout" parent="Uif-TableCollectionLayout" class="org.kuali.student.enrollment.class1.krms.SimpleTableLayoutManager">
+    <bean id="KS-SimpleTableCollectionLayout" parent="Uif-TableCollectionLayout" class="org.kuali.student.core.krms.SimpleTableLayoutManager">
         <property name="cssClasses">
             <list>
                 <value>uif-simpleTableCollectionLayout</value>

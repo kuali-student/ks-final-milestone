@@ -12,7 +12,7 @@ import org.kuali.student.krms.termresolver.NumberOfCompletedCoursesTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
 import org.kuali.student.krms.termresolver.GPATermResolver;
 import org.kuali.student.krms.termresolver.ScoreTermResolver;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 public class KSTermResolverTypeService implements TermResolverTypeService {

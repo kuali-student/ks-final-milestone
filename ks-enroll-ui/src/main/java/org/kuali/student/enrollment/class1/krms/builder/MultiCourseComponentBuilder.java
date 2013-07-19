@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class1.krms.builder;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
@@ -31,7 +30,7 @@ import org.kuali.student.enrollment.class1.krms.util.CluSetRangeHelper;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;

@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -24,16 +23,14 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
+import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
@@ -48,7 +45,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -56,7 +53,6 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
-import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
 import javax.xml.namespace.QName;
@@ -79,7 +75,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     private transient CourseOfferingSetService socService;
     private transient StateService stateService;
 
-    private transient RuleViewTreeBuilder viewTreeBuilder;
+    private transient KSRuleViewTreeBuilder viewTreeBuilder;
     private transient NaturalLanguageHelper nlHelper;
 
     @Override

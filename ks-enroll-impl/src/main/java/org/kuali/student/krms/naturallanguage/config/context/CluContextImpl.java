@@ -15,7 +15,7 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLCluSet;
 import org.kuali.student.r2.common.dto.ContextInfo;

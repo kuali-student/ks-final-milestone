@@ -19,8 +19,9 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.student.core.krms.dto.KSPropositionEditor;
+import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 
@@ -30,15 +31,15 @@ import java.util.List;
 /**
  * This is a helper class to build the compare tree to be displayed on the lightboxes on the ui to compare one set of
  * rules with another. Rules statements that differ is highlighted in the ui with a css class.
- *
+ * <p/>
  * This class is overridden to add AO specific headers to the tree structure and add list items specific to multicourse
  * rule statement(proposition) types.
  *
  * @author Kuali Student Team
  */
-public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
+public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
 
-    public Tree<CompareTreeNode, String> buildTree(RuleEditor firstElement, RuleEditor secondElement, RuleEditor thirdElement ) {
+    public Tree<CompareTreeNode, String> buildTree(RuleEditor firstElement, RuleEditor secondElement, RuleEditor thirdElement) {
         Tree<CompareTreeNode, String> compareTree = this.buildAOTree(firstElement, secondElement, thirdElement);
 
         //Set data headers on root node.
@@ -60,44 +61,27 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
         return compareTree;
     }
 
-    @Override
-    public List<String> getListItems(PropositionEditor propositionEditor) {
-        if (propositionEditor instanceof EnrolPropositionEditor) {
-            EnrolPropositionEditor enrolProp = (EnrolPropositionEditor) propositionEditor;
-            List<String> listItems = new ArrayList<String>();
-            if (enrolProp.getCluSet() != null) {
-                if (enrolProp.getCluSet().getClus() != null) {
-                    for (CluInformation clu : enrolProp.getCluSet().getClus()) {
-                        String description = clu.getCode() + " " + clu.getTitle() + " " + clu.getCredits();
-                        listItems.add(description);
-                    }
-                }
-            }
-            return listItems;
-        }
-        return null;
-    }
     private Tree<CompareTreeNode, String> buildAOTree(RuleEditor firstElement, RuleEditor secondElement, RuleEditor thirdElement) {
         Tree<CompareTreeNode, String> myTree = initCompareTree();
         Node<CompareTreeNode, String> firstNode = myTree.getRootElement().getChildren().get(0);
 
         //Add the nodes recursively.
-        addTreeNode(firstNode, getRootProposition(firstElement), getRootProposition(secondElement),getRootProposition(thirdElement) );
+        addTreeNode(firstNode, getRootProposition(firstElement), getRootProposition(secondElement), getRootProposition(thirdElement));
 
         //Underline the first node in the preview.
-        if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)){
+        if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)) {
             Node<CompareTreeNode, String> childNode = firstNode.getChildren().get(0);
-            if(childNode.getData() != null){
-                CompareTreeNode compareTreeNode =  childNode.getData();
+            if (childNode.getData() != null) {
+                CompareTreeNode compareTreeNode = childNode.getData();
 
-                if(!compareTreeNode.getFirstElement().trim().isEmpty()){
+                if (!compareTreeNode.getFirstElement().trim().isEmpty()) {
                     compareTreeNode.setFirstElement(compareTreeNode.getFirstElement() + ":");
                 }
 
-                if(!compareTreeNode.getSecondElement().trim().isEmpty()){
+                if (!compareTreeNode.getSecondElement().trim().isEmpty()) {
                     compareTreeNode.setSecondElement(compareTreeNode.getSecondElement() + ":");
                 }
-                if(!compareTreeNode.getThirdElement().trim().isEmpty()){
+                if (!compareTreeNode.getThirdElement().trim().isEmpty()) {
                     compareTreeNode.setThirdElement(compareTreeNode.getThirdElement() + ":");
                 }
             }
@@ -113,15 +97,14 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement),this.getDescription(thirdElement));
+        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement), this.getDescription(thirdElement));
         tNode.setFirstElementItems(this.getListItems(firstElement));
         tNode.setSecondElementItems(this.getListItems(secondElement));
         tNode.setThirdElementItems(this.getListItems(thirdElement));
         newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
-        if (!tNode.getFirstElement().equals(tNode.getSecondElement())){
+        if (!tNode.getFirstElement().equals(tNode.getSecondElement())) {
             addNodeType(newNode, NODE_TYPE_COMPAREELEMENT);
-        }
-        else  if (!tNode.getSecondElement().equals(tNode.getThirdElement())){
+        } else if (!tNode.getSecondElement().equals(tNode.getThirdElement())) {
             addNodeType(newNode, NODE_TYPE_COMPAREELEMENT);
         }
         newNode.setData(tNode);
@@ -139,12 +122,12 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
 
         // Get the size of the biggest children list
         int min = Math.max(getChildrenSize(firstElement), getChildrenSize(secondElement));
-        int size =  Math.max(min,getChildrenSize(thirdElement));
+        int size = Math.max(min, getChildrenSize(thirdElement));
         for (int i = 0; i < size; i++) {
 
             // add an opcode node in between each of the children.
-            if (i>0) {
-                this.addOperatorTreeNode(newNode, coOpCode, cluOpCode,aoOpCode );
+            if (i > 0) {
+                this.addOperatorTreeNode(newNode, coOpCode, cluOpCode, aoOpCode);
             }
 
             // call to build the childs node
@@ -154,7 +137,6 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
     }
 
 
-
     private void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String coOpCode, String cluOpCode, String aoOpCode) {
         Node<CompareTreeNode, String> opNode = new Node<CompareTreeNode, String>();
         if (!coOpCode.equals(cluOpCode)) {
@@ -162,9 +144,8 @@ public class AORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
         } else if (!cluOpCode.equals(aoOpCode)) {
             opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
         }
-        opNode.setData(new CompareTreeNode(coOpCode, cluOpCode,aoOpCode));
+        opNode.setData(new CompareTreeNode(coOpCode, cluOpCode, aoOpCode));
         newNode.getChildren().add(opNode);
     }
-
 
 }

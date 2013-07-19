@@ -32,6 +32,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
@@ -89,15 +90,7 @@ public class AssesmentKeyValueFinder extends KeyValuesBase {
     }
 
     private ContextInfo getContextInfo() {
-        ContextInfo contextInfo = new ContextInfo();
-        contextInfo.setAuthenticatedPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        contextInfo.setPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-
-        return contextInfo;
+        return ContextUtils.createDefaultContextInfo();
     }
 
 }

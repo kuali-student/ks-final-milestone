@@ -18,7 +18,7 @@ import org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoader;
 import org.kuali.student.r2.core.organization.service.OrganizationService;

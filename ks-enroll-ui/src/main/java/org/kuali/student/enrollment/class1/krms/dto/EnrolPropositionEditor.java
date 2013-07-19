@@ -38,8 +38,6 @@ public class EnrolPropositionEditor extends PropositionEditor {
     private String programType;
     private String gradeScale;
     private OrgInfo orgInfo;
-    private Integer duration;
-    private String durationType;
     private ProgramCluSetInformation progCluSet;
     private String termCode;
     private String termCode2;
@@ -67,8 +65,6 @@ public class EnrolPropositionEditor extends PropositionEditor {
         this.programType = null;
         this.gradeScale = null;
         this.orgInfo = null;
-        this.duration = null;
-        this.durationType = null;
         this.progCluSet = null;
         this.termCode = null;
         this.termCode2 = null;
@@ -125,22 +121,6 @@ public class EnrolPropositionEditor extends PropositionEditor {
 
     public void setOrgInfo(OrgInfo orgInfo) {
         this.orgInfo = orgInfo;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
-    }
-
-    public String getDurationType() {
-        return durationType;
-    }
-
-    public void setDurationType(String durationType) {
-        this.durationType = durationType;
     }
 
     public ProgramCluSetInformation getProgCluSet() {

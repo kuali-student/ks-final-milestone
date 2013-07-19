@@ -15,12 +15,9 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

@@ -30,6 +30,9 @@ import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
+import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
+import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.AORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.AORuleViewCoCluTreeBuilder;
@@ -40,18 +43,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * @author Kuali Student Team
  */
 public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl {
 
-    private RulePreviewTreeBuilder previewTreeBuilder;
-    private RuleViewTreeBuilder viewTreeBuilder;
     private AORuleCompareTreeBuilder compareTreeBuilder;
-    private RuleCompareTreeBuilder viewCoCluTreeBuilder;
+    private KSRuleCompareTreeBuilder viewCoCluTreeBuilder;
 
     /**
-     *
      * @return
      */
     @Override
@@ -68,7 +67,7 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor aoRuleEditor, RuleEditor cluRuleEditor ) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor aoRuleEditor, RuleEditor cluRuleEditor) throws Exception {
 
         //Set the original nl if not already exists.
         checkNaturalLanguageForTree(aoRuleEditor);
@@ -157,22 +156,6 @@ public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
     }
 
     @Override
-    public RulePreviewTreeBuilder getPreviewTreeBuilder() {
-        if (previewTreeBuilder == null) {
-            previewTreeBuilder = new EnrolRulePreviewTreeBuilder();
-            previewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
-        }
-        return previewTreeBuilder;
-    }
-
-    protected RuleViewTreeBuilder getViewTreeBuilder() {
-        if (viewTreeBuilder == null) {
-            viewTreeBuilder = new EnrolRuleViewTreeBuilder();
-            viewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
-        }
-        return viewTreeBuilder;
-    }
-
     protected AORuleCompareTreeBuilder getCompareTreeBuilder() {
         if (compareTreeBuilder == null) {
             compareTreeBuilder = new AORuleCompareTreeBuilder();

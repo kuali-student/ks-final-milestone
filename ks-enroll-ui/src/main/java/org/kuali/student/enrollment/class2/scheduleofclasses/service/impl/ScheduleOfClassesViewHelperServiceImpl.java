@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.service.impl;
 
-import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -29,16 +28,7 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
-import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
-import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
@@ -57,7 +47,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.KeyNameInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -336,8 +326,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
 
         if (courseOfferingIds.size() > 0) {
 
-            String descriptionUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
-            String editUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_RULE_EDIT, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
+            String catalogUsageId = ruleManagementService.getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_CATALOG, PermissionServiceConstants.KS_SYS_NAMESPACE).getId();
 
             List<CourseOfferingDisplayInfo> coDisplayInfoList = courseOfferingService.getCourseOfferingDisplaysByIds(courseOfferingIds, contextInfo);
 
@@ -345,7 +334,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
                 CourseOfferingDisplayWrapper coDisplayWrapper = new CourseOfferingDisplayWrapper();
                 coDisplayWrapper.setCoDisplayInfo(coDisplayInfo);
 
-                coDisplayWrapper.setRequisites(retrieveRequisites(coDisplayInfo.getId(), ruleManagementService, editUsageId));
+                coDisplayWrapper.setRequisites(retrieveRequisites(coDisplayInfo.getId(), ruleManagementService, catalogUsageId));
 
                 // Adding Information (icons)
                 String information = "";
@@ -386,7 +375,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
      * @param ruleManagementService
      * @return Map of course offering requisites
      */
-    protected static String retrieveRequisites(String courseOfferingId, RuleManagementService ruleManagementService, String editUsageId) {
+    protected static String retrieveRequisites(String courseOfferingId, RuleManagementService ruleManagementService, String usageId) {
 
         //Retrieve reference object bindings for course offering
         List<ReferenceObjectBinding> refObjectsBindings = ruleManagementService.findReferenceObjectBindingsByReferenceObject(KSKRMSServiceConstants.RULE_DISCR_TYPE_COURSE_OFFERING, courseOfferingId);
@@ -394,10 +383,10 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
         //Retrieve agenda's for course offering
         String requisites = StringUtils.EMPTY;
         for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
-            requisites += ruleManagementService.translateNaturalLanguageForObject(editUsageId, "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
+            requisites += ruleManagementService.translateNaturalLanguageForObject(usageId, "agenda", referenceObjectBinding.getKrmsObjectId(), "en");
         }
 
-        return requisites.replaceAll(System.getProperty("line.separator"), "<br>");
+        return requisites;
     }
 
     private String millisToTime(Long milliseconds) {

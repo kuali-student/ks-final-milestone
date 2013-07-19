@@ -24,7 +24,6 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PermissionWrapper;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.student.common.uif.form.KSUifForm;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;

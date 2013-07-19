@@ -21,7 +21,7 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInf
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;

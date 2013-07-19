@@ -25,7 +25,6 @@ import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
 
 import java.util.List;
 import java.util.Map;

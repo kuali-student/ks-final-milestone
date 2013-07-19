@@ -15,18 +15,13 @@
  */
 package org.kuali.student.enrollment.class1.krms.tree;
 
-import org.apache.commons.lang.StringEscapeUtils;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
-import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
-import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
+import org.kuali.student.core.krms.dto.KSPropositionEditor;
+import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluSetInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
-import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,7 +30,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class EnrolRulePreviewTreeBuilder extends RulePreviewTreeBuilder {
+public class EnrolRulePreviewTreeBuilder extends KSRulePreviewTreeBuilder {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,4 +45,5 @@ public class EnrolRulePreviewTreeBuilder extends RulePreviewTreeBuilder {
         }
         return null;
     }
+
 }

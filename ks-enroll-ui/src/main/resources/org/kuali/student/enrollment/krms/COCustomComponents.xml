@@ -19,20 +19,6 @@ limitations under the License.
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <!--Generic Components-->
-    <bean id="KRMS-Integer-ConstantValue-Parent" parent="Uif-InputField"
-          p:propertyName="proposition.parameters[1].value" p:showLabel="true" p:label="Value" p:maxLength="255"
-          p:required="true">
-        <property name="control">
-            <bean parent="Uif-TextControl" p:style="margin-top:null 2px;"/>
-        </property>
-        <property name="validCharactersConstraint">
-            <bean parent="IntegerPatternConstraint" p:allowNegative="false"/>
-        </property>
-    </bean>
-
-    <bean id="KRMS-CustomComponent-BoxGroup" parent="Uif-VerticalBoxGroup"/>
-
     <!-- Integer constant Instance components -->
     <bean id="KRMS-NumberOfCourses-ConstantValue" parent="Uif-VerticalBoxSection">
         <property name="items">
@@ -63,19 +49,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Minutes-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Minutes"/>
-
     <bean id="KRMS-CreditHours-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Credit Hours"/>
-
-    <!-- TextArea component -->
-    <bean id="KRMS-FreeForm-InputField-parent" parent="Uif-InputField-LabelTop"
-          p:propertyName="proposition.termParameter" p:showLabel="true" p:label="Text" p:required="true">
-        <property name="maxLength" value="255"/>
-        <property name="control">
-            <bean parent="Uif-TextAreaControl"/>
-        </property>
-    </bean>
-    <bean id="KRMS-FreeForm-InputField" parent="KRMS-FreeForm-InputField-parent"/>
 
     <!--bean id="KRMS-Course-SuggestControl" parent="Uif-Suggest">
         <property name="render" value="true"/>
@@ -146,19 +120,6 @@ limitations under the License.
         </property>
     </bean>
     <bean id="KRMS-MultiCourse-Type-Field" parent="KRMS-MultiCourse-Type-Field-Parent"/>
-
-    <bean id="KRMS-QuickFinder" parent="Uif-QuickFinder">
-        <property name="quickfinderAction">
-            <bean parent="Uif-ActionLink">
-                <property name="methodToCall" value="performLookup"/>
-                <property name="actionLabel" value="Advanced Search"/>
-                <property name="style" value="display:block;color: #3F7826;"/>
-            </bean>
-        </property>
-        <property name="lightBoxLookup">
-            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
-        </property>
-    </bean>
 
     <bean id="KRMS-Course-QuickFinder" parent="KRMS-QuickFinder">
         <property name="id" value="CourseLookupView"/>
@@ -526,34 +487,6 @@ limitations under the License.
     </bean>
     <bean id="KRMS-GPA-Field" parent="KRMS-GPA-Field-Parent"/>
 
-    <bean id="KRMS-OrgDepartment-Field-Parent" parent="Uif-InputField-LabelTop"
-          p:propertyName="proposition.termParameter" p:required="true">
-        <property name="style" value="width:450px;"/>
-        <!--<property name="suggest">
-            <bean parent="Uif-Suggest">
-                <property name="render" value="true"/>
-                <property name="valuePropertyName" value="displayName"/>
-                <property name="templateOptions" value="minLength:1,delay:0"/>
-                <property name="suggestQuery">
-                    <bean parent="Uif-AttributeQueryConfig">
-                        <property name="queryMethodToCall" value="getOrgDepartmentForSuggest"/>
-                    </bean>
-                </property>
-            </bean>
-        </property>-->
-        <property name="control">
-            <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
-                  p:readOnly="true"/>
-        </property>
-        <property name="quickfinder">
-            <bean parent="KRMS-OrgDepartment-QuickFinder"/>
-        </property>
-    </bean>
-
-    <bean id="KRMS-Department-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Department"/>
-
-    <bean id="KRMS-Administering-Org-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Organization"/>
-
     <bean id="KRMS-TestScore-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termParameter"
           p:label="Test Score" p:maxLength="6" p:required="true">
         <property name="control">
@@ -918,7 +851,6 @@ limitations under the License.
         </property>
     </bean>
 
-
     <bean id="KRMS-Programs-QuickFinder" parent="KRMS-QuickFinder">
         <property name="id" value="ProgramLookupView"/>
         <property name="viewName" value="krmsProgramOnlyLookup"/>
@@ -943,17 +875,6 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-OrgDepartment-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
-        <property name="viewName" value="krmsOrgDepartmentView"/>
-        <property name="fieldConversions">
-            <map>
-                <entry key="longName" value="proposition.termParameter"/>
-                <entry key="id" value="proposition.orgInfo.id"/>
-            </map>
-        </property>
-    </bean>
-
     <bean id="KRMS-CreditAndDepartment-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
@@ -973,7 +894,6 @@ limitations under the License.
         </property>
     </bean>
 
-
     <bean id="KRMS-Term-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.termCode" p:label="Term" p:required="true" p:readOnly="false">
         <property name="control">
             <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
@@ -981,29 +901,6 @@ limitations under the License.
     </bean>
     <bean id="KRMS-Term-Field" parent="KRMS-Term-Field-Parent"/>
 
-    <bean id="KRMS-ClassStanding-Field-Parent" parent="Uif-InputField-LabelTop"
-          p:propertyName="proposition.classStanding" p:required="true">
-        <property name="style" value="width:450px;"/>
-        <property name="control">
-            <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
-                  p:readOnly="true"/>
-        </property>
-        <property name="quickfinder">
-            <bean parent="KRMS-ClassStanding-QuickFinder"/>
-        </property>
-    </bean>
-    <bean id="KRMS-ClassStanding-Field" parent="KRMS-ClassStanding-Field-Parent" p:label="Class Standing"/>
-
-    <bean id="KRMS-ClassStanding-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-        <property name="viewName" value="krmsClassStandingView"/>
-        <property name="fieldConversions">
-            <map>
-                <entry key="populationInfo.name" value="proposition.classStanding"/>
-                <entry key="id" value="proposition.populationWrapper.id"/>
-            </map>
-        </property>
-    </bean>
 </beans>
 
 

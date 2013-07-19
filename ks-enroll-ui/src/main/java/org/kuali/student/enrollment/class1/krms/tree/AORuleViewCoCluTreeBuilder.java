@@ -19,8 +19,9 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.student.core.krms.dto.KSPropositionEditor;
+import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 
@@ -36,7 +37,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class AORuleViewCoCluTreeBuilder extends RuleCompareTreeBuilder {
+public class AORuleViewCoCluTreeBuilder extends KSRuleCompareTreeBuilder {
 
     @Override
     public Tree<CompareTreeNode, String> buildTree(RuleEditor firstElement, RuleEditor secondElement) {
@@ -57,24 +58,6 @@ public class AORuleViewCoCluTreeBuilder extends RuleCompareTreeBuilder {
         }
 
         return compareTree;
-    }
-
-    @Override
-    public List<String> getListItems(PropositionEditor propositionEditor) {
-        if (propositionEditor instanceof EnrolPropositionEditor) {
-            EnrolPropositionEditor enrolProp = (EnrolPropositionEditor) propositionEditor;
-            List<String> listItems = new ArrayList<String>();
-            if (enrolProp.getCluSet() != null) {
-                if (enrolProp.getCluSet().getClus() != null) {
-                    for (CluInformation clu : enrolProp.getCluSet().getClus()) {
-                        String description = clu.getCode() + " " + clu.getTitle() + " " + clu.getCredits();
-                        listItems.add(description);
-                    }
-                }
-            }
-            return listItems;
-        }
-        return null;
     }
 
     @Override
@@ -101,4 +84,5 @@ public class AORuleViewCoCluTreeBuilder extends RuleCompareTreeBuilder {
         opNode.setData(new CompareTreeNode(firstElement, secondElement, null, null, null));
         newNode.getChildren().add(opNode);
     }
+
 }

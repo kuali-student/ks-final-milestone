@@ -8,7 +8,7 @@ import org.kuali.rice.krms.api.repository.term.TermResolverDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler;
 import org.springframework.beans.factory.BeanFactory;

@@ -47,7 +47,7 @@ public class CourseOfferingAgendaBuilder extends AgendaBuilder {
 
         //Add warning messages for empty or deleted rules.
         if (rule.isDummy() && rule.getParent() != null)  {
-            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_HASPARENT);
+            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMSConstants.KSKRMS_MSG_WARNING_CO_RULE_HASPARENT);
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMSConstants.KSKRMS_MSG_WARNING_CO_RULE_EMPTY);
         }

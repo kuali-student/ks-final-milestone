@@ -15,11 +15,6 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krms.dto.RuleManagementWrapper;
-
-import java.util.Date;
-
 /**
  * @author Kuali Student Team
  */

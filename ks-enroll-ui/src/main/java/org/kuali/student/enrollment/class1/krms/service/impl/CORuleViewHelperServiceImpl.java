@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilder;
@@ -31,17 +30,16 @@ import org.kuali.rice.krms.tree.RulePreviewTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder;
-import org.kuali.student.enrollment.class1.krms.builder.ProgramComponentBuilder;
+import org.kuali.student.core.krms.dto.KSPropositionEditor;
+import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
+import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
+import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.CORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRulePreviewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,9 +48,7 @@ import java.util.Map;
  */
 public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl {
 
-    private RulePreviewTreeBuilder previewTreeBuilder;
-    private RuleViewTreeBuilder viewTreeBuilder;
-    private RuleCompareTreeBuilder compareTreeBuilder;
+    private KSRuleCompareTreeBuilder compareTreeBuilder;
 
     /**
      *
@@ -135,23 +131,6 @@ public class CORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl 
         }
 
         return termParameters;
-    }
-
-    @Override
-    public RulePreviewTreeBuilder getPreviewTreeBuilder() {
-        if (previewTreeBuilder == null) {
-            previewTreeBuilder = new EnrolRulePreviewTreeBuilder();
-            previewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
-        }
-        return previewTreeBuilder;
-    }
-
-    protected RuleViewTreeBuilder getViewTreeBuilder() {
-        if (viewTreeBuilder == null) {
-            viewTreeBuilder = new EnrolRuleViewTreeBuilder();
-            viewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
-        }
-        return viewTreeBuilder;
     }
 
     protected RuleCompareTreeBuilder getCompareTreeBuilder() {

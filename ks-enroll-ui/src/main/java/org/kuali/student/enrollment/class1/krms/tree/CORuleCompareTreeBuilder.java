@@ -17,14 +17,14 @@ package org.kuali.student.enrollment.class1.krms.tree;
 
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
-import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.student.core.krms.dto.KSPropositionEditor;
+import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class CORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
+public class CORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
 
     @Override
     public Tree<CompareTreeNode, String> buildTree(RuleEditor firstElement, RuleEditor secondElement) {
@@ -78,4 +78,9 @@ public class CORuleCompareTreeBuilder extends RuleCompareTreeBuilder {
         }
         return null;
     }
+
+    public String getNaturalLanguageUsageKey(){
+        return KSKRMSServiceConstants.KRMS_NL_RULE_EDIT;
+    }
+
 }

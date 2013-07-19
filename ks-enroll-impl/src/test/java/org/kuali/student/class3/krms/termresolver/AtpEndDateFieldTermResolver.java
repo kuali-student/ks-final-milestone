@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
-import org.kuali.student.r2.common.util.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
