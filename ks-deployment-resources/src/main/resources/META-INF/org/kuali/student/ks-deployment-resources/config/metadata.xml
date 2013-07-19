@@ -30,7 +30,7 @@
       <location value="${ks.source.db.common}" />
       <location value="${ks.source.db.dump}" />
     </context>
-    <context id="staging">
+    <context id="scm">
       <location value="${ks.source.db.common}" />
       <location value="${ks.source.db.dump}" />
       <location value="${ks.source.db.prefix}/staging.properties" />
