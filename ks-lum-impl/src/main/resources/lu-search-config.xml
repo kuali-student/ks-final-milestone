@@ -1779,9 +1779,47 @@
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
+
+    <!-- Browse Variations Search -->
+    <search:searchType id="lu.search.courseCodes">
+        <search:name>Search for Course Codes</search:name>
+        <search:desc>Search for all distinct Course Codes used by type aheads</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="lu.result.courseCodes"/>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="lu.criteria.courseCodes"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchResultTypeInfo id="lu.result.courseCodes" parent="lu.result.courseCodes-parent"/>
+    <search:searchResultTypeInfo id="lu.result.courseCodes-parent"  abstract="true">
+        <search:name>Course Codes</search:name>
+        <search:desc>List of distinct course Codes</search:desc>
+        <search:resultColumns>
+            <ref bean="lu.resultColumn.cluOfficialIdentifier.cluCode" />
+        </search:resultColumns>
+    </search:searchResultTypeInfo>
+
+    <search:searchCriteriaTypeInfo id="lu.criteria.courseCodes" parent="lu.criteria.courseCodes-parent"/>
+    <search:searchCriteriaTypeInfo id="lu.criteria.courseCodes-parent"  abstract="true">
+        <search:name>Course Code criteria</search:name>
+        <search:desc>Course code criteria</search:desc>
+        <search:queryParams>
+            <ref bean="lu.queryParam.startsWith.cluCode" />
+            <ref bean="lu.queryParam.luOptionalType" />
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
+
     <bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
+                <entry key="lu.search.courseCodes">
+                    <value>SELECT DISTINCT clu.officialIdentifier.code FROM Clu clu
+                        WHERE clu.officialIdentifier.code like :lu_queryParam_startsWith_cluCode || '%'</value>
+                </entry>
+
                 <entry key="lu.search.relatedTypes">
                     <value>SELECT rel.relatedClu.id, rel.relatedClu.luType.id FROM CluCluRelation rel WHERE rel.clu.id = :lu_queryParam_cluId</value>
                 </entry>
