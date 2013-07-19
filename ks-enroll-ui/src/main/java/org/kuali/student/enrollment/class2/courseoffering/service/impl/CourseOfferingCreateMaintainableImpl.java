@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -50,13 +51,20 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -71,6 +79,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingCreateMaintainableImpl.class);
     private static PermissionService permissionService = getPermissionService();
+    private CluService cluService;
+
 
     /**
      * Sets a default maintenace document description and if term code exists in the request parameter, set it to the wrapper.
@@ -552,6 +562,60 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             }
         }
         return true;
+    }
+
+    /**
+     * Does a search Query for course codes used for auto suggest
+     * @param catalogCourseCode the starting characters of a course code
+     * @return a list of CourseCodeSuggestResults containing matching course codes
+     */
+    public List<CourseCodeSuggestResults> retrieveCourseCodes(String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+
+        List<CourseCodeSuggestResults> rList = new ArrayList<CourseCodeSuggestResults>();
+
+        SearchRequestInfo request = new SearchRequestInfo("lu.search.courseCodes");
+        request.addParam("lu.queryParam.startsWith.cluCode", catalogCourseCode);
+        request.addParam("lu.queryParam.luOptionalType", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+        request.setSortColumn("lu.resultColumn.cluOfficialIdentifier.cluCode");
+        
+        SearchResultInfo results = getCluService().search(request, ContextUtils.createDefaultContextInfo());
+        for(SearchResultRow row:results.getRows()){
+            for(SearchResultCell cell:row.getCells()){
+                if("lu.resultColumn.cluOfficialIdentifier.cluCode".equals(cell.getKey())){
+                    rList.add(new CourseCodeSuggestResults(cell.getValue()));
+                }
+            }
+        }
+        return rList;
+    }
+
+    private CluService getCluService() {
+        if(cluService == null){
+            cluService = CourseOfferingResourceLoader.loadCluService();
+        }
+        return cluService;
+    }
+
+    public class CourseCodeSuggestResults{
+
+        private String catalogCourseCode;
+
+        public CourseCodeSuggestResults() {
+            super();
+        }
+
+        public CourseCodeSuggestResults(String catalogCourseCode) {
+            this();
+            this.catalogCourseCode = catalogCourseCode;
+        }
+
+        public String getCatalogCourseCode() {
+            return catalogCourseCode;
+        }
+
+        public void setCatalogCourseCode(String catalogCourseCode) {
+            this.catalogCourseCode = catalogCourseCode;
+        }
     }
 
     private static PermissionService getPermissionService() {

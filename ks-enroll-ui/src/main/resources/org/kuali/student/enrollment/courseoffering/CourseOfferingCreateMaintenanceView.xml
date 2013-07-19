@@ -450,7 +450,22 @@
                     <property name="quickfinder.lightBoxLookup">
                         <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                     </property>
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="catalogCourseCode"
+                              p:suggestQuery.dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl.CourseCodeSuggestResults">
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseCodes"
+                                      p:queryFieldMapping="catalogCourseCode:catalogCourseCode" p:returnFieldMapping="catalogCourseCode:catalogCourseCode"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
+
                 <bean parent="Uif-InputField" p:propertyName="targetTermCode" p:required="true"
                       p:label="Target Term" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
                     <property name="control">
