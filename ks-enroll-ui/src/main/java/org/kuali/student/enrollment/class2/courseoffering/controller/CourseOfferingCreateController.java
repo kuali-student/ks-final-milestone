@@ -515,14 +515,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                         return getUIFModelAndView(form);
                     } else {
                         if (coWrapper.isCreateFromCatalog()) {
-                            List<CourseOfferingInfo> coInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
-                            if (coInfos != null && coInfos.size() > 0) {
-                                Properties urlParameters = _buildCOURLParameters(coInfos.get(0).getId(), term.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_EDIT);
-                                return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE, urlParameters);
-                            } else {
-                                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND);
-                                return getUIFModelAndView(form);
-                            }
+                            Properties urlParameters = _buildCOURLParameters(course.getId(), term.getId(), soc.getId(), KRADConstants.Maintenance.METHOD_TO_CALL_NEW);
+                            return super.performRedirect(form, CourseOfferingConstants.CONTROLLER_PATH_COURSEOFFERING_CREATE_MAINTENANCE, urlParameters);
                         } else {  // Copy part
                             //Get all the course offerings in a term
                             List<CourseOfferingInfo> courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(), contextInfo);
@@ -580,7 +574,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                             //Enable the create button
                             coWrapper.setEnableCreateButton(true);
 
-                            return getUIFModelAndView(form, "courseOfferingCopyPage");
+                            return getUIFModelAndView(form, CourseOfferingConstants.COPY_COURSEOFFERING_PAGE);
                         }
                     }
                 } else {
@@ -755,15 +749,18 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         return courseInfoList;
     }
 
-    private static Properties _buildCOURLParameters(String courseOfferingInfoId, String termId, String methodToCall) {
+    private static Properties _buildCOURLParameters(String courseId, String termId, String socId, String methodToCall) {
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
-        props.put("courseOfferingInfo.id", courseOfferingInfoId);
-        props.put("term.id", termId);
+        props.put(CourseOfferingConstants.COURSE_ID, courseId);
+        props.put(CourseOfferingConstants.TARGET_TERM_ID, termId);
+        props.put(CourseOfferingConstants.SOC_ID, socId);
+        props.put(CourseOfferingConstants.CREATE_COURSEOFFERING, "true");
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName());
         props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         return props;
     }
+
     protected TypeService getTypeService() {
         if(typeService == null) {
             typeService = CourseOfferingResourceLoader.loadTypeService();
