@@ -19,19 +19,6 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="ActivityOfferingEdit-submitSection" parent="Uif-VerticalBoxSection">
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}"
-                      p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-                <ref bean="ActivityOfferingEdit_SubmitCancel"/>
-            </list>
-        </property>
-    </bean>
 
     <bean id="ActivityOfferingEdit_SubmitCancel" parent="ActivityOfferingEdit_SubmitCancel-parent"/>
     <bean id="ActivityOfferingEdit_SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
@@ -98,7 +85,6 @@
                         </list>
                     </property>
                 </bean>
-                <ref bean="ActivityOfferingEdit-submitSection"/>
             </list>
         </property>
     </bean>
