@@ -16,6 +16,7 @@
 package org.kuali.student.r2.lum.lu.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -56,6 +57,7 @@ import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
 import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 public class CluServiceMockImpl implements CluService {
     // cache variable 
@@ -1110,8 +1112,19 @@ public class CluServiceMockImpl implements CluService {
     }
 
     @Override
-    public List<VersionDisplayInfo> getVersions(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<VersionDisplayInfo> versionInfos = new ArrayList<VersionDisplayInfo>();
+        if (CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)) {
+            for (CluInfo cluInfo : cluMap.values()) {
+                VersionInfo version = cluInfo.getVersion();
+                if (version.getVersionIndId().equals(refObjectId)) {
+                    versionInfos.add(new VersionDisplayInfo(cluInfo.getId(), version.getVersionIndId(), version.getSequenceNumber(), version.getCurrentVersionStart(), version.getCurrentVersionEnd(), version.getVersionComment(), version.getVersionedFromId()));
+                }
+            }
+        } else {
+            throw new UnsupportedOperationException("This method does not know how to handle object type:" + refObjectTypeURI);
+        }
+        return versionInfos;
     }
 
     @Override
