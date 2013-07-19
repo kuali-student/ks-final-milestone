@@ -1,4 +1,4 @@
-package org.kuali.student.r2.common.util.constants;
+package org.kuali.student.r2.core.constants;
 
 import org.kuali.rice.krms.api.engine.Term;
 
