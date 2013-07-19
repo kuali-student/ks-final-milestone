@@ -182,8 +182,9 @@ public class AcademicRecordServiceClass2MockImpl implements
         if (!studentToCourseRecordsMap.keySet().contains(personId))
             throw new DoesNotExistException("No course records for student Id = " + personId);
 
-        if (!courseIdToCourseCodeMap.keySet().contains(courseId))
-            throw new DoesNotExistException("No course records for course id = " + courseId);
+        // Should not throw exception, course could still exist in cluservice and i do want to check if any student has completed it.
+        //if (!courseIdToCourseCodeMap.keySet().contains(courseId))
+        //    throw new DoesNotExistException("No course records for course id = " + courseId);
 
         List<StudentCourseRecordInfo> records = studentToCourseRecordsMap.get(personId);
 

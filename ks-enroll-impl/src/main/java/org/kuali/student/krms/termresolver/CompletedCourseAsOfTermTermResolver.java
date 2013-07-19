@@ -2,8 +2,6 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -25,7 +23,7 @@ import java.util.Set;
  * Time: 1:57 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CompletedCourseForTermTermResolver implements TermResolver<Boolean> {
+public class CompletedCourseAsOfTermTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
     private VersionManagementService cluVersionService;
@@ -64,7 +62,6 @@ public class CompletedCourseForTermTermResolver implements TermResolver<Boolean>
         try {
             //Retrieve the version independent clu id.
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
-            String termId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY);
 
             List<VersionDisplayInfo> versions = cluVersionService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
             for(VersionDisplayInfo version : versions){

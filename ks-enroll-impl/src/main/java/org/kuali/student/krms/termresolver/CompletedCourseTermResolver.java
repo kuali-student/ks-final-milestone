@@ -17,17 +17,13 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.Collections;
@@ -42,8 +38,7 @@ import java.util.Set;
 public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
-    private CourseOfferingService courseOfferingService;
-    private VersionManagementService versionService;
+    private VersionManagementService cluVersionService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -78,7 +73,7 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
             //Retrieve the version independent clu id.
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
 
-            List<VersionDisplayInfo> versions = versionService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
+            List<VersionDisplayInfo> versions = cluVersionService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
             for(VersionDisplayInfo version : versions){
                 //Retrieve the students academic record for this version.
                 if(academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context).size()>0){
@@ -100,17 +95,12 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
         this.academicRecordService = academicRecordService;
     }
 
-    public CourseOfferingService getCourseOfferingService() {
-        return courseOfferingService;
+    public VersionManagementService getCluVersionService() {
+        return cluVersionService;
     }
 
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
-    }
-
-
-    public void setCluService(VersionManagementService versionService) {
-        this.versionService = versionService;
+    public void setCluVersionService(VersionManagementService cluVersionService) {
+        this.cluVersionService = cluVersionService;
     }
 
 }

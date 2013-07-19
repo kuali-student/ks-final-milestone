@@ -34,7 +34,6 @@ import java.util.Set;
 public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
-    private CourseOfferingService courseOfferingService;
     private CluService cluService;
 
     @Override
@@ -69,28 +68,25 @@ public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
             String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
             List<String> cluIds = this.cluService.getAllCluIdsInCluSet(cluSetId, context);
 
-            //Create a counter so that we can check that the student completed all of the courses.
-            int cluIdsCompleted = 0;
-
             for(String cluId : cluIds){
+                boolean completed = false;
                 List<VersionDisplayInfo> versions = cluService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
                 for(VersionDisplayInfo version : versions){
                     //Retrieve the students academic record for this version.
                     if(academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context).size()>0){
-                        cluIdsCompleted++; //if service returned anything, the student has completed a version of the clu.
+                        completed = true; //if service returned anything, the student has completed a version of the clu.
                         break;//no need to evaluate the other versions
                     }
                 }
+                if(!completed){
+                    return false;
+                }
             }
-            if(cluIdsCompleted == cluIds.size()){
-                return true;//student has completed all of the courses.
-            }
-
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
-        return false;
+        return true;
     }
 
     public AcademicRecordService getAcademicRecordService() {
@@ -101,14 +97,6 @@ public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
         this.academicRecordService = academicRecordService;
     }
 
-    public CourseOfferingService getCourseOfferingService() {
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
-    }
-
     public CluService getCluService() {
         return cluService;
     }
@@ -116,4 +104,5 @@ public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
     public void setCluService(CluService cluService) {
         this.cluService = cluService;
     }
+
 }
