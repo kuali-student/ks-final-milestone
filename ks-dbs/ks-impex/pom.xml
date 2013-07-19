@@ -39,7 +39,7 @@
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
                                     <removeExistingPropertySources>true</removeExistingPropertySources>
-                                    <propertySourcesConfig>org.kuali.student.deploy.spring.InitializeSourceDbPropertySourceConfig</propertySourcesConfig>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.SourceDbInitPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClass>org.kuali.common.jdbc.spring.SqlControllerExecutableConfig</annotatedClass>
                                 </configuration>
                             </execution>
@@ -65,7 +65,7 @@
                                 </goals>
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
-                                    <propertySourcesConfig>org.kuali.student.deploy.spring.DumpSourceDbPropertySourceConfig</propertySourcesConfig>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.SourceDbDumpPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClass>org.kuali.common.impex.spring.DumpDatabaseExecutableConfig</annotatedClass>
                                 </configuration>
                             </execution>
@@ -90,7 +90,7 @@
                                 </goals>
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
-                                    <propertySourcesConfig>org.kuali.student.deploy.spring.UpdateScmPropertySourceConfig</propertySourcesConfig>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.SourceDbScmPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClass>org.kuali.student.deploy.spring.ScmUpdateExecutableConfig</annotatedClass>
                                     <!-- 
                                     <annotatedClass>org.kuali.common.util.scm.ScmProjectConfig</annotatedClass>

@@ -7,11 +7,11 @@ import org.kuali.student.deploy.config.SourceDbConstants;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DumpSourceDbPropertySourceConfig extends BuildPropertySourceConfig {
+public class SourceDbScmPropertySourceConfig extends BuildPropertySourceConfig {
 
 	@Override
 	protected List<String> getConfigIds() {
-		return SourceDbConstants.DUMP_SOURCE_DB_CONFIG_IDS;
+		return SourceDbConstants.SCM_SOURCE_DB_CONFIG_IDS;
 	}
 
 }

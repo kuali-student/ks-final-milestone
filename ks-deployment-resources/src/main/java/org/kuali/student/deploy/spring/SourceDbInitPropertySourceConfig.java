@@ -7,7 +7,7 @@ import org.kuali.student.deploy.config.SourceDbConstants;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class InitializeSourceDbPropertySourceConfig extends BuildPropertySourceConfig {
+public class SourceDbInitPropertySourceConfig extends BuildPropertySourceConfig {
 
 	@Override
 	protected List<String> getConfigIds() {
