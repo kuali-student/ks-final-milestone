@@ -149,6 +149,24 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
                 url = form.getReturnLocation().replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
             }
             form.setReturnLocation(url);
+        } else {
+            CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+
+            urlParameters.put(CalendarConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
+            urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode());
+
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
+            urlParameters.put("termCode", dataObject.getTerm().getCode());
+            if (dataObject.getCourseOfferingInfo().getCourseNumberSuffix() != null && !StringUtils.isBlank(dataObject.getCourseOfferingInfo().getCourseNumberSuffix())) {
+                urlParameters.put("inputCode", dataObject.getCourseOfferingInfo().getCourseOfferingCode().concat(dataObject.getCourseOfferingInfo().getCourseNumberSuffix()));
+            } else {
+                urlParameters.put("inputCode", dataObject.getCourseOfferingInfo().getCourseOfferingCode());
+            }
+            urlParameters.put("viewId",CourseOfferingConstants.MANAGE_CO_VIEW_ID);
+            urlParameters.put("pageId",CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+            urlParameters.put("withinPortal","false");
+
+            return super.performRedirect(form, CourseOfferingConstants.MANAGE_CO_CONTROLLER_PATH, urlParameters);
         }
 
         // clear current form from session
