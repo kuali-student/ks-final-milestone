@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -172,7 +173,8 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             //2. set CourseInfo
             formObject.setCourse(courseInfo);
 
-            //3. set formatOfferingList - no CO
+            //3. set formatOfferingList
+            formObject.setFormatOfferingList(new ArrayList<FormatOfferingInfo>());
 
             //4. Checking if Grading Options should be disabled or not and assign default (if no value)
             //5. Checking if there are any student registration options from CLU for screen display
