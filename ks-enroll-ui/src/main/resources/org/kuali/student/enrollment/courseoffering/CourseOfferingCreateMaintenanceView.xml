@@ -412,15 +412,10 @@
             </list>
         </property>
         <property name="footer">
-            <bean parent="Uif-FooterBase">
+            <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
                         <bean parent="Uif-HorizontalBoxGroup">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ac_stickyfooter</value>
-                                </list>
-                            </property>
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"
