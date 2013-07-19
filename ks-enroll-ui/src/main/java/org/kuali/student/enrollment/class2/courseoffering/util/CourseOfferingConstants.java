@@ -22,6 +22,13 @@ public class CourseOfferingConstants {
     public final static String ATP_CODE = "atpCode";
     public final static String ATP_ID = "atpId";
 
+    // Attributes for Create CO
+    public final static String COURSE_ID = "courseId";
+    public final static String TARGET_TERM_ID = "targetTermId";
+    public final static String SOC_ID = "socId";
+    public final static String CREATE_COURSEOFFERING = "createCO";
+    public final static String COPY_COURSEOFFERING_PAGE = "courseOfferingCopyPage";
+
     // display name for 'Course' option in Grade Roster Level
     public final static String FORMAT_OFFERING_GRADE_ROSTER_LEVEL_COURSE_DISPLAY = "Course";
 
