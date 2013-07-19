@@ -154,8 +154,13 @@ public class SearchableCrudDaoImpl {
 			int i = 0;
 			
 			//Get an array of the jpql results
-			int selectIndex = queryString.toLowerCase().indexOf("select")+"select".length();
-			int fromIndex = queryString.toLowerCase().indexOf(" from ");
+            String lowercaseQueryString = queryString.toLowerCase();
+			int selectIndex = lowercaseQueryString.indexOf("select")+"select".length();
+            int distinctIndex = lowercaseQueryString.indexOf("distinct")+"distinct".length();//Filter out the "distinct"
+			int fromIndex = lowercaseQueryString.indexOf(" from ");
+            if(selectIndex < distinctIndex && distinctIndex < fromIndex){
+                selectIndex = distinctIndex;
+            }
 			
 			if (selectIndex >= 0 && fromIndex > selectIndex){
 				String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",");
