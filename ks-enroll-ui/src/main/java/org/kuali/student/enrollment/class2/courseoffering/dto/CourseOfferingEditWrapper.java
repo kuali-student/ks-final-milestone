@@ -67,6 +67,8 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     private List<String> alternateCourseCodesSuffixStripped;
 
+    private boolean createCO;
+
     public CourseOfferingEditWrapper(){
         formatOfferingList = new ArrayList<FormatOfferingInfo>();
         studentRegOptions = new ArrayList<String>();
@@ -286,6 +288,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public List<String> getAlternateCourseCodesSuffixStripped() {
         return alternateCourseCodesSuffixStripped;
+    }
+
+    public boolean getCreateCO() {
+        return createCO;
+    }
+
+    public void setCreateCO(boolean createCO) {
+        this.createCO = createCO;
     }
 
     /**
