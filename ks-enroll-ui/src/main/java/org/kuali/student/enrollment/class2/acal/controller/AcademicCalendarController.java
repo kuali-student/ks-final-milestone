@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.view.DialogManager;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -81,7 +82,7 @@ import java.util.Properties;
 @RequestMapping(value = "/academicCalendar")
 public class AcademicCalendarController extends UifControllerBase {
 
-    private static final Logger LOG = org.apache.log4j.Logger.getLogger(AcademicCalendarController.class);
+    private static final Logger LOG = Logger.getLogger(AcademicCalendarController.class);
 
     private AcademicCalendarService acalService;
     private AcademicCalendarServiceFacade academicCalendarServiceFacade;
@@ -405,7 +406,7 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelTerm")
     public ModelAndView cancelTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
-
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
@@ -451,8 +452,6 @@ public class AcademicCalendarController extends UifControllerBase {
         int selectedLineIndex;
 
         AcademicTermWrapper termWrapper;
-
-        AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
 
         String dialog=null;
         if(academicCalendarForm.isOfficialCalendar()){
@@ -516,7 +515,6 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         academicCalendarForm.setDefaultTabToShow(CalendarConstants.ACAL_TERM_TAB);
-        academicCalendarForm.getView().setApplyDirtyCheck(true);
         return getUIFModelAndView(academicCalendarForm);
     }
 
@@ -533,7 +531,7 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelAddingHoliday")
     public ModelAndView cancelAddingHoliday(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
-
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         ((HolidayCalendarWrapper)academicCalendarForm.getNewCollectionLines().get("holidayCalendarList")).setId(StringUtils.EMPTY);
 
         return getUIFModelAndView(academicCalendarForm);
@@ -632,7 +630,7 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteKeyDate")
     public ModelAndView deleteKeyDate(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
-
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
@@ -660,7 +658,7 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteKeyDateGroup")
     public ModelAndView deleteKeyDateGroup(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
-
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
@@ -697,7 +695,7 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteHolidayCalendar")
     public ModelAndView deleteHolidayCalendar(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
-
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
@@ -725,7 +723,7 @@ public class AcademicCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=deleteAcalEvent")
     public ModelAndView deleteAcalEvent(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
-
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
@@ -940,6 +938,7 @@ public class AcademicCalendarController extends UifControllerBase {
         // Reset values
         academicCalendarForm.getEventsToDeleteOnSave().clear();
         academicCalendarForm.getFieldsToSave().clear();
+        academicCalendarForm.setDirtyFields("");
         academicCalendarForm.getTermsToDeleteOnSave().clear();
         academicCalendarForm.setNewCalendar(false);
 
@@ -1448,6 +1447,7 @@ public class AcademicCalendarController extends UifControllerBase {
     private List<String> processDirtyFields(AcademicCalendarForm academicCalendarForm){
         String[] tempFields = academicCalendarForm.getDirtyFields().split(",");
         List<String> dirtyFields = academicCalendarForm.getFieldsToSave();
+        String completeDirtyFields ="";
         for(String field : tempFields){
             boolean alreadySeen = false;
             for(String field2 : dirtyFields){
@@ -1456,9 +1456,15 @@ public class AcademicCalendarController extends UifControllerBase {
                     break;
                 }
             }
-            if(!alreadySeen)dirtyFields.add(field);
+            if(!alreadySeen){
+                dirtyFields.add(field);
+
+            }
         }
-        academicCalendarForm.setDirtyFields("");
+        for(String field : dirtyFields){
+            completeDirtyFields= completeDirtyFields + field +",";
+        }
+        academicCalendarForm.setDirtyFields(completeDirtyFields);
         return dirtyFields;
 
     }
@@ -1528,6 +1534,17 @@ public class AcademicCalendarController extends UifControllerBase {
         props.put(UifParameters.AJAX_REQUEST, "false");
 
         return performRedirect(form, form.getFormPostUrl(), props);
+    }
+
+    /**
+     * Override to process and save dirty fields when adding values.
+     */
+    @Override
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLine")
+    public ModelAndView addLine(@ModelAttribute("KualiForm") UifFormBase uifForm, BindingResult result,
+                                HttpServletRequest request, HttpServletResponse response) {
+        ((AcademicCalendarForm)uifForm).setFieldsToSave(processDirtyFields((AcademicCalendarForm)uifForm));
+        return super.addLine(uifForm,result,request,response);
     }
 
 }

@@ -45,7 +45,7 @@
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="style" value="min-width:70em;"/>
-        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000);" />
+        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');" />
         <!--<property name="header.render" value="false" />-->
         <property name="headerText" value="Terms"/>
         <property name="validationMessages.displayMessages" value="false"/>
@@ -75,10 +75,10 @@
                                                     <bean id="term_official" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official"
                                                           p:render="@{!#line.official and !#view.readOnly}"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);
-                                                          jQuery('#validateDirty')[0].value=false; findDirtyFields('AcalEdit-DirtyFields');"  />
+                                                          findDirtyFields('AcalEdit-DirtyFields');"  />
                                                     <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="@{#line.isSubTerm()? 'Delete Subterm Draft' : 'Delete Term Draft'}"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);
-                                                           jQuery('#validateDirty')[0].value=false; findDirtyFields('AcalEdit-DirtyFields');"
+                                                           findDirtyFields('AcalEdit-DirtyFields');"
                                                           p:render="@{!#line.official and !#view.readOnly}"/>
                                                     <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}"/>
                                                     <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!#line.official}"/>
@@ -101,7 +101,8 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                  since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"/>
+                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
         </property>
         <property name="lineActions">
@@ -311,7 +312,7 @@
                 <bean id="key_date_group_type" parent="Uif-InputField" p:propertyName="keyDateGroupType" p:render="@{#isAddLine}"
                       p:label="* Key Date Group Type" p:labelPlacement="TOP"
                       p:finalizeMethodToCall="populateKeyDateGroupTypes" >
-                    <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000);" />
+                    <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');" />
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -353,7 +354,8 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                 since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"/>
+                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
         </property>
         <property name="items">
@@ -362,7 +364,7 @@
                       p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
                       p:label="* Key Date Type"
                       p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;">
-                    <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000);" />
+                    <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');" />
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>

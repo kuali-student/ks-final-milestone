@@ -64,7 +64,7 @@ limitations under the License.
                 </bean>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="resetDialogResponses();"/>
+        <property name="onDocumentReadyScript" value="resetDialogResponses('AcalEdit-DirtyFields');"/>
         <property name="items">
             <list>
 
@@ -232,7 +232,7 @@ limitations under the License.
             <list>
                 <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial"
                       p:actionLabel="Make Official" p:render="@{!#line.official and !#view.readOnly}"
-                      p:onClickScript="jQuery('#validateDirty')[0].value=false; findDirtyFields('AcalEdit-DirtyFields');"/>
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
         </property>
     </bean>
@@ -313,9 +313,17 @@ limitations under the License.
         <property name="addLineLabel.labelText" value=""/>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction" p:methodToCall="deleteAcalEvent"/>
+                <bean parent="Uif-DeleteLineAction" p:methodToCall="deleteAcalEvent"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
         </property>
 		<property name="items">
@@ -412,7 +420,7 @@ limitations under the License.
         <property name="propertyName" value="holidayCalendarList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
-
+        <property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>
 
         <property name="addLineLabel.labelText" value=""/>
         <property name="layoutManager.lineGroupPrototype.header.cssClasses">
@@ -426,7 +434,8 @@ limitations under the License.
                  <property name="items">
                     <list>
                        <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingHoliday" p:actionLabel="Cancel Adding Holiday Calendar"
-                             p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
+                             p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"
+                             p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
                     </list>
                  </property>
              </bean>
@@ -446,7 +455,7 @@ limitations under the License.
                                         <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
                                         <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
                                         <bean parent="Uif-ActionLink" p:methodToCall="deleteHolidayCalendar" p:actionLabel="Delete" p:ajaxSubmit="true"
-                                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
+                                              p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);findDirtyFields('AcalEdit-DirtyFields');"
                                               p:actionScript="actionInvokeHandler(this);" p:render="@{!#view.readOnly}"/>
                                     </list>
                                 </property>
@@ -458,7 +467,8 @@ limitations under the License.
         </property>
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"/>
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
         </property>
         <property name="items">

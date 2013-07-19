@@ -1041,9 +1041,22 @@ function replaceCheckBoxWithRadio(containerId) {
 /**
  * Resets all dialog responses to unchecked
  */
-function resetDialogResponses(){
+function resetDialogResponses(returnFieldId){
     var dialogResponses = jQuery('input.uif-dialogButtons');
     for(i =0; i < dialogResponses.length; i++){
         dialogResponses[i].checked=false;
+    }
+    resetDirtyFields(returnFieldId);
+}
+
+function resetDirtyFields(returnFieldId){
+    var dirtyFields = jQuery('#'+returnFieldId+'_control');
+    if(dirtyFields.length==0) return;
+    var fields = dirtyFields[0].value.split(',');
+    for(i =0; i<fields.length;i++){
+        var field = fields[i];
+        if(field.length==0) continue;
+        var marker = jQuery('[name="'+field+'"]');
+        marker.addClass('dirty');
     }
 }
