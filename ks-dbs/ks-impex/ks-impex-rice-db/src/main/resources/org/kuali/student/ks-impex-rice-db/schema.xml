@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <schema>
     <foreignKey foreignTableName="KREN_CHNL_T" localTableName="KREN_CHNL_SUBSCRP_T" name="KREN_CHAN_SUBSCRP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>CHNL_ID</foreignColumnNames>
