@@ -243,7 +243,7 @@
                             </property>
                             <property name="items">
                                 <list>
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="@{(document.oldMaintainableObject.dataObject.createCO)? 'Create' : 'Save '}"/>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="@{(document.oldMaintainableObject.dataObject.createCO)? 'Create' : 'Save '}"/>
                                     <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
                                 </list>
                             </property>
