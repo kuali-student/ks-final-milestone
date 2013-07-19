@@ -180,6 +180,11 @@
             <list/>
         </property>
         <property name="page.stickyFooter" value="true"/>
+        <property name="page.footer.cssClasses">
+            <list merge="true">
+                <value>ks-uif-footer</value>
+            </list>
+        </property>
 
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
