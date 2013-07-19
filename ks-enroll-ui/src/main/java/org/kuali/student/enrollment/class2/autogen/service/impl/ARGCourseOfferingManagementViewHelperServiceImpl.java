@@ -1056,8 +1056,19 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 rgWrapper.setAoStateNameText(rgWrapper.getAoStateNameText() + (newLine ? "<br/>" : "") + aoWrapper.getStateName() + lineBreaks);
                 //sub-term icon and tooltip setup
                 if(!aoWrapper.getSubTermName().equals("None")){  //sub-term? > icon + name and dates
-                    rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode()
-                            + "&nbsp;&nbsp;&nbsp;<img src=\"../ks-enroll/images/subterm_icon.png\" title=\"This activity is in "+aoWrapper.getSubTermName()+" -\n"+aoWrapper.getTermStartEndDate()+"\">" + lineBreaks);
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(rgWrapper.getAoActivityCodeText());
+                    sb.append(newLine ? "<br/>" : "");
+                    sb.append(aoWrapper.getAoInfo().getActivityCode());
+                    sb.append("&nbsp;&nbsp;&nbsp;<img src=\"../ks-enroll/images/subterm_icon.png\" title=\"This activity is in ");
+                    sb.append(aoWrapper.getSubTermName());
+                    sb.append(" -\n");
+                    sb.append(aoWrapper.getTermStartEndDate());
+                    sb.append("\">");
+                    sb.append(lineBreaks);
+                    rgWrapper.setAoActivityCodeText(sb.toString());
+//                    rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode()
+//                            + "&nbsp;&nbsp;&nbsp;<img src=\"../ks-enroll/images/subterm_icon.png\" title=\"This activity is in "+aoWrapper.getSubTermName()+" -\n"+aoWrapper.getTermStartEndDate()+"\">" + lineBreaks);
                 } else {
                     rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoWrapper.getAoInfo().getActivityCode() + lineBreaks);
                 }
