@@ -9,6 +9,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -22,6 +23,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -59,6 +61,8 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     private Map<String, KeyDateInfo> keydates = new LinkedHashMap<String, KeyDateInfo>();
     // Term to keydate set
     private Map<String, Set<String>> term2KeydateSet = new LinkedHashMap<String, Set<String>>();
+    // ExamPeriod
+    private Map<String, ExamPeriodInfo> examPeriodMap = new LinkedHashMap<String, ExamPeriodInfo>();
 
     @Override
 	public void clear() {
@@ -68,6 +72,7 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     	this.subterm2termSet.clear();
         this.keydates.clear();
         this.term2KeydateSet.clear();
+        this.examPeriodMap.clear();
 	}
 
     @Override
@@ -873,4 +878,287 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
     public List<ValidationResultInfo> validateTerm(String validationTypeKey, String termTypeKey, TermInfo termInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public TypeInfo getExamPeriodType(String examPeriodTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new UnsupportedOperationException("getExamPeriodType not implemented yet.");
+    }
+
+    @Override
+    public List<TypeInfo> getExamPeriodTypes(ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new UnsupportedOperationException("getExamPeriodTypes not implemented yet.");
+    }
+
+    @Override
+    public List<TypeInfo> getExamPeriodTypesForTermType(String termTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new UnsupportedOperationException("getExamPeriodTypesForTermType not implemented yet.");
+    }
+
+    @Override
+    public StateInfo getExamPeriodState(String examPeriodStateKey, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("getExamPeriodState has not been implemented");
+    }
+
+    @Override
+    public List<StateInfo> getExamPeriodStates(ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("getExamPeriodStates has not been implemented");
+    }
+
+    @Override
+    public ExamPeriodInfo getExamPeriod(String examPeriodId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        if (!this.examPeriodMap.containsKey(examPeriodId)) {
+            throw new DoesNotExistException(examPeriodId);
+        }
+        return new ExamPeriodInfo(this.examPeriodMap.get (examPeriodId));
+    }
+
+    @Override
+    public List<ExamPeriodInfo> getExamPeriodsByIds(List<String> examPeriodIds, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        List<ExamPeriodInfo> list = new ArrayList<ExamPeriodInfo> ();
+        for (String id: examPeriodIds) {
+            list.add (this.getExamPeriod(id, contextInfo));
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> getExamPeriodIdsByType(String examPeriodTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        List<String> list = new ArrayList<String> ();
+        for (ExamPeriodInfo info: examPeriodMap.values ()) {
+            if (examPeriodTypeKey.equals(info.getTypeKey())) {
+                list.add (info.getId ());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<ExamPeriodInfo> getExamPeriodsByCode(String code, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        List<ExamPeriodInfo> list = new ArrayList<ExamPeriodInfo> ();
+        for (ExamPeriodInfo info: examPeriodMap.values ()) {
+            if (code.equals(info.getCode())) {
+                list.add (info);
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> searchForExamPeriodIds(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("searchForExamPeriodIds has not been implemented");
+    }
+
+    @Override
+    public List<ExamPeriodInfo> searchForExamPeriods(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("searchForExamPeriods has not been implemented");
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateExamPeriod(String validationTypeKey, String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        // validate
+        return new ArrayList<ValidationResultInfo> ();
+    }
+
+    @Override
+    public ExamPeriodInfo createExamPeriod(String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+    {
+        // create
+        if (!examPeriodTypeKey.equals (examPeriodInfo.getTypeKey())) {
+            throw new InvalidParameterException ("The type parameter does not match the type on the info object");
+        }
+        ExamPeriodInfo copy = new ExamPeriodInfo(examPeriodInfo);
+        if (copy.getId() == null) {
+            copy.setId(UUIDHelper.genStringUUID());
+        }
+        copy.setMeta(newMeta(contextInfo));
+        examPeriodMap.put(copy.getId(), copy);
+        return new ExamPeriodInfo(copy);
+    }
+
+    @Override
+    public ExamPeriodInfo updateExamPeriod(String examPeriodId, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+            ,ReadOnlyException
+            ,VersionMismatchException
+    {
+        // update
+        if (!examPeriodId.equals (examPeriodInfo.getId())) {
+            throw new InvalidParameterException ("The id parameter does not match the id on the info object");
+        }
+        ExamPeriodInfo copy = new ExamPeriodInfo(examPeriodInfo);
+        ExamPeriodInfo old = this.getExamPeriod(examPeriodInfo.getId(), contextInfo);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
+        }
+        copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
+        this.examPeriodMap .put(examPeriodInfo.getId(), copy);
+        return new ExamPeriodInfo(copy);
+    }
+
+    @Override
+    public StatusInfo changeExamPeriodState(String examPeriodId, String nextStateKey, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("changeExamPeriodState has not been implemented");
+    }
+
+    @Override
+    public StatusInfo deleteExamPeriod(String examPeriodId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        if (this.examPeriodMap.remove(examPeriodId) == null) {
+            throw new DoesNotExistException(examPeriodId);
+        }
+        return newStatus();
+    }
+
+    @Override
+    public StatusInfo addExamPeriodToTerm(String termId, String examPeriodId, ContextInfo contextInfo)
+            throws AlreadyExistsException
+            ,DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("addExamPeriodToTerm has not been implemented");
+    }
+
+    @Override
+    public StatusInfo removeExamPeriodFromTerm(String termId, String examPeriodId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("removeExamPeriodFromTerm has not been implemented");
+    }
+
+    @Override
+    public List<ExamPeriodInfo> getExamPeriodsForTerm(String termId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        throw new OperationFailedException ("getExamPeriodsForTerm has not been implemented");
+    }
+
+    ////////////////////////////
+    // Helper Methods
+    ////////////////////////////
+
+    private StatusInfo newStatus() {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
+    }
+
+    private MetaInfo newMeta(ContextInfo context) {
+        MetaInfo meta = new MetaInfo();
+        meta.setCreateId(context.getPrincipalId());
+        meta.setCreateTime(new Date());
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(meta.getCreateTime());
+        meta.setVersionInd("0");
+        return meta;
+    }
+
+    private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
+        MetaInfo meta = new MetaInfo(old);
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(new Date());
+        meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
+        return meta;
+    }
+
 }
