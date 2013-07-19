@@ -15,8 +15,10 @@
  */
 package org.kuali.student.krms.data;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -24,9 +26,15 @@ import org.joda.time.DateTime;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceClass2MockImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataUtils;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -36,9 +44,15 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +67,14 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
     private static final Logger log = LoggerFactory
             .getLogger(KRMSEnrollmentEligibilityDataLoader.class);
 
-    
+    @Resource(name = "cluService")
+    private CluService cluService;
+
+    @Resource(name = "courseService")
+    private CourseService courseService;
+
+    @Resource(name = "courseOfferingService")
+    private CourseOfferingService courseOfferingService;
 
     @Resource
     private AcademicRecordServiceClass2MockImpl recordService;
@@ -79,6 +100,8 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
 
     private AtpInfo springAtpInfo;
     private AtpInfo fallAtpInfo;
+
+    public ContextInfo contextInfo = null;
     
     
     /**
@@ -239,5 +262,57 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
     public void createSubmitRegistration(RegistrationRequestInfo request) throws InvalidParameterException, PermissionDeniedException, OperationFailedException, AlreadyExistsException, MissingParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         request = registrationService.createRegistrationRequest(request.getTypeKey(), request, context);
         registrationService.submitRegistrationRequest(request.getId(), context);
+    }
+
+    public CourseOffering getCourseOffering(String courseId, String termId) throws Exception {
+        CourseInfo course = this.getCourse(courseId);
+        String coId = "CO:" + course.getId();
+        CourseOfferingInfo courseOffering = null;
+        try {
+            courseOffering = courseOfferingService.getCourseOffering(coId, contextInfo);
+        } catch (DoesNotExistException dne) {
+            //Create a course offering from the course if it does not exist.
+            courseOffering = CourseOfferingServiceTestDataUtils.createCourseOffering(course, termId);
+            courseOffering.setId(coId);
+            courseOffering = courseOfferingService.createCourseOffering(course.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
+                    courseOffering, new ArrayList<String>(), contextInfo);
+            RegistrationGroupInfo regGroup = new RegistrationGroupInfo();
+            regGroup.setCourseOfferingId(courseOffering.getId());
+            regGroup.setTypeKey("atype");
+            courseOfferingService.createRegistrationGroup(regGroup.getFormatOfferingId(), regGroup.getActivityOfferingClusterId(), regGroup.getTypeKey(), regGroup, contextInfo);
+        }
+        return courseOffering;
+    }
+
+    public CourseInfo getCourse(String courseId) throws Exception {
+        try {
+            return courseService.getCourse(courseId, contextInfo);
+        } catch (DoesNotExistException dne) {
+            //Create a course from the cluService if it does not exist.
+            CluInfo clu = cluService.getClu(courseId, contextInfo);
+            CourseInfo course = new CourseInfo();
+            course.setId(clu.getId());
+            course.setCode(clu.getOfficialIdentifier().getCode());
+            course.setCourseTitle(clu.getOfficialIdentifier().getLongName());
+            course.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
+            ResultValuesGroupInfo rvg = new ResultValuesGroupInfo();
+            rvg.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0);
+            course.getCreditOptions().add(rvg);
+
+            return courseService.createCourse(course, contextInfo);
+        }
+    }
+
+    public RegistrationGroupInfo getRegistrationGroup(String courseId, String termId) throws Exception {
+        CourseOffering courseOffering = this.getCourseOffering(courseId, termId);
+        List<RegistrationGroupInfo> regGroups = courseOfferingService.getRegistrationGroupsForCourseOffering(courseOffering.getId(), contextInfo);
+        for (RegistrationGroupInfo regGroup : regGroups) {
+            return regGroup;
+        }
+        return null;
+    }
+
+    public void setContextInfo(ContextInfo contextInfo) {
+        this.contextInfo = contextInfo;
     }
 }

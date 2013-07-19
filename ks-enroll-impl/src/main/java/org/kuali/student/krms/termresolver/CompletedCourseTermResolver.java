@@ -24,8 +24,11 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -40,7 +43,7 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
     private CourseOfferingService courseOfferingService;
-    private CluService cluService;
+    private VersionManagementService versionService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -75,15 +78,11 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
             //Retrieve the version independent clu id.
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
 
-            //Retrieve the students academic record.
-            List<StudentCourseRecordInfo> recordInfoList = academicRecordService.getCompletedCourseRecords(personId, context);
-            for(StudentCourseRecordInfo studentRecord : recordInfoList){
-                //We need the course offering to retrieve the courseid in order to retrieve the original course
-                CourseOffering courseOffering = this.courseOfferingService.getCourseOffering(studentRecord.getCourseOfferingId(), context);
-                CluInfo clu = this.cluService.getClu(courseOffering.getCourseId(), context);
-                //If the version independent id is in the list is the same as parm, return true
-                if (cluId.equals(clu.getVersion().getVersionIndId())){
-                    return true;
+            List<VersionDisplayInfo> versions = versionService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
+            for(VersionDisplayInfo version : versions){
+                //Retrieve the students academic record for this version.
+                if(academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context).size()>0){
+                    return true; //if service returned anything, the student has completed a version of the clu.
                 }
             }
         } catch (Exception e) {
@@ -109,12 +108,9 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
         this.courseOfferingService = courseOfferingService;
     }
 
-    public CluService getCluService() {
-        return cluService;
-    }
 
-    public void setCluService(CluService cluService) {
-        this.cluService = cluService;
+    public void setCluService(VersionManagementService versionService) {
+        this.versionService = versionService;
     }
 
 }

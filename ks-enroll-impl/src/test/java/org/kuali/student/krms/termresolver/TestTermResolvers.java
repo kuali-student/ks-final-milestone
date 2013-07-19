@@ -86,6 +86,7 @@ public class TestTermResolvers {
         contextInfo = new ContextInfo();
         contextInfo.setLocale(new LocaleInfo());
         contextInfo.setPrincipalId("admin");
+        dataLoader.setContextInfo(contextInfo);
 
         loadCluData();
         loadAcadRecordData();
@@ -623,7 +624,7 @@ public class TestTermResolvers {
     }
 
     private void createStudentCourseRecord(String personId, String termId, String courseId) throws Exception {
-        CourseOffering courseOffering = this.getCourseOffering(courseId, termId);
+        CourseOffering courseOffering = dataLoader.getCourseOffering(courseId, termId);
         StudentCourseRecordInfo courseRecord = dataLoader.createStudentCourseRecord(personId, termId, courseOffering.getCourseCode(), courseOffering.getCourseOfferingTitle());
         courseRecord.setCourseOfferingId(courseOffering.getId());
         dataLoader.storeStudentCourseRecord(personId, termId, courseId, courseRecord);
@@ -643,58 +644,10 @@ public class TestTermResolvers {
     private void createRegistration(String studentId, String termId, String... courseIds) throws Exception {
         RegistrationRequestInfo request = dataLoader.createRegistrationRequest(studentId, termId);
         for(String courseId : courseIds){
-            RegistrationGroupInfo regGroup = this.getRegistrationGroup(courseId, termId);
+            RegistrationGroupInfo regGroup = dataLoader.getRegistrationGroup(courseId, termId);
             request.getRegistrationRequestItems().add(dataLoader.createRegistrationItem(studentId, regGroup.getId()));
         }
         dataLoader.createSubmitRegistration(request);
-    }
-
-    private CourseOffering getCourseOffering(String courseId, String termId) throws Exception {
-        CourseInfo course = this.getCourse(courseId);
-        String coId = "CO:" + course.getId();
-        CourseOfferingInfo courseOffering = null;
-        try {
-            courseOffering = courseOfferingService.getCourseOffering(coId, contextInfo);
-        } catch (DoesNotExistException dne) {
-            //Create a course offering from the course if it does not exist.
-            courseOffering = CourseOfferingServiceTestDataUtils.createCourseOffering(course, termId);
-            courseOffering.setId(coId);
-            courseOffering = courseOfferingService.createCourseOffering(course.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
-                    courseOffering, new ArrayList<String>(), contextInfo);
-            RegistrationGroupInfo regGroup = new RegistrationGroupInfo();
-            regGroup.setCourseOfferingId(courseOffering.getId());
-            regGroup.setTypeKey("atype");
-            courseOfferingService.createRegistrationGroup(regGroup.getFormatOfferingId(), regGroup.getActivityOfferingClusterId(), regGroup.getTypeKey(), regGroup, contextInfo);
-        }
-        return courseOffering;
-    }
-
-    private CourseInfo getCourse(String courseId) throws Exception {
-        try {
-            return courseService.getCourse(courseId, contextInfo);
-        } catch (DoesNotExistException dne) {
-            //Create a course from the cluService if it does not exist.
-            CluInfo clu = cluService.getClu(courseId, contextInfo);
-            CourseInfo course = new CourseInfo();
-            course.setId(clu.getId());
-            course.setCode(clu.getOfficialIdentifier().getCode());
-            course.setCourseTitle(clu.getOfficialIdentifier().getLongName());
-            course.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
-            ResultValuesGroupInfo rvg = new ResultValuesGroupInfo();
-            rvg.setKey(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0);
-            course.getCreditOptions().add(rvg);
-
-            return courseService.createCourse(course, contextInfo);
-        }
-    }
-
-    private RegistrationGroupInfo getRegistrationGroup(String courseId, String termId) throws Exception {
-        CourseOffering courseOffering = this.getCourseOffering(courseId, termId);
-        List<RegistrationGroupInfo> regGroups = courseOfferingService.getRegistrationGroupsForCourseOffering(courseOffering.getId(), contextInfo);
-        for (RegistrationGroupInfo regGroup : regGroups) {
-            return regGroup;
-        }
-        return null;
     }
 
 }
