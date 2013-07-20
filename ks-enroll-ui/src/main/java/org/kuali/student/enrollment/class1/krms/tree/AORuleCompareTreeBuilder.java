@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.student.core.krms.dto.KSPropositionEditor;
 import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
@@ -101,11 +102,11 @@ public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
         tNode.setFirstElementItems(this.getListItems(firstElement));
         tNode.setSecondElementItems(this.getListItems(secondElement));
         tNode.setThirdElementItems(this.getListItems(thirdElement));
-        newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
+        newNode.setNodeType(KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
         if (!tNode.getFirstElement().equals(tNode.getSecondElement())) {
-            addNodeType(newNode, NODE_TYPE_COMPAREELEMENT);
+            addNodeType(newNode, KRMSConstants.NODE_TYPE_COMPAREELEMENT);
         } else if (!tNode.getSecondElement().equals(tNode.getThirdElement())) {
-            addNodeType(newNode, NODE_TYPE_COMPAREELEMENT);
+            addNodeType(newNode, KRMSConstants.NODE_TYPE_COMPAREELEMENT);
         }
         newNode.setData(tNode);
         currentNode.getChildren().add(newNode);
@@ -136,13 +137,12 @@ public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
 
     }
 
-
     private void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String coOpCode, String cluOpCode, String aoOpCode) {
         Node<CompareTreeNode, String> opNode = new Node<CompareTreeNode, String>();
         if (!coOpCode.equals(cluOpCode)) {
-            opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
+            opNode.setNodeType(KRMSConstants.NODE_TYPE_COMPAREELEMENT);
         } else if (!cluOpCode.equals(aoOpCode)) {
-            opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
+            opNode.setNodeType(KRMSConstants.NODE_TYPE_COMPAREELEMENT);
         }
         opNode.setData(new CompareTreeNode(coOpCode, cluOpCode, aoOpCode));
         newNode.getChildren().add(opNode);

@@ -49,12 +49,15 @@
 
 .subruleElement {
     white-space: normal !important;
-    max-width: 600px;
     word-wrap: break-word;
 }
 
 .compareElement {
     background-color: #FFF8C6;
+}
+
+.viewElement {
+    max-width: 600px;
 }
 
 .rule-message {

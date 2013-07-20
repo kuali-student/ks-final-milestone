@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.student.core.krms.dto.KSPropositionEditor;
 import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
@@ -70,7 +71,7 @@ public class AORuleViewCoCluTreeBuilder extends KSRuleCompareTreeBuilder {
         CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement), null, null, null);
         tNode.setFirstElementItems(this.getListItems(firstElement));
         tNode.setSecondElementItems(this.getListItems(secondElement));
-        newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
+        newNode.setNodeType(KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
 
         newNode.setData(tNode);
         currentNode.getChildren().add(newNode);
