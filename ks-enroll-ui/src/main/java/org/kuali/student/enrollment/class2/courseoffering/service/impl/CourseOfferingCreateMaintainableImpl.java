@@ -15,6 +15,9 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import net.sf.ehcache.CacheManager;
+import net.sf.ehcache.Element;
+import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -38,19 +41,14 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
@@ -64,7 +62,6 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -80,6 +77,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingCreateMaintainableImpl.class);
     private static PermissionService permissionService = getPermissionService();
     private CluService cluService;
+    private static String CACHE_NAME = "CourseOfferingMaintainableImplCache";
+    private CacheManager cacheManager;
 
 
     /**
@@ -565,11 +564,79 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     }
 
     /**
+     * The premise of this is rather simple. Return a distinct list of course code. At a minimum there needs to
+     * be one character. It then does a char% search. so E% will return all ENGL or any E* codes.
+     *
+     * This implementation is a little special. It's both cached and recursive.
+     *
+     * Because this is a structured search and course codes don't update often we can cache this pretty heavily and make
+     * some assumptions that allow us to make this very efficient.
+     *
+     * So a user wants to type and see the type ahead results very quickly. The server wants as few db calls as possible.
+     * The "bad" way to do this is to search on Every character entered. If we cache the searches then we'll get much
+     * better performance. But we can go one step further because ths is a structured search. The first letter E in
+     * ENGL will return EVERY course that starts with an E. So when you search for EN... why would you call the DB if
+     * you have already called a search for E. So this uses recursion to build the searches. So, in the average case
+     * you will only have to call a db search Once for Every first letter of the course codes.
+     *
+     * @param catalogCourseCode
+     * @return List of distinct course codes or an empty list
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    public List<CourseCodeSuggestResults> retrieveCourseCodes(String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+
+        List<CourseCodeSuggestResults> results =   new ArrayList<CourseCodeSuggestResults>();
+
+        if(catalogCourseCode == null || catalogCourseCode.isEmpty())   return results;   // if nothing passed in, return empty list
+
+        catalogCourseCode = catalogCourseCode.toUpperCase(); // force toUpper
+
+        MultiKey cacheKey = new MultiKey("retrieveCourseCodes", catalogCourseCode);
+
+        // only one character. This is the base search.
+        if(catalogCourseCode.length() == 1){
+            Element cachedResult = getCacheManager().getCache(CACHE_NAME).get(cacheKey);
+
+            Object result;
+            if (cachedResult == null) {
+                result = _retrieveCourseCodes(catalogCourseCode);
+                getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
+                results = (List<CourseCodeSuggestResults>)result;
+            } else {
+                results = (List<CourseCodeSuggestResults>)cachedResult.getValue();
+            }
+        }else{
+            Element cachedResult = getCacheManager().getCache(CACHE_NAME).get(cacheKey);
+
+            if (cachedResult == null) {
+                // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
+                // recurse and search for CHE -> CH -> C (C is the base). Each time building up the cache.
+                // This for loop is the worst part of this method. I'd love to use some logic to remove the for loop.
+                for(CourseCodeSuggestResults courseCode : retrieveCourseCodes(catalogCourseCode.substring(0,catalogCourseCode.length()-1))){
+                    // for every course code, see if it's part of the Match.
+                    if(courseCode.getCatalogCourseCode().startsWith(catalogCourseCode)){
+                        results.add(courseCode);
+                    }
+                }
+
+                getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));
+            } else {
+                results = (List<CourseCodeSuggestResults>)cachedResult.getValue();
+            }
+        }
+
+        return results;
+    }
+
+    /**
      * Does a search Query for course codes used for auto suggest
      * @param catalogCourseCode the starting characters of a course code
      * @return a list of CourseCodeSuggestResults containing matching course codes
      */
-    public List<CourseCodeSuggestResults> retrieveCourseCodes(String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private List<CourseCodeSuggestResults> _retrieveCourseCodes(String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         List<CourseCodeSuggestResults> rList = new ArrayList<CourseCodeSuggestResults>();
 
@@ -623,5 +690,16 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             permissionService = KimApiServiceLocator.getPermissionService();
         }
         return permissionService;
+    }
+
+    public CacheManager getCacheManager() {
+        if(cacheManager == null){
+            cacheManager = CacheManager.getCacheManager("ks-ehcache");
+        }
+        return cacheManager;
+    }
+
+    public void setCacheManager(CacheManager cacheManager) {
+        this.cacheManager = cacheManager;
     }
 }
