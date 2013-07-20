@@ -24,6 +24,17 @@
 
    <bean id="Uif-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean"  abstract="true" />
 
+    <bean id="Uif-Page" parent="Uif-Page-parentBean">
+        <property name="footer">
+            <bean parent="KS-Uif-EmptyFooter"/>
+        </property>
+        <property name="stickyFooter" value="true"/>
+    </bean>
+
+    <bean id="Uif-FooterBase" parent="Uif-FooterBase-parentBean">
+        <property name="cssClasses" value="ks-uif-footer" />
+    </bean>
+
 
     <!-- We're overriding the KRAD bean just to add ids to it for AFT purpose. I think We have a jira
     out there at rice to seperate out the inner beans so that we can avoid copying bean defs at client apps-->

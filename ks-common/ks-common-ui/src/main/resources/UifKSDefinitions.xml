@@ -45,12 +45,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Uif-Page" parent="Uif-Page" class="org.kuali.student.common.uif.container.KSUifPage">
-        <property name="footer">
-            <bean parent="KS-Uif-EmptyFooter"/>
-        </property>
-        <property name="stickyFooter" value="true"/>
-    </bean>
+    <bean id="KS-Uif-Page" parent="Uif-Page" class="org.kuali.student.common.uif.container.KSUifPage" />
 
     <bean id="KS-Uif-EmptyFooter" parent="Uif-FooterBase">
         <property name="items">
@@ -179,12 +174,11 @@
             <!-- In KS, expandall/collapseall not needed-->
             <list/>
         </property>
-        <property name="page.stickyFooter" value="true"/>
-        <property name="page.footer.cssClasses">
-            <list merge="true">
-                <value>ks-uif-footer</value>
-            </list>
+        <property name="footer">
+            <bean parent="KS-Uif-EmptyFooter"/>
         </property>
+        <property name="stickyFooter" value="true"/>
+
 
         <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
         <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
@@ -192,14 +186,10 @@
     </bean>
 
 
-    <bean id="KS-Uif-FooterBase" parent="Uif-FooterBase">
-        <property name="cssClasses" value="ks-uif-footer" />
-    </bean>
+    <bean id="KS-Uif-FooterBase" parent="Uif-FooterBase" />
 
 
-    <bean id="KS-Uif-DocumentPageFooter" parent="Uif-DocumentPageFooter" abstract="true">
-        <property name="cssClasses" value="ks-uif-footer" />
-    </bean>
+    <bean id="KS-Uif-DocumentPageFooter" parent="Uif-DocumentPageFooter" abstract="true" />
 
     <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
     <bean id="KS-Uif-DocumentPageFooter-SubmitCancel"  parent="KS-Uif-DocumentPageFooter-SubmitCancel-parent"/>
