@@ -32,10 +32,6 @@ import java.util.Map;
  */
 public abstract class AbstractTreeBuilder implements TreeBuilder {
 
-    public static String NODE_TYPE_SUBRULEHEADER = "subruleHeader";
-    public static String NODE_TYPE_SUBRULEELEMENT = "subruleElement";
-    public static String NODE_TYPE_COMPAREELEMENT = "compareElement";
-
     protected String buildNodeLabel(PropositionEditor prop){
         return StringEscapeUtils.escapeHtml(this.getDescription(prop));
     }

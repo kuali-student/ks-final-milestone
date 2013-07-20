@@ -26,6 +26,7 @@ import org.kuali.rice.krms.tree.node.CompoundOpCodeNode;
 import org.kuali.rice.krms.tree.node.SimplePropositionEditNode;
 import org.kuali.rice.krms.tree.node.SimplePropositionNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
+import org.kuali.rice.krms.util.KRMSConstants;
 
 /**
  *
@@ -79,7 +80,7 @@ public class RuleEditTreeBuilder extends AbstractTreeBuilder{
                 } else {
                     leaf.setNodeLabel(this.buildNodeLabel(rule, prop));
                     leaf.setNodeType(SimplePropositionNode.NODE_TYPE);
-                    addNodeType(leaf, NODE_TYPE_SUBRULEELEMENT);
+                    addNodeType(leaf, KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
                     leaf.setData(new SimplePropositionNode(prop));
                 }
 

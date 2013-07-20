@@ -22,6 +22,7 @@ import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.TreeNode;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 
 import java.util.HashMap;
@@ -60,8 +61,8 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
             if ((rootNode.getChildren() != null) && (rootNode.getChildren().size() > 0)) {
                 Node<TreeNode, String> firstNode = rootNode.getChildren().get(0);
                 if ((firstNode.getChildren() != null) && (firstNode.getChildren().size() > 0)) {
-                    firstNode.setNodeType(NODE_TYPE_SUBRULEHEADER);
-                    addNodeType(firstNode, NODE_TYPE_SUBRULEELEMENT);
+                    firstNode.setNodeType(KRMSConstants.NODE_TYPE_SUBRULEHEADER);
+                    addNodeType(firstNode, KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
                     firstNode.setNodeLabel("<u>" + firstNode.getNodeLabel() + ":</u>");
                 }
             }
@@ -74,7 +75,8 @@ public class RuleViewTreeBuilder extends AbstractTreeBuilder {
         if (prop != null) {
 
             Node<TreeNode, String> newNode = new Node<TreeNode, String>();
-            newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
+            newNode.setNodeType(KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
+            addNodeType(newNode, KRMSConstants.NODE_TYPE_VIEWELEMENT);
 
             if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
                 newNode.setNodeLabel(this.buildNodeLabel(prop));

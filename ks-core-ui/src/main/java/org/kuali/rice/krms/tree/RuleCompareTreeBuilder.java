@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
+import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 
 import java.util.List;
@@ -81,7 +82,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
 
     private static Node<CompareTreeNode, String> createCompareNode() {
         Node<CompareTreeNode, String> rootNode = new Node<CompareTreeNode, String>();
-        rootNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
+        rootNode.setNodeType(KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
         rootNode.setData(new CompareTreeNode());
         return rootNode;
     }
@@ -95,9 +96,9 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
         CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement));
         tNode.setFirstElementItems(this.getListItems(firstElement));
         tNode.setSecondElementItems(this.getListItems(secondElement));
-        newNode.setNodeType(NODE_TYPE_SUBRULEELEMENT);
+        newNode.setNodeType(KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
         if (!tNode.getFirstElement().equals(tNode.getSecondElement())){
-            addNodeType(newNode, NODE_TYPE_COMPAREELEMENT);
+            addNodeType(newNode, KRMSConstants.NODE_TYPE_COMPAREELEMENT);
         }
 
         newNode.setData(tNode);
@@ -154,7 +155,7 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
     protected void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String firstElement, String secondElement) {
         Node<CompareTreeNode, String> opNode = new Node<CompareTreeNode, String>();
         if (!firstElement.equals(secondElement)){
-            opNode.setNodeType(NODE_TYPE_COMPAREELEMENT);
+            opNode.setNodeType(KRMSConstants.NODE_TYPE_COMPAREELEMENT);
         }
         opNode.setData(new CompareTreeNode(firstElement, secondElement));
         newNode.getChildren().add(opNode);
