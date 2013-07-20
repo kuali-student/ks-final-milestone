@@ -694,6 +694,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
     public CacheManager getCacheManager() {
         if(cacheManager == null){
+            // "ks-ehcache" is the parent bean in ks-ehcache.xml file. This should probably be a constant.
             cacheManager = CacheManager.getCacheManager("ks-ehcache");
         }
         return cacheManager;
