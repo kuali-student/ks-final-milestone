@@ -22,7 +22,7 @@ import org.kuali.common.impex.KualiImpexProducerConfig;
 import org.kuali.common.jdbc.config.JdbcConfigConstants;
 import org.kuali.common.util.Assert;
 import org.kuali.common.util.Str;
-import org.kuali.common.util.config.spring.SmartProjectPropertySourceConfig;
+import org.kuali.common.util.config.spring.ProjectPropertySourceConfig;
 import org.kuali.common.util.maven.MavenConstants;
 import org.kuali.common.util.spring.SpringUtils;
 import org.kuali.student.deploy.config.KSDeploymentResourcesConfig;
@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 @Configuration
-public class InitializeApplicationDbPropertySourceConfig extends SmartProjectPropertySourceConfig {
+public class InitializeApplicationDbPropertySourceConfig extends ProjectPropertySourceConfig {
 
 	protected static final String BASE_CONFIG_ID = KSDeploymentResourcesConfig.INIT_APP_DB.getConfigId();
 
