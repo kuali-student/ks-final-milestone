@@ -231,15 +231,16 @@
                 <ref bean="KS-CourseOfferingEdit-MiscSection"/>
             </list>
         </property>
+        <!--Override the default maintenance doc buttons. -->
         <property name="footer">
-            <bean parent="Uif-FooterBase">
+            <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="@{(document.oldMaintainableObject.dataObject.createCO)? 'Create' : 'Save '}"/>
-                                    <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
+                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
                                 </list>
                             </property>
                         </bean>
@@ -247,8 +248,7 @@
                 </property>
             </bean>
         </property>
-        <!-- We are overriding default Maint doc buttons above. We do this by making the page footer null and putting
-         the buttons in the view footer instead. -->
+        <!-- Make the page footer null. -->
         <property name="page.footer.items">
             <list />
         </property>

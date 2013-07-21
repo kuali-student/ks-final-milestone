@@ -98,16 +98,34 @@
             </list>
         </property>
         <property name="page.id" value="ActivityOfferingEditPage"/>
-        <property name="page.footer.items">
-            <list>
-                <bean parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}" p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                </bean>
-                <ref bean="ActivityOfferingEdit_SubmitCancel"/>
-            </list>
+
+        <!-- Buttons (cancel link, and controls related to the buttons) have to go in the view footer.
+             This overrides the default maintenance doc buttons. -->
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}" p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
+                                        <property name="control">
+                                            <bean parent="Uif-CheckboxControl"/>
+                                        </property>
+                                    </bean>
+                                    <ref bean="ActivityOfferingEdit_SubmitCancel"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
+         <!-- Make the page footer null. -->
+        <property name="page.footer.items">
+            <list />
+        </property>
+
         <property name="cssClasses">
             <list merge="true">
                 <value>aoc_page</value>
