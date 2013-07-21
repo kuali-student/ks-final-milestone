@@ -32,7 +32,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 @Configuration
-public class InitializeApplicationDbPropertySourceConfig extends ProjectPropertySourceConfig {
+public class InitAppDbPropertySourceConfig extends ProjectPropertySourceConfig {
 
 	protected static final String BASE_CONFIG_ID = KSDeploymentResourcesConfig.INIT_APP_DB.getConfigId();
 	protected final static String ARTIFACT_ID_KEY = MavenConstants.ARTIFACT_ID_KEY;
