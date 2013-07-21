@@ -21,10 +21,9 @@ import java.util.List;
 import org.kuali.common.impex.KualiImpexProducerConfig;
 import org.kuali.common.jdbc.config.JdbcConfigConstants;
 import org.kuali.common.util.Assert;
-import org.kuali.common.util.PropertyUtils;
 import org.kuali.common.util.Str;
-import org.kuali.common.util.config.spring.BuildPropertySourceConfig;
-import org.kuali.common.util.property.Constants;
+import org.kuali.common.util.config.spring.SmartProjectPropertySourceConfig;
+import org.kuali.common.util.maven.MavenConstants;
 import org.kuali.common.util.spring.SpringUtils;
 import org.kuali.student.deploy.config.KSDeploymentResourcesConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,35 +31,35 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 @Configuration
-public class InitializeApplicationDbPropertySourceConfig extends BuildPropertySourceConfig {
+public class InitializeApplicationDbPropertySourceConfig extends SmartProjectPropertySourceConfig {
 
-    protected static final String BASE_CONFIG_ID = KSDeploymentResourcesConfig.INIT_APP_DB.getConfigId();
+	protected static final String BASE_CONFIG_ID = KSDeploymentResourcesConfig.INIT_APP_DB.getConfigId();
 
-    protected final static String ARTIFACT_ID_KEY = Constants.DEFAULT_ARTIFACT_ID_PROPERTY;
+	protected final static String ARTIFACT_ID_KEY = MavenConstants.ARTIFACT_ID_KEY;
 
-    protected final static String CONFIG_ID_KEY = "impex.init.application.config";
+	protected final static String CONFIG_ID_KEY = "impex.init.application.config";
 
-    @Autowired
-    Environment env;
+	@Autowired
+	Environment env;
 
-    @Override
-    protected List<String> getConfigIds() {
-        String artifactId = PropertyUtils.getProperty(getProjectProperties(), ARTIFACT_ID_KEY, null);
+	@Override
+	protected List<String> getConfigIds() {
+		String artifactId = null;// PropertyUtils.getProperty(getProjectProperties(), ARTIFACT_ID_KEY, null);
 
-        String contextId = SpringUtils.getProperty(env, CONFIG_ID_KEY, artifactId);
+		String contextId = SpringUtils.getProperty(env, CONFIG_ID_KEY, artifactId);
 
-        // in case we are running in a configuration that does not have an artifactId,
-        // ensure that a context id is found
-        Assert.notNull(contextId);
+		// in case we are running in a configuration that does not have an artifactId,
+		// ensure that a context id is found
+		Assert.notNull(contextId);
 
-        String configId = Str.getId(BASE_CONFIG_ID, contextId);
+		String configId = Str.getId(BASE_CONFIG_ID, contextId);
 
-        List<String> results = new ArrayList<String>(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
+		List<String> results = new ArrayList<String>(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
 
-        results.add(KualiImpexProducerConfig.MPX_SQL.getConfigId());
-        results.add(KualiImpexProducerConfig.SCHEMA_SQL.getConfigId());
-        results.add(configId);
+		results.add(KualiImpexProducerConfig.MPX_SQL.getConfigId());
+		results.add(KualiImpexProducerConfig.SCHEMA_SQL.getConfigId());
+		results.add(configId);
 
-        return results;
-    }
+		return results;
+	}
 }
