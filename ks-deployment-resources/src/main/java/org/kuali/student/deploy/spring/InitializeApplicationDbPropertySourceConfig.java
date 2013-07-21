@@ -24,6 +24,7 @@ import org.kuali.common.util.Assert;
 import org.kuali.common.util.Str;
 import org.kuali.common.util.config.spring.ProjectPropertySourceConfig;
 import org.kuali.common.util.maven.MavenConstants;
+import org.kuali.common.util.project.Project;
 import org.kuali.common.util.spring.SpringUtils;
 import org.kuali.student.deploy.config.KSDeploymentResourcesConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,17 +35,18 @@ import org.springframework.core.env.Environment;
 public class InitializeApplicationDbPropertySourceConfig extends ProjectPropertySourceConfig {
 
 	protected static final String BASE_CONFIG_ID = KSDeploymentResourcesConfig.INIT_APP_DB.getConfigId();
-
 	protected final static String ARTIFACT_ID_KEY = MavenConstants.ARTIFACT_ID_KEY;
-
 	protected final static String CONFIG_ID_KEY = "impex.init.application.config";
 
 	@Autowired
 	Environment env;
 
+	@Autowired
+	Project project;
+
 	@Override
 	protected List<String> getConfigIds() {
-		String artifactId = null;// PropertyUtils.getProperty(getProjectProperties(), ARTIFACT_ID_KEY, null);
+		String artifactId = project.getArtifactId();
 
 		String contextId = SpringUtils.getProperty(env, CONFIG_ID_KEY, artifactId);
 
