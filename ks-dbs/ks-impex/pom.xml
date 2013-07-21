@@ -92,9 +92,9 @@
                                     <forceMojoExecution>true</forceMojoExecution>
                                     <propertySourcesConfig>org.kuali.student.deploy.spring.SourceDbScmPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClass>org.kuali.student.deploy.spring.ScmUpdateExecutableConfig</annotatedClass>
-                                    <!-- 
-                                    <annotatedClass>org.kuali.common.util.scm.ScmProjectConfig</annotatedClass>
-                                     -->
+                                    <!--
+                    <annotatedClass>org.kuali.common.util.scm.ScmProjectConfig</annotatedClass>
+                  -->
                                 </configuration>
                             </execution>
                         </executions>
@@ -138,7 +138,7 @@
                                 <configuration>
                                     <forceMojoExecution>true</forceMojoExecution>
                                     <injectMavenProject>true</injectMavenProject>
-                                    <propertySourcesConfig>org.kuali.student.deploy.spring.InitializeApplicationDbPropertySourceConfig</propertySourcesConfig>
+                                    <propertySourcesConfig>org.kuali.student.deploy.spring.InitAppDbPropertySourceConfig</propertySourcesConfig>
                                     <annotatedClasses>
                                     <annotatedClass>org.kuali.common.impex.spring.MpxSupplierConfig</annotatedClass>
                                     <annotatedClass>org.kuali.common.impex.spring.SchemaXmlSupplierConfig</annotatedClass>
