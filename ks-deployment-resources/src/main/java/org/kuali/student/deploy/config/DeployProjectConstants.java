@@ -1,4 +1,4 @@
-package org.kuali.student.deploy;
+package org.kuali.student.deploy.config;
 
 import org.kuali.common.util.project.KualiConstants;
 

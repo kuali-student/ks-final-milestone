@@ -3,7 +3,6 @@ package org.kuali.student.deploy.config;
 import org.kuali.common.util.config.ConfigUtils;
 import org.kuali.common.util.config.KualiUtilConfig;
 import org.kuali.common.util.config.ProjectConfig;
-import org.kuali.student.deploy.DeployProjectConstants;
 
 public enum KSDeploymentResourcesConfig implements ProjectConfig {
 
