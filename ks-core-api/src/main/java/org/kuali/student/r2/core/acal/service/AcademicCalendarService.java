@@ -2517,7 +2517,7 @@ public interface AcademicCalendarService {
             PermissionDeniedException;
 
     /**
-     * Gets a list of ExamPeriods by Code. Typically, an ExamPeriod Code is unique (should be enforced by the dictionary).
+     * Gets a list of ExamPeriods by Code.
      *
      * @param code        an ExamPeriod Code
      * @param contextInfo information containing the principalId and locale
@@ -2527,6 +2527,7 @@ public interface AcademicCalendarService {
      * @throws MissingParameterException code or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
+     * @impl Typically, an ExamPeriod Code is unique (should be enforced by the dictionary).
      */
     public List<ExamPeriodInfo> getExamPeriodsByCode(@WebParam(name = "code") String code,
                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)

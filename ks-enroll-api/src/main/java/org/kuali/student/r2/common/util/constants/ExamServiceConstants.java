@@ -34,4 +34,11 @@ public class ExamServiceConstants {
     public static final String TYPE_EXAM = "kuali.lu.type.exam";
     public static final String TYPE_EXAM_FINAL = "kuali.lu.type.exam.final";
 
+    /////////////////
+    // STATES
+    /////////////////
+
+    public static final String STATE_EXAM_ACTIVE = "kuali.lu.exam.state.active";
+    public static final String STATE_EXAM_INACTIVE = "kuali.lu.exam.state.inactive";
+
 }
