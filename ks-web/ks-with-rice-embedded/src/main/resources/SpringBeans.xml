@@ -223,16 +223,17 @@
                 <value>classpath:org/kuali/rice/krms/RuleEditMaintenance.xml</value>
                 <value>classpath:org/kuali/rice/krms/RuleManagementView.xml</value>
                 <value>classpath:org/kuali/rice/krms/AgendaManagementView.xml</value>
+                <value>classpath:org/kuali/student/core/krms/DepartmentLookupView.xml</value>
+                <value>classpath:org/kuali/student/core/krms/ClassStandingLookupView.xml</value>
+                <value>classpath:org/kuali/student/core/krms/KSKRMSCustomComponents.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/COCustomComponents.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KrmsComponentsView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CORuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/AORuleMaintenance.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/CustomComponents.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/DepartmentLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/TestSetLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KRMSCourseLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CourseSetsLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KRMSProgramLookupView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/ClassStandingLookupView.xml</value>
 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
