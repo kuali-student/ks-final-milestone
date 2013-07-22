@@ -214,6 +214,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PREREQUISITE_CONTEXTINFO = "contextInfo";
     public static final String TERM_PREREQUISITE_PERSON_ID = "personId";
     public static final String TERM_PREREQUISITE_CLU_ID = "cluId";
+    public static final String TERM_PREREQUISITE_TERM_ID = "termId";
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////
