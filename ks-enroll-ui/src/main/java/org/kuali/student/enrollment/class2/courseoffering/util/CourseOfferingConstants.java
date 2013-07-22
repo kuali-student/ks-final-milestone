@@ -92,6 +92,8 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_CREATE_ERROR_TERM_INVALID = "error.courseOffering.create.term.invalid";
     public static final String COURSEOFFERING_CREATE_ERROR_TERM_RESTRICTED = "error.courseOffering.create.term.restricted";
     public static final String COURSEOFFERING_CREATE_ERROR_COURSE_RESTRICTED = "error.courseOffering.create.course.restricted";
+    public static final String COURSEOFFERING_FORMAT_REQUIRED = "error.enroll.courseoffering.formatId.required";
+
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";

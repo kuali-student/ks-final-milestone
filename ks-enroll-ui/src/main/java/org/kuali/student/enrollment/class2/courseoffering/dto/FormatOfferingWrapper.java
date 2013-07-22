@@ -18,6 +18,8 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
+import java.io.Serializable;
+
 /**
  * Wrapper class around {@link FormatOfferingInfo}. This wrapper can represent a format offering
  * for a regular course as well as the joint courses. This is used in displaying the format
@@ -25,7 +27,7 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
  *
  * @author Kuali Student Team
  */
-public class FormatOfferingWrapper {
+public class FormatOfferingWrapper implements Serializable{
 
     private FormatOfferingInfo formatOfferingInfo;
     private JointCourseWrapper jointCreateWrapper;
@@ -39,9 +41,12 @@ public class FormatOfferingWrapper {
     private String gradeRosterUI;
     private String finalExamUI;
 
+    private RenderHelper renderHelper;
+
     public FormatOfferingWrapper(){
         formatOfferingInfo = new FormatOfferingInfo();
         isJointOffering = false;
+        renderHelper = new RenderHelper();
     }
 
     /**
@@ -261,5 +266,38 @@ public class FormatOfferingWrapper {
     public void setFinalExamUI(String finalExamUI) {
         this.finalExamUI = finalExamUI;
     }
+
+    public RenderHelper getRenderHelper() {
+        return renderHelper;
+    }
+
+    public void setRenderHelper(RenderHelper renderHelper) {
+        this.renderHelper = renderHelper;
+    }
+
+
+    /**
+     * This is a helper model to render formats at the ui. Only the UI rendering related properties
+     * should go here.
+     */
+
+    public class RenderHelper implements Serializable{
+
+        private boolean isNewRow;
+
+        RenderHelper(){
+        }
+
+        public boolean isNewRow() {
+            return isNewRow;
+        }
+
+        public void setNewRow(boolean newRow) {
+            isNewRow = newRow;
+        }
+
+
+    }
+
 
 }

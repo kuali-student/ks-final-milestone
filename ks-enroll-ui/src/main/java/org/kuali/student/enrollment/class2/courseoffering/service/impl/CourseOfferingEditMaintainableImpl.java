@@ -30,6 +30,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
@@ -314,48 +315,48 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
     private void updateFormatOfferings(CourseOfferingEditWrapper coEditWrapper) {
         try{
-            List<FormatOfferingInfo> updatedFormatOfferingList = new ArrayList<FormatOfferingInfo>();
-            List<FormatOfferingInfo> formatOfferingList = coEditWrapper.getFormatOfferingList();
+            List<FormatOfferingWrapper> formatOfferingList = coEditWrapper.getFormatOfferingList();
             CourseOfferingInfo coInfo = coEditWrapper.getCourseOfferingInfo();
             List <String> currentFOIds = getExistingFormatOfferingIds(coInfo.getId());
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             if (formatOfferingList != null && !formatOfferingList.isEmpty())  {
-                for(FormatOfferingInfo formatOfferingInfo : formatOfferingList){
-                    if(formatOfferingInfo.getId()!=null &&
-                            !formatOfferingInfo.getId().isEmpty() &&
-                            currentFOIds.contains(formatOfferingInfo.getId())) {
-                        //update FO
-                        if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
-                            formatOfferingInfo.setFinalExamLevelTypeKey(null);
+                FormatOfferingInfo updatedFormatOffering;
+                for(FormatOfferingWrapper foWrapper : formatOfferingList){
+                    FormatOfferingInfo formatOfferingInfo = foWrapper.getFormatOfferingInfo();
+                    if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId())){
+                        if(formatOfferingInfo.getId()!=null &&
+                                !formatOfferingInfo.getId().isEmpty() &&
+                                currentFOIds.contains(formatOfferingInfo.getId())) {
+                            //update FO
+                            if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
+                                formatOfferingInfo.setFinalExamLevelTypeKey(null);
+                            }
+                            // Populate AO types (all FOs should "require" this (less important here since it should
+                            // already exist)
+                            CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
+                            updatedFormatOffering = getCourseOfferingService().
+                                    updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, contextInfo);
+                            currentFOIds.remove(formatOfferingInfo.getId());
                         }
-                        // Populate AO types (all FOs should "require" this (less important here since it should
-                        // already exist)
-                        CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
-                        FormatOfferingInfo updatedFormatOffering = getCourseOfferingService().
-                                updateFormatOffering(formatOfferingInfo.getId(),formatOfferingInfo, contextInfo);
-                        updatedFormatOfferingList.add(updatedFormatOffering);
-                        currentFOIds.remove(formatOfferingInfo.getId());
-                    }
-                    else{
-                        //create a new FO
-                        formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
-                        formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-                        formatOfferingInfo.setName(null);//Clear these out so they are generated nicely
-                        formatOfferingInfo.setDescr(null);
-                        formatOfferingInfo.setTermId(coInfo.getTermId());
-                        formatOfferingInfo.setCourseOfferingId(coInfo.getId());
-                        if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
-                            formatOfferingInfo.setFinalExamLevelTypeKey(null);
+                        else{
+                            //create a new FO
+                            formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
+                            formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
+                            formatOfferingInfo.setName(null);//Clear these out so they are generated nicely
+                            formatOfferingInfo.setDescr(null);
+                            formatOfferingInfo.setTermId(coInfo.getTermId());
+                            formatOfferingInfo.setCourseOfferingId(coInfo.getId());
+                            if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
+                                formatOfferingInfo.setFinalExamLevelTypeKey(null);
+                            }
+                            // Populate AO types (all FOs should "require" this
+                            CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
+                            updatedFormatOffering = getCourseOfferingService().
+                                    createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, contextInfo);
                         }
-                        // Populate AO types (all FOs should "require" this
-                        CourseOfferingViewHelperUtil.addActivityOfferingTypesToFormatOffering(formatOfferingInfo, coEditWrapper.getCourse(), getTypeService(), contextInfo);
-                        FormatOfferingInfo createdFormatOffering = getCourseOfferingService().
-                                createFormatOffering(coInfo.getId(), formatOfferingInfo.getFormatId(), formatOfferingInfo.getTypeKey(), formatOfferingInfo, contextInfo);
-                        updatedFormatOfferingList.add(createdFormatOffering);
+                        foWrapper.setFormatOfferingInfo(updatedFormatOffering);
                     }
                 }
-                coEditWrapper.setFormatOfferingList(updatedFormatOfferingList);
-
             }
             //delete FormatOfferings that have been removed by the user
             if (currentFOIds != null && currentFOIds.size() > 0){
@@ -498,7 +499,19 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
                 //3. set formatOfferingList
                 List<FormatOfferingInfo> formatOfferingList = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfo.getId(), contextInfo);
-                formObject.setFormatOfferingList(formatOfferingList);
+                List<FormatOfferingWrapper> foList = new ArrayList<FormatOfferingWrapper>();
+                for (FormatOfferingInfo fo : formatOfferingList){
+                    FormatOfferingWrapper wrapper = new FormatOfferingWrapper();
+                    wrapper.setFormatOfferingInfo(fo);
+                    foList.add(wrapper);
+                }
+                formObject.setFormatOfferingList(foList);
+
+                if (foList.isEmpty()){
+                    FormatOfferingWrapper defaultFO = new FormatOfferingWrapper();
+                    defaultFO.getRenderHelper().setNewRow(true);
+                    formObject.getFormatOfferingList().add(defaultFO);
+                }
 
                 //4. Checking if Grading Options should be disabled or not and assign default (if no value)
                 //5. Checking if there are any student registration options from CLU for screen display

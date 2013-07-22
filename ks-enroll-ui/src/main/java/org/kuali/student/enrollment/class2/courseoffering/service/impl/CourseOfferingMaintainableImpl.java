@@ -21,10 +21,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.CheckboxGroupControl;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
+import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -63,6 +66,67 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     private transient TypeService typeService;
     private transient StateService stateService;
     private transient CourseService courseService;
+
+    @Override
+    public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
+
+        if (StringUtils.endsWith(collectionPath,"formatOfferingList")){
+            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+            MaintenanceDocument document = maintenanceForm.getDocument();
+
+            if (document.getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
+                CourseOfferingEditWrapper wrapper = (CourseOfferingEditWrapper)document.getNewMaintainableObject().getDataObject();
+
+                for (FormatOfferingWrapper foWrapper : wrapper.getFormatOfferingList()){
+                    foWrapper.getRenderHelper().setNewRow(false);
+                    if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getName())){
+                        for (FormatInfo format : wrapper.getCourse().getFormats()) {
+                            if (StringUtils.equals(format.getId(),foWrapper.getFormatId())){
+                                StringBuffer activityName = new StringBuffer();
+                                for (ActivityInfo activityInfo : format.getActivities()) {
+                                    TypeInfo activityType = null;
+                                    try {
+                                        activityType = getTypeService().getType(activityInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
+                                    } catch (Exception e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    activityName.append(activityType.getName()+"/");
+                                }
+                                foWrapper.getFormatOfferingInfo().setName(StringUtils.removeEnd(activityName.toString(),"/"));
+                            }
+                        }
+                    }
+                }
+
+                FormatOfferingWrapper newFoWrapper = new FormatOfferingWrapper();
+                newFoWrapper.getRenderHelper().setNewRow(true);
+
+                wrapper.getFormatOfferingList().add(newFoWrapper);
+
+                return;
+            }
+        }
+
+        super.processCollectionAddBlankLine(view,model,collectionPath);
+    }
+
+    @Override
+    protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
+        if (StringUtils.equals(collectionGroup.getPropertyName(),"formatOfferingList")){
+            MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+            MaintenanceDocument document = maintenanceForm.getDocument();
+
+            if (document.getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
+                CourseOfferingEditWrapper wrapper = (CourseOfferingEditWrapper)document.getNewMaintainableObject().getDataObject();
+
+                for (FormatOfferingWrapper foWrapper : wrapper.getFormatOfferingList()){
+                    if (StringUtils.isNotBlank(foWrapper.getFormatId())){
+                        foWrapper.getRenderHelper().setNewRow(false);
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * This method is being called by KRAD to populate grade roster level types drop down.
@@ -109,7 +173,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                 }
             }
         } else {
-            formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+            formatOfferingInfo = ((FormatOfferingWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE)).getFormatOfferingInfo();
         }
 
         SelectControl control = (SelectControl)field.getControl();
@@ -174,7 +238,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                 }
             }
         } else {
-            formatOfferingInfo = (FormatOfferingInfo)field.getContext().get(UifConstants.ContextVariableNames.LINE);
+            formatOfferingInfo = ((FormatOfferingWrapper)field.getContext().get(UifConstants.ContextVariableNames.LINE)).getFormatOfferingInfo();
         }
 
         SelectControl control = (SelectControl)field.getControl();

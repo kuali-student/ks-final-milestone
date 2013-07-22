@@ -1,3 +1,4 @@
+
 function removeSelfFromDropdowns(headerTextNameContainerId) {
     jQuery('select[name=clusterIdForAOMove]').each(function () {
         var dropdownId = jQuery(this).attr('id');
@@ -1084,5 +1085,25 @@ function resetDirtyFields(returnFieldId){
         if(field.length==0) continue;
         var marker = jQuery('[name="'+field+'"]');
         marker.addClass('dirty');
+    }
+}
+
+/**
+ * Once we get the next rice release, have to remove this override
+ * @param tableId
+ * @param pageNumber
+ */
+function openDataTablePage(tableId, pageNumber) {
+    var oTable = getDataTableHandle(tableId);
+    if (oTable == null) {
+        oTable = getDataTableHandle(jQuery('#' + tableId).find('.dataTable').attr('id'));
+    }
+    if (oTable != null) {
+        if (pageNumber == "first" || pageNumber == "last") {
+            oTable.fnPageChange(pageNumber);
+        } else {
+            var numericPage = Number(pageNumber) - 1;
+            oTable.fnPageChange(numericPage);
+        }
     }
 }

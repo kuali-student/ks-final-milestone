@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -94,8 +95,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
 
             //Display format offering
             List<FormatOfferingInfo> formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(coInfoId, contextInfo);
-            //List<FormatOfferingInfoWrapper> foList = new ArrayList<FormatOfferingInfoWrapper>();
-            formObject.setFormatOfferingList(formatOfferingInfos);
+            List<FormatOfferingWrapper> foList = new ArrayList<FormatOfferingWrapper>();
+            for (FormatOfferingInfo fo : formatOfferingInfos){
+                FormatOfferingWrapper wrapper = new FormatOfferingWrapper();
+                wrapper.setFormatOfferingInfo(fo);
+                foList.add(wrapper);
+            }
+            formObject.setFormatOfferingList(foList);
             TermInfo term = getAcalService().getTerm(coInfo.getTermId(), contextInfo);
             formObject.setTermName(term.getName());
             /*

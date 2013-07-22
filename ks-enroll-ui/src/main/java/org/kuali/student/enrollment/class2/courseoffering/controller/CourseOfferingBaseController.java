@@ -6,6 +6,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
@@ -15,12 +16,12 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -34,7 +35,9 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -48,6 +51,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -66,6 +70,7 @@ import java.util.Set;
 public class CourseOfferingBaseController extends MaintenanceDocumentController {
 
     private transient CourseService courseService;
+    private transient TypeService typeService;
     private transient LRCService lrcService;
     private transient CourseOfferingSetService courseOfferingSetService;
     private transient AcademicCalendarService acalService;
@@ -192,7 +197,10 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             formObject.setCourse(courseInfo);
 
             //3. set formatOfferingList
-            formObject.setFormatOfferingList(new ArrayList<FormatOfferingInfo>());
+            formObject.setFormatOfferingList(new ArrayList<FormatOfferingWrapper>());
+            FormatOfferingWrapper defaultFO = new FormatOfferingWrapper();
+            defaultFO.getRenderHelper().setNewRow(true);
+            formObject.getFormatOfferingList().add(defaultFO);
 
             //4. Checking if Grading Options should be disabled or not and assign default (if no value)
             //5. Checking if there are any student registration options from CLU for screen display
@@ -391,6 +399,38 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         return back(form,result,request,response);
     }
 
+
+    /**
+     * @param form
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addBlankLine")
+    public ModelAndView addBlankLine(@ModelAttribute("KualiForm") UifFormBase form) {
+
+        boolean validAction = true;
+        if (((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
+            CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+            String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+            if (StringUtils.endsWith(selectedCollectionPath, "formatOfferingList")) {
+                for (FormatOfferingWrapper foWrapper : dataObject.getFormatOfferingList()){
+                    if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getFormatId())){
+                        GlobalVariables.getMessageMap().putError("KS-CourseOfferingEdit-DeliveryFormats",CourseOfferingConstants.COURSEOFFERING_FORMAT_REQUIRED);
+                        validAction = false;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (validAction){
+            return super.addBlankLine(form);
+        } else {
+            return getUIFModelAndView(form);
+        }
+
+    }
+
+
     protected CourseService getCourseService() {
         if(courseService == null) {
             courseService = CourseOfferingResourceLoader.loadCourseService();
@@ -431,5 +471,12 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
         }
         return organizationService;
+    }
+
+    protected TypeService getTypeService() {
+        if(typeService == null) {
+            typeService = (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.typeService;
     }
 }

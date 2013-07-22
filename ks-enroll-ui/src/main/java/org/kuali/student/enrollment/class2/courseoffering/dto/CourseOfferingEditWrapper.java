@@ -19,11 +19,11 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
-    private List<FormatOfferingInfo> formatOfferingList;
+    private List<FormatOfferingWrapper> formatOfferingList;
     private List<String> studentRegOptions;
     private List<String> crsGradingOptions;
     private List<OrganizationInfoWrapper> organizationNames;
@@ -69,13 +69,18 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     private boolean createCO;
 
+    private RenderHelper renderHelper;
+
     public CourseOfferingEditWrapper(){
-        formatOfferingList = new ArrayList<FormatOfferingInfo>();
+        formatOfferingList = new ArrayList<FormatOfferingWrapper>();
         studentRegOptions = new ArrayList<String>();
         alternateCourseCodesSuffixStripped = new ArrayList<String>();
         instructors = new ArrayList<OfferingInstructorWrapper>();
         OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper();
         instructors.add(instructorWrapper);
+        renderHelper = new RenderHelper();
+        FormatOfferingWrapper defaultFO = new FormatOfferingWrapper();
+        formatOfferingList.add(defaultFO);
     }
 
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
@@ -91,15 +96,16 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
                 instructors.add(instructorWrapper);
             }
         }
+        renderHelper = new RenderHelper();
     }
 
-    public List<FormatOfferingInfo> getFormatOfferingList() {
+    public List<FormatOfferingWrapper> getFormatOfferingList() {
         return formatOfferingList;
     }
 
-    public void setFormatOfferingList(List<FormatOfferingInfo> formatOfferingList) {
+    public void setFormatOfferingList(List<FormatOfferingWrapper> formatOfferingList) {
         if (formatOfferingList == null) {
-            formatOfferingList = new ArrayList<FormatOfferingInfo>();
+            formatOfferingList = new ArrayList<FormatOfferingWrapper>();
         }
         this.formatOfferingList = formatOfferingList;
     }
@@ -336,6 +342,25 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         }
 
         return StringUtils.removeEnd(buffer.toString(), ", ");
+    }
+
+    public RenderHelper getRenderHelper() {
+        return renderHelper;
+    }
+
+    public void setRenderHelper(RenderHelper renderHelper) {
+        this.renderHelper = renderHelper;
+    }
+
+    public class RenderHelper implements Serializable{
+
+        protected RenderHelper(){
+        }
+
+        public boolean isShowFormatAddButton() {
+            return getFormatOfferingList().size() < getCourse().getFormats().size();
+        }
+
     }
 
 }
