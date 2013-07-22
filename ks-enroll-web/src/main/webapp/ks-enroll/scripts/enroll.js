@@ -729,9 +729,35 @@ function updateContextBar(srcId, contextBarId){
 
     var contextBar = jQuery("#" + contextBarId);    // grab the placeholder
     if( contextBar ) {
+        contextBar.show();
         var src = jQuery("#" + srcId);                  // grab the new context bar
         jQuery(contextBar).append(jQuery(src));         // add it to the context bar placeholder
         jQuery(src).show();
+    }
+}
+
+function removeEmptyContextBar(){
+    var contextBar = jQuery("#KS-CourseOffering-View-ContextBar-PlaceHolder");
+
+    if (contextBar) {
+        contextBar.hide();
+        var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
+
+        if (headerDiv) {
+            var headerOffsetTop = headerDiv.offset().top - 41;
+            headerDiv.attr("style", "position:fixed; left: 0; top: " + headerOffsetTop + "px;");
+            stickyContent = null;
+        }
+    }
+}
+
+function resetHeaderPosition(){
+    var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
+
+    if (headerDiv) {
+        var headerOffsetTop = headerDiv.offset().top + 41;
+        headerDiv.attr("style", "position:fixed; left: 0; top: " + headerOffsetTop + "px;");
+        stickyContent = headerDiv;
     }
 }
 

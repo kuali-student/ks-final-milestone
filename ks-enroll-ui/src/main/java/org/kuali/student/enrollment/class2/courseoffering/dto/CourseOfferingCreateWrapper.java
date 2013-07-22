@@ -51,7 +51,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
     private List<ExistingCourseOffering> existingTermOfferings;
 
-//    private List<String> coListedCOs;
+    //    private List<String> coListedCOs;
     private boolean crossListedCo;
 //    private String displayStringCoListedCOs;
 

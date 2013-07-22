@@ -124,7 +124,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=reload")
     public ModelAndView reload(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) {
         String acalId = acalForm.getAcademicCalendarInfo().getId();
         getAcalViewHelperService(acalForm).populateAcademicCalendar(acalId, acalForm);
         acalForm.setReload(false);
@@ -177,7 +177,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=toEdit")
     public ModelAndView toEdit(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response){
+                               HttpServletRequest request, HttpServletResponse response){
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         AcademicCalendarInfo orgAcalInfo = acalForm.getCopyFromAcal();
 
@@ -203,7 +203,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=toCopy")
     public ModelAndView toCopy(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response){
+                               HttpServletRequest request, HttpServletResponse response){
 
         AcademicCalendarInfo acalInfo = null;
 
@@ -312,7 +312,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) {
 
         String controllerPath = CalendarConstants.CALENDAR_SEARCH_CONTROLLER_PATH;
         Properties urlParameters = new Properties();
@@ -350,7 +350,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=delete")
     public ModelAndView delete(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) {
         String dialog = CalendarConstants.ACADEMIC_DELETE_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, acalForm)) {
 
@@ -404,7 +404,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelTerm")
     public ModelAndView cancelTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
+                                   HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
 
@@ -413,13 +413,13 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(academicCalendarForm);
 
         if (termWrapper.isNew()){
-           academicCalendarForm.getTermWrapperList().remove(selectedLineIndex);
-           if (termWrapper.isHasSubterm()){
-               List<AcademicTermWrapper> subTerms = termWrapper.getSubterms();
-               for(AcademicTermWrapper subTerm : subTerms){
+            academicCalendarForm.getTermWrapperList().remove(selectedLineIndex);
+            if (termWrapper.isHasSubterm()){
+                List<AcademicTermWrapper> subTerms = termWrapper.getSubterms();
+                for(AcademicTermWrapper subTerm : subTerms){
                     academicCalendarForm.getTermWrapperList().remove(subTerm);
-               }
-           }
+                }
+            }
         }else{  //this part will not be called since cancel Term link does not show up after a term is persisted in DB.
             try {
                 TermInfo termInfo = getAcalService().getTerm(termWrapper.getTermInfo().getId(), viewHelperService.createContextInfo());
@@ -529,7 +529,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelAddingHoliday")
     public ModelAndView cancelAddingHoliday(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
+                                            HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         ((HolidayCalendarWrapper)academicCalendarForm.getNewCollectionLines().get("holidayCalendarList")).setId(StringUtils.EMPTY);
 
@@ -570,7 +570,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=deleteTerm")
     public ModelAndView deleteTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
+                                   HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
 
         String dialog = CalendarConstants.TERM_DELETE_CONFIRMATION_DIALOG;
@@ -607,7 +607,7 @@ public class AcademicCalendarController extends UifControllerBase {
             academicCalendarForm.getTermsToDeleteOnSave().add(theTermWrapper);
         }
         academicCalendarForm.getTermWrapperList().remove(selectedLineIndex);
-        
+
         if(theTermWrapper.isHasSubterm())  { //get all subterms and remove them as well
             List<AcademicTermWrapper> subTerms = theTermWrapper.getSubterms();
             for(AcademicTermWrapper subTerm : subTerms){
@@ -628,7 +628,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteKeyDate")
     public ModelAndView deleteKeyDate(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) {
+                                      HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
@@ -693,7 +693,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=deleteHolidayCalendar")
     public ModelAndView deleteHolidayCalendar(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-                                           HttpServletRequest request, HttpServletResponse response) {
+                                              HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
@@ -721,7 +721,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=deleteAcalEvent")
     public ModelAndView deleteAcalEvent(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) {
+                                        HttpServletRequest request, HttpServletResponse response) {
         academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
         String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
@@ -747,7 +747,7 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView makeAcalOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
                                          HttpServletRequest request, HttpServletResponse response) {
         // Dialog confirmation to make the calendar official
-       String dialog = CalendarConstants.ACADEMIC_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;
+        String dialog = CalendarConstants.ACADEMIC_CALENDAR_OFFICIAL_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, acalForm)) {
             acalForm.setMakeOfficialName(acalForm.getAcademicCalendarInfo().getName());
             //redirect back to client to display lightbox
@@ -1265,7 +1265,7 @@ public class AcademicCalendarController extends UifControllerBase {
                 keyDateWrapper.setKeyDateInfo(updatedKeyDate);
             }
         }catch(Exception e){
-                LOG.error("Save keydate has failed",e);
+            LOG.error("Save keydate has failed",e);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_KEYDATE_FAILED,keyDateWrapper.getKeyDateNameUI(),term.getName());
 
         }
