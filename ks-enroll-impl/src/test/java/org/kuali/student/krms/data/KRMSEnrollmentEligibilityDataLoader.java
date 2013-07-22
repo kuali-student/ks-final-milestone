@@ -259,9 +259,12 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
      * @throws DoesNotExistException if the term does not exist.
      * @throws OperationFailedException  if an exception occurs that prevents the execution of the method.
      */
-    public void createSubmitRegistration(RegistrationRequestInfo request) throws InvalidParameterException, PermissionDeniedException, OperationFailedException, AlreadyExistsException, MissingParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
-        request = registrationService.createRegistrationRequest(request.getTypeKey(), request, context);
-        registrationService.submitRegistrationRequest(request.getId(), context);
+    public RegistrationRequestInfo persistRegistrationRequest(RegistrationRequestInfo request) throws InvalidParameterException, PermissionDeniedException, OperationFailedException, AlreadyExistsException, MissingParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+        return registrationService.createRegistrationRequest(request.getTypeKey(), request, context);
+    }
+
+    public void submitRegistrationRequest(String requestId) throws InvalidParameterException, PermissionDeniedException, OperationFailedException, AlreadyExistsException, MissingParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+        registrationService.submitRegistrationRequest(requestId, context);
     }
 
     public CourseOffering getCourseOffering(String courseId, String termId) throws Exception {

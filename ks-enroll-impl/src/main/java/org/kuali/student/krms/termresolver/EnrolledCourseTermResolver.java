@@ -17,14 +17,13 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
 import java.util.Collections;
@@ -70,22 +69,31 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+        String termId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_TERM_ID);
 
         try {
             //Retrieve the version independent clu id.
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
-
-            //Retrieve the students academic record.
-            List<CourseRegistrationInfo> regInfoList = courseRegistrationService.getCourseRegistrationsByStudent(personId, context);
-            for(CourseRegistrationInfo registration : regInfoList){
-                //We need the course offering to retrieve the courseid in order to retrieve the original course
-                CourseOffering courseOffering = this.courseOfferingService.getCourseOffering(registration.getCourseOfferingId(), context);
-                CluInfo clu = this.cluService.getClu(courseOffering.getCourseId(), context);
-                //If the version independent id is in the list is the same as parm, return true
-                if (cluId.equals(clu.getVersion().getVersionIndId())){
-                    return true;
+            //First check in the students current registration requests
+            List<RegistrationRequestInfo> regRequests = courseRegistrationService.getUnsubmittedRegistrationRequestsByRequestorAndTerm(personId, termId, context) ;
+            for(RegistrationRequestInfo request : regRequests){
+                for(RegistrationRequestItemInfo regItem : request.getRegistrationRequestItems()){
+                    //How to get the COs for regGroupID?
                 }
             }
+
+
+            //If not found, retrieve the students academic record and check for active registrations
+//            List<CourseRegistrationInfo> regInfoList = courseRegistrationService.getCourseRegistrationsByStudent(personId, context);
+//            for(CourseRegistrationInfo registration : regInfoList){
+//                //We need the course offering to retrieve the courseid in order to retrieve the original course
+//                CourseOffering courseOffering = this.courseOfferingService.getCourseOffering(registration.getCourseOfferingId(), context);
+//                CluInfo clu = this.cluService.getClu(courseOffering.getCourseId(), context);
+//                //If the version independent id is in the list is the same as parm, return true
+//                if (cluId.equals(clu.getVersion().getVersionIndId())){
+//                    return true;
+//                }
+//            }
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
