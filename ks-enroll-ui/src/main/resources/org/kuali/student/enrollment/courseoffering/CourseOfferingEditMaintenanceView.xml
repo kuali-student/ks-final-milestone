@@ -239,7 +239,7 @@
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="@{(document.oldMaintainableObject.dataObject.createCO)? 'Create' : 'Save '}"/>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="@{(document.oldMaintainableObject.dataObject.createCO)? 'Create' : 'Save '}" p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
                                     <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
                                 </list>
                             </property>
