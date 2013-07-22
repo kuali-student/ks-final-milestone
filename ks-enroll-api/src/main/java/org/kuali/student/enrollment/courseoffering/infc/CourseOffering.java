@@ -289,6 +289,8 @@ public interface CourseOffering
 
     /*
      * TODO: Skip this section for core slice development
+     * If keeping, These should be moved into FormatOffering and
+     * removed from CourseOffering.
      */
 
     /**
