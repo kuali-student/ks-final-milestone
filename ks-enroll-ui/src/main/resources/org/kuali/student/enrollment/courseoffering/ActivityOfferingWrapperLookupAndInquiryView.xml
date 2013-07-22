@@ -72,7 +72,6 @@
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Actuals"/>
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Requested"/>
                 <ref bean="ActivityOfferingEdit-PersonnelSection"/>
-                <!--<ref bean="ActivityOfferingEdit-SeatPool"/>-->
                 <ref bean="KS-ActivityOffering-Inquiry-SeatPool"/>
                 <ref bean="KS-ActivityOffering-Inquiry-HonorsOffering"/>
                 <ref bean="KS-ActivityOffering-Inquiry-Evaluation"/>
@@ -213,7 +212,6 @@
                             <property name="checkboxLabel" value="This lecture requires an evaluation"/>
                         </bean>
                     </property>
-
                 </bean>
             </list>
         </property>
