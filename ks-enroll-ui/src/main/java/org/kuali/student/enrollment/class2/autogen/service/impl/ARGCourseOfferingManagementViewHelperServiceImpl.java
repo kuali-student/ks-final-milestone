@@ -610,9 +610,13 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
     private void processInstructors(Map<String, ActivityOfferingWrapper> aoMap, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         List<LprInfo> lprInfos = getLprService().getLprsByLuis(new ArrayList<String>(aoMap.keySet()), contextInfo);
-        Map<String, Set<String>> principalId2aoIdMap = new HashMap<String, Set<String>>();
         if (lprInfos != null) {
+            Map<String, Set<String>> principalId2aoIdMap = new HashMap<String, Set<String>>();
             for (LprInfo lprInfo : lprInfos) {
+                //  Only include the main instructor.
+                if ( ! StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
+                    continue;
+                }
                 Set<String> aoIds = principalId2aoIdMap.get(lprInfo.getPersonId());
                 if (aoIds == null) {
                     aoIds = new HashSet<String>();
@@ -642,7 +646,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             }
         }
     }
-
 
     /**
      * Add scheduling information to the map if there are no "actual" schedules already in place for a particular AO.
