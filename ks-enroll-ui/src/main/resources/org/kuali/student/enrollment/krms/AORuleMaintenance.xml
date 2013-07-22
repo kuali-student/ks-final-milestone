@@ -213,7 +213,7 @@ limitations under the License.
     <bean id="KSAO-RuleCopyEdit-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit CO Rule" p:methodToCall="copyEditRule"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit CO Rule" p:methodToCall="goToRuleView"/>
             </list>
         </property>
     </bean>
