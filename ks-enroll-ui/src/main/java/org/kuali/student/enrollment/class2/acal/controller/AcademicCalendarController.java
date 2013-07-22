@@ -1490,9 +1490,6 @@ public class AcademicCalendarController extends UifControllerBase {
         DialogManager dm = form.getDialogManager();
         String dialogId = dm.getCurrentDialogId();
         if (dialogId == null) {
-            // may have been invoked by client.
-            // TODO:  handle this case (scheduled for 2.2-m3)
-            // for now, log WARNING and default to start, can we add a growl?
             newMethodToCall = "start";
         } else {
             dm.setDialogAnswer(dialogId, form.getDialogResponse());
