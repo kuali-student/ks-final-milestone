@@ -299,7 +299,8 @@
                 <bean id="ActivityOffering-PersonnelSection" parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="6"
                       p:id="ao-personnelgroup"
-                      p:layoutManager.style="width: 100%; display:block;">
+                      p:layoutManager.style="width: 100%; display:block;"
+                      p:layoutManager.id="ao-personnelgroup-table">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="layoutManager.renderSequenceField" value="false" />
@@ -356,7 +357,7 @@
                         </list>
                     </property>
                     <property name="addBlankLineAction">
-                        <bean parent="Uif-SecondaryActionButton-Small" p:hidden="@{#parent.readOnly}">
+                        <bean p:id="ao-personnelgroup-addline" parent="Uif-SecondaryActionButton-Small" p:hidden="@{#parent.readOnly}">
                             <property name="methodToCall" value="addBlankLine"/>
                             <property name="actionEvent" value="addBlankLine"/>
                             <property name="actionLabel" value="Add Personnel"/>
