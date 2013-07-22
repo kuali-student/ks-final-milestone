@@ -87,7 +87,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
-        if (validateTime(scheduleWrapper.getStartTime(), scheduleWrapper.getStartTimeAMPM(), scheduleWrapper.getEndTime(), scheduleWrapper.getEndTimeAMPM())) {
+        if (!scheduleWrapper.isTba() && validateTime(scheduleWrapper.getStartTime(), scheduleWrapper.getStartTimeAMPM(), scheduleWrapper.getEndTime(), scheduleWrapper.getEndTimeAMPM())) {
             GlobalVariables.getMessageMap().putError("requestedDeliveryLogistic", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
             return getUIFModelAndView(form);
         }

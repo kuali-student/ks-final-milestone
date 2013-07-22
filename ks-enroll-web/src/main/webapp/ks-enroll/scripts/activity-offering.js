@@ -310,11 +310,14 @@ function preSubmitCheck(){
 
 function preSubmitNewRDL(){
     var components = jQuery('.new_rdl_components');
-    var valid = validateLineFields(components);
-    if (!valid) {
-        showClientSideErrorNotification();
+    var isTba = jQuery('#rdl_tba_control').is(':checked');
+    if (!isTba){
+        var valid = validateLineFields(components);
+        if (!valid) {
+            showClientSideErrorNotification();
 
-        return false;
+            return false;
+        }
     }
 
     return true;

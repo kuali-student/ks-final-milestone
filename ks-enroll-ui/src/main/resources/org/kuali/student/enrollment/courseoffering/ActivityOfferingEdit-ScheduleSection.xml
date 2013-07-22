@@ -149,7 +149,7 @@
     <bean id="ActivityOffering-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection" p:id="requestedDeliveryLogistic">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:style="margin-top:15px">
+                <bean id="rdl_tba" parent="Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:style="margin-top:15px">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
