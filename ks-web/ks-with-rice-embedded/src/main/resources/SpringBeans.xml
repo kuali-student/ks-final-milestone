@@ -166,6 +166,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/BuildingLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RoomLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingInquiryView.xml</value>
 
                 <!-- Course Offering Rollover Pages -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/rollover/CourseOfferingRolloverManagement-SelectTermPage.xml</value>
