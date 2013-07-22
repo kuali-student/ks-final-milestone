@@ -138,7 +138,36 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-PropositionEdit-DefineSection" parent="KRMS-PropositionEdit-DefineSection-parentBean"/>
+    <bean id="PropositionBo-MaintenanceView-Custom-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+
+                <ref bean="KRMS-PropositionEdit-DefineSection"/>
+                <ref bean="KRMS-PropositionEdit-DetailSection"/>
+
+            </list>
+        </property>
+        <property name="footer">
+            <!--Add button to update the preview-->
+            <bean id="PropEditButtonPanel" parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <!--bean id="update-button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true" p:disabled="@{!#dp.ruleEditor.permission.previewChangeRuleAction}"-->
+                        <bean id="KS-RulePreview-Button" parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
+                            <property name="actionLabel" value="Preview Change"/>
+                            <property name="actionScript" value="updateProposition('updateProposition', 'KRMS-RuleEditor-TreeGroup');"/>
+                        </bean>
+                        <bean id="KS-CancelProp-Button" parent="KS-Uif-ActionLink"
+                              p:style="margin-left: 0.5em;margin-top: 0.3em;color: #3F7826;">
+                            <property name="actionLabel" value="Cancel"/>
+                            <property name="actionScript" value="updateProposition('cancelEditProposition', 'KRMS-RuleEditor-TreeGroup');"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
     <bean id="KRMS-PropositionEdit-DefineSection-parentBean" abstract="true" parent="KRMS-VerticalBoxSubSection">
         <property name="headerText" value="Define Rule Statement"/>
         <property name="items">
@@ -159,6 +188,25 @@ limitations under the License.
                     </property>
                 </bean>
 
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditor-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-ActionLink" p:actionScript="jq('.jstree').jstree('open_all');"
+                      p:actionLabel="[+] expand all" p:style="margin-left: 2em;">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:actionScript="jq('.jstree').jstree('close_all');"
+                      p:actionLabel="[-] collapse all" p:style="margin-right: 15pt;margin-left:1em">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
