@@ -53,6 +53,23 @@
                 <ref bean="KS-CourseOfferingManagement-ConfirmationResultSection"/>
             </list>
         </property>
+
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoDeleteConfirmationDeleteButton" p:actionLabel="Delete Activity Offering(s)" p:methodToCall="deleteSelectedAoList"/>
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelDeleteAOs" />
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ConfirmationResultSection" parent="Uif-VerticalBoxSection"
@@ -159,21 +176,6 @@
                             <bean parent="Uif-DataField"
                                   p:label="FORMAT"
                                   p:propertyName="aoInfo.formatOfferingName"/>
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-PrimaryActionButton" p:id="AoDeleteConfirmationDeleteButton" p:actionLabel="Delete Activity Offering(s)" p:methodToCall="deleteSelectedAoList"/>
-                            <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelDeleteAOs">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ks-enrollment-cancel-link</value>
-                                    </list>
-                                </property>
-                            </bean>
                         </list>
                     </property>
                 </bean>
