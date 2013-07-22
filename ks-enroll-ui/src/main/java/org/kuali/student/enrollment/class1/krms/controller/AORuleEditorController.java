@@ -9,10 +9,8 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
-import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
-import org.kuali.student.enrollment.class1.krms.service.impl.AORuleViewHelperServiceImpl;
+import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
 import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -239,5 +237,37 @@ public class AORuleEditorController extends EnrolRuleEditorController {
 
         return getUIFModelAndView(document);
     }
-}
+
+    /**
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(params = "methodToCall=copyEditCoRule")
+    public ModelAndView copyEditCoRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+
+        //Clear the client state on new edit rule.
+        form.getClientStateForSyncing().clear();
+
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(document);
+        EnrolRuleEditor enrolRuleEditor = new EnrolRuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+        enrolRuleEditor.setParent(ruleEditor.getParent());
+        enrolRuleEditor.setProposition(this.getViewHelper(form).copyProposition(ruleEditor.getParent().getPropositionEditor()));
+        enrolRuleEditor.setPermission(ruleEditor.getParent().getPermission());
+        AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
+        this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
+
+        return super.navigate(form, result, request, response);
+    }
+
+
+    }
+
 
