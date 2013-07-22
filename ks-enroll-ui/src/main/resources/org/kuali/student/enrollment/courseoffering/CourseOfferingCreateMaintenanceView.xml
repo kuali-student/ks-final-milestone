@@ -607,7 +607,7 @@
     </bean>
 
     <!-- Displays a list of COs from current and previous terms-->
-    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:collectionLookup.render="false" p:renderAddLine="false" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');">
+    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:collectionLookup.render="false" p:renderAddLine="false">
 		<property name="cssClasses">
             <list merge="true">
                 <value>co_copy_tables</value>
@@ -620,7 +620,7 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
 		<property name="items">
            <list>
-               <bean parent="Uif-InputField" p:propertyName="selected" p:label="">
+               <bean parent="Uif-InputField" p:propertyName="selected" p:label="" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');">
                    <property name="control">
                        <bean parent="Uif-CheckboxControl"/>
                    </property>
