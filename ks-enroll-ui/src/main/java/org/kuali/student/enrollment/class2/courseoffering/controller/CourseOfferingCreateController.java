@@ -232,10 +232,12 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         // check if term or course is empty
         if( StringUtils.isBlank(termCode) ) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Term");
+//            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.targetTermCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Term");
+            GlobalVariables.getMessageMap().putError("targetTermCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Term");
         }
         if( StringUtils.isBlank(courseCode) ) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Course Code");
+//            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.catalogCourseCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Course Code");
+            GlobalVariables.getMessageMap().putError("catalogCourseCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Course Code");
         }
         if (GlobalVariables.getMessageMap().getErrorCount() > 0) {
             return getUIFModelAndView(form);
@@ -270,7 +272,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             boolean canOpenView = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 
             if (!canOpenView) {    // checking authz for course
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_COURSE_RESTRICTED, courseCode);
+//              GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.catalogCourseCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_COURSE_RESTRICTED, courseCode);
+                GlobalVariables.getMessageMap().putError("catalogCourseCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_COURSE_RESTRICTED, courseCode);
                 coWrapper.setAdminOrg(null);
                 coWrapper.setCourse(null);
 
@@ -286,7 +289,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     boolean canOpenViewSoc = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 
                     if(!canOpenViewSoc) {   // check if user authz for the soc
-                        GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_TERM_RESTRICTED);
+//                      GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.targetTermCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_TERM_RESTRICTED);
+                        GlobalVariables.getMessageMap().putError("targetTermCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_TERM_RESTRICTED);
                         coWrapper.setSocInfo(null);
 
                         return getUIFModelAndView(form);
@@ -361,7 +365,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             }
         } else {
             if (matchingCourses.size() > 1) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_MULTIPLE_COURSE_MATCHES, courseCode);
+//              GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.catalogCourseCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_MULTIPLE_COURSE_MATCHES, courseCode);
+                GlobalVariables.getMessageMap().putError("catalogCourseCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_MULTIPLE_COURSE_MATCHES, courseCode);
             } else if (matchingCourses.isEmpty()) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.ERROR_INVALID_CLU_VERSION, courseCode, termCode);
             }
