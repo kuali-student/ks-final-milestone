@@ -486,13 +486,15 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
             newProposition.setParameters(propositionParameterEditors);
 
             TermEditor termEditor = new TermEditor();
-            BeanUtils.copyProperties(oldProposition.getTerm(), termEditor, new String[]{"id", "versionNumber", "parameters"});
             List<TermParameterEditor> termParameterEditors = new ArrayList<TermParameterEditor>();
+           if( oldProposition.getTerm() != null) {
+            BeanUtils.copyProperties(oldProposition.getTerm(), termEditor, new String[]{"id", "versionNumber", "parameters"});
             for (TermParameterEditor termParm : oldProposition.getTerm().getEditorParameters()) {
                 TermParameterEditor newTermParm = new TermParameterEditor();
                 BeanUtils.copyProperties(termParm, newTermParm, new String[]{"id", "versionNumber"});
                 termParameterEditors.add(newTermParm);
             }
+           }
             termEditor.setParameters(termParameterEditors);
 
             newProposition.setTerm(termEditor);
