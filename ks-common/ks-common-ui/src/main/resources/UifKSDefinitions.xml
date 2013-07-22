@@ -608,4 +608,48 @@
             </list>
         </property>
     </bean>
+
+    <bean id="KS-TableCollectionSubSection-BottomAddLine" parent="KS-TableCollectionSubSection-BottomAddLine-parent"/>
+
+    <bean id="KS-TableCollectionSubSection-BottomAddLine-parent" parent="Uif-TableCollectionSection" abstract="true" scope="prototype">
+        <property name="collectionLookup">
+            <null/>
+        </property>
+        <property name="headerText" value="" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.separateAddLine" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="renderAddBlankLineButton" value="true" />
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="layoutManager.style" value="width: 100%; display:block;"/>
+        <!--<property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+                      p:actionEvent="addLine"/>
+            </list>
+        </property>-->
+        <property name="addBlankLineAction">
+            <ref bean="KS-BottomAddLine"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-BottomAddLine" parent="KS-BottomAddLine-parent"/>
+
+    <bean id="KS-BottomAddLine-parent" parent="Uif-SecondaryActionButton-Small" abstract="true" scope="prototype">
+        <property name="hidden" value="@{#parent.readOnly}"/>
+        <property name="actionLabel" value="Add"/>
+        <property name="actionImagePlacement" value="LEFT"/>
+        <property name="methodToCall" value="addBlankLine"/>
+        <property name="actionEvent" value="addBlankLine"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.common.externalizable.images.url']}/plus_15px.png"/>
+        </property>
+        <property name="style" value="margin-top:30px; margin-left:-150px; margin-bottom:15px"/>
+    </bean>
 </beans>
