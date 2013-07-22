@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <schema>
-    <foreignKey foreignTableName="KSEN_MSTONE" localTableName="KSEN_MSTONE_ATTR" name="FK3DFA6EE1BA0FC113" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>OWNER_ID</localColumnNames>
-    </foreignKey>
     <foreignKey foreignTableName="KSCO_COMMENT" localTableName="KSCO_COMMENT_ATTR" name="KSCO_COMMENT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>OWNER</localColumnNames>
@@ -375,6 +371,10 @@
     <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_UNITS_DEPLOYMENT" name="KSEN_LUI_UNITS_DEPLOYMENT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
         <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_MSTONE" localTableName="KSEN_MSTONE_ATTR" name="KSEN_MSTONE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
     </foreignKey>
     <foreignKey foreignTableName="KSEN_POPULATION" localTableName="KSEN_POPULATION_ATTR" name="KSEN_POPULATION_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>ID</foreignColumnNames>
@@ -4254,6 +4254,23 @@
         <index name="KSEN_LUI_CAPACITY_I1">
             <column>LUI_CAPACITY_TYPE</column>
         </index>
+    </table>
+    <table name="KSEN_LUI_CAPACITY_ATTR">
+        <column name="ATTR_KEY" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="ATTR_VALUE" type="STRING">
+            <size value="4000"/>
+        </column>
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="OBJ_ID" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="OWNER_ID" type="STRING">
+            <size value="255"/>
+        </column>
     </table>
     <table name="KSEN_LUI_CLUCLU_RELTN">
         <column name="CLUCLU_RELTN_ID" nullable="false" type="STRING">
