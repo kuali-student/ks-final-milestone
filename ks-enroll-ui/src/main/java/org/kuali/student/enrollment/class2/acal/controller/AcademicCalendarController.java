@@ -1447,7 +1447,7 @@ public class AcademicCalendarController extends UifControllerBase {
     private List<String> processDirtyFields(AcademicCalendarForm academicCalendarForm){
         String[] tempFields = academicCalendarForm.getDirtyFields().split(",");
         List<String> dirtyFields = academicCalendarForm.getFieldsToSave();
-        String completeDirtyFields ="";
+        StringBuilder completeDirtyFields = new StringBuilder("");
         for(String field : tempFields){
             boolean alreadySeen = false;
             for(String field2 : dirtyFields){
@@ -1462,9 +1462,10 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         }
         for(String field : dirtyFields){
-            completeDirtyFields= completeDirtyFields + field +",";
+            completeDirtyFields.append(field);
+            completeDirtyFields.append(",");
         }
-        academicCalendarForm.setDirtyFields(completeDirtyFields);
+        academicCalendarForm.setDirtyFields(completeDirtyFields.toString());
         return dirtyFields;
 
     }
