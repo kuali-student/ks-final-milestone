@@ -126,13 +126,17 @@ public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
         int size = Math.max(min, getChildrenSize(thirdElement));
         for (int i = 0; i < size; i++) {
 
+            PropositionEditor first = getChildForIndex(firstElement, i);
+            PropositionEditor second = getChildForIndex(secondElement, i);
+            PropositionEditor third = getChildForIndex(thirdElement, i);
+
             // add an opcode node in between each of the children.
             if (i > 0) {
-                this.addOperatorTreeNode(newNode, coOpCode, cluOpCode, aoOpCode);
+                this.addOperatorTreeNode(newNode, getLabelForChild(first, coOpCode), getLabelForChild(second, cluOpCode), getLabelForChild(third, aoOpCode));
             }
 
             // call to build the childs node
-            addTreeNode(newNode, getChildForIndex(firstElement, i), getChildForIndex(secondElement, i), getChildForIndex(thirdElement, i));
+            addTreeNode(newNode, first, second, third);
         }
 
     }
