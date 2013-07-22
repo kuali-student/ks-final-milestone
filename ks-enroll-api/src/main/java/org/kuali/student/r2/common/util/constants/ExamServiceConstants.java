@@ -31,14 +31,14 @@ public class ExamServiceConstants {
     // TYPES
     /////////////////
 
-    public static final String TYPE_EXAM = "kuali.lu.type.exam";
-    public static final String TYPE_EXAM_FINAL = "kuali.lu.type.exam.final";
+    public static final String EXAM_TYPE_KEY = "kuali.lu.type.exam";
+    public static final String EXAM_FINAL_TYPE_KEY = "kuali.lu.type.exam.final";
 
     /////////////////
     // STATES
     /////////////////
 
-    public static final String STATE_EXAM_ACTIVE = "kuali.lu.exam.state.active";
-    public static final String STATE_EXAM_INACTIVE = "kuali.lu.exam.state.inactive";
+    public static final String EXAM_ACTIVE_STATE_KEY = "kuali.lu.exam.state.active";
+    public static final String EXAM_INACTIVE_STATE_KEY = "kuali.lu.exam.state.inactive";
 
 }
