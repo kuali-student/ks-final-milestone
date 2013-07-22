@@ -696,8 +696,9 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         aoInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());
         if (instructors != null && !instructors.isEmpty()) {
             for (OfferingInstructorWrapper instructor : instructors) {
-                if(instructor.getOfferingInstructorInfo() != null && !instructor.getOfferingInstructorInfo().getPersonId().isEmpty())
+                if(instructor.getOfferingInstructorInfo() != null && !instructor.getOfferingInstructorInfo().getPersonId().isEmpty())  {
                     aoInfo.getInstructors().add(disassembleInstructorWrapper(instructor));
+                }
             }
         }
     }
