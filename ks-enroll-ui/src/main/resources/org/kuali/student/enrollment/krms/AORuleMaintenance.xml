@@ -128,7 +128,19 @@ limitations under the License.
             </list>
         </property>
         <property name="footer">
-            <ref bean="KS-Uif-DocumentPageFooter-SubmitCancel"/>
+            <ref bean="KSAO-DocumentPageFooter-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KSAO-DocumentPageFooter-SubmitCancel"  parent="KSAO-DocumentPageFooter-SubmitCancel-parent"/>
+    <bean id="KSAO-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
         </property>
     </bean>
 
@@ -333,6 +345,24 @@ limitations under the License.
                 <ref bean="KSAO-Rules-ManageSection"/>
             </list>
         </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="KSAO-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
+                              p:performClientSideValidation="true">
+                            <property name="actionLabel" value="Update Rule"/>
+                            <property name="methodToCall" value="updateRule"/>
+                        </bean>
+                        <bean id="KSAO-CancelRule-Button" parent="KS-Uif-ActionLink"
+                              p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                            <property name="actionLabel" value="Cancel"/>
+                            <property name="methodToCall" value="cancelEditRule"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="KSAO-Rules-ManageSection" parent="KRMS-Rules-ManageSection">
@@ -527,7 +557,7 @@ limitations under the License.
                         <bean parent="Uif-FooterBase">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Close"
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Close"
                                           p:actionScript="jQuery.fancybox.close();"/>
                                 </list>
                             </property>

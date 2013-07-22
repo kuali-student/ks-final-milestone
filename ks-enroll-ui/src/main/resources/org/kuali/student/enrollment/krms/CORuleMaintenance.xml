@@ -158,9 +158,9 @@ limitations under the License.
     <bean id="KSCO-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
+                <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Submit" p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
-                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
@@ -285,13 +285,13 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
+                <bean parent="KS-Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Show Courses">
                     <property name="actionImage">
                         <null/>
                     </property>
                 </bean>
-                <bean parent="Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
+                <bean parent="KS-Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
                       p:actionLabel="Hide Courses" p:style="margin-left: 1em;">
                     <property name="actionImage">
                         <null/>
@@ -373,6 +373,24 @@ limitations under the License.
                 <ref bean="KSCO-Rules-ManageSection"/>
             </list>
         </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="KSCO-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
+                              p:performClientSideValidation="true">
+                            <property name="actionLabel" value="Update Rule"/>
+                            <property name="methodToCall" value="updateRule"/>
+                        </bean>
+                        <bean id="KSCO-CancelRule-Button" parent="KS-Uif-ActionLink"
+                              p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                            <property name="actionLabel" value="Cancel"/>
+                            <property name="methodToCall" value="cancelEditRule"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="KSCO-Rules-ManageSection" parent="KRMS-Rules-ManageSection">
@@ -396,7 +414,7 @@ limitations under the License.
     <bean id="KSCO-RulePreview-Links" parent="KRMS-RulePreview-Links">
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
                     </property>
