@@ -184,6 +184,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="KSAO-RuleView-Links" p:render="@{#line.dummy and #line.parent != null}"/>
+                <bean parent="KSAO-RuleCopyEdit-Links" p:render="@{#line.dummy and #line.parent != null}"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
@@ -194,7 +195,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit CO Rule" p:methodToCall="goToRuleView"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRuleStatements"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Revert to CO" p:methodToCall="deleteRule"/>
             </list>
@@ -205,6 +206,14 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAO-RuleCopyEdit-Links" parent="KRMS-RuleView-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit CO Rule" p:methodToCall="copyEditRule"/>
             </list>
         </property>
     </bean>
