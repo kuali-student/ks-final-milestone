@@ -7,8 +7,8 @@
         <version>2.0.0-M7-SNAPSHOT</version>
     </parent>
     <artifactId>ks-db-validation</artifactId>
-    <name>KS DDL</name>
-    <description>Kuali Student Data Definition Language</description>
+    <name>KS DB Validation</name>
+    <description>Kuali Student Database Validation resources</description>
     <profiles>
         <profile>
             <id>ddlSchema</id>
@@ -85,6 +85,14 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>sonar</id>
+            <properties>
+                <!-- Enable the database validation sensors in only one module -->
+                <kuali.student.sonar.fkvalidation.skip>false</kuali.student.sonar.fkvalidation.skip>
+                <kuali.student.sonar.schemacompare.skip>false</kuali.student.sonar.schemacompare.skip>
+            </properties>
         </profile>
     </profiles>
 </project>

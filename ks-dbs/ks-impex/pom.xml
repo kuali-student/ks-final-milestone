@@ -196,5 +196,11 @@
                 <db.vendor>mysql</db.vendor>
             </properties>
         </profile>
+        <profile>
+            <id>sonar</id>
+            <properties>
+                <db.branch.qualifier>_SONAR</db.branch.qualifier>
+            </properties>
+        </profile>
     </profiles>
 </project>

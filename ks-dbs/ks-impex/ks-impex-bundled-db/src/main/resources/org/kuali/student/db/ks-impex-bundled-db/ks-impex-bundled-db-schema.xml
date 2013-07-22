@@ -10252,6 +10252,23 @@
             <column>LUI_CAPACITY_TYPE</column>
         </indices>
     </table>
+    <table name="KSEN_LUI_CAPACITY_ATTR">
+        <column columnDataType="STRING" name="ATTR_KEY" nullable="true" primaryKey="false" tableName="KSEN_LUI_CAPACITY_ATTR">
+            <typeSize scaleSet="false" size="255"/>
+        </column>
+        <column columnDataType="STRING" name="ATTR_VALUE" nullable="true" primaryKey="false" tableName="KSEN_LUI_CAPACITY_ATTR">
+            <typeSize scaleSet="false" size="4000"/>
+        </column>
+        <column columnDataType="STRING" name="ID" nullable="false" primaryKey="true" tableName="KSEN_LUI_CAPACITY_ATTR">
+            <typeSize scaleSet="false" size="255"/>
+        </column>
+        <column columnDataType="STRING" name="OBJ_ID" nullable="true" primaryKey="false" tableName="KSEN_LUI_CAPACITY_ATTR">
+            <typeSize scaleSet="false" size="36"/>
+        </column>
+        <column columnDataType="STRING" name="OWNER_ID" nullable="true" primaryKey="false" tableName="KSEN_LUI_CAPACITY_ATTR">
+            <typeSize scaleSet="false" size="255"/>
+        </column>
+    </table>
     <table name="KSEN_LUI_CLUCLU_RELTN">
         <column columnDataType="STRING" name="CLUCLU_RELTN_ID" nullable="false" primaryKey="false" tableName="KSEN_LUI_CLUCLU_RELTN">
             <typeSize scaleSet="false" size="255"/>

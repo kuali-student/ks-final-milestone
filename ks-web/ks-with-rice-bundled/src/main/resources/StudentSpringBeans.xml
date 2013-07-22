@@ -42,7 +42,7 @@
                 <value>${krad.js.scriptfiles}</value>
                 <value>classpath:UifKRADOverrideDefinitions.xml</value>
                 <value>classpath:UifKradExtensionDefinitions.xml</value>
-				<value>classpath:UifKSDefinitions.xml</value>
+                <value>classpath:org/kuali/student/rice/kim/KSPersonnelLookupView.xml</value>
                 <value>classpath:UifUtils.xml</value>
                 <value>classpath:ks-ActivityOfferingInfo-dictionary.xml</value>
                 <value>classpath:ks-CourseOfferingInfo-dictionary.xml</value>
@@ -101,11 +101,12 @@
                 <!-- Course Offering -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/TestStatePropagationView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/TestStatePropagation-Page1.xml</value>
+                <value>classpath:org/kuali/student/enrollment/aft/AFTSocStateChangePage.xml</value>
+
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CreateSocPageView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CreateSocPage-SelectTermPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/ActivityOfferingInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingInfoLookupAndInquiryView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/KSPersonMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultInfoLookpAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SocRolloverResultItemInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoLookupAndInquiryView.xml</value>
@@ -118,7 +119,6 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CopyCourseOfferingPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SelectedAoDeleteConfirmationPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CoDeleteConfirmationPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/PersonnelLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseInfoLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingEditMaintenanceView.xml</value>
                 <!--<value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverMaintenanceView.xml</value>-->
@@ -134,6 +134,7 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/BuildingLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/RoomLookupAndInquiry.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingInquiryView.xml</value>
 
                 <!-- Course Offering Rollover Pages -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/rollover/CourseOfferingRolloverManagement-SelectTermPage.xml</value>
@@ -191,17 +192,18 @@
                 <value>classpath:org/kuali/rice/krms/RuleEditMaintenance.xml</value>
                 <value>classpath:org/kuali/rice/krms/RuleManagementView.xml</value>
                 <value>classpath:org/kuali/rice/krms/AgendaManagementView.xml</value>
+                <value>classpath:org/kuali/student/core/krms/DepartmentLookupView.xml</value>
+                <value>classpath:org/kuali/student/core/krms/ClassStandingLookupView.xml</value>
+                <value>classpath:org/kuali/student/core/krms/KSKRMSCustomComponents.xml</value>
+                <value>classpath:org/kuali/student/enrollment/krms/COCustomComponents.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KrmsComponentsView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CORuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/AORuleMaintenance.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/CustomComponents.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/DepartmentLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/TestSetLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KRMSCourseLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/CourseSetsLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/KRMSProgramLookupView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/krms/ClassStandingLookupView.xml</value>
-                
+
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
                 <value>classpath:org/kuali/student/ui/admin/type/TypeInfoAdminLookupView.xml</value>
