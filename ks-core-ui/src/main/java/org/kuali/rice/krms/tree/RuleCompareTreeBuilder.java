@@ -15,6 +15,7 @@
  */
 package org.kuali.rice.krms.tree;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.dto.PropositionEditor;
@@ -110,23 +111,33 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
     protected void addCompoundTreeNode(Node<CompareTreeNode, String> newNode, PropositionEditor firstElement, PropositionEditor secondElement) {
 
         // Retrieve the opreator code of the propositions
-        String firstElementOpCode = this.getLabelForOperator(firstElement);
-        String secondElementOpCode = this.getLabelForOperator(secondElement);
+        String firstOpCode = this.getLabelForOperator(firstElement);
+        String secondOpCode = this.getLabelForOperator(secondElement);
 
         // Get the size of the biggest children list
         int size = Math.max(getChildrenSize(firstElement), getChildrenSize(secondElement));
 
         for (int i = 0; i < size; i++) {
 
+            PropositionEditor first = getChildForIndex(firstElement, i);
+            PropositionEditor second = getChildForIndex(secondElement, i);
+
             // add an opcode node in between each of the children.
             if (i>0) {
-                this.addOperatorTreeNode(newNode, firstElementOpCode, secondElementOpCode);
+                this.addOperatorTreeNode(newNode, getLabelForChild(first, firstOpCode), getLabelForChild(second, secondOpCode));
             }
 
             // call to build the childs node
-            addTreeNode(newNode, getChildForIndex(firstElement, i), getChildForIndex(secondElement, i));
+            addTreeNode(newNode, first, second);
         }
 
+    }
+
+    protected String getLabelForChild(PropositionEditor proposition, String label){
+        if (proposition!=null){
+            return label;
+        }
+        return StringUtils.EMPTY;
     }
 
     protected String getLabelForOperator(PropositionEditor proposition){
