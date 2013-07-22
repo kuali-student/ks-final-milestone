@@ -2,7 +2,7 @@ Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) 
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1502','KS-KRMS-NL-USAGE-1005','must have earned a minimum of $intValue $NLHelper.getProperGrammar($intValue, "credit")','10039',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1503','KS-KRMS-NL-USAGE-1005','$fields.get("kuali.reqComponent.field.type.value.freeform.text")','10031',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1503','KS-KRMS-NL-USAGE-1005','$freeText','10031',0)
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1504','KS-KRMS-NL-USAGE-1005','#if($courseCluSet.getCluList().size() <= 1)$courseCluSet.getCluSetAsCode()#{else}#if($courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision") == "")#set($a=$courseCluSet.getCluSetAsCode().lastIndexOf(","))#set($b=1)#set($c=$a+$b)#if($courseCluSet.getCluList().size() > 2)#set($courses=$courseCluSet.getCluSetAsCode().substring(0,$a)+", or"+$courseCluSet.getCluSetAsCode().substring($c))#{else}#set($courses=$courseCluSet.getCluSetAsCode().substring(0,$a)+" or"+$courseCluSet.getCluSetAsCode().substring($c))#end$courses#{else}1 course from #set($prefix=${courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision").toUpperCase()})$prefix$courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalCrsNoRange") course range#end#end','10019',0)
 /
@@ -10,7 +10,7 @@ Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) 
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1506','KS-KRMS-NL-USAGE-1005','$courseClu.getOfficialIdentifier().getCode()','10017',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1507','KS-KRMS-NL-USAGE-1005','#if($courseCluSet.getCluList().size() <= 1)$courseCluSet.getCluSetAsCode()#{else}#if($courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision") == "")#set($a=$courseCluSet.getCluSetAsCode().lastIndexOf(","))#set($b=1)#set($c=$a+$b)#if($courseCluSet.getCluList().size() > 2)#set($courses=$courseCluSet.getCluSetAsCode().substring(0,$a)+", and"+$courseCluSet.getCluSetAsCode().substring($c))#{else}#set($courses=$courseCluSet.getCluSetAsCode().substring(0,$a)+" and"+$courseCluSet.getCluSetAsCode().substring($c))#end$courses#{else}all courses from #set($prefix=${courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision").toUpperCase()})$prefix$courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalCrsNoRange") course range#end#end','10018',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1507','KS-KRMS-NL-USAGE-1005','#if($courseCluSet.getCluList().size() == 1)must have successfully completed $courseCluSet.getCluSetAsCode()#{else}must have successfully completed all courses from $courseCluSet.getCluSetAsCode()#end','10018',0)
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1508','KS-KRMS-NL-USAGE-1005','#if(($intValue == 1 &&$courseCluSet.getCluList().size() == 1) || ($courseCluSet.getCluList().size() <= 1))$courseCluSet.getCluSetAsCode()#{else}#if($courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision") == "")#set($a=$courseCluSet.getCluSetAsCode().lastIndexOf(","))#set($b=1)#set($c=$a+$b)#if($courseCluSet.getCluList().size() > 2)#set($courses=$courseCluSet.getCluSetAsCode().substring(0,$a)+", or"+$courseCluSet.getCluSetAsCode().substring($c))#{else}#set($courses=$courseCluSet.getCluSetAsCode().substring(0,$a)+" or"+$courseCluSet.getCluSetAsCode().substring($c))#end#if($intValue > 1)$intValue $NLHelper.getProperGrammar($intValue, "course") from #end$courses#{else}$intValue $NLHelper.getProperGrammar($intValue, "course") from #set($prefix=${courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision").toUpperCase()})$prefix$courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalCrsNoRange") course range#end#end','10053',0)
 /
@@ -26,7 +26,7 @@ Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) 
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1514','KS-KRMS-NL-USAGE-1005','must not have completed #if($courseCluSet.getCluList().size() <= 1)$courseCluSet.getCluSetAsCode()#{else}#if($courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision") == "")#set($a=$courseCluSet.getCluSetAsCode().lastIndexOf(","))#set($b=1)#set($c=$a+$b)#set($d=$courseCluSet.getCluSetAsCode().lastIndexOf(")"))#if($courseCluSet.getCluList().size() > 2)#set($courses=$courseCluSet.getCluSetAsCode().substring(1,$a)+", or"+$courseCluSet.getCluSetAsCode().substring($c, $d))#{else}#set($courses=$courseCluSet.getCluSetAsCode().substring(1,$a)+" or"+$courseCluSet.getCluSetAsCode().substring($c, $d))#end$courses#{else}any courses from #set($prefix=${courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision").toUpperCase()})$prefix$courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalCrsNoRange") course range#end#end','10020',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1515','KS-KRMS-NL-USAGE-1005','$fields.get("kuali.reqComponent.field.type.classStanding") standing#if($fields.get("kuali.reqComponent.field.type.operatorOption") != "equal to") $fields.get("kuali.reqComponent.field.type.operatorOption")#end','10067',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1515','KS-KRMS-NL-USAGE-1005','student must be in a class standing of $classStanding.name or greater','10067',0)
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1516','KS-KRMS-NL-USAGE-1005','minimum grade of $grade in #if($courseCluSet.getCluList().size() <= 1)$courseCluSet.getCluSetAsCode()#{else}#if($courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision") == "")#set($a=$courseCluSet.getCluSetAsCode().lastIndexOf(","))#set($b=1)#set($c=$a+$b)#set($d=$courseCluSet.getCluSetAsCode().lastIndexOf(")"))#if($courseCluSet.getCluList().size() > 2)#set($courses=$courseCluSet.getCluSetAsCode().substring(1,$a)+", and"+$courseCluSet.getCluSetAsCode().substring($c, $d))#{else}#set($courses=$courseCluSet.getCluSetAsCode().substring(1,$a)+" and"+$courseCluSet.getCluSetAsCode().substring($c, $d))#end$courses#{else}#set($prefix=${courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision").toUpperCase()})$prefix$courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalCrsNoRange") course range#end#end','10027',0)
 /
@@ -40,7 +40,7 @@ Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) 
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1521','KS-KRMS-NL-USAGE-1005','concurrently enrolled in #if($courseCluSet.getCluList().size() <= 1)$courseCluSet.getCluSetAsCode()#{else}#if($courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision") == "")#set($a=$courseCluSet.getCluSetAsCode().lastIndexOf(","))#set($b=1)#set($c=$a+$b)#set($d=$courseCluSet.getCluSetAsCode().lastIndexOf(")"))#if($courseCluSet.getCluList().size() > 2)#set($courses=$courseCluSet.getCluSetAsCode().substring(1,$a)+", and"+$courseCluSet.getCluSetAsCode().substring($c, $d))#{else}#set($courses=$courseCluSet.getCluSetAsCode().substring(1,$a)+" and"+$courseCluSet.getCluSetAsCode().substring($c, $d))#end$courses#{else}all courses from #set($prefix=${courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalDivision").toUpperCase()})$prefix$courseCluSet.getQueryValueFromParam("lu.queryParam.luOptionalCrsNoRange") course range#end#end','10023',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1522','KS-KRMS-NL-USAGE-1005','For a maximum of $intValue credits','10029',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1522','KS-KRMS-NL-USAGE-1005','for a maximum of $intValue credits','10029',0)
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1523','KS-KRMS-NL-USAGE-1005','must be admitted to any program offered at the course campus location','10033',0)
 /
@@ -84,7 +84,7 @@ Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) 
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1543','KS-KRMS-NL-USAGE-1005','must have successfully completed $courseClu.getOfficialIdentifier().getCode() prior to $term.name','10061',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1544','KS-KRMS-NL-USAGE-1005','mtudent must be in a class standing of $classStanding.name or less','10068',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1544','KS-KRMS-NL-USAGE-1005','student must be in a class standing of $classStanding.name or less','10068',0)
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1545','KS-KRMS-NL-USAGE-1005','course has less than <n> minutes between start time or end time with already enrolled course','10045',0)
 /
@@ -98,15 +98,17 @@ Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) 
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1550','KS-KRMS-NL-USAGE-1005','must have earned a minimum Cumulative GPA of $intValue in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()','10041',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1560','KS-KRMS-NL-USAGE-1005','Antirequisite','10005',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1560','KS-KRMS-NL-USAGE-1005','Antirequisite:','10005',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1561','KS-KRMS-NL-USAGE-1005','Corequisite','10006',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1561','KS-KRMS-NL-USAGE-1005','Corequisite:','10006',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1562','KS-KRMS-NL-USAGE-1005','Recommended Preparation','10008',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1562','KS-KRMS-NL-USAGE-1005','Recommended Preparation:','10008',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1563','KS-KRMS-NL-USAGE-1005','Student Eligibility & Prerequisite','10010',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1563','KS-KRMS-NL-USAGE-1005','Student Eligibility & Prerequisite:','10010',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1564','KS-KRMS-NL-USAGE-1005','Repeatable for Credit','10011',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1564','KS-KRMS-NL-USAGE-1005','Repeatable for Credit:','10011',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1565','KS-KRMS-NL-USAGE-1005','Course that Restricts Credits','10012',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1565','KS-KRMS-NL-USAGE-1005','Course that Restricts Credits:','10012',0)
+/
+Delete from KRMS_NL_TMPL_T where NL_TMPL_ID in ('KS-KRMS-NL-TMPL-1373', 'KS-KRMS-NL-TMPL-1368')
 /
