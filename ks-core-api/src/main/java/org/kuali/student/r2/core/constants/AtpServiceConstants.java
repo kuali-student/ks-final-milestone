@@ -123,6 +123,9 @@ public class AtpServiceConstants {
     public static final String ATP_CE_TERM_3_TYPE_KEY = "kuali.atp.type.CETerm3";
     public static final String ATP_CE_TERM_4_TYPE_KEY = "kuali.atp.type.CETerm4";
 
+    // exam periods
+    public static final String ATP_EXAM_PERIOD_TYPE_KEY = "kuali.atp.type.ExamPeriod";
+
     /**
      * Milstone types
      */
