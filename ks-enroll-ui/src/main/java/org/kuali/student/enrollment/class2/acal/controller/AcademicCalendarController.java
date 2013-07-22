@@ -23,7 +23,6 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.view.DialogManager;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -933,6 +932,17 @@ public class AcademicCalendarController extends UifControllerBase {
             // Check for deleted key dates and delete them from database
             AcademicTermWrapper term = academicCalendarForm.getTermWrapperList().get(i);
             deleteKeyDates(term, viewHelperService);
+
+            // update instructionalDays
+            try{
+                term.setInstructionalDays(getAcalService().getInstructionalDaysForTerm(term.getTermInfo().getId(), viewHelperService.createContextInfo()));
+            }catch (Exception ex){
+                // If the save fails message user
+                if (LOG.isDebugEnabled()){
+                    LOG.error("Save Academic calendar failed - " + ex.getMessage());
+                }
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED);
+            }
         }
 
         // Reset values
