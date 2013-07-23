@@ -737,28 +737,44 @@ function updateContextBar(srcId, contextBarId){
     }
 }
 
+/*
+ This method is for removing the empty context bar from a page.
+ The position of the page header is repositioned accordingly
+ */
 function removeEmptyContextBar(){
     var contextBar = jQuery("#KS-CourseOffering-View-ContextBar-PlaceHolder");
 
     if (contextBar) {
+        //hide the empty context bar
         contextBar.hide();
-        var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
 
+        //re-position header. value 41 is the height of the context bar
+        var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
         if (headerDiv) {
             var headerOffsetTop = headerDiv.offset().top - 41;
-            headerDiv.attr("style", "position:fixed; left: 0; top: " + headerOffsetTop + "px;");
-            stickyContent = null;
+            headerDiv.offset({top:headerOffsetTop});
+
+            var headerIndex = stickyContent.index(headerDiv);
+
+            //temporarily remove header from stickyContent array
+            stickyContent.splice(headerIndex, 1);
         }
     }
 }
 
+/*
+ This method is for putting the page header back to the original position
+ */
 function resetHeaderPosition(){
     var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
-
     if (headerDiv) {
         var headerOffsetTop = headerDiv.offset().top + 41;
-        headerDiv.attr("style", "position:fixed; left: 0; top: " + headerOffsetTop + "px;");
-        stickyContent = headerDiv;
+
+        //adjust header back to the original position
+        headerDiv.offset({top:headerOffsetTop});
+
+        //push header back to stickyContent array
+        stickyContent.push(headerDiv);
     }
 }
 
