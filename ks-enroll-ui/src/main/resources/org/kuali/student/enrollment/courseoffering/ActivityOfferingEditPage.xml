@@ -301,6 +301,7 @@
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
+                    <property name="addBlankLineAction.id" value="ao-personnelgroup-addline"/>
                     <property name="layoutManager.richTable">
                         <!-- see http://datatables.net/ref for all options -->
                         <bean parent="Uif-PagedRichTable">
