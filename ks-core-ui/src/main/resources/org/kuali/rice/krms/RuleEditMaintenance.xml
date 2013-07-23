@@ -128,7 +128,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-                <bean parent="Uif-Message" p:messageText="Click on rule statement to edit"
+                <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
                       p:style="font-weight:bold;margin-left: 2em;"/>
                 <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
                 <bean id="RuleStudentEditorView-Tree" parent="KRMS-RulerEditor-TreeSection-parent"
