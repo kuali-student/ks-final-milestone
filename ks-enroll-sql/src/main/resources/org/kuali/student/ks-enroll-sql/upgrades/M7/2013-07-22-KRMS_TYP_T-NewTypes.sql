@@ -19,6 +19,11 @@ Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) 
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1556','KS-KRMS-NL-USAGE-1000','Students not admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course") in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()','10079',0)
 /
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1566','KS-KRMS-NL-USAGE-1005','Students not admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course") in the $org.getLongName() in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()','10079',0)
+/
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1567','KS-KRMS-NL-USAGE-1005','Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course")in the $org.getLongName() in  $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()','10078',0)
+/
+
 
 Insert into KRMS_TYP_RELN_T (ACTV,FROM_TYP_ID,RELN_TYP,SEQ_NO,TO_TYP_ID,TYP_RELN_ID,VER_NBR)
   values ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq'),'A',15,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.max.limit.courses.at.org.for.program'),'KS-KRMS-NL-USAGE-1162',0)
