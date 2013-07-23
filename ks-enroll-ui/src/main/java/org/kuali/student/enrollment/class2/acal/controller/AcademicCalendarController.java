@@ -1480,19 +1480,13 @@ public class AcademicCalendarController extends UifControllerBase {
     /**
      * Override of the Krad lightbox return function to allow for returning to the controller without a redirect.
      * Redirect causes a page refresh.
-     *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
-     * @return
      */
     @Override
     @RequestMapping(params = "methodToCall=returnFromLightbox")
     public ModelAndView returnFromLightbox(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
 
-        String newMethodToCall = "";
+        String newMethodToCall;
 
         // Save user responses from dialog
         DialogManager dm = form.getDialogManager();
@@ -1508,21 +1502,25 @@ public class AcademicCalendarController extends UifControllerBase {
 
         // KSENROLL Code Start
         form.setMethodToCall(newMethodToCall);
-        // Attempt to return to the controller method directly
-        for(Method m:this.getClass().getMethods()) {
+
+        // Attempt to return to the controller method directly using reflection (look for the matching methodToCall)
+        for (Method m : this.getClass().getMethods()) {
             RequestMapping a = m.getAnnotation(RequestMapping.class);
-            if(a!=null){
-                String[] annotationsParams= a.params();
-                for(String param : annotationsParams){
-                    if(param.contains("methodToCall="+newMethodToCall)){
-                        try{
-                            return (ModelAndView) m.invoke(this,form,result,request,response);
-                        }catch(IllegalAccessException iae){
-                            LOG.error("Reflection Invocation failed",iae);
-                        }catch(InvocationTargetException ite){
-                            LOG.error("Reflection Invocation failed",ite);
-                        }catch(IllegalArgumentException iae){
-                            LOG.error("Reflection Invocation failed",iae);
+            if (a != null) {
+                String[] annotationsParams = a.params();
+                for (String param : annotationsParams) {
+                    if (param.contains("methodToCall=" + newMethodToCall)) {
+                        try {
+                            return (ModelAndView) m.invoke(this, form, result, request, response);
+                        } catch (IllegalAccessException iae) {
+                            LOG.error("Reflection Invocation failed", iae);
+                            throw new RuntimeException("Error using reflection in returnFromLightbox", iae);
+                        } catch (InvocationTargetException ite) {
+                            LOG.error("Reflection Invocation failed", ite);
+                            throw new RuntimeException("Error using reflection in returnFromLightbox", ite);
+                        } catch (IllegalArgumentException iae) {
+                            LOG.error("Reflection Invocation failed", iae);
+                            throw new RuntimeException("Error using reflection in returnFromLightbox", iae);
                         }
                     }
                 }
