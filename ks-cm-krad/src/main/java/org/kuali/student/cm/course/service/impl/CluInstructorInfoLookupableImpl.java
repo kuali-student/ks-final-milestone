@@ -33,14 +33,32 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 
 public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 
 	private static final long serialVersionUID = -3027283578926320100L;
 	
+	/*
+     * TODO
+     * A constants file for personSearch should be created.
+     * 
+     * CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX
+     */
+    private static final String tempNAMESPACE = "http://student.kuali.org/wsdl/personsearch";
+    
+    private static final String tempSERVICE_NAME_LOCAL_PART = "PersonSearchService";
+	
 	private SearchService searchService;
 	
-	//Most of these string literals are available in QuickViewByGivenName
+	/*
+	 * (non-Javadoc)
+	 * @see org.kuali.rice.krad.lookup.LookupableImpl#getSearchResults(org.kuali.rice.krad.web.form.LookupForm, java.util.Map, boolean)
+	 * 
+	 * Most of these string literals are available in QuickViewByGivenName
+	 * should be moved to core or lum to be able to access it
+	 * 
+	 */
 
 	@Override
 	protected List<?> getSearchResults(LookupForm form,
@@ -53,7 +71,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
         
         if (StringUtils.isNotBlank(displayName)) {
             SearchParamInfo displayNameParam = new SearchParamInfo();
-            displayNameParam.setKey("person.queryParam.personGivenName");
+            displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
             displayNameParam.getValues().add(displayName);
             queryParamValueList.add(displayNameParam);
         }
@@ -102,7 +120,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 	
 	private SearchService getSearchService() {
 		if (searchService == null) {
-			searchService = GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/personsearch", "PersonSearchService"));
+			searchService = GlobalResourceLoader.getService(new QName(tempNAMESPACE, tempSERVICE_NAME_LOCAL_PART));
 		}
 		return searchService;
 	}
