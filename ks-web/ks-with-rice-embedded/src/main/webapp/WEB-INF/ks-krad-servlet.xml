@@ -34,9 +34,10 @@
      <context:exclude-filter type="assignable" expression="org.kuali.rice.krad.web.controller.LookupController"/>
   </context:component-scan>
 
+  <!-- overwriting this section so that some controller methods are not transactional -->
   <aop:config>
      <aop:pointcut id="controllerTransaction"
-        expression="execution(* org.kuali.rice.krad.web.controller.UifControllerBase+.*(..)) and !execution(* org.kuali.student.enrollment.class2.acal.controller.AcademicCalendarController.save(..)) and !execution(* org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingController.*(..))"/>
+        expression="execution(* org.kuali.rice.krad.web.controller.UifControllerBase+.*(..)) and !execution(* org.kuali.student.enrollment.class2.acal.controller.AcademicCalendarController.save(..)) "/>
      <aop:advisor advice-ref="txAdvice" pointcut-ref="controllerTransaction"/>
   </aop:config>
 
