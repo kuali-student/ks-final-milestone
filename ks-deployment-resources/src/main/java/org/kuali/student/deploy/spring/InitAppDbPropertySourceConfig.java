@@ -34,34 +34,40 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class InitAppDbPropertySourceConfig extends ProjectPropertySourceConfig {
 
-	protected static final String BASE_CONFIG_ID = KSDeploymentResourcesConfig.APP_DB_INIT.getConfigId();
-	protected final static String ARTIFACT_ID_KEY = MavenConstants.ARTIFACT_ID_KEY;
-	protected final static String CONFIG_ID_KEY = "impex.init.application.config";
+    protected static final String BASE_CONFIG_ID = KSDeploymentResourcesConfig.APP_DB_INIT.getConfigId();
+    protected final static String ARTIFACT_ID_KEY = MavenConstants.ARTIFACT_ID_KEY;
+    protected final static String CONFIG_ID_KEY = "impex.init.application.config";
 
-	@Autowired
-	Environment env;
+    @Autowired
+    Environment env;
 
-	@Autowired
-	Project project;
+    @Autowired
+    Project project;
 
-	@Override
-	protected List<String> getConfigIds() {
-		String artifactId = project.getArtifactId();
+    @Override
+    protected List<String> getConfigIds() {
+        List<String> baseConfigIds = getBaseConfigIds();
+        String appConfigId = getAppConfigId();
+        List<String> configIds = new ArrayList<String>();
+        configIds.addAll(baseConfigIds);
+        configIds.add(appConfigId);
+        return configIds;
+    }
 
-		String contextId = SpringUtils.getProperty(env, CONFIG_ID_KEY, artifactId);
+    protected List<String> getBaseConfigIds() {
+        List<String> results = new ArrayList<String>(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
+        results.add(KualiImpexProducerConfig.MPX_SQL.getConfigId());
+        results.add(KualiImpexProducerConfig.SCHEMA_SQL.getConfigId());
+        return results;
+    }
 
-		// in case we are running in a configuration that does not have an artifactId,
-		// ensure that a context id is found
-		Assert.notNull(contextId);
+    protected String getAppConfigId() {
+        String artifactId = project.getArtifactId();
+        String contextId = SpringUtils.getProperty(env, CONFIG_ID_KEY, artifactId);
 
-		String configId = Str.getId(BASE_CONFIG_ID, contextId);
-
-		List<String> results = new ArrayList<String>(JdbcConfigConstants.DEFAULT_CONFIG_IDS);
-
-		results.add(KualiImpexProducerConfig.MPX_SQL.getConfigId());
-		results.add(KualiImpexProducerConfig.SCHEMA_SQL.getConfigId());
-		results.add(configId);
-
-		return results;
-	}
+        // in case we are running in a configuration that does not have an artifactId,
+        // ensure that a context id is found
+        Assert.notNull(contextId);
+        return Str.getId(BASE_CONFIG_ID, contextId);
+    }
 }
