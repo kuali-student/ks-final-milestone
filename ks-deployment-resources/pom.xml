@@ -9,6 +9,10 @@
   <name>KS Deployment Resources</name>
   <description>Kuali Student Deployment Resources</description>
   <properties>
+  <!-- 
+    TODO KS is on 3.1.0.RELEASE which blows up spring-maven-plugin
+    Need to sort out what's going on with that. 
+   -->
     <spring.version>3.2.1.RELEASE</spring.version>
   </properties>
   <dependencies>
