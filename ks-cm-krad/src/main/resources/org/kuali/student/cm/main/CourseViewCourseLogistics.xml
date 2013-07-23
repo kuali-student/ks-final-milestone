@@ -13,9 +13,9 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="KS-CourseView-CourseLogisticsPage" parent="Uif-Page"
-		p:headerText="Course Logistics" p:disclosure.render="false" 
+		p:headerText="Course Logistics" p:disclosure.render="false"
 		p:instructionalText="Indicate the scheduling, learning results and course format for this course.">
-        <property name="header" ref="KS-CourseView-Header" />
+		<property name="header" ref="KS-CourseView-Header" />
 		<property name="items">
 			<list>
 				<ref bean="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets" />
@@ -30,15 +30,16 @@
 			</list>
 		</property>
 		<property name="footer">
-            <ref bean="KS-CourseView-Footer" />
-        </property>
+			<ref bean="KS-CourseView-Footer" />
+		</property>
 	</bean>
 	<bean id="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets"
 		parent="Uif-VerticalBoxSection" p:headerText="Scheduling">
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.termsOffered"
-					p:label="Term" p:instructionalText="Selecting a single term will restrict this course to only that term. Any will allow the 
+					p:label="Term"
+					p:instructionalText="Selecting a single term will restrict this course to only that term. Any will allow the 
 								course to be offered&lt;br&gt;in any term that matches the duration selected below.">
 					<property name="control">
 						<bean parent="Uif-VerticalCheckboxesControl" />
@@ -148,7 +149,7 @@
 					p:progressiveRender="#dp.finalExamStatus eq 'NONE' or #dp.finalExamStatus eq 'ALTERNATE'"
 					p:propertyName="finalExamRationale">
 					<property name="control">
-						<bean parent="Uif-LargeTextAreaControl" p:maxLength="255"/>
+						<bean parent="Uif-LargeTextAreaControl" p:maxLength="255" />
 					</property>
 				</bean>
 			</list>
@@ -161,12 +162,11 @@
 		<property name="layoutManager.summaryTitle" value="Outcome" />
 		<property name="renderAddBlankLineButton" value="false" />
 		<property name="addLinePlacement" value="BOTTOM" />
-<!-- 		<property name="addBlankLineAction.actionLabel" value="Add Another Outcome" /> -->
 		<property name="addLineLabel">
-            <bean parent="Uif-Label">
-                <property name="labelText" value=" "/>
-            </bean>
-        </property>
+			<bean parent="Uif-Label">
+				<property name="labelText" value=" " />
+			</bean>
+		</property>
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="typeKey"
@@ -215,10 +215,13 @@
 				<bean parent="Uif-StackedCollectionSubSection"
 					p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysDisplay"
 					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.multiple'"
-					p:propertyName="resultValueKeysDisplay">
-					<property name="renderAddBlankLineButton" value="true" />
+					p:progressiveRenderViaAJAX="true" p:propertyName="resultValueKeysDisplay">
 					<property name="addLinePlacement" value="BOTTOM" />
-					<property name="addBlankLineAction.actionLabel" value="Add" />
+					<property name="addLineLabel">
+						<bean parent="Uif-Label">
+							<property name="labelText" value=" " />
+						</bean>
+					</property>
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Credit Value"
@@ -244,12 +247,8 @@
 		</property>
 		<property name="layoutManager.summaryTitle" value="Activity" />
 		<property name="addLinePlacement" value="BOTTOM" />
-<!-- 		<property name="addBlankLineAction.actionLabel" value="" /> -->
-		<property name="addLineLabel">
-            <bean parent="Uif-Label">
-                <property name="labelText" value="Add Additional Format"/>
-            </bean>
-        </property>
+		<property name="renderAddBlankLineButton" value="true" />
+		<property name="addBlankLineAction.actionLabel" value="Add Additional Format" />
 		<property name="subCollections">
 			<list>
 				<bean parent="Uif-StackedSubCollection-WithinSection"
@@ -257,8 +256,11 @@
 					p:propertyName="activities">
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="renderAddBlankLineButton" value="false" />
-					<property name="addBlankLineAction.actionLabel" value="Add Activity" />
-					
+					<property name="addLineLabel">
+						<bean parent="Uif-Label">
+							<property name="labelText" value=" " />
+						</bean>
+					</property>
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:propertyName="typeKey"
@@ -268,8 +270,8 @@
 									<bean parent="Uif-DropdownControl" />
 								</property>
 							</bean>
-							<bean parent="Uif-InputField-LabelTop" p:label="Contacted Hours" p:required="false"
-								p:propertyName="contactHours.unitQuantity">
+							<bean parent="Uif-InputField-LabelTop" p:label="Contacted Hours"
+								p:required="false" p:propertyName="contactHours.unitQuantity">
 								<property name="validCharactersConstraint">
 									<bean parent="NumericPatternConstraint" />
 								</property>
