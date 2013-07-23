@@ -215,6 +215,13 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         float min = Float.parseFloat(creditValueMin);
         float max = Float.parseFloat(creditValueMax);
         float increment = Float.parseFloat(creditValueIncrement);
+
+        if(increment <= 0){
+            throw new InvalidParameterException(String.format("The creditValueIncrement was <= 0. " +
+                    "If that happens then the following loop will cause the system to run out of memory." +
+                    "Variables: creditValueMin[%s] creditValueMax[%s] creditValueIncrement[%s]", creditValueMin, creditValueMax, creditValueIncrement));
+        }
+
         for(float f=min;f<=max;f+=increment){
             values.add(String.valueOf(f));
         }
