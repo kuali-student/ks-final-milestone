@@ -23,7 +23,8 @@
           p:id="courseOfferingRolloverManagementView"
           p:entryPageId="selectTermForRolloverDetails"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingViewHelperServiceImpl"
-          p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm">
+          p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm"
+          p:headerText="Rollover Management" >
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
@@ -33,13 +34,6 @@
             <bean class="org.kuali.rice.krad.uif.view.ViewAuthorizerBase"/>
         </property>
 
-        <property name="header">
-            <bean parent="Uif-HeaderOne"/>
-        </property>
-
-        <property name="footer">
-            <bean parent="Uif-FooterBase"/>
-        </property>
 
         <property name="items">
             <list>

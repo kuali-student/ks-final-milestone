@@ -23,9 +23,6 @@
     <bean id="KS-CourseOfferingRolloverManagement-ReleaseToDeptsPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="releaseToDepts"
           p:headerText="@{rolloverTargetTermDesc == '' ? 'Unknown Term Course Offerings': rolloverTargetTermDesc + ' Course Offerings'}">
-        <property name="header">
-            <bean parent="Uif-HeaderTwo"/>
-        </property>
 
         <property name="items">
             <list>

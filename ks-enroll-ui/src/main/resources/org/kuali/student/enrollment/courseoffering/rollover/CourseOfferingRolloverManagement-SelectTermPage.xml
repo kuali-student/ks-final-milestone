@@ -24,15 +24,10 @@
           p:id="selectTermsForRollover">
         <!-- It's easier to put the footer up front since it has a lot less content -->
         <property name="footer">
-            <bean parent="Uif-FooterBase">
+            <bean parent="KS-Uif-FooterBase">
                 <property name="items">
                     <list>
                         <bean parent="Uif-HorizontalBoxGroup">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ac_stickyfooter</value>
-                                </list>
-                            </property>
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="true"
@@ -48,7 +43,7 @@
         </property> <!-- End of footer -->
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;br&gt;Select Source and Target Terms" p:style="font-size:135%; border-top: solid 2px #000;"/>
+                <bean parent="Uif-Message" p:messageText="&lt;br&gt;Select Source and Target Terms" p:style="font-size:135%;"/>
                 <bean parent="Uif-Message" p:messageText="Both fields are required. Enter terms as codes, eg 201201." p:style="font-size:110%;"/>
                 <bean parent="Uif-VerticalBoxGroup" p:style="min-width:17cm">
                     <property name="items">
