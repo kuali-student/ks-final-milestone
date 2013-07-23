@@ -117,7 +117,7 @@ public class KSKRMSServiceConstants {
     public static final String PROPOSITION_TYPE_TEST_SCORE = "kuali.krms.proposition.type.test.score";
     public static final String PROPOSITION_TYPE_COMPOUND_AND = "kuali.krms.proposition.type.compound.and";
     public static final String PROPOSITION_TYPE_COMPOUND_OR = "kuali.krms.proposition.type.compound.or";
-
+    public static final String PROPOSITION_TYPE_IN_POPULATION = "kuali.krms.proposition.type.memberof.population";
     // term types
     public static final String TERM_TYPE_COURSE_ID = "kuali.krms.term.type.course.specific.id";
     public static final String TERM_TYPE_COURSE = "kuali.krms.term.type.course.specific";
