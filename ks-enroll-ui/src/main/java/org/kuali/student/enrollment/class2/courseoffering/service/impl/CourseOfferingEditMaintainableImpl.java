@@ -45,7 +45,6 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -306,7 +305,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         //Sort the list of credits options by the float value.
         Collections.sort(credits, new Comparator<String>() {
             public int compare(String o1, String o2) {
-                return Float.valueOf(o1).compareTo(Float.valueOf(02));
+                return Float.valueOf(o1).compareTo(Float.valueOf(o2));
             }
         });
         //Find the difference between the first two values to get the increment
