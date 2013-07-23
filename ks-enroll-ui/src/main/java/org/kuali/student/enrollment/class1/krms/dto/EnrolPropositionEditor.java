@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.student.core.krms.dto.KSPropositionEditor;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
@@ -27,7 +28,7 @@ import java.util.Map;
 /**
  * @author Kuali Student Team
  */
-public class EnrolPropositionEditor extends PropositionEditor {
+public class EnrolPropositionEditor extends KSPropositionEditor {
 
     private static final long serialVersionUID = 1L;
 
