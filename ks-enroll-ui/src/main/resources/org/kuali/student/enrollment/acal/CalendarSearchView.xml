@@ -115,7 +115,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-HorizontalFieldGroup">
-
+                                <!--added margin-left base on experiment to align the search criteria with the rest of the page-->
+                                <property name="style" value="margin-left:-20px;"/>
                                 <property name="items">
                                     <list>
 
