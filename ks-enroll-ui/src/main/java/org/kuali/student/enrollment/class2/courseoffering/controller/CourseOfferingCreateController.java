@@ -27,6 +27,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -436,6 +437,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         urlParameters.put("viewId",CourseOfferingConstants.MANAGE_CO_VIEW_ID);
         urlParameters.put("pageId",CourseOfferingConstants.MANAGE_THE_CO_PAGE);
         urlParameters.put("withinPortal","false");
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
+        urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS, courseOfferingInfo.getCourseOfferingCode());
 
         return super.performRedirect(form, CourseOfferingConstants.MANAGE_CO_CONTROLLER_PATH, urlParameters);
     }
