@@ -730,7 +730,9 @@ function updateContextBar(srcId, contextBarId){
 
     var contextBar = jQuery("#" + contextBarId);    // grab the placeholder
     if( contextBar ) {
-        contextBar.show();
+        if (contextBar.css('display') == "none") {
+            contextBar.show();
+        }
         var src = jQuery("#" + srcId);                  // grab the new context bar
         jQuery(contextBar).append(jQuery(src));         // add it to the context bar placeholder
         jQuery(src).show();
@@ -744,7 +746,7 @@ function updateContextBar(srcId, contextBarId){
 function removeEmptyContextBar(){
     var contextBar = jQuery("#KS-CourseOffering-View-ContextBar-PlaceHolder");
 
-    if (contextBar) {
+    if (contextBar && contextBar.css('display') != "none") {
         //hide the empty context bar
         contextBar.hide();
 
@@ -753,11 +755,8 @@ function removeEmptyContextBar(){
         if (headerDiv) {
             var headerOffsetTop = headerDiv.offset().top - 41;
             headerDiv.offset({top:headerOffsetTop});
-
-            var headerIndex = stickyContent.index(headerDiv);
-
-            //temporarily remove header from stickyContent array
-            stickyContent.splice(headerIndex, 1);
+            headerDiv.data("offset", headerDiv.offset());
+            stickyContentOffset.top -= 41;
         }
     }
 }
@@ -766,15 +765,18 @@ function removeEmptyContextBar(){
  This method is for putting the page header back to the original position
  */
 function resetHeaderPosition(){
-    var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
-    if (headerDiv) {
-        var headerOffsetTop = headerDiv.offset().top + 41;
+    var contextBar = jQuery("#KS-CourseOffering-View-ContextBar-PlaceHolder");
+    if (contextBar && contextBar.css('display') != "none") {
 
-        //adjust header back to the original position
-        headerDiv.offset({top:headerOffsetTop});
+        var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
+        if (headerDiv) {
+            var headerOffsetTop = headerDiv.offset().top + 41;
 
-        //push header back to stickyContent array
-        stickyContent.push(headerDiv);
+            //adjust header back to the original position
+            headerDiv.offset({top:headerOffsetTop});
+            headerDiv.data("offset", headerDiv.offset());
+            stickyContentOffset.top += 41;
+        }
     }
 }
 
