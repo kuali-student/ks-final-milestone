@@ -2795,4 +2795,26 @@ public interface AcademicCalendarService {
             OperationFailedException,
             PermissionDeniedException;
 
+    /**
+     * Retrieves a list of Terms mapped to the given ExamPeriod.
+     *
+     * @param examPeriodId  an identifier for the ExamPeriod
+     * @param contextInfo   information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return a list of Terms mapped to the given ExamPeriod
+     * @throws DoesNotExistException     examPeriodId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException examPeriodId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TermInfo> getTermsForExamPeriod(@WebParam(name = "examPeriodId") String examPeriodId,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 }
