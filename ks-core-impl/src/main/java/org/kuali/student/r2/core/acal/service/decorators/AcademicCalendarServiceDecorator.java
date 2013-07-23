@@ -844,4 +844,9 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     public StatusInfo removeExamPeriodFromTerm(String termId, String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().removeExamPeriodFromTerm(termId, examPeriodId, contextInfo);
     }
+
+    @Override
+    public List<TermInfo> getTermsForExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getTermsForExamPeriod(examPeriodId, contextInfo);
+    }
 }

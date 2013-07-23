@@ -1258,4 +1258,16 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new PermissionDeniedException();
         }
     }
+
+    @Override
+    public List<TermInfo> getTermsForExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermsForExamPeriod", null)) {
+            return getNextDecorator().getTermsForExamPeriod(examPeriodId, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
 }

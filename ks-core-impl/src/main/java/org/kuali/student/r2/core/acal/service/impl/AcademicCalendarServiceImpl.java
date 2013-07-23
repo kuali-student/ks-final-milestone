@@ -2626,4 +2626,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public StatusInfo removeExamPeriodFromTerm(String termId, String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException ("has not been implemented yet!");
     }
+
+    @Override
+    public List<TermInfo> getTermsForExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("has not been implemented yet!");
+    }
+
 }
