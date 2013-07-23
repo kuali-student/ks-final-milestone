@@ -1079,6 +1079,7 @@ function resetDialogResponses(returnFieldId){
 function resetDirtyFields(returnFieldId){
     var dirtyFields = jQuery('#'+returnFieldId+'_control');
     if(dirtyFields.length==0) return;
+    if(typeof dirtyFields[0].value === 'undefined') return;
     var fields = dirtyFields[0].value.split(',');
     for(i =0; i<fields.length;i++){
         var field = fields[i];
