@@ -328,7 +328,7 @@ limitations under the License.
         </property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:propertyName="eventTypeKey" p:label="Event" p:required="true"
+				<bean parent="Uif-InputField" p:propertyName="eventTypeKey" p:label="Event Type" p:required="true"
                       p:readOnly="@{!#isAddLine}" p:style="font-weight:bold;" p:readOnlyDisplayReplacementPropertyName="eventTypeName">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -398,16 +398,6 @@ limitations under the License.
                         <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
                             <property name="disabled" value="@{#lp.allDay or #empty(#lp.endTime)}"/>
                         </bean>
-                    </property>
-                 </bean>
-                 <bean parent="Uif-InputField" p:propertyName="allDay" p:label="All Day" p:render="@{!#view.readOnly}">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
-                    </property>
-                 </bean>
-                 <bean parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range" p:render="@{!#view.readOnly}">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" />
                     </property>
                  </bean>
 			</list>
