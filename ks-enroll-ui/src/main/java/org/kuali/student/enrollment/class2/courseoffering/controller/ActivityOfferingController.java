@@ -4,6 +4,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -22,7 +23,10 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,6 +36,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
 import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
@@ -39,6 +44,8 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value = "/activityOffering")
 public class ActivityOfferingController extends MaintenanceDocumentController {
+
+    private ActivityOfferingControllerTransactionHelper activityOfferingControllerTransactionHelper;
 
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
@@ -107,16 +114,28 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
-     /**
-      * There is an override to the default KRAD transaction interceptor config (ks-web/.../krad-base-servlet.xml) to
-      * exclude this method. If this isn't in place any problems encountered in the services layer which result in a
-      * rollback will cause an UnexpectedRollbackException <b>after<b/> this method completes which means the exception
-      * cannot be handled.
-      */
-    @Override
-    @RequestMapping(params = "methodToCall=route")
-    public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+    /**
+     * This method is called by a helper service to perform the super.route method. It's indirect, but we need a new
+     * transaction boundary around this call to support handling errors without causing a rollback exception in the UI
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return model and view
+     */
+    public ModelAndView routeSuper(DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
+        return super.route(form, result, request, response);
+    }
+
+     /**
+      * Extra handling is done here for exceptions in the super.route, and also to perform redirects after routing
+      */
+     @Override
+     @RequestMapping(params = "methodToCall=route")
+     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                               HttpServletRequest request, HttpServletResponse response) {
         /**
          * The route method will call ActivityOfferingRule#isDocumentValidForSave() followed by
          * ActivityOfferingMaintainableImpl#saveDataObject(). Validation will happen in isDocumentValidForSave() and
@@ -124,7 +143,10 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
          * and put in the message map.
          */
         try {
-            super.route(form,result,request, response);
+            //Call the transaction helper to eventually call super.route, but with a new transaction
+            //This way if the super.route transaction fails, the current transaction will still succeed and errors can
+            //be displayed in the UI
+            getActivityOfferingControllerTransactionHelper().routeSuper(form, result, request, response, this);
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, unwrapException(e).getMessage());
         }
@@ -249,4 +271,14 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             return false;
         }
     }
+
+
+    public ActivityOfferingControllerTransactionHelper getActivityOfferingControllerTransactionHelper() {
+        if(activityOfferingControllerTransactionHelper == null){
+            activityOfferingControllerTransactionHelper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "activityOfferingControllerTransactionHelper", ActivityOfferingControllerTransactionHelper.class.getSimpleName()));
+        }
+
+        return activityOfferingControllerTransactionHelper;
+    }
+
 }

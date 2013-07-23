@@ -470,7 +470,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         } else if (addLine instanceof KeyDatesGroupWrapper) {
             AcademicCalendarForm form = (AcademicCalendarForm) model;
             form.setAddLineValid(true);
-            form.setValidationJSONString("");
+            form.setValidationJSONString("{}");
             KeyDatesGroupWrapper keydateGroup = (KeyDatesGroupWrapper) addLine;
             if(StringUtils.isEmpty(keydateGroup.getKeyDateGroupType())) {
                 GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), CalendarConstants.MessageKeys.ERROR_KEY_DATE_GROUP_TYPE_REQUIRED);
@@ -484,7 +484,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         else if (addLine instanceof KeyDateWrapper) {
             AcademicCalendarForm form = (AcademicCalendarForm) model;
             form.setAddLineValid(true);
-            form.setValidationJSONString("");
+            form.setValidationJSONString("{}");
             StringBuilder sb = new StringBuilder();
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             boolean isValid = true;
@@ -601,6 +601,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             //if tries to add a Subterm, the parent term has to exist in the Form
             AcademicTermWrapper term = (AcademicTermWrapper) addLine;
             AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
+            acalForm.setValidationJSONString("{}");
             if (term.getParentTerm() != null &&
                     !StringUtils.isBlank(term.getParentTerm())){
 
