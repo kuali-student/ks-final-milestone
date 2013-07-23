@@ -1133,6 +1133,11 @@ public class AcademicCalendarServiceMockImpl implements AcademicCalendarService,
         throw new OperationFailedException ("getExamPeriodsForTerm has not been implemented");
     }
 
+    @Override
+    public List<TermInfo> getTermsForExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new OperationFailedException ("getTermsForExamPeriod has not been implemented");
+    }
+
     ////////////////////////////
     // Helper Methods
     ////////////////////////////
