@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
+
 /**
  * TODO Temporary Constants class that acts as
  * place holder for the odd constants needed.
@@ -33,6 +35,14 @@ public class KeyValueConstants {
      */
     public static final String CAMPUS_LOCATION_ENUM_KEY = "kuali.lu.campusLocation";
     public static final String FINAL_EXAM_STATUS_ENUM_KEY = "kuali.lu.finalExam.status";
+    
+    /*
+     * Constants needed to search for personSearch
+     */
+    
+    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "personsearch";
+    public static final String SERVICE_NAME_LOCAL_PART = "PersonSearchService";
+    
     
     /*
      * Should also be moved into ATPServiceConstants

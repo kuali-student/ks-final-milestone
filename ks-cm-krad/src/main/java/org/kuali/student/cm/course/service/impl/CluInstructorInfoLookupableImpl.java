@@ -26,6 +26,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
+import org.kuali.student.lum.lu.ui.course.keyvalues.KeyValueConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -39,26 +40,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 
 	private static final long serialVersionUID = -3027283578926320100L;
 	
-	/*
-     * TODO
-     * A constants file for personSearch should be created.
-     * 
-     * CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX
-     */
-    private static final String tempNAMESPACE = "http://student.kuali.org/wsdl/personsearch";
-    
-    private static final String tempSERVICE_NAME_LOCAL_PART = "PersonSearchService";
-	
 	private SearchService searchService;
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.kuali.rice.krad.lookup.LookupableImpl#getSearchResults(org.kuali.rice.krad.web.form.LookupForm, java.util.Map, boolean)
-	 * 
-	 * Most of these string literals are available in QuickViewByGivenName
-	 * should be moved to core or lum to be able to access it
-	 * 
-	 */
 
 	@Override
 	protected List<?> getSearchResults(LookupForm form,
@@ -77,18 +59,18 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
         }
         if (StringUtils.isNotBlank(personId)) {
         	SearchParamInfo personIdParam = new SearchParamInfo();
-        	personIdParam.setKey("person.queryParam.personId");
+        	personIdParam.setKey(QuickViewByGivenName.ID_PARAM);
         	personIdParam.getValues().add(personId);
         	queryParamValueList.add(personIdParam);
         }
         
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
+        searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
         searchRequest.setMaxResults(10);
         searchRequest.setNeededTotalResults(false);
-        searchRequest.setSortColumn("person.resultColumn.DisplayName");
+        searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
         
         SearchResultInfo searchResult = null;
         try {
@@ -97,15 +79,15 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
                 List<SearchResultCellInfo> cells = result.getCells();
                 CluInstructorInfoDisplay cluInstructorInfoDisplay = new CluInstructorInfoDisplay();
                 for (SearchResultCellInfo cell : cells) {
-                    if ("person.resultColumn.GivenName".equals(cell.getKey())) {
+                    if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setGivenName(cell.getValue());
-                    } else if ("person.resultColumn.PersonId".equals(cell.getKey())) {
+                    } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setPersonId(cell.getValue());
-                    } else if ("person.resultColumn.EntityId".equals(cell.getKey())) {
+                    } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setId(cell.getValue());
-                    } else if ("person.resultColumn.PrincipalName".equals(cell.getKey())) {
+                    } else if (QuickViewByGivenName.PRINCIPAL_NAME_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setPrincipalName(cell.getValue());
-                    } else if ("person.resultColumn.DisplayName".equals(cell.getKey())) {
+                    } else if (QuickViewByGivenName.DISPLAY_NAME_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setDisplayName(cell.getValue());
                     }
                 }
@@ -120,7 +102,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 	
 	private SearchService getSearchService() {
 		if (searchService == null) {
-			searchService = GlobalResourceLoader.getService(new QName(tempNAMESPACE, tempSERVICE_NAME_LOCAL_PART));
+			searchService = GlobalResourceLoader.getService(new QName(KeyValueConstants.NAMESPACE, KeyValueConstants.SERVICE_NAME_LOCAL_PART));
 		}
 		return searchService;
 	}
