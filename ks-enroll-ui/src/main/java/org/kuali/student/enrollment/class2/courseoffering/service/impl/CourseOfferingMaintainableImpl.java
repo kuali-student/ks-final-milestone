@@ -67,10 +67,17 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     private transient StateService stateService;
     private transient CourseService courseService;
 
+    /**
+     * Returns the format name by concatenation all the activity names with / seperated
+     *
+     * @param foWrapper
+     * @param course
+     * @return
+     */
     public String getFormatName(FormatOfferingWrapper foWrapper,CourseInfo course){
         for (FormatInfo format : course.getFormats()) {
             if (StringUtils.equals(format.getId(),foWrapper.getFormatId())){
-                StringBuffer activityName = new StringBuffer();
+                StringBuilder activityName = new StringBuilder();
                 for (ActivityInfo activityInfo : format.getActivities()) {
                     TypeInfo activityType = null;
                     try {

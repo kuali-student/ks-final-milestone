@@ -415,6 +415,9 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
 
 
     /**
+     * This override is specifically for making sure users selected the format types before adding new lines (there is no
+     * util method available at view helper).
+     *
      * @param form
      * @return
      */
