@@ -387,7 +387,7 @@
 
     <!-- Create Course Offering Start -->
 
-    <bean id="KS-CourseOffering-CreatePage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}" >
+    <bean id="KS-CourseOffering-CreatePage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}" p:style="overflow:hidden;">
         <property name="id" value="courseOfferingCreatePage"/>
         <property name="headerText" value=""/>
         <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
@@ -435,7 +435,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="catalogCourseCode"
-                      p:label="Catalog Course Code" p:labelPlacement="TOP" p:required="true" p:fieldLabel.renderColon="false">
+                      p:label="Catalog Course Code !!" p:labelPlacement="TOP" p:required="true" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="ENGL237"/>
                     </property>
