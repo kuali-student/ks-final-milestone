@@ -135,6 +135,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import static java.util.Arrays.asList;
+
 /**
  * This class
  *
@@ -666,18 +668,18 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             Map<String, RoomInfo> roomIdMap = new HashMap<String, RoomInfo>();
             Map<String, TimeSlotInfo> timeslotIdMap = new HashMap<String, TimeSlotInfo>();
 
-
-            List<ScheduleRequestInfo> schRequests = new ArrayList<ScheduleRequestInfo>();
-
-            //Lookup all AOs related scheduleRequests for building up buildingIdMap, roomIdMap and timeslotIdMap
-            schRequests.addAll(getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, new ArrayList<String>(aoIdsWithoutSch), contextInfo));
-
-            //Store the ids for bulk lookup
-            for (ScheduleRequestInfo schRequest : schRequests) {
-                for (ScheduleRequestComponentInfo schRequestCom : schRequest.getScheduleRequestComponents()) {
-                    buildingIds.addAll(schRequestCom.getBuildingIds());
-                    roomIds.addAll(schRequestCom.getRoomIds());
-                    timeslotIds.addAll(schRequestCom.getTimeSlotIds());
+            Map<String, List<ScheduleRequestInfo>>  ao2srMap = new HashMap<String, List<ScheduleRequestInfo>>();
+            HashSet<String> aoIdsSet = new HashSet<String>(aoIdsWithoutSch);
+            for (String aoId : aoIdsSet) {
+                ao2srMap.put(aoId, new ArrayList<ScheduleRequestInfo>());
+                List<ScheduleRequestInfo> srList = getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, new ArrayList<String>(asList(aoId)), contextInfo);
+                ao2srMap.get(aoId).addAll(srList);
+                for (ScheduleRequestInfo sr : srList) {
+                    for (ScheduleRequestComponentInfo schRequestCom : sr.getScheduleRequestComponents()) {
+                        buildingIds.addAll(schRequestCom.getBuildingIds());
+                        roomIds.addAll(schRequestCom.getRoomIds());
+                        timeslotIds.addAll(schRequestCom.getTimeSlotIds());
+                    }
                 }
 
             }
@@ -697,47 +699,34 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 buildingIdMap.put(buildingInfo.getId(), buildingInfo);
             }
 
-            List<String> aoIds = new ArrayList<String>(aoIdsWithoutSch);
-            for(String aoId : aoIds){
-                List<ScheduleRequestInfo> ao2schRequests = new ArrayList<ScheduleRequestInfo>();
-                List<String> tempLst = new ArrayList<String>();
-                tempLst.add(aoId);
-                ao2schRequests.addAll(getSchedulingService().getScheduleRequestsByRefObjects(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, tempLst, contextInfo));
-                for (ScheduleRequestInfo schRequest : ao2schRequests) {
-                    for (ScheduleRequestComponentInfo schRequestCom : schRequest.getScheduleRequestComponents()) {
-                        List<RoomInfo> rooms = new ArrayList<RoomInfo>();
-                        List<BuildingInfo> bldgs = new ArrayList<BuildingInfo>();
-                        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
-                        for (String roomId : schRequestCom.getRoomIds()) {
+            for (String aoId : aoIdsSet) {
+                List<ScheduleRequestCalcContainer> srccList = new ArrayList<ScheduleRequestCalcContainer>();
+                ao2sch.put(aoId, srccList);
+                List<RoomInfo> rooms = new ArrayList<RoomInfo>();
+                List<BuildingInfo> bldgs = new ArrayList<BuildingInfo>();
+                List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
+                for (ScheduleRequestInfo sr : ao2srMap.get(aoId)) {
+                    for (ScheduleRequestComponentInfo src : sr.getScheduleRequestComponents()) {
+                        for (String roomId : src.getRoomIds()) {
                             rooms.add(roomIdMap.get(roomId));
                             bldgs.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
                         }
-                        for (String timeSlotId : schRequestCom.getTimeSlotIds()) {
+                        for (String timeSlotId : src.getTimeSlotIds()) {
                             TimeSlotInfo timeSlotInfo = timeslotIdMap.get(timeSlotId);
                             timeSlots.add(timeSlotInfo);
 
                         }
-                        ScheduleRequestCalcContainer src = new ScheduleRequestCalcContainer(aoId, schRequest.getId(), CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, timeSlots, rooms, bldgs, schRequestCom.getIsTBA());
-
-                        if (ao2sch.containsKey(aoId)) {
-
-                            ao2sch.get(aoId).add(src);
-
-                        } else {
-                            List<ScheduleRequestCalcContainer> schList = new ArrayList<ScheduleRequestCalcContainer>();
-                            schList.add(src);
-                            ao2sch.put(aoId, schList);
-                        }
+                        ScheduleRequestCalcContainer srcc = new ScheduleRequestCalcContainer(aoId, sr.getId(),
+                                CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                                timeSlots,
+                                rooms,
+                                bldgs,
+                                src.getIsTBA());
+                        srccList.add(srcc);
                     }
                 }
-
             }
         }
-
-
-        //ScheduleCalcContainer scheduleCalcContainer = new ScheduleCalcContainer(aoId,cmpId,CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, startTime, endTime, weekdays, roomCode, bldgName, tbaInd);
-
-
     }
 
     private void processScheduleInfo(SearchResultInfo searchResults, Map<String, List<ActivityOfferingWrapper>> sch2aoMap, Map<String, List<ScheduleCalcContainer>> ao2sch, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException {
