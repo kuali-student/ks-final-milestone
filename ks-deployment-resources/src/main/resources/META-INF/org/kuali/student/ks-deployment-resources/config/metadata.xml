@@ -53,4 +53,7 @@
       </context>
     </context>
   </context>
+  <context id="deploy">
+      <location value="${ks.deploy.prefix}/deploy.properties"/>
+  </context>
 </project>

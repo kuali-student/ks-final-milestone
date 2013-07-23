@@ -10,7 +10,8 @@ public enum KSDeploymentResourcesConfig implements ProjectConfig {
 	SOURCE_DB_INIT("source-db:initialize"), //
 	SOURCE_DB_DUMP("source-db:dump"), //
 	SOURCE_DB_SCM("source-db:scm"), //
-	APP_DB_INIT("app-db:init");
+	APP_DB_INIT("app-db:init"),
+    DEPLOY("DEPLOY");
 
 	private final String contextId;
 	private final String configId;
