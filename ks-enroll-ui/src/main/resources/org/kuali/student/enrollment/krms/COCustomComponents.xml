@@ -203,7 +203,7 @@ limitations under the License.
                             <!--this is a hack-->
                         </bean>
                     </property>
-                    <property name="label" value="@{#np.proposition.cluSet.cluSetListSize eq 0 ? 'Course Sets' : ''}"/>
+                    <property name="label" value="Course Set Name"/>
                     <property name="quickfinder">
                         <bean parent="KRMS-CourseSet-QuickFinder"/>
                     </property>
@@ -276,7 +276,7 @@ limitations under the License.
                             <!--this is a hack-->
                         </bean>
                     </property>
-                    <property name="label" value="@{#np.proposition.cluSet.cluListSize eq 0 ? 'Approved Courses' : ''}"/>
+                    <property name="label" value="Course Code"/>
                     <property name="quickfinder">
                         <bean parent="KRMS-ApprovedCourses-QuickFinder"/>
                     </property>
