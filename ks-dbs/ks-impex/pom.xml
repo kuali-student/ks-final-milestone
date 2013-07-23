@@ -16,8 +16,8 @@
         <module>ks-impex-bundled-db</module>
     </modules>
     <properties>
-        <impex.metainf.context>org.kuali.common.util.metainf.spring.MetaInfExecutableConfig</impex.metainf.context>
         <impex.metainf.propertySource>org.kuali.common.util.metainf.spring.MetaInfMpxPropertySourceConfig</impex.metainf.propertySource>
+        <impex.metainf.context>org.kuali.common.util.metainf.spring.MetaInfExecutableConfig</impex.metainf.context>
         <impex.metainf.phase>prepare-package</impex.metainf.phase>
     </properties>
     <profiles>
