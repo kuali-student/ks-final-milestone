@@ -161,7 +161,12 @@
 		<property name="layoutManager.summaryTitle" value="Outcome" />
 		<property name="renderAddBlankLineButton" value="false" />
 		<property name="addLinePlacement" value="BOTTOM" />
-		<property name="addBlankLineAction.actionLabel" value="Add Another Outcome" />
+<!-- 		<property name="addBlankLineAction.actionLabel" value="Add Another Outcome" /> -->
+		<property name="addLineLabel">
+            <bean parent="Uif-Label">
+                <property name="labelText" value=" "/>
+            </bean>
+        </property>
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="typeKey"
@@ -211,7 +216,7 @@
 					p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysDisplay"
 					p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.multiple'"
 					p:propertyName="resultValueKeysDisplay">
-					<property name="renderAddBlankLineButton" value="false" />
+					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
 					<property name="addBlankLineAction.actionLabel" value="Add" />
 					<property name="items">
