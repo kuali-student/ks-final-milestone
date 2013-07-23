@@ -21,10 +21,7 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -33,12 +30,8 @@ import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.agenda.AgendaDefinition;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeDefinition;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeEntryDefinitionContract;
-import org.kuali.rice.krms.api.repository.agenda.AgendaTreeRuleEntry;
 import org.kuali.rice.krms.api.repository.context.ContextDefinition;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
-import org.kuali.rice.krms.api.repository.proposition.PropositionDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
@@ -55,11 +48,9 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.service.RuleEditorMaintainable;
 import org.kuali.rice.krms.util.AlphaIterator;
-import org.kuali.rice.krms.util.ExpressionToken;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -80,7 +71,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     private transient KrmsTypeRepositoryService krmsTypeRepositoryService;
     private transient TermRepositoryService termRepositoryService;
 
-    private transient ContextInfo contextInfo;
     private transient TemplateRegistry templateRegistry;
     private AlphaIterator alphaIterator = new AlphaIterator(StringUtils.EMPTY);
 
@@ -389,7 +379,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     }
 
-    protected AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
+    public AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
 
         Stack<RuleEditor> rules = new Stack<RuleEditor>();
         for (RuleEditor rule : agenda.getRuleEditors().values()) {
@@ -437,7 +427,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         return updateItem;
     }
 
-    protected void deleteAgendaItems(AgendaItemDefinition agendaItem) {
+    public void deleteAgendaItems(AgendaItemDefinition agendaItem) {
         if (agendaItem != null) {
             this.getRuleManagementService().deleteAgendaItem(agendaItem.getId());
             deleteAgendaItems(agendaItem.getWhenFalse());
@@ -446,7 +436,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
     }
 
-    protected RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
+    public RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
         // handle saving new parameterized terms
         if (rule.getPropositionEditor() != null) {
             this.finPropositionEditor(rule.getPropositionEditor());
@@ -460,7 +450,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         return RuleDefinition.Builder.create(rule);
     }
 
-    protected void finPropositionEditor(PropositionEditor propositionEditor) {
+    public void finPropositionEditor(PropositionEditor propositionEditor) {
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
 
             //Call onsubmit on the associated builder.
@@ -492,7 +482,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
     }
 
-    protected void initPropositionEditor(PropositionEditor propositionEditor) {
+    public void initPropositionEditor(PropositionEditor propositionEditor) {
         if (propositionEditor == null) {
             return;
         }
@@ -545,8 +535,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     /**
      * In the case of edit maintenance adds a new blank line to the old side
      * <p/>
-     * TODO: should this write some sort of missing message on the old side
-     * instead?
      *
      * @see org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl#processAfterAddLine(org.kuali.rice.krad.uif.view.View,
      *      org.kuali.rice.krad.uif.container.CollectionGroup, Object,
@@ -556,8 +544,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
         // Check for maintenance documents in edit but exclude notes
         if (model instanceof MaintenanceDocumentForm && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(((MaintenanceDocumentForm) model).getMaintenanceAction()) && !(addLine instanceof Note)) {
-            MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-            MaintenanceDocument document = maintenanceDocumentForm.getDocument();
 
             // Figure out which rule is being edited
             RuleEditor rule = getRuleEditor(model);
