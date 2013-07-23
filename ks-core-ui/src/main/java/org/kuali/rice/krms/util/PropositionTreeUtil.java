@@ -246,9 +246,9 @@ public class PropositionTreeUtil {
 
     public static List<PropositionParameterEditor> createParameterList() {
         // create blank proposition parameters
-        PropositionParameterEditor pTerm = new PropositionParameterEditor(PropositionParameterType.TERM.getCode(), new Integer("0"));
-        PropositionParameterEditor pOp = new PropositionParameterEditor(PropositionParameterType.OPERATOR.getCode(), new Integer("2"));
-        PropositionParameterEditor pConst = new PropositionParameterEditor(PropositionParameterType.CONSTANT.getCode(), new Integer("1"));
+        PropositionParameterEditor pTerm = new PropositionParameterEditor(PropositionParameterType.TERM.getCode(), Integer.valueOf("0"));
+        PropositionParameterEditor pOp = new PropositionParameterEditor(PropositionParameterType.OPERATOR.getCode(), Integer.valueOf("2"));
+        PropositionParameterEditor pConst = new PropositionParameterEditor(PropositionParameterType.CONSTANT.getCode(), Integer.valueOf("1"));
 
         return Arrays.asList(pTerm, pConst, pOp);
     }

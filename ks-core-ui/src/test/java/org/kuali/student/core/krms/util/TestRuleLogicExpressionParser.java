@@ -1,4 +1,4 @@
-package org.kuali.student.org.kuali.student.core.krms.util;
+package org.kuali.student.core.krms.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;

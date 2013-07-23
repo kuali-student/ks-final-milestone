@@ -23,10 +23,10 @@ public class KRMSConstants {
     public static final String KSKRMS_DIALOG_COMPARE = "compareRuleLightBox";
 
     // node types
-    public static String NODE_TYPE_SUBRULEHEADER = "subruleHeader";
-    public static String NODE_TYPE_SUBRULEELEMENT = "subruleElement";
-    public static String NODE_TYPE_COMPAREELEMENT = "compareElement";
-    public static String NODE_TYPE_VIEWELEMENT = "viewElement";
+    public static final String NODE_TYPE_SUBRULEHEADER = "subruleHeader";
+    public static final String NODE_TYPE_SUBRULEELEMENT = "subruleElement";
+    public static final String NODE_TYPE_COMPAREELEMENT = "compareElement";
+    public static final String NODE_TYPE_VIEWELEMENT = "viewElement";
 
     // Parameters
     public static final String KRMS_PARM_RULE_KEY = "ruleKey";

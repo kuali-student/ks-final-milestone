@@ -20,13 +20,14 @@ package org.kuali.rice.krms.util;
  */
 public class ExpressionToken implements Cloneable {
 
-    public static int And = 1;        //TODO use AndOrButton class int instead?
-    public static int Or = 2;
-    public static int StartParenthesis = 3;
-    public static int EndParenthesis = 4;
-    public static int Condition = 5;
-    public String value;
-    public int type;
+    public static final int OPERATOR_AND = 1;
+    public static final int OPERATOR_OR = 2;
+    public static final int PARENTHESIS_START = 3;
+    public static final int PARENTHESIS_END = 4;
+    public static final int CONDITION = 5;
+
+    private String value;
+    private int type;
     private String tokenID = "";
 
     public String getTokenID() {
@@ -45,28 +46,36 @@ public class ExpressionToken implements Cloneable {
         this.type = type;
     }
 
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
     public static ExpressionToken createAndToken(){
         ExpressionToken t = new ExpressionToken();
-        t.type = And;
+        t.type = OPERATOR_AND;
         t.value = "and";
         return t;
     }
 
     public static ExpressionToken createOrToken(){
         ExpressionToken t = new ExpressionToken();
-        t.type = Or;
+        t.type = OPERATOR_OR;
         t.value = "or";
         return t;
     }
 
     public ExpressionToken toggleAndOr(){
         ExpressionToken t = new ExpressionToken ();
-        if(type == And){
-            t.type = Or;
+        if(type == OPERATOR_AND){
+            t.type = OPERATOR_OR;
             t.value = "Or";
 
-        }else if(type == Or){
-            t.type = And;
+        }else if(type == OPERATOR_OR){
+            t.type = OPERATOR_AND;
             t.value = "And";
         }
         return t;
@@ -101,15 +110,15 @@ public class ExpressionToken implements Cloneable {
     }
 
     public String toString() {
-        if (type == And) {
+        if (type == OPERATOR_AND) {
             return "and";
-        } else if (type == Or) {
+        } else if (type == OPERATOR_OR) {
             return "or";
-        } else if (type == StartParenthesis) {
+        } else if (type == PARENTHESIS_START) {
             return "(";
-        } else if (type == EndParenthesis) {
+        } else if (type == PARENTHESIS_END) {
             return ")";
-        } else if (type == Condition) {
+        } else if (type == CONDITION) {
             return value;
         }
         return "";

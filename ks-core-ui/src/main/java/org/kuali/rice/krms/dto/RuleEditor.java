@@ -18,6 +18,7 @@ package org.kuali.rice.krms.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.api.repository.action.ActionDefinition;
 import org.kuali.rice.krms.api.repository.action.ActionDefinitionContract;
 import org.kuali.rice.krms.api.repository.agenda.AgendaItemDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
@@ -30,6 +31,7 @@ import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.AlphaIterator;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +54,9 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private String propId;
     private boolean active = true;
     private Long versionNumber;
+
+    private List<ActionDefinitionContract> actions;
+    private Map<String, String> attributes;
 
     private PropositionEditor proposition;
 
@@ -107,18 +112,19 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
             this.proposition = createPropositionEditor(definition.getProposition());
         }
         this.versionNumber = definition.getVersionNumber();
-
         this.permission = new PermissionWrapper();
 
-        //TODO: Actions
-        //this.actions = new ArrayList<ActionBo>();
-        //for (ActionDefinition action : im.getActions()){
-        //this.actions.add( ActionBo.from(action) );
-        //}
+        if(definition.getActions()!=null){
+            this.actions = new ArrayList<ActionDefinitionContract>();
+            for(ActionDefinitionContract action : definition.getActions()){
+                this.actions.add(action);
+            }
+        } else {
+            this.actions = null;
+        }
 
-        //TODO: build the set of agenda attribute BOs
-        //List<RuleAttributeBo> attrs = new ArrayList<RuleAttributeBo>();
-        //this.setAttributeBos(attrs);
+        this.attributes = definition.getAttributes();
+
     }
 
     public String getKey() {
