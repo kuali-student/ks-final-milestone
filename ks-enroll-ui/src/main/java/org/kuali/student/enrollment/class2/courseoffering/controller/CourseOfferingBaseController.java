@@ -13,11 +13,13 @@ import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -133,10 +135,22 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
     @RequestMapping(params = "methodToCall=route")
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
+
         super.route(form, result, request, response);
 
         // don't navigate back to different screens if there are errors.
         if (GlobalVariables.getMessageMap().hasErrors()) {
+            if (((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
+                CourseOfferingEditMaintainableImpl viewHelper = (CourseOfferingEditMaintainableImpl)KSControllerHelper.getViewHelperService(form);
+                //Make the format type drop down readonly.. otherwise, we run into display issue when the server returns back error
+                CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+                for (FormatOfferingWrapper foWrapper : dataObject.getFormatOfferingList()){
+                    foWrapper.getRenderHelper().setNewRow(false);
+                    if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getName())){
+                        foWrapper.getFormatOfferingInfo().setName(viewHelper.getFormatName(foWrapper,dataObject.getCourse()));
+                    }
+                }
+            }
             return getUIFModelAndView(form);
         }
 

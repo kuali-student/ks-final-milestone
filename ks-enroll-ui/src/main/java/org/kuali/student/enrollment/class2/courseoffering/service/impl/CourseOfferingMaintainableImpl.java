@@ -67,6 +67,25 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     private transient StateService stateService;
     private transient CourseService courseService;
 
+    public String getFormatName(FormatOfferingWrapper foWrapper,CourseInfo course){
+        for (FormatInfo format : course.getFormats()) {
+            if (StringUtils.equals(format.getId(),foWrapper.getFormatId())){
+                StringBuffer activityName = new StringBuffer();
+                for (ActivityInfo activityInfo : format.getActivities()) {
+                    TypeInfo activityType = null;
+                    try {
+                        activityType = getTypeService().getType(activityInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    activityName.append(activityType.getName()+"/");
+                }
+                return StringUtils.removeEnd(activityName.toString(),"/");
+            }
+        }
+        return StringUtils.EMPTY;
+    }
+
     @Override
     public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
 
@@ -80,21 +99,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                 for (FormatOfferingWrapper foWrapper : wrapper.getFormatOfferingList()){
                     foWrapper.getRenderHelper().setNewRow(false);
                     if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getName())){
-                        for (FormatInfo format : wrapper.getCourse().getFormats()) {
-                            if (StringUtils.equals(format.getId(),foWrapper.getFormatId())){
-                                StringBuffer activityName = new StringBuffer();
-                                for (ActivityInfo activityInfo : format.getActivities()) {
-                                    TypeInfo activityType = null;
-                                    try {
-                                        activityType = getTypeService().getType(activityInfo.getTypeKey(), ContextUtils.createDefaultContextInfo());
-                                    } catch (Exception e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                    activityName.append(activityType.getName()+"/");
-                                }
-                                foWrapper.getFormatOfferingInfo().setName(StringUtils.removeEnd(activityName.toString(),"/"));
-                            }
-                        }
+                        foWrapper.getFormatOfferingInfo().setName(getFormatName(foWrapper,wrapper.getCourse()));
                     }
                 }
 
