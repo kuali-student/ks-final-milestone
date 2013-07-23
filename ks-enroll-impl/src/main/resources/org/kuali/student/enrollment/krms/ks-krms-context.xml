@@ -358,6 +358,11 @@
                         <ref bean="basicContext"/>
                     </list>
                 </entry>
+                <entry key="kuali.krms.proposition.type.memberof.population">
+                    <list>
+                        <ref bean="populationContext"/>
+                    </list>
+                </entry>
             </map>
         </constructor-arg>
     </bean>
