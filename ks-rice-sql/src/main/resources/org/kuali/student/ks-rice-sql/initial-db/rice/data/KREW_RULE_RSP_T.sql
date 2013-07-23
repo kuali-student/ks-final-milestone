@@ -1,8 +1,11 @@
 TRUNCATE TABLE KREW_RULE_RSP_T DROP STORAGE
 /
+-- None of the RSP_ID values match to ids in the KRIM_RSP_T table, which is where I think it is supposed to link to
 INSERT INTO KREW_RULE_RSP_T (ACTN_RQST_CD,APPR_PLCY,NM,OBJ_ID,PRIO,RSP_ID,RULE_ID,RULE_RSP_ID,TYP,VER_NBR)
   VALUES ('A','F','org.kuali.rice.ken.kew.ChannelReviewerRoleAttribute!reviewers','6166CBA1BBFC644DE0404F8189D86C09',1,'2020','1044','2021','R',1)
 /
+
+-- The following rows refer to a RULE_ID that does not exist in the KREW_RULE_T table
 INSERT INTO KREW_RULE_RSP_T (ACTN_RQST_CD,APPR_PLCY,NM,OBJ_ID,PRIO,RSP_ID,RULE_ID,RULE_RSP_ID,TYP,VER_NBR)
   VALUES ('A','F','user4','6166CBA1BBFD644DE0404F8189D86C09',1,'2022','1046','2023','F',1)
 /

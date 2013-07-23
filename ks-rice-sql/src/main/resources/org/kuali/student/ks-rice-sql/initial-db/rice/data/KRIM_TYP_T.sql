@@ -1,3 +1,6 @@
+-- TODO add to ruby script to handle swapping KRIM_TYP_ID values for subselects
+-- TODO and replace the ids here
+
 TRUNCATE TABLE KRIM_TYP_T DROP STORAGE
 /
 INSERT INTO KRIM_TYP_T (ACTV_IND, KIM_TYP_ID, NM, NMSPC_CD, OBJ_ID, VER_NBR, SRVC_NM)

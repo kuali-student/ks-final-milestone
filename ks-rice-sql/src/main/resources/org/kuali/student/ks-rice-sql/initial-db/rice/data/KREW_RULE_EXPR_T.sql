@@ -14,7 +14,7 @@ INSERT INTO KREW_RULE_EXPR_T (OBJ_ID,RULE_EXPR,RULE_EXPR_ID,TYP,VER_NBR)
 		        } else {
 		        	/* Return an empty route request */
 		        	return RecipeUtils.constructEmptyApprovalRequest(rule);
-		        }','2000','BSF:groovy',1)
+		        }', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL),'BSF:groovy',1)
 /
 INSERT INTO KREW_RULE_EXPR_T (OBJ_ID,RULE_EXPR,RULE_EXPR_ID,TYP,VER_NBR)
   VALUES ('3364EB47-6407-9C45-8AAD-7A8310266208','import javax.xml.namespace.QName
@@ -37,5 +37,5 @@ INSERT INTO KREW_RULE_EXPR_T (OBJ_ID,RULE_EXPR,RULE_EXPR_ID,TYP,VER_NBR)
 		        } else {
 		        	/* Return an empty route request */
 		        	return RecipeUtils.constructEmptyApprovalRequest(rule);
-		        }','2001','BSF:groovy',1)
+		        }', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL),'BSF:groovy',1)
 /
