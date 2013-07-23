@@ -78,15 +78,18 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
     }
 
     @Override
-    public void makeTermOfficialCascaded(String termId, ContextInfo contextInfo)
+    public StatusInfo makeTermOfficialCascaded(String termId, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
                    OperationFailedException, DoesNotExistException {
+        StatusInfo statusInfo = new StatusInfo();
+
         // KSENROLL-7251 Implement a new servies process ot change the state of the Academic Calendar
         // from draft to official
         TermInfo termInfo = acalService.getTerm(termId, contextInfo);
         if (AtpServiceConstants.ATP_OFFICIAL_STATE_KEY.equals(termInfo.getStateKey())) {
             // If official, then should have already cascaded.
-            return;
+            statusInfo.setSuccess(Boolean.TRUE);
+            return statusInfo;
         }
         // Assumes state propagation not wired in yet.
         Map<String, TermInfo> termIdToTermInfoProcessed = new HashMap<String, TermInfo>();
@@ -135,6 +138,8 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
                 acalService.changeAcademicCalendarState(id, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
             }
         }
+        statusInfo.setSuccess(Boolean.TRUE);
+        return statusInfo;
     }
 
     @Override

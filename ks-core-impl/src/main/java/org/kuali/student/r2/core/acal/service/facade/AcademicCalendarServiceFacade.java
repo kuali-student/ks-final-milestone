@@ -39,7 +39,7 @@ public interface AcademicCalendarServiceFacade {
      * @param termId The term whose state is made official
      * @param contextInfo The context info
      */
-    void makeTermOfficialCascaded(String termId, ContextInfo contextInfo)
+    StatusInfo makeTermOfficialCascaded(String termId, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException;
 
