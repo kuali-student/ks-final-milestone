@@ -15,6 +15,8 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.util;
 
+import org.kuali.rice.krad.util.ErrorMessage;
+
 /**
  * This class //TODO ...
  *
@@ -39,4 +41,5 @@ public class ActivityOfferingConstants {
     public static final String MSG_ERROR_INSTRUCTOR_DUPLICATE = "error.enroll.ao.instructor.duplicate";
     public static final String MSG_ERROR_SEATPOOL_DUPLICATE = "error.enroll.ao.seatpool.duplicate";
     public static final String MSG_ERROR_INVALID_START_TIME = "error.enroll.ao.starttime.invalid";
+    public static final String MSG_ERROR_ORGANIZATION_ID_REQUIRED = "error.enroll.ao.organization.id.required" ;
 }

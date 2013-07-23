@@ -407,6 +407,12 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-PersonnelSection", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instructorInfo.getPersonId());
                 return false;
             }
+        } else if (addLine instanceof OrganizationInfoWrapper) {
+            OrganizationInfoWrapper org = (OrganizationInfoWrapper) addLine;
+            if(StringUtils.isEmpty(org.getId())) {
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), ActivityOfferingConstants.MSG_ERROR_ORGANIZATION_ID_REQUIRED);
+                return false;
+            }
         }
 
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
