@@ -1,0 +1,58 @@
+<!--
+
+  Copyright 2004-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+-->
+<config>
+  <param name="appserver.url">${public.url}</param>
+  <param name="app.context.name" />
+  <param name="datasource.driver.name">${jdbc.driver}</param>
+  <param name="datasource.url">${jdbc.url}</param>
+  <param name="datasource.username">${ks.rice.jdbc.username}</param>
+  <param name="datasource.password">${ks.rice.jdbc.password}</param>
+  <param name="datasource.pool.minSize">15</param>
+  <param name="datasource.pool.maxSize">100</param>
+  <param name="datasource.pool.maxWait">600000</param>
+  <param name="datasource.connectionProperties">implicitCachingEnabled=true;maxStatements=100</param>
+  <param name="datasource.pool.poolPreparedStatements">true</param>
+  <param name="datasource.pool.maxOpenPreparedStatements">500</param>
+  <param name="ks.lum.datasource.url">${datasource.url}</param>
+  <param name="ks.lum.datasource.username">${jdbc.username}</param>
+  <param name="ks.lum.datasource.password">${jdbc.password}</param>
+  <param name="ks.lum.datasource.minSize">15</param>
+  <param name="ks.lum.datasource.maxSize">100</param>
+  <param name="ks.lum.datasource.maxWait">600000</param>
+  <param name="ks.lum.datasource.connectionProperties">implicitCachingEnabled=true;maxStatements=100</param>
+  <param name="ks.lum.datasource.poolPreparedStatements">true</param>
+  <param name="ks.lum.datasource.maxOpenPreparedStatements">500</param>
+  <param name="ks.core.datasource.url">${datasource.url}</param>
+  <param name="ks.core.datasource.username">${jdbc.username}</param>
+  <param name="ks.core.datasource.password">${jdbc.password}</param>
+  <param name="ks.core.datasource.minSize">15</param>
+  <param name="ks.core.datasource.maxSize">100</param>
+  <param name="ks.core.datasource.maxWait">600000</param>
+  <param name="ks.core.datasource.connectionProperties">implicitCachingEnabled=true;maxStatements=100</param>
+  <param name="ks.core.datasource.poolPreparedStatements">true</param>
+  <param name="ks.core.datasource.maxOpenPreparedStatements">500</param>
+  <param name="keystore.file">${keystore.file.default}</param>
+  <param name="keystore.alias">rice</param>
+  <param name="keystore.password">r1c3pw</param>
+  <param name="ks.rice.url">${ks.rice.url}</param>
+  <param name="serviceServletUrl">${application.url}/services/</param>
+  <param name="ks.rice.personLookup.serviceAddress">${ks.rice.url}/kr/lookup.do</param>
+  <param name="ks.rice.actionList.serviceAddress">${ks.rice.url}/kew/ActionList.do</param>
+  <param name="ks.rice.docSearch.serviceAddress">${ks.rice.url}/kew/DocumentSearch.do</param>
+  <param name="ks.ignore.rice.login">true</param>
+</config>

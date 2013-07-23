@@ -47,7 +47,7 @@ public class InitAppDbPropertySourceConfig extends ProjectPropertySourceConfig {
     @Override
     protected List<String> getConfigIds() {
         List<String> baseConfigIds = getBaseConfigIds();
-        String appConfigId = getAppConfigId();
+        String appConfigId = getAppConfigId(BASE_CONFIG_ID);
         List<String> configIds = new ArrayList<String>();
         configIds.addAll(baseConfigIds);
         configIds.add(appConfigId);
@@ -61,13 +61,12 @@ public class InitAppDbPropertySourceConfig extends ProjectPropertySourceConfig {
         return results;
     }
 
-    protected String getAppConfigId() {
+    protected String getAppConfigId(String baseConfigId) {
         String artifactId = project.getArtifactId();
         String contextId = SpringUtils.getProperty(env, CONFIG_ID_KEY, artifactId);
-
         // in case we are running in a configuration that does not have an artifactId,
         // ensure that a context id is found
         Assert.notNull(contextId);
-        return Str.getId(BASE_CONFIG_ID, contextId);
+        return Str.getId(baseConfigId, contextId);
     }
 }

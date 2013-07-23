@@ -18,42 +18,57 @@
 <project>
   <context id="metainf">
     <context id="sql">
-      <location value="${ks.source.db.common}" />
+      <location value="${source.db.common}"/>
     </context>
   </context>
   <context id="source-db">
     <context id="initialize">
-      <location value="${ks.source.db.common}" />
-      <location value="${ks.source.db.prefix}/initialize.properties" />
+      <location value="${source.db.common}"/>
+      <location value="${source.db.prefix}/initialize.properties"/>
     </context>
     <context id="dump">
-      <location value="${ks.source.db.common}" />
-      <location value="${ks.source.db.dump}" />
+      <location value="${source.db.common}"/>
+      <location value="${source.db.dump}"/>
     </context>
     <context id="scm">
-      <location value="${ks.source.db.common}" />
-      <location value="${ks.source.db.dump}" />
-      <location value="${ks.source.db.prefix}/staging.properties" />
-      <location value="${ks.source.db.prefix}/scm.properties" />
+      <location value="${source.db.common}"/>
+      <location value="${source.db.dump}"/>
+      <location value="${source.db.prefix}/staging.properties"/>
+      <location value="${source.db.prefix}/scm.properties"/>
     </context>
   </context>
   <context id="app-db">
     <context id="init">
       <context id="ks-impex-app-db">
-        <location value="${ks.app.db.common}" />
-        <location value="${ks.app.db.prefix}/ks-impex-app-db.properties" />
+        <location value="${app.db.common}"/>
+        <location value="${db.app}"/>
       </context>
       <context id="ks-impex-bundled-db">
-        <location value="${ks.app.db.common}" />
-        <location value="${ks.app.db.prefix}/ks-impex-bundled-db.properties" />
+        <location value="${app.db.common}"/>
+        <location value="${db.bundled}"/>
       </context>
       <context id="ks-impex-rice-db">
-        <location value="${ks.app.db.common}" />
-        <location value="${ks.app.db.prefix}/ks-impex-rice-db.properties" />
+        <location value="${app.db.common}"/>
+        <location value="${db.rice}"/>
       </context>
     </context>
   </context>
   <context id="deploy">
-      <location value="${ks.deploy.prefix}/deploy.properties"/>
+    <context id="ks-with-rice-bundled">
+      <location value="${app.db.common}"/>
+      <location value="${db.bundled}"/>
+      <location value="${deploy.common}"/>
+      <location value="${deploy.prefix}/ks-with-rice-bundled.properties"/>
+    </context>
+    <context id="ks-rice-standalone">
+      <location value="${app.db.common}"/>
+      <location value="${db.bundled}"/>
+      <location value="${deploy.common}"/>
+    </context>
+    <context id="ks-with-rice-embedded">
+      <location value="${app.db.common}"/>
+      <location value="${db.bundled}"/>
+      <location value="${deploy.common}"/>
+    </context>
   </context>
 </project>
