@@ -172,9 +172,7 @@ limitations under the License.
         </property>
         <property name="promptText"
                   value="You are making @{academicCalendarInfo.name} official. This action cannot be undone.
-                  Official calendars and terms cannot be deleted.
-                  &lt;br&gt; &lt;br&gt; If you do not want to make this calendar official cancel this action and
-                  edit the status of the calendar."/>
+                  Official calendars and terms cannot be deleted."/>
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm Status Change"/>
@@ -193,8 +191,7 @@ limitations under the License.
         </property>
         <property name="promptText"
                   value="You are making @{makeOfficialName} official. This action cannot be undone.
-                  Official calendars and terms cannot be deleted.
-                  &lt;br&gt; &lt;br&gt; If you do not want to make this term official cancel this action."/>
+                  Official calendars and terms cannot be deleted."/>
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm Status Change"/>
@@ -215,9 +212,7 @@ limitations under the License.
                   value="You are making @{makeOfficialName} official. Because the containing calendar must also be
                   official - this will also make @{makeOfficialIsSubterm?makeOfficialParentTermName +
                   ' official and ':''}@{academicCalendarInfo.name} official. This action cannot be undone.
-                  Official calendars and terms cannot be deleted.
-                  &lt;br&gt; &lt;br&gt;
-                  If you do not want to make this @{makeOfficialIsSubterm?'sub':''}term official cancel this action."/>
+                  Official calendars and terms cannot be deleted."/>
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm Status Change"/>
