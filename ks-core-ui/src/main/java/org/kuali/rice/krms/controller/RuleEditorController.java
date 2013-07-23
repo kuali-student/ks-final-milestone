@@ -976,8 +976,8 @@ public class RuleEditorController extends MaintenanceDocumentController {
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
 
             if (PropositionTreeUtil.resetEditModeOnPropositionTree(ruleEditor.getPropositionEditor())) {
-                PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
-                this.getViewHelper(form).resetDescription(proposition);
+                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, KRMSConstants.KRMS_MSG_ERROR_RULE_PREVIEW);
+                return getUIFModelAndView(form);
             }
         }
         this.getViewHelper(form).refreshViewTree(ruleEditor);

@@ -46,5 +46,7 @@ public class KRMSConstants {
     public static final String KRMS_MSG_ERROR_FOLLOW_END_PARENTHESIS = "error.krms.logic.follow.end.parenthesis";
     public static final String KRMS_MSG_ERROR_PRECEDE_CONDITION = "error.krms.logic.precede.condition";
     public static final String KRMS_MSG_ERROR_FOLLOW_CONDITION = "error.krms.logic.follow.condition";
+    public static final String KRMS_MSG_ERROR_RULE_PREVIEW = "error.krms.rule.preview";
+
 
 }
