@@ -769,6 +769,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 GlobalVariables.getMessageMap().putWarning(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DATE_NOT_IN_ACAL_RANGE,"Added Holiday Calendar: " + holidayCalendarWrapper.getHolidayCalendarInfo().getName());
             }
         }
+
+        //sort term wrappers by start date . We need to do this in the validate call becaues they are later sorted before
+        // the screen is rendered. When that happens the calendars are resorted and the warnding + error messages
+        // will be pointint at the wrong term.
+        sortTermWrappers(acalForm.getTermWrapperList());
+
         //Validate Terms and keydates
         for (int index=0; index < acalForm.getTermWrapperList().size(); index++) {
             validateTerm(acalForm.getTermWrapperList(),index,acal);
