@@ -117,7 +117,7 @@ public class KSKRMSServiceConstants {
     public static final String PROPOSITION_TYPE_TEST_SCORE = "kuali.krms.proposition.type.test.score";
     public static final String PROPOSITION_TYPE_COMPOUND_AND = "kuali.krms.proposition.type.compound.and";
     public static final String PROPOSITION_TYPE_COMPOUND_OR = "kuali.krms.proposition.type.compound.or";
-    public static final String PROPOSITION_TYPE_IN_POPULATION = "kuali.krms.proposition.type.memberof.population";
+    public static final String PROPOSITION_TYPE_POPULATION = "kuali.krms.proposition.type.memberof.population";
     // term types
     public static final String TERM_TYPE_COURSE_ID = "kuali.krms.term.type.course.specific.id";
     public static final String TERM_TYPE_COURSE = "kuali.krms.term.type.course.specific";
@@ -155,6 +155,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_TEST_CLU_KEY = "kuali.term.parameter.type.test.clu.id";
     public static final String TERM_PARAMETER_TYPE_TERMCODE_KEY = "kuali.term.parameter.type.TermCode";
     public static final String TERM_PARAMETER_TYPE_TERMCODE2_KEY = "kuali.term.parameter.type.TermCode2";
+    public static final String TERM_PARAMETER_TYPE_POPULATION_KEY = "kuali.term.parameter.type.population";
 
     // term parameter types for nl
     public static final String TERM_PARAMETER_TYPE_CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
