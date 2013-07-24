@@ -20,7 +20,7 @@ import java.util.Set;
  * Time: 03:11 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ClassStandingTermResolver implements TermResolver<Boolean> {
+public class PopulationTermResolver implements TermResolver<Boolean> {
 
     private PopulationService populationService;
 
@@ -34,12 +34,12 @@ public class ClassStandingTermResolver implements TermResolver<Boolean> {
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_CLASSSTANDING;
+        return KSKRMSServiceConstants.TERM_RESOLVER_POPULATION;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY);
     }
     @Override
     public int getCost() {
@@ -49,11 +49,11 @@ public class ClassStandingTermResolver implements TermResolver<Boolean> {
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String classStandingId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY);
+        String populationId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY);
         PopulationInfo populationInfo = null;
-        if (classStandingId != null) {
+        if (populationId != null) {
             try {
-                 populationInfo = this.getPopulationService().getPopulation(classStandingId, context);
+                 populationInfo = this.getPopulationService().getPopulation(populationId, context);
                  return true;
             } catch (Exception e) {
                 KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);

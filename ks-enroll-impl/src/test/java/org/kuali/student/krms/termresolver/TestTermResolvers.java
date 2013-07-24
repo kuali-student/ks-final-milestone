@@ -555,7 +555,7 @@ public class TestTermResolvers {
     @Test
     public void testClassStandingTermResolver() {
         //Setup the term resolver
-        ClassStandingTermResolver termResolver = new ClassStandingTermResolver();
+        PopulationTermResolver termResolver = new PopulationTermResolver();
         termResolver.setPopulationService(populationService);
 
         //Setup data
@@ -564,7 +564,7 @@ public class TestTermResolvers {
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_CLASSSTANDING);
+                KSKRMSServiceConstants.TERM_RESOLVER_POPULATION);
 
         //Evaluate term Resolver
         //Boolean isInClassStanding = termResolver.resolve(resolvedPrereqs, parameters);
