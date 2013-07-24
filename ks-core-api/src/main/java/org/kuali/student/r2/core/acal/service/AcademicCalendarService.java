@@ -11,29 +11,10 @@
 
 package org.kuali.student.r2.core.acal.service;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
-import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
-import org.kuali.student.r2.core.acal.dto.HolidayInfo;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-
-
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -43,8 +24,22 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.Date;
+import java.util.List;
 
 /**
  * This service manages Academic Calendars. There are three kinds of calendars
@@ -79,7 +74,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
  * AcalEvent: A milestone used with AcademicCalendars (e.g. Commencement). 3.
  * KeyDate:   A milestone used with Terms (e.g. Registration Period).
  * <p/>
- * @version: 0.0.7
+ * Version: 1.0 (Dev)
  *
  * @author tom
  * @since Sun Apr 10 14:22:34 EDT 2011
@@ -390,16 +385,7 @@ public interface AcademicCalendarService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */
-    public AcademicCalendarInfo createAcademicCalendar(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey,
-                                                       @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo,
-                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
+    public AcademicCalendarInfo createAcademicCalendar(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
 
     /**
@@ -843,6 +829,7 @@ public interface AcademicCalendarService {
             PermissionDeniedException,
             ReadOnlyException;
 
+
     /**
      * Copy an HolidayCalendar.  This copy
      * operation allows for a HolidayCalendar to be created from an
@@ -868,7 +855,7 @@ public interface AcademicCalendarService {
     /**
      * Updates an existing Holiday Calendar. The HolidayCalendar Id,
      * Type, and Meta information may not be changed.
-     * 
+     *
      * @param holidayCalendarId the identifier for the
      *        HolidayCalendar to be updated
      * @param holidayCalendarInfo the new data for the HolidayCalendar
@@ -1108,41 +1095,42 @@ public interface AcademicCalendarService {
     public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list Terms included immediately inside the given Term ordered
+     * Retrieves a list of Terms that are children of the parentTermId ordered
      * by Term start date. This method should be called recursively to get
-     * sub-terms of the returned Terms.
+     * descendant sub-terms of the returned Terms.
      *
-     * @param termId      an identifier for a Term
+     * @param parentTermId      an identifier for the parent term
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return a list of Terms or an empty list if there are no included Terms
-     * @throws DoesNotExistException     termId is not found
+     * @throws DoesNotExistException     parentTermId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException termId or contextInfo is missing or
+     * @throws MissingParameterException parentTermId or contextInfo is missing or
      *                                   null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getIncludedTermsInTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getIncludedTermsInTerm(@WebParam(name = "parentTermId") String parentTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Gets the containing terms of a given term. A term may be "included"
-     * inside other terms using addTermToTerm(). This method returns the list of
-     * Terms that the given Term has been placed inside. Typically, a term is
-     * placed inside a single parent term.
+     * Gets the containing (or parent) terms of a given child term. Although
+     * parent-child relations typically assume a single parent, the contract allows
+     * for multiple parents for a given child term.  One can call this recursively to
+     * get to a term that has no parents (assuming the term tree is acyclic).  That
+     * root term presumably is attached to a calendar.
      *
-     * @param termId      an identifier for a Term
+     * @param childTermId      an identifier for a child Term
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return the parent terms or an empty list if it is a root
-     * @throws DoesNotExistException     termId is not found
+     * @throws DoesNotExistException     childTermId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException termId or contextInfo is missing or
+     * @throws MissingParameterException childTermId or contextInfo is missing or
      *                                   null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getContainingTerms(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getContainingTerms(@WebParam(name = "childTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Terms that meet the given search criteria.
@@ -1331,45 +1319,50 @@ public interface AcademicCalendarService {
     public StatusInfo removeTermFromAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Adds a Term as an included term within another Term.
+     * Adds a child Term to a parent Term assuming such a relationship does not
+     * already exists.  The child Term is not necessarily contained within the
+     * start/end date of the parent Term.  This merely represents a hierarchy.
+     * Also, a child Term could, in principle, be added to multiple parent terms
+     * although, in practice, it usually is not.
      *
-     * @param termId         an identifier for a Term
-     * @param includedTermId the identifier for the Term to be included
+     * @param parentTermId   an identifier for a parent Term
+     * @param childTermId    the identifier for the child Term
      * @param contextInfo    information containing the principalId and locale
      *                       information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws AlreadyExistsException    includedTermId is already mapped to
-     *                                   termId
-     * @throws DoesNotExistException     temId or includedTermId is not found
+     * @throws AlreadyExistsException    parentTermId is already mapped to
+     *                                   childTermId
+     * @throws DoesNotExistException     parentTermId or childTermId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException temId, includedTermId, or contextInfo
+     * @throws MissingParameterException parentTermId, childTermId, or contextInfo
      *                                   is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo addTermToTerm(@WebParam(name = "termId") String termId, @WebParam(name = "includedTermId") String includedTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo addTermToTerm(@WebParam(name = "parentTermId") String parentTermId, @WebParam(name = "childTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Removes an included Term from a Term.
+     * Removes a child Term from a parent Term.
      *
-     * @param termId         an identifier for a Term
-     * @param includedTermId the identifier for the Term to be removed
+     * @param parentTermId         an identifier for a Term
+     * @param childTermId the identifier for the Term to be removed that is a "child"
+     *                    of the parent Term
      * @param contextInfo    information containing the principalId and locale
      *                       information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws DoesNotExistException     termId or includedTermId is not found
-     *                                   or includedTermId is not mapped to
-     *                                   termId
+     * @throws DoesNotExistException     parentTermId or childTermId is not found
+     *                                   or childTermId is not mapped to
+     *                                   parentTermId
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException termId, includedTermId, or contextInfo
+     * @throws MissingParameterException parentTermId, childTermId, or contextInfo
      *                                   is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removeTermFromTerm(@WebParam(name = "termId") String termId, @WebParam(name = "includedTermId") String includedTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeTermFromTerm(@WebParam(name = "parentTermId") String parentTermId, @WebParam(name = "childTermId") String childTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Rerieves a KeyDate Type by Type key.
+     * Retrieves a KeyDate Type by Type key.
      *
      * @param keyDateTypeKey the key of a keyDate Type
      * @param contextInfo    information containing the principalId and locale
@@ -1526,6 +1519,24 @@ public interface AcademicCalendarService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<KeyDateInfo> getKeyDatesForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of KeyDates IDs immediately mapped to a Term ordered by
+     * date.  Useful for bulk deletes where only IDs are needed.  Reduces overhead
+     * from constructing full KeyDateInfo objects.
+     *
+     * @param termId      an identifier for a term
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of KeyDates mapped to the given Term
+     * @throws DoesNotExistException     termId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException termId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getKeyDateIdsForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of KeyDates immediately mapped to a Term that fall
@@ -2678,7 +2689,7 @@ public interface AcademicCalendarService {
             PermissionDeniedException;
 
     /**
-     * Gets a list of ExamPeriods by Code. Typically, an ExamPeriod Code is unique (should be enforced by the dictionary).
+     * Gets a list of ExamPeriods by Code.
      *
      * @param code        an ExamPeriod Code
      * @param contextInfo information containing the principalId and locale
@@ -2688,6 +2699,7 @@ public interface AcademicCalendarService {
      * @throws MissingParameterException code or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
+     * @impl Typically, an ExamPeriod Code is unique (should be enforced by the dictionary).
      */
     public List<ExamPeriodInfo> getExamPeriodsByCode(@WebParam(name = "code") String code,
                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
@@ -2977,5 +2989,4 @@ public interface AcademicCalendarService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
-
 }
