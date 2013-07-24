@@ -11,6 +11,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
+import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder.SearchByKeys;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -34,36 +35,36 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
 		List<CourseJointInfoDisplay> courseJointInfoDisplays = new ArrayList<CourseJointInfoDisplay>();
 		
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        SearchByKeys searchByKey = SearchByKeys.valueOf(searchCriteria.get("searchBy"));
-        String courseTitle = searchCriteria.get("courseTitle");
-        String subjectArea = searchCriteria.get("courseCode");
-        String description = searchCriteria.get("descr.plain");
+        SearchByKeys searchByKey = SearchByKeys.valueOf(searchCriteria.get(LookupableConstants.SEARCHBY_SEARCH));
+        String courseTitle = searchCriteria.get(LookupableConstants.COURSETITLE_SEARCH);
+        String subjectArea = searchCriteria.get(LookupableConstants.COURSECODE_SEARCH);
+        String description = searchCriteria.get(LookupableConstants.DESCR_PLAIN_SEARCH);
         
         if (StringUtils.isNotBlank(courseTitle)) {
             SearchParamInfo courseTitleParam = new SearchParamInfo();
-            courseTitleParam.setKey("lu.queryParam.luOptionalLongName");
+            courseTitleParam.setKey(LookupableConstants.OPTIONAL_LONGNAME_PARAM);
             courseTitleParam.getValues().add(courseTitle);
             queryParamValueList.add(courseTitleParam);
         }
         if (StringUtils.isNotBlank(subjectArea)) {
             SearchParamInfo courseCodeParam = new SearchParamInfo();
-            courseCodeParam.setKey("lu.queryParam.luOptionalCode");
+            courseCodeParam.setKey(LookupableConstants.OPTIONAL_CODE_PARAM);
             courseCodeParam.getValues().add(subjectArea);
             queryParamValueList.add(courseCodeParam);
         }
         if (StringUtils.isNotBlank(description)) {
             SearchParamInfo descriptionParam = new SearchParamInfo();
-            descriptionParam.setKey("lu.queryParam.luOptionalDescr");
+            descriptionParam.setKey(LookupableConstants.OPTIONAL_DESCR_PARAM);
             descriptionParam.getValues().add(description);
             queryParamValueList.add(descriptionParam);
         }
         
         SearchParamInfo typeParam = new SearchParamInfo();
-        typeParam.setKey("lu.queryParam.luOptionalType");
-        typeParam.getValues().add("kuali.lu.type.CreditCourse");
+        typeParam.setKey(LookupableConstants.OPTIONAL_TYPE_PARAM);
+        typeParam.getValues().add(LookupableConstants.CREDITCOURSE_lU);
         
         SearchParamInfo stateParam = new SearchParamInfo();
-        stateParam.setKey("lu.queryParam.luOptionalState");
+        stateParam.setKey(LookupableConstants.OPTIONAL_STATE_PARAM);
         List<String> states = new ArrayList<String>();
         switch (searchByKey) {
 	        case COURSES_AND_PROPOSALS:
@@ -93,11 +94,11 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         switch (searchByKey) {
         	case COURSES_AND_PROPOSALS:
-        		searchKey = "lu.search.generic";
+        		searchKey = LookupableConstants.GENERIC_LU_SEARCH;
         		break;
         	case COURSES_ONLY:
         	case PROPOSALS_ONLY:
-        		searchKey = "lu.search.mostCurrent.union";
+        		searchKey = LookupableConstants.MOSTCURRENT_UNION_SEARCH;
         }
         searchRequest.setSearchKey(searchKey);
         searchRequest.setParams(queryParamValueList);
@@ -108,16 +109,16 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
                 List<SearchResultCellInfo> cells = result.getCells();
                 CourseJointInfoDisplay courseJointInfoDisplay = new CourseJointInfoDisplay();
                 for (SearchResultCellInfo cell : cells) {
-                    if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                    if (LookupableConstants.ID_RESULT.equals(cell.getKey())) {
                     	courseJointInfoDisplay.setCourseId(cell.getValue());
-                    } else if ("lu.resultColumn.luOptionalLongName".equals(cell.getKey())) {
+                    } else if (LookupableConstants.LONGNAME_OPTIONAL_RESULT.equals(cell.getKey())) {
                     	courseJointInfoDisplay.setName(cell.getValue());
-                    } else if ("lu.resultColumn.luOptionalCode".equals(cell.getKey())) {
+                    } else if (LookupableConstants.OPTIONALCODE_RESULT.equals(cell.getKey())) {
                     	courseJointInfoDisplay.setCourseCode(cell.getValue());
                     	//courseJointInfo.setSubjectArea(subjectCode);
                         //courseJointInfo.setCourseNumberSuffix(subjectCode);
                     }
-                    else if ("lu.resultColumn.luOptionalDescr".equals(cell.getKey())) {
+                    else if (LookupableConstants.DESCR_RESULT.equals(cell.getKey())) {
                     	RichTextInfo descr = new RichTextInfo();
                     	descr.setPlain(cell.getValue());
                     	courseJointInfoDisplay.setDescr(descr);
@@ -126,7 +127,7 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
                 courseJointInfoDisplays.add(courseJointInfoDisplay);
             }
         } catch (Exception e) {
-
+            FormattedLogger.error("An error occurred retrieving the courseJointInfoDisplay: " + e);
         }
         return courseJointInfoDisplays;
 	}	

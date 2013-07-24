@@ -26,6 +26,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
+import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.lum.lu.ui.course.keyvalues.KeyValueConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -94,7 +95,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
                 cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
         	}
 		} catch (Exception e) {
-			e.printStackTrace();
+		    FormattedLogger.error("An error occurred retrieving the CluInstructors: " + e);
 		}
         
 		return cluInstructorInfoDisplays;
@@ -102,7 +103,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 	
 	private SearchService getSearchService() {
 		if (searchService == null) {
-			searchService = GlobalResourceLoader.getService(new QName(KeyValueConstants.NAMESPACE, KeyValueConstants.SERVICE_NAME_LOCAL_PART));
+			searchService = GlobalResourceLoader.getService(new QName(KeyValueConstants.NAMESPACE_PERSONSEACH, SearchService.class.getSimpleName()));
 		}
 		return searchService;
 	}

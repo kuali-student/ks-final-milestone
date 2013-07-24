@@ -26,6 +26,8 @@ import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
 import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
 import org.kuali.student.cm.course.form.SubjectCodeDisplay;
 import org.kuali.student.logging.FormattedLogger;
+import org.kuali.student.lum.lu.ui.course.keyvalues.KeyValueConstants;
+import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -68,17 +70,17 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         
         SearchParamInfo displayNameParam = new SearchParamInfo();
-        displayNameParam.setKey("person.queryParam.personGivenName");
+        displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
         displayNameParam.getValues().add(instructorName);
         queryParamValueList.add(displayNameParam);
         
     	SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
+        searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
         searchRequest.setMaxResults(10);
         searchRequest.setNeededTotalResults(false);
-        searchRequest.setSortColumn("person.resultColumn.DisplayName");
+        searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
         
         SearchResultInfo searchResult = null;
         try {
@@ -87,15 +89,15 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 List<SearchResultCellInfo> cells = result.getCells();
                 CluInstructorInfoDisplay cluInstructorInfoDisplay = new CluInstructorInfoDisplay();
                 for (SearchResultCellInfo cell : cells) {
-                    if ("person.resultColumn.GivenName".equals(cell.getKey())) {
+                    if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setGivenName(cell.getValue());
-                    } else if ("person.resultColumn.PersonId".equals(cell.getKey())) {
+                    } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setPersonId(cell.getValue());
-                    } else if ("person.resultColumn.EntityId".equals(cell.getKey())) {
+                    } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setId(cell.getValue());
-                    } else if ("person.resultColumn.PrincipalName".equals(cell.getKey())) {
+                    } else if (QuickViewByGivenName.PRINCIPAL_NAME_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setPrincipalName(cell.getValue());
-                    } else if ("person.resultColumn.DisplayName".equals(cell.getKey())) {
+                    } else if (QuickViewByGivenName.DISPLAY_NAME_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setDisplayName(cell.getValue());
                     }
                 }
@@ -114,17 +116,17 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 
 		SearchParamInfo displayNameParam = new SearchParamInfo();
-		displayNameParam.setKey("person.queryParam.personGivenName");
+		displayNameParam.setKey(QuickViewByGivenName.NAME_PARAM);
 		displayNameParam.getValues().add(instructorName);
 		queryParamValueList.add(displayNameParam);
 
 		SearchRequestInfo searchRequest = new SearchRequestInfo();
-		searchRequest.setSearchKey("person.search.personQuickViewByGivenName");
+		searchRequest.setSearchKey(QuickViewByGivenName.SEARCH_TYPE);
 		searchRequest.setParams(queryParamValueList);
 		searchRequest.setStartAt(0);
 		searchRequest.setMaxResults(10);
 		searchRequest.setNeededTotalResults(false);
-		searchRequest.setSortColumn("person.resultColumn.DisplayName");
+		searchRequest.setSortColumn(QuickViewByGivenName.DISPLAY_NAME_RESULT);
 
 		SearchResultInfo searchResult = null;
 		try {
@@ -135,21 +137,17 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 				List<SearchResultCellInfo> cells = result.getCells();
 				instructor = new CluInstructorInfoDisplay();
 				for (SearchResultCellInfo cell : cells) {
-					if ("person.resultColumn.GivenName".equals(cell.getKey())) {
-						instructor.setGivenName(cell.getValue());
-					} else if ("person.resultColumn.PersonId".equals(cell
-							.getKey())) {
-						instructor.setPersonId(cell.getValue());
-					} else if ("person.resultColumn.EntityId".equals(cell
-							.getKey())) {
-						instructor.setId(cell.getValue());
-					} else if ("person.resultColumn.PrincipalName".equals(cell
-							.getKey())) {
-						instructor.setPrincipalName(cell.getValue());
-					} else if ("person.resultColumn.DisplayName".equals(cell
-							.getKey())) {
-						instructor.setDisplayName(cell.getValue());
-					}
+				    if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
+				        instructor.setGivenName(cell.getValue());
+                    } else if (QuickViewByGivenName.PERSON_ID_RESULT.equals(cell.getKey())) {
+                        instructor.setPersonId(cell.getValue());
+                    } else if (QuickViewByGivenName.ENTITY_ID_RESULT.equals(cell.getKey())) {
+                        instructor.setId(cell.getValue());
+                    } else if (QuickViewByGivenName.PRINCIPAL_NAME_RESULT.equals(cell.getKey())) {
+                        instructor.setPrincipalName(cell.getValue());
+                    } else if (QuickViewByGivenName.DISPLAY_NAME_RESULT.equals(cell.getKey())) {
+                        instructor.setDisplayName(cell.getValue());
+                    }
 				}
 			} else {
 				FormattedLogger
@@ -169,7 +167,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         
         SearchParamInfo codeParam = new SearchParamInfo();
-        codeParam.setKey("subjectCode.queryParam.code");
+        codeParam.setKey(LookupableConstants.SUBJECTCODE_CODE_PARAM);
         List<String> codeValues = new ArrayList<String>();
         codeValues.add(subjectCode);
         codeParam.setValues(codeValues);
@@ -177,7 +175,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         queryParamValueList.add(codeParam);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("subjectCode.search.subjectCodeGeneric");
+        searchRequest.setSearchKey(LookupableConstants.SUBJECTCODE_GENERIC_SEARCH);
         searchRequest.setParams(queryParamValueList);
         
         SearchResultInfo searchResult = null;
@@ -188,17 +186,17 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 String id = "";
                 String code = "";
                 for (SearchResultCellInfo cell : cells) {
-                	if ("subjectCode.resultColumn.id".equals(cell.getKey())) {
+                	if (LookupableConstants.SUBJECTCODE_ID_RESULT.equals(cell.getKey())) {
                 		id = cell.getValue();
-                	} else if ("subjectCode.resultColumn.code".equals(cell.getKey())) {
+                	} else if (LookupableConstants.SUBJECTCODE_CODE_RESULT.equals(cell.getKey())) {
                 		code = cell.getValue();
                 	}
                 }
                 retrievedCodes.add(new SubjectCodeDisplay(id, code));
             }
         } catch (Exception e) {
-            //do nothing
-        }
+            FormattedLogger.error("An error occurred retrieving the SubjectCodeDisplay: " + e);
+            }
 
         return retrievedCodes;
     }
@@ -209,22 +207,22 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 		
 		SearchParamInfo codeParam = new SearchParamInfo();
-        codeParam.setKey("lu.queryParam.luOptionalCode");
+        codeParam.setKey(LookupableConstants.OPTIONAL_CODE_PARAM);
         List<String> codeValues = new ArrayList<String>();
         codeValues.add(courseNumber);
         codeParam.setValues(codeValues);
         
         SearchParamInfo typeParam = new SearchParamInfo();
-        typeParam.setKey("lu.queryParam.luOptionalType");
+        typeParam.setKey(LookupableConstants.OPTIONAL_TYPE_PARAM);
         List<String> typeValues = new ArrayList<String>();
-        typeValues.add("kuali.lu.type.CreditCourse");
+        typeValues.add(LookupableConstants.CREDITCOURSE_lU);
         typeParam.setValues(typeValues);
         
         queryParamValueList.add(codeParam);
         queryParamValueList.add(typeParam);
         
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("lu.search.current.quick");
+        searchRequest.setSearchKey(LookupableConstants.CURRENT_QUICK_SEARCH);
         searchRequest.setParams(queryParamValueList);
         
         SearchResultInfo searchResult = null;
@@ -236,9 +234,9 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 String id = "";
                 String code = "";
                 for (SearchResultCellInfo cell : cells) {
-                	if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                	if (LookupableConstants.ID_RESULT.equals(cell.getKey())) {
                 		id = cell.getValue();
-                	} else if ("lu.resultColumn.luOptionalCode".equals(cell.getKey())) {
+                	} else if (LookupableConstants.OPTIONALCODE_RESULT.equals(cell.getKey())) {
                 		code = cell.getValue();
                 	}
                 }
@@ -252,7 +250,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 courseJoints.add(courseJointDisplay);
             }
         } catch (Exception e) {
-            //do nothing
+            FormattedLogger.error("An error occurred retrieving the courseJointDisplay: " + e);
         }
 		
 		return courseJoints;
@@ -269,22 +267,22 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 		
 		SearchParamInfo codeParam = new SearchParamInfo();
-        codeParam.setKey("lu.queryParam.luOptionalCode");
+        codeParam.setKey(LookupableConstants.OPTIONAL_CODE_PARAM);
         List<String> codeValues = new ArrayList<String>();
         codeValues.add(courseCode);
         codeParam.setValues(codeValues);
         
         SearchParamInfo typeParam = new SearchParamInfo();
-        typeParam.setKey("lu.queryParam.luOptionalType");
+        typeParam.setKey(LookupableConstants.OPTIONAL_TYPE_PARAM);
         List<String> typeValues = new ArrayList<String>();
-        typeValues.add("kuali.lu.type.CreditCourse");
+        typeValues.add(LookupableConstants.CREDITCOURSE_lU);
         typeParam.setValues(typeValues);
         
         queryParamValueList.add(codeParam);
         queryParamValueList.add(typeParam);
         
         SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("lu.search.current.quick");
+        searchRequest.setSearchKey(LookupableConstants.CURRENT_QUICK_SEARCH);
         searchRequest.setParams(queryParamValueList);
         
         SearchResultInfo searchResult = null;
@@ -297,9 +295,9 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 String id = "";
                 String code = "";
                 for (SearchResultCellInfo cell : cells) {
-                	if ("lu.resultColumn.cluId".equals(cell.getKey())) {
+                	if (LookupableConstants.ID_RESULT.equals(cell.getKey())) {
                 		id = cell.getValue();
-                	} else if ("lu.resultColumn.luOptionalCode".equals(cell.getKey())) {
+                	} else if (LookupableConstants.OPTIONALCODE_RESULT.equals(cell.getKey())) {
                 		code = cell.getValue();
                 	}
                 }
@@ -316,7 +314,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         	}
         	
         } catch (Exception e) {
-        	FormattedLogger.error("An error occurred in getJointOfferingCourse.", e);
+        	FormattedLogger.error("An error occurred in JointOfferingCourse.", e);
         }
 		
 		return courseJointInfo;
@@ -324,14 +322,14 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 	
 	private SearchService getSearchService() {
 		if (searchService == null) {
-			searchService = GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/personsearch", "PersonSearchService"));
+			searchService = GlobalResourceLoader.getService(new QName(KeyValueConstants.NAMESPACE_PERSONSEACH, SearchService.class.getSimpleName()));
 		}
 		return searchService;
 	}
 	
 	private SubjectCodeService getSubjectCodeService() {
 		if (subjectCodeService == null) {
-			subjectCodeService = GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/subjectCode", SubjectCodeService.class.getSimpleName()));
+			subjectCodeService = GlobalResourceLoader.getService(new QName(KeyValueConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
 		}
 		return subjectCodeService;
 	}	
