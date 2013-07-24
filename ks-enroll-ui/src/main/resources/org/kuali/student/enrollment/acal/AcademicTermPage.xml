@@ -153,7 +153,7 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="parent_term_type" parent="Uif-InputField-LabelTop" p:propertyName="parentTerm" p:render="@{#isAddLine}" p:label="Parent Term" p:refreshWhenChangedPropertyNames="#lp.termType">
+                <bean id="parent_term_type" parent="Uif-InputField-LabelTop" p:propertyName="parentTerm" p:label="Parent Term" p:refreshWhenChangedPropertyNames="#lp.termType">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
