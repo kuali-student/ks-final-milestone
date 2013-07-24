@@ -324,6 +324,15 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     /*
      * Method used to delete a list of selected Draft activity Offerings
      */
+    @RequestMapping(params = "methodToCall=reloadManageCO")
+    public ModelAndView reloadManageCO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+    }
+
+    /*
+     * Method used to delete a list of selected Draft activity Offerings
+     */
     @RequestMapping(params = "methodToCall=deleteSelectedAoList")
     public ModelAndView deleteSelectedAoList(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
         ARGActivityOfferingClusterHandler.deleteSelectedAoList(theForm);

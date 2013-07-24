@@ -159,11 +159,12 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         String returnLocation = form.getReturnLocation();
 
         String url;
-        if (StringUtils.contains(returnLocation,"viewId=courseOfferingManagementView")) {
+        if (StringUtils.contains(returnLocation,"viewId=courseOfferingManagementView") ||
+                StringUtils.contains(returnLocation,"pageId=manageTheCourseOfferingPage")) {
             if (!returnLocation.contains("methodToCall=")){ //This happens when we display a list of COs and then user click on Manage action
-                url = returnLocation + "&methodToCall=show";
+                url = returnLocation + "&methodToCall=reloadManageCO";
             } else {
-                url = returnLocation.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
+                url = returnLocation.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=reloadManageCO");
             }
         } else {
             url = returnLocation;
