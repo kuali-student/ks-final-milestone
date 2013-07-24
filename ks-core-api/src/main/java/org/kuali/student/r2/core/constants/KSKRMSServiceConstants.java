@@ -199,7 +199,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_ADMITTEDTOPROGRAMWITHCLASSSTANDING = "AdmittedToProgramWithClassStanding";
     public static final String TERM_RESOLVER_COMPLETEDCOURSEFORTERM = "CompletedCourseForTerm";
     public static final String TERM_RESOLVER_COMPLETEDCOURSEBETWEENTERMS = "CompletedCourseBetweenTerms";
-    public static final String TERM_RESOLVER_CLASSSTANDING = "ClassStanding";
+    public static final String TERM_RESOLVER_POPULATION= "Population";
     public static final String TERM_RESOLVER_INSTRUCTORPERMISSION = "InstructorPermission";
 
     // natural language usage keys
