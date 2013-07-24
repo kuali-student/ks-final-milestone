@@ -92,7 +92,7 @@
 
         <property name="header.cssClasses">
           <list >
-            <value>ks-borderBottom4</value>
+            <value>ks-unified-header</value>
           </list>
         </property>
         <property name="additionalCssFiles">
