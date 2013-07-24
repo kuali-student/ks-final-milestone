@@ -553,14 +553,14 @@ public class TestTermResolvers {
     }
 
     @Test
-    public void testClassStandingTermResolver() {
+    public void testPopulationTermResolver() {
         //Setup the term resolver
         PopulationTermResolver termResolver = new PopulationTermResolver();
         termResolver.setPopulationService(populationService);
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY, "1");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY, "1");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
