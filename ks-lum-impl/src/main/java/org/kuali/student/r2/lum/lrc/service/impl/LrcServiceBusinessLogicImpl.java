@@ -4,6 +4,7 @@
  */
 package org.kuali.student.r2.lum.lrc.service.impl;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -34,6 +35,8 @@ import java.util.List;
  * @author nwright
  */
 public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
+
+    private static final Logger LOG = Logger.getLogger(LrcServiceBusinessLogicImpl.class);
 
     private LRCService lrcService;
 
@@ -216,13 +219,17 @@ public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
         float max = Float.parseFloat(creditValueMax);
         float increment = Float.parseFloat(creditValueIncrement);
 
-        if(increment <= 0){
+        if (increment <= 0) {
             throw new InvalidParameterException(String.format("The creditValueIncrement was <= 0. " +
                     "If that happens then the following loop will cause the system to run out of memory." +
                     "Variables: creditValueMin[%s] creditValueMax[%s] creditValueIncrement[%s]", creditValueMin, creditValueMax, creditValueIncrement));
         }
+        if ((max - min) / increment > 500) {
+            LOG.warn(String.format("calcRangeCreditValues is about to create a large list of values, which may result in memory issues. " +
+                    "Variables: creditValueMin[%s] creditValueMax[%s] creditValueIncrement[%s]", creditValueMin, creditValueMax, creditValueIncrement));
+        }
 
-        for(float f=min;f<=max;f+=increment){
+        for (float f = min; f <= max; f += increment) {
             values.add(String.valueOf(f));
         }
         return values;
