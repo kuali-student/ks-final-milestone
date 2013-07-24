@@ -40,7 +40,7 @@
         PARM_DESC_TXT="Used as the default country code when relating records that do not have a country code to records that do have a country code, e.g. validating a zip code where the country is not collected."
         PARM_NM="DEFAULT_COUNTRY" PARM_TYP_CD="CONFG" VAL="US" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="All" EVAL_OPRTR_CD="A"
-        NMSPC_CD="KR-NS" OBJ_ID="3F979A947A984B419A6CE0693F0B08EE"
+        NMSPC_CD="KR-NS" OBJ_ID="E246C7C8DE8EF85EE040440A9B9A1D50"
         PARM_DESC_TXT="The locale code that should be used within the application when otherwise not specified."
         PARM_NM="DEFAULT_LOCALE_CODE" PARM_TYP_CD="CONFG" VAL="en-US" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="All" EVAL_OPRTR_CD="A"
@@ -59,7 +59,7 @@
         PARM_NM="MAX_FILE_SIZE_DEFAULT_UPLOAD" PARM_TYP_CD="CONFG"
         VAL="5M" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="All" EVAL_OPRTR_CD="A"
-        NMSPC_CD="KR-NS" OBJ_ID="31C3B35293844DBB9828387FBD296B91"
+        NMSPC_CD="KR-NS" OBJ_ID="E246C7C8DEB8F85EE040440A9B9A1D50"
         PARM_DESC_TXT="Default message to display when a module is locked"
         PARM_NM="OLTP_LOCKOUT_DEFAULT_MESSAGE" PARM_TYP_CD="CONFG"
         VAL="The module you are attempting to access has been locked for maintenance." VER_NBR="1"/>
@@ -100,7 +100,7 @@
         PARM_DESC_TXT="The maximum number of role or group members to display at once on their documents. If the number is above this value, the document will switch into a paging mode with only this many rows displayed at a time."
         PARM_NM="MAX_MEMBERS_PER_PAGE" PARM_TYP_CD="CONFG" VAL="20" VER_NBR="1"/>
     <KRCR_PARM_T APPL_ID="KUALI" CMPNT_CD="Document" EVAL_OPRTR_CD="A"
-        NMSPC_CD="KR-NS" OBJ_ID="75F79DF3053E4805A0420C472F628E72"
+        NMSPC_CD="KR-NS" OBJ_ID="E246C7C8DCCCF85EE040440A9B9A1D50"
         PARM_DESC_TXT="Controls whether the nervous system will show the blanket approve button to a user who is authorized for blanket approval but is neither the initiator of the particular document nor the recipient of an active, pending, approve action request."
         PARM_NM="ALLOW_ENROUTE_BLANKET_APPROVE_WITHOUT_APPROVAL_REQUEST_IND"
         PARM_TYP_CD="CONFG" VAL="N" VER_NBR="1"/>
