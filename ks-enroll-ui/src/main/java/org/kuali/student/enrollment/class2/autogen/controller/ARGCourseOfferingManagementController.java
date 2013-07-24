@@ -155,6 +155,9 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
         ARGUtil.getViewHelperService(form).loadCourseOfferingsByTermAndCourseCode(form.getTermInfo().getId(), form.getInputCode(), form);
 
+        //turn on authz
+        form.setEditAuthz(ARGUtil.checkEditViewAuthz(form));
+
         if (!form.getCourseOfferingResultList().isEmpty()) {
             if (form.getCourseOfferingResultList().size() > 1) {
                 form.setSubjectCode(form.getCourseOfferingResultList().get(0).getSubjectArea());
@@ -168,9 +171,6 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                 return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
             }
         }
-
-        //turn on authz
-        form.setEditAuthz(ARGUtil.checkEditViewAuthz(form));
 
         if (GlobalVariables.getMessageMap().getErrorMessages().isEmpty()) {
             return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_ARG_CO_PAGE);
