@@ -106,7 +106,7 @@
     </bean>
 
     <!-- Parent Bean for Kuali Module Services -->
-    <bean id="kualiModuleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+    <bean id="kualiModuleService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="kualiModuleService"/>
     </bean>
 
