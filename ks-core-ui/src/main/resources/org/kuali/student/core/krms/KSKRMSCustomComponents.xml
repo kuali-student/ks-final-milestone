@@ -86,10 +86,10 @@ limitations under the License.
 
     <bean id="KRMS-Administering-Org-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Organization"/>
 
-    <bean id="KRMS-ClassStanding-Group" parent="KRMS-CustomComponent-BoxGroup">
+    <bean id="KRMS-Population-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-ClassStanding-Field"/>
+                <ref bean="KRMS-Population-Field"/>
             </list>
         </property>
     </bean>
@@ -114,25 +114,25 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-ClassStanding-Field-Parent" parent="Uif-InputField-LabelTop"
-          p:propertyName="proposition.classStanding" p:required="true">
+    <bean id="KRMS-Population-Field-Parent" parent="Uif-InputField-LabelTop"
+          p:propertyName="proposition.population" p:required="true">
         <property name="style" value="width:450px;"/>
         <property name="control">
             <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
                   p:readOnly="true"/>
         </property>
         <property name="quickfinder">
-            <bean parent="KRMS-ClassStanding-QuickFinder"/>
+            <bean parent="KRMS-Population-QuickFinder"/>
         </property>
     </bean>
-    <bean id="KRMS-ClassStanding-Field" parent="KRMS-ClassStanding-Field-Parent" p:label="Class Standing"/>
+    <bean id="KRMS-Population-Field" parent="KRMS-Population-Field-Parent" p:label="Population"/>
 
-    <bean id="KRMS-ClassStanding-QuickFinder" parent="KRMS-QuickFinder">
+    <bean id="KRMS-Population-QuickFinder" parent="KRMS-QuickFinder">
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-        <property name="viewName" value="krmsClassStandingView"/>
+        <property name="viewName" value="krmsPopulationView"/>
         <property name="fieldConversions">
             <map>
-                <entry key="populationInfo.name" value="proposition.classStanding"/>
+                <entry key="populationInfo.name" value="proposition.population"/>
                 <entry key="id" value="proposition.populationWrapper.id"/>
             </map>
         </property>
