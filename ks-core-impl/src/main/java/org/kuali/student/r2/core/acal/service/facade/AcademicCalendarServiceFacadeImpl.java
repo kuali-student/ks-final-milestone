@@ -17,7 +17,6 @@
 package org.kuali.student.r2.core.acal.service.facade;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -26,7 +25,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -41,7 +39,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -132,10 +129,10 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
             }
         }
         // Now iterate over all calendars and make them official
-        for (String id: idToCalendar.keySet()) {
-            if (AtpServiceConstants.ATP_DRAFT_STATE_KEY.equals(idToCalendar.get(id).getStateKey())) {
+        for (Map.Entry<String, AcademicCalendarInfo> entry: idToCalendar.entrySet()) {
+            if (AtpServiceConstants.ATP_DRAFT_STATE_KEY.equals(entry.getValue().getStateKey())) {
                 // Only set it if it's still draft
-                acalService.changeAcademicCalendarState(id, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
+                acalService.changeAcademicCalendarState(entry.getKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, contextInfo);
             }
         }
         statusInfo.setSuccess(Boolean.TRUE);
