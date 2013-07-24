@@ -206,7 +206,7 @@
                     <property name="required" value="@{!#lp.allDay and !#empty(#lp.startTime)}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.startTime"/>
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:defaultValue="AM">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options">
                             <property name="disabled" value="@{#lp.allDay or #empty(#lp.startTime)}"/>
                         </bean>
                     </property>
@@ -238,7 +238,7 @@
                     <property name="required" value="@{!#lp.allDay and !#empty(#lp.endTime)}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.endTime"/>
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:defaultValue="AM">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" >
                             <property name="disabled" value="@{#lp.allDay or #empty(#lp.endTime)}"/>
                         </bean>
                     </property>
