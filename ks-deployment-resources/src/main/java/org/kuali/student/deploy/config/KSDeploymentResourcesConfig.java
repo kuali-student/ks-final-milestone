@@ -7,10 +7,10 @@ import org.kuali.common.util.config.ProjectConfig;
 public enum KSDeploymentResourcesConfig implements ProjectConfig {
 
     METAINF_SQL(KualiUtilConfig.METAINF_SQL.getContextId()), //
-    SOURCE_DB_INIT("source-db:initialize"), //
-    SOURCE_DB_DUMP("source-db:dump"), //
-    SOURCE_DB_SCM("source-db:scm"), //
-    APP_DB_INIT("app-db:init"), //
+    DB_SOURCE_INIT("db:source:init"), //
+    DB_SOURCE_DUMP("db:source:dump"), //
+    DB_SOURCE_SCM("db:source:scm"), //
+    DB_APP_INIT("db:app:init"), //
     DEPLOY("deploy");
 
     private final String contextId;

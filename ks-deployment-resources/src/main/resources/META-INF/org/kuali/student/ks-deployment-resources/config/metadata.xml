@@ -1,55 +1,40 @@
-<!--
-
-  Copyright 2010-2013 The Kuali Foundation
-
-  Licensed under the Educational Community License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-  http://www.opensource.org/licenses/ecl2.php
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-
--->
 <project>
   <context id="metainf">
     <context id="sql">
       <location value="${source.db.common}"/>
     </context>
   </context>
-  <context id="source-db">
-    <context id="initialize">
-      <location value="${source.db.common}"/>
-      <location value="${source.db.prefix}/initialize.properties"/>
-    </context>
-    <context id="dump">
-      <location value="${source.db.common}"/>
-      <location value="${source.db.dump}"/>
-    </context>
-    <context id="scm">
-      <location value="${source.db.common}"/>
-      <location value="${source.db.dump}"/>
-      <location value="${source.db.prefix}/staging.properties"/>
-      <location value="${source.db.prefix}/scm.properties"/>
-    </context>
-  </context>
-  <context id="app-db">
-    <context id="init">
-      <context id="ks-impex-app-db">
-        <location value="${app.db.common}"/>
-        <location value="${db.app}"/>
+  <context id="db">
+    <context id="source">
+      <context id="init">
+        <location value="${source.db.common}"/>
+        <location value="${source.db.prefix}/initialize.properties"/>
       </context>
-      <context id="ks-impex-bundled-db">
-        <location value="${app.db.common}"/>
-        <location value="${db.bundled}"/>
+      <context id="dump">
+        <location value="${source.db.common}"/>
+        <location value="${source.db.dump}"/>
       </context>
-      <context id="ks-impex-rice-db">
-        <location value="${app.db.common}"/>
-        <location value="${db.rice}"/>
+      <context id="scm">
+        <location value="${source.db.common}"/>
+        <location value="${source.db.dump}"/>
+        <location value="${source.db.prefix}/staging.properties"/>
+        <location value="${source.db.prefix}/scm.properties"/>
+      </context>
+    </context>
+    <context id="app">
+      <context id="init">
+        <context id="ks-impex-app-db">
+          <location value="${app.db.common}"/>
+          <location value="${db.app}"/>
+        </context>
+        <context id="ks-impex-bundled-db">
+          <location value="${app.db.common}"/>
+          <location value="${db.bundled}"/>
+        </context>
+        <context id="ks-impex-rice-db">
+          <location value="${app.db.common}"/>
+          <location value="${db.rice}"/>
+        </context>
       </context>
     </context>
   </context>

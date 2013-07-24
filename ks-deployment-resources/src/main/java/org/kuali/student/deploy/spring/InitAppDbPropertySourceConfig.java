@@ -34,7 +34,7 @@ import org.springframework.core.env.Environment;
 @Configuration
 public class InitAppDbPropertySourceConfig extends ProjectPropertySourceConfig {
 
-    protected static final String BASE_CONFIG_ID = KSDeploymentResourcesConfig.APP_DB_INIT.getConfigId();
+    protected static final String BASE_CONFIG_ID = KSDeploymentResourcesConfig.DB_APP_INIT.getConfigId();
     protected final static String ARTIFACT_ID_KEY = MavenConstants.ARTIFACT_ID_KEY;
     protected final static String CONFIG_ID_KEY = "impex.init.application.config";
 
