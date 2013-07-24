@@ -9,6 +9,6 @@ INSERT INTO KRMS_TERM_SPEC_T (ACTV,DESC_TXT,NM,NMSPC_CD,TERM_SPEC_ID,TYP,VER_NBR
 --   VALUES ('Y','Term completed for course ','CompletedCourseTerm','KS-SYS','10017','java.lang.Boolean',1)
 -- /
 INSERT INTO KRMS_TERM_SPEC_T (ACTV,DESC_TXT,NM,NMSPC_CD,TERM_SPEC_ID,TYP,VER_NBR)
-  VALUES ('Y','Class Standing in which student must be in','ClassStanding','KS-SYS','10018','java.lang.Boolean',1)
+  VALUES ('Y','Population in which student must be in','Population','KS-SYS','10018','java.lang.Boolean',1)
 /
 
