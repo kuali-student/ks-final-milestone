@@ -159,14 +159,10 @@
 		parent="Uif-StackedCollectionSection" p:headerText="Outcome"
 		p:propertyName="creditOptionsDisplay"
 		p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoDisplay">
-		<property name="layoutManager.summaryTitle" value="Outcome" />
-		<property name="renderAddBlankLineButton" value="false" />
+		<property name="addBlankLineAction.actionLabel" value="Add Outcome" />
+		<property name="layoutManager.lineGroupPrototype.header.headerText" value="Outcome @{(#index + 1)}" />
+		<property name="renderAddBlankLineButton" value="true" />
 		<property name="addLinePlacement" value="BOTTOM" />
-		<property name="addLineLabel">
-			<bean parent="Uif-Label">
-				<property name="labelText" value=" " />
-			</bean>
-		</property>
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="typeKey"
@@ -210,7 +206,7 @@
 				</bean>
 			</list>
 		</property>
-		<property name="subCollections">
+		 <property name="subCollections">
 			<list>
 				<bean parent="Uif-StackedCollectionSubSection"
 					p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysDisplay"
@@ -245,17 +241,21 @@
 			<bean parent="Uif-Help"
 				p:tooltipHelpContent="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats." />
 		</property>
-		<property name="layoutManager.summaryTitle" value="Activity" />
 		<property name="addLinePlacement" value="BOTTOM" />
 		<property name="renderAddBlankLineButton" value="true" />
 		<property name="addBlankLineAction.actionLabel" value="Add Additional Format" />
+		<property name="addLineLabel.labelText" value=" " />
+		<property name="layoutManager.lineGroupPrototype.header.headerText" value="Format @{(#index + 1)}" />
 		<property name="subCollections">
 			<list>
 				<bean parent="Uif-StackedSubCollection-WithinSection"
 					p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.ActivityInfo"
 					p:propertyName="activities">
 					<property name="addLinePlacement" value="BOTTOM" />
-					<property name="renderAddBlankLineButton" value="false" />
+					<property name="renderAddBlankLineButton" value="true" />
+					<property name="addBlankLineAction.actionLabel" value="Add Activity" />
+					<property name="addLineLabel.labelText" value="Activity " />
+					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Activity @{(#index + 1)}" />
 					<property name="addLineLabel">
 						<bean parent="Uif-Label">
 							<property name="labelText" value=" " />
