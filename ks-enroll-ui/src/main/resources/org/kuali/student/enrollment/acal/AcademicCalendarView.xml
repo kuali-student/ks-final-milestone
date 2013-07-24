@@ -190,7 +190,8 @@ limitations under the License.
             </list>
         </property>
         <property name="promptText"
-                  value="You are making @{makeOfficialName} official. This action cannot be undone.
+                  value="You are making @{makeOfficialName} official - this will also make @{makeOfficialIsSubterm?makeOfficialParentTermName +
+                  ' official and ':''}@{academicCalendarInfo.name} official. This action cannot be undone.
                   Official calendars and terms cannot be deleted."/>
         <property name="availableResponses">
             <list>
