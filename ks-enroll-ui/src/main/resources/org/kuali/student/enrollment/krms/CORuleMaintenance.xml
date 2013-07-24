@@ -59,7 +59,7 @@ limitations under the License.
         <property name="dialogs">
             <list>
                 <bean id="compareCluAndCoRuleLightBox" parent="KRMS-CompareRule">
-                    <property name="headerText" value="Compare CLU and CO Rules"/>
+                    <property name="headerText" value="Compare Catalog and CO Rules"/>
                 </bean>
                 <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"/>
@@ -215,9 +215,9 @@ limitations under the License.
     <bean id="KSCO-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and CO Rules"/>
                     </property>
                 </bean>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:disabled="@{!#line.permission.addEditRequisite}"/>
@@ -229,9 +229,9 @@ limitations under the License.
     <bean id="KSCO-RuleView-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and CO Rules"/>
                     </property>
                 </bean>
             </list>
@@ -414,9 +414,9 @@ limitations under the License.
     <bean id="KSCO-RulePreview-Links" parent="KRMS-RulePreview-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Canonical" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CLU and CO Rules"/>
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and CO Rules"/>
                     </property>
                 </bean>
             </list>

@@ -52,7 +52,7 @@ public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
             if (childNode.getData() != null) {
                 CompareTreeNode compareTreeNode = childNode.getData();
                 compareTreeNode.setFirstElement("CO Rule");
-                compareTreeNode.setSecondElement("CLU Rules");
+                compareTreeNode.setSecondElement("Catalog Rules");
                 compareTreeNode.setThirdElement("AO Rules");
 
             }
