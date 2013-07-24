@@ -756,7 +756,6 @@ function removeEmptyContextBar(){
             var headerOffsetTop = headerDiv.offset().top - 41;
             headerDiv.offset({top:headerOffsetTop});
             headerDiv.data("offset", headerDiv.offset());
-            stickyContentOffset.top -= 41;
         }
     }
 }
@@ -775,7 +774,6 @@ function resetHeaderPosition(){
             //adjust header back to the original position
             headerDiv.offset({top:headerOffsetTop});
             headerDiv.data("offset", headerDiv.offset());
-            stickyContentOffset.top += 41;
         }
     }
 }
