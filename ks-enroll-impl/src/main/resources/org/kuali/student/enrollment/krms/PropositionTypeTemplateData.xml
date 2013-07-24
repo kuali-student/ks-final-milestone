@@ -435,7 +435,7 @@ limitations under the License.
                 </entry>
                 <entry key="kuali.krms.proposition.type.memberof.population">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="ClassStanding" p:value="true">
+                          p:termSpecName="Population" p:value="true">
                         <property name="componentId" value="KRMS-Population-Group"/>
                         <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.PopulationComponentBuilder"/>
                     </bean>
