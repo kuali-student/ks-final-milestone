@@ -421,7 +421,7 @@
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"
                                           p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
-                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
+                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"/>
                                 </list>
                             </property>
                         </bean>
@@ -560,7 +560,7 @@
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="createFromCopy" p:actionLabel="Create" p:render="@{!#view.readOnly}"
                                             p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
-                                    <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"
+                                    <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
                                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
                                 </list>
                             </property>
