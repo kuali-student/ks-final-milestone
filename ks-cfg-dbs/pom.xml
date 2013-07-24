@@ -746,13 +746,6 @@
                                     <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
                                     </artifactItem>
                                     <artifactItem>
-                                    <groupId>org.kuali.student.enroll</groupId>
-                                    <artifactId>ks-enroll-sql</artifactId>
-                                    <version>${ks.enroll.version}</version>
-                                    <includes>**\/*.sql</includes>
-                                    <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
-                                    </artifactItem>
-                                    <artifactItem>
                                     <groupId>org.kuali.student.db</groupId>
                                     <artifactId>ks-rice-baseline-db</artifactId>
                                     <version>${project.version}</version>
@@ -778,11 +771,6 @@
                                 <groupId>org.kuali.student.lum</groupId>
                                 <artifactId>ks-lum-sql</artifactId>
                                 <version>${ks.lum.version}</version>
-                            </dependency>
-                            <dependency>
-                                <groupId>org.kuali.student.enroll</groupId>
-                                <artifactId>ks-enroll-sql</artifactId>
-                                <version>${ks.enroll.version}</version>
                             </dependency>
                             <dependency>
                                 <groupId>org.kuali.student.db</groupId>
