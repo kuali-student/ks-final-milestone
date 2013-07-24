@@ -23,14 +23,44 @@ import org.kuali.rice.krms.dto.TemplateInfo;
  */
 public interface TemplateRegistry {
 
-    public TemplateInfo getTemplateForType(String type);
+    /**
+     * Returns a TemplateInfo with the bean names for the ui to display for the given type.
+     *
+     * @param type
+     * @return
+     */
+    TemplateInfo getTemplateForType(String type);
 
-    public String getTermSpecNameForType(String type);
+    /**
+     * Return the termspec name for the given type.
+     *
+     * @param type
+     * @return
+     */
+    String getTermSpecNameForType(String type);
 
-    public String getOperationForType(String type);
+    /**
+     * Return an operator for the given type to be used as a default proposition parameter value.
+     *
+     * @param type
+     * @return
+     */
+    String getOperationForType(String type);
 
-    public String getValueForType(String type);
+    /**
+     * Return a constant value for the given type to be used as a default proposition parameter value.
+     *
+     * @param type
+     * @return
+     */
+    String getValueForType(String type);
 
-    public ComponentBuilder getComponentBuilderForType(String type);
+    /**
+     * Return a ComponentBuilder for the given type.
+     *
+     * @param type
+     * @return
+     */
+    ComponentBuilder getComponentBuilderForType(String type);
 
 }
