@@ -123,6 +123,7 @@ public class EnrolRuleEditorController extends RuleEditorController {
 
         RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(document);
         EnrolRuleEditor enrolRuleEditor = new EnrolRuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+        enrolRuleEditor.setPermission(ruleEditor.getPermission());
         enrolRuleEditor.setParent(ruleEditor.getParent());
         AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
 
