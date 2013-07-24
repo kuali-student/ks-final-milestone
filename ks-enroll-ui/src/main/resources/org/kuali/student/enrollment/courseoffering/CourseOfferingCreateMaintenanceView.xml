@@ -459,7 +459,8 @@
                         </map>
                     </property>
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup" p:disabled="@{#dp.targetTermCode eq null}"
+                              p:evaluateDisabledOnKeyUp="true" />
                     </property>
                     <property name="quickfinder.lightBoxLookup">
                         <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
