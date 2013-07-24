@@ -14,6 +14,7 @@ public enum KSDeploymentResourcesConfig implements ProjectConfig {
     DB_APP_INIT_KS_IMPEX_RICE_DB("db:app:init:ks-impex-rice-db"), //
     DB_APP_INIT_KS_IMPEX_APP_DB("db:app:init:ks-impex-app-db"), //
     DB_APP_INIT_KS_IMPEX_BUNDLED_DB("db:app:init:ks-impex-bundled-db"), //
+    DEPLOY("deploy"), //
     DEPLOY_KS_IMPEX_RICE_DB("deploy:ks-impex-rice-db"), //
     DEPLOY_KS_IMPEX_APP_DB("deploy:ks-impex-app-db"), //
     DEPLOY_KS_IMPEX_BUNDLED_DB("deploy:ks-impex-bundled-db"); //
