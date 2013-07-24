@@ -21,6 +21,7 @@ import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -53,6 +54,7 @@ public class CluSetRangeHelper implements Serializable {
 
     public static final String LO_SEARCH_LODESC = "lo.search.loByDescCrossSearch";
     public static final String LO_SEARCH_PARM_LODESC = "lo.queryParam.loDescPlain";
+    public static final String LO_SEARCH_PARM_LUTYPE = "lu.queryParam.luOptionalType";
 
     public static final String CLU_SEARCH_GENERIC = "lu.search.generic";
     public static final String CLU_SEARCH_PARM_DATE1 = "lu.queryParam.luOptionalEffectiveDate1";
@@ -214,6 +216,7 @@ public class CluSetRangeHelper implements Serializable {
 
         List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
         queryParams.add(createSearchParam(CluSetRangeHelper.LO_SEARCH_PARM_LODESC, this.getLearningObjective()));
+        queryParams.add(createSearchParam(CluSetRangeHelper.LO_SEARCH_PARM_LUTYPE, CourseAssemblerConstants.COURSE_TYPE));
         membershipQueryInfo.setQueryParamValues(queryParams);
     }
 
