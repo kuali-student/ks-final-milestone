@@ -702,14 +702,17 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             for (String aoId : aoIdsSet) {
                 List<ScheduleRequestCalcContainer> srccList = new ArrayList<ScheduleRequestCalcContainer>();
                 ao2sch.put(aoId, srccList);
-                List<RoomInfo> rooms = new ArrayList<RoomInfo>();
-                List<BuildingInfo> bldgs = new ArrayList<BuildingInfo>();
-                List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
+
                 for (ScheduleRequestInfo sr : ao2srMap.get(aoId)) {
                     for (ScheduleRequestComponentInfo src : sr.getScheduleRequestComponents()) {
+                        
+                        List<RoomInfo> rooms = new ArrayList<RoomInfo>();
+                        List<BuildingInfo> buildings = new ArrayList<BuildingInfo>();
+                        List<TimeSlotInfo> timeSlots = new ArrayList<TimeSlotInfo>();
+                        
                         for (String roomId : src.getRoomIds()) {
                             rooms.add(roomIdMap.get(roomId));
-                            bldgs.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
+                            buildings.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
                         }
                         for (String timeSlotId : src.getTimeSlotIds()) {
                             TimeSlotInfo timeSlotInfo = timeslotIdMap.get(timeSlotId);
@@ -720,7 +723,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                                 CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
                                 timeSlots,
                                 rooms,
-                                bldgs,
+                                buildings,
                                 src.getIsTBA());
                         srccList.add(srcc);
                     }
