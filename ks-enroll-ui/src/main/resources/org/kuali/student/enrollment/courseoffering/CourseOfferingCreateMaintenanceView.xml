@@ -623,14 +623,21 @@
                 <value>co_copy_tables</value>
             </list>
 		</property>
-        <property name="headerText" value="Course Offerings Available for Copying" />
+        <property name="headerText" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1 ? 'Course Offerings Available for Copying' : 'Course Offering Available for Copying' }" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
 		<property name="propertyName" value="existingTermOfferings" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="bPaginate" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}"/>
+            </map>
+        </property>
 		<property name="items">
            <list>
-               <bean parent="Uif-InputField" p:propertyName="selected" p:label="" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');">
+               <bean parent="Uif-InputField" p:propertyName="selected" p:label="" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');"
+                       p:render="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}">
                    <property name="control">
                        <bean parent="Uif-CheckboxControl"/>
                    </property>
