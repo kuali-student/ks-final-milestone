@@ -25,7 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
+import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.lum.lu.ui.course.keyvalues.KeyValueConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -46,7 +46,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 	@Override
 	protected List<?> getSearchResults(LookupForm form,
 			Map<String, String> searchCriteria, boolean unbounded) {
-		List<CluInstructorInfoDisplay> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoDisplay>();
+		List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
 		
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         String displayName = searchCriteria.get("displayName");
@@ -78,7 +78,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
         	searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
         	for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
-                CluInstructorInfoDisplay cluInstructorInfoDisplay = new CluInstructorInfoDisplay();
+                CluInstructorInfoWrapper cluInstructorInfoDisplay = new CluInstructorInfoWrapper();
                 for (SearchResultCellInfo cell : cells) {
                     if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setGivenName(cell.getValue());

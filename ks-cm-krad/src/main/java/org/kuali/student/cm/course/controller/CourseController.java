@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2005-2013 The Kuali Foundation
  * 
  * Licensed under the Educational Community License, Version 1.0 (the
@@ -15,6 +15,7 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,19 +25,33 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
+import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseForm;
-import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
+import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl;
+import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -61,6 +76,7 @@ public class CourseController extends UifControllerBase {
 
     private CourseService courseService;
 	private CommentService commentService;
+	private LearningObjectiveService learningObjectiveService;
     
     private enum CourseViewPages {
     	COURSE_INFO("KS-CourseView-CourseInfoPage"), 
@@ -112,14 +128,14 @@ public class CourseController extends UifControllerBase {
     	
     	//Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
     	if (form.getCourseJointDisplays() != null) {
-	    	for (CourseJointInfoDisplay jointInfoDisplay : form.getCourseJointDisplays()) {
+	    	for (CourseJointInfoWrapper jointInfoDisplay : form.getCourseJointDisplays()) {
 	    		form.getCourseInfo().getJoints().add(CourseViewHelperServiceImpl.getInstance().getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
 	    	}
     	}
     	
     	if (form.getInstructorDisplays() != null) {
-    		for (CluInstructorInfoDisplay instructorDisplay : form.getInstructorDisplays()) {
-    			CluInstructorInfoDisplay retrievedInstructor = CourseViewHelperServiceImpl.getInstance().getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
+    		for (CluInstructorInfoWrapper instructorDisplay : form.getInstructorDisplays()) {
+    			CluInstructorInfoWrapper retrievedInstructor = CourseViewHelperServiceImpl.getInstance().getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
     			form.getCourseInfo().getInstructors().add(retrievedInstructor);
     		}
     	}
@@ -257,7 +273,56 @@ public class CourseController extends UifControllerBase {
     	return getUIFModelAndView(form);
     }
     
+    @RequestMapping(params = "methodToCall=browseForCategories")
+    public ModelAndView browseForCategories(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	String commentDialogKey = "loCategoryDialog";
+        if (!hasDialogBeenAnswered(commentDialogKey, form)){
+        	//Get the available categories
+        	form.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
+            
+            // redirect back to client to display lightbox
+            return showDialog(commentDialogKey, form, request, response);
+        }
+        
+        // Get value from chosen radio button
+        boolean choice = getBooleanDialogResponse(commentDialogKey, form, request, response);
+        
+        // clear dialog history so they can press the button again
+        form.getDialogManager().removeDialog(commentDialogKey);
+    	return getUIFModelAndView(form);
+    }
     
+    private List<LoDisplayInfoWrapper> getLoCategories() {
+    	List<LoDisplayInfoWrapper> loCategories = new ArrayList<LoDisplayInfoWrapper>();
+    	SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey(LookupableConstants.LOCATEGORY_SEARCH);
+        searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_RESULT);
+    	try {
+    		SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
+			for (SearchResultRowInfo result : searchResult.getRows()) {
+                List<SearchResultCellInfo> cells = result.getCells();
+                LoDisplayInfoWrapper loWrapper = new LoDisplayInfoWrapper();
+                for (SearchResultCellInfo cell : cells) {
+                	if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
+                		loWrapper.setId(cell.getValue());
+                	} else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
+                		loWrapper.setName(cell.getValue());
+                	} else if(LookupableConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
+                		loWrapper.setTypeKey(cell.getValue());
+            		} else if(LookupableConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
+            			loWrapper.setTypeName(cell.getValue());
+                    } else if(LookupableConstants.LO_CATEGORY_STATE_RESULT.equals(cell.getKey())){
+                    	loWrapper.setStateKey(cell.getValue());
+                    }
+                }
+                loCategories.add(loWrapper);
+            }
+		} catch (Exception e) {
+			throw new RuntimeException("An error occurred while searching for the available Learning Categories", e);
+		}
+    	return loCategories;
+    }   
     
     private CourseService getCourseService() {
     	if (courseService == null) {
@@ -272,5 +337,12 @@ public class CourseController extends UifControllerBase {
     	}
     	return commentService;
     }
+    
+    private LearningObjectiveService getLearningObjectiveService() {
+		if (learningObjectiveService == null) {
+			learningObjectiveService = GlobalResourceLoader.getService(new QName(LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
+		}
+		return learningObjectiveService;
+	}
 
 }

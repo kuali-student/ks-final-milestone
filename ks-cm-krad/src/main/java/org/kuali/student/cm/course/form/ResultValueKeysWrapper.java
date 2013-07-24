@@ -15,31 +15,22 @@
  */
 package org.kuali.student.cm.course.form;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-
 
 /**
  * This is the helper class for CourseView
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class ResultValuesGroupInfoDisplay extends ResultValuesGroupInfo{
+public class ResultValueKeysWrapper {
     
-    private List<ResultValueKeysDisplay> resultValueKeysDisplay;
-    
-    public ResultValuesGroupInfoDisplay() {
-        this.resultValueKeysDisplay = new ArrayList<ResultValueKeysDisplay>();
+    private String creditValueDisplay;
+
+    public String getCreditValueDisplay() {
+        return creditValueDisplay;
     }
 
-    public List<ResultValueKeysDisplay> getResultValueKeysDisplay() {
-        return resultValueKeysDisplay;
-    }
-
-    public void setResultValueKeysDisplay(List<ResultValueKeysDisplay> resultValueKeysDisplay) {
-        this.resultValueKeysDisplay = resultValueKeysDisplay;
+    public void setCreditValueDisplay(String creditValueDisplay) {
+        this.creditValueDisplay = creditValueDisplay;
     }
 
 }

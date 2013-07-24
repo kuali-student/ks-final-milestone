@@ -19,24 +19,24 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseJointInfoDisplay-DataObjectEntry" parent="DataObjectEntry">
+	<bean id="KS-CourseJointInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
 		<property name="objectLabel" value="Jointly Offered Courses Information Display" />
 		<property name="dataObjectClass"
-			value="org.kuali.student.cm.course.form.CourseJointInfoDisplay" />
+			value="org.kuali.student.cm.course.form.CourseJointInfoWrapper" />
 		<property name="titleAttribute" value="typeKey" />
 		<property name="attributes">
 			<list>
-				<ref bean="CourseJointInfoDisplay.typeKey" />
-				<ref bean="CourseJointInfoDisplay.name" />
-				<ref bean="CourseJointInfoDisplay.courseTitle" />
-				<ref bean="CourseJointInfoDisplay.courseId" />
-				<ref bean="CourseJointInfoDisplay.courseCode" />
-				<ref bean="CourseJointInfoDisplay.level" />
+				<ref bean="CourseJointInfoWrapper.typeKey" />
+				<ref bean="CourseJointInfoWrapper.name" />
+				<ref bean="CourseJointInfoWrapper.courseTitle" />
+				<ref bean="CourseJointInfoWrapper.courseId" />
+				<ref bean="CourseJointInfoWrapper.courseCode" />
+				<ref bean="CourseJointInfoWrapper.level" />
 			</list>
 		</property>
 		<property name="complexAttributes">
 			<list>
-				<ref bean="CourseJointInfoDisplay.descr" />
+				<ref bean="CourseJointInfoWrapper.descr" />
 			</list>
 		</property>
 		<property name="primaryKeys">
@@ -46,15 +46,15 @@
 		</property>
 	</bean>
 	
-	<bean id="CourseJointInfoDisplay.typeKey" parent="BaseKuali.typeKey">
+	<bean id="CourseJointInfoWrapper.typeKey" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey" />
 	</bean>
 
-	<bean id="CourseJointInfoDisplay.name" parent="BaseKuali.name">
+	<bean id="CourseJointInfoWrapper.name" parent="BaseKuali.name">
 		<property name="name" value="name" />
 	</bean>
 
-	<bean id="CourseJointInfoDisplay.courseTitle" parent="AttributeDefinition">
+	<bean id="CourseJointInfoWrapper.courseTitle" parent="AttributeDefinition">
 		<property name="name" value="courseTitle" />
 		<property name="dataType" value="STRING" />
 		<property name="label" value="Given Name" />
@@ -69,7 +69,7 @@
 		</property>
 	</bean>
 
-	<bean id="CourseJointInfoDisplay.courseId" parent="BaseKuali.string">
+	<bean id="CourseJointInfoWrapper.courseId" parent="BaseKuali.string">
 		<property name="name" value="courseId" />
 		<property name="shortLabel" value="Course Id" />
 		<property name="summary">
@@ -86,7 +86,7 @@
 		<property name="required" value="false" />
 	</bean>
 
-	<bean id="CourseJointInfoDisplay.courseCode" parent="AttributeDefinition">
+	<bean id="CourseJointInfoWrapper.courseCode" parent="AttributeDefinition">
 		<property name="name" value="courseCode" />
 		<property name="dataType" value="STRING" />
 		<property name="label" value="Course Code" />
@@ -101,7 +101,7 @@
 		</property>
 	</bean>
 
-	<bean id="CourseJointInfoDisplay.level" parent="AttributeDefinition">
+	<bean id="CourseJointInfoWrapper.level" parent="AttributeDefinition">
 		<property name="name" value="level" />
 		<property name="dataType" value="STRING" />
 		<property name="label" value="Level" />
@@ -116,7 +116,7 @@
 		</property>
 	</bean>
 
-	<bean id="CourseJointInfoDisplay.descr" parent="ComplexAttributeDefinition">
+	<bean id="CourseJointInfoWrapper.descr" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr" />
 		<property name="shortLabel" value="Descr" />
 		<property name="summary">
@@ -163,19 +163,19 @@
 		</property>
 	</bean>
 
-	<bean id="CourseJointInfoDisplay.descr.plain" parent="BaseKuali.descr.plain">
+	<bean id="CourseJointInfoWrapper.descr.plain" parent="BaseKuali.descr.plain">
 		<property name="name" value="plain" />
 	</bean>
 
-	<bean id="CourseJointInfoDisplay.descr.formatted" parent="BaseKuali.descr.formatted">
+	<bean id="CourseJointInfoWrapper.descr.formatted" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted" />
 	</bean>
 
-	<bean id="KS-CourseJointInfoDisplay-LookupView" parent="Uif-LookupView">
-		<property name="id" value="CourseJointInfoDisplayLookupView" />
+	<bean id="KS-CourseJointInfoWrapper-LookupView" parent="Uif-LookupView">
+		<property name="id" value="CourseJointInfoWrapperLookupView" />
 		<property name="headerText" value="Advanced Search: Courses and Proposals" />
 		<property name="dataObjectClassName"
-			value="org.kuali.student.cm.course.form.CourseJointInfoDisplay" />
+			value="org.kuali.student.cm.course.form.CourseJointInfoWrapper" />
 		<property name="viewHelperServiceClass"
 			value="org.kuali.student.cm.course.service.impl.CourseJointInfoLookupableImpl" />
 		<property name="criteriaFields">

@@ -1,17 +1,17 @@
 /**
- * Copyright 2012 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- *
+ * Copyright 2005-2013 The Kuali Foundation
+ * 
+ * Licensed under the Educational Community License, Version 1.0 (the
+ * "License"); you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ * http://www.opensource.org/licenses/ecl1.php
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.kuali.student.cm.course.form;
 
@@ -40,11 +40,11 @@ public class CourseForm extends UifFormBase {
 	
 	private boolean passFail;
 	
-	private List<CluInstructorInfoDisplay> instructorDisplays;
+	private List<CluInstructorInfoWrapper> instructorDisplays;
 	
-	private List<CourseJointInfoDisplay> courseJointDisplays;
+	private List<CourseJointInfoWrapper> courseJointDisplays;
 	
-	private List<ResultValuesGroupInfoDisplay> creditOptionsDisplay;
+	private List<ResultValuesGroupInfoWrapper> creditOptionsDisplay;
 	
 	private String finalExamStatus;
 	
@@ -55,14 +55,16 @@ public class CourseForm extends UifFormBase {
 	private String dialog1;
 	
 	private String Field1;
-
+	
+	private LearningObjectiveDialogWrapper loDialogWrapper;
+	
 	public CourseForm() {
 		this.courseInfo = new CourseInfo();
 		this.proposalInfo = new ProposalInfo();
-		this.instructorDisplays = new ArrayList<CluInstructorInfoDisplay>();
+		this.instructorDisplays = new ArrayList<CluInstructorInfoWrapper>();
 		
-		this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoDisplay>();
-		this.courseJointDisplays = new ArrayList<CourseJointInfoDisplay>();
+		this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoWrapper>();
+		this.courseJointDisplays = new ArrayList<CourseJointInfoWrapper>();
 		this.commentInfo = new CommentInfo();
 	}
 
@@ -82,12 +84,12 @@ public class CourseForm extends UifFormBase {
 		this.proposalInfo = proposalInfo;
 	}
 
-	public List<CluInstructorInfoDisplay> getInstructorDisplays() {
+	public List<CluInstructorInfoWrapper> getInstructorDisplays() {
 		return instructorDisplays;
 	}
 
 	public void setInstructorDisplays(
-			List<CluInstructorInfoDisplay> instructorDisplays) {
+			List<CluInstructorInfoWrapper> instructorDisplays) {
 		this.instructorDisplays = instructorDisplays;
 	}
 
@@ -107,19 +109,19 @@ public class CourseForm extends UifFormBase {
         this.passFail = passFail;
     }
 
-    public List<ResultValuesGroupInfoDisplay> getCreditOptionsDisplay() {
+    public List<ResultValuesGroupInfoWrapper> getCreditOptionsDisplay() {
         return creditOptionsDisplay;
     }
 
-    public void setCreditOptionsDisplay(List<ResultValuesGroupInfoDisplay> creditOptionsDisplay) {
+    public void setCreditOptionsDisplay(List<ResultValuesGroupInfoWrapper> creditOptionsDisplay) {
         this.creditOptionsDisplay = creditOptionsDisplay;
     }
     
-    public List<CourseJointInfoDisplay> getCourseJointDisplays() {
+    public List<CourseJointInfoWrapper> getCourseJointDisplays() {
         return courseJointDisplays;
     }
 
-    public void setCourseJointDisplays(List<CourseJointInfoDisplay> courseJointDisplays) {
+    public void setCourseJointDisplays(List<CourseJointInfoWrapper> courseJointDisplays) {
         this.courseJointDisplays = courseJointDisplays;
     }
 
@@ -162,5 +164,13 @@ public class CourseForm extends UifFormBase {
     public void setField1(String field1) {
         Field1 = field1;
     }
+
+	public LearningObjectiveDialogWrapper getLoDialogWrapper() {
+		return loDialogWrapper;
+	}
+
+	public void setLoDialogWrapper(LearningObjectiveDialogWrapper loDialogWrapper) {
+		this.loDialogWrapper = loDialogWrapper;
+	}
 
 }

@@ -63,5 +63,8 @@
         <!-- Rice URLS -->
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kew/ActionList.do</param>
+	
+	<!-- Needed for KRAD to access images -->
+	<param name="cm.krad.externalizable.images.url">../ks-cm-krad/images</param>
     
 </config>

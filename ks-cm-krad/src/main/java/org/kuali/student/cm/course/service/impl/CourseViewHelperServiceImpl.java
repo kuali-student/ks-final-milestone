@@ -22,14 +22,15 @@ import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.student.cm.course.form.CluInstructorInfoDisplay;
-import org.kuali.student.cm.course.form.CourseJointInfoDisplay;
-import org.kuali.student.cm.course.form.SubjectCodeDisplay;
+import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.cm.course.form.SubjectCodeWrapper;
 import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.lum.lu.ui.course.keyvalues.KeyValueConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -37,6 +38,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 /**
@@ -53,6 +56,8 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 	private SubjectCodeService subjectCodeService;
 
 	private CluService cluService;
+	
+	private LearningObjectiveService learningObjectiveService;
 
 	private static CourseViewHelperServiceImpl instance;
 	
@@ -63,9 +68,9 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		return instance;
 	}
 	
-	public List<CluInstructorInfoDisplay> getInstructorsForSuggest(
+	public List<CluInstructorInfoWrapper> getInstructorsForSuggest(
 			String instructorName) {
-		List<CluInstructorInfoDisplay> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoDisplay>();
+		List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
 		
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         
@@ -87,7 +92,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         	searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
         	for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
-                CluInstructorInfoDisplay cluInstructorInfoDisplay = new CluInstructorInfoDisplay();
+                CluInstructorInfoWrapper cluInstructorInfoDisplay = new CluInstructorInfoWrapper();
                 for (SearchResultCellInfo cell : cells) {
                     if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
                     	cluInstructorInfoDisplay.setGivenName(cell.getValue());
@@ -110,8 +115,8 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		return cluInstructorInfoDisplays;
 	}
 	
-	public CluInstructorInfoDisplay getInstructor(String instructorName) {
-		CluInstructorInfoDisplay instructor = null;
+	public CluInstructorInfoWrapper getInstructor(String instructorName) {
+	    CluInstructorInfoWrapper instructor = null;
 
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 
@@ -135,7 +140,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 			if (searchResult.getRows().size() == 1) {
 				SearchResultRowInfo result = searchResult.getRows().get(0);
 				List<SearchResultCellInfo> cells = result.getCells();
-				instructor = new CluInstructorInfoDisplay();
+				instructor = new CluInstructorInfoWrapper();
 				for (SearchResultCellInfo cell : cells) {
 				    if (QuickViewByGivenName.GIVEN_NAME_RESULT.equals(cell.getKey())) {
 				        instructor.setGivenName(cell.getValue());
@@ -161,48 +166,48 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		return instructor;
 	}
 	
-	public List<SubjectCodeDisplay> getSubjectCodesForSuggest(String subjectCode) {
-        List<SubjectCodeDisplay> retrievedCodes = new ArrayList<SubjectCodeDisplay>();
+    public List<SubjectCodeWrapper> getSubjectCodesForSuggest(String subjectCode) {
+        List<SubjectCodeWrapper> retrievedCodes = new ArrayList<SubjectCodeWrapper>();
 
-		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        
+        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+
         SearchParamInfo codeParam = new SearchParamInfo();
         codeParam.setKey(LookupableConstants.SUBJECTCODE_CODE_PARAM);
         List<String> codeValues = new ArrayList<String>();
         codeValues.add(subjectCode);
         codeParam.setValues(codeValues);
-        
+
         queryParamValueList.add(codeParam);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(LookupableConstants.SUBJECTCODE_GENERIC_SEARCH);
         searchRequest.setParams(queryParamValueList);
-        
+
         SearchResultInfo searchResult = null;
         try {
-        	searchResult = getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo());
+            searchResult = getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo());
             for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 String id = "";
                 String code = "";
                 for (SearchResultCellInfo cell : cells) {
-                	if (LookupableConstants.SUBJECTCODE_ID_RESULT.equals(cell.getKey())) {
-                		id = cell.getValue();
-                	} else if (LookupableConstants.SUBJECTCODE_CODE_RESULT.equals(cell.getKey())) {
-                		code = cell.getValue();
-                	}
+                    if (LookupableConstants.SUBJECTCODE_ID_RESULT.equals(cell.getKey())) {
+                        id = cell.getValue();
+                    } else if (LookupableConstants.SUBJECTCODE_CODE_RESULT.equals(cell.getKey())) {
+                        code = cell.getValue();
+                    }
                 }
-                retrievedCodes.add(new SubjectCodeDisplay(id, code));
+                retrievedCodes.add(new SubjectCodeWrapper(id, code));
             }
         } catch (Exception e) {
             FormattedLogger.error("An error occurred retrieving the SubjectCodeDisplay: " + e);
-            }
+        }
 
         return retrievedCodes;
     }
 	
-	public List<CourseJointInfoDisplay> getJointOfferingCourseNumbersForSuggest(String courseNumber) {
-		List<CourseJointInfoDisplay> courseJoints = new ArrayList<CourseJointInfoDisplay>();
+	public List<CourseJointInfoWrapper> getJointOfferingCourseNumbersForSuggest(String courseNumber) {
+		List<CourseJointInfoWrapper> courseJoints = new ArrayList<CourseJointInfoWrapper>();
 		
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 		
@@ -240,7 +245,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 		code = cell.getValue();
                 	}
                 }
-                CourseJointInfoDisplay courseJointDisplay = new CourseJointInfoDisplay();
+                CourseJointInfoWrapper courseJointDisplay = new CourseJointInfoWrapper();
                 courseJointDisplay.setCourseId(id);
                 courseJointDisplay.setCourseCode(code);
                 String subjectArea = code.replaceAll("\\d", "");
@@ -261,8 +266,8 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 	 * @param courseCode The entire course code should be passed.
 	 * @return Only 1 CourseJointInfoDisplay result is expected and will to be returned.
 	 */
-	public CourseJointInfoDisplay getJointOfferingCourse(String courseCode) {
-		CourseJointInfoDisplay courseJointInfo = null;
+	public CourseJointInfoWrapper getJointOfferingCourse(String courseCode) {
+	    CourseJointInfoWrapper courseJointInfo = null;
 		
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 		
@@ -301,7 +306,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 		code = cell.getValue();
                 	}
                 }
-                courseJointInfo = new CourseJointInfoDisplay();
+                courseJointInfo = new CourseJointInfoWrapper();
                 courseJointInfo.setCourseId(id);
                 courseJointInfo.setCourseCode(code);
                 String subjectArea = code.replaceAll("\\d", "");
@@ -314,11 +319,51 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         	}
         	
         } catch (Exception e) {
-        	FormattedLogger.error("An error occurred in JointOfferingCourse.", e);
+        	FormattedLogger.error("An error occurred in getJointOfferingCourse.", e);
         }
 		
 		return courseJointInfo;
 	}
+	
+	public List<LoCategoryInfo> getLoCategoriesForSuggest(String categoryName) {
+        List<LoCategoryInfo> retrievedCategories = new ArrayList<LoCategoryInfo>();
+
+        List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+
+        SearchParamInfo categoryNameParam = new SearchParamInfo();
+        categoryNameParam.setKey(LookupableConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM);
+        List<String> categoryNameValues = new ArrayList<String>();
+        categoryNameValues.add(categoryName);
+        categoryNameParam.setValues(categoryNameValues);
+
+        queryParamValueList.add(categoryNameParam);
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey(LookupableConstants.LOCATEGORY_SEARCH);
+        searchRequest.setParams(queryParamValueList);
+        searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_RESULT);
+
+        try {
+            SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest,
+                    ContextUtils.getContextInfo());
+            for (SearchResultRowInfo result : searchResult.getRows()) {
+                List<SearchResultCellInfo> cells = result.getCells();
+                LoCategoryInfo newCat = new LoCategoryInfo();
+                for (SearchResultCellInfo cell : cells) {
+                    if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
+                        newCat.setId(cell.getValue());
+                    } else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
+                        newCat.setName(cell.getValue());
+                    }
+                }
+                retrievedCategories.add(newCat);
+            }
+        } catch (Exception e) {
+            FormattedLogger.error("An error occurred in getLoCategoriesForSuggest.", e);
+        }
+
+        return retrievedCategories;
+    }
 	
 	private SearchService getSearchService() {
 		if (searchService == null) {
@@ -340,5 +385,13 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		}
 		return cluService;
 	}	
+	
+	private LearningObjectiveService getLearningObjectiveService() {
+        if (learningObjectiveService == null) {
+            learningObjectiveService = GlobalResourceLoader.getService(new QName(
+                    LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
+        }
+        return learningObjectiveService;
+    }
 	
 }

@@ -37,6 +37,7 @@ public class LookupableConstants {
     public static final String MOSTCURRENT_UNION_SEARCH = "lu.search.mostCurrent.union";
     public static final String CURRENT_QUICK_SEARCH = "lu.search.current.quick";
     public static final String SUBJECTCODE_GENERIC_SEARCH =  "subjectCode.search.subjectCodeGeneric";
+    public static final String LOCATEGORY_SEARCH = "lo.search.loCategories";
     
     /*
      * Parameters for the search
@@ -47,6 +48,7 @@ public class LookupableConstants {
     public static final String OPTIONAL_TYPE_PARAM = "lu.queryParam.luOptionalType";
     public static final String OPTIONAL_STATE_PARAM = "lu.queryParam.luOptionalState";
     public static final String SUBJECTCODE_CODE_PARAM =  "subjectCode.queryParam.code";
+    public static final String OPTIONAL_LO_CATEGORY_NAME_PARAM = "lo.queryParam.loOptionalCategoryName";
     
     /*
      * Types for lu
@@ -63,5 +65,10 @@ public class LookupableConstants {
     public static final String DESCR_RESULT = "lu.resultColumn.luOptionalDescr";
     public static final String SUBJECTCODE_CODE_RESULT = "subjectCode.resultColumn.code";
     public static final String SUBJECTCODE_ID_RESULT = "subjectCode.resultColumn.id";
+    public static final String LO_CATEGORY_NAME_RESULT = "lo.resultColumn.categoryName";
+    public static final String LO_CATEGORY_ID_RESULT = "lo.resultColumn.categoryId";
+    public static final String LO_CATEGORY_TYPE_RESULT = "lo.resultColumn.categoryType";
+    public static final String LO_CATEGORY_TYPE_NAME_RESULT = "lo.resultColumn.categoryTypeName";
+    public static final String LO_CATEGORY_STATE_RESULT = "lo.resultColumn.categoryState";
 
 }

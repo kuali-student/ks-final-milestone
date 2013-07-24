@@ -55,6 +55,7 @@
 		<property name="dialogs">
 			<list>
 				<ref bean="commentsDialog" />
+				<ref bean="loCategoryDialog" />
 			</list>
 		</property>
 		<!-- CSS Styling -->
@@ -80,12 +81,12 @@
 				<!-- <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/> -->
 			</list>
 		</property>
-		<property name="responseInputField">
-			<bean parent="Uif-MainteanceDialogResponse" />
-		</property>
-		<property name="explanation">
-			<bean parent="Uif-MainteanceDialogExplanation" />
-		</property>
+<!-- 		<property name="responseInputField"> -->
+<!-- 			<bean parent="Uif-MainteanceDialogResponse" /> -->
+<!-- 		</property> -->
+<!-- 		<property name="explanation"> -->
+<!-- 			<bean parent="Uif-MainteanceDialogExplanation" /> -->
+<!-- 		</property> -->
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:propertyName="commentInfo.commentText.plain"
@@ -99,14 +100,74 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean id="Uif-MainteanceDialogResponse" parent="Uif-DialogResponse">
-		<property name="bindingInfo.bindToForm" value="true" />
+	
+	<bean id="loCategoryDialog" parent="Uif-DialogGroup" p:headerText="Select Categories" >
+		<property name="availableResponses">
+			<list>
+				<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Add"/>
+				<bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+			</list>
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-VerticalBoxSection" p:headerText="Filter">
+					<property name="header.lowerGroup">
+						<bean parent="Uif-LinkGroup" p:linkSeparator="|">
+                            <property name="items">
+                                <list>
+									<bean parent="Uif-ActionLink" p:actionLabel="Select All" />
+									<bean parent="Uif-ActionLink" p:actionLabel="Clear" />
+                                </list>
+                            </property>
+                        </bean>
+					</property> 
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField" p:propertyName="loDialogWrapper.typeKey" p:showLabel="false">
+								<property name="control">
+									<bean parent="Uif-VerticalCheckboxesControl" />
+								</property>
+								<property name="optionsFinder">
+									<bean
+										class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
+										p:addBlankOption="false" />
+								</property>
+							</bean>
+							
+							<bean parent="Uif-InputField-LabelTop" p:propertyName="loDialogWrapper.categoryName" p:label="By words in category">
+								<property name="control">
+									<bean parent="Uif-TextControl" />
+								</property>
+							</bean>
+							
+							<bean parent="Uif-LookupResultsCollectionSection" p:propertyName="loDialogWrapper.learningObjectiveOptions">
+								<property name="collectionObjectClass" value="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" />
+								<property name="includeLineSelectionField" value="true" />
+								<property name="items">
+									<list>
+										<bean parent="Uif-DataField" p:propertyName="name" />
+										<bean parent="Uif-DataField" p:propertyName="typeName" />
+									</list>
+								</property>
+								<property name="footer">
+							    	<bean parent="Uif-FooterBase" />
+							            <!-- p:render="@{(loDialogWrapper.learningObjectiveOptions != null) and !loDialogWrapper.learningObjectiveOptions.empty}"/>-->
+							    </property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
 	</bean>
 
-	<bean id="Uif-MainteanceDialogExplanation" parent="Uif-DialogExplanation">
-		<property name="bindingInfo.bindToForm" value="true" />
-	</bean>
+<!-- 	<bean id="Uif-MainteanceDialogResponse" parent="Uif-DialogResponse"> -->
+<!-- 		<property name="bindingInfo.bindToForm" value="true" /> -->
+<!-- 	</bean> -->
+
+<!-- 	<bean id="Uif-MainteanceDialogExplanation" parent="Uif-DialogExplanation"> -->
+<!-- 		<property name="bindingInfo.bindToForm" value="true" /> -->
+<!-- 	</bean> -->
 
 	<bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
 		<property name="items">
@@ -128,7 +189,6 @@
 				</bean>
 				<bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink"
 					p:navigateToPageId="KS-CourseView-GovernancePage" p:actionLabel="Governance">
-					<!-- <property name="template" value="/cm/WEB-INF/jsp/templates/field/navigationActionLink.jsp"/> -->
 				</bean>
 				<bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink"
 					p:navigateToPageId="KS-CourseView-CourseLogisticsPage"
@@ -150,8 +210,7 @@
 					p:navigateToPageId="KS-CourseView-SupportingDocumentsPage"
 					p:actionLabel="Supporting Documents" />
 				<bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"
-					p:navigateToPageId="KS-CourseView-ReviewProposalPage"
-					p:actionLabel="Review Proposal" />
+					p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" />
 			</list>
 		</property>
 	</bean>
@@ -183,7 +242,9 @@
                         <bean parent="Uif-LinkGroup" p:linkSeparator="|">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-DataField" p:label="Proposal Status" p:shortLabel="Status" p:labelPlacement="LEFT"  p:propertyName="courseInfo.stateKey" />
+<!--
+                                    <bean parent="Uif-DataField" p:label="Proposal Status" p:shortLabel="Status" p:labelPlacement="LEFT"  p:propertyName="dataField1" />
+-->									
 									<bean parent="Uif-ActionLink" p:actionLabel="Comments"
 										p:methodToCall="createComment" />
                                     <bean parent="Uif-ActionLink" p:actionLabel="Decisions" />

@@ -19,18 +19,18 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="CluInstructorInfoDisplay-DataObjectEntry" parent="DataObjectEntry">
+	<bean id="CluInstructorInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
 		<property name="objectLabel" value="Instructor Info Display" />
 		<property name="dataObjectClass"
-			value="org.kuali.student.cm.course.form.CluInstructorInfoDisplay" />
+			value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
 		<property name="titleAttribute" value="cluInstructorInfo.id" />
 		<property name="attributes">
 			<list>
-				<ref bean="CluInstructorInfoDisplay.displayName" />
-				<ref bean="CluInstructorInfoDisplay.givenName" />
-				<ref bean="CluInstructorInfoDisplay.id" />
-				<ref bean="CluInstructorInfoDisplay.personId" />
-				<ref bean="CluInstructorInfoDisplay.principalName" />
+				<ref bean="CluInstructorInfoWrapper.displayName" />
+				<ref bean="CluInstructorInfoWrapper.givenName" />
+				<ref bean="CluInstructorInfoWrapper.id" />
+				<ref bean="CluInstructorInfoWrapper.personId" />
+				<ref bean="CluInstructorInfoWrapper.principalName" />
 			</list>
 		</property>
 		<property name="primaryKeys">
@@ -40,11 +40,11 @@
 		</property>
 	</bean>
 
-	<bean id="CluInstructorInfoDisplay.id" parent="BaseKuali.id">
+	<bean id="CluInstructorInfoWrapper.id" parent="BaseKuali.id">
 		<property name="name" value="id" />
 	</bean>
 
-	<bean id="CluInstructorInfoDisplay.personId" parent="BaseKuali.personId">
+	<bean id="CluInstructorInfoWrapper.personId" parent="BaseKuali.personId">
 		<property name="name" value="personId" />
 		<property name="shortLabel" value="Person Id" />
 		<property name="summary">
@@ -64,7 +64,7 @@
 		<property name="required" value="true" />
 	</bean>
 
-	<bean id="CluInstructorInfoDisplay.displayName" parent="AttributeDefinition">
+	<bean id="CluInstructorInfoWrapper.displayName" parent="AttributeDefinition">
 		<property name="name" value="displayName" />
 		<property name="dataType" value="STRING" />
 		<property name="label" value="Name" />
@@ -74,7 +74,7 @@
 		</property>
 	</bean>
 
-	<bean id="CluInstructorInfoDisplay.givenName" parent="AttributeDefinition">
+	<bean id="CluInstructorInfoWrapper.givenName" parent="AttributeDefinition">
 		<property name="name" value="givenName" />
 		<property name="dataType" value="STRING" />
 		<property name="label" value="Given Name" />
@@ -84,7 +84,7 @@
 		</property>
 	</bean>
 
-	<bean id="CluInstructorInfoDisplay.principalName" parent="AttributeDefinition">
+	<bean id="CluInstructorInfoWrapper.principalName" parent="AttributeDefinition">
 		<property name="name" value="principalName" />
 		<property name="dataType" value="STRING" />
 		<property name="label" value="Username" />
@@ -94,11 +94,11 @@
 		</property>
 	</bean>
 
-	<bean id="KS-CluInstructorInfoDisplay-LookupView" parent="Uif-LookupView">
-		<property name="id" value="CluInstructorInfoDisplayLookupView" />
+	<bean id="KS-CluInstructorInfoWrapper-LookupView" parent="Uif-LookupView">
+		<property name="id" value="CluInstructorInfoWrapperLookupView" />
 		<property name="headerText" value="Advanced Search: Person" />
 		<property name="dataObjectClassName"
-			value="org.kuali.student.cm.course.form.CluInstructorInfoDisplay" />
+			value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
 		<property name="viewHelperServiceClass"
 			value="org.kuali.student.cm.course.service.impl.CluInstructorInfoLookupableImpl" />
 		<property name="criteriaFields">

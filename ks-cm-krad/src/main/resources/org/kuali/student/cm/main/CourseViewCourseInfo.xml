@@ -111,7 +111,7 @@
 
 				<bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSection" 
 					p:headerText="Instructor(s)" p:propertyName="instructorDisplays" 
-					p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoDisplay">
+					p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoWrapper">
 					<property name="addLineLabel.labelText" value="Add An Instructor" />
 					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Instructor @{(#index + 1)}" />
 					<property name="collectionLookup.quickfinderAction.render" value="false" />
@@ -156,7 +156,7 @@
 								        <property name="lightBoxLookup">
 								            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
 								        </property>
-								        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CluInstructorInfoDisplay"/>
+								        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper"/>
 								        <property name="fieldConversions">
 								            <map>
 								                <entry key="displayName" value="displayName"/>
@@ -223,7 +223,7 @@
 				</bean>
 				<bean id="KS-JointlyOffered-Section" parent="Uif-StackedCollectionSubSection"
 					p:headerText="Jointly Offered Courses" p:propertyName="courseJointDisplays"
-					p:collectionObjectClass="org.kuali.student.cm.course.form.CourseJointInfoDisplay">
+					p:collectionObjectClass="org.kuali.student.cm.course.form.CourseJointInfoWrapper">
 					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Joint Offering @{(#index + 1)}" />
 					<property name="renderAddBlankLineButton" value="true" />
 					<property name="addLinePlacement" value="BOTTOM" />
@@ -266,7 +266,7 @@
 					     		        <property name="lightBoxLookup">
 								            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
 								        </property>
-								        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoDisplay"/>
+								        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
 								        <property name="fieldConversions">
 								            <map>
 								                <entry key="courseCode" value="courseCode"/>
