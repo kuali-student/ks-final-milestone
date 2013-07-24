@@ -62,8 +62,6 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
 
     private LRCService lrcService;
 
-    private PopulationService populationService;
-
     @Override
     public List<String> getComponentIds() {
         return null;
@@ -72,24 +70,10 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     @Override
     public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
         String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY);
-        String classStadingId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY);
         if (cluSetId != null) {
             try {
                 ProgramCluSetInformation cluSetInfo = this.getProgramCluSetInformation(cluSetId);
                 propositionEditor.setProgCluSet(cluSetInfo);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-        if (classStadingId != null) {
-            try {
-                PopulationInfo populationInfo = this.getPopulationService().getPopulation(classStadingId, ContextUtils.getContextInfo());
-                PopulationWrapper populationWrapper = new PopulationWrapper();
-                propositionEditor.setPopulationWrapper(populationWrapper);
-                propositionEditor.getPopulationWrapper().setId(populationInfo.getId());
-                propositionEditor.getPopulationWrapper().setPopulationInfo(populationInfo);
-                propositionEditor.setClassStanding(populationInfo.getName());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -106,10 +90,6 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
             } else {
                 termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, null);
             }
-        }
-        if (propositionEditor.getClassStanding() != null){
-
-            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY, propositionEditor.getPopulationWrapper().getId());
         }
 
         return termParameters;
@@ -382,12 +362,5 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
             lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
-    }
-
-    private PopulationService getPopulationService() {
-        if(populationService == null) {
-            populationService = (PopulationService) GlobalResourceLoader.getService(new QName(PopulationServiceConstants.NAMESPACE, "PopulationService"));
-        }
-        return this.populationService;
     }
 }

@@ -590,10 +590,10 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-ClassStanding-Group" parent="KRMS-CustomComponent-BoxGroup">
+    <bean id="KRMS-Population-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-ClassStanding-Field"/>
+                <ref bean="KRMS-Population-Field"/>
             </list>
         </property>
     </bean>
@@ -611,19 +611,20 @@ limitations under the License.
           p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
     <bean id="KRMS-Program-SuggestField" parent="KRMS-Program-SuggestField-Parent"/>
 
-    <bean id="KRMS-ProgramWithNofAndOrg" parent="KRMS-CustomComponent-BoxGroup">
+    <bean id="KRMS-ProgramWithNofAndOrg-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
-                <!-- TODO: Program component -->
+                <ref bean="KRMS-Program-Section"/>
+                <ref bean="KRMS-NumberOfCourses-ConstantValue"/>
                 <ref bean="KRMS-Department-Field"/>
+                <ref bean="KRMS-Duration-section"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KRMS-ProgramWithDurAndOrg" parent="KRMS-ProgramWithNofAndOrg">
+    <bean id="KRMS-ProgramWithDurAndOrg-Group" parent="KRMS-ProgramWithNofAndOrg-Group">
         <property name="items">
             <list merge="true">
-                <ref bean="KRMS-Duration-section"/>
             </list>
         </property>
     </bean>
@@ -633,15 +634,6 @@ limitations under the License.
             <list>
                 <!-- TODO: Program component -->
                 <ref bean="KRMS-Credits-ConstantValue"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KRMS-ProgramAndClassStanding-Group" parent="KRMS-CustomComponent-BoxGroup">
-        <property name="items">
-            <list>
-                <ref bean="KRMS-Program-Section"/>
-                <ref bean="KRMS-ClassStanding-Field"/>
             </list>
         </property>
     </bean>

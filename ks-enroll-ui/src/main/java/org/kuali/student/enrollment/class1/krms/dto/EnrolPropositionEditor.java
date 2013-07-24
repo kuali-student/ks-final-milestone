@@ -44,7 +44,7 @@ public class EnrolPropositionEditor extends KSPropositionEditor {
     private String termCode2;
     private TermInfo termInfo;
     private TermInfo termInfo2;
-    private String classStanding;
+    private String population;
     private PopulationWrapper  populationWrapper;
 
     private static final String CLULIST_KEY = "kuali.term.parameter.type.course.nl.clu.list";
@@ -71,7 +71,7 @@ public class EnrolPropositionEditor extends KSPropositionEditor {
         this.termCode2 = null;
         this.termInfo = null;
         this.termInfo2 = null;
-        this.classStanding = null;
+        this.population = null;
         this.populationWrapper = null;
     }
 
@@ -164,13 +164,12 @@ public class EnrolPropositionEditor extends KSPropositionEditor {
         this.termCode2 = termCode2;
     }
 
-
-    public String getClassStanding() {
-        return classStanding;
+    public String getPopulation() {
+        return population;
     }
 
-    public void setClassStanding(String classStanding) {
-        this.classStanding = classStanding;
+    public void setPopulation(String population) {
+        this.population = population;
     }
 
     public PopulationWrapper getPopulationWrapper() {

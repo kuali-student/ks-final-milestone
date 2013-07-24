@@ -38,7 +38,7 @@ public class PopulationContextImpl extends BasicContextImpl {
 
     private PopulationService populationService;
 
-	public final static String CLASS_STANDING_TOKEN = "classStanding";
+	public final static String POPULATION_TOKEN = "population";
 
 
     public void setPopulationService(PopulationService populationService) {
@@ -50,13 +50,13 @@ public class PopulationContextImpl extends BasicContextImpl {
         }
         return this.populationService;
     }
-	private PopulationInfo getClassStanding(String classStandingId, ContextInfo context)  {
-		if (classStandingId == null) {
+	private PopulationInfo getClassStanding(String populationId, ContextInfo context)  {
+		if (populationId == null) {
 			return null;
 		}
 		try {
 
-			return  this.getPopulationService().getPopulation(classStandingId, context);
+			return  this.getPopulationService().getPopulation(populationId, context);
 		} catch (Exception e) {
                     throw new RiceIllegalStateException (e);
 		}
@@ -72,11 +72,11 @@ public class PopulationContextImpl extends BasicContextImpl {
         ContextInfo contextInfo = ContextUtils.getContextInfo();
         Map<String, Object> contextMap = super.createContextMap(parameters);
 
-        String classStandingId = (String) parameters.get(TermParameterTypes.CLASS_STANDING_KEY.getId());
+        String populationId = (String) parameters.get(TermParameterTypes.POPULATION_KEY.getId());
 
-        if (classStandingId != null) {
-            PopulationInfo populationInfo = this.getClassStanding(classStandingId, contextInfo);
-            contextMap.put(CLASS_STANDING_TOKEN, populationInfo);
+        if (populationId != null) {
+            PopulationInfo populationInfo = this.getClassStanding(populationId, contextInfo);
+            contextMap.put(POPULATION_TOKEN, populationInfo);
         }
 
         return contextMap;
