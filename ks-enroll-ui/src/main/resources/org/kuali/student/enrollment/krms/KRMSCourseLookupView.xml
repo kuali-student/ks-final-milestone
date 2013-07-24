@@ -55,7 +55,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="CluInformation.code" parent="CourseInfo.code-parentBean"/>
+    <bean id="CluInformation.code" parent="CluInformation.code-parentBean"/>
     <bean id="CluInformation.code-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="name" value="code"/>
         <property name="dataType" value="STRING" />

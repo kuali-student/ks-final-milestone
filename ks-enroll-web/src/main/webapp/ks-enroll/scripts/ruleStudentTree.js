@@ -32,9 +32,7 @@ function getPropositionIdFromParentLi(parentLiNode) {
 function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
-    var actionRevealCallBack = function (htmlContent) {
-        resetControlKeys();
-    };
+    var actionRevealCallBack = function (htmlContent) {};
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
