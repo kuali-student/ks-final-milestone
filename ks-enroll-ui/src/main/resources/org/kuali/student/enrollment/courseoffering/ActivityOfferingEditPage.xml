@@ -302,12 +302,15 @@
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
                     <property name="addBlankLineAction.id" value="ao-personnelgroup-addline"/>
+                    <property name="addBlankLineAction.style" value="margin-top:30px; display:block;"/>
                     <property name="layoutManager.richTable">
                         <!-- see http://datatables.net/ref for all options -->
                         <bean parent="Uif-PagedRichTable">
+                            <property name="render" value="true"/>
                             <property name="templateOptions">
                                 <map merge="true">
                                     <entry key="aaSorting" value="[[1,'desc']]"/>
+                                    <entry key="bPaginate" value="false"/>
                                 </map>
                             </property>
                         </bean>
@@ -365,8 +368,6 @@
                     <property name="propertyName" value="seatpools" />
                     <property name="addBlankLineAction.actionLabel" value="Add Seat Pool"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="showSPAddlinePriority();"/>
-                    <property name="addBlankLineAction.style" value="margin-top:30px; margin-left:-150px; margin-bottom:15px"/>
-                    <property name="layoutManager.richTable.render" value="true" />
 
                     <property name="items">
                         <list>
@@ -509,7 +510,7 @@
                                   </map>
                                 </property>
                             </bean>
-                            <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:actionLabel="Cancel"/>
+                            <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false" p:actionLabel="Cancel"/>
                         </list>
                     </property>
                 </bean>

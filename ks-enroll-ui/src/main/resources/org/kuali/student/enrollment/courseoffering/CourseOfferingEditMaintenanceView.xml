@@ -443,7 +443,6 @@
         <property name="addBlankLineAction.render" value="@{#dp.renderHelper.showFormatAddButton}"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
         <property name="propertyName" value="formatOfferingList" />
-        <property name="layoutManager.richTable.render" value="false"/>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-DeleteLineAction">
@@ -451,7 +450,6 @@
                 </bean>
             </list>
         </property>
-        <property name="addBlankLineAction.style" value="margin-top:30px;"/>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#lp.renderHelper.newRow}"
