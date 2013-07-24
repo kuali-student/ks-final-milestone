@@ -393,9 +393,9 @@
                     </property>
                 </bean>
                 <bean id="key_date_start_time_ampm" parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}"
-                      p:refreshWhenChangedPropertyNames="#lp.startTime">
+                      p:refreshWhenChangedPropertyNames="#lp.startTime" p:defaultValue="AM">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options">
                             <property name="disabled" value="@{#lp.allDay or #empty(#lp.startTime)}"/>
                         </bean>
                     </property>
@@ -425,11 +425,21 @@
                     </property>
                 </bean>
                 <bean id="key_date_end_time_ampm" parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}"
-                      p:refreshWhenChangedPropertyNames="#lp.endTime">
+                      p:refreshWhenChangedPropertyNames="#lp.endTime" p:defaultValue="AM">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options">
                             <property name="disabled" value="@{#lp.allDay or #empty(#lp.endTime)}"/>
                         </bean>
+                    </property>
+                </bean>
+                <bean id="key_date_all_day" parent="Uif-InputField" p:propertyName="allDay" p:label="All Day" p:render="@{!#view.readOnly}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="key_date_range" parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range" p:render="@{!#view.readOnly}">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" />
                     </property>
                 </bean>
             </list>

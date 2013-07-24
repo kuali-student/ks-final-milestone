@@ -206,7 +206,7 @@
                     <property name="required" value="@{!#lp.allDay and !#empty(#lp.startTime)}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.startTime"/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:defaultValue="AM">
                             <property name="disabled" value="@{#lp.allDay or #empty(#lp.startTime)}"/>
                         </bean>
                     </property>
@@ -238,12 +238,22 @@
                     <property name="required" value="@{!#lp.allDay and !#empty(#lp.endTime)}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.endTime"/>
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:defaultValue="AM">
                             <property name="disabled" value="@{#lp.allDay or #empty(#lp.endTime)}"/>
                         </bean>
                     </property>
                 </bean>
-				<bean parent="Uif-InputField" p:propertyName="instructional" p:label="Instructional">
+                <bean parent="Uif-InputField" p:propertyName="allDay" p:label="All Day">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="dateRange" p:label="Date Range">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="instructional" p:label="Instructional">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" />
 					</property>
@@ -262,7 +272,6 @@
     </util:list>
 
     <util:list id="hctime-options">
-        <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
         <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="am"/>
         <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="pm"/>
     </util:list>
