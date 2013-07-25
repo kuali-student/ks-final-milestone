@@ -99,5 +99,10 @@
                 <bean parent="CourseLookupField" p:propertyName="descr.formatted" />
             </list>
         </property>
+        <property name="resultsGroup.layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+            </map>
+        </property>
     </bean>
 </beans>
