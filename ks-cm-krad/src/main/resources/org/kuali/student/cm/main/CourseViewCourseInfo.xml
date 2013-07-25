@@ -66,7 +66,7 @@
 					<property name="instructionalText"
 						value="This is the truncated title that will appear on the printed transcript." />
 					<property name="control">
-						<bean parent="Uif-TextControl" p:size="24" p:maxLength="24" 
+						<bean parent="Uif-TextControl" p:size="24" 
 							p:onDocumentReadyScript="jQuery('#KS-TranscriptTitle_control').jqEasyCounter({'maxChars': 24, 'maxCharsWarning': 14, 'msgTextAlign': 'left'});" />
 					</property>
 					
@@ -190,7 +190,7 @@
 								<property name="instructionalText"
 									value="This will be used in evaluating the proposal. It will not be published in the catalog." />
 								<property name="control">
-									<bean parent="Uif-LargeTextAreaControl" p:maxLength="255"
+									<bean parent="Uif-LargeTextAreaControl"
 										p:onDocumentReadyScript="jQuery('#KS-ProposalRationale_control').jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});" />
 								</property>
 							</bean>
