@@ -378,15 +378,12 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         CourseOfferingCreateWrapper createWrapper = (CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         CourseOfferingInfo existingCO = null;
-        if (createWrapper.getExistingTermOfferings().size() == 1){
-            existingCO = createWrapper.getExistingTermOfferings().get(0).getCourseOfferingInfo();
-        }
-        else {
-            for(int i = 0; i<createWrapper.getExistingTermOfferings().size(); i++){
-                if(createWrapper.getExistingTermOfferings().get(i).isSelected()){
-                    existingCO = createWrapper.getExistingTermOfferings().get(i).getCourseOfferingInfo();
-                    break;
-                }
+
+        //the first CO that is selected or if there is only one, grab that one
+        for(ExistingCourseOffering eco : createWrapper.getExistingTermOfferings()){
+            if(eco.isSelected() || createWrapper.getExistingTermOfferings().size() == 1){
+                existingCO = eco.getCourseOfferingInfo();
+                break;
             }
         }
 
