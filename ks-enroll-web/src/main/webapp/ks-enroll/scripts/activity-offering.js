@@ -3,36 +3,47 @@
  *
  */
 function handleColocation(){
-    setupColoCheckBoxChange(jQuery("#is_co_located_control"));
+
 
     if(jQuery("#is_co_located_control").is(":checked")) {
-        //colo UI changes
+        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
     }else {
-        // handle un-colocation in server side
-        if(jQuery("#colocatedAO_value_control").val()=="true") {
-            var str = "Break colocation:\n\nSelecting this option will break any colocation relationships associated with this Activity.\n\nDelivery Logistics" +
-                "\nThe Activity you are editing will forfit any requested and actual delivery logistics as a result of breaking colocation. Delivery logistics will be retained by any remaining Activities.\n\n";
+        showLightboxComponent('ActivityOfferingEdit-BreakColocateConfirmation');
+        /*var str = "Break colocation:\n\nSelecting this option will break any colocation relationships associated with this Activity.\n\nDelivery Logistics" +
+            "\nThe Activity you are editing will forfit any requested and actual delivery logistics as a result of breaking colocation. Delivery logistics will be retained by any remaining Activities.\n\n";
 
-            if (jQuery("#maxEnrollmentShared_value_control").val() == "true") {
-                str = str + "Maximum Enrollment\nThe maximum enrollment was shared across collocated activities. Any remaining activities will retain the entire value. The Activity you are editing will require its own maximum enrollment.\n";
-            } else {
-                str = str + "Maximum Enrollment\nThe maximum enrollment was managed individually for all collocated activities. Each Activity, including the one you are editing, will retain its unique maximum enrollment value but may need revision.\n";
-            }
-
-
-            var retVal =confirm(str);
-            if (retVal==true) {
-                // If breaking the current ao from the coloset, set the max enrollment to 0 if it's shared
-                if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
-                    jQuery("#maximumEnrollment_control").val('0');
-                }
-            } else {
-                jQuery("#is_co_located_control").attr('checked', 'checked');
-                setupColoCheckBoxChange(jQuery("#is_co_located_control"));
-            }
+        if (jQuery("#maxEnrollmentShared_value_control").val() == "true") {
+            str = str + "Maximum Enrollment\nThe maximum enrollment was shared across collocated activities. Any remaining activities will retain the entire value. The Activity you are editing will require its own maximum enrollment.\n";
+        } else {
+            str = str + "Maximum Enrollment\nThe maximum enrollment was managed individually for all collocated activities. Each Activity, including the one you are editing, will retain its unique maximum enrollment value but may need revision.\n";
         }
+
+
+        var retVal =confirm(str);
+        if (retVal==true) {
+            // If breaking the current ao from the coloset, set the max enrollment to 0 if it's shared
+            if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
+                jQuery("#maximumEnrollment_control").val('0');
+            }
+        } else {
+            jQuery("#is_co_located_control").attr('checked', 'checked');
+            setupColoCheckBoxChange(jQuery("#is_co_located_control"));
+        }*/
     }
 }
+
+function breakColocation(isBreakColo){
+    if (isBreakColo){
+        if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
+            jQuery("#maximumEnrollment_control").val('0');
+        }
+    } else {
+        jQuery("#is_co_located_control").attr('checked', 'checked');
+        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
+    }
+    closeLightbox();
+}
+
 /**
  * This method handles the colocated checkbox event.
  * @param control colocated checkbox control

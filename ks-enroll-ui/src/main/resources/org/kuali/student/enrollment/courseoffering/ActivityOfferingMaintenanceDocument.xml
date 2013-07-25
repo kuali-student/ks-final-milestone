@@ -152,6 +152,7 @@
                 <!-- This is needed for autosuggest-->
                 <bean parent="Uif-InputField" p:propertyName="termId" p:hidden="true"/>
                 <ref bean="ActivityOfferingEdit-NavigationConfirmation"/>
+                <ref bean="ActivityOfferingEdit-BreakColocateConfirmation"/>
             </list>
         </property>
         <property name="dialogs">
