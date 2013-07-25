@@ -115,7 +115,7 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-Population-Field-Parent" parent="Uif-InputField-LabelTop"
-          p:propertyName="proposition.population" p:required="true">
+          p:propertyName="proposition.population.name" p:required="true">
         <property name="style" value="width:450px;"/>
         <property name="control">
             <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
@@ -132,8 +132,8 @@ limitations under the License.
         <property name="viewName" value="krmsPopulationView"/>
         <property name="fieldConversions">
             <map>
-                <entry key="populationInfo.name" value="proposition.population"/>
-                <entry key="id" value="proposition.populationWrapper.id"/>
+                <entry key="populationInfo.name" value="proposition.population.name"/>
+                <entry key="id" value="proposition.population.id"/>
             </map>
         </property>
     </bean>
