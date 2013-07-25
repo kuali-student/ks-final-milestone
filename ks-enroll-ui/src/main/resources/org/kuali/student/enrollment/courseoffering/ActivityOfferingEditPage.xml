@@ -363,7 +363,7 @@
                       p:id="ao-seatpoolgroupZ"
                       p:layoutManager.id="ao-seatpoolgroup-table">
 
-                    <property name="headerText" value="Seat Pools1"/>
+                    <property name="headerText" value="Seat Pools"/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
                     <property name="propertyName" value="seatpools" />
                     <property name="addBlankLineAction.actionLabel" value="Add Seat Pool"/>
