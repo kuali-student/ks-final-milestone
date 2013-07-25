@@ -322,7 +322,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     /*
-     * Method used to delete a list of selected Draft activity Offerings
+     * Method used to refresh Manage CO page (e.g. after edit AO)
      */
     @RequestMapping(params = "methodToCall=reloadManageCO")
     public ModelAndView reloadManageCO(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
