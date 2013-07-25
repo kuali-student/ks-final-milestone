@@ -469,13 +469,12 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
     @Override
     protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
-//        if (!(collectionGroup.getPropertyName().equals("seatpools") || collectionGroup.getPropertyName().equals("instructors"))) {
-        if (!(collectionGroup.getPropertyName().endsWith("seatpools") || collectionGroup.getPropertyName().endsWith("instructors"))) {
-            super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
-        }  else if(collectionGroup.getPropertyName().endsWith("instructors")) {
+
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
+        MaintenanceDocument document = maintenanceForm.getDocument();
+
+        if(collectionGroup.getPropertyName().endsWith("instructors")) {
             if (model instanceof MaintenanceDocumentForm) {
-                MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
-                MaintenanceDocument document = maintenanceForm.getDocument();
                 // get the old object's collection
                 Collection<Object> oldCollection = ObjectPropertyUtils.getPropertyValue(document.getOldMaintainableObject().getDataObject(),
                         collectionGroup.getPropertyName());
@@ -483,6 +482,18 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
                 }
             }
+        }  else if(collectionGroup.getPropertyName().endsWith("formatOfferingList")) {
+            CourseOfferingEditWrapper coWrapper = (CourseOfferingEditWrapper)document.getNewMaintainableObject().getDataObject();
+            for (FormatOfferingWrapper foWrapper : coWrapper.getFormatOfferingList()){
+                if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getName())){
+                    foWrapper.getFormatOfferingInfo().setName(getFormatName(foWrapper,coWrapper.getCourse()));
+                }
+                if (StringUtils.isNotBlank(foWrapper.getFormatId())){
+                    foWrapper.getRenderHelper().setNewRow(false);
+                }
+            }
+        } else {
+            super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
         }
     }
 

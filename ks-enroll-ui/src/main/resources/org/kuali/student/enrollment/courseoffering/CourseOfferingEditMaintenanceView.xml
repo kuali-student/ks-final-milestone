@@ -452,17 +452,17 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#lp.renderHelper.newRow}"
+                <bean id="edit_co_format_id" parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#lp.renderHelper.newRow}"
                       p:label="FORMAT" p:readOnlyDisplayReplacementPropertyName="formatOfferingInfo.name" p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-DropdownControl" p:onChangeScript="retrieveComponent('edit_co_grade_roster_level_line@{#index}',undefined, function () {retrieveComponent('edit_co_final_exam_type_line@{#index}');});"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.FormatOfferingTypeForEditCOTypeKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                      p:label="GRADE ROSTER LEVEL" p:required="true" p:refreshWhenChangedPropertyNames="#lp.formatOfferingInfo.formatId" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                <bean id="edit_co_grade_roster_level" parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
+                      p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes" p:forceSessionPersistence="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -470,8 +470,8 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
-                      p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}" p:refreshWhenChangedPropertyNames="#lp.formatOfferingInfo.formatId" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                <bean id="edit_co_final_exam_type" parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
+                      p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"  p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
