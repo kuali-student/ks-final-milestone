@@ -71,6 +71,9 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     private RenderHelper renderHelper;
 
+    //this field is used for CO inquiry page to display all associated AOs
+    private List<ActivityOfferingWrapper> aoWrapperList;
+
     public CourseOfferingEditWrapper(){
         formatOfferingList = new ArrayList<FormatOfferingWrapper>();
         studentRegOptions = new ArrayList<String>();
@@ -81,6 +84,7 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         renderHelper = new RenderHelper();
         FormatOfferingWrapper defaultFO = new FormatOfferingWrapper();
         formatOfferingList.add(defaultFO);
+        aoWrapperList = new ArrayList<ActivityOfferingWrapper>();
     }
 
     public CourseOfferingEditWrapper(CourseOfferingInfo info){
@@ -363,5 +367,12 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     }
 
+    public List<ActivityOfferingWrapper> getAoWrapperList() {
+        return aoWrapperList;
+    }
+
+    public void setAoWrapperList(List<ActivityOfferingWrapper> aoWrapperList) {
+        this.aoWrapperList = aoWrapperList;
+    }
 }
 

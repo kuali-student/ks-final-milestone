@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
@@ -25,18 +26,27 @@ import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.kuali.student.r2.core.class1.state.service.StateService;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.constants.StateServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -65,6 +75,8 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
     private CourseService courseService;
     private LRCService lrcService;
     private OrganizationService organizationService;
+    private TypeService typeService;
+    private StateService stateService;
     private transient AcademicCalendarService acalService;
 
     @Override
@@ -248,11 +260,87 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             for (CourseOfferingCrossListingInfo crossListingInfo : coInfo.getCrossListings()){
                 formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
             }
+
+            //load related AOs
+            loadActivityOfferingsByCourseOffering(coInfo, formObject);
             return formObject;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    private void loadActivityOfferingsByCourseOffering(CourseOfferingInfo theCourseOfferingInfo, CourseOfferingEditWrapper formObject) throws Exception {
+        String courseOfferingId = theCourseOfferingInfo.getId();
+        List<ActivityOfferingInfo> activityOfferingInfoList;
+        List<ActivityOfferingWrapper> activityOfferingWrapperList;
+
+        try {
+            activityOfferingInfoList = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferingId, ContextUtils.createDefaultContextInfo());
+            activityOfferingWrapperList = new ArrayList<ActivityOfferingWrapper>(activityOfferingInfoList.size());
+
+            for (ActivityOfferingInfo info : activityOfferingInfoList) {
+                ActivityOfferingWrapper aoWrapper = convertAOInfoToWrapper_Simple(info);
+                activityOfferingWrapperList.add(aoWrapper);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(String.format("Could not load AOs for course offering [%s].", courseOfferingId), e);
+        }
+        formObject.setAoWrapperList(activityOfferingWrapperList);
+    }
+
+    private ActivityOfferingWrapper convertAOInfoToWrapper_Simple(ActivityOfferingInfo aoInfo) throws Exception{
+
+        ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        StateInfo state = getStateService().getState(aoInfo.getStateKey(), contextInfo);        
+        aoWrapper.setStateName(state.getName());
+
+        TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
+        aoWrapper.setTypeName(typeInfo.getName());
+
+//        List<ScheduleRequestSetInfo>  scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+//                aoInfo.getId(), contextInfo);
+//
+//        if(scheduleRequestSetInfoList != null && scheduleRequestSetInfoList.size() > 0) {
+//
+//            StringBuffer buffer = new StringBuffer();
+//            buffer.append(" ");
+//            CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
+//
+//            if (!scheduleRequestSetInfoList.isEmpty()){
+//                for(ScheduleRequestSetInfo coloSet : scheduleRequestSetInfoList) {
+//                    List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(coloSet.getRefObjectIds(), createContextInfo());
+//                    for(ActivityOfferingInfo coloActivity : aoList) {
+//                        if (!StringUtils.equals(coloActivity.getId(), aoInfo.getId())){
+//                            buffer.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
+//                        }
+//                    }
+//                }
+//                aoWrapper.setColocatedAoInfo(buffer.toString());
+//            }
+//        }
+
+        FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
+        aoWrapper.setFormatOffering(fo);
+
+        OfferingInstructorInfo displayInstructor = CourseOfferingViewHelperUtil.findDisplayInstructor(aoInfo.getInstructors());
+
+        if(displayInstructor != null) {
+            aoWrapper.setFirstInstructorDisplayName(displayInstructor.getPersonName());
+        }
+
+        //for multiple instructor display
+        List<OfferingInstructorInfo> instructorInfos = aoInfo.getInstructors();
+        if (instructorInfos != null) {
+            for (OfferingInstructorInfo offeringInstructorInfo : instructorInfos) {
+                aoWrapper.setInstructorDisplayNames(offeringInstructorInfo.getPersonName(), true);
+            }
+        } 
+        return aoWrapper;
+    }
+
 
 
     public CourseOfferingService getCourseOfferingService() {
@@ -275,13 +363,19 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         return this.lrcService;
     }
 
-//    private static TypeService getTypeService() {
-//        if(typeService == null) {
-//            typeService = CourseOfferingResourceLoader.loadTypeService();
-//        }
-//
-//        return typeService;
-//    }
+    protected StateService getStateService(){
+        if (stateService == null){
+            stateService = GlobalResourceLoader.getService(new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return stateService;
+    }
+
+    protected TypeService getTypeService(){
+        if (typeService == null){
+            typeService = GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return typeService;
+    }
 
     private OrganizationService getOrganizationService(){
         if(organizationService == null) {
