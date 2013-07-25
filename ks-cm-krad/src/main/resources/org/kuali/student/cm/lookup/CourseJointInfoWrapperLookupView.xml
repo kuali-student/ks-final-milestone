@@ -61,9 +61,6 @@
 		<property name="shortLabel" value="Given Name" />
 		<property name="forceUppercase" value="false" />
 		<property name="maxLength" value="40" />
-		<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
@@ -93,9 +90,6 @@
 		<property name="shortLabel" value="Course Code" />
 		<property name="forceUppercase" value="false" />
 		<property name="maxLength" value="40" />
-		<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
@@ -108,9 +102,6 @@
 		<property name="shortLabel" value="Level" />
 		<property name="forceUppercase" value="false" />
 		<property name="maxLength" value="40" />
-		<property name="validCharactersConstraint">
-			<bean parent="AnyCharacterPatternConstraint" />
-		</property>
 		<property name="controlField">
 			<bean parent="Uif-TextControl" p:size="40" />
 		</property>
