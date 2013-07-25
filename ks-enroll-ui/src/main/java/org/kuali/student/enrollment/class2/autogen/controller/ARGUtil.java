@@ -12,7 +12,7 @@ import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.form.KSUifForm;
-import org.kuali.student.enrollment.class1.krms.util.KSKRMSPermissionHelper;
+import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSPermissionHelper;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.autogen.service.ARGCourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
@@ -181,7 +181,7 @@ public class ARGUtil {
 
         getViewHelperService(form).build_AOs_RGs_AOCs_Lists_For_TheCourseOffering(form, currentCOWrapper);
 
-        KSKRMSPermissionHelper.processManageCORequisiteLinkForUser(form);
+        EnrolKRMSPermissionHelper.processManageCORequisiteLinkForUser(form);
         ARGToolbarUtil.processAoToolbarForUser(form.getActivityWrapperList(), form);
     }
 

@@ -21,13 +21,7 @@ import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.util.KRMSConstants;
-import org.kuali.student.core.krms.dto.KSPropositionEditor;
 import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
-import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This is a helper class to build the compare tree to be displayed on the lightboxes on the ui to compare one set of

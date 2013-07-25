@@ -41,6 +41,11 @@
             <version>${ks.core.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-lum-ui</artifactId>
+            <version>${ks.lum.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-core-api</artifactId>
         </dependency>

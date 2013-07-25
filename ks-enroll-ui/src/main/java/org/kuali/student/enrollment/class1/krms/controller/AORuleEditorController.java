@@ -4,9 +4,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
-import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
@@ -14,9 +11,9 @@ import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
+import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.enrollment.class1.krms.service.impl.AORuleEditorMaintainableImpl;
-import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -49,7 +46,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
         return super.addRule(form, result, request, response);
     }
 
@@ -68,7 +65,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView goToRuleView(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
         return super.goToRuleView(form, result, request, response);
     }
 
@@ -87,7 +84,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                                        HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID);
         return super.cancelEditRule(form, result, request, response);
     }
 
@@ -106,7 +103,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID);
         return super.updateRule(form, result, request, response);
     }
 
@@ -125,8 +122,8 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //Clear the current states of the tabs to open the first tab again with the edit tree.
-        Map<String, String> states = (Map<String, String>) form.getClientStateForSyncing().get(KSKRMSConstants.KSKRMS_RULE_AO_TABS_ID);
-        states.put(KRMSConstants.KRMS_PARM_ACTIVE_TAB, KSKRMSConstants.KSKRMS_RULE_AO_EDITWITHOBJECT_ID);
+        Map<String, String> states = (Map<String, String>) form.getClientStateForSyncing().get(EnrolKRMSConstants.KSKRMS_RULE_AO_TABS_ID);
+        states.put(KRMSConstants.KRMS_PARM_ACTIVE_TAB, EnrolKRMSConstants.KSKRMS_RULE_AO_EDITWITHOBJECT_ID);
 
         //Set the selected rule statement key.
         String selectedKey = request.getParameter(KRMSConstants.KRMS_PARM_SELECTED_KEY);
@@ -165,7 +162,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
 
         // redirect back to client to display lightbox
-        return showDialog(KSKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO_AO, form, request, response);
+        return showDialog(EnrolKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO_AO, form, request, response);
     }
 
     /**
@@ -208,7 +205,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         }
 
         // redirect back to client to display lightbox
-        return showDialog(KSKRMSConstants.KSKRMS_DIALOG_VIEW_CLU_CO, form, request, response);
+        return showDialog(EnrolKRMSConstants.KSKRMS_DIALOG_VIEW_CLU_CO, form, request, response);
     }
 
     /**
@@ -261,7 +258,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
 
         RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(document);
-        EnrolRuleEditor enrolRuleEditor = new EnrolRuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+        LURuleEditor enrolRuleEditor = new LURuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
         enrolRuleEditor.setParent(ruleEditor.getParent());
 
         PropositionEditor parentProp = ruleEditor.getParent().getPropositionEditor();
@@ -273,7 +270,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
 
         this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
 
         return super.navigate(form, result, request, response);
 

@@ -34,9 +34,9 @@ import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolAgendaEditor;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor;
-import org.kuali.student.enrollment.class1.krms.tree.EnrolRuleViewTreeBuilder;
+import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
+import org.kuali.student.lum.lu.ui.krms.tree.EnrolRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -158,7 +158,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     @Override
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
-        return new EnrolAgendaEditor(agenda);
+        return new LUAgendaEditor(agenda);
     }
 
     /**
@@ -176,7 +176,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (agendaItem.getRule() != null) {
 
             //Build the ruleEditor
-            RuleEditor ruleEditor = new EnrolRuleEditor(agendaItem.getRule());
+            RuleEditor ruleEditor = new LURuleEditor(agendaItem.getRule());
 
             //Initialize the Proposition tree
             if (initProps) {

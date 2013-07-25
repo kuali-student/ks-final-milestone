@@ -2,9 +2,8 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.KRMSConstants;
-import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
+import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -38,7 +37,7 @@ public class CORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID);
         return super.addRule(form, result, request, response);
     }
 
@@ -57,7 +56,7 @@ public class CORuleEditorController extends EnrolRuleEditorController {
     public ModelAndView goToRuleView(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID);
         return super.goToRuleView(form, result, request, response);
     }
 
@@ -76,7 +75,7 @@ public class CORuleEditorController extends EnrolRuleEditorController {
                                        HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
         return super.cancelEditRule(form, result, request, response);
     }
 
@@ -95,7 +94,7 @@ public class CORuleEditorController extends EnrolRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KSKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
+        form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
         return super.updateRule(form, result, request, response);
     }
 
@@ -114,8 +113,8 @@ public class CORuleEditorController extends EnrolRuleEditorController {
                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         //Clear the current states of the tabs to open the first tab again with the edit tree.
-        Map<String, String> states = (Map<String, String>) form.getClientStateForSyncing().get(KSKRMSConstants.KSKRMS_RULE_CO_TABS_ID);
-        states.put(KRMSConstants.KRMS_PARM_ACTIVE_TAB, KSKRMSConstants.KSKRMS_RULE_CO_EDITWITHOBJECT_ID);
+        Map<String, String> states = (Map<String, String>) form.getClientStateForSyncing().get(EnrolKRMSConstants.KSKRMS_RULE_CO_TABS_ID);
+        states.put(KRMSConstants.KRMS_PARM_ACTIVE_TAB, EnrolKRMSConstants.KSKRMS_RULE_CO_EDITWITHOBJECT_ID);
 
         //Set the selected rule statement key.
         String selectedKey = request.getParameter(KRMSConstants.KRMS_PARM_SELECTED_KEY);
@@ -141,7 +140,7 @@ public class CORuleEditorController extends EnrolRuleEditorController {
         doCompareRules(form);
 
         // redirect back to client to display lightbox
-        return showDialog(KSKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO, form, request, response);
+        return showDialog(EnrolKRMSConstants.KSKRMS_DIALOG_COMPARE_CLU_CO, form, request, response);
     }
 
 }

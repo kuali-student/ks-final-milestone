@@ -33,7 +33,7 @@ limitations under the License.
     </bean>
 
     <bean id="EnrolRuleManagementWrapper" parent="RuleManagementWrapper-parentBean">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleManagementWrapper"/>
+        <property name="dataObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper"/>
     </bean>
 
     <bean id="AORuleManagementWrapper" parent="EnrolRuleManagementWrapper">
@@ -41,7 +41,7 @@ limitations under the License.
     </bean>
 
     <bean id="EnrolRuleEditor" parent="RuleEditor-parentBean">
-        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.EnrolRuleEditor"/>
+        <property name="dataObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor"/>
     </bean>
 
     <bean id="KSAO-AgendaManagement-View" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder">
@@ -257,7 +257,7 @@ limitations under the License.
                 </property>
             </bean>
         </property>
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CluGroup" />
+        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluGroup" />
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.title}" p:render="@{#line.showTitle}"/>
@@ -304,7 +304,7 @@ limitations under the License.
     </bean>
 
     <bean id="KSAO-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:renderAddLine="false">
-        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.CluCore" />
+        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluCore" />
         <property name="propertyName" value="clus" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
         <property name="layoutManager">

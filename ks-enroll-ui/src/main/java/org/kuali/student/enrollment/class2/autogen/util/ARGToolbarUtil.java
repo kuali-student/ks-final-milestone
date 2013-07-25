@@ -21,7 +21,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.class1.krms.util.KSKRMSPermissionHelper;
+import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSPermissionHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
@@ -327,7 +327,7 @@ public class ARGToolbarUtil {
                 */
 
                 //Check if user has permission to use Manage AO Requisite link for each AO
-                KSKRMSPermissionHelper.processManageAORequisiteLinkForUser(form, activityWrapper);
+                EnrolKRMSPermissionHelper.processManageAORequisiteLinkForUser(form, activityWrapper);
             }
         }
 

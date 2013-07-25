@@ -16,6 +16,8 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +25,10 @@ import java.util.List;
 /**
  * @author Kuali Student Team
  */
-public class AORuleManagementWrapper extends EnrolRuleManagementWrapper {
+public class AORuleManagementWrapper extends LURuleManagementWrapper {
 
     private List<AgendaEditor> cluAgendas = new ArrayList<AgendaEditor>();
-
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
     public List<AgendaEditor> getCluAgendas() {
         return cluAgendas;
@@ -36,5 +38,12 @@ public class AORuleManagementWrapper extends EnrolRuleManagementWrapper {
         this.cluAgendas = cluAgendas;
     }
 
+    public CourseOfferingContextBar getContextBar() {
+        return contextBar;
+    }
+
+    public void setContextBar(CourseOfferingContextBar contextBar) {
+        this.contextBar = contextBar;
+    }
 
 }

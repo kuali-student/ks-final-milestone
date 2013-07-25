@@ -15,9 +15,22 @@
  */
 package org.kuali.student.enrollment.class1.krms.dto;
 
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
+import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
+
 /**
  * @author Kuali Student Team
  */
-public class CORuleManagementWrapper extends EnrolRuleManagementWrapper {
+public class CORuleManagementWrapper extends LURuleManagementWrapper {
+
+    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
+
+    public CourseOfferingContextBar getContextBar() {
+        return contextBar;
+    }
+
+    public void setContextBar(CourseOfferingContextBar contextBar) {
+        this.contextBar = contextBar;
+    }
 
 }

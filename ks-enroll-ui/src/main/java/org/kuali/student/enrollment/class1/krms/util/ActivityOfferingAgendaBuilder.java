@@ -16,20 +16,10 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
 import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.container.TreeGroup;
-import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.field.DataField;
-import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.service.RuleViewHelperService;
 import org.kuali.rice.krms.util.AgendaBuilder;
 import org.kuali.rice.krms.util.AgendaSection;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Kuali Student Team
@@ -47,14 +37,14 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
 
         //Add warning messages for empty or deleted rules.
         if (rule.isDummy() && rule.getParent() != null)  {
-            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_HASPARENT);
+            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_HASPARENT);
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
-            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), KSKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_EMPTY);
+            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_EMPTY);
         }
 
         //Add Info message if co rule differs from clu rule.
         if (!this.getViewHelperService().compareRules(rule)) {
-            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), KSKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_CHANGED);
+            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_CHANGED);
         }
 
         return group;

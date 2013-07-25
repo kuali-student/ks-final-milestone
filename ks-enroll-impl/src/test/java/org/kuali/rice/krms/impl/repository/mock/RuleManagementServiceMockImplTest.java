@@ -187,7 +187,7 @@ public class RuleManagementServiceMockImplTest {
 //                          p:termSpecName="NumberOfCompletedCourses" p:operator="&lt;=" p:value="n">
 //                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
 //                        <property name="constantComponentId" value="KRMS-NumberOfCourses-ConstantValue"/>
-//                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.MultiCourseComponentBuilder"/>
+//                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder"/>
 //                    </bean>
 //                </entry>
 

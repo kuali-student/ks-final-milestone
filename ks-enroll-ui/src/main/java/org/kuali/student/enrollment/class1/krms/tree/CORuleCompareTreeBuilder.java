@@ -20,10 +20,9 @@ import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
-import org.kuali.student.core.krms.dto.KSPropositionEditor;
 import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
-import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.ArrayList;
@@ -63,8 +62,8 @@ public class CORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
 
     @Override
     public List<String> getListItems(PropositionEditor propositionEditor) {
-        if (propositionEditor instanceof EnrolPropositionEditor) {
-            EnrolPropositionEditor enrolProp = (EnrolPropositionEditor) propositionEditor;
+        if (propositionEditor instanceof LUPropositionEditor) {
+            LUPropositionEditor enrolProp = (LUPropositionEditor) propositionEditor;
             List<String> listItems = new ArrayList<String>();
             if (enrolProp.getCluSet() != null) {
                 if (enrolProp.getCluSet().getClus() != null) {
