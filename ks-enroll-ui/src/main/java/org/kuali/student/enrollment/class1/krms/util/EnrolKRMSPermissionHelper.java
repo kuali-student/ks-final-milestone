@@ -19,12 +19,16 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.student.core.krms.util.KSKRMSPermissionHelper;
+import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,21 +38,32 @@ import java.util.Map;
 public class EnrolKRMSPermissionHelper extends KSKRMSPermissionHelper {
 
     public static void processActionPermissionForUser(MaintenanceDocumentForm document) {
-        CORuleManagementWrapper wrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
-
-        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-
-        String socState = StringUtils.lowerCase(wrapper.getContextBar().getTermSocState());
 
         Map<String,String> permissionDetails = new HashMap<String,String>();
         Map<String,String> roleQualifications = new HashMap<String,String>();
 
-        roleQualifications.put("offeringAdminOrgId", wrapper.getAdminOrg());
+        String socState = StringUtils.EMPTY;
+
+        List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
+
+        if(document.getDocument().getNewMaintainableObject().getDataObject() instanceof AORuleManagementWrapper) {
+            AORuleManagementWrapper wrapper = (AORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+            socState = StringUtils.lowerCase(wrapper.getContextBar().getTermSocState());
+            roleQualifications.put("offeringAdminOrgId", wrapper.getAdminOrg());
+            agendas = wrapper.getAgendas();
+        } else if(document.getDocument().getNewMaintainableObject().getDataObject() instanceof CORuleManagementWrapper){
+            CORuleManagementWrapper wrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
+            socState = StringUtils.lowerCase(wrapper.getContextBar().getTermSocState());
+            roleQualifications.put("offeringAdminOrgId", wrapper.getAdminOrg());
+            agendas = wrapper.getAgendas();
+        }
+
+        String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
 
         permissionDetails.put("socState", socState);
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, document.getViewId());
 
-        processPermissionsForAgendaList(principalId, permissionDetails, roleQualifications, wrapper.getAgendas(), "KS-ENR");
+        processPermissionsForAgendaList(principalId, permissionDetails, roleQualifications, agendas, "KS-ENR");
     }
 
     public static void processManageCORequisiteLinkForUser(ARGCourseOfferingManagementForm form) {
