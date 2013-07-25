@@ -1,0 +1,4 @@
+button.uif-kskrad-actionImageButton { padding:0; margin-right:4px; }
+button.uif-kskrad-actionImageButton img { margin:0; }
+button.uif-kskrad-actionImageButton[disabled="true"] img,
+button.uif-kskrad-actionImageButton[disabled="disabled"] img{ opacity:0.5; filter:Alpha(opacity=50); }

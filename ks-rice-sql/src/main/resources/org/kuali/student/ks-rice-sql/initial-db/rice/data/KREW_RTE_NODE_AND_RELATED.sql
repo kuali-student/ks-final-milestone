@@ -1,0 +1,2026 @@
+--
+-- This file inserst initial data into the following tables:
+-- KREW_RTE_NODE_T
+-- KREW_RTE_NODE_CFG_PARM_T
+-- KREW_DOC_TYP_PROC_T
+-- KREW_RTE_NODE_LNK_T
+
+-- The format of each "block" is the following:
+-- 1) Set the value of the temporary variable "nodeId" to the next constructed sequence id
+-- 2) Insert the KREW_RTE_NODE_T row using "nodeId" as the primary key (the RTE_NODE_ID column)
+-- 3) Insert related KREW_RTE_NODE_CFG_PARM_T rows with "nodeId" as the foreign key RTE_NODE_ID
+-- 4) Insert related KREW_DOC_TYP_PROC_t rows with "nodeId" as the foreign key RTE_NODE_ID
+-- 5) For some KREW_RTE_NODE_T rows, a row in KREW_RTE_NODE_LNK_T "links" two RTE_NODE's together
+--    In these cases, the TEMP_PREV_NODE table is updated with the "nodeId" value from the previous "block"
+--    The KREW_RTE_NODE_LNK_T row links the previous "nodeId" with the current "nodeId"
+-- 6) Update the TEMP_PREV_NODE table with the current "nodeId"
+
+-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+-- !!!!!!!!  WARNING!!  !!!!!!!!!!!!!!
+-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+--
+-- The ordering of inserts in this file is VERY IMPORTANT
+-- The inserts into KREW_RTE_NODE_LNK_T may not work if other inserts are place between route nodes already in place
+-- Additional data should be added in an upgrade script, or at the bottom of this file if absolutely necessary
+
+TRUNCATE TABLE KREW_RTE_NODE_T DROP STORAGE
+/
+TRUNCATE TABLE KREW_RTE_NODE_CFG_PARM_T DROP STORAGE
+/
+TRUNCATE TABLE KREW_DOC_TYP_PROC_T DROP STORAGE
+/
+TRUNCATE TABLE KREW_RTE_NODE_LNK_T DROP STORAGE
+/
+
+CREATE TABLE TEMP_PREV_NODE_ID
+(
+      PREV_ID VARCHAR2(255)
+)
+/
+
+-- ORIGINAL ROUTE NODE ID: '2004'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'DocumentTypeDocument' AND CUR_IND = 1), 0, '1', 0, 'placeholder', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 2);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="placeholder"><activationType>S</activationType></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'S');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'DocumentTypeDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 2);
+
+ 	INSERT INTO TEMP_PREV_NODE_ID VALUES (nodeId);
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2006'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'RoutingRuleDocument' AND CUR_IND = 1), 0, '1', 0, 'placeholder', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 2);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="placeholder"><activationType>S</activationType></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'S');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'RoutingRuleDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 2);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2039'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'KualiNotification' AND CUR_IND = 1), 1, '1', 0, 'Adhoc Routing', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Adhoc Routing"><activationType>S</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>true</finalApproval></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'S');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'false');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'true');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'KualiNotification' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2041'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'SendNotificationRequest' AND CUR_IND = 1), 0, '1', 0, 'Initiated', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Initiated"><activationType>S</activationType></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'S');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'SendNotificationRequest' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2042'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'SendNotificationRequest' AND CUR_IND = 1), 0, '1', 0, 'ReviewersNode', 'FR', 'ReviewersRouting', 'org.kuali.rice.kew.engine.node.RequestsNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<requests name="ReviewersNode"><ruleTemplate>ReviewersRouting</ruleTemplate></requests>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleTemplate', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'ReviewersRouting');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2041 to 2042
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2043'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'SendNotificationRequest' AND CUR_IND = 1), 0, '1', 0, 'RequestsNode', 'FR', 'NotificationRouting', 'org.kuali.rice.kew.engine.node.RequestsNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<requests name="RequestsNode"><ruleTemplate>NotificationRouting</ruleTemplate></requests>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleTemplate', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'NotificationRouting');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2042 to 2043
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2061'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'NamespaceMaintenanceDocument' AND CUR_IND = 1), 0, '1', 0, 'Initiated', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'false');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'false');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'NamespaceMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2063'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'ParameterTypeMaintenanceDocument' AND CUR_IND = 1), 0, '1', 0, 'Initiated', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'false');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'false');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'ParameterTypeMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2065'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'ParameterDetailTypeMaintenanceDocument' AND CUR_IND = 1), 0, '1', 0, 'Initiated', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'false');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'false');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'ParameterDetailTypeMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2067'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'ParameterMaintenanceDocument' AND CUR_IND = 1), 0, '1', 0, 'Initiated', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Initiated"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'false');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'false');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'ParameterMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2840'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'KualiDocument' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 3);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute"><activationType>S</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'S');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'KualiDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 3);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2898'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementRoleDocument' AND CUR_IND = 1), 0, null, 0, 'AdHoc', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="AdHoc"/>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementRoleDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2899'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementRoleDocument' AND CUR_IND = 1), 0, null, 0, 'RoleType', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="RoleType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.rice.kim.impl.type.KimTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2898 to 2899
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2901'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementGroupDocument' AND CUR_IND = 1), 0, null, 0, 'AdHoc', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="AdHoc"/>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementGroupDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2902'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementGroupDocument' AND CUR_IND = 1), 0, null, 0, 'GroupType', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="GroupType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.rice.kim.impl.type.KimTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2901 to 2902
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2904'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementPersonDocument' AND CUR_IND = 1), 0, null, 0, 'AdHoc', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="AdHoc"/>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementPersonDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2905'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementPersonDocument' AND CUR_IND = 1), 0, null, 0, 'GroupType', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="GroupType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.rice.kim.impl.type.KimTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2904 to 2905
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2906'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementPersonDocument' AND CUR_IND = 1), 0, null, 0, 'RoleType', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="RoleType"><qualifierResolverClass>org.kuali.rice.kim.impl.type.KimTypeQualifierResolver</qualifierResolverClass><activationType>P</activationType></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.rice.kim.impl.type.KimTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2905 to 2906
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2908'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementReviewResponsibilityMaintenanceDocument' AND CUR_IND = 1), 0, null, 0, 'AdHoc', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="AdHoc"/>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementReviewResponsibilityMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2910'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementGenericPermissionMaintenanceDocument' AND CUR_IND = 1), 0, null, 0, 'AdHoc', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="AdHoc"/>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'IdentityManagementGenericPermissionMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2912'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 3);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 3);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2913'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), 0, null, 0, 'Department Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 2);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Department Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver</qualifierResolverClass></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.DepartmentCommitteeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2912 to 2913
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2914'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), 0, null, 0, 'Publication Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Publication Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver</qualifierResolverClass></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.PublicationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2913 to 2914
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2936'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 3);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 3);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2937'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'Department Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 2);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Department Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass><organizationTypeCode>kuali.org.Department</organizationTypeCode><organizationIdQualifierKey>departmentId</organizationIdQualifierKey><organizationShortNameQualifierKey>department</organizationShortNameQualifierKey></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'departmentId');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationShortNameQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2936 to 2937
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2938'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'Division Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Division Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass><organizationTypeCode>kuali.org.Division</organizationTypeCode><organizationIdQualifierKey>divisionId</organizationIdQualifierKey><organizationShortNameQualifierKey>division</organizationShortNameQualifierKey></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'divisionId');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationShortNameQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2937 to 2938
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2939'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'College Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="College Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass><organizationTypeCode>kuali.org.College</organizationTypeCode><organizationIdQualifierKey>collegeId</organizationIdQualifierKey><organizationShortNameQualifierKey>college</organizationShortNameQualifierKey></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.College');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'collegeId');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationShortNameQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'college');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2938 to 2939
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2940'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'Senate Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Senate Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass><organizationId>141</organizationId></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '141');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2939 to 2940
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2941'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'Publication Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Publication Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass><organizationId>176</organizationId></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '176');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2940 to 2941
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2943'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 3);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute"><activationType>P</activationType><mandatoryRoute>false</mandatoryRoute><finalApproval>false</finalApproval></start>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 3);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2944'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Document Organization Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 2);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Document Organization Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrganizationQualifierResolver</qualifierResolverClass><organizationIdQualifierKey>orgId</organizationIdQualifierKey><organizationShortNameQualifierKey>org</organizationShortNameQualifierKey></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'orgId');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationShortNameQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2943 to 2944
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2945'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Publication Decision Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Publication Decision Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass><organizationId>176</organizationId></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '176');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2944 to 2945
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2946'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Department Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Department Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass><organizationTypeCode>kuali.org.Department</organizationTypeCode><organizationIdQualifierKey>departmentId</organizationIdQualifierKey><organizationShortNameQualifierKey>department</organizationShortNameQualifierKey></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'departmentId');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationShortNameQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2945 to 2946
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2947'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Division Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Division Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass><organizationTypeCode>kuali.org.Division</organizationTypeCode><organizationIdQualifierKey>divisionId</organizationIdQualifierKey><organizationShortNameQualifierKey>division</organizationShortNameQualifierKey></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'divisionId');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationShortNameQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2946 to 2947
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2948'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'College Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="College Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass><organizationTypeCode>kuali.org.College</organizationTypeCode><organizationIdQualifierKey>collegeId</organizationIdQualifierKey><organizationShortNameQualifierKey>college</organizationShortNameQualifierKey></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.College');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'collegeId');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationShortNameQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'college');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2947 to 2948
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2949'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Senate Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Senate Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass><organizationId>141</organizationId></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '141');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2948 to 2949
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2950'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Publication Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Publication Review"><activationType>P</activationType><qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass><organizationId>176</organizationId></role>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '176');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2949 to 2950
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2962'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'S', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'StudentAdminMaintenanceDocument' AND CUR_IND = 1), 0, null, 0, 'AdHoc', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 13);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="AdHoc"/>');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'StudentAdminMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 13);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2966'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'ActivityOfferingInfoMaintenanceDocument' AND CUR_IND = 1), 0, '1', 0, 'Initiated', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'ActivityOfferingInfoMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2968'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'CourseOfferingEditMaintenanceDocument' AND CUR_IND = 1), 0, '1', 0, 'Initiated', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'CourseOfferingEditMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2969'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'CourseOfferingCreateMaintenanceDocument' AND CUR_IND = 1), 0, '1', 0, 'Initiated', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'CourseOfferingCreateMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2970'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'PopulationWrapperMaintenanceDocument' AND CUR_IND = 1), 0, '1', 0, 'Initiated', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="Initiated">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'PopulationWrapperMaintenanceDocument' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2971'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2972'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), 0, null, 0, 'Department Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Department Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.Department</organizationTypeCode>
+<organizationIdQualifierKey>department</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2971 to 2972
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2973'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), 0, null, 0, 'Division Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Division Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.Division</organizationTypeCode>
+<organizationIdQualifierKey>division</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2972 to 2973
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2974'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), 0, null, 0, 'College Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="College Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.College</organizationTypeCode>
+<organizationIdQualifierKey>college</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.College');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'college');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2973 to 2974
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2975'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), 0, null, 0, 'Senate Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Senate Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>141</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '141');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2974 to 2975
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2976'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.retire' AND CUR_IND = 1), 0, null, 0, 'Publication Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Publication Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>176</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '176');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2975 to 2976
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2978'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2979'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Document Organization Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Document Organization Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrganizationQualifierResolver</qualifierResolverClass>
+<organizationIdQualifierKey>orgId</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'orgId');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2978 to 2979
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2980'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Publication Decision Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Publication Decision Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>176</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '176');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2979 to 2980
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2981'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Department Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Department Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.Department</organizationTypeCode>
+<organizationIdQualifierKey>department</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2980 to 2981
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2982'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Division Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Division Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.Division</organizationTypeCode>
+<organizationIdQualifierKey>division</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2981 to 2982
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2983'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'College Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="College Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.College</organizationTypeCode>
+<organizationIdQualifierKey>college</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.College');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'college');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2982 to 2983
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2984'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Senate Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Senate Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>141</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '141');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2983 to 2984
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2985'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify' AND CUR_IND = 1), 0, null, 0, 'Publication Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Publication Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>176</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '176');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2984 to 2985
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2987'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2988'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'Department Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Department Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.Department</organizationTypeCode>
+<organizationIdQualifierKey>department</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2987 to 2988
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2989'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'Division Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Division Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.Division</organizationTypeCode>
+<organizationIdQualifierKey>division</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2988 to 2989
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2990'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'College Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="College Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.College</organizationTypeCode>
+<organizationIdQualifierKey>college</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.College');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'college');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2989 to 2990
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2991'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'Senate Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Senate Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>141</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '141');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2990 to 2991
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2992'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create' AND CUR_IND = 1), 0, null, 0, 'Publication Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Publication Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>176</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '176');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2991 to 2992
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2994'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create.admin' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.create.admin' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2996'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify.admin' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.course.modify.admin' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2998'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.create' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.create' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '2999'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.create' AND CUR_IND = 1), 0, null, 0, 'Department Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Department Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.Department</organizationTypeCode>
+<organizationIdQualifierKey>department</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 2998 to 2999
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '3001'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), 0, null, 0, 'PreRoute', null, null, 'org.kuali.rice.kew.engine.node.InitialNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<start name="PreRoute">
+<activationType>P</activationType>
+<mandatoryRoute>false</mandatoryRoute>
+<finalApproval>false</finalApproval>
+</start>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('mandatoryRoute', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('finalApproval', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '0');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+
+	INSERT INTO KREW_DOC_TYP_PROC_T (DOC_TYP_ID, DOC_TYP_PROC_ID, INIT_IND, INIT_RTE_NODE_ID, NM, VER_NBR)
+ 	 VALUES ((SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), 1, nodeId, 'PRIMARY', 1);
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '3002'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), 0, null, 0, 'Department Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Department Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.Department</organizationTypeCode>
+<organizationIdQualifierKey>department</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'department');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 3001 to 3002
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '3003'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), 0, null, 0, 'Division Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Division Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.Division</organizationTypeCode>
+<organizationIdQualifierKey>division</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.Division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'division');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 3002 to 3003
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '3004'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), 0, null, 0, 'College Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="College Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
+<organizationTypeCode>kuali.org.College</organizationTypeCode>
+<organizationIdQualifierKey>college</organizationIdQualifierKey>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationTypeCode', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'kuali.org.College');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationIdQualifierKey', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'college');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 3003 to 3004
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '3005'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), 0, null, 0, 'Curriculum Admin Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Curriculum Admin Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>141</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '141');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 3004 to 3005
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '3006'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), 0, null, 0, 'Senate Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Senate Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>141</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '141');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 3005 to 3006
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '3007'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), 0, null, 0, 'Presidents Office Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Presidents Office Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>141</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '141');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 3006 to 3007
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '3008'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), 0, null, 0, 'System Office Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="System Office Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>141</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '141');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 3007 to 3008
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+-- ORIGINAL ROUTE NODE ID: '3009'
+DECLARE nodeId VARCHAR2(255);
+BEGIN
+	SELECT CONCAT('KS-', KS_RICE_ID_S.NEXTVAL) INTO nodeId FROM DUAL;
+	INSERT INTO KREW_RTE_NODE_T (RTE_NODE_ID, ACTVN_TYP, DOC_TYP_ID, FNL_APRVR_IND, GRP_ID, MNDTRY_RTE_IND, NM, RTE_MTHD_CD, RTE_MTHD_NM, TYP, VER_NBR)
+ 	 VALUES (nodeId, 'P', (SELECT DOC_TYP_ID FROM KREW_DOC_TYP_T WHERE DOC_TYP_NM =  'kuali.proposal.type.majorDiscipline.modify' AND CUR_IND = 1), 0, null, 0, 'Publication Review', 'RM', 'org.kuali.rice.kew.role.RoleRouteModule', 'org.kuali.rice.kew.engine.node.RoleNode', 1);
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('contentFragment', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '<role name="Publication Review">
+<activationType>P</activationType>
+<qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver</qualifierResolverClass>
+<organizationId>176</organizationId>
+</role>
+');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('activationType', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'P');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('qualifierResolverClass', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'org.kuali.student.lum.workflow.qualifierresolver.StaticOrganizationQualifierResolver');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('organizationId', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, '176');
+	INSERT INTO KREW_RTE_NODE_CFG_PARM_T (KEY_CD, RTE_NODE_CFG_PARM_ID, RTE_NODE_ID, VAL)
+ 	 VALUES ('ruleSelector', CONCAT('KS-', KS_RICE_ID_S.NEXTVAL), nodeId, 'Template');
+
+-- Link from 3008 to 3009
+ 	INSERT INTO KREW_RTE_NODE_LNK_T (FROM_RTE_NODE_ID,TO_RTE_NODE_ID) VALUES ((SELECT PREV_ID FROM TEMP_PREV_NODE_ID), nodeId);
+
+ 	UPDATE TEMP_PREV_NODE_ID SET PREV_ID = nodeId;
+END;
+/
+
+DROP TABLE TEMP_PREV_NODE_ID
+/

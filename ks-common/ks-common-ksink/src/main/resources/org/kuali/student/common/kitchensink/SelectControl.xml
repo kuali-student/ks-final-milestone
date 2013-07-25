@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright 2006-2011 The Kuali Foundation
+  ~
+  ~ Licensed under the Educational Community License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.opensource.org/licenses/ecl2.php
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+    <!-- The Interesting Bits -->
+
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-Select-Example1">
+        <property name="propertyName" value="dropdownSelection"/>
+        <property name="label" value="Dropdown Select Label"/>
+        <property name="width" value="auto"/>
+        <!--
+        <property name="labelPlacement" value="RIGHT"/>
+        <property name="instructionalText" value="Additional instruction can go here."/>
+        <property name="helpSummary" value="Additional help or information for this field can go here."/>
+        <property name="constraintText" value="Constraint instruction can go here."/>
+        -->
+        <property name="control">
+            <bean parent="Uif-DropdownControl"
+                  p:options-ref="KS-KitchenSink-Select-Example1-Options"/>
+        </property>
+    </bean>
+
+    <util:list id="KS-KitchenSink-Select-Example1-Options">
+        <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Select option #1"/>
+        <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Select option #2"/>
+        <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Select option #3"/>
+        <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Select option #4"/>
+        <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Select option #5"/>
+    </util:list>
+
+    <bean parent="Uif-InputField-LabelTop"  id="KS-KitchenSink-Select-Example2">
+        <property name="propertyName" value="dropdownSelection"/>
+        <property name="label" value="Dropdown Select Label"/>
+        <property name="width" value="auto"/>
+        <property name="control">
+            <bean parent="Uif-DropdownControl"/>
+        </property>
+        <property name="optionsFinder">
+            <bean class="org.kuali.student.common.kitchensink.KitchenSinkMockDwarfKeyValues"/>
+        </property>
+    </bean>
+
+
+
+    <!-- just the various containers for the interesting bits -->
+
+    <bean id="KS-KitchenSink-Select-View" parent="KS-KitchenSink-FormView">
+        <property name="headerText" value="Input Fields"/>
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:headerText="Select Control (Dropdown)">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-KitchenSink-Page-Summary">
+                                <property name="messageText">
+                                    <value>
+                                        A form field that provides a scrollable list of options.
+                                    </value>
+                                </property>
+                            </bean>
+                            <ref bean="KS-KitchenSink-Select-Content"/>
+                            <ref bean="KS-KitchenSink-Select-Links"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Select-Content" parent="KS-KitchenSink-TabSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Select-Example1-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Uif-DropdownControl using explicitly defined key-value pairs from the XML configuration."/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-KitchenSink-Select-Example2-Section">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="KS-KitchenSink-MessageField"
+                                  p:messageText="Uif-DropdownControl using the &quot;optionsFinder&quot; property."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Example #1 containers -->
+
+    <bean id="KS-KitchenSink-Select-Example1-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Select-Example1-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Select-Example1-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Example #1" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Select-Example1"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Example #2 containers -->
+
+    <bean id="KS-KitchenSink-Select-Example2-View-Bare" parent="KS-KitchenSink-FormView-Bare">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-Page" p:header.render="false">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-KitchenSink-Select-Example2-Section"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-Select-Example2-Section" parent="Uif-VerticalBoxSection"
+          p:headerText="Example #2" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-Select-Example2"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Links -->
+
+    <bean id="KS-KitchenSink-Select-Links" parent="KS-KitchenSink-Page-Links">
+        <property name="items">
+            <list>
+                <bean parent="KS-KitchenSink-FooterLinkSection">
+                    <property name="footerLinkGroups">
+                        <list>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-PageXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/SelectControl.xml"
+                                               value="https://svn.kuali.org/repos/student/enrollment/ks-core/trunk/ks-common/ks-common-ksink/src/main/resources/org/kuali/student/common/kitchensink/SelectControl.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradXml">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="UifFieldDefinitions.xml (Uif-InputField)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifFieldDefinitions.xml"/>
+                                        <entry key="UifControlDefinitions.xml (Uif-DropdownControl)"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/resources/org/kuali/rice/krad/uif/UifControlDefinitions.xml"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJava">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/field/InputField.java"/>
+                                        <entry key="SelectControl.java"
+                                               value="http://svn.kuali.org/repos/rice/tags/rice-2.2.0/krad/krad-web-framework/src/main/java/org/kuali/rice/krad/uif/control/SelectControl.java"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradJavaApi">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/field/InputField.html"/>
+                                        <entry key="SelectControl.html"
+                                               value="http://site.origin.kuali.org/rice/2.2.0/apidocs/org/kuali/rice/krad/uif/control/SelectControl.html"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-KradGuide">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="InputField - Select Control"
+                                               value="http://site.kuali.org/rice/2.2.0/reference/html/KRAD_Guide.html#d6766e5292"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean parent="KS-KitchenSink-FooterLinkGroup-UIM">
+                                <property name="footerLinks">
+                                    <map>
+                                        <entry key="Example #1"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Select-Example1-View-Bare&amp;methodToCall=start"/>
+                                        <entry key="Example #2"
+                                               value="../kr-krad/kitchensink?viewId=KS-KitchenSink-Select-Example2-View-Bare&amp;methodToCall=start"/>
+                                    </map>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
