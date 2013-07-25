@@ -934,11 +934,9 @@ public class AcademicCalendarController extends UifControllerBase {
             try{
                 term.setInstructionalDays(getAcalService().getInstructionalDaysForTerm(term.getTermInfo().getId(), viewHelperService.createContextInfo()));
             }catch (Exception ex){
-                // If the save fails message user
-                if (LOG.isDebugEnabled()){
-                    LOG.error("Save Academic calendar failed - " + ex.getMessage());
-                }
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_FAILED);
+                // If the lookup fails message user
+                LOG.error("Unable to load instructional days",ex);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_CALCULATING_INSTRUCTIONAL_DAYS, term.getStartDate().toString(), term.getEndDate().toString());
             }
         }
 
