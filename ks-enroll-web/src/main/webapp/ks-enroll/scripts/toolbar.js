@@ -9,7 +9,7 @@ function handleToolbar(divId, hiddenColumns, buttons){
     var hiddenColumnsMap = new Object();
     var buttonsMap = new Object();
     for(var j=0; j<hiddenColumns.length; j++) {
-        var field = getSelector(hiddenColumns[j]);
+        var field = hiddenColumns[j];
         hiddenColumnsMap[field]=[];
         buttonsMap[field]=buttons[j];
     }
@@ -22,14 +22,17 @@ function processToolbar(divId, hiddenColumnsMap, buttonsMap) {
         var id=jQuery(this).attr('id');
         var oTable = jQuery("#" + id).dataTable();
         var selectedRows =  jQuery(oTable.fnGetNodes()).filter(':has(:input:checkbox:checked)');
+        var tableColumns = oTable.fnGetSettings().aoColumns;
 
         jQuery(selectedRows).each(function(){
             var cellData = oTable.fnGetData(this);
             for(var i=0; i<cellData.length; i++)
             {
                 for(var key in hiddenColumnsMap){
-                    if(jQuery(cellData[i]).find(key).val() == 'true' || jQuery(cellData[i]).find(key).val() == 'false'){
-                        hiddenColumnsMap[key].push(jQuery(cellData[i]).find(key).val());
+                    if(jQuery.trim(jQuery(tableColumns[i].sTitle.toString()).text()) == key) {
+                        if(jQuery.trim(jQuery(cellData[i]).text()) == 'true' || jQuery.trim(jQuery(cellData[i]).text()) == 'false') {
+                            hiddenColumnsMap[key].push(jQuery.trim(jQuery(cellData[i]).text()));
+                        }
                     }
                 }
             }
@@ -66,11 +69,11 @@ function getDataTableFromDiv(divId){
  var oTable = jQuery("#" + id).dataTable();
  return oTable;
  }
-*/
 
 function getSelector(name){
     return "input[name$='" + name +"']";
 }
+*/
 
 function getDataTableHandle(divId){
     var id = jQuery("#" + divId).attr('id');

@@ -81,15 +81,15 @@
                 <bean parent="KS-Schedule-DisplayField" p:label="BLDG" p:messageText="@{#line.buildingName}"/>
                 <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
                 <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
-                <bean name="enableApproveButton" parent="Uif-InputField" p:propertyName="enableApproveButton"/>
-                <bean name="enableDraftButton" parent="Uif-InputField" p:propertyName="enableDraftButton"/>
-                <bean name="enableSuspendButton" parent="Uif-InputField" p:propertyName="enableSuspendButton"/>
-                <bean name="enableCancelButton" parent="Uif-InputField" p:propertyName="enableCancelButton"/>
-                <bean name="enableReinstateButton" parent="Uif-InputField" p:propertyName="enableReinstateButton" />
-                <bean name="enableDeleteButton" parent="Uif-InputField" p:propertyName="enableDeleteButton" />
-                <bean name="enableCopyAOActionLink" parent="Uif-InputField" p:propertyName="enableCopyAOActionLink" />
-                <bean name="enableEditAOActionLink" parent="Uif-InputField" p:propertyName="enableEditAOActionLink" />
-                <bean name="enableMoveToButton" parent="Uif-InputField" p:propertyName="enableMoveToButton" />
+                <bean name="enableApproveButton" parent="KS-Uif-DataField-Simple" p:label="enableApproveButton" p:propertyName="enableApproveButton"/>
+                <bean name="enableDraftButton" parent="KS-Uif-DataField-Simple" p:label="enableDraftButton" p:propertyName="enableDraftButton"/>
+                <bean name="enableSuspendButton" parent="KS-Uif-DataField-Simple" p:label="enableSuspendButton" p:propertyName="enableSuspendButton"/>
+                <bean name="enableCancelButton" parent="KS-Uif-DataField-Simple" p:label="enableCancelButton" p:propertyName="enableCancelButton"/>
+                <bean name="enableReinstateButton" parent="KS-Uif-DataField-Simple" p:label="enableReinstateButton" p:propertyName="enableReinstateButton" />
+                <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple" p:label="enableDeleteButton" p:propertyName="enableDeleteButton" />
+                <bean name="enableCopyAOActionLink" parent="KS-Uif-DataField-Simple" p:label="enableCopyAOActionLink"  p:propertyName="enableCopyAOActionLink" />
+                <bean name="enableEditAOActionLink" parent="KS-Uif-DataField-Simple" p:label="enableEditAOActionLink"  p:propertyName="enableEditAOActionLink" />
+                <bean name="enableMoveToButton" parent="KS-Uif-DataField-Simple" p:label="enableMoveToButton"  p:propertyName="enableMoveToButton" />
             </list>
         </property>
         <property name="layoutManager.richTable.hiddenColumns">

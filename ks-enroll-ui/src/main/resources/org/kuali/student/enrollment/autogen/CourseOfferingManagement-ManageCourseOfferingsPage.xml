@@ -142,13 +142,13 @@
                 <bean parent="KS-Uif-DataField-Simple"
                       p:label="GRADING"
                       p:propertyName="courseOfferingGradingOptionDisplay"/>
-                <bean name="enableApproveButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableApproveButton"/>
-                <bean name="enableSuspendButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableSuspendButton"/>
-                <bean name="enableCancelButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableCancelButton"/>
-                <bean name="enableReinstateButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableReinstateButton" />
-                <bean name="enableDeleteButton" parent="KS-Uif-InputField-Simple" p:propertyName="enableDeleteButton" />
-                <bean name="enableCopyCOActionLink" parent="KS-Uif-InputField-Simple" p:propertyName="enableCopyCOActionLink" />
-                <bean name="enableEditCOActionLink" parent="KS-Uif-InputField-Simple" p:propertyName="enableEditCOActionLink" />
+                <bean name="enableApproveButton" parent="KS-Uif-DataField-Simple" p:label="enableApproveButton" p:propertyName="enableApproveButton"/>
+                <bean name="enableSuspendButton" parent="KS-Uif-DataField-Simple" p:label="enableSuspendButton" p:propertyName="enableSuspendButton"/>
+                <bean name="enableCancelButton" parent="KS-Uif-DataField-Simple" p:label="enableCancelButton" p:propertyName="enableCancelButton"/>
+                <bean name="enableReinstateButton" parent="KS-Uif-DataField-Simple" p:label="enableReinstateButton" p:propertyName="enableReinstateButton" />
+                <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple" p:label="enableDeleteButton" p:propertyName="enableDeleteButton" />
+                <bean name="enableCopyCOActionLink" parent="KS-Uif-DataField-Simple" p:label="enableCopyCOActionLink" p:propertyName="enableCopyCOActionLink" />
+                <bean name="enableEditCOActionLink" parent="KS-Uif-DataField-Simple" p:label="enableEditCOActionLink" p:propertyName="enableEditCOActionLink" />
             </list>
         </property>
         <property name="layoutManager.richTable.hiddenColumns">
