@@ -491,7 +491,7 @@
                 var tempId = id.replace(/\./g,'_');
 
             	var jAddCourseBySearch = jQuery('&lt;div /&gt;').attr('id', tempId+'_button').addClass('quick-add-cell uif-tooltip').html('Add a course to plan').click(function(e){
-            		location.href='../myplan/course?methodToCall=start&amp;viewId=CourseSearch-FormView&amp;searchTerm='+atpId;
+            		location.href='../myplan/course?methodToCall=start&amp;viewId=CourseSearch-FormView' + '&amp;searchTerm='+atpId;
             	});
             	jQuery(this).append(jAddCourseBySearch);
             	if (size &lt; 8) {
