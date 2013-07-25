@@ -22,8 +22,8 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
-import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
-import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -41,11 +41,11 @@ public class populateCrossCourseListKeyValues extends UifKeyValuesFinderBase imp
         CourseOfferingWrapper wrapper = (CourseOfferingWrapper)coForm.getDocument().getNewMaintainableObject().getDataObject();
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        CourseInfo courseOffering = wrapper.getCourse();
+        CourseOfferingInfo courseOffering = wrapper.getCourseOfferingInfo();
         if (courseOffering != null && courseOffering.getCrossListings() != null && courseOffering.getCrossListings().size() > 0) {
 
             // Always include an option for Course
-            for (CourseCrossListingInfo courseInfo : courseOffering.getCrossListings()) {
+            for (CourseOfferingCrossListingInfo courseInfo : courseOffering.getCrossListings()) {
                 if(courseInfo.getCode() != null)   {
                     keyValues.add(new ConcreteKeyValue(courseInfo.getCode(), courseInfo.getCode()));
                 }

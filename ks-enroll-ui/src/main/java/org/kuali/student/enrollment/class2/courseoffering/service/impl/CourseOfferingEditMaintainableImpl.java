@@ -710,7 +710,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 //Cross listing
                 for (CourseOfferingCrossListingInfo crossListingInfo : coInfo.getCrossListings()){
                     formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
-                    formObject.getAlternateCourseCodesSuffixStripped().add(StringUtils.stripEnd(crossListingInfo.getCode(),crossListingInfo.getCourseNumberSuffix()));
+                    formObject.getAlternateCourseCodesSuffixStripped().add(crossListingInfo.getCode());
                 }
                 return formObject;
             }
