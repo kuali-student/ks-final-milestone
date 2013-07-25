@@ -1107,6 +1107,8 @@ function resetDirtyFields(returnFieldId){
 
 /**
  * Once we get the next rice release, have to remove this override
+ *
+ * FIXME: Delete this method once KULRICE-9978 resolved
  * @param tableId
  * @param pageNumber
  */
