@@ -57,7 +57,7 @@ limitations under the License.
         </property>
         <property name="dialogs">
             <list>
-                <bean id="viewCluAndCoRuleLightBox" parent="KRMS-CompareRule">
+                <bean id="viewCluAndCoRuleLightBox" parent="KRMS-CompareRuleDialog">
                     <property name="headerText" value="View Catalog and CO Rules"/>
                 </bean>
                 <bean id="compareCluCoAndAoRuleLightBox" parent="KRMS-AoCompareRule">
@@ -205,7 +205,7 @@ limitations under the License.
     <bean id="KSAO-RuleView-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="View CLU and CO Rule" p:methodToCall="viewCoAndCluRules"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and CO Rule" p:methodToCall="viewCoAndCluRules"/>
             </list>
         </property>
     </bean>
@@ -566,7 +566,7 @@ limitations under the License.
                         <bean parent="Uif-FooterBase">
                             <property name="items">
                                 <list>
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Close"
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Close"
                                           p:actionScript="jQuery.fancybox.close();"/>
                                 </list>
                             </property>
