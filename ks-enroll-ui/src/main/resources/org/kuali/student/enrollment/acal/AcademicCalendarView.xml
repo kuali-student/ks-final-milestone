@@ -210,10 +210,9 @@ limitations under the License.
             </list>
         </property>
         <property name="promptText"
-                  value="You are making @{makeOfficialName} official. Because the containing calendar must also be
-                  official - this will also make @{makeOfficialIsSubterm?makeOfficialParentTermName +
-                  ' official and ':''}@{academicCalendarInfo.name} official. This action cannot be undone.
-                  Official calendars and terms cannot be deleted."/>
+                  value="You are making @{makeOfficialName} official. Making this official will also make
+                  @{makeOfficialIsSubterm?makeOfficialParentTermName +' official and ':''}@{academicCalendarInfo.name}
+                  official. This action cannot be undone. Official calendars and terms cannot be deleted."/>
         <property name="availableResponses">
             <list>
                 <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Confirm Status Change"/>
