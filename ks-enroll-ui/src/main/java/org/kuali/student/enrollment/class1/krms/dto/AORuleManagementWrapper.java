@@ -25,10 +25,9 @@ import java.util.List;
 /**
  * @author Kuali Student Team
  */
-public class AORuleManagementWrapper extends LURuleManagementWrapper {
+public class AORuleManagementWrapper extends CORuleManagementWrapper {
 
     private List<AgendaEditor> cluAgendas = new ArrayList<AgendaEditor>();
-    private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
     public List<AgendaEditor> getCluAgendas() {
         return cluAgendas;
@@ -36,14 +35,6 @@ public class AORuleManagementWrapper extends LURuleManagementWrapper {
 
     public void setCluAgendas(List<AgendaEditor> cluAgendas) {
         this.cluAgendas = cluAgendas;
-    }
-
-    public CourseOfferingContextBar getContextBar() {
-        return contextBar;
-    }
-
-    public void setContextBar(CourseOfferingContextBar contextBar) {
-        this.contextBar = contextBar;
     }
 
 }
