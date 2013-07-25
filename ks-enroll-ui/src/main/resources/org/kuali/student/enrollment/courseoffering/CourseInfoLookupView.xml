@@ -96,7 +96,7 @@
             <list>
                 <bean parent="CourseLookupField" p:propertyName="code" />
                 <bean parent="CourseLookupField" p:propertyName="courseTitle"/>
-                <bean parent="CourseLookupField" p:propertyName="descr.formatted" />
+                <bean parent="CourseLookupField" p:propertyName="descr.formatted" p:fieldLabel.labelText="Description"/>
             </list>
         </property>
         <property name="resultsGroup.layoutManager.richTable.templateOptions">
