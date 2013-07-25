@@ -8,9 +8,9 @@ Insert into  KRMS_TYP_T (ACTV,NM,NMSPC_CD,SRVC_NM,TYP_ID,VER_NBR)
 
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1551','KS-KRMS-NL-USAGE-1004','Students admitted to <program> may take no more than <n> courses in the <org> in <duration><durationType>','10078',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1552','KS-KRMS-NL-USAGE-1003','Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course")in the $org.getLongName() in  $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()','10078',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1552','KS-KRMS-NL-USAGE-1003','Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course") in the $org.getLongName() in  $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()','10078',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1553','KS-KRMS-NL-USAGE-1000','Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course")in the $org.getLongName() in  $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()','10078',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1553','KS-KRMS-NL-USAGE-1000','Students admitted to $NLHelper.getCluOrCluSetAsLongNames($programClu,$programCluSet) may take no more than $intValue $NLHelper.getProperGrammar($intValue, "course") in the $org.getLongName() in  $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()','10078',0)
 /
 
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1554','KS-KRMS-NL-USAGE-1004','Students not admitted to <program> may take no more than <n> courses in the <org> in <duration><durationType>','10079',0)

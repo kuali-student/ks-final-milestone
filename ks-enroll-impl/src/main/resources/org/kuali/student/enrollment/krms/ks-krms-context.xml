@@ -180,12 +180,14 @@
                 </entry>
                 <entry key="kuali.krms.proposition.type.max.limit.courses.at.org.for.program">
                     <list>
+                        <ref bean="luContext"/>
                         <ref bean="orgContext"/>
                         <ref bean="atpContext"/>
                     </list>
                 </entry>
                 <entry key="kuali.krms.proposition.type.max.limit.courses.at.org.duration.for.program">
                     <list>
+                        <ref bean="luContext"/>
                         <ref bean="orgContext"/>
                         <ref bean="atpContext"/>
                     </list>

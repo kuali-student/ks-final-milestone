@@ -243,6 +243,7 @@ limitations under the License.
                           p:termSpecName="AdmittedToProgramLimitCoursesInOrgForDuration"
                           p:operator="&lt;=" p:value="n">
                         <property name="componentId" value="KRMS-ProgramWithNofAndOrg-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramWithOrgDurationComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -260,6 +261,7 @@ limitations under the License.
                           p:termSpecName="AdmittedToProgramLimitCoursesInOrgForDuration" p:operator="&lt;="
                           p:value="n">
                         <property name="componentId" value="KRMS-ProgramWithDurAndOrg-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramWithOrgDurationComponentBuilder"/>
                     </bean>
                 </entry>
 
