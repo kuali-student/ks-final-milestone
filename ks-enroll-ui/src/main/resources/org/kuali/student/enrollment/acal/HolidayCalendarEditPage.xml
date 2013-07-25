@@ -202,7 +202,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm">
+                <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:defaultValue="AM">
                     <property name="required" value="@{!#lp.allDay and !#empty(#lp.startTime)}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.startTime"/>
                     <property name="control">
@@ -234,7 +234,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm">
+                <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:defaultValue="AM">
                     <property name="required" value="@{!#lp.allDay and !#empty(#lp.endTime)}"/>
                     <property name="refreshWhenChangedPropertyNames" value="#lp.endTime"/>
                     <property name="control">
