@@ -240,7 +240,7 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.max.limit.courses.at.org.for.program">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="null"
+                          p:termSpecName="AdmittedToProgramLimitCoursesInOrgForDuration"
                           p:operator="&lt;=" p:value="n">
                         <property name="componentId" value="KRMS-ProgramWithNofAndOrg-Group"/>
                     </bean>
@@ -476,8 +476,8 @@ limitations under the License.
                 <entry key="kuali.krms.proposition.type.memberof.population">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="Population" p:value="true">
-                        <property name="componentId" value="KRMS-ClassStanding-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
+                        <property name="componentId" value="KRMS-Population-Group"/>
+                        <property name="componentBuilderClass" value="org.kuali.student.core.krms.builder.PopulationComponentBuilder"/>
                     </bean>
                 </entry>
 
