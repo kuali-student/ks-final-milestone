@@ -34,9 +34,9 @@
 .jstree-viewrule .jstree-open > ins { display: none; }
 .jstree-viewrule .jstree-closed > ins { display: none; }
 .jstree-viewrule .jstree-leaf > ins { display: none; }
-.jstree-viewrule li.jstree-last a:not(.uif-action) { height: auto; }
+.jstree-viewrule li.jstree-last a:not(.uif-action) { cursor: text; height: auto; }
 
-.jstree-viewrule li.jstree-last a.btn-link { color: #0088cc; }
+.jstree-viewrule li.jstree-last a.btn-link { cursor: pointer; color: #0088cc; }
 .jstree-viewrule li.jstree-last a.btn-link:hover { color: #005580; }
 .jstree-viewrule .ks-uif-footer { float: left; }
 
