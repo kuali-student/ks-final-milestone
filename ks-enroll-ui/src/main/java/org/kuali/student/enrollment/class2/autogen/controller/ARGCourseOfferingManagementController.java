@@ -724,6 +724,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
             theForm.setPrivateClusterNameForRenamePopover("");
             theForm.setPublishedClusterNameForRenamePopover("");
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.CLUSTER_RENAME_SUCCESS);
 
 
         }  else {
