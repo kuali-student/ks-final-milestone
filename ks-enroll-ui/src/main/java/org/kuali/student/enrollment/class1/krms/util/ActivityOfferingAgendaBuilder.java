@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class1.krms.util;
 
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaBuilder;
@@ -34,6 +35,11 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
      */
     protected Component buildRule(RuleEditor rule, String bindingPrefix, AgendaSection agendaSection) {
         Component group = super.buildRule(rule, bindingPrefix, agendaSection);
+
+        //Open disclosure if rule has statements
+        if(rule.getProposition() != null) {
+            ((Group) group).getDisclosure().setDefaultOpen(true);
+        }
 
         //Add warning messages for empty or deleted rules.
         if (rule.isDummy() && rule.getParent() != null)  {
