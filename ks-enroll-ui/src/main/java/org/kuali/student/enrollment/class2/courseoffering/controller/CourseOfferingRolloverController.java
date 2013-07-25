@@ -24,19 +24,18 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.common.uif.util.GrowlIcon;
-import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -281,6 +280,16 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         CourseOfferingViewHelperService helper = getViewHelperService(form);
         List<TermInfo> targetTermsByCode = helper.findTermByTermCode(targetTermCd);
         List<TermInfo> sourceTermsByCode = helper.findTermByTermCode(sourceTermCd);
+
+        if (sourceTermsByCode==null || sourceTermsByCode.isEmpty()) {
+            GlobalVariables.getMessageMap().putError("sourceTermCode", "error.courseoffering.sourceTerm.inValid");
+            return false;
+        }
+        if (targetTermsByCode==null || targetTermsByCode.isEmpty()) {
+            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.sourceTerm.inValid");
+            return false;
+        }
+
         //collect sub-terms if any
         List<TermInfo> targetSubTermsByCode = _getAcalService().getIncludedTermsInTerm(targetTermsByCode.get(0).getId(), new ContextInfo());
         List<TermInfo> sourceSubTermsByCode =_getAcalService().getIncludedTermsInTerm(sourceTermsByCode.get(0).getId(), new ContextInfo());
