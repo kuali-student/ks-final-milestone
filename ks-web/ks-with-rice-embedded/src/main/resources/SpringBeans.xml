@@ -227,6 +227,7 @@
                 <value>classpath:org/kuali/student/core/krms/DepartmentLookupView.xml</value>
                 <value>classpath:org/kuali/student/core/krms/KSKRMSPopulationLookupView.xml</value>
                 <value>classpath:org/kuali/student/core/krms/KSKRMSCustomComponents.xml</value>
+                <value>classpath:org/kuali/student/core/krms/KSKRMSRuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/lum/lu/ui/krms/TestSetLookupView.xml</value>
                 <value>classpath:org/kuali/student/lum/lu/ui/krms/KRMSCourseLookupView.xml</value>
                 <value>classpath:org/kuali/student/lum/lu/ui/krms/CourseSetsLookupView.xml</value>
