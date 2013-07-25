@@ -59,7 +59,7 @@ limitations under the License.
     <bean id="KRMS-FreeForm-InputField" parent="KRMS-FreeForm-InputField-parent"/>
 
     <bean id="KRMS-OrgDepartment-Field-Parent" parent="Uif-InputField-LabelTop"
-          p:propertyName="proposition.termParameter" p:required="true">
+          p:propertyName="proposition.orgInfo.longName" p:required="true">
         <property name="style" value="width:450px;"/>
         <!--<property name="suggest">
             <bean parent="Uif-Suggest">
@@ -108,7 +108,7 @@ limitations under the License.
         <property name="viewName" value="krmsOrgDepartmentView"/>
         <property name="fieldConversions">
             <map>
-                <entry key="longName" value="proposition.termParameter"/>
+                <entry key="longName" value="proposition.orgInfo.longName"/>
                 <entry key="id" value="proposition.orgInfo.id"/>
             </map>
         </property>
