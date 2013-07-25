@@ -21,12 +21,11 @@ import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.core.krms.dto.KSPropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.CluInformation;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.ProgramCluSetInformation;
-import org.kuali.student.enrollment.class1.krms.util.KSKRMSConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
+import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.ProgramCluSetInformation;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
@@ -55,7 +54,7 @@ import java.util.Map;
 /**
  * @author Kuali Student Team
  */
-public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositionEditor> {
+public class ProgramComponentBuilder implements ComponentBuilder<LUPropositionEditor> {
 
 
     private CluService cluService;
@@ -68,7 +67,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     }
 
     @Override
-    public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
+    public void resolveTermParameters(LUPropositionEditor propositionEditor, Map<String, String> termParameters) {
         String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY);
         if (cluSetId != null) {
             try {
@@ -82,7 +81,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     }
 
     @Override
-    public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
+    public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getProgCluSet() != null) {
             if (propositionEditor.getProgCluSet().getCluSetInfo() != null) {
@@ -96,7 +95,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     }
 
     @Override
-    public void onSubmit(EnrolPropositionEditor propositionEditor) {
+    public void onSubmit(LUPropositionEditor propositionEditor) {
         //Create the courseset
         try {
             if (propositionEditor.getProgCluSet()!= null) {
@@ -117,12 +116,12 @@ public class ProgramComponentBuilder implements ComponentBuilder<EnrolPropositio
     }
 
     @Override
-    public void validate(EnrolPropositionEditor propositionEditor) {
+    public void validate(LUPropositionEditor propositionEditor) {
         ProgramCluSetInformation progCluSet = propositionEditor.getProgCluSet();
         if(progCluSet != null){
         if(!progCluSet.hasClus() && progCluSet.getCluSets().size()==0 ){
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "programType");
-            GlobalVariables.getMessageMap().putError(propName, KSKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED);
+            //GlobalVariables.getMessageMap().putError(propName, KSKRMSConstants.KSKRMS_MSG_ERROR_APPROVED_PROGRAM_REQUIRED);
         }
         }
     }

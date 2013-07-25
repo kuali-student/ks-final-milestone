@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class1.krms.builder;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.student.core.krms.dto.KSPropositionEditor;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * @author Kuali Student Team
  */
-public class TestScoreComponentBuilder implements ComponentBuilder<EnrolPropositionEditor> {
+public class TestScoreComponentBuilder implements ComponentBuilder<LUPropositionEditor> {
 
     private CourseService courseService;
 
@@ -44,7 +44,7 @@ public class TestScoreComponentBuilder implements ComponentBuilder<EnrolProposit
     }
 
     @Override
-    public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
+    public void resolveTermParameters(LUPropositionEditor propositionEditor, Map<String, String> termParameters) {
         String courseId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TEST_CLU_KEY);
         if (courseId != null) {
             try {
@@ -58,7 +58,7 @@ public class TestScoreComponentBuilder implements ComponentBuilder<EnrolProposit
     }
 
     @Override
-    public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
+    public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getCourseInfo() != null){
             termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TEST_CLU_KEY, propositionEditor.getCourseInfo().getId());
@@ -67,12 +67,12 @@ public class TestScoreComponentBuilder implements ComponentBuilder<EnrolProposit
     }
 
     @Override
-    public void onSubmit(EnrolPropositionEditor propositionEditor) {
+    public void onSubmit(LUPropositionEditor propositionEditor) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public void validate(EnrolPropositionEditor propositionEditor) {
+    public void validate(LUPropositionEditor propositionEditor) {
         //To change body of implemented methods use File | Settings | File Templates.
     }
 

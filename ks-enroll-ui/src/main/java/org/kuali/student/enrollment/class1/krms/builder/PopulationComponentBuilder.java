@@ -17,8 +17,8 @@ package org.kuali.student.enrollment.class1.krms.builder;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.builder.ComponentBuilder;
-import org.kuali.student.enrollment.class1.krms.dto.EnrolPropositionEditor;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * @author Kuali Student Team
  */
-public class PopulationComponentBuilder implements ComponentBuilder<EnrolPropositionEditor> {
+public class PopulationComponentBuilder implements ComponentBuilder<LUPropositionEditor> {
 
     private PopulationService populationService;
 
@@ -42,15 +42,15 @@ public class PopulationComponentBuilder implements ComponentBuilder<EnrolProposi
     }
 
     @Override
-    public void resolveTermParameters(EnrolPropositionEditor propositionEditor, Map<String, String> termParameters) {
+    public void resolveTermParameters(LUPropositionEditor propositionEditor, Map<String, String> termParameters) {
         String populationId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY);
         if (populationId != null) {
             try {
                 PopulationInfo populationInfo = this.getPopulationService().getPopulation(populationId, ContextUtils.getContextInfo());
                 PopulationWrapper populationWrapper = new PopulationWrapper();
-                propositionEditor.setPopulationWrapper(populationWrapper);
-                propositionEditor.getPopulationWrapper().setId(populationInfo.getId());
-                propositionEditor.getPopulationWrapper().setPopulationInfo(populationInfo);
+                //propositionEditor.setPopulationWrapper(populationWrapper);
+                //propositionEditor.getPopulationWrapper().setId(populationInfo.getId());
+                //propositionEditor.getPopulationWrapper().setPopulationInfo(populationInfo);
                 propositionEditor.setPopulation(populationInfo.getName());
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -60,23 +60,23 @@ public class PopulationComponentBuilder implements ComponentBuilder<EnrolProposi
     }
 
     @Override
-    public Map<String, String> buildTermParameters(EnrolPropositionEditor propositionEditor) {
+    public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getPopulation() != null){
 
-            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY, propositionEditor.getPopulationWrapper().getId());
+            //termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY, propositionEditor.getPopulationWrapper().getId());
         }
 
         return termParameters;
     }
 
     @Override
-    public void onSubmit(EnrolPropositionEditor propositionEditor) {
+    public void onSubmit(LUPropositionEditor propositionEditor) {
 
     }
 
     @Override
-    public void validate(EnrolPropositionEditor propositionEditor) {
+    public void validate(LUPropositionEditor propositionEditor) {
 
     }
 
