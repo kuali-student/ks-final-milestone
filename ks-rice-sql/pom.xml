@@ -9,6 +9,21 @@
     <artifactId>ks-rice-sql</artifactId>
     <name>KS Rice SQL</name>
     <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.kuali.maven.plugins</groupId>
+                    <artifactId>spring-maven-plugin</artifactId>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.kuali.student.deployments</groupId>
+                            <artifactId>ks-deployment-resources</artifactId>
+                            <version>${ks.deployments.version}</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.kuali.maven.plugins</groupId>
@@ -22,6 +37,7 @@
                         <phase>prepare-package</phase>
                         <configuration>
                             <annotatedClass>${metainf.sql.context}</annotatedClass>
+                            <propertySourcesConfig>${metainf.sql.propertySource}</propertySourcesConfig>
                         </configuration>
                     </execution>
                 </executions>
