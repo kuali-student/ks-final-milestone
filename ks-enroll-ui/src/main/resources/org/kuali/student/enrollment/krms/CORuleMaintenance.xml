@@ -119,14 +119,17 @@ limitations under the License.
                 </bean>
             </list>
         </property>
+
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.class1.krms.view.KSKRMSViewAuthorizer"/>
+        </property>
+
         <property name="singlePageView" value="false"/>
         <property name="entryPageId" value="KSCO-AgendaMaintenance-Page"/>
         <property name="additionalScriptFiles">
             <list>
-                <value>krms/scripts/agendaTree.js</value>
-                <value>ks-enroll/scripts/ruleStudentTree.js</value>
+                <value>ks-enroll/scripts/ruleMaintenance.js</value>
                 <value>krms/scripts/requiredAlerts.js</value>
-                <value>ks-enroll/scripts/disableStudentButtons.js</value>
                 <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
@@ -206,7 +209,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="KSCO-RuleView-Links" p:render="@{#line.dummy and #line.parent != null}"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:disabled="@{!#line.permission.addEditRequisite}"
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>
@@ -215,13 +218,13 @@ limitations under the License.
     <bean id="KSCO-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and CO Rules"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:disabled="@{!#line.permission.addEditRequisite}"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:disabled="@{!#line.permission.deleteRequisite}"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteRequisite"/>
             </list>
         </property>
     </bean>
@@ -229,7 +232,7 @@ limitations under the License.
     <bean id="KSCO-RuleView-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and CO Rules"/>
                     </property>
@@ -414,7 +417,7 @@ limitations under the License.
     <bean id="KSCO-RulePreview-Links" parent="KRMS-RulePreview-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and CO Rules"/>
                     </property>

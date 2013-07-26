@@ -13,6 +13,204 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+var ADD = '.kr-add-button';
+var CUT='.kr-cut-button';
+var PASTE='.kr-paste-button';
+var DELETE='.kr-delete-button';
+var REFRESH='.kr-refresh-button';
+var TREE = '.tree-bar-button';
+var MOVE='.kr-move-button';
+var UP='.kr-up-button';
+var DOWN='.kr-down-button';
+var LEFT='.kr-left-button';
+var RIGHT='.kr-right-button';
+var COPY='.kr-copy-button';
+
+var ENABLED = true;
+var pasting = false;
+
+function disableButton(id) {
+    if (ENABLED && jq(id) != null) {
+        jq(id).attr('disabled', true);
+//        not using grayed out images yet..
+//        jq(id + ' > img').attr('src', 'yourdisabledimg.jpg');
+//        did the css stuff in a new css-class
+//        jq(id).css('cursor', 'default');
+//        jq(id).css('color', 'gray');
+        jq(id).removeClass('kr-button-primary');
+        jq(id).removeClass('kr-button-secondary1');
+        jq(id).addClass('kr-button-primary-disabled');
+    }
+}
+
+function enableButton(id) {
+    if (ENABLED && jq(id) != null) {
+        jq(id).removeAttr('disabled');
+        jq(id).removeClass('kr-button-primary-disabled');
+        jq(id).addClass('kr-button-primary');
+    }
+}
+
+function enableAddButton() {
+    enableButton(ADD);
+}
+
+function enablePasteButton() {
+    pasting = true;
+    enableButton(PASTE);
+}
+
+function enableDeleteButton() {
+    enableButton(DELETE);
+}
+
+function enableRefreshButton() {
+    enableButton(REFRESH);
+}
+
+function enableTreeButtons() {
+    enableButton(TREE);
+    if (!pasting) {
+        disablePasteButton();
+    }
+}
+
+function enableCopyButton() {
+    enableButton(COPY);
+}
+
+function disablePasteButton() {
+    pasting = false;
+    disableButton(PASTE);
+}
+
+function disableTreeButtons() {
+    disableButton(TREE);
+}
+
+function disableMoveButtons() {
+    disableButton(MOVE);
+}
+
+function disableUpButton() {
+    disableButton(UP);
+}
+
+function disableDownButton() {
+    disableButton(DOWN);
+}
+
+function disableLeftButton() {
+    disableButton(LEFT);
+}
+
+function disableRightButton() {
+    disableButton(RIGHT);
+}
+
+function disableCutCopyButtons() {
+    disableButton(CUT);
+}
+
+function cutPasteButtonInit() {
+    // CUT
+    if (jq('.kr-cut-button') != undefined && jq('.kr-cut-button') != null) {
+        jq('.kr-cut-button').click(function() {
+            enablePasteButton();
+        });
+    }
+    // PASTE
+    //if (jq('.kr-paste-button') != undefined && jq('.kr-paste-button') != null) {
+    //    jq('.kr-paste-button').click(function() {
+    //       disablePasteButton();
+    //    });
+    //}
+}
+
+
+function propButtonsInit() {
+    disableTreeButtons();
+
+    if (propositionAddInProgress()) {
+        disablePasteButton();
+        enableDeleteButton();
+    } else {
+        cutPasteButtonInit();
+        enableAddButton();
+        enableRefreshButton();
+        selectedPropCheck();
+    }
+}
+
+var onProp = false;
+function enabledCheck(command) {
+    if (onProp) return true;
+
+    if (command == 'edit') {
+        onProp = true;
+        propButtonsInit();
+    } else if (command == 'add') {
+        onProp = true;
+        propButtonsInit();
+    } else if (command == 'addparent') {
+        onProp = true;
+        propButtonsInit();
+    } else if (command == 'left') {
+        onProp = true;
+        propButtonsInit();
+    } else if (command == 'right') {
+        onProp = true;
+        propButtonsInit();
+    } else if (command == 'up') {
+        onProp = true;
+        propButtonsInit();
+    } else if (command == 'down') {
+        onProp = true;
+        propButtonsInit();
+    } else if (command == 'cut') {
+        onProp = true;
+        propButtonsInit();
+        enablePasteButton(); // clicks have not been inited yet, enable paste button
+    } else if (command == 'copy') {
+        onProp = true;
+        propButtonsInit();
+        enablePasteButton(); // clicks have not been inited yet, enable paste button
+    } else if (command == 'paste') {
+        onProp = true;
+        propButtonsInit();
+    } else if (command == 'refresh') {
+        onProp = true;
+        propButtonsInit();
+    } else if (command == 'delete') {
+        onProp = true;
+        propButtonsInit();
+    }
+    return onProp;
+}
+
+function selectedCheck() {
+    var disableButtons = jq('input.disableButtons').val();
+    if(disableButtons == 'true'){
+        disableTreeButtons();
+    }
+}
+
+function selectedPropCheck() {
+    if (getSelectedPropositionInput() != null) {
+        if (getSelectedPropositionInput().val() != "" && getSelectedPropositionInput().val() != undefined) {
+            enableTreeButtons();
+        }
+    }
+}
+
+function loadControlsInit() {
+    if (ENABLED) {
+        disablePasteButton();
+        propButtonsInit();
+    }
+}
+
 function getSelectedPropositionInput() {
     return jq('input[id="proposition_selected_control"]');
 }

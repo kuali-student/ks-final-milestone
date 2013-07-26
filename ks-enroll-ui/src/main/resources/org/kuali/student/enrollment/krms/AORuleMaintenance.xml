@@ -90,6 +90,11 @@ limitations under the License.
                 </bean>
             </list>
         </property>
+
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.class1.krms.view.KSKRMSViewAuthorizer"/>
+        </property>
+
         <property name="singlePageView" value="false"/>
         <property name="unifiedHeader" value="false"/>
         <property name="entryPageId" value="KSAO-AgendaMaintenance-Page"/>
@@ -100,10 +105,8 @@ limitations under the License.
         </property>
         <property name="additionalScriptFiles">
             <list>
-                <value>krms/scripts/agendaTree.js</value>
-                <value>ks-enroll/scripts/ruleStudentTree.js</value>
+                <value>ks-enroll/scripts/ruleMaintenance.js</value>
                 <value>krms/scripts/requiredAlerts.js</value>
-                <value>ks-enroll/scripts/disableStudentButtons.js</value>
                 <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
