@@ -330,8 +330,9 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                 alternateCodes = ((CourseOfferingEditWrapper)wrapper).getAlternateCourseCodesSuffixStripped();
             }
             for (String alternateCode : alternateCodes) {
+                String alternateCourseCodesSuffixStripped = StringUtils.stripEnd(alternateCode,coInfo.getCourseNumberSuffix());
                 for (CourseCrossListingInfo crossInfo : wrapper.getCourse().getCrossListings()) {
-                    if (StringUtils.equals(crossInfo.getCode(),alternateCode)) {
+                    if (StringUtils.equals(crossInfo.getCode(),alternateCourseCodesSuffixStripped)) {
                         CourseOfferingCrossListingInfo crossListingInfo = new CourseOfferingCrossListingInfo();
                         crossListingInfo.setCode(crossInfo.getCode());
                         crossListingInfo.setCourseNumberSuffix(crossInfo.getCourseNumberSuffix());
