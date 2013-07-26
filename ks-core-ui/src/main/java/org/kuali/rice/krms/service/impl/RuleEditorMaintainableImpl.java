@@ -112,8 +112,10 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         List<AgendaEditor> parentAgendas = new ArrayList<AgendaEditor>();
 
         // Get the list of existing agendas
+        LOG.info("Retrieving reference object binding for refobjectid: " + refObjectId);
         List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(discriminatorType, refObjectId);
         for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
+            LOG.info("Retrieved reference object binding with id: " + referenceObjectBinding);
             agendas.add(this.getAgendaEditor(referenceObjectBinding.getKrmsObjectId()));
         }
 
@@ -154,7 +156,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     }
 
     protected AgendaEditor getAgendaEditor(String agendaId) {
+        LOG.info("Retrieving agenda for id: " + agendaId);
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
+        LOG.info("Retrieved agenda for id: " + agendaId);
         return new AgendaEditor(agenda);
     }
 
@@ -163,7 +167,9 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         //Get all existing rules.
         List<RuleEditor> existingRules = null;
         if (agenda.getId() != null) {
+            LOG.info("Retrieving agenda item for id: " + agenda.getFirstItemId());
             AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+            LOG.info("Retrieved agenda item for id: " + agenda.getFirstItemId());
             existingRules = getRuleEditorsFromTree(firstItem, true);
         }
 
@@ -368,10 +374,13 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId());
                 for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
                     if (referenceObjectBinding.getKrmsObjectId().equals(agenda.getId())) {
+                        LOG.info("Deleting reference object binding for id: " + referenceObjectBinding.getId());
                         this.getRuleManagementService().deleteReferenceObjectBinding(referenceObjectBinding.getId());
                     }
                 }
+                LOG.info("Deleting agenda item for id: " + firstItem.getId());
                 this.getRuleManagementService().deleteAgendaItem(firstItem.getId());
+                LOG.info("Deleting agenda for id: " + agenda.getId());
                 this.getRuleManagementService().deleteAgenda(agenda.getId());
             }
 
