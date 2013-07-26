@@ -23,10 +23,8 @@ limitations under the License.
         <property name="dataObjectClassName" value="org.kuali.rice.krms.dto.RuleManagementWrapper"/>
         <property name="additionalScriptFiles">
             <list>
-                <value>krms/scripts/agendaTree.js</value>
-                <value>ks-enroll/scripts/ruleStudentTree.js</value>
+                <value>ks-enroll/scripts/ruleMaintenance.js</value>
                 <value>krms/scripts/requiredAlerts.js</value>
-                <value>ks-enroll/scripts/disableStudentButtons.js</value>
                 <value>krms/scripts/countdownInputs.js</value>
             </list>
         </property>
@@ -214,7 +212,7 @@ limitations under the License.
         <property name="linkSeparator" value=" | "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules" p:disabled="@{!#dp.ruleEditor.permission.compare}">
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare with parent"/>
                     </property>
@@ -227,9 +225,9 @@ limitations under the License.
         <property name="linkSeparator" value="@{#line.dummy and #line.parent != null ? ' | ' : ''}"/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}"
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules"
                       p:render="@{#line.dummy and #line.parent != null}" />
-                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:disabled="@{!#line.permission.addEditRequisite}"
+                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>

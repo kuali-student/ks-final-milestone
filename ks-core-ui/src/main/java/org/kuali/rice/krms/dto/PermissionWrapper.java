@@ -23,9 +23,6 @@ import java.io.Serializable;
  */
 public class PermissionWrapper implements Serializable {
 
-    private boolean addEditRequisite;
-    private boolean deleteRequisite;
-    private boolean compare;
     private boolean addEditGroupRule;
     private boolean moveRule;
     private boolean copyCutRule;
@@ -33,38 +30,11 @@ public class PermissionWrapper implements Serializable {
     private boolean deleteRule;
 
     public PermissionWrapper() {
-        this.addEditRequisite = true;
-        this.deleteRequisite = true;
-        this.compare = true;
         this.addEditGroupRule = true;
         this.moveRule = true;
         this.copyCutRule = true;
         this.editLogic = true;
         this.deleteRule = true;
-    }
-
-    public boolean isAddEditRequisite() {
-        return addEditRequisite;
-    }
-
-    public void setAddEditRequisite(boolean addEditRequisite) {
-        this.addEditRequisite = addEditRequisite;
-    }
-
-    public boolean isDeleteRequisite() {
-        return deleteRequisite;
-    }
-
-    public void setDeleteRequisite(boolean deleteRequisite) {
-        this.deleteRequisite = deleteRequisite;
-    }
-
-    public boolean isCompare() {
-        return compare;
-    }
-
-    public void setCompare(boolean compare) {
-        this.compare = compare;
     }
 
     public boolean isAddEditGroupRule() {

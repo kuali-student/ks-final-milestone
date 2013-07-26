@@ -75,6 +75,7 @@ public class AgendaBuilder {
         List<Action> actionLinks = ComponentUtils.getComponentsOfTypeDeep(group, Action.class);
         for (Action actionLink : actionLinks) {
             actionLink.getActionParameters().put("ruleKey", rule.getKey());
+            actionLink.getActionParameters().put("ruleType", rule.getRuleTypeInfo().getType());
         }
 
         ComponentUtils.updateContextForLine(group, rule, 0, ruleSuffix);

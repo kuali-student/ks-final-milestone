@@ -70,20 +70,6 @@ public class KSKRMSPermissionHelper {
 
     public static void processPermissionsForRule(String principalId, Map<String, String> permissionDetails, Map<String, String> roleQualifications,
                                                  RuleEditor rule, String namespace) {
-        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addEditRequisite");
-        if (permissionService.isAuthorizedByTemplate(principalId, namespace, KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-            rule.getPermission().setAddEditRequisite(true);
-        }
-
-        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteRequisite");
-        if (permissionService.isAuthorizedByTemplate(principalId, namespace, KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-            rule.getPermission().setDeleteRequisite(true);
-        }
-
-        permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "compare");
-        if (permissionService.hasPermissionByTemplate(principalId, namespace, KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails)) {
-            rule.getPermission().setCompare(true);
-        }
 
         permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addEditGroupRule");
         if (permissionService.isAuthorizedByTemplate(principalId, namespace, KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
@@ -112,9 +98,6 @@ public class KSKRMSPermissionHelper {
     }
 
     public static void resetActions(RuleEditor ruleEditor) {
-        ruleEditor.getPermission().setAddEditRequisite(false);
-        ruleEditor.getPermission().setDeleteRequisite(false);
-        ruleEditor.getPermission().setCompare(false);
         ruleEditor.getPermission().setAddEditGroupRule(false);
         ruleEditor.getPermission().setMoveRule(false);
         ruleEditor.getPermission().setCopyCutRule(false);
