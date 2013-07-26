@@ -237,7 +237,8 @@
             <properties>
                 <ks-db-validation.resource.path>ks-deployments/ks-dbs/ks-db-validation/src/main/resources/org/kuali/student/db/ks-db-validation</ks-db-validation.resource.path>
                 <ks-impex-app-db.artifactId>ks-impex-app-db</ks-impex-app-db.artifactId>
-                <ks-impex-app-db.resource.path>ks-deployments/ks-dbs/ks-impex/${ks-impex-app-db.artifactId}/src/main/resources/org/kuali/student/db/${ks-impex-app-db.artifactId}/</ks-impex-app-db.resource.path>
+                <ks-impex-app-db.resource.path>ks-deployments/ks-dbs/ks-impex/${ks-impex-app-db.artifactId}/src/main/resources/org/kuali/student/${ks-impex-app-db.artifactId}/</ks-impex-app-db.resource.path>
+                <ks.sonar.schemafile>schema.xml</ks.sonar.schemafile>
                 <!-- configuration for foreign key validation in ks-sonar plugin -->
                 <kuali.student.sonar.fkvalidation.driver>oracle.jdbc.driver.OracleDriver</kuali.student.sonar.fkvalidation.driver>
                 <kuali.student.sonar.fkvalidation.username>KSAPP_SONAR</kuali.student.sonar.fkvalidation.username>
@@ -248,12 +249,12 @@
                 <!-- configuration for schema comparison in ks-sonar plugin -->
                 <kuali.student.sonar.schemacompare.app.name>KSAPP</kuali.student.sonar.schemacompare.app.name>
                 <kuali.student.sonar.schemacompare.app.path>${ks-impex-app-db.resource.path}</kuali.student.sonar.schemacompare.app.path>
-                <kuali.student.sonar.schemacompare.app.schemafile>${ks-impex-app-db.artifactId}-schema.xml</kuali.student.sonar.schemacompare.app.schemafile>
-                <kuali.student.sonar.schemacompare.app.constraintsfile>${ks-impex-app-db.artifactId}-constraints-schema.xml</kuali.student.sonar.schemacompare.app.constraintsfile>
+                <kuali.student.sonar.schemacompare.app.schemafile>${ks.sonar.schemafile}</kuali.student.sonar.schemacompare.app.schemafile>
+                <kuali.student.sonar.schemacompare.app.constraintsfile>${ks.sonar.schemafile}</kuali.student.sonar.schemacompare.app.constraintsfile>
                 <kuali.student.sonar.schemacompare.ddl.name>DDL</kuali.student.sonar.schemacompare.ddl.name>
                 <kuali.student.sonar.schemacompare.ddl.path>${ks-db-validation.resource.path}/ddl/</kuali.student.sonar.schemacompare.ddl.path>
-                <kuali.student.sonar.schemacompare.ddl.schemafile>schema.xml</kuali.student.sonar.schemacompare.ddl.schemafile>
-                <kuali.student.sonar.schemacompare.ddl.constraintsfile>constraints.xml</kuali.student.sonar.schemacompare.ddl.constraintsfile>
+                <kuali.student.sonar.schemacompare.ddl.schemafile>${ks.sonar.schemafile}</kuali.student.sonar.schemacompare.ddl.schemafile>
+                <kuali.student.sonar.schemacompare.ddl.constraintsfile>${ks.sonar.schemafile}</kuali.student.sonar.schemacompare.ddl.constraintsfile>
                 <!-- properties to create the KSAPP_SONAR db -->
                 <properties.decrypt>true</properties.decrypt>
                 <oracle.dba.username>master</oracle.dba.username>
