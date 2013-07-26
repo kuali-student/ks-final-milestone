@@ -329,7 +329,7 @@
         <property name="propertyReplacers">
             <list>
                 <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                      p:condition="#line.aoInfo.scheduleId == null" p:replacement="color:grey;"/>
+                      p:condition="#line.aoInfo.scheduleIds.isEmpty()" p:replacement="color:grey;"/>
             </list>
         </property>
     </bean>
