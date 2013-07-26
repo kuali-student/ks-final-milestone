@@ -467,8 +467,7 @@ limitations under the License.
         </property>
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"
-                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:render="false"/>
+                <!-- Empty -->
             </list>
         </property>
         <property name="items">
