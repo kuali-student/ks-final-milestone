@@ -246,12 +246,11 @@ public class CluInformationHelper {
      * @return
      */
     private static CluInformation cluInformationFromCluInfo(CluInfo cluInfo) {
-        CluInformation cluInformation = new CluInformation(cluInfo.getOfficialIdentifier().getCode(), cluInfo.getOfficialIdentifier().getShortName().toUpperCase(), "");
+        CluInformation cluInformation = new CluInformation(cluInfo.getOfficialIdentifier().getCode(), cluInfo.getOfficialIdentifier().getShortName(), "");
         cluInformation.setCluId(cluInfo.getId());
         cluInformation.setDescription(cluInfo.getDescr().getPlain());
         cluInformation.setState(cluInfo.getStateKey());
         cluInformation.setTitle(cluInfo.getOfficialIdentifier().getLongName());
-        cluInformation.setShortName(cluInfo.getOfficialIdentifier().getShortName());
         cluInformation.setType(cluInfo.getTypeKey());
         cluInformation.setVerIndependentId(cluInfo.getVersion().getVersionIndId());
         return cluInformation;
