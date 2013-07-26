@@ -17,6 +17,11 @@ package org.kuali.student.lum.lu.ui.krms.util;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
@@ -275,5 +280,20 @@ public class CluSetRangeHelper implements Serializable {
 
         return param;
     }
+
+    /**
+     * validate Course Range.
+     *
+     * @param propositionEditor
+     */
+    public void validateCourseRange(LUPropositionEditor propositionEditor) {
+        CluSetInformation cluSet = propositionEditor.getCluSet();
+
+        if (cluSet.getRangeHelper().getEffectiveFrom().after(cluSet.getRangeHelper().getEffectiveTo())){
+            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "cluSet.rangeHelper.effectiveTo");
+            GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_COURSERANGE_DATES_OVERLAP);
+        }
+    }
+
 
 }
