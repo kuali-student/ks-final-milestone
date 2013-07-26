@@ -248,6 +248,22 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return back(form,result,request,response);
     }
 
+    @RequestMapping(params = "methodToCall=breakColo")
+    public ModelAndView breakColo(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+                HttpServletRequest request, HttpServletResponse response) {
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
+        activityOfferingWrapper.getColocatedActivities().clear();
+        activityOfferingWrapper.setSharedMaxEnrollment(0);
+        activityOfferingWrapper.getEditRenderHelper().getManageSeperateEnrollmentList().clear();
+        activityOfferingWrapper.setColocatedAO(false);
+        activityOfferingWrapper.getNewScheduleRequest().getColocatedAOs().clear();
+        activityOfferingWrapper.getRequestedScheduleComponents().clear();
+
+        return getUIFModelAndView(form);
+    }
+
     private Object getSelectedObject(MaintenanceDocumentForm form){
         String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
