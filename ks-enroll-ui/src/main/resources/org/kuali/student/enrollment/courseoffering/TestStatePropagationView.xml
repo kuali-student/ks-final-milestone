@@ -20,7 +20,7 @@
      limitations under the License.
     -->
     <bean id="KS-TestStatePropagation-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
-          p:id="testStatePropagationView" p:headerText="State Propagation Test View"
+          p:id="testStatePropagationView" p:headerText="Special Handlers for AFTs"
           p:entryPageId="testStatePropagation"
           p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.TestStatePropagationViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagationForm">
@@ -35,7 +35,29 @@
         <property name="items">
             <list>
                 <ref bean="KS-TestStatePropagation-Page1" />
-                <ref bean="KS-AFTSocStateChange-Page" />
+
+                <bean parent="KS-Uif-Page" p:disclosure.render="false"
+                      p:id="aft-changeSocStatePage"
+                      p:headerText="Change SOC State for AFT">
+                    <property name="items">
+                        <list>
+
+                            <bean id="changeSocStateBean" parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:label="Term" p:propertyName="termCodeForSocStateChange" />
+                                        <bean parent="Uif-InputField" p:label="Soc State" p:propertyName="newSocStateForSocStateChange" />
+                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Change SOC State" p:methodToCall="changeSocState" />
+                                    </list>
+                                </property>
+
+                            </bean>
+
+                        </list>
+                    </property>
+
+                </bean>
+
             </list>
         </property>
     </bean>
