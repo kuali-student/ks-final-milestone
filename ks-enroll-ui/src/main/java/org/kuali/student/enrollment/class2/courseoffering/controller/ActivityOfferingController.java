@@ -258,6 +258,11 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         activityOfferingWrapper.setColocatedAO(false);
         activityOfferingWrapper.getNewScheduleRequest().getColocatedAOs().clear();
         activityOfferingWrapper.getRequestedScheduleComponents().clear();
+        for (ScheduleWrapper scheduleWrapper : activityOfferingWrapper.getActualScheduleComponents()){
+            scheduleWrapper.getColocatedAOs().clear();
+        }
+
+        activityOfferingWrapper.setRemovedFromColoSet(true);
 
         return getUIFModelAndView(form);
     }

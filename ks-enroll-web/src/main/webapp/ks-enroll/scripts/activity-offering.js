@@ -4,16 +4,13 @@
  */
 function handleColocation(){
 
-
     if(jQuery("#is_co_located_control").is(":checked")) {
         setupColoCheckBoxChange(jQuery("#is_co_located_control"));
     }else {
-
         var overrideOptions = { autoDimensions:false, width:500 };
-
         showLightboxComponent('ActivityOfferingEdit-BreakColocateConfirmation', overrideOptions);
-
     }
+
 }
 
 function closeColocationLightbox(){

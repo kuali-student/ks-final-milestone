@@ -258,7 +258,7 @@
 
                 <bean parent="Uif-Message" p:messageText="[b]Delivery Logistics[/b]"/>
 
-                <bean parent="Uif-Message" p:messageText="The Activity you are editing will forfit any requested and actual delivery logistics as a result [br]
+                <bean parent="Uif-Message" p:messageText="The Activity you are editing will forfeit any requested and actual delivery logistics as a result [br]
                                                           of breaking colocation. Delivery logistics will be retained by any remaining Activities.[br]" p:style="margin-top:10px;margin-bottom-10px;"/>
 
                 <bean parent="Uif-Message" p:messageText="[b]Maximum Enrollment[/b]"/>

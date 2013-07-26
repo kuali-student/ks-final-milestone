@@ -339,7 +339,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
          * deleted all the RDLs and unchecked the colo checkbox. In this case, we should not be deleting the set,
          * just remove the AO from the coloset and save.)
          */
-        if (wrapper.getRequestedScheduleComponents().isEmpty()){
+        if (wrapper.getRequestedScheduleComponents().isEmpty() && !wrapper.isRemovedFromColoSet()){
             if (set != null && StringUtils.isNotBlank(set.getId())){
                 try {
                     StatusInfo statusInfo = getSchedulingService().deleteScheduleRequestSet(set.getId(),defaultContextInfo);

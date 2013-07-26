@@ -108,6 +108,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean isPartOfColoSetOnLoadAlready;
     private boolean isColocatedOnLoadAlready;
     private boolean isSendRDLsToSchedulerAfterMSE;
+    private boolean isRemovedFromColoSet;
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
@@ -1129,5 +1130,22 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setRequisiteLink(boolean requisiteLink) {
         this.requisiteLink = requisiteLink;
+    }
+
+    /**
+     * @see #setRemovedFromColoSet(boolean)
+     * @return true if the user breaks the colo set
+     */
+    public boolean isRemovedFromColoSet() {
+        return isRemovedFromColoSet;
+    }
+
+    /**
+     * This flag will be set when the user breaks the AO from the colo set.
+     *
+     * @param removedFromColoSet
+     */
+    public void setRemovedFromColoSet(boolean removedFromColoSet) {
+        isRemovedFromColoSet = removedFromColoSet;
     }
 }
