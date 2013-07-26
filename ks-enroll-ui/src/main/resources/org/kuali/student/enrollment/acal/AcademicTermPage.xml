@@ -153,7 +153,7 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="parent_term_type" parent="Uif-InputField-LabelTop" p:propertyName="parentTerm" p:label="Parent Term" p:refreshWhenChangedPropertyNames="#lp.termType">
+                <bean id="parent_term_type" parent="Uif-InputField-LabelTop" p:propertyName="parentTerm" p:label="Parent Term" p:render="@{#isAddLine}" p:refreshWhenChangedPropertyNames="#lp.termType">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -171,7 +171,7 @@
                             <bean parent="Uif-HorizontalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean id="term_type" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
+                                        <bean id="term_type_edit" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
                                               p:label="Term Type" p:required="true">
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl"/>
@@ -254,7 +254,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="termType" p:render="@{!#isAddLine}" p:hidden="true">
+                            <bean id="termTypeHidden" parent="Uif-InputField" p:propertyName="termType" p:render="@{!#isAddLine}" p:hidden="true">
                                 <property name="control">
                                     <bean parent="Uif-HiddenControl"/>
                                 </property>
