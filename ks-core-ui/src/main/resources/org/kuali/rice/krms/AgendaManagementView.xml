@@ -126,6 +126,7 @@ limitations under the License.
 
     <bean id="KRMS-AgendaManage-Section" parent="Uif-VerticalBoxSection"
           class="org.kuali.rice.krms.util.AgendaSection">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="bindingInfo">
             <ref bean="Uif-BindingInfo"/>
         </property>
@@ -139,6 +140,7 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-AgendaManage-AgendaPrototype" parent="Uif-VerticalBoxSection">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderThree">
                 <property name="cssClasses">
