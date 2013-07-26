@@ -367,14 +367,14 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 	
 	private SearchService getSearchService() {
 		if (searchService == null) {
-			searchService = GlobalResourceLoader.getService(new QName(KeyValueConstants.NAMESPACE_PERSONSEACH, SearchService.class.getSimpleName()));
+			searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
 		}
 		return searchService;
 	}
 	
 	private SubjectCodeService getSubjectCodeService() {
 		if (subjectCodeService == null) {
-			subjectCodeService = GlobalResourceLoader.getService(new QName(KeyValueConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
+			subjectCodeService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
 		}
 		return subjectCodeService;
 	}	

@@ -15,6 +15,8 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
+
 
 /**
  * 
@@ -25,6 +27,17 @@ package org.kuali.student.cm.course.service.impl;
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 public class LookupableConstants {
+    
+    /*
+     * Constants needed to search for personSearch
+     */
+    public static final String NAMESPACE_PERSONSEACH = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "personsearch";
+    public static final String PERSONSEACH_SERVICE_NAME_LOCAL_PART = "PersonSearchService";
+    
+    /*
+     * Constants needed to search for subjectCode
+     */
+    public static final String NAMESPACE_SUBJECTCODE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "subjectCode";
     
     /*
      * Search constants.

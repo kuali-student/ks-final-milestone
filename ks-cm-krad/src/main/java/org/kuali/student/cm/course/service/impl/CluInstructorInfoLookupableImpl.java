@@ -103,7 +103,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 	
 	private SearchService getSearchService() {
 		if (searchService == null) {
-			searchService = GlobalResourceLoader.getService(new QName(KeyValueConstants.NAMESPACE_PERSONSEACH, SearchService.class.getSimpleName()));
+			searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
 		}
 		return searchService;
 	}
