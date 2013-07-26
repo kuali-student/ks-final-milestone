@@ -1,3 +1,4 @@
+var dirtyFieldsRefreshed = false;
 
 function removeSelfFromDropdowns(headerTextNameContainerId) {
     jQuery('select[name=clusterIdForAOMove]').each(function () {
@@ -893,6 +894,7 @@ function findDirtyFields(returnFieldId){
 
     }
     returnObject[0].value=returnString;
+    dirtyFieldsRefreshed=false;
 }
 
 /*
@@ -1097,15 +1099,18 @@ function resetDialogResponses(returnFieldId){
 }
 
 function resetDirtyFields(returnFieldId){
-    var dirtyFields = jQuery('#'+returnFieldId+'_control');
-    if(dirtyFields.length==0) return;
-    if(typeof dirtyFields[0].value === 'undefined') return;
-    var fields = dirtyFields[0].value.split(',');
-    for(i =0; i<fields.length;i++){
-        var field = fields[i];
-        if(field.length==0) continue;
-        var marker = jQuery('[name="'+field+'"]');
-        marker.addClass('dirty');
+    if(!dirtyFieldsRefreshed){
+        var dirtyFields = jQuery('#'+returnFieldId+'_control');
+        if(dirtyFields.length==0) return;
+        if(typeof dirtyFields[0].value === 'undefined') return;
+        var fields = dirtyFields[0].value.split(',');
+        for(i =0; i<fields.length;i++){
+            var field = fields[i];
+            if(field.length==0) continue;
+            var marker = jQuery('[name="'+field+'"]');
+            marker.addClass('dirty');
+        }
+        dirtyFieldsRefreshed=true;
     }
 }
 
