@@ -76,7 +76,7 @@
                                                           p:render="@{!#line.official and !#view.readOnly}"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);
                                                           findDirtyFields('AcalEdit-DirtyFields');"  />
-                                                    <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="@{#line.isSubTerm()? 'Delete Subterm Draft' : 'Delete Term Draft'}"
+                                                    <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);
                                                            findDirtyFields('AcalEdit-DirtyFields');"
                                                           p:render="@{!#line.official and !#view.readOnly}"/>
