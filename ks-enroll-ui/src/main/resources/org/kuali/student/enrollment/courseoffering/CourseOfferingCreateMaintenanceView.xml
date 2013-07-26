@@ -391,7 +391,7 @@
         <property name="id" value="courseOfferingCreatePage"/>
         <property name="headerText" value=""/>
         <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
-        <property name="onDocumentReadyScript" value="removeEmptyContextBar();"/>
+        <property name="onDocumentReadyScript" value="removeEmptyContextBar('KS-CourseOffering-View-ContextBar-PlaceHolder');"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
@@ -511,7 +511,7 @@
         <property name="id" value="courseOfferingCopyPage"/>
         <property name="headerText" value="Copy Course Offering"/>
         <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
-        <property name="onDocumentReadyScript" value="resetHeaderPosition();"/>
+        <property name="onDocumentReadyScript" value="resetHeaderPosition('KS-CourseOffering-View-ContextBar-PlaceHolder');"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>

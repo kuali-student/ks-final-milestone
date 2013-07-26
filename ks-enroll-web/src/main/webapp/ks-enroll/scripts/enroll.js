@@ -743,8 +743,10 @@ function updateContextBar(srcId, contextBarId){
  This method is for removing the empty context bar from a page.
  The position of the page header is repositioned accordingly
  */
-function removeEmptyContextBar(){
-    var contextBar = jQuery("#KS-CourseOffering-View-ContextBar-PlaceHolder");
+function removeEmptyContextBar(contextBarId){
+    if ((contextBarId==null) || (contextBarId.length==0)) return;
+
+    var contextBar = jQuery("#" + contextBarId);
 
     if (contextBar && contextBar.css('display') != "none") {
         //hide the empty context bar
@@ -763,8 +765,10 @@ function removeEmptyContextBar(){
 /*
  This method is for putting the page header back to the original position
  */
-function resetHeaderPosition(){
-    var contextBar = jQuery("#KS-CourseOffering-View-ContextBar-PlaceHolder");
+function resetHeaderPosition(contextBarId){
+    if ((contextBarId==null) || (contextBarId.length==0)) return;
+
+    var contextBar = jQuery("#" + contextBarId);
     if (contextBar && contextBar.css('display') != "none") {
 
         var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
