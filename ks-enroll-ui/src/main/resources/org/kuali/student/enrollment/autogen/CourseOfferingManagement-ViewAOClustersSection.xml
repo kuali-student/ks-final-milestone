@@ -58,10 +58,10 @@
                 <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" />
                 <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:renderColon="false" />
                 <bean parent="Uif-NavigationActionLink"  p:actionLabel="Rename"
-                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;); writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;clusterResultList&quot;); toggleAddAOCButton(&quot;renameAOCButton&quot;,&quot;privateClusterNameForRename_control&quot;);"
+                      p:onClickScript="jQuery('#privateClusterNameForRename_control').val('@{#line.aoCluster.privateName}'); jQuery('#publishedClusterNameForRename_control').val('@{#line.aoCluster.name}');writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;); writeHiddenToForm(&quot;actionParameters[selectedCollectionPath]&quot;, &quot;clusterResultList&quot;); toggleAddAOCButton(&quot;renameAOCButton&quot;,&quot;privateClusterNameForRename_control&quot;);"
                       p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-RenameAOCPopupForm',{align:'right',tail:{align:'right'}});" p:style="float:right"
-                p:successCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
-                p:errorCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
+                      p:successCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
+                      p:errorCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="renameCluster"/>
                 <!--<bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" p:style="float:right"/>-->
                 <!-- jQuery('input.required[value=]').removeClass('required'); work-around added to stop a problem where form validation was preventing delete from working -->
@@ -77,7 +77,6 @@
 
     <bean id="KS-CourseOfferingManagement-RenameAOCPopupForm" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true"/>
-
         <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
         <property name="items">
             <list>

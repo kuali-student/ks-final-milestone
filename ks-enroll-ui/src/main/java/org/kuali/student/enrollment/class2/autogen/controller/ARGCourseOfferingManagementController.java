@@ -16,8 +16,11 @@
  */
 package org.kuali.student.enrollment.class2.autogen.controller;
 
+import org.apache.log4j.Logger;
+
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -59,6 +62,8 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value = "/courseOfferingManagement")
 public class ARGCourseOfferingManagementController extends UifControllerBase {
+
+    private static final Logger LOG = Logger.getLogger(ARGCourseOfferingManagementController.class);
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -693,43 +698,60 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=renameAClusterThroughDialog")
-    public ModelAndView renameAClusterThroughDialog(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView renameAClusterThroughDialog(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
 
-        //Test for required entry
-        if (theForm.getPrivateClusterNameForRenamePopover() == null || theForm.getPrivateClusterNameForRenamePopover().isEmpty()) {
+        //  Test for required private name.
+        String requestedPrivateName = theForm.getPrivateClusterNameForRenamePopover();
+        if (StringUtils.isBlank(requestedPrivateName)) {
             GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_CLUSTER_PRIVATE_NAME_IS_NULL);
-
             return getUIFModelAndView(theForm);
         }
 
-        if(ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), theForm.getPrivateClusterNameForRenamePopover())){
-            ARGActivityOfferingClusterHandler.renameAClusterThroughDialog(theForm);
-            ActivityOfferingClusterWrapper selectedClusterWrapper;
+        //  Find the AOClusterWrapper that was changed and add it to the form.
+        ActivityOfferingClusterWrapper selectedClusterWrapper = (ActivityOfferingClusterWrapper) ARGUtil.getSelectedObject(theForm, "Rename Cluster");
+        theForm.setSelectedCluster(selectedClusterWrapper);
 
-            selectedClusterWrapper = (ActivityOfferingClusterWrapper)ARGUtil.getSelectedObject(theForm, "Rename Cluster");
-            theForm.setSelectedCluster(selectedClusterWrapper);
-                selectedClusterWrapper = theForm.getSelectedCluster();
-                if (theForm.getSelectedCluster().getAoCluster().getPrivateName().equalsIgnoreCase(theForm.getPrivateClusterNameForRenamePopover()) || ARGUtil._isClusterUniqueWithinCO(theForm, theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId(), theForm.getPrivateClusterNameForRenamePopover())){
-                    ActivityOfferingClusterInfo aoCluster = selectedClusterWrapper.getAoCluster();
+        String coId = theForm.getCurrentCourseOfferingWrapper().getCourseOfferingId();
+        String currentPrivateName =  theForm.getSelectedCluster().getAoCluster().getPrivateName();
+        String currentName = theForm.getSelectedCluster().getAoCluster().getName();
+        String requestedName = theForm.getPublishedClusterNameForRenamePopover();
 
-                    aoCluster.setPrivateName(theForm.getPrivateClusterNameForRenamePopover());
-                    aoCluster.setName(theForm.getPublishedClusterNameForRenamePopover());
-                    aoCluster = ARGUtil.getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
-                            aoCluster.getId(), aoCluster, ContextUtils.createDefaultContextInfo());
-                    selectedClusterWrapper.setAoCluster(aoCluster);
-                    selectedClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
-            }
-            theForm.setSelectedCluster(null);
-
-            theForm.setPrivateClusterNameForRenamePopover("");
-            theForm.setPublishedClusterNameForRenamePopover("");
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.CLUSTER_RENAME_SUCCESS);
-
-
-        }  else {
+        boolean hasChange = false;
+        //  If the private name has changed then check for uniqueness.
+        if (! StringUtils.equals(currentPrivateName, requestedPrivateName)) {
+            if ( ! ARGUtil._isClusterUniqueWithinCO(theForm, coId, requestedPrivateName)) {
                 GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+                return show(theForm);
+            }
+            hasChange = true;
         }
+
+        //  Check for name change
+        if (! hasChange && ! StringUtils.equals(currentName, requestedName)) {
+            hasChange = true;
+        }
+
+        //  If there is a change then save it.
+        if (hasChange) {
+            ActivityOfferingClusterInfo aoCluster = selectedClusterWrapper.getAoCluster();
+            aoCluster.setPrivateName(requestedPrivateName);
+            aoCluster.setName(requestedName);
+            try {
+                aoCluster = ARGUtil.getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
+                    aoCluster.getId(), aoCluster, ContextUtils.createDefaultContextInfo());
+                KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.CLUSTER_RENAME_SUCCESS);
+                selectedClusterWrapper.setAoCluster(aoCluster);
+                selectedClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
+            } catch(Exception e) {
+                LOG.error("AO Cluster save failed.", e);
+                GlobalVariables.getMessageMap().putError("KS-CourseOfferingManagement-ViewAOClustersSection", RiceKeyConstants.ERROR_CUSTOM, "Save failed: " + e.getLocalizedMessage());
+            }
+        } //  else ... If no changes were made just silently continue.
+
+        theForm.setSelectedCluster(null);
+        theForm.setPrivateClusterNameForRenamePopover("");
+        theForm.setPublishedClusterNameForRenamePopover("");
+
         return show(theForm);
     }
 
