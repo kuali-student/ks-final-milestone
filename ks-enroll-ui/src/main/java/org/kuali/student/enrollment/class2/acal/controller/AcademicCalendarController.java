@@ -37,6 +37,7 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
@@ -380,9 +381,9 @@ public class AcademicCalendarController extends UifControllerBase {
         if (statusInfo.getIsSuccess()){
             // If delete successful, populate growl message parameters and redirect to the search page.
             Properties urlParameters = new Properties();
-            urlParameters.put(CalendarConstants.GROWL_TITLE,"");
-            urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_DELETED);
-            urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,acalForm.getAcademicCalendarInfo().getName());
+            urlParameters.put(EnrollConstants.GROWL_TITLE,"");
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_ACADEMIC_CALENDAR_DELETED);
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS,acalForm.getAcademicCalendarInfo().getName());
             return redirectToSearch(acalForm,request,urlParameters);
         } else {
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING, acalForm.getAcademicCalendarInfo().getName(),statusInfo.getMessage());

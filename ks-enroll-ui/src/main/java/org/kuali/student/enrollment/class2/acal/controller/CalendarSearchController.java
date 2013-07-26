@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult;
 import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
 import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -90,14 +91,14 @@ public class CalendarSearchController  extends UifControllerBase {
 
 
         // Retrieve growl message key
-        String growlMessageKey = request.getParameter(CalendarConstants.GROWL_MESSAGE);
+        String growlMessageKey = request.getParameter(EnrollConstants.GROWL_MESSAGE);
 
         // Check if growl message key is present
         if(growlMessageKey!=null){
             // If message key is present gather parameters and repopulate growl message
             // This is used when page is a redirect from another as messages are lost when redirecting
-            String growlTitle = request.getParameter(CalendarConstants.GROWL_TITLE);
-            String temp = request.getParameter(CalendarConstants.GROWL_MESSAGE_PARAMS);
+            String growlTitle = request.getParameter(EnrollConstants.GROWL_TITLE);
+            String temp = request.getParameter(EnrollConstants.GROWL_MESSAGE_PARAMS);
             String[] growlMessageParams;
 
             // Message paramters are passed as csv to allow for multiple paramters to be pasted at once.

@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.HolidayCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -462,8 +463,8 @@ public class HolidayCalendarController extends UifControllerBase {
         urlParameters.put("methodToCall", KRADConstants.START_METHOD);
         urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         HolidayCalendarInfo hCalInfo = hcForm.getHolidayCalendarInfo();
-        urlParameters.put(CalendarConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED);
-        urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS, hCalInfo.getName());
+        urlParameters.put(EnrollConstants.GROWL_MESSAGE, CalendarConstants.MessageKeys.INFO_HOLIDAY_CALENDAR_DELETED);
+        urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, hCalInfo.getName());
 
         return performRedirect(hcForm, CalendarConstants.CALENDAR_SEARCH_CONTROLLER_PATH, urlParameters);
     }

@@ -14,7 +14,6 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
@@ -22,6 +21,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWr
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -158,8 +158,8 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
 
         if (!(this instanceof CourseOfferingCreateController))   {
             CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
-            urlParameters.put(CalendarConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS);
-            urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS,dataObject.getCourseOfferingCode());
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS);
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS,dataObject.getCourseOfferingCode());
 
             String url;
             if (!form.getReturnLocation().contains("methodToCall=")){ //This happens when we display a list of COs and then user click on Manage action
@@ -171,8 +171,8 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         } else {
             CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
 
-            urlParameters.put(CalendarConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
-            urlParameters.put(CalendarConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode());
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
+            urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode());
 
             urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
             urlParameters.put("termCode", dataObject.getTerm().getCode());

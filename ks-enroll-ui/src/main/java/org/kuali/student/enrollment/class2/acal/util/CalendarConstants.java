@@ -117,10 +117,6 @@ public class CalendarConstants {
         public static final String ERROR_NO_PARENT_TERM_FOR_SUBTERM = "error.enroll.acal.term.noParentTermForSubterm";
     }
 
-    public static final String GROWL_TITLE="growl.title";
-    public static final String GROWL_MESSAGE="growl.message";
-    public static final String GROWL_MESSAGE_PARAMS="growl.message.params";
-
     public static final String EMPTY_TERM_CODE = "No Code";
 
     //http session attribute keys
