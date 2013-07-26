@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -184,6 +185,11 @@ public class EnrolRuleEditorController extends RuleEditorController {
 
         //Build the membershipquery
         CluSetRangeHelper rangeHelper = prop.getCluSet().getRangeHelper();
+        rangeHelper.validateCourseRange(prop);
+        if ( GlobalVariables.getMessageMap().hasErrors()){
+
+            return getUIFModelAndView(form);
+        }
         MembershipQueryInfo membershipQueryInfo = rangeHelper.buildMembershipQuery();
 
         //Build the cluset range wrapper object
