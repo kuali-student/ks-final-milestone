@@ -354,7 +354,7 @@
     <!-- This is used to display a list of existing offerings in the current section. This will be displayed for Copy from Catalog action-->
     <bean id="KS-Catalog-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
 		<property name="headerText" value="Existing Offerings for @{document.newMaintainableObject.dataObject.term?.name}" />
-		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
+		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
 		<property name="propertyName" value="existingOfferingsInCurrentTerm" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -365,17 +365,17 @@
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-               <bean parent="Uif-InputField" p:propertyName="courseTitle" p:label="COURSE TITLE" p:readOnly="true">
+               <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:label="COURSE TITLE" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="credits" p:label="CREDITS" p:readOnly="true">
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.creditCnt" p:label="CREDITS" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="grading" p:label="GRADING" p:readOnly="true">
+                <bean parent="Uif-InputField" p:propertyName="gradingOption" p:label="GRADING" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
@@ -624,7 +624,7 @@
             </list>
 		</property>
         <property name="headerText" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1 ? 'Course Offerings Available for Copying' : 'Course Offering Available for Copying' }" />
-		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering" />
+		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
 		<property name="propertyName" value="existingTermOfferings" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -643,7 +643,7 @@
         </property>
 		<property name="items">
            <list>
-               <bean parent="Uif-InputField" p:propertyName="selected" p:label="" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');"
+               <bean parent="Uif-InputField" p:propertyName="isChecked" p:label="" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');"
                        p:render="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}">
                    <property name="control">
                        <bean parent="Uif-CheckboxControl"/>
@@ -651,17 +651,13 @@
                </bean>
                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="Course Offering Code">
                    <property name="inquiry">
-                       <bean parent="Uif-Inquiry">
-                           <property name="enableDirectInquiry" value="true"/>
-                           <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
-                           <property name="inquiryParameters" value="id:id"/>
-                       </bean>
+                       <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"  p:inquiryParameters="courseOfferingId" />
                    </property>
                </bean>
-               <bean parent="Uif-DataField" p:propertyName="termCode" p:label="Offered Term"/>
-               <bean parent="Uif-DataField" p:propertyName="courseTitle" p:label="Course Title"/>
-               <bean parent="Uif-DataField" p:propertyName="credits" p:label="Credits"/>
-               <bean parent="Uif-DataField" p:propertyName="grading" p:label="Grading"/>
+               <bean parent="Uif-DataField" p:propertyName="term.code" p:label="Offered Term"/>
+               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:label="Course Title"/>
+               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.creditCnt" p:label="Credits"/>
+               <bean parent="Uif-DataField" p:propertyName="gradingOption" p:label="Grading"/>
            </list>
          </property>
          <property name="renderLineActions" value="false"/>

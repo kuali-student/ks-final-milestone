@@ -48,8 +48,8 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private String courseOfferingSuffix;
 
     private List<FormatOfferingWrapper> formatOfferingWrappers;
-    private List<ExistingCourseOffering> existingOfferingsInCurrentTerm;
-    private List<ExistingCourseOffering> existingTermOfferings;
+    private List<CourseOfferingEditWrapper> existingOfferingsInCurrentTerm;
+    private List<CourseOfferingEditWrapper> existingTermOfferings;
 
     //    private List<String> coListedCOs;
     private boolean crossListedCo;
@@ -80,8 +80,8 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     public CourseOfferingCreateWrapper(){
         showTermOfferingLink = true;
         formatOfferingWrappers = new ArrayList<FormatOfferingWrapper>();
-        existingOfferingsInCurrentTerm = new ArrayList<ExistingCourseOffering>();
-        existingTermOfferings = new ArrayList<ExistingCourseOffering>();
+        existingOfferingsInCurrentTerm = new ArrayList<CourseOfferingEditWrapper>();
+        existingTermOfferings = new ArrayList<CourseOfferingEditWrapper>();
 //        coListedCOs = new ArrayList<String>();
         jointCourses = new ArrayList<JointCourseWrapper>();
         showJointOption = false;
@@ -161,19 +161,19 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.showAllSections = showAllSections;
     }
 
-    public List<ExistingCourseOffering> getExistingOfferingsInCurrentTerm() {
+    public List<CourseOfferingEditWrapper> getExistingOfferingsInCurrentTerm() {
         return existingOfferingsInCurrentTerm;
     }
 
-    public void setExistingOfferingsInCurrentTerm(List<ExistingCourseOffering> existingOfferingsInCurrentTerm) {
+    public void setExistingOfferingsInCurrentTerm(List<CourseOfferingEditWrapper> existingOfferingsInCurrentTerm) {
         this.existingOfferingsInCurrentTerm = existingOfferingsInCurrentTerm;
     }
 
-    public List<ExistingCourseOffering> getExistingTermOfferings() {
+    public List<CourseOfferingEditWrapper> getExistingTermOfferings() {
         return existingTermOfferings;
     }
 
-    public void setExistingTermOfferings(List<ExistingCourseOffering> existingTermOfferings) {
+    public void setExistingTermOfferings(List<CourseOfferingEditWrapper> existingTermOfferings) {
         this.existingTermOfferings = existingTermOfferings;
     }
 

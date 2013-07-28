@@ -26,6 +26,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
@@ -313,9 +314,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
                             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
                                 if (StringUtils.equals(courseOfferingInfo.getStateKey(), LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY)) {
-                                    ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
-                                    co.setCredits(courseOfferingInfo.getCreditCnt());
-                                    co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
+                                    CourseOfferingEditWrapper co = new CourseOfferingEditWrapper(courseOfferingInfo);
+                                    co.setGradingOption(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                                     coWrapper.getExistingOfferingsInCurrentTerm().add(co);
                                 }
                             }
@@ -339,11 +339,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                             courseOfferingInfos = getCourseOfferingService().getCourseOfferingsByIds(courseOfferingIds, contextInfo);
 
                             for (CourseOfferingInfo courseOfferingInfo : courseOfferingInfos) {
-                                ExistingCourseOffering co = new ExistingCourseOffering(courseOfferingInfo);
+                                CourseOfferingEditWrapper co = new CourseOfferingEditWrapper(courseOfferingInfo);
                                 TermInfo termInfo = getAcalService().getTerm(courseOfferingInfo.getTermId(), contextInfo);
-                                co.setTermCode(termInfo.getCode());
-                                co.setCredits(courseOfferingInfo.getCreditCnt());
-                                co.setGrading(getGradingOption(courseOfferingInfo.getGradingOptionId()));
+                                co.setTerm(termInfo);
+                                co.setGradingOption(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                                 coWrapper.getExistingTermOfferings().add(co);
                             }
 
@@ -380,8 +379,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         CourseOfferingInfo existingCO = null;
 
         //the first CO that is selected or if there is only one, grab that one
-        for(ExistingCourseOffering eco : createWrapper.getExistingTermOfferings()){
-            if(eco.isSelected() || createWrapper.getExistingTermOfferings().size() == 1){
+        for(CourseOfferingEditWrapper eco : createWrapper.getExistingTermOfferings()){
+            if(eco.getIsChecked() || createWrapper.getExistingTermOfferings().size() == 1){
                 existingCO = eco.getCourseOfferingInfo();
                 break;
             }
