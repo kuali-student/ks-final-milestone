@@ -114,22 +114,28 @@
 
 				<ref bean="KS-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
 
-				<bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSection" 
-					p:headerText="Instructor(s)" p:propertyName="instructorDisplays" 
+				<bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSection"
+					p:headerText="Instructor(s)" p:propertyName="instructorDisplays"
 					p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoWrapper">
 					<property name="addLineLabel.labelText" value="Add An Instructor" />
-					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Instructor @{(#index + 1)}" />
-					<property name="collectionLookup.quickfinderAction.render" value="false" />
+					<property name="layoutManager.lineGroupPrototype.header.headerText"
+						value="Instructor @{(#index + 1)}" />
+					<property name="collectionLookup.quickfinderAction.render"
+						value="false" />
+					<property name="help">
+						<bean parent="Uif-Help"
+							p:tooltipHelpContent="This is not a restrictive list - names here will not determine who will eventually teach this course." />
+					</property>
 					<property name="cssClasses">
-	                	<list merge="true">
+						<list merge="true">
 							<value>cm-collection-width</value>
 						</list>
-	                </property>
-	                <property name="addLineActions">
-            			<list>
-                			<bean parent="Uif-AddLineAction" p:actionLabel="Add" />
-            			</list>
-        			</property>
+					</property>
+					<property name="addLineActions">
+						<list>
+							<bean parent="Uif-AddLineAction" p:actionLabel="Add" />
+						</list>
+					</property>
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField" p:propertyName="displayName">
@@ -138,7 +144,7 @@
 								</property>
 								<property name="suggest">
 									<bean parent="Uif-Suggest" p:render="true">
-										<property name="sourcePropertyName" value="displayName"/>
+										<property name="sourcePropertyName" value="displayName" />
 										<property name="templateOptions" value="minLength:1,delay:0" />
 										<property name="suggestQuery">
 											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getInstructorsForSuggest" />
@@ -146,30 +152,31 @@
 									</bean>
 								</property>
 								<property name="quickfinder">
-            						<bean parent="Uif-QuickFinder">
-	            						<property name="quickfinderAction">
-						           			<bean parent="Uif-ActionLink">
-								                <property name="methodToCall" value="performLookup"/>
-								                <property name="actionLabel" value="Advanced Search"/>
-								                <property name="cssClasses">
-								                	<list merge="true">
-        												<value>uif-actionLink-block</value>
-      												</list>
-								                </property>
-						            		</bean>
-					        			</property>
-								        <property name="lightBoxLookup">
-								            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
-								        </property>
-								        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper"/>
-								        <property name="fieldConversions">
-								            <map>
-								                <entry key="displayName" value="displayName"/>
-								            </map>
-								        </property>
-								     </bean>
-        						</property>
-        					</bean>
+									<bean parent="Uif-QuickFinder">
+										<property name="quickfinderAction">
+											<bean parent="Uif-ActionLink">
+												<property name="methodToCall" value="performLookup" />
+												<property name="actionLabel" value="Advanced Search" />
+												<property name="cssClasses">
+													<list merge="true">
+														<value>uif-actionLink-block</value>
+													</list>
+												</property>
+											</bean>
+										</property>
+										<property name="lightBoxLookup">
+											<bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false" />
+										</property>
+										<property name="dataObjectClassName"
+											value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
+										<property name="fieldConversions">
+											<map>
+												<entry key="displayName" value="displayName" />
+											</map>
+										</property>
+									</bean>
+								</property>
+							</bean>
 						</list>
 					</property>
 				</bean>
