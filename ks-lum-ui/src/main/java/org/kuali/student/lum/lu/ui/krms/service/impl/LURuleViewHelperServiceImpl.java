@@ -16,8 +16,22 @@
 package org.kuali.student.lum.lu.ui.krms.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.component.DataBinding;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.container.TreeGroup;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.field.ActionField;
+import org.kuali.rice.krad.uif.field.DataField;
+import org.kuali.rice.krad.uif.field.Field;
+import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewAuthorizer;
+import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.rice.krad.uif.view.ViewPresentationController;
+import org.kuali.rice.krad.uif.widget.Widget;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
@@ -91,6 +105,31 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
         return KSPropositionEditor.class;
+    }
+
+    @Override
+    public void applyAuthorizationAndPresentationLogic(View view, Component component, ViewModel model) {
+        super.applyAuthorizationAndPresentationLogic(view, component, model);
+
+        if(component instanceof Group) {
+            Group group = (Group) component;
+
+            if(group.isReadOnly()) {
+                processGroupItems(group);
+            }
+        }
+    }
+
+    protected void processGroupItems(Group group) {
+        List<Field> fields = ComponentUtils.getComponentsOfType(group.getItems(), Field.class);
+        for(Field field : fields) {
+            field.setReadOnly(true);
+        }
+
+        List<Action> actions = ComponentUtils.getComponentsOfTypeDeep(group.getItems(), Action.class);
+        for(Action action : actions) {
+            action.setRender(false);
+        }
     }
 
     @Override
