@@ -21,7 +21,6 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSPermissionHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
@@ -248,6 +247,7 @@ public class ARGToolbarUtil {
                 //Reset the form
                 activityWrapper.setEnableCopyAOActionLink(false);
                 activityWrapper.setEnableEditAOActionLink(false);
+                activityWrapper.setRequisiteLink(false);
                 activityWrapper.setEnableCancelButton(false);
                 activityWrapper.setEnableMoveToButton(false);
                 activityWrapper.setEnableApproveButton(false);
@@ -308,6 +308,12 @@ public class ARGToolbarUtil {
                     activityWrapper.setEnableEditAOActionLink(true);
                 }
 
+                //for manage AO requisites link on each CO row.
+                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "requisiteAOLink");
+                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                    activityWrapper.setRequisiteLink(true);
+                }
+
                 //Currently, there are no reinstate, suspend and cancel AO buttons. Comment out the following checking
                 /*
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelAO");
@@ -325,9 +331,6 @@ public class ARGToolbarUtil {
                     activityWrapper.setEnableSuspendButton(true);
                 }
                 */
-
-                //Check if user has permission to use Manage AO Requisite link for each AO
-                EnrolKRMSPermissionHelper.processManageAORequisiteLinkForUser(form, activityWrapper);
             }
         }
 

@@ -417,7 +417,7 @@ limitations under the License.
     <bean id="KSCO-RulePreview-Links" parent="KRMS-RulePreview-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare to Catalog" p:methodToCall="compareRules" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare Catalog and CO Rules"/>
                     </property>
@@ -474,8 +474,8 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean id="KSCO-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-AddButton"/>
-                            <bean parent="KRMS-RuleEditorView-EditButton"/>
+                            <bean id="KSCO-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-AddButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditGroupRule"/>
+                            <bean parent="KRMS-RuleEditorView-EditButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditGroupRule"/>
                         </list>
                     </property>
                 </bean>
@@ -483,9 +483,9 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-GroupButton"/>
-                            <bean parent="KRMS-RuleEditorView-LeftButton"/>
-                            <bean parent="KRMS-RuleEditorView-RightButton"/>
+                            <bean parent="KRMS-RuleEditorView-GroupButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditGroupRule"/>
+                            <bean parent="KRMS-RuleEditorView-LeftButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="moveRule"/>
+                            <bean parent="KRMS-RuleEditorView-RightButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="moveRule"/>
                         </list>
                     </property>
                 </bean>
@@ -493,8 +493,8 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-UpButton"/>
-                            <bean parent="KRMS-RuleEditorView-DownButton"/>
+                            <bean parent="KRMS-RuleEditorView-UpButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="moveRule"/>
+                            <bean parent="KRMS-RuleEditorView-DownButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="moveRule"/>
                         </list>
                     </property>
                 </bean>
@@ -502,10 +502,10 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean parent="KRMS-RuleEditorView-CopyButton"/>
-                            <bean parent="KRMS-RuleEditorView-CutButton"/>
+                            <bean parent="KRMS-RuleEditorView-CopyButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyCutRule"/>
+                            <bean parent="KRMS-RuleEditorView-CutButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyCutRule"/>
                             <bean parent="KRMS-RuleEditorView-PasteButton"/>
-                            <bean parent="KRMS-RuleEditorView-DeleteButton"/>
+                            <bean parent="KRMS-RuleEditorView-DeleteButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteRule"/>
                         </list>
                     </property>
                 </bean>
@@ -533,9 +533,9 @@ limitations under the License.
     <bean id="KSCO-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-LogicArea-InputField"/>
-                <ref bean="KRMS-LogicPreview-Button"/>
-                <ref bean="KSCO-LogicPreview-Tree"/>
+                <bean parent="KRMS-LogicArea-InputField"/>
+                <bean parent="KRMS-LogicPreview-Button"/>
+                <bean parent="KSCO-LogicPreview-Tree"/>
             </list>
         </property>
     </bean>

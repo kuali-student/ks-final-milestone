@@ -186,6 +186,7 @@
                 <bean name="enableCopyAOActionLink" parent="KS-Uif-DataField-Simple"  p:label="enableCopyAOActionLink" p:propertyName="enableCopyAOActionLink" />
                 <bean name="enableEditAOActionLink" parent="KS-Uif-DataField-Simple"  p:label="enableEditAOActionLink" p:propertyName="enableEditAOActionLink" />
                 <bean name="enableMoveToButton" parent="KS-Uif-DataField-Simple"  p:label="enableMoveToButton" p:propertyName="enableMoveToButton" />
+                <bean name="requisiteLink" parent="KS-Uif-DataField-Simple"  p:label="requisiteLink" p:propertyName="requisiteLink" />
             </list>
         </property>
 
@@ -200,6 +201,7 @@
                 <value>enableCopyAOActionLink</value>
                 <value>enableEditAOActionLink</value>
                 <value>enableMoveToButton</value>
+                <value>requisiteLink</value>
             </set>
         </property>
 
@@ -213,7 +215,8 @@
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
                 </bean>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Manage AO Requisites " p:render="@{#line.requisiteLink}"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Activity Offering Requisites "
+                      p:render="@{#line.isRequisiteLink()}" p:actionEvent="requisiteAOLink"/>
                 <!--</list>-->
                     <!--</property>-->
                 <!--</bean>-->

@@ -33,7 +33,6 @@ import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSPermissionHelper;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeHelper;
@@ -62,8 +61,6 @@ public class EnrolRuleEditorController extends RuleEditorController {
                                         HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         setupMaintenance(form, request, KRADConstants.MAINTENANCE_EDIT_ACTION);
-
-        EnrolKRMSPermissionHelper.processActionPermissionForUser(form);
 
         return getUIFModelAndView(form);
     }
@@ -124,7 +121,6 @@ public class EnrolRuleEditorController extends RuleEditorController {
 
         RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(document);
         LURuleEditor enrolRuleEditor = new LURuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
-        enrolRuleEditor.setPermission(ruleEditor.getPermission());
         enrolRuleEditor.setParent(ruleEditor.getParent());
         AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
 

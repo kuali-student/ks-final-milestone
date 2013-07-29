@@ -266,7 +266,6 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         aoMaintainable.initPropositionEditor(parentProp);
 
         enrolRuleEditor.setProposition(this.getViewHelper(form).copyProposition(parentProp));
-        enrolRuleEditor.setPermission(ruleEditor.getParent().getPermission());
         AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
 
         this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);
