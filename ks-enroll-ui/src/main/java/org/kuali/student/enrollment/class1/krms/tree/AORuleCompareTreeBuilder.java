@@ -45,9 +45,9 @@ public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
             // Set the headers on the first root child
             if (childNode.getData() != null) {
                 CompareTreeNode compareTreeNode = childNode.getData();
-                compareTreeNode.setFirstElement("CO Rule");
+                compareTreeNode.setFirstElement("Course Offering Rule");
                 compareTreeNode.setSecondElement("Catalog Rules");
-                compareTreeNode.setThirdElement("AO Rules");
+                compareTreeNode.setThirdElement("Activity Offering Rules");
 
             }
 

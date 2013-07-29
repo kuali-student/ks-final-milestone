@@ -58,10 +58,10 @@ limitations under the License.
         <property name="dialogs">
             <list>
                 <bean id="viewCluAndCoRuleLightBox" parent="KRMS-CompareRule">
-                    <property name="headerText" value="View Catalog and CO Rules"/>
+                    <property name="headerText" value="View Catalog and Course Offering Rules"/>
                 </bean>
                 <bean id="compareCluCoAndAoRuleLightBox" parent="KRMS-AoCompareRule">
-                    <property name="headerText" value="Compare CO, Catalog and AO Rules"/>
+                    <property name="headerText" value="Compare Course Offering, Catalog and Activity Offering Rules"/>
                 </bean>
                 <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"/>
@@ -197,10 +197,10 @@ limitations under the License.
     <bean id="KSAO-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and CO Rule" p:methodToCall="viewCoAndCluRules"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and Course Offering Rule" p:methodToCall="viewCoAndCluRules"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRuleStatements"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Revert to CO" p:methodToCall="deleteRule"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Revert to Course Offering" p:methodToCall="deleteRule"/>
             </list>
         </property>
     </bean>
@@ -208,7 +208,7 @@ limitations under the License.
     <bean id="KSAO-RuleView-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and CO Rule" p:methodToCall="viewCoAndCluRules"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and Course Offering Rule" p:methodToCall="viewCoAndCluRules"/>
             </list>
         </property>
     </bean>
@@ -216,7 +216,7 @@ limitations under the License.
     <bean id="KSAO-RuleCopyEdit-Links" parent="KRMS-RuleView-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit CO Rule" p:methodToCall="copyEditCoRule"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit Course Offering Rule" p:methodToCall="copyEditCoRule"/>
             </list>
         </property>
     </bean>
@@ -400,7 +400,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare CO, Catalog and AO Rules"/>
+                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare Course Offering, Catalog and Activity Offering Rules"/>
                     </property>
                 </bean>
             </list>
