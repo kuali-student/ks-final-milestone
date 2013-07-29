@@ -84,21 +84,30 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
 
     @Resource
     private AtpService atpService;
+
+    public static final Date START_WINTER_TERM_DATE = new DateTime().withDate(2012, 1, 1).toDate();
+    public static final Date END_WINTER_TERM_DATE = new DateTime().withDate(2012, 3, 31).toDate();
     
-    public static final Date START_SPRING_TERM_DATE = new DateTime().withDate(2012, 5, 1).toDate();
-    public static final Date END_SPRING_TERM_DATE = new DateTime().withDate(2012, 8, 29).toDate();
+    public static final Date START_SPRING_TERM_DATE = new DateTime().withDate(2012, 4, 1).toDate();
+    public static final Date END_SPRING_TERM_DATE = new DateTime().withDate(2012, 6, 30).toDate();
+
+    public static final Date START_SUMMER_TERM_DATE = new DateTime().withDate(2012, 7, 1).toDate();
+    public static final Date END_SUMMER_TERM_DATE = new DateTime().withDate(2012, 9, 30).toDate();
     
-    public static final Date START_FALL_TERM_DATE = new DateTime().withDate(2012, 9, 1).toDate();
-    public static final Date END_FALL_TERM_DATE = new DateTime().withDate(2012, 12, 29).toDate();
+    public static final Date START_FALL_TERM_DATE = new DateTime().withDate(2012, 10, 1).toDate();
+    public static final Date END_FALL_TERM_DATE = new DateTime().withDate(2012, 12, 31).toDate();
     
     public static final String STUDENT_ONE_ID = "student1";
     public static final String STUDENT_TWO_ID = "student2";
+    public static final String STUDENT_THREE_ID = "student3";
     
     public static final String FAKE_COURSE_ID = "course1";
     public static final String FAKE_COURSE2_ID = "course2";
     public static final String FAKE_COURSE3_ID = "course3";
 
+    private AtpInfo winterAtpInfo;
     private AtpInfo springAtpInfo;
+    private AtpInfo summerAtpInfo;
     private AtpInfo fallAtpInfo;
 
     public ContextInfo contextInfo = null;
@@ -116,23 +125,31 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
      */
     @Override
     protected void initializeData() throws Exception {
-        
-        springAtpInfo = atpService.createAtp(AtpServiceConstants.ATP_SPRING_TYPE_KEY, createTerm (AtpServiceConstants.ATP_SPRING_TYPE_KEY, START_SPRING_TERM_DATE, END_SPRING_TERM_DATE, "Spring 2012"), context);
-        
-        fallAtpInfo = atpService.createAtp(AtpServiceConstants.ATP_FALL_TYPE_KEY, createTerm (AtpServiceConstants.ATP_FALL_TYPE_KEY, START_FALL_TERM_DATE, END_FALL_TERM_DATE, "Fall 2012"), context);
-     
-        
+
+        winterAtpInfo = atpService.createAtp(AtpServiceConstants.ATP_WINTER_TYPE_KEY, createTerm (AtpServiceConstants.ATP_WINTER_TYPE_KEY,
+                START_WINTER_TERM_DATE, END_WINTER_TERM_DATE, "Winter 2012"), context);
+        springAtpInfo = atpService.createAtp(AtpServiceConstants.ATP_SPRING_TYPE_KEY, createTerm (AtpServiceConstants.ATP_SPRING_TYPE_KEY,
+                START_SPRING_TERM_DATE, END_SPRING_TERM_DATE, "Spring 2012"), context);
+        summerAtpInfo = atpService.createAtp(AtpServiceConstants.ATP_SUMMER_TYPE_KEY, createTerm (AtpServiceConstants.ATP_SUMMER_TYPE_KEY,
+                START_SUMMER_TERM_DATE, END_SUMMER_TERM_DATE, "Summer 2012"), context);
+        fallAtpInfo = atpService.createAtp(AtpServiceConstants.ATP_FALL_TYPE_KEY, createTerm (AtpServiceConstants.ATP_FALL_TYPE_KEY,
+                START_FALL_TERM_DATE, END_FALL_TERM_DATE, "Fall 2012"), context);
     }
     
+    public String getWinterTermId() {
+        return winterAtpInfo.getId();
+    }
+
     public String getSpringTermId() {
         return springAtpInfo.getId();
     }
+
+    public String getSummerTermId() {
+        return summerAtpInfo.getId();
+    }
     
     public String getFallTermId() {
-        
         return fallAtpInfo.getId();
-        
-        
     }
     
     /**
@@ -269,7 +286,7 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
 
     public CourseOffering getCourseOffering(String courseId, String termId) throws Exception {
         CourseInfo course = this.getCourse(courseId);
-        String coId = "CO:" + course.getId();
+        String coId = "CO:" + course.getId() + ":" + termId;
         CourseOfferingInfo courseOffering = null;
         try {
             courseOffering = courseOfferingService.getCourseOffering(coId, contextInfo);
