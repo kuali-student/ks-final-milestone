@@ -32,7 +32,7 @@ import org.kuali.student.core.krms.tree.KSRuleCompareTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.enrollment.class1.krms.tree.AORuleCompareTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.tree.AORuleViewCoCluTreeBuilder;
-import org.kuali.student.lum.lu.ui.krms.service.impl.EnrolRuleViewHelperServiceImpl;
+import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +40,7 @@ import java.util.Map;
 /**
  * @author Kuali Student Team
  */
-public class AORuleViewHelperServiceImpl extends EnrolRuleViewHelperServiceImpl {
+public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
     private AORuleCompareTreeBuilder compareTreeBuilder;
     private KSRuleCompareTreeBuilder viewCoCluTreeBuilder;

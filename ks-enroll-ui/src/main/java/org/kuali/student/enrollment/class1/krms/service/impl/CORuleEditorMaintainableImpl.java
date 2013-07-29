@@ -34,7 +34,7 @@ import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
-import org.kuali.student.lum.lu.ui.krms.tree.EnrolRuleViewTreeBuilder;
+import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
@@ -263,7 +263,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (this.viewTreeBuilder == null) {
-            viewTreeBuilder = new EnrolRuleViewTreeBuilder();
+            viewTreeBuilder = new LURuleViewTreeBuilder();
             viewTreeBuilder.setNlHelper(this.getNLHelper());
         }
         return viewTreeBuilder;
