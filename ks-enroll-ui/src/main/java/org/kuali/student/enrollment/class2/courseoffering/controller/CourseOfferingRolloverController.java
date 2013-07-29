@@ -286,7 +286,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             return false;
         }
         if (targetTermsByCode==null || targetTermsByCode.isEmpty()) {
-            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.sourceTerm.inValid");
+            GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.targetTerm.inValid");
             return false;
         }
 

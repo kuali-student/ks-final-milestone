@@ -134,6 +134,7 @@
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
         <property name="socService" ref="socService" />
+        <property name="rolloverAssist" ref="rolloverAssist"/>
     </bean>
 
     <bean id="socDao" class="org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao">
@@ -204,12 +205,16 @@
         <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
     </bean>
 
+    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
+    </bean>
+
     <bean id="businessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseServiceImpl" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="coService" />
         <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
-        <property name="courseOfferingTransformer" ref="courseOfferingTransformer" /> 
+        <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+        <property name="rolloverAssist" ref="rolloverAssist"/>
     </bean>
 
     <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />

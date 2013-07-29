@@ -54,12 +54,16 @@
         <property name="typeService" ref="typeService" />
     </bean>
 
+    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
+    </bean>
+
     <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl">
         <property name="courseService" ref="courseService" />
         <property name="acalService" ref="acalService" />
         <property name="coService" ref="CourseOfferingServiceAuthorizationDecorator" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
         <property name="acalServiceFacade" ref="acalServiceFacade" />
+        <property name="rolloverAssist" ref="rolloverAssist"/>
     </bean>
 
     <bean id="coService" class=" org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">

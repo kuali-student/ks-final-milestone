@@ -6,6 +6,7 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
@@ -43,6 +44,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
     private CourseService courseService;
     private AcademicCalendarService acalService;
     private CourseOfferingSetService socService;
+    private RolloverAssist rolloverAssist;
     private SocDao socDao;
 
     private SchedulingService schedulingService;
@@ -85,6 +87,14 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
 
     public void setAcalService(AcademicCalendarService acalService) {
         this.acalService = acalService;
+    }
+
+    public RolloverAssist getRolloverAssist() {
+        return rolloverAssist;
+    }
+
+    public void setRolloverAssist(RolloverAssist rolloverAssist) {
+        this.rolloverAssist = rolloverAssist;
     }
 
     private CourseOfferingSetService _getSocService() {
@@ -231,6 +241,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         runner.setCourseService(courseService);
         runner.setAcalService(acalService);
         runner.setSocService(this._getSocService());
+        runner.setRolloverAssist(rolloverAssist); // KSENROLL-8062 Add colo to rollover
         runner.setResult(result);
 
         if (optionKeys.contains(CourseOfferingSetServiceConstants.RUN_SYNCHRONOUSLY_OPTION_KEY)) {

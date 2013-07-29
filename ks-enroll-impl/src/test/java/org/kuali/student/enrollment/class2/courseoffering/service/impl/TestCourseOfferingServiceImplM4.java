@@ -74,13 +74,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 /*
- * This class was used to test the class1 backed implementation of CourseOfferingService for CourseOffering, FormatOffering and ActivityOffering.
+ * This class was used to test the class1 backed implementation of CourseOfferingService for CourseOffering,
+ * FormatOffering and ActivityOffering.
  *
- * For M4 it has been refactored.  Most of the test are now in TestCourseOfferingServiceMockImpl and only db dependent tests go here.
- *
+ * For M4 it has been refactored.  Most of the test are now in TestCourseOfferingServiceMockImpl and only db
+ * dependent tests go here.  soc-businesslogic-with-mocks-test-context.xml
  * See TestLprServiceImpl for an example.
- *
- *
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
