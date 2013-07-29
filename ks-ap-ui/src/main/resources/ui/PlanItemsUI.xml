@@ -481,7 +481,8 @@
     </bean>
 
     <!-- Single term view that lists planned course, total credits and backup courses -->
-    <bean id="planned_courses_detail" parent="Uif-VerticalBoxSubSection" p:style="width: 620px; margin-right: 10px;">
+    <bean id="planned_courses_detail" parent="planned_courses_detail_parent" />
+    <bean id="planned_courses_detail_parent" parent="Uif-VerticalBoxSubSection" abstract="true" p:style="width: 620px; margin-right: 10px;">
         <property name="onDocumentReadyScript" value="
             jQuery('.myplan-carousel-list li .myplan-term-current.open, .myplan-carousel-list li .myplan-term-future.open').find('.myplan-term-planned .uif-stackedCollectionLayout, .myplan-term-backup .uif-stackedCollectionLayout').each(function(){
             	var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
@@ -489,17 +490,19 @@
             	var size = jQuery(this).parents('.myplan-carousel-term').data('size');
             	var id = 'quick_Add_'+atpId+planType;
                 var tempId = id.replace(/\./g,'_');
-
-            	var jAddCourseBySearch = jQuery('&lt;div /&gt;').attr('id', tempId+'_button').addClass('quick-add-cell uif-tooltip').html('Add a course to plan').click(function(e){
-            		location.href='../myplan/course?methodToCall=start&amp;viewId=CourseSearch-FormView' + '&amp;searchTerm='+atpId;
+            	var jQuickAdd = jQuery('&lt;div /&gt;').attr('id',tempId+'_button').addClass('quick-add-cell uif-tooltip').html('Add a course to plan').click(function(e){
+            		openQuickAddPopUp(tempId,'quickAdd_dialog_page',{atpId:atpId,pageId:'quickAdd_dialog_page',planType:planType},e,null,{tail:{hidden:true},align:'bottom',position:'right'});
             	});
-            	jQuery(this).append(jAddCourseBySearch);
+            	var scriptTemp =&quot;jQuery('#&quot;+tempId+&quot;_button').click(function(e){
+            		openQuickAddPopUp('&quot;+tempId+&quot;','quickAdd_dialog_page',{atpId:'&quot;+atpId+&quot;',pageId:'quickAdd_dialog_page',planType:'&quot;+planType+&quot;'},e,null,{tail:{hidden:true},align:'bottom',position:'right'});
+            	});&quot;;
+            	var jQuickAddHidden = jQuery('&lt;input type=&quot;hidden&quot; /&gt;').attr('data-role','dataScript').attr('data-for',tempId+'_button').attr('value',scriptTemp).attr('script','first_run');
             	if (size &lt; 8) {
-            		jQuery(this).append(jAddCourseBySearch.show());
+            		jQuery(this).append(jQuickAdd.show());
             	} else {
-            		jQuery(this).append(jAddCourseBySearch.hide());
+            		jQuery(this).append(jQuickAdd.hide());
             	}
-            	
+            	jQuery(this).append(jQuickAddHidden);
             });
 
             if ( jQuery('#planned_courses_detail_list ul:not(.errorLines) li').length > 0 ) {
