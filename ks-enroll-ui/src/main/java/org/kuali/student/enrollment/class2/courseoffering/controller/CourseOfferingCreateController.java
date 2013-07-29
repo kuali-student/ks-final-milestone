@@ -150,11 +150,11 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                         TermInfo term = getTerm(targetTermCode);
                         coCreateWrapper.setTerm(term);
                     }
-//                    String catalogCourseCode = request.getParameter("catalogCourseCode");
-//                    if(catalogCourseCode !=null){
-//                        coCreateWrapper.setCatalogCourseCode(catalogCourseCode);
-//                    }
-                    String coId = request.getParameter("courseOfferingIdhis");
+                    String catalogCourseCode = request.getParameter("catalogCourseCode");
+                    if(catalogCourseCode !=null){
+                        coCreateWrapper.setCatalogCourseCode(catalogCourseCode);
+                    }
+                    String coId = request.getParameter("courseOfferingId");
                     if(coId != null){
                         try {
                             CourseOfferingInfo theCO = getCourseOfferingService().getCourseOffering(coId, ContextUtils.createDefaultContextInfo());
@@ -163,11 +163,12 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                             coEditWrapper.setTerm(termInfo);
                             coEditWrapper.setGradingOption(getGradingOption(theCO.getGradingOptionId()));
                             coCreateWrapper.getExistingTermOfferings().add(coEditWrapper);
+//                            coCreateWrapper.setCreateFromCatalog(false);
                         }catch(Exception e){
 
                         }
                     }
-
+//                    continueFromCreate(maintenanceForm, result, request, response);
                 }
 
 

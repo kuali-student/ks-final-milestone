@@ -292,12 +292,20 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             CourseOfferingListSectionWrapper coWrapper = (CourseOfferingListSectionWrapper) selectedObject;
             CourseOfferingInfo courseOfferingInfo = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
 
+            int selectedLineIndex = -1;
+            String selectedLine = theForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+            if (StringUtils.isNotBlank(selectedLine)) {
+                selectedLineIndex = Integer.parseInt(selectedLine);
+            }
+            String courseOfferingCode = theForm.getCourseOfferingResultList().get(selectedLineIndex).getCourseOfferingCode();
+
             Properties urlParameters = new Properties();
             urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+//            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "continueFromCreate");
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingCreateWrapper.class.getName());
             urlParameters.put("pageId", "courseOfferingCopyPage");
             urlParameters.put("targetTermCode",  theForm.getTermCode());
-//            urlParameters.put("catalogCourseCode", coWrapper.getCourseOfferingCode());
+            urlParameters.put("catalogCourseCode", courseOfferingCode);
             urlParameters.put("courseOfferingId", courseOfferingInfo.getId());
 //            urlParameters.put("createFromCatalog", "false");
             return super.performRedirect(theForm, "courseOfferingCreate", urlParameters);
