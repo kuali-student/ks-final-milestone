@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagem
 import org.kuali.student.enrollment.class2.autogen.util.ARGToolbarUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
@@ -281,8 +282,30 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=copyCourseOffering")
     public ModelAndView copyCourseOffering(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
-        ARGCourseOfferingHandler.copyCourseOffering(theForm);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.COPY_CO_PAGE);
+//        ARGCourseOfferingHandler.copyCourseOffering(theForm);
+//        return getUIFModelAndView(theForm, CourseOfferingConstants.COPY_CO_PAGE);
+
+        Object selectedObject = ARGUtil.getSelectedObject(theForm, "Copy"); // Receives edit wrapper, "Copy" for error message.
+        if (selectedObject instanceof CourseOfferingListSectionWrapper) {
+
+            // Get the selected CourseOfferingEditWrapper.
+            CourseOfferingListSectionWrapper coWrapper = (CourseOfferingListSectionWrapper) selectedObject;
+            CourseOfferingInfo courseOfferingInfo = ARGUtil.getCourseOfferingService().getCourseOffering(coWrapper.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+
+            Properties urlParameters = new Properties();
+            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
+            urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingCreateWrapper.class.getName());
+            urlParameters.put("pageId", "courseOfferingCopyPage");
+            urlParameters.put("targetTermCode",  theForm.getTermCode());
+//            urlParameters.put("catalogCourseCode", coWrapper.getCourseOfferingCode());
+            urlParameters.put("courseOfferingId", courseOfferingInfo.getId());
+//            urlParameters.put("createFromCatalog", "false");
+            return super.performRedirect(theForm, "courseOfferingCreate", urlParameters);
+        }
+        else {
+            //must be an error
+            return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_ARG_CO_PAGE);
+        }
     }
 
 

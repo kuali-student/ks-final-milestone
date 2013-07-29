@@ -31,7 +31,6 @@ import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
@@ -120,6 +119,63 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
         }
         return this.defaultOptionKeysService;
+    }
+
+    /**
+     * Initial method called when requesting a new view instance.
+     *
+     */
+    @Override
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
+        setupMaintenance(maintenanceForm, request, KRADConstants.MAINTENANCE_NEW_ACTION);
+        if (form.getView() != null) {
+            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
+
+            // check if creating CO and populate the form
+            String createCO = request.getParameter(CourseOfferingConstants.CREATE_COURSEOFFERING);
+            if (createCO != null && createCO.equals("true")) {
+                populateCreateCourseOfferingForm(maintenanceForm, request);
+            }
+            // done with creating CO
+            String pageId = request.getParameter("pageId");
+            if(pageId !=null && pageId.equals("courseOfferingCopyPage")){
+                Object selectedObject =  maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
+                if (selectedObject instanceof CourseOfferingCreateWrapper)  {
+                    CourseOfferingCreateWrapper coCreateWrapper = (CourseOfferingCreateWrapper)selectedObject;
+                    String targetTermCode = request.getParameter("targetTermCode");
+                    if(targetTermCode !=null){
+                        coCreateWrapper.setTargetTermCode(targetTermCode);
+                        TermInfo term = getTerm(targetTermCode);
+                        coCreateWrapper.setTerm(term);
+                    }
+//                    String catalogCourseCode = request.getParameter("catalogCourseCode");
+//                    if(catalogCourseCode !=null){
+//                        coCreateWrapper.setCatalogCourseCode(catalogCourseCode);
+//                    }
+                    String coId = request.getParameter("courseOfferingIdhis");
+                    if(coId != null){
+                        try {
+                            CourseOfferingInfo theCO = getCourseOfferingService().getCourseOffering(coId, ContextUtils.createDefaultContextInfo());
+                            CourseOfferingEditWrapper coEditWrapper = new CourseOfferingEditWrapper(theCO);
+                            TermInfo termInfo = getAcalService().getTerm(theCO.getTermId(), ContextUtils.createDefaultContextInfo());
+                            coEditWrapper.setTerm(termInfo);
+                            coEditWrapper.setGradingOption(getGradingOption(theCO.getGradingOptionId()));
+                            coCreateWrapper.getExistingTermOfferings().add(coEditWrapper);
+                        }catch(Exception e){
+
+                        }
+                    }
+
+                }
+
+
+            }
+            checkViewAuthorization(form, methodToCall);
+        }
+
+        return getUIFModelAndView(maintenanceForm);
     }
 
     /**

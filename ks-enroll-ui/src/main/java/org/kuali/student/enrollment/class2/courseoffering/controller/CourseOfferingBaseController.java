@@ -16,6 +16,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl;
@@ -79,30 +80,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
     private transient StateService stateService;
     private transient OrganizationService organizationService;
 
-    /**
-     * Initial method called when requesting a new view instance.
-     *
-     */
-    @Override
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                              HttpServletRequest request, HttpServletResponse response) {
-        MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
-        setupMaintenance(maintenanceForm, request, KRADConstants.MAINTENANCE_NEW_ACTION);
-        if (form.getView() != null) {
-            String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
-            // check if creating CO and populate the form
-            String createCO = request.getParameter(CourseOfferingConstants.CREATE_COURSEOFFERING);
-            if (createCO != null && createCO.equals("true")) {
-                populateCreateCourseOfferingForm(maintenanceForm, request);
-            }
-            // done with creating CO
-
-            checkViewAuthorization(form, methodToCall);
-       }
-
-       return getUIFModelAndView(maintenanceForm);
-    }
 
     @Override
     public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
@@ -194,7 +172,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         return performRedirect(form, form.getReturnLocation(), urlParameters);
     }
 
-    private void populateCreateCourseOfferingForm(MaintenanceDocumentForm form, HttpServletRequest request) {
+    protected void populateCreateCourseOfferingForm(MaintenanceDocumentForm form, HttpServletRequest request) {
 
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
