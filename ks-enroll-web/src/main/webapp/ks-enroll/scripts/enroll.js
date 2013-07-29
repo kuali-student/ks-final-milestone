@@ -773,7 +773,12 @@ function resetHeaderPosition(contextBarId){
     if (contextBar && contextBar.css('display') != "none") {
 
         var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
-        if (headerDiv) {
+        var headerOffsetTop = parseInt(headerDiv.offset().top);
+        var stickyContentOffsetTop = parseInt(stickyContentOffset.top);
+
+        //if headerOffsetTop equals to stickyContentOffsetTop, it means the header position has
+        //been adjusted back and no need to adjust it again
+        if (headerDiv && (headerOffsetTop != stickyContentOffsetTop)) {
             var headerOffsetTop = headerDiv.offset().top + 41;
 
             //adjust header back to the original position
