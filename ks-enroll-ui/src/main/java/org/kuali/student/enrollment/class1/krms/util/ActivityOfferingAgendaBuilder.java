@@ -37,7 +37,7 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
         Component group = super.buildRule(rule, bindingPrefix, agendaSection);
 
         //Open disclosure if rule has statements
-        if(rule.getProposition() != null) {
+        if(!rule.isDummy()) {
             ((Group) group).getDisclosure().setDefaultOpen(true);
         }
 
