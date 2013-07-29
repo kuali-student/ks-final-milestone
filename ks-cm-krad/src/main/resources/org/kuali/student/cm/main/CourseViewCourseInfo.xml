@@ -297,10 +297,10 @@
 					<property name="items">
 						<list>
 							<bean parent="Uif-InputField-LabelTop" p:label="Version Code"
-								p:propertyName="variationCode">
+								p:propertyName="variationCode" p:uppercaseValue="true">
 								<property name="constraintText" value="Code must be a capital letter." />
 								<property name="control">
-									<bean parent="Uif-TextControl" p:size="1" />
+									<bean parent="Uif-TextControl" p:size="1" p:maxLength="1" />
 								</property>
 								<property name="validCharactersConstraint">
 									<bean parent="AlphaPatternConstraint" />
