@@ -370,6 +370,7 @@ limitations under the License.
                     <property name="control">
                         <bean parent="Uif-TextControl" />
                     </property>
+                    <property name="instructionalText" value="Enter text from valid Learning Objective"/>
                 </bean>
 
                 <bean parent="KS-CourseRange-AddButton"/>
@@ -486,6 +487,9 @@ limitations under the License.
         </property>
         <property name="validCharactersConstraint">
             <bean parent="FixedPointPatternConstraint" p:precision="3" p:scale="2" p:allowNegative="false"/>
+        </property>
+        <property name="help">
+            <bean parent="Uif-Help" p:tooltipHelpContent="Enter value with at least one decimal place and up to two"/>
         </property>
     </bean>
     <bean id="KRMS-GPA-Field" parent="KRMS-GPA-Field-Parent"/>
