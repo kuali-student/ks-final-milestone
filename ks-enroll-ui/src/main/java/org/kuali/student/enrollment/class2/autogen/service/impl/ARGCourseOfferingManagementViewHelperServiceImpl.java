@@ -407,10 +407,16 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 Collections.sort(rgWrappers, new Comparator<RegistrationGroupWrapper>() {
                     @Override
                     public int compare(RegistrationGroupWrapper o1, RegistrationGroupWrapper o2) {
-                        return o1.getRgInfo().getName().compareTo(o2.getRgInfo().getName());
+//                        return o1.getRgInfo().getName().compareTo(o2.getRgInfo().getName());
+                        return o1.getAoActivityCodeText().compareTo(o2.getAoActivityCodeText());
                     }
                 });
             }
+            //Helper  for front-end sorting by CODE
+            for (int i=0; i < rgWrappers.size(); i++) {
+                rgWrappers.get(i).setSortKey(i);
+            }
+
 
             form.setRgResultList(rgWrappers);
 
