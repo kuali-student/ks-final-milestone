@@ -69,10 +69,6 @@ function getDataTableFromDiv(divId){
  var oTable = jQuery("#" + id).dataTable();
  return oTable;
  }
-
-function getSelector(name){
-    return "input[name$='" + name +"']";
-}
 */
 
 function getDataTableHandle(divId){

@@ -49,7 +49,11 @@ public class populateCrossCourseListKeyValues extends UifKeyValuesFinderBase imp
             // Always include an option for Course
             for (CourseCrossListingInfo courseInfo : CoInfo.getCrossListings()) {
                 if(courseInfo.getCode() != null)   {
-                    keyValues.add(new ConcreteKeyValue(courseInfo.getCode()+courseOffering.getCourseNumberSuffix(), courseInfo.getCode()+courseOffering.getCourseNumberSuffix()));
+                    if(courseOffering.getCourseNumberSuffix() == null) {
+                        keyValues.add(new ConcreteKeyValue(courseInfo.getCode(), courseInfo.getCode()));
+                    } else {
+                        keyValues.add(new ConcreteKeyValue(courseInfo.getCode()+courseOffering.getCourseNumberSuffix(), courseInfo.getCode()+courseOffering.getCourseNumberSuffix()));
+                    }
                 }
             }
         }
