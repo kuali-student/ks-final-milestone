@@ -152,39 +152,6 @@ public class PropositionTreeUtil {
         return editMode;
     }
 
-    //public static boolean resetEditModeOnPropositionTree(Node<RuleEditorTreeNode, String> currentNode) {
-        //boolea//n editMode = false;
-        //if (currentNode.getData() != null) {
-        //    RuleEditorTreeNode dataNode = currentNode.getData();
-        //    editMode = dataNode.getProposition().isEditMode();
-        //    dataNode.getProposition().setEditMode(false);
-        //}
-        //List<Node<RuleEditorTreeNode, String>> children = currentNode.getChildren();
-        //for (Node<RuleEditorTreeNode, String> child : children) {
-        //    if (resetEditModeOnPropositionTree(child)) {
-        //        editMode = true;
-        //    }
-        //
-        //}
-        //return false;
-    //}
-
-    //public static Node<RuleEditorTreeNode, String> findPropositionTreeNode(Node<RuleEditorTreeNode, String> currentNode, String selectedPropId) {
-    //    Node<RuleEditorTreeNode, String> bingo = null;
-    //    if (currentNode.getData() != null) {
-    //        RuleEditorTreeNode dataNode = currentNode.getData();
-    //        if (selectedPropId.equalsIgnoreCase(dataNode.getProposition().getId())) {
-    //            return currentNode;
-    //        }
-    //    }
-
-    //    for (Node<RuleEditorTreeNode, String> child : currentNode.getChildren()) {
-    //        bingo = findPropositionTreeNode(child, selectedPropId);
-    //        if (bingo != null) break;
-    //    }
-    //    return bingo;
-    //}
-
     /**
      * Builds a logical string expression from the proposition tree.
      *
