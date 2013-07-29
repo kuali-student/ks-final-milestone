@@ -777,6 +777,7 @@ limitations under the License.
 
     <bean id="KRMS-Program-Section-Parent" parent="Uif-VerticalBoxSection" p:headerText="Program(s)">
         <property name="header.headerTagStyle" value="font-size:13px;"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="instructionalText"
                   value="Add program or program sets. You may add any combination of programs or program sets."/>
         <property name="items">
