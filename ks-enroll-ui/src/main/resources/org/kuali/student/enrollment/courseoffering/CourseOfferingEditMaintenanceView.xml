@@ -89,6 +89,36 @@
                 <ref bean="KS-CourseOfferingEdit-MiscSection"/>
             </list>
         </property>
+        <property name="header.rightGroup">
+<!--BJG-->
+            <bean parent="KS-Unified-Header-Right-Group" >
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Unified-Header-Action-Group">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-ActionLink"
+                                              p:actionImagePlacement="RIGHT"
+                                              p:methodToCall="route"
+                                              p:actionLabel="RIGHT">
+                                            <property name="actionParameters">
+                                                <map>
+                                                    <entry key="coId" value="@{#dp.courseOfferingId}" />
+                                                </map>
+                                            </property>
+                                            <property name="actionImage">
+                                                <bean parent="Uif-Image" p:altText=""
+                                                      p:source="@{#ConfigProperties['ks.externalizable.images.url']}/icon-arrow-right.png"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+            </bean>
+<!--BJG-->
+        </property>
         <!--Override the default maintenance doc buttons. -->
         <property name="footer">
             <bean parent="KS-Uif-FooterBase">
@@ -97,8 +127,19 @@
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="@{(document.oldMaintainableObject.dataObject.createCO)? 'Create' : 'Save '}" p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
-                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="cancel"/>
+
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Update" />
+
+                                    <bean parent="KS-Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Save Progress">
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="coId" value="@{#dp.courseOfferingId}" />
+                                            </map>
+                                        </property>
+                                    </bean>
+
+                                    <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel" />
+
                                 </list>
                             </property>
                         </bean>

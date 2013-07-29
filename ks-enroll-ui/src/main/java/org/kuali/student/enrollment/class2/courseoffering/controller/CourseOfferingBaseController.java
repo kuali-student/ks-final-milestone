@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -14,6 +15,8 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.enrollment.class2.autogen.controller.ARGCourseOfferingHandler;
+import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
@@ -132,14 +135,13 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             return getUIFModelAndView(form);
         }
 
+        String url = "";
         Properties urlParameters = new Properties();
-
         if (!(this instanceof CourseOfferingCreateController))   {
             CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
             urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_EDIT_SUCCESS);
             urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS,dataObject.getCourseOfferingCode());
 
-            String url;
             if (!form.getReturnLocation().contains("methodToCall=")){ //This happens when we display a list of COs and then user click on Manage action
                 url = form.getReturnLocation() + "&methodToCall=show";
             } else {
@@ -165,6 +167,23 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
 
             return super.performRedirect(form, CourseOfferingConstants.MANAGE_CO_CONTROLLER_PATH, urlParameters);
         }
+
+/*BJG*/
+        String loadNewCO = form.getActionParameters().get( "coId" );
+        if( StringUtils.isNotBlank( loadNewCO ) ) {
+            Object form2 = form;
+            MaintenanceDocument maintenanceDocument = (MaintenanceDocument) form.getDocument();
+            CourseOfferingEditMaintainableImpl courseOfferingEditMaintainable = (CourseOfferingEditMaintainableImpl) maintenanceDocument.getNewMaintainableObject();
+            Object dataObject = courseOfferingEditMaintainable.getDataObject();
+            CourseOfferingEditWrapper courseOfferingEditWrapper = (CourseOfferingEditWrapper) dataObject;
+
+
+            CourseOfferingInfo coInfo = courseOfferingEditWrapper.getCourseOfferingInfo();
+            String methodToCall = "editTheCO";
+            urlParameters = ARGUtil._buildCOURLParameters( coInfo, methodToCall );
+
+        }
+/*BJG*/
 
         // clear current form from session
         GlobalVariables.getUifFormManager().removeSessionForm(form);
