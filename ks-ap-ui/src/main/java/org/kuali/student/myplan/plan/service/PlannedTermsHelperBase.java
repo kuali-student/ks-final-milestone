@@ -297,7 +297,7 @@ public class PlannedTermsHelperBase {
 		try {
 			QueryByCriteria criteria =QueryByCriteria.Builder.fromPredicates(
 					like("atpStatus",
-                    PlanConstants.PUBLISHED)); 
+                    PlanConstants.PLANNING)); 
 
 
             // need to re-examine this functionality

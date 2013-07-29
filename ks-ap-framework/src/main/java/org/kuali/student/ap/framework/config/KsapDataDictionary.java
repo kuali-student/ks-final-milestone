@@ -50,6 +50,7 @@ public class KsapDataDictionary extends DataDictionary implements
 	private UifDictionaryIndex uifIndex;
 	private final DataDictionaryMapper ddMapper = new DataDictionaryIndexMapper();
 	private DataDictionaryLoadTask loader;
+	private boolean loaderError;
 
 	public KsapDataDictionary() {
 		ddBeans = null;
@@ -166,7 +167,6 @@ public class KsapDataDictionary extends DataDictionary implements
 					// validated,
 					// perform Data Dictionary bean overrides.
 					performBeanOverrides();
-
 				} finally {
 					TL_LOADER.remove();
 				}
@@ -179,27 +179,34 @@ public class KsapDataDictionary extends DataDictionary implements
 					uifIndex = loadingUifIndex;
 					beanValidationFiles = loadingBeanValidationFiles;
 				}
+				loaderError = false;
 			} catch (Throwable t) {
 				LOG.fatal("Error loading DD from " + moduleLoadOrder + "\n"
 						+ moduleDictionaryFiles, t);
+				loaderError = true;
 			} finally {
 				synchronized (this) {
 					this.notifyAll();
 				}
-				if (loader == this)
+				if (loader == this) {
+					loadingDdBeans = null;
+					loadingDdIndex = null;
+					loadingUifIndex = null;
 					loader = null;
+				}
 			}
 		}
 	}
 
 	private synchronized void waitForInit() {
-		if (ddBeans == null || ddIndex == null || uifIndex == null) {
+		if (ddBeans == null || ddIndex == null || uifIndex == null
+				|| loaderError) {
 			if (loader == null)
 				KSBServiceLocator.getThreadPool().execute(
 						loader = new DataDictionaryLoadTask(false));
 			DataDictionaryLoadTask tl;
 			long now = System.currentTimeMillis();
-			while ((ddBeans == null || ddIndex == null || uifIndex == null)
+			while ((ddBeans == null || ddIndex == null || uifIndex == null || loaderError)
 					&& (tl = loader) != null)
 				synchronized (tl) {
 					try {
