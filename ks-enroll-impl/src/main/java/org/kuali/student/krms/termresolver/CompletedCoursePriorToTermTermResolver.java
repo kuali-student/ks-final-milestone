@@ -2,9 +2,14 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
@@ -26,7 +31,9 @@ import java.util.Set;
 public class CompletedCoursePriorToTermTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
+    private CourseOfferingService courseOfferingService;
     private VersionManagementService cluVersionService;
+    private AtpService atpService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -45,7 +52,7 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
     public Set<String> getParameterNames() {
         Set<String> parameters = new HashSet<String>(2);
         parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
-        parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE_KEY);
+        parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY);
         return Collections.unmodifiableSet(parameters);
     }
 
@@ -62,12 +69,19 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
         try {
             //Retrieve the version independent clu id.
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+            String startTermId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY);
+            AtpInfo term = atpService.getAtp(startTermId, context);
 
             List<VersionDisplayInfo> versions = cluVersionService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
             for(VersionDisplayInfo version : versions){
                 //Retrieve the students academic record for this version.
-                if(academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context).size()>0){
-                    return true; //if service returned anything, the student has completed a version of the clu.
+                List<StudentCourseRecordInfo> courseRecords = academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context);
+                for (StudentCourseRecordInfo courseRecord : courseRecords){
+                    CourseOffering courseOffering = courseOfferingService.getCourseOffering(courseRecord.getCourseOfferingId(), context);
+                    AtpInfo atpInfo = atpService.getAtp(courseOffering.getTermId(), context);
+                    if(atpInfo.getEndDate().before(term.getEndDate())) {
+                        return true;
+                    }
                 }
             }
         } catch (Exception e) {
@@ -85,12 +99,28 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
         this.academicRecordService = academicRecordService;
     }
 
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
     public VersionManagementService getCluVersionService() {
         return cluVersionService;
     }
 
     public void setCluVersionService(VersionManagementService cluVersionService) {
         this.cluVersionService = cluVersionService;
+    }
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 
 }
