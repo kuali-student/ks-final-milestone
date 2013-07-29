@@ -31,7 +31,7 @@ import org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
-import org.kuali.student.lum.lu.ui.krms.service.impl.EnrolRuleViewHelperServiceImpl;
+import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSPermissionHelper;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
@@ -185,11 +185,10 @@ public class EnrolRuleEditorController extends RuleEditorController {
 
         //Build the membershipquery
         CluSetRangeHelper rangeHelper = prop.getCluSet().getRangeHelper();
-        rangeHelper.validateCourseRange(prop);
-        if ( GlobalVariables.getMessageMap().hasErrors()){
-
+        if(!rangeHelper.validateCourseRange(prop)){
             return getUIFModelAndView(form);
         }
+
         MembershipQueryInfo membershipQueryInfo = rangeHelper.buildMembershipQuery();
 
         //Build the cluset range wrapper object
@@ -210,7 +209,7 @@ public class EnrolRuleEditorController extends RuleEditorController {
      * @param form
      * @return
      */
-    protected EnrolRuleViewHelperServiceImpl getViewHelper(UifFormBase form) {
-        return (EnrolRuleViewHelperServiceImpl) KSControllerHelper.getViewHelperService(form);
+    protected LURuleViewHelperServiceImpl getViewHelper(UifFormBase form) {
+        return (LURuleViewHelperServiceImpl) KSControllerHelper.getViewHelperService(form);
     }
 }
