@@ -16,7 +16,7 @@
 package org.kuali.student.lum.lu.ui.krms.tree;
 
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
+import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 
@@ -28,11 +28,10 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class EnrolRulePreviewTreeBuilder extends KSRulePreviewTreeBuilder {
+public class LURuleViewTreeBuilder extends KSRuleViewTreeBuilder {
 
     private static final long serialVersionUID = 1L;
 
-    @Override
     public List<Object> getListItems(PropositionEditor propositionEditor) {
         if (propositionEditor instanceof LUPropositionEditor) {
             CluSetInformation cluSetInfo = ((LUPropositionEditor) propositionEditor).getCluSet();

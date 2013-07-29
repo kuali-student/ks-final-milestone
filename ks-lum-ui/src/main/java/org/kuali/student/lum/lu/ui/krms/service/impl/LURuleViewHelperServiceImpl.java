@@ -41,8 +41,8 @@ import org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder;
 import org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.KrmsSuggestDisplay;
-import org.kuali.student.lum.lu.ui.krms.tree.EnrolRulePreviewTreeBuilder;
-import org.kuali.student.lum.lu.ui.krms.tree.EnrolRuleViewTreeBuilder;
+import org.kuali.student.lum.lu.ui.krms.tree.LURulePreviewTreeBuilder;
+import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
@@ -76,7 +76,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
+public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
 
     private CluService cluService;
     private ContextInfo contextInfo;
@@ -580,7 +580,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     public RulePreviewTreeBuilder getPreviewTreeBuilder() {
         if (previewTreeBuilder == null) {
-            previewTreeBuilder = new EnrolRulePreviewTreeBuilder();
+            previewTreeBuilder = new LURulePreviewTreeBuilder();
             previewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return previewTreeBuilder;
@@ -589,7 +589,7 @@ public class EnrolRuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     @Override
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (viewTreeBuilder == null) {
-            viewTreeBuilder = new EnrolRuleViewTreeBuilder();
+            viewTreeBuilder = new LURuleViewTreeBuilder();
             viewTreeBuilder.setNlHelper(this.getNaturalLanguageHelper());
         }
         return viewTreeBuilder;

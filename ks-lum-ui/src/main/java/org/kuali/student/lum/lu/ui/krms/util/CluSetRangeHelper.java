@@ -286,13 +286,25 @@ public class CluSetRangeHelper implements Serializable {
      *
      * @param propositionEditor
      */
-    public void validateCourseRange(LUPropositionEditor propositionEditor) {
-        CluSetInformation cluSet = propositionEditor.getCluSet();
-
-        if (cluSet.getRangeHelper().getEffectiveFrom().after(cluSet.getRangeHelper().getEffectiveTo())){
-            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "cluSet.rangeHelper.effectiveTo");
-            GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_COURSERANGE_DATES_OVERLAP);
+    public boolean validateCourseRange(LUPropositionEditor propositionEditor) {
+        if (this.getSearchByCourseRange().equals(COURSE_RANGE_COURSE_NUMBER)) {
+            return true;
+        } else if (this.getSearchByCourseRange().equals(COURSE_RANGE_LEARNING_OBJECTIVES)) {
+            if (this.getLearningObjective().isEmpty()){
+                String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "cluSet.rangeHelper.learningObjective");
+                GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_LEARNINGOBJECTIVE_EMPTY);
+                return false;
+            }
+            return true;
+        } else if (this.getSearchByCourseRange().equals(COURSE_RANGE_EFFECTIVE_DATE)) {
+            if (this.getEffectiveFrom().after(this.getEffectiveTo())) {
+                String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "cluSet.rangeHelper.effectiveTo");
+                GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_COURSERANGE_DATES_OVERLAP);
+                return false;
+            }
+            return true;
         }
+        return true;
     }
 
 

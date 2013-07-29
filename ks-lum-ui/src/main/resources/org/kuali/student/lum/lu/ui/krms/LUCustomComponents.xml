@@ -88,6 +88,7 @@ limitations under the License.
                 <ref bean="KRMS-ApprovedCourseStackedCollectionGroup"/>
                 <ref bean="KRMS-CourseSetStackedCollectionGroup"/>
                 <bean parent="Uif-VerticalBoxGroup">
+                    <property name="validationMessages.displayMessages" value="false"/>
                     <property name="header">
                         <bean parent="Uif-HeaderSix" p:headerText="Course Range" p:progressiveRender="#np.proposition.cluSet.cluRangeListSize gt 0"/>
                     </property>
@@ -308,6 +309,7 @@ limitations under the License.
 
     <bean id="KS-CourseRange-BoxSection-parent" parent="Uif-VerticalBoxSection"
           p:progressiveRender="#np.proposition.multipleCourseType eq '3'">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <ref bean="KS-CourseRange-TypeField"/>
@@ -361,6 +363,7 @@ limitations under the License.
 
     <bean id="KS-LearningObjective-RangeSection" parent="Uif-HorizontalBoxSection"
           p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '2'">
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.learningObjective" p:label="Description">
