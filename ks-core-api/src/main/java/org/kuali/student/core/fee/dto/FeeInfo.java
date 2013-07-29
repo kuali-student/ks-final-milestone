@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FeeInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "catalogFeeId", "refObjectURI", "refObjectId",
+        "catalogFeeId", "refObjectURI", "refObjectIds",
         "atpId", "amount", "flexibleCreditAmounts",
         "transactionCode", "transactionDate", "transactionDateTypeKey",
         "meta", "attributes", "_futureElements" })
@@ -56,7 +56,7 @@ public class FeeInfo
     private String refObjectURI;
     
     @XmlElement
-    private String refObjectId;
+    private List<String> refObjectIds;
 
     @XmlElement
     private String atpId;
@@ -97,7 +97,11 @@ public class FeeInfo
         if (fee != null) {
             this.catalogFeeId = fee.getCatalogFeeId();
             this.refObjectURI = fee.getRefObjectURI();
-            this.refObjectId = fee.getRefObjectId();
+            
+            if (fee.getRefObjectIds() != null) {
+                this.refObjectIds = new ArrayList<String>(fee.getRefObjectIds());
+            }
+
             this.atpId = fee.getAtpId();
             this.amount = new CurrencyAmountInfo(fee.getAmount());
 
@@ -137,12 +141,16 @@ public class FeeInfo
     }
 
     @Override
-    public String getRefObjectId() {
-        return (this.refObjectId);
+    public List<String> getRefObjectIds() {
+        if (this.refObjectIds == null) {
+            this.refObjectIds = new ArrayList<String>(0);
+        }
+
+        return (this.refObjectIds);
     }
 
-    public void setRefObjectId(String refObjectId) {
-        this.refObjectId = refObjectId;
+    public void setRefObjectId(List<String> refObjectIds) {
+        this.refObjectIds = new ArrayList<String>(refObjectIds);
     }
 
     @Override

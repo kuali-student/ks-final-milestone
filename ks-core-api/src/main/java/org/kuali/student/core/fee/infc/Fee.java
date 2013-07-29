@@ -74,13 +74,14 @@ public interface Fee
     public String getRefObjectURI();
 
     /**
-     * The identifier of the reference object to which this Fee
-     * applied.
+     * The identifier of the reference objects to which this Fee
+     * applies. There may be multiple references, but all of the same
+     * type as indicated by the reference object URI.
      *
-     * @return the Id of the reference object
-     * @name Reference Object Id
+     * @return the Ids of the reference objects
+     * @name Reference Object Ids
      */
-    public String getRefObjectId();
+    public List<String> getRefObjectIds();
 
     /**
      * The ATP for which this Fee is in effect. The ATP should be
