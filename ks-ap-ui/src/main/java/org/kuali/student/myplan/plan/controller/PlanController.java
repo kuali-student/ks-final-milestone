@@ -487,7 +487,7 @@ public class PlanController extends UifControllerBase {
 			getAcademicPlanService().updatePlanItem(planItemId, planItem,
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (Exception e) {
-			return doOperationFailedError(form, "Could not udpate plan item.",
+			return doOperationFailedError(form, "Could not update plan item.",
 					e);
 		}
 

@@ -65,6 +65,7 @@
         <property name="criteriaFields">
             <list/>
         </property>
+        <property name="criteriaGroup.footer.render" value="false"/>
 
         <property name="resultFields">
             <list/>
