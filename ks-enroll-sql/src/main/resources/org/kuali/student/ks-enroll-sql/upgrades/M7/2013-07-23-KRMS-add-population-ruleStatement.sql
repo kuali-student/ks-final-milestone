@@ -16,3 +16,6 @@ Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) 
 Insert into KRMS_TYP_RELN_T (ACTV,FROM_TYP_ID,RELN_TYP,SEQ_NO,TO_TYP_ID,TYP_RELN_ID,VER_NBR)
   values ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.academicReadiness.studentEligibilityPrereq'),'A',15,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.memberof.population'),'KS-KRMS-NL-USAGE-1164',0)
 /
+Insert into KRMS_TYP_RELN_T (ACTV,FROM_TYP_ID,RELN_TYP,SEQ_NO,TO_TYP_ID,TYP_RELN_ID,VER_NBR)
+  values ('Y',(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.rule.type.course.recommendedPreparation'),'A',15,(SELECT TYP_ID FROM KRMS_TYP_T WHERE NM = 'kuali.krms.proposition.type.memberof.population'),'KS-KRMS-NL-USAGE-1165',0)
+/
