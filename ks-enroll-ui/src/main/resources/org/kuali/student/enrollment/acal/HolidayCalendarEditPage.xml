@@ -94,7 +94,7 @@
                                           p:methodToCall="save"
                                           p:actionLabel="Save"  p:performClientSideValidation="true" />
                                     <bean parent="Uif-ActionLink" p:methodToCall="delete"
-                                          p:actionLabel="Delete Calendar Draft"
+                                          p:actionLabel="Delete"
                                           p:render="@{!newCalendar and !officialUI}"/>
                                     <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"
                                             p:style="float: right  !important;"/>

@@ -107,7 +107,7 @@ limitations under the License.
                                     </bean>
                                     <bean parent="KS-Uif-SecondaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
                                           p:performClientSideValidation="true" p:render="@{reload}" />
-                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete Calendar Draft"
+                                    <bean parent="KS-Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete"
                                           p:render="@{!reload and !newCalendar and !#view.readOnly and !officialUI}"/>
                                     <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()" p:render="@{!#view.readOnly}" />
                                 </list>
