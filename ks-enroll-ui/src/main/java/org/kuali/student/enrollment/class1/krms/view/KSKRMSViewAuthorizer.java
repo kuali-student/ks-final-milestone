@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class1.krms.view;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
@@ -68,6 +69,40 @@ public class KSKRMSViewAuthorizer extends KsViewAuthorizerBase {
 
         return isAuthorizedByTemplate(view, action, model, KimConstants.PermissionTemplateNames.PERFORM_ACTION,
                 user, permissionDetails, roleQualifications, false);
+    }
+
+    public boolean canEditGroup(View view, ViewModel model, Group group, String groupId, Person user) {
+        // check edit group authz flag is set
+        if (!group.getComponentSecurity().isEditAuthz()) {
+            return true;
+        }
+
+        MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
+        CORuleManagementWrapper wrapper = (CORuleManagementWrapper) maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+
+        String ruleType = null;
+        if(wrapper.getRuleEditor() != null) {
+            ruleType = wrapper.getRuleEditor().getRuleTypeInfo().getType();
+        }
+
+        Map<String, String> additionalPermissionDetails = new HashMap<String, String>();
+        Map<String,String> roleQualifications = new HashMap<String,String>();
+
+        String socState = StringUtils.lowerCase(wrapper.getContextBar().getTermSocState());
+
+        roleQualifications.put("offeringAdminOrgId", wrapper.getAdminOrg());
+
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.NAMESPACE_CODE, "KS-ENR");
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, model.getViewId());
+        additionalPermissionDetails.put(KimConstants.AttributeConstants.GROUP_ID, groupId);
+        additionalPermissionDetails.put("socState", socState);
+
+        if(ruleType != null) {
+            additionalPermissionDetails.put("ruleType", ruleType);
+        }
+
+        return isAuthorizedByTemplate(view, group, model, KimConstants.PermissionTemplateNames.EDIT_GROUP, user, additionalPermissionDetails,
+                roleQualifications, false);
     }
 
 }

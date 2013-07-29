@@ -530,7 +530,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSCO-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup">
+    <bean id="KSCO-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup" p:componentSecurity.editAuthz="true">
         <property name="items">
             <list>
                 <bean parent="KRMS-LogicArea-InputField"/>
