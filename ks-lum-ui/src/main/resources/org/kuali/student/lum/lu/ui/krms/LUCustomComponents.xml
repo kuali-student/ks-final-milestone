@@ -568,7 +568,7 @@ limitations under the License.
             <bean parent="Uif-DropdownControl"/>
         </property>
         <property name="optionsFinder">
-            <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.GradeValuesKeyFinder"/>
+            <bean class="org.kuali.student.lum.lu.ui.krms.keyvalues.GradeValuesKeyFinder"/>
         </property>
     </bean>
     <bean id="KRMS-GradeValues-Field" parent="KRMS-GradeValues-Field-Parent"/>
