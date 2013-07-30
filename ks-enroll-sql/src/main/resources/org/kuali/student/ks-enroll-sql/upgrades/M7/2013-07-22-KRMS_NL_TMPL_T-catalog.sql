@@ -1,4 +1,4 @@
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1501','KS-KRMS-NL-USAGE-1005','a minimum cumulative GPA of $gpa','10040',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1501','KS-KRMS-NL-USAGE-1005','a minimum cumulative GPA of $intValue','10040',0)
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1502','KS-KRMS-NL-USAGE-1005','a minimum of $intValue $NLHelper.getProperGrammar($intValue, "credit") total credits','10039',0)
 /
