@@ -639,12 +639,13 @@
                                                <!--{'bSortable':true},-->
                                                <!--{'bSortable':true}-->
                                                 <!--]"/>-->
+        <entry key="aoColumns" value="oTable.fnSetColumnVis( 0, false );"/>
             </map>
         </property>
 		<property name="items">
            <list>
                <bean parent="Uif-InputField" p:propertyName="isChecked" p:label="" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');"
-                       p:render="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}">
+                     p:render="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}">
                    <property name="control">
                        <bean parent="Uif-CheckboxControl"/>
                    </property>

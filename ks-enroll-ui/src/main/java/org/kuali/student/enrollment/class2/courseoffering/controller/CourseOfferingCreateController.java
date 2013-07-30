@@ -167,8 +167,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                             TermInfo termInfo = getAcalService().getTerm(theCO.getTermId(), ContextUtils.createDefaultContextInfo());
                             coEditWrapper.setTerm(termInfo);
                             coEditWrapper.setGradingOption(getGradingOption(theCO.getGradingOptionId()));
-                            coCreateWrapper.getExistingTermOfferings().add(coEditWrapper);
-//                            coCreateWrapper.setCreateFromCatalog(false);
+                            // To prevent showing the same row twice in the table. It can be caused by pressing F5 key.
+                            if (coCreateWrapper.getExistingTermOfferings().size() == 0) {
+                                coCreateWrapper.getExistingTermOfferings().add(coEditWrapper);
+                            }
                         }catch(Exception e){
 
                         }
