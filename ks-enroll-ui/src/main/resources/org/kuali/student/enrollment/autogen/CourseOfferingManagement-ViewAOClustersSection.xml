@@ -241,7 +241,7 @@
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[3, 'asc']]"/>
+                <entry key="aaSorting" value="[[0, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
             </map>
@@ -259,11 +259,6 @@
                 <bean parent="Uif-MessageField"
                       p:label="CODE"
                       p:messageText="@{#line.aoActivityCodeText}">
-                </bean>
-                <!--Hidden column for sorting by 'CODE'-->
-                <bean parent="Uif-DataField" p:cellStyle="display:none"
-                      p:label=""
-                      p:propertyName="sortKey">
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="STATUS"

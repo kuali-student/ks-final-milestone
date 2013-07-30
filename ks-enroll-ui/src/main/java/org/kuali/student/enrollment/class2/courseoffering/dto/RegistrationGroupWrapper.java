@@ -49,7 +49,6 @@ public class RegistrationGroupWrapper implements Serializable {
     private String daysDisplayName = "";
     private String buildingName = "";
     private String roomName = "";
-    private int sortKey;
 
     public RegistrationGroupWrapper() {
         rgInfo = new RegistrationGroupInfo();
@@ -294,13 +293,4 @@ public class RegistrationGroupWrapper implements Serializable {
     public void setAoEditLink(String aoEditLink) {
         this.aoEditLink = aoEditLink;
     }
-
-    public int getSortKey() {
-        return sortKey;
-    }
-
-    public void setSortKey(int sortKey) {
-        this.sortKey = sortKey;
-    }
-
 }
