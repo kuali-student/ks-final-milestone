@@ -554,12 +554,14 @@
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
+                    <property name="addBlankLineAction.style" value="margin-top:30px; display:block;"/>
                     <property name="layoutManager.richTable">
                         <!-- see http://datatables.net/ref for all options -->
                         <bean parent="Uif-PagedRichTable">
                             <property name="templateOptions">
                                 <map merge="true">
                                     <entry key="aaSorting" value="[[1,'desc']]"/>
+                                    <entry key="bPaginate" value="false"/>
                                 </map>
                             </property>
                         </bean>
