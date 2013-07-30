@@ -135,6 +135,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                               HttpServletRequest request, HttpServletResponse response) {
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
         setupMaintenance(maintenanceForm, request, KRADConstants.MAINTENANCE_NEW_ACTION);
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
         if (form.getView() != null) {
             String methodToCall = request.getParameter(KRADConstants.DISPATCH_REQUEST_PARAMETER);
 
@@ -162,9 +164,16 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     String coId = request.getParameter("courseOfferingId");
                     if(coId != null){
                         try {
-                            CourseOfferingInfo theCO = getCourseOfferingService().getCourseOffering(coId, ContextUtils.createDefaultContextInfo());
+                            // configure context bar
+                            List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coCreateWrapper.getTerm().getId(), contextInfo);
+                            SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
+                            coCreateWrapper.setSocInfo(soc);
+                            coCreateWrapper.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(coCreateWrapper.getTerm(), coCreateWrapper.getSocInfo(),
+                                    getStateService(), getAcalService(), contextInfo));
+
+                            CourseOfferingInfo theCO = getCourseOfferingService().getCourseOffering(coId, contextInfo);
                             CourseOfferingEditWrapper coEditWrapper = new CourseOfferingEditWrapper(theCO);
-                            TermInfo termInfo = getAcalService().getTerm(theCO.getTermId(), ContextUtils.createDefaultContextInfo());
+                            TermInfo termInfo = getAcalService().getTerm(theCO.getTermId(), contextInfo);
                             coEditWrapper.setTerm(termInfo);
                             coEditWrapper.setGradingOption(getGradingOption(theCO.getGradingOptionId()));
                             // To prevent showing the same row twice in the table. It can be caused by pressing F5 key.
