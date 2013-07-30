@@ -753,10 +753,10 @@ function removeEmptyContextBar(contextBarId){
         //hide the empty context bar
         contextBar.hide();
 
-        //re-position header. value 41 is the height of the context bar
+        //re-position header.
         var headerDiv = jQuery(".uif-viewHeader-contentWrapper");
         if (headerDiv) {
-            var headerOffsetTop = headerDiv.offset().top - 41;
+            var headerOffsetTop = headerDiv.offset().top - contextBar.height();
             headerDiv.offset({top:headerOffsetTop});
             headerDiv.data("offset", headerDiv.offset());
         }
@@ -779,7 +779,7 @@ function resetHeaderPosition(contextBarId){
         //if headerOffsetTop equals to stickyContentOffsetTop, it means the header position has
         //been adjusted back and no need to adjust it again
         if (headerDiv && (headerOffsetTop != stickyContentOffsetTop)) {
-            var headerOffsetTop = headerDiv.offset().top + 41;
+            var headerOffsetTop = headerDiv.offset().top + contextBar.height();
 
             //adjust header back to the original position
             headerDiv.offset({top:headerOffsetTop});
