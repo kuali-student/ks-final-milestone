@@ -30,68 +30,70 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
  */
 public class CourseForm extends UifFormBase {
 
-	private static final long serialVersionUID = -988885314122936950L;
-	
-	private CourseInfo courseInfo;
-	
-	private ProposalInfo proposalInfo;
-	
-	private boolean audit;
-	
-	private boolean passFail;
-	
-	private List<CluInstructorInfoWrapper> instructorDisplays;
-	
-	private List<CourseJointInfoWrapper> courseJointDisplays;
-	
-	private List<ResultValuesGroupInfoWrapper> creditOptionsDisplay;
-	
-	private String finalExamStatus;
-	
-	private String finalExamRationale;
-	
-	private CommentInfo commentInfo;
-	
-	private String dialog1;
-	
-	private String Field1;
-	
-	private LearningObjectiveDialogWrapper loDialogWrapper;
-	
-	public CourseForm() {
-		this.courseInfo = new CourseInfo();
-		this.proposalInfo = new ProposalInfo();
-		this.instructorDisplays = new ArrayList<CluInstructorInfoWrapper>();
-		
-		this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoWrapper>();
-		this.courseJointDisplays = new ArrayList<CourseJointInfoWrapper>();
-		this.commentInfo = new CommentInfo();
-	}
+    private static final long serialVersionUID = -988885314122936950L;
+    
+    private CourseInfo courseInfo;
+    
+    private ProposalInfo proposalInfo;
+    
+    private boolean audit;
+    
+    private boolean passFail;
+    
+    private List<CluInstructorInfoWrapper> instructorDisplays;
+    
+    private List<CourseJointInfoWrapper> courseJointDisplays;
+    
+    private List<ResultValuesGroupInfoWrapper> creditOptionsDisplay;
+    
+    private String finalExamStatus;
+    
+    private String finalExamRationale;
+    
+    private CommentInfo commentInfo;
+    
+    private String dialog1;
+    
+    private String Field1;
 
-	public CourseInfo getCourseInfo() {
-		return courseInfo;
-	}
+    private LearningObjectiveDialogWrapper loDialogWrapper;
+    
+    private Boolean showAll;
 
-	public void setCourseInfo(CourseInfo courseInfo) {
-		this.courseInfo = courseInfo;
-	}
+    public CourseForm() {
+        this.courseInfo = new CourseInfo();
+        this.proposalInfo = new ProposalInfo();
+        this.instructorDisplays = new ArrayList<CluInstructorInfoWrapper>();
+        
+        this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoWrapper>();
+        this.courseJointDisplays = new ArrayList<CourseJointInfoWrapper>();
+        this.commentInfo = new CommentInfo();
+    }
 
-	public ProposalInfo getProposalInfo() {
-		return proposalInfo;
-	}
+    public CourseInfo getCourseInfo() {
+        return courseInfo;
+    }
 
-	public void setProposalInfo(ProposalInfo proposalInfo) {
-		this.proposalInfo = proposalInfo;
-	}
+    public void setCourseInfo(CourseInfo courseInfo) {
+        this.courseInfo = courseInfo;
+    }
 
-	public List<CluInstructorInfoWrapper> getInstructorDisplays() {
-		return instructorDisplays;
-	}
+    public ProposalInfo getProposalInfo() {
+        return proposalInfo;
+    }
 
-	public void setInstructorDisplays(
-			List<CluInstructorInfoWrapper> instructorDisplays) {
-		this.instructorDisplays = instructorDisplays;
-	}
+    public void setProposalInfo(ProposalInfo proposalInfo) {
+        this.proposalInfo = proposalInfo;
+    }
+
+    public List<CluInstructorInfoWrapper> getInstructorDisplays() {
+        return instructorDisplays;
+    }
+
+    public void setInstructorDisplays(
+            List<CluInstructorInfoWrapper> instructorDisplays) {
+        this.instructorDisplays = instructorDisplays;
+    }
 
     public boolean isAudit() {
         return audit;
@@ -165,12 +167,19 @@ public class CourseForm extends UifFormBase {
         Field1 = field1;
     }
 
-	public LearningObjectiveDialogWrapper getLoDialogWrapper() {
-		return loDialogWrapper;
-	}
+    public LearningObjectiveDialogWrapper getLoDialogWrapper() {
+        return loDialogWrapper;
+    }
 
-	public void setLoDialogWrapper(LearningObjectiveDialogWrapper loDialogWrapper) {
-		this.loDialogWrapper = loDialogWrapper;
-	}
+    public void setLoDialogWrapper(LearningObjectiveDialogWrapper loDialogWrapper) {
+        this.loDialogWrapper = loDialogWrapper;
+    }
 
+    public void setShowAll(final Boolean showAll) {
+        this.showAll = showAll;
+    }
+
+    public Boolean getShowAll() {
+        return this.showAll;
+    }
 }

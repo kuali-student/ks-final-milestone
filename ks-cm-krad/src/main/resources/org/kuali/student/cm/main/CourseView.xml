@@ -38,6 +38,7 @@
 		<property name="formClass" value="org.kuali.student.cm.course.form.CourseForm" />
 		<property name="viewHelperServiceClass"
 			value="org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl" />
+
 		<property name="items">
 			<list>
 				<ref bean="KS-CourseView-CourseInfoPage" />
@@ -55,6 +56,7 @@
 		<property name="dialogs">
 			<list>
 				<ref bean="commentsDialog" />
+				<ref bean="decisionsDialog" />
 				<ref bean="loCategoryDialog" />
 			</list>
 		</property>
@@ -224,30 +226,49 @@
         </property>
         <property name="upperGroup">
             <bean parent="Uif-VerticalBoxGroup">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-cm-page-header</value>
-                    </list>
-                </property>
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HeaderTwo">
-                            <property name="headerText" value="New Proposal" />
+                        <bean parent="Uif-VerticalBoxGroup">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>ks-header</value>
+                                    <value>ks-cm-page-header</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-HeaderTwo">
+                                        <property name="headerText" value="New Proposal" />
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>ks-header</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-LinkGroup" p:linkSeparator="|">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-DataField" p:label="Proposal Status" p:shortLabel="Status" p:labelPlacement="LEFT"  p:propertyName="courseInfo.stateKey" />
+									            <bean parent="Uif-ActionLink" p:actionLabel="Comments" p:methodToCall="createComment" />
+                                                <bean parent="Uif-ActionLink" p:actionLabel="Decisions" p:methodToCall="showDecisions" />
+                                                <bean parent="Uif-Space"/>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="Uif-LinkGroup" p:linkSeparator="|">
+                        <bean parent="Uif-VerticalBoxGroup">
                             <property name="items">
                                 <list>
-<!--
-                                    <bean parent="Uif-DataField" p:label="Proposal Status" p:shortLabel="Status" p:labelPlacement="LEFT"  p:propertyName="dataField1" />
--->									
-									<bean parent="Uif-ActionLink" p:actionLabel="Comments"
-										p:methodToCall="createComment" />
-                                    <bean parent="Uif-ActionLink" p:actionLabel="Decisions" />
+                                    <bean parent="Uif-Message">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>uif-pageValidationMessages-warning</value>
+                                            </list>
+                                        </property>
+                                        <property name="messageText"
+                                                  value="Showing required and optional fields. Show only required fields"/>
+                                    </bean>
                                 </list>
                             </property>
                         </bean>
@@ -257,6 +278,26 @@
         </property>
     </bean>
         
-    <bean id="decisionsDialog" parent="Uif-DialogGroup"/>
+    <bean id="decisionsDialog" parent="Uif-DialogGroup">
+		<property name="headerText" value="Decisions" />
+		<property name="promptText" value="" />
+		<property name="availableResponses">
+			<list>
+				<bean parent="Uif-KeyLabelPair" p:key="Y" p:value="OK"/>
+			</list>
+		</property>
+        <!--
+        <property name="items">
+          <bean parent="Uif-Disclosure-TableCollectionSection" p:layoutManager.numberOfColumns="4">
+            <property name="headerText" value="Decisions" />
+            <property name="collectionObjectClass"
+                      value="org.kuali.student.cm.form.DecisionPanel" />
+            <property name="propertyName" value="decisions" />
+            <property name="layoutManager.generateAutoSequence" value="true" />
+            <property name="layoutManager.richTable.render" value="false" />
+          </bean>
+        </property>
+        -->
+    </bean>
 
 </beans>

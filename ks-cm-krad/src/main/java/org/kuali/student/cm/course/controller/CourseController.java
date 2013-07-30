@@ -73,6 +73,7 @@ import static org.kuali.student.logging.FormattedLogger.*;
 @Controller
 @RequestMapping(value = "/courses")
 public class CourseController extends UifControllerBase {
+    private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
 
     private CourseService courseService;
 	private CommentService commentService;
@@ -234,6 +235,20 @@ public class CourseController extends UifControllerBase {
     	courseForm.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
         return super.start(courseForm, result, request, response);
     }
+
+    @RequestMapping(params = "methodToCall=showDecisions")
+    public ModelAndView showDecisions(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        if (!hasDialogBeenAnswered(DECISIONS_DIALOG_KEY, form)){
+            return showDialog(DECISIONS_DIALOG_KEY, form, request, response);
+        }
+
+        form.getDialogManager().removeDialog(DECISIONS_DIALOG_KEY);
+        
+        return getUIFModelAndView(form);
+    }
+
      
     @RequestMapping(params = "methodToCall=createComment")
     public ModelAndView createComment(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
@@ -279,7 +294,7 @@ public class CourseController extends UifControllerBase {
     	String commentDialogKey = "loCategoryDialog";
         if (!hasDialogBeenAnswered(commentDialogKey, form)){
         	//Get the available categories
-        	form.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
+        	// form.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
             
             // redirect back to client to display lightbox
             return showDialog(commentDialogKey, form, request, response);
