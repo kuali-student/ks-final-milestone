@@ -17,19 +17,37 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class CompletedCourseCreditsTermResolver implements TermResolver<Integer> {
+/**
+ * Returns an integer based on the number of credits earned for the given course list.
+ *
+ * Rule statement examples:
+ * Must successfully complete no more than  <n> credits from <courses>
+ * Must have successfully completed a minimum of <n> credits from <courses>
+ */
+public class CreditsEarnedFromCoursesTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
+    private CluService cluService;
+
+    private CourseRecordsForCourseSetTermResolver courseRecordsForCourseSetTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -46,12 +64,11 @@ public class CompletedCourseCreditsTermResolver implements TermResolver<Integer>
 
     @Override
     public Set<String> getParameterNames() {
-        return new HashSet<String>(0);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
     }
 
     @Override
     public int getCost() {
-        // TODO Analyze, though probably not much to check here
         return 5;
     }
 
@@ -59,16 +76,29 @@ public class CompletedCourseCreditsTermResolver implements TermResolver<Integer>
     public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        String calculationTypeKey = ""; //????
 
-        String credits = null;
+        Integer credits = 0;
         try {
-            credits = academicRecordService.getEarnedCredits(personId, calculationTypeKey, context);
+            //Retrieve the list of cluIds from the cluset.
+            List<StudentCourseRecordInfo> recordInfos = this.getCourseRecordsForCourseSetTermResolver().resolve(resolvedPrereqs, parameters);
+            for(StudentCourseRecordInfo recordInfo : recordInfos){
+                credits += Integer.parseInt(recordInfo.getCreditsEarned());
+            }
+
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
-        return Integer.parseInt(credits);
+        return credits;
+    }
+
+    private CourseRecordsForCourseSetTermResolver getCourseRecordsForCourseSetTermResolver(){
+        if(courseRecordsForCourseSetTermResolver==null){
+            courseRecordsForCourseSetTermResolver = new CourseRecordsForCourseSetTermResolver();
+            courseRecordsForCourseSetTermResolver.setAcademicRecordService(this.getAcademicRecordService());
+            courseRecordsForCourseSetTermResolver.setCluService(this.getCluService());
+        }
+        return courseRecordsForCourseSetTermResolver;
     }
 
     public AcademicRecordService getAcademicRecordService() {
@@ -77,6 +107,14 @@ public class CompletedCourseCreditsTermResolver implements TermResolver<Integer>
 
     public void setAcademicRecordService(AcademicRecordService academicRecordService) {
         this.academicRecordService = academicRecordService;
+    }
+
+    public CluService getCluService() {
+        return cluService;
+    }
+
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 
 }

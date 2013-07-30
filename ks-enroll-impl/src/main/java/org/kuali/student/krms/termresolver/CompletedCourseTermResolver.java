@@ -60,7 +60,6 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public int getCost() {
-        // TODO Analyze, though probably not much to check here
         return 1;
     }
 

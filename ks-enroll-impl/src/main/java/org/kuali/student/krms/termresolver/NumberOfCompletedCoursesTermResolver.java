@@ -50,6 +50,8 @@ public class NumberOfCompletedCoursesTermResolver implements TermResolver<Intege
     private AcademicRecordService academicRecordService;
     private CluService cluService;
 
+    private CompletedCourseTermResolver completedCourseTermResolver;
+
     @Override
     public Set<String> getPrerequisites() {
         Set<String> temp = new HashSet<String>(2);
@@ -82,16 +84,12 @@ public class NumberOfCompletedCoursesTermResolver implements TermResolver<Intege
         try {
             //Retrieve the list of cluIds from the cluset.
             String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
-            List<String> cluIds = this.cluService.getAllCluIdsInCluSet(cluSetId, context);
+            List<String> cluIds = this.getCluService().getAllCluIdsInCluSet(cluSetId, context);
 
             for(String cluId : cluIds){
-                List<VersionDisplayInfo> versions = cluService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
-                for(VersionDisplayInfo version : versions){
-                    //Retrieve the students academic record for this version.
-                    if(academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context).size()>0){
-                        clusCompleted++; //if service returned anything, the student has completed a version of the clu.
-                        break;//no need to evaluate the other versions
-                    }
+                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, cluId);
+                if(this.getCompletedCourseTermResolver().resolve(resolvedPrereqs, parameters)){
+                    clusCompleted++;
                 }
             }
         } catch (Exception e) {
@@ -99,6 +97,15 @@ public class NumberOfCompletedCoursesTermResolver implements TermResolver<Intege
         }
 
         return clusCompleted;
+    }
+
+    private CompletedCourseTermResolver getCompletedCourseTermResolver(){
+        if(completedCourseTermResolver==null){
+            completedCourseTermResolver = new CompletedCourseTermResolver();
+            completedCourseTermResolver.setAcademicRecordService(this.getAcademicRecordService());
+            completedCourseTermResolver.setCluVersionService(this.getCluService());
+        }
+        return completedCourseTermResolver;
     }
 
     public AcademicRecordService getAcademicRecordService() {

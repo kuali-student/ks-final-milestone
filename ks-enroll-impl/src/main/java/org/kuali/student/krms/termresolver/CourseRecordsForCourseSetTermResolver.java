@@ -19,14 +19,10 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
@@ -46,12 +42,10 @@ import java.util.Set;
  * The studentId is passed as a resolvedPrereq.
  *
  */
-public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
+public class CourseRecordsForCourseSetTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {
 
     private AcademicRecordService academicRecordService;
     private CluService cluService;
-
-    private CompletedCourseTermResolver completedCourseTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -77,35 +71,28 @@ public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
     }
 
     @Override
-    public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        List<StudentCourseRecordInfo> studentRecords = new ArrayList<StudentCourseRecordInfo>();
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
         try {
-
             //Retrieve the list of cluIds from the cluset.
             String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
-            List<String> versionIndIds = this.getCluService().getAllCluIdsInCluSet(cluSetId, context);
+            List<String> versionIndIds = this.cluService.getAllCluIdsInCluSet(cluSetId, context);
 
             for(String versionIndId : versionIndIds){
-                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
-                if(!this.getCompletedCourseTermResolver().resolve(resolvedPrereqs, parameters)){
-                    return false;
+                boolean completed = false;
+                List<VersionDisplayInfo> versions = cluService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, versionIndId, context);
+                for(VersionDisplayInfo version : versions){
+                    //Retrieve the students academic record for this version.
+                    studentRecords.addAll(academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context));
                 }
             }
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
-        return true;
-    }
-
-    private CompletedCourseTermResolver getCompletedCourseTermResolver(){
-        if(completedCourseTermResolver==null){
-            completedCourseTermResolver = new CompletedCourseTermResolver();
-            completedCourseTermResolver.setAcademicRecordService(this.getAcademicRecordService());
-            completedCourseTermResolver.setCluVersionService(this.getCluService());
-        }
-        return completedCourseTermResolver;
+        return studentRecords;
     }
 
     public AcademicRecordService getAcademicRecordService() {

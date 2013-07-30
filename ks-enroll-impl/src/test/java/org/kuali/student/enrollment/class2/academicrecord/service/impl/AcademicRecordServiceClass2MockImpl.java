@@ -53,7 +53,6 @@ public class AcademicRecordServiceClass2MockImpl implements
 
     //Mock datastructures
     private Map<String, GPAInfo> gpasMap = new LinkedHashMap<String, GPAInfo>();
-    private Map<String, String> creditsMap = new LinkedHashMap<String, String>();
     private List<StudentCourseRecordInfo> courseRecordInfoList = new ArrayList<StudentCourseRecordInfo>();        //to be replaced with studentToCourseRecordsMap
     private Map<String, LoadInfo> loadsMap = new LinkedHashMap<String, LoadInfo>();
     private Map<String, StudentProgramRecordInfo> studentProgramRecordsMap = new LinkedHashMap<String, StudentProgramRecordInfo>();
@@ -61,9 +60,7 @@ public class AcademicRecordServiceClass2MockImpl implements
     private Map<String, StudentTestScoreRecordInfo> studentTestScoreRecordsMap = new LinkedHashMap<String, StudentTestScoreRecordInfo>();
 
     private Map<String, List<StudentCourseRecordInfo>> studentToCourseRecordsMap = new HashMap<String, List<StudentCourseRecordInfo>>();
-
     private Map<String, List<StudentCourseRecordInfo>> termToCourseRecordsMap = new HashMap<String, List<StudentCourseRecordInfo>>();
-
     private Set<StudentCourseRecordInfo> studentCourseRecordsSet = new HashSet<StudentCourseRecordInfo>();
 
     // this is a bit of a hack until the record can contain the course id directly
@@ -88,7 +85,6 @@ public class AcademicRecordServiceClass2MockImpl implements
         studentCourseRecordsSet.clear();
 
         gpasMap.clear();
-        creditsMap.clear();
         courseRecordInfoList.clear();
         loadsMap.clear();
         studentProgramRecordsMap.clear();
@@ -359,7 +355,12 @@ public class AcademicRecordServiceClass2MockImpl implements
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return creditsMap.get("credits1");
+        Integer credits = 0;
+        List<StudentCourseRecordInfo> records = studentToCourseRecordsMap.get(personId);
+        for (StudentCourseRecordInfo studentCourseRecordInfo : records) {
+            credits += Integer.parseInt(studentCourseRecordInfo.getCreditsEarned());
+        }
+        return String.valueOf(credits);
     }
 
     /* (non-Javadoc)
@@ -373,7 +374,12 @@ public class AcademicRecordServiceClass2MockImpl implements
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return creditsMap.get("credits3");
+        Integer credits = 0;
+        List<StudentCourseRecordInfo> records = studentToCourseRecordsMap.get(personId);
+        for (StudentCourseRecordInfo studentCourseRecordInfo : records) {
+            credits += Integer.parseInt(studentCourseRecordInfo.getCreditsEarned());
+        }
+        return String.valueOf(credits);
     }
 
     /* (non-Javadoc)
@@ -389,10 +395,14 @@ public class AcademicRecordServiceClass2MockImpl implements
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return creditsMap.get("credits2");
+        Integer credits = 0;
+        List<StudentCourseRecordInfo> records = studentToCourseRecordsMap.get(personId);
+        for (StudentCourseRecordInfo studentCourseRecordInfo : records) {
+            credits += Integer.parseInt(studentCourseRecordInfo.getCreditsEarned());
+        }
+        return String.valueOf(credits);
     }
 
-    // TODO: Make this data part of the KRMSEnrollmentEligibilityDataLoader
     private void createDataForTermResolvers() {
         //StudentProgramRecordInfo
         StudentProgramRecordInfo programRecord = new StudentProgramRecordInfo();
@@ -463,11 +473,6 @@ public class AcademicRecordServiceClass2MockImpl implements
         load.setLoadLevelTypeKey("mock.TypeKey.MediumLoad");
         load.setTotalCredits("4");
         loadsMap.put("mediumLoad", load);
-
-        //Credits
-        creditsMap.put("credits1", "1");
-        creditsMap.put("credits2", "2");
-        creditsMap.put("credits3", "3");
 
     }
 

@@ -180,23 +180,29 @@ public class TestTermResolvers {
     }
 
     @Test
-    public void testNumberOfCreditsTermResolver() {
+    public void testNumberOfCreditsFromCoursesTermResolver() {
         //Setup the term resolver
-        CompletedCourseCreditsTermResolver termResolver = new CompletedCourseCreditsTermResolver();
+        CreditsEarnedFromCoursesTermResolver termResolver = new CreditsEarnedFromCoursesTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
+        termResolver.setCluService(cluService);
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-        //parameters.put(KSKRMSServiceConstants.CALC_TYPE_KEY_TERM_PROPERTY, calcTypeID);
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "COURSE-SET3");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITSFROMCOMPLETEDCOURSES);
 
         //Evaluate term Resolver
-        //Integer numberOfCredits = termResolver.resolve(resolvedPrereqs, parameters);
-        //assertNotNull(numberOfCredits);
-        //assertEquals(new Integer(0), numberOfCredits);
+        Integer credits = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(credits);
+        assertEquals(new Integer(3), credits);
+
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
+        credits = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(credits);
+        assertEquals(new Integer(6), credits);
     }
 
     @Test
@@ -310,9 +316,34 @@ public class TestTermResolvers {
     }
 
     @Test
+    public void testCreditsEarnedTermResolver() {
+        //Setup the term resolver
+        CreditsEarnedTermResolver termResolver = new CreditsEarnedTermResolver();
+        termResolver.setAcademicRecordService(academicRecordService);
+
+        //Setup data
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFCREDITSEARNED);
+
+        //Evaluate term Resolver
+        Integer credits = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(credits);
+        assertEquals(new Integer(9), credits);
+
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
+        credits = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(credits);
+        assertEquals(new Integer(12), credits);
+    }
+
+    @Test
     public void testOrganizationCreditsTermResolver() {
         //Setup the term resolver
-        OrganizationCreditsTermResolver termResolver = new OrganizationCreditsTermResolver();
+        CreditsEarnedFromOrganizationTermResolver termResolver = new CreditsEarnedFromOrganizationTermResolver();
+        termResolver.setAcademicRecordService(academicRecordService);
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
@@ -324,8 +355,13 @@ public class TestTermResolvers {
 
         //Evaluate term Resolver
         Integer credits = termResolver.resolve(resolvedPrereqs, parameters);
-        //assertNotNull(credits);
-        //assertEquals(new Integer(0), credits);
+        assertNotNull(credits);
+        assertEquals(new Integer(9), credits);
+
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
+        credits = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(credits);
+        assertEquals(new Integer(12), credits);
     }
 
     @Test

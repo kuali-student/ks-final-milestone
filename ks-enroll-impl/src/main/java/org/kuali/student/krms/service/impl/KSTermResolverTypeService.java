@@ -6,7 +6,7 @@ import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.termresolver.AdminOrgPermissionTermResolver;
-import org.kuali.student.krms.termresolver.CompletedCourseCreditsTermResolver;
+import org.kuali.student.krms.termresolver.CreditsEarnedFromCoursesTermResolver;
 import org.kuali.student.krms.termresolver.FreeFormTextTermResolver;
 import org.kuali.student.krms.termresolver.NumberOfCompletedCoursesTermResolver;
 import org.kuali.student.krms.termresolver.CompletedCourseTermResolver;
@@ -37,7 +37,7 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_NUMBEROFCREDITS)) {
-			CompletedCourseCreditsTermResolver resolver = new CompletedCourseCreditsTermResolver();
+			CreditsEarnedFromCoursesTermResolver resolver = new CreditsEarnedFromCoursesTermResolver();
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_SCOREONTEST)) {
