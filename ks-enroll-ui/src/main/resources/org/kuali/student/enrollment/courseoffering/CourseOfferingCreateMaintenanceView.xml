@@ -632,13 +632,13 @@
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
                 <entry key="bPaginate" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}"/>
-                <entry key="aoColumns" value="[{'bSortable':false},
-                                               {'bSortable':true},
-                                               {'bSortable':true},
-                                               {'bSortable':true},
-                                               {'bSortable':true},
-                                               {'bSortable':true}
-                                                ]"/>
+                <!--<entry key="aoColumns" value="[{'bSortable':false},-->
+                                               <!--{'bSortable':true},-->
+                                               <!--{'bSortable':true},-->
+                                               <!--{'bSortable':true},-->
+                                               <!--{'bSortable':true},-->
+                                               <!--{'bSortable':true}-->
+                                                <!--]"/>-->
             </map>
         </property>
 		<property name="items">
