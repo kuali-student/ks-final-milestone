@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.fee.dto;
+package org.kuali.student.core.rate.dto;
 
-import org.kuali.student.core.fee.infc.Fee;
-import org.kuali.student.core.fee.infc.FlexibleCreditAmount;
+import org.kuali.student.core.rate.infc.Rate;
+import org.kuali.student.core.rate.infc.FlexibleCreditAmount;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
@@ -36,21 +36,21 @@ import javax.xml.bind.annotation.XmlType;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "FeeInfo", propOrder = {
+@XmlType(name = "RateInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "catalogFeeId", "refObjectURI", "refObjectIds",
+        "catalogRateId", "refObjectURI", "refObjectIds",
         "atpId", "amount", "flexibleCreditAmounts",
         "transactionCode", "transactionDate", "transactionDateTypeKey",
         "meta", "attributes", "_futureElements" })
 
-public class FeeInfo
+public class RateInfo
     extends IdEntityInfo 
-    implements Fee {
+    implements Rate {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String catalogFeeId;
+    private String catalogRateId;
 
     @XmlElement
     private String refObjectURI;
@@ -81,54 +81,54 @@ public class FeeInfo
 
 
     /**
-     * Constructs a new FeeInfo.
+     * Constructs a new RateInfo.
      */
-    public FeeInfo() {
+    public RateInfo() {
     }
 
     /**
-     * Constructs a new FeeInfo from another Fee.
+     * Constructs a new RateInfo from another Rate.
      *
-     * @param fee the Fee to copy
+     * @param rate the Rate to copy
      */
-    public FeeInfo(Fee fee) {
-        super(fee);
+    public RateInfo(Rate rate) {
+        super(rate);
 
-        if (fee != null) {
-            this.catalogFeeId = fee.getCatalogFeeId();
-            this.refObjectURI = fee.getRefObjectURI();
+        if (rate != null) {
+            this.catalogRateId = rate.getCatalogRateId();
+            this.refObjectURI = rate.getRefObjectURI();
             
-            if (fee.getRefObjectIds() != null) {
-                this.refObjectIds = new ArrayList<String>(fee.getRefObjectIds());
+            if (rate.getRefObjectIds() != null) {
+                this.refObjectIds = new ArrayList<String>(rate.getRefObjectIds());
             }
 
-            this.atpId = fee.getAtpId();
-            this.amount = new CurrencyAmountInfo(fee.getAmount());
+            this.atpId = rate.getAtpId();
+            this.amount = new CurrencyAmountInfo(rate.getAmount());
 
             this.flexibleCreditAmounts = new ArrayList<FlexibleCreditAmountInfo>();
-            if (fee.getFlexibleCreditAmounts() != null) {
-                for (FlexibleCreditAmount amount : fee.getFlexibleCreditAmounts()) {
+            if (rate.getFlexibleCreditAmounts() != null) {
+                for (FlexibleCreditAmount amount : rate.getFlexibleCreditAmounts()) {
                     this.flexibleCreditAmounts.add(new FlexibleCreditAmountInfo(amount));
                 }
             }
 
-            this.transactionCode = fee.getTransactionCode();
-            if (fee.getTransactionDate() != null) {
-                this.transactionDate = new Date(fee.getTransactionDate().getTime());
+            this.transactionCode = rate.getTransactionCode();
+            if (rate.getTransactionDate() != null) {
+                this.transactionDate = new Date(rate.getTransactionDate().getTime());
             }
 
-            this.transactionDateTypeKey = fee.getTransactionDateTypeKey();
+            this.transactionDateTypeKey = rate.getTransactionDateTypeKey();
         }
     }
 
     
     @Override
-    public String getCatalogFeeId() {
-        return (this.catalogFeeId);
+    public String getCatalogRateId() {
+        return (this.catalogRateId);
     }
     
-    public void setCatalogFeeId(String catalogFeeId) {
-        this.catalogFeeId = catalogFeeId;
+    public void setCatalogRateId(String catalogRateId) {
+        this.catalogRateId = catalogRateId;
     }
 
     @Override

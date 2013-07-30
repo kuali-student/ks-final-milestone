@@ -94,18 +94,6 @@
                         </goals>
                     </execution>
                     <execution>
-                        <id>fee-wsdl</id>
-                        <phase>${ks.java2ws.phase}</phase>
-                        <configuration>
-                            <className>org.kuali.student.core.fee.service.FeeService </className>
-                            <serviceName>FeeService</serviceName>
-                            <targetNameSpace>http://student.kuali.org/wsdl/FeeService</targetNameSpace>
-                        </configuration>
-                        <goals>
-                            <goal>java2ws</goal>
-                        </goals>
-                    </execution>
-                    <execution>
                         <id>organization-wsdl</id>
                         <phase>${ks.java2ws.phase}</phase>
                         <configuration>
@@ -124,6 +112,18 @@
                             <className>org.kuali.student.r2.core.proposal.service.ProposalService</className>
                             <serviceName>ProposalService</serviceName>
                             <targetNameSpace>http://student.kuali.org/wsdl/proposal</targetNameSpace>
+                        </configuration>
+                        <goals>
+                            <goal>java2ws</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>rate-wsdl</id>
+                        <phase>${ks.java2ws.phase}</phase>
+                        <configuration>
+                            <className>org.kuali.student.core.rate.service.RateService </className>
+                            <serviceName>RateService</serviceName>
+                            <targetNameSpace>http://student.kuali.org/wsdl/RateService</targetNameSpace>
                         </configuration>
                         <goals>
                             <goal>java2ws</goal>

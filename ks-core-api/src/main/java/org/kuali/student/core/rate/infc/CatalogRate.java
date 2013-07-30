@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.fee.infc;
+package org.kuali.student.core.rate.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
@@ -22,54 +22,53 @@ import org.kuali.student.r2.common.infc.CurrencyAmount;
 import java.util.List;
 
 /**
- * The Catalog Fee is a list of "canonical" fees in a "catalog" that
- * can be used in establishing an actual Fee.
+ * The Catalog Rate is a list of "canonical" rates in a "catalog" that
+ * can be used in establishing an actual Rate.
  *
- * The Catalog Fee has one of three flavors indicated by its Type:
+ * The Catalog Rate has one of three flavors indicated by its Type:
  *
  * <dl>
 
- *    <dt>Flat</dt> <dd>A fee that doesn't vary. The Catalog Fee
+ *    <dt>Flat</dt> <dd>A rate that doesn't vary. The Catalog Rate
  *                  specifies a minimum and maxmimum amount to
- *                  constrain the Fee.</dd>
+ *                  constrain the Rate.</dd>
  *  
- *    <dt>Fixed Credit</dt> <dd>A fee per credit where the total
- *                          amount is the fee multiplied by the
+ *    <dt>Fixed Credit</dt> <dd>A rate per credit where the total
+ *                          amount is the rate multiplied by the
  *                          credits (or units) determined by what this
- *                          Fee applies to. The Catalog Fee specifies
- *                          a minimum and axmimum amount for the fee
- *                          per credit hour.</dd>
+ *                          Rate applies to. The Catalog Rate
+ *                          specifies a minimum and axmimum amount for
+ *                          the rate per credit hour.</dd>
  * 
- *    <dt>Flexible Credit</dt> <dd>A specific fee for each credit
- *                             value. The Catalog Fee specifies the
+ *    <dt>Flexible Credit</dt> <dd>A specific rate for each credit
+ *                             value. The Catalog Rate specifies the
  *                             list of acceptable valued (amount and
  *                             number of credits allowed in a
- *                             Fee.</dd> </dl> 1. Flat - A fee that
- *                             doesn't vary. The Catalog Fee specifies
- *                             a minimum and maxmimum amount to
- *                             constrain the Fee.</dd>
- * </dl>
+ *                             Rate.</dd> </dl> 1. Flat - A rate that
+ *                             doesn't vary. The Catalog Rate
+ *                             specifies a minimum and maxmimum amount
+ *                             to constrain the Rate.</dd> </dl>
  *
- * The Fee Catalog is effective during its applicable ATPs.
+ * The Rate Catalog is effective during its applicable ATPs.
  *
  * @author Kuali Student Services
  */
 
-public interface CatalogFee
+public interface CatalogRate
     extends IdEntity {
 
     /**
-     * The code for the catalog fee.
+     * The code for the catalog rate.
      * 
-     * @return the catalog fee code
+     * @return the catalog rate code
      * @name Code
      */
     public String getCode();
 
     /**
-     * The list of ATPs in which this catalog fee can be applied. A
-     * Course Offering in an ATP not in this list cannot have a fee
-     * derived from this catalog fee.
+     * The list of ATPs in which this catalog rate can be applied. A
+     * Course Offering in an ATP not in this list cannot have a rate
+     * derived from this catalog rate.
      * 
      * @return a list of applicable ATP Ids
      * @name Applicable ATP Ids
@@ -77,8 +76,8 @@ public interface CatalogFee
     public List<String> getApplicableAtpIds();
 
     /**
-     * The minimum amount for a flat or fixed credit Fee. This field
-     * is not applicable for flexible credit fees.
+     * The minimum amount for a flat or fixed credit Rate. This field
+     * is not applicable for flexible credit rates.
      * 
      * @return the minimum amount
      * @name Minimum Amount
@@ -86,8 +85,8 @@ public interface CatalogFee
     public CurrencyAmount getMinimumAmount();
 
     /**
-     * The maximum amount for a flat or fixed credit Fee. This field
-     * is not applicable for flexible credit fees.
+     * The maximum amount for a flat or fixed credit Rate. This field
+     * is not applicable for flexible credit rates.
      * 
      * @return the maximum amount
      * @name Maximum Amount
@@ -96,7 +95,7 @@ public interface CatalogFee
 
     /**
      * Tests if a fixed amount is capped. This is only applicable to
-     * fixed fees.
+     * fixed rates.
      *
      * @return true if the fixed amount is capped, false otherwise
      * @name Is Fixed Credit Amount Capped
@@ -104,8 +103,8 @@ public interface CatalogFee
     public Boolean getIsFixedCreditAmountCapped();
 
     /**
-     * The maximum amount for a fixed credit Fee. For a fixed credit
-     * fee, getMinimumAmount() and getMaxmimumAmount() describe the
+     * The maximum amount for a fixed credit Rate. For a fixed credit
+     * rate, getMinimumAmount() and getMaxmimumAmount() describe the
      * acceptable range of amounts per credit. This field specifies
      * the cap on the amount multiplied by the number of credits.
      *
@@ -116,7 +115,7 @@ public interface CatalogFee
 
     /**
      * The allowed list of flexible credit amounts in flexible credit
-     * Fees.
+     * Rates.
      *
      * @return a list of flexible credit amounts
      * @name Flexible Credit Amounts
@@ -124,7 +123,7 @@ public interface CatalogFee
     public List<? extends FlexibleCreditAmount> getFlexibleCreditAmounts();
 
     /**
-     * Tests if a Fee can override the transaction code in this
+     * Tests if a Rate can override the transaction code in this
      * catalog.
      *
      * @return true if the transaction code can be changed, false
@@ -134,7 +133,7 @@ public interface CatalogFee
     public Boolean getCanOverrideTransactionCode();
 
     /**
-     * The transaction code to use in the Fees.
+     * The transaction code to use in the Rates.
      *
      * @return the transaction code
      * @name Transaction Code
@@ -142,7 +141,7 @@ public interface CatalogFee
     public String getTransactionCode();
 
     /**
-     * Tests if a Fee can override the transaction date type in this
+     * Tests if a Rate can override the transaction date type in this
      * catalog.
      *
      * @return true if the transaction date type can be changed, false
@@ -152,7 +151,7 @@ public interface CatalogFee
     public Boolean getCanOverrideTransactionDateType();
 
     /**
-     * The transaction date type key to use in the Fees.
+     * The transaction date type key to use in the Rates.
      *
      * @return the transaction date type key
      * @name Transaction Date Type Key

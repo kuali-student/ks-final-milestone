@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.fee.infc;
+package org.kuali.student.core.rate.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
@@ -24,49 +24,47 @@ import java.util.List;
 
 
 /**
- * The Fee is drawn from the CatalogFee and applied to something (ref
- * object) with a charge, like a CourseOffering. The CatalogFee
- * constrains the Fee.
+ * The Rate is drawn from the CatalogRate and applied to something
+ * (ref object) with a charge, like a CourseOffering. The CatalogRate
+ * constrains the Rate.
  *
- * The Fee has one of three flavors indicated by its Type:
+ * The Rate has one of three flavors indicated by its Type:
  *
- * <dl>
- *    <dt>Flat</dt> <dd>A fee that doesn't vary. The amount is
- *                  constrained by the minimum and maximum amount
- *                  range in the Fee Catalog.</dd>
+ * <dl> <dt>Flat</dt> <dd>A rate that doesn't vary. The amount is
+ *                    constrained by the minimum and maximum amount
+ *                    range in the Rate Catalog.</dd>
  *  
- *    <dt>Fixed Credit</dt> <dd>A fee per credit where the total
- *                          amount is the fee multiplied by the
+ *    <dt>Fixed Credit</dt> <dd>A rate per credit where the total
+ *                          amount is the rate multiplied by the
  *                          credits (or units) determined by what this
- *                          Fee applies to. The amount is constrained
+ *                          Rate applies to. The amount is constrained
  *                          by the minimum and maximum amount range in
- *                          the Fee Catalog.</dd>
+ *                          the Rate Catalog.</dd>
  * 
- *    <dt>Flexible Credit</dt> <dd>A specific fee for each credit
+ *    <dt>Flexible Credit</dt> <dd>A specific rate for each credit
  *                             value. The list of flexible credit
  *                             amounts is constrained by the list of
- *                             acceptable credits amounts in the Fee
- *                             Catalog.</dd> 
- * </dl>
+ *                             acceptable credits amounts in the Rate
+ *                             Catalog.</dd> </dl>
  *
  * @author Kuali Student Services
  */
 
-public interface Fee
+public interface Rate
     extends IdEntity {
 
     /**
-     * The CatalogFee identifier to which this Fee belongs.
+     * The CatalogRate identifier to which this Rate belongs.
      * 
-     * @return the catalog fee Id
-     * @name Catalog Fee Id
+     * @return the catalog rate Id
+     * @name Catalog Rate Id
      * @required
      * @readOnly
      */
-    public String getCatalogFeeId();
+    public String getCatalogRateId();
 
     /**
-     * The URI of the reference object to which this Fee applies.
+     * The URI of the reference object to which this Rate applies.
      *
      * @return the URI
      * @name Reference Object URI
@@ -74,7 +72,7 @@ public interface Fee
     public String getRefObjectURI();
 
     /**
-     * The identifier of the reference objects to which this Fee
+     * The identifier of the reference objects to which this Rate
      * applies. There may be multiple references, but all of the same
      * type as indicated by the reference object URI.
      *
@@ -84,8 +82,8 @@ public interface Fee
     public List<String> getRefObjectIds();
 
     /**
-     * The ATP for which this Fee is in effect. The ATP should be
-     * constrained by the list of applicable ATP Ids in the Fee
+     * The ATP for which this Rate is in effect. The ATP should be
+     * constrained by the list of applicable ATP Ids in the Rate
      * Catalog.
      *
      * In the case of a Course Offering, this ATP is the same as (or a
@@ -97,9 +95,9 @@ public interface Fee
     public String getAtpId();
 
     /**
-     * The amount for a flat or fixed credit fee. This amount should
-     * be constrained by the minimum and maxmimum range in the Fee
-     * Catalog for flat and fixed credit Fees.
+     * The amount for a flat or fixed credit rate. This amount should
+     * be constrained by the minimum and maxmimum range in the Rate
+     * Catalog for flat and fixed credit Rates.
      * 
      * @return the amount
      * @name Amount
@@ -108,8 +106,8 @@ public interface Fee
 
     /**
      * The list of flexible credit amounts. This list should be
-     * constrained by the list of flexible credit amounts in the
-     * Fee Catalog
+     * constrained by the list of flexible credit amounts in the Rate
+     * Catalog.
      * 
      * @return the list of flexible credit amounts
      * @name Flexible Credit Amounts
@@ -118,8 +116,8 @@ public interface Fee
 
     /**
      * The transaction code. The transaction code can differ from the
-     * default type in the Fee Catalog of
-     * CatlogFee.canOverrideTransactionCode is true.
+     * default type in the Rate Catalog of
+     * CatlogRate.canOverrideTransactionCode is true.
      *
      * @return the transaction code
      * @name Transaction Code
@@ -127,7 +125,7 @@ public interface Fee
     public String getTransactionCode();
 
     /**
-     * The transaction date used for fee processing.
+     * The transaction date used for rate processing.
      *
      * @return the transaction date
      * @name Transaction Date
@@ -136,8 +134,8 @@ public interface Fee
 
     /**
      * The transaction date type key. The transaction date type can
-     * differ from the default type in the Fee Catalog of
-     * CatlogFee.canOverrideTransactionDateTypeKey is true.
+     * differ from the default type in the Rate Catalog of
+     * CatlogRate.canOverrideTransactionDateTypeKey is true.
      *
      * @return the transaction date type key
      * @name Transaction Date Type Key

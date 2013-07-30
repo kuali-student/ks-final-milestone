@@ -14,10 +14,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.fee.dto;
+package org.kuali.student.core.rate.dto;
 
-import org.kuali.student.core.fee.infc.CatalogFee;
-import org.kuali.student.core.fee.infc.FlexibleCreditAmount;
+import org.kuali.student.core.rate.infc.CatalogRate;
+import org.kuali.student.core.rate.infc.FlexibleCreditAmount;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CatalogFeeInfo", propOrder = {
+@XmlType(name = "CatalogRateInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
         "code", "applicableAtpIds", "minimumAmount",
         "maximumAmount", "isFixedCreditAmountCapped",
@@ -45,9 +45,9 @@ import org.w3c.dom.Element;
         "canOverrideTransactionDateType", "transactionDateTypeKey", 
         "meta", "attributes", "_futureElements" })
 
-public class CatalogFeeInfo
+public class CatalogRateInfo
     extends IdEntityInfo 
-    implements CatalogFee {
+    implements CatalogRate {
 
     private static final long serialVersionUID = 1L;
 
@@ -89,42 +89,42 @@ public class CatalogFeeInfo
 
 
     /**
-     * Constructs a new CatalogCatalogFeeInfo.
+     * Constructs a new CatalogCatalogRateInfo.
      */
-    public CatalogFeeInfo() {
+    public CatalogRateInfo() {
     }
 
     /**
-     * Constructs a new CatalogFeeInfo from another CatalogFee.
+     * Constructs a new CatalogRateInfo from another CatalogRate.
      *
-     * @param catalogFee the CatalogFee to copy
+     * @param catalogRate the CatalogRate to copy
      */
-    public CatalogFeeInfo(CatalogFee catalogFee) {
-        super(catalogFee);
+    public CatalogRateInfo(CatalogRate catalogRate) {
+        super(catalogRate);
 
-        if (catalogFee != null) {
-            this.code = catalogFee.getCode();
+        if (catalogRate != null) {
+            this.code = catalogRate.getCode();
 
-            if (catalogFee.getApplicableAtpIds() != null) {
-                this.applicableAtpIds = new ArrayList<String>(catalogFee.getApplicableAtpIds());
+            if (catalogRate.getApplicableAtpIds() != null) {
+                this.applicableAtpIds = new ArrayList<String>(catalogRate.getApplicableAtpIds());
             }
 
-            this.minimumAmount = new CurrencyAmountInfo(catalogFee.getMinimumAmount());
-            this.maximumAmount = new CurrencyAmountInfo(catalogFee.getMaximumAmount());
-            this.isFixedCreditAmountCapped = catalogFee.getIsFixedCreditAmountCapped();
-            this.cappedFixedCreditAmount = new CurrencyAmountInfo(catalogFee.getCappedFixedCreditAmount());
+            this.minimumAmount = new CurrencyAmountInfo(catalogRate.getMinimumAmount());
+            this.maximumAmount = new CurrencyAmountInfo(catalogRate.getMaximumAmount());
+            this.isFixedCreditAmountCapped = catalogRate.getIsFixedCreditAmountCapped();
+            this.cappedFixedCreditAmount = new CurrencyAmountInfo(catalogRate.getCappedFixedCreditAmount());
             this.flexibleCreditAmounts = new ArrayList<FlexibleCreditAmountInfo>();
-            if (catalogFee.getFlexibleCreditAmounts() != null) {
-                for (FlexibleCreditAmount amount : catalogFee.getFlexibleCreditAmounts()) {
+            if (catalogRate.getFlexibleCreditAmounts() != null) {
+                for (FlexibleCreditAmount amount : catalogRate.getFlexibleCreditAmounts()) {
                     this.flexibleCreditAmounts.add(new FlexibleCreditAmountInfo(amount));
                 }
             }
 
-            this.canOverrideTransactionCode = catalogFee.getCanOverrideTransactionCode();
-            this.transactionCode = catalogFee.getTransactionCode();
+            this.canOverrideTransactionCode = catalogRate.getCanOverrideTransactionCode();
+            this.transactionCode = catalogRate.getTransactionCode();
 
-            this.canOverrideTransactionDateType = catalogFee.getCanOverrideTransactionDateType();
-            this.transactionDateTypeKey = catalogFee.getTransactionDateTypeKey();
+            this.canOverrideTransactionDateType = catalogRate.getCanOverrideTransactionDateType();
+            this.transactionDateTypeKey = catalogRate.getTransactionDateTypeKey();
         }
     }
 

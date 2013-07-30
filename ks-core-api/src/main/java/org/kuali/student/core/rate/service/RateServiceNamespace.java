@@ -14,20 +14,25 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.constants;
+package org.kuali.student.core.rate.service;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-
-import org.kuali.student.core.fee.service.FeeServiceNamespace;
-import org.kuali.student.core.fee.dto.CatalogFeeInfo;
-import org.kuali.student.core.fee.dto.FeeInfo;
+import org.kuali.student.core.rate.dto.CatalogRateInfo;
+import org.kuali.student.core.rate.dto.RateInfo;
 
 /**
- * This class holds the constants used by the Fee service.
+ * This class holds the constants used by the Rate service.
  *
  * @author tom
  */
 
-public class FeeServiceConstants
-    extends FeeServiceNamespace {
+public class RateServiceNamespace {
+
+    /**
+     * Reference Object URI's
+     */
+    public static final String SERVICE_NAME_LOCAL_PART = "RateService";
+    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "rate";
+    public static final String REF_OBJECT_URI_CATALOG_RATE = NAMESPACE + "/" + CatalogRateInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_RATE = NAMESPACE + "/" + RateInfo.class.getSimpleName();
 }

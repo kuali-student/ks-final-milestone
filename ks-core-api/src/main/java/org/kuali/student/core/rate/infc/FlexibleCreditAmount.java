@@ -14,13 +14,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.fee.infc;
+package org.kuali.student.core.rate.infc;
 
 import org.kuali.student.r2.common.infc.CurrencyAmount;
 import java.io.Serializable;
 
 /**
- * This structure is used to capture flexible credit fee amounts by
+ * This structure is used to capture flexible credit rate amounts by
  * grouping amounts with credits.
  *
  * @author Kuali Student Services

@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.fee.service;
+package org.kuali.student.core.rate.service;
 
 import java.util.List;
 
@@ -24,8 +24,8 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
-import org.kuali.student.core.fee.dto.CatalogFeeInfo;
-import org.kuali.student.core.fee.dto.FeeInfo;
+import org.kuali.student.core.rate.dto.CatalogRateInfo;
+import org.kuali.student.core.rate.dto.RateInfo;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -42,46 +42,46 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 /**
- * This service supports the management of fees. The managed entities
+ * This service supports the management of rates. The managed entities
  * are:
  *
  * <dl>
- * <dt>CatalogFee</dt> <dd>This is an "entry" in the fee catalog. The
- *                     fee catalog represents a catalog of
- *                     "canonical-like" fees. Approved catalog entries
- *                     may be used to create a specific fee to an
- *                     external object.</dd>
+ * <dt>CatalogRate</dt> <dd>This is an "entry" in the rate catalog. The
+ *                      rate catalog represents a catalog of
+ *                      "canonical-like" rates. Approved catalog entries
+ *                      may be used to create a specific rate to an
+ *                      external object.</dd>
  *
- * <dt>Fee</dt> <dd>The actual fee associated with an external object. The
- *              Fee is constrained by its related entry in the fee
- *              catalog.</dd>
+ * <dt>Rate</dt> <dd>The actual rate associated with an external object. The
+ *               Rate is constrained by its related entry in the rate
+ *               catalog.</dd>
  * </dl>
  *
  * @version 0.0.8
  * @author Kuali Student Services
  */
 
-@WebService(name = "FeeService", serviceName = "FeeService", portName = "FeeService", targetNamespace = FeeServiceNamespace.NAMESPACE)
+@WebService(name = "RateService", serviceName = "RateService", portName = "RateService", targetNamespace = RateServiceNamespace.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface FeeService {
+public interface RateService {
 
     /** 
-     * Retrieves a single CatalogFee by CatalogFee Id.
+     * Retrieves a single CatalogRate by CatalogRate Id.
      *
-     * @param catalogFeeId the identifier for the fee to be retrieved
+     * @param catalogRateId the identifier for the rate to be retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the CatalogFee requested
-     * @throws DoesNotExistException catalogFeeId not found
+     * @return the CatalogRate requested
+     * @throws DoesNotExistException catalogRateId not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException catalogFeeId or contextInfo is
+     * @throws MissingParameterException catalogRateId or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public CatalogFeeInfo getCatalogFee(@WebParam(name = "catalogFeeId") String catalogFeeId, 
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public CatalogRateInfo getCatalogRate(@WebParam(name = "catalogRateId") String catalogRateId, 
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -89,23 +89,23 @@ public interface FeeService {
                PermissionDeniedException;
 
     /** 
-     * Retrieves a list of CatalogFees from a list of CatalogFee
+     * Retrieves a list of CatalogRates from a list of CatalogRate
      * Ids. The returned list may be in any order and if duplicates
      * Ids are supplied, a unique set may or may not be returned.
      *
-     * @param catalogFeeIds a list of CatalogFee identifiers
+     * @param catalogRateIds a list of CatalogRate identifiers
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of CatalogFees
-     * @throws DoesNotExistException a catalogFeeId in the list not found
+     * @return a list of CatalogRates
+     * @throws DoesNotExistException a catalogRateId in the list not found
      * @throws InvalidParameterException contextInfo is invalid
-     * @throws MissingParameterException catalogFeeIds, an Id in
-     *         catalogFeeIds, or contextInfo is missing or null
+     * @throws MissingParameterException catalogRateIds, an Id in
+     *         catalogRateIds, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<CatalogFeeInfo> getCatalogFeesByIds(@WebParam(name = "catalogFeeIds") List<String> catalogFeeIds, 
-                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<CatalogRateInfo> getCatalogRatesByIds(@WebParam(name = "catalogRateIds") List<String> catalogRateIds, 
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -113,54 +113,55 @@ public interface FeeService {
                PermissionDeniedException;
 
     /** 
-     * Retrieves a list of CatalogFee Ids by CatalogFee Type.
+     * Retrieves a list of CatalogRate Ids by CatalogRate Type.
      *
-     * @param catalogFeeTypeKey an identifier for a CatalogFee Type
+     * @param catalogRateTypeKey an identifier for a CatalogRate Type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of CatalogFee identifiers matching
-     *         catalogFeeTypeKey or an empty list if none found
+     * @return a list of CatalogRate identifiers matching
+     *         catalogRateTypeKey or an empty list if none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException catalogFeeTypeKey or
+     * @throws MissingParameterException catalogRateTypeKey or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getCatalogFeeIdsByType(@WebParam(name = "catalogFeeTypeKey") String catalogFeeTypeKey, 
-                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<String> getCatalogRateIdsByType(@WebParam(name = "catalogRateTypeKey") String catalogRateTypeKey, 
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
 
     /** 
-     * Retrieves a list of CatalogFees by code.
+     * Retrieves a list of CatalogRates by code.
      *
-     * @param code a CatalogFee code
+     * @param code a CatalogRate code
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of CatalogFees
+     * @return a list of CatalogRates
      * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException code or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<CatalogFeeInfo> getCatalogFeesByCode(@WebParam(name = "code") String code, 
-                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<CatalogRateInfo> getCatalogRatesByCode(@WebParam(name = "code") String code, 
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
 
     /**
-     * Searches for CatalogFees based on the criteria and returns a
-     * list of CatalogFee identifiers which match the search criteria.
+     * Searches for CatalogRates based on the criteria and returns a
+     * list of CatalogRate identifiers which match the search
+     * criteria.
      *
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return list of CatalogFee Ids matching the criteria
+     * @return list of CatalogRate Ids matching the criteria
      * @throws InvalidParameterException criteria or contextInfo is
      *         not valid
      * @throws MissingParameterException criteria or contextInfo is
@@ -168,21 +169,21 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForCatalogFeeIds(@WebParam(name = "criteria") QueryByCriteria criteria, 
-                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<String> searchForCatalogRateIds(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
 
     /**
-     * Searches for CatalogFees based on the criteria and returns a
-     * list of CatalogFees which match the search criteria.
+     * Searches for CatalogRates based on the criteria and returns a
+     * list of CatalogRates which match the search criteria.
      * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return list of CatalogFees matching the criteria
+     * @return list of CatalogRates matching the criteria
      * @throws InvalidParameterException criteria or contextInfo is
      *         not valid
      * @throws MissingParameterException criteria or contextInfo is
@@ -190,46 +191,46 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<CatalogFeeInfo> searchForCatalogFees(@WebParam(name = "criteria") QueryByCriteria criteria, 
-                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<CatalogRateInfo> searchForCatalogRates(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
 
     /** 
-     * Validates a CatalogFee. Depending on the value of
+     * Validates a CatalogRate. Depending on the value of
      * validationType, this validation could be limited to tests on
-     * just the current CatalogFee and its directly contained
+     * just the current CatalogRate and its directly contained
      * sub-objects or expanded to perform all tests related to this
-     * CatalogFee. If an identifier is present for the CatalogFee
+     * CatalogRate. If an identifier is present for the CatalogRate
      * (and/or one of its contained sub-objects) and a record is found
-     * for that identifier, the validation checks if the CatalogFee
+     * for that identifier, the validation checks if the CatalogRate
      * can be updated to the new values. If an identifier is not
      * present or a record does not exist, the validation checks if
      * the object with the given data can be created.
      *
      * @param validationTypeKey the identifier for the validation Type
-     * @param catalogFeeTypeKey the identifier for the fee Type
-     * @param catalogFeeInfo the CatalogFee information to be validated
+     * @param catalogRateTypeKey the identifier for the rate Type
+     * @param catalogRateInfo the CatalogRate information to be validated
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of validation results or an empty list if
      *         validation succeeded
      * @throws DoesNotExistException validationTypeKey or
-     *         catalogFeeTypeKey is not found
-     * @throws InvalidParameterException catalogFeeInfo or contextInfo
+     *         catalogRateTypeKey is not found
+     * @throws InvalidParameterException catalogRateInfo or contextInfo
      *         is not valid
      * @throws MissingParameterException validationTypeKey,
-     *         catalogFeeTypeKey, catalogFeeInfo, or contextInfo is
+     *         catalogRateTypeKey, catalogRateInfo, or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateCatalogFee(@WebParam(name = "validationTypeKey") String validationTypeKey, 
-                                                         @WebParam(name = "catalogFeeTypeKey") String catalogFeeTypeKey, 
-                                                         @WebParam(name = "catalogFeeInfo") CatalogFeeInfo catalogFeeInfo, 
-                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<ValidationResultInfo> validateCatalogRate(@WebParam(name = "validationTypeKey") String validationTypeKey, 
+                                                          @WebParam(name = "catalogRateTypeKey") String catalogRateTypeKey, 
+                                                          @WebParam(name = "catalogRateInfo") CatalogRateInfo catalogRateInfo, 
+                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -237,30 +238,30 @@ public interface FeeService {
                PermissionDeniedException;
 
     /** 
-     * Creates a new CatalogFee. The CatalogFee Id, Type, and Meta
+     * Creates a new CatalogRate. The CatalogRate Id, Type, and Meta
      * information may nogt be set in the supplied data.
      *
-     * @param catalogFeeTypeKey the identifier for the Type of the new
-     *        CatalogFee
-     * @param catalogFeeInfo the data with which to create the CatalogFee
+     * @param catalogRateTypeKey the identifier for the Type of the new
+     *        CatalogRate
+     * @param catalogRateInfo the data with which to create the CatalogRate
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the new CatalogFee 
+     * @return the new CatalogRate 
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException catalogFeeTypeKey does not
+     * @throws DoesNotExistException catalogRateTypeKey does not
      *         exist is not supported
-     * @throws InvalidParameterException catalogFeeInfo or contextInfo
+     * @throws InvalidParameterException catalogRateInfo or contextInfo
      *         is not valid
-     * @throws MissingParameterException catalogFeeTypeKey,
-     *         catalogFeeInfo or contextInfo is missing or null
+     * @throws MissingParameterException catalogRateTypeKey,
+     *         catalogRateInfo or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public CatalogFeeInfo createCatalogFee(@WebParam(name = "catalogFeeTypeKey") String catalogFeeTypeKey, 
-                                           @WebParam(name = "catalogFeeInfo") CatalogFeeInfo catalogFeeInfo, 
-                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public CatalogRateInfo createCatalogRate(@WebParam(name = "catalogRateTypeKey") String catalogRateTypeKey, 
+                                             @WebParam(name = "catalogRateInfo") CatalogRateInfo catalogRateInfo, 
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DataValidationErrorException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -269,21 +270,21 @@ public interface FeeService {
                ReadOnlyException;
 
     /** 
-     * Updates an existing CatalogFee. The CatalogFee Id, Type, and
+     * Updates an existing CatalogRate. The CatalogRate Id, Type, and
      * Meta information may not be changed.
      *
-     * @param catalogFeeId the identifier for the CatalogFee to be
+     * @param catalogRateId the identifier for the CatalogRate to be
      *        updated
-     * @param catalogFeeInfo the new data for the CatalogFee
+     * @param catalogRateInfo the new data for the CatalogRate
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the updated CatalogFee
+     * @return the updated CatalogRate
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException catalogFeeId not found
-     * @throws InvalidParameterException catalogFeeInfo or contextInfo
-     *         is not valid
-     * @throws MissingParameterException catalogFeeId, catalogFeeInfo,
-     *         or contextInfo is missing or null
+     * @throws DoesNotExistException catalogRateId not found
+     * @throws InvalidParameterException catalogRateInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException catalogRateId,
+     *         catalogRateInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at changing information
@@ -291,9 +292,9 @@ public interface FeeService {
      * @throws VersionMismatchException optimistic locking failure or
      *         the action was attempted on an out of date version
      */
-    public CatalogFeeInfo updateCatalogFee(@WebParam(name = "catalogFeeId") String catalogFeeId, 
-                                           @WebParam(name = "catalogFeeInfo") CatalogFeeInfo catalogFeeInfo, 
-                                           @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public CatalogRateInfo updateCatalogRate(@WebParam(name = "catalogRateId") String catalogRateId, 
+                                             @WebParam(name = "catalogRateInfo") CatalogRateInfo catalogRateInfo, 
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DataValidationErrorException, 
                DoesNotExistException, 
                InvalidParameterException, 
@@ -304,25 +305,25 @@ public interface FeeService {
                VersionMismatchException;
 
     /**
-     * Changes the state of a CatalogFee.
+     * Changes the state of a CatalogRate.
      *
-     * @param catalogFeeId the Id of the CatalogFee
+     * @param catalogRateId the Id of the CatalogRate
      * @param stateKey the identifier for the new State 
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the status of the operation. This must always be
      *         true.
-     * @throws DoesNotExistException catalogFeeId not found or stateKey
-     *         not found in CatalogFee Lifecycle
+     * @throws DoesNotExistException catalogRateId not found or
+     *         stateKey not found in CatalogRate Lifecycle
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException catalogFeeId, stateKey, or
+     * @throws MissingParameterException catalogRateId, stateKey, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo changeCatalogFeeState(@WebParam(name = "catalogFeeId") String catalogFeeId, 
-                                            @WebParam(name = "stateKey") String stateKey,
-                                            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public StatusInfo changeCatalogRateState(@WebParam(name = "catalogRateId") String catalogRateId, 
+                                             @WebParam(name = "stateKey") String stateKey,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -330,25 +331,25 @@ public interface FeeService {
                PermissionDeniedException;
 
     /** 
-     * Deletes an existing CatalogFee.
+     * Deletes an existing CatalogRate.
      *
-     * @param catalogFeeId the identifier for the CatalogFee to be
+     * @param catalogRateId the identifier for the CatalogRate to be
      *        deleted
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the status of the delete operation. This must always be
      *         true.
-     * @throws DependentObjectsExistException Fees are attached to this
-     *         FeeCatalog
-     * @throws DoesNotExistException catalogFeeId not found
+     * @throws DependentObjectsExistException Rates are attached to
+     *         this RateCatalog
+     * @throws DoesNotExistException catalogRateId not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException catalogFeeId or contextInfo
+     * @throws MissingParameterException catalogRateId or contextInfo
      *         is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteCatalogFee(@WebParam(name = "catalogFeeId") String catalogFeeId, 
-                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public StatusInfo deleteCatalogRate(@WebParam(name = "catalogRateId") String catalogRateId, 
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DependentObjectsExistException,
                DoesNotExistException, 
                InvalidParameterException, 
@@ -357,21 +358,21 @@ public interface FeeService {
                PermissionDeniedException;
 
     /** 
-     * Retrieves a single Fee by Fee Id.
+     * Retrieves a single Rate by Rate Id.
      *
-     * @param feeId the identifier for the fee to be retrieved
+     * @param rateId the identifier for the rate to be retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the Fee requested
-     * @throws DoesNotExistException feeId not found
+     * @return the Rate requested
+     * @throws DoesNotExistException rateId not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException feeId or contextInfo is
+     * @throws MissingParameterException rateId or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public FeeInfo getFee(@WebParam(name = "feeId") String feeId, 
-                          @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public RateInfo getRate(@WebParam(name = "rateId") String rateId, 
+                            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -379,23 +380,23 @@ public interface FeeService {
                PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Fees from a list of Fee Ids. The returned
+     * Retrieves a list of Rates from a list of Rate Ids. The returned
      * list may be in any order and if duplicates Ids are supplied, a
      * unique set may or may not be returned.
      *
-     * @param feeIds a list of Fee identifiers
+     * @param rateIds a list of Rate identifiers
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Fees
-     * @throws DoesNotExistException a feeId in the list not found
+     * @return a list of Rates
+     * @throws DoesNotExistException a rateId in the list not found
      * @throws InvalidParameterException contextInfo is invalid
-     * @throws MissingParameterException feeIds, an Id in feeIds, or
+     * @throws MissingParameterException rateIds, an Id in rateIds, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<FeeInfo> getFeesByIds(@WebParam(name = "feeIds") List<String> feeIds, 
-                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<RateInfo> getRatesByIds(@WebParam(name = "rateIds") List<String> rateIds, 
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -403,56 +404,56 @@ public interface FeeService {
                PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Fee Ids by Fee Type.
+     * Retrieves a list of Rate Ids by Rate Type.
      *
-     * @param feeTypeKey an identifier for a Fee Type
+     * @param rateTypeKey an identifier for a Rate Type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Fee identifiers matching feeTypeKey or an
+     * @return a list of Rate identifiers matching rateTypeKey or an
      *         empty list if none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException feeTypeKey or contextInfo is
+     * @throws MissingParameterException rateTypeKey or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getFeeIdsByType(@WebParam(name = "feeTypeKey") String feeTypeKey, 
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<String> getRateIdsByType(@WebParam(name = "rateTypeKey") String rateTypeKey, 
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Fees belonging to a CatalogFee.
+     * Retrieves a list of Rates belonging to a CatalogRate.
      *
-     * @param catalogFeeId the identifier for a fee catalog entry
+     * @param catalogRateId the identifier for a rate catalog entry
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Fees for the fee catalog entry or an empty
+     * @return a list of Rates for the rate catalog entry or an empty
      *         list is none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException catalogFeeId or contextInfo
+     * @throws MissingParameterException catalogRateId or contextInfo
      *         is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<FeeInfo> getFeesByCatalogFee(@WebParam(name = "catalogFeeId") String catalogFeeId, 
-                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<RateInfo> getRatesByCatalogRate(@WebParam(name = "catalogRateId") String catalogRateId, 
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
 
     /** 
-     * Retrieves a list of Fees by the reference object.
+     * Retrieves a list of Rates by the reference object.
      *
      * @param refObjectURI the URI identifying the namespace of the
      *        reference Id
      * @param refObjectId the Id of the reference
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Fees for the reference object or an empty
+     * @return a list of Rates for the reference object or an empty
      *         list is none found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException refObjectURI, refObjectId, or
@@ -460,22 +461,22 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<FeeInfo> getFeesByReference(@WebParam(name = "refObjectURI") String refObjectURI, 
-                                            @WebParam(name = "refObjectId") String refObjectId, 
-                                            @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<RateInfo> getRatesByReference(@WebParam(name = "refObjectURI") String refObjectURI, 
+                                              @WebParam(name = "refObjectId") String refObjectId, 
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
 
     /**
-     * Searches for Fees based on the criteria and returns a list of
-     * Fee identifiers which match the search criteria.
+     * Searches for Rates based on the criteria and returns a list of
+     * Rate identifiers which match the search criteria.
      *
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return list of Fee Ids matching the criteria
+     * @return list of Rate Ids matching the criteria
      * @throws InvalidParameterException criteria or contextInfo is
      *         not valid
      * @throws MissingParameterException criteria or contextInfo is
@@ -483,21 +484,21 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForFeeIds(@WebParam(name = "criteria") QueryByCriteria criteria, 
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<String> searchForRateIds(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
 
     /**
-     * Searches for Fees based on the criteria and returns a list of
-     * Fees which match the search criteria.
+     * Searches for Rates based on the criteria and returns a list of
+     * Rates which match the search criteria.
      * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return list of Fees matching the criteria
+     * @return list of Rates matching the criteria
      * @throws InvalidParameterException criteria or contextInfo is
      *         not valid
      * @throws MissingParameterException criteria or contextInfo is
@@ -505,47 +506,48 @@ public interface FeeService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<FeeInfo> searchForFees(@WebParam(name = "criteria") QueryByCriteria criteria, 
-                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<RateInfo> searchForRates(@WebParam(name = "criteria") QueryByCriteria criteria, 
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
 
     /** 
-     * Validates a Fee. Depending on the value of validationType, this
-     * validation could be limited to tests on just the current Fee
-     * and its directly contained sub-objects or expanded to perform
-     * all tests related to this Fee. If an identifier is present for
-     * the Fee (and/or one of its contained sub-objects) and a record
-     * is found for that identifier, the validation checks if the Fee
-     * can be updated to the new values. If an identifier is not
-     * present or a record does not exist, the validation checks if
-     * the object with the given data can be created.
+     * Validates a Rate. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current
+     * Rate and its directly contained sub-objects or expanded to
+     * perform all tests related to this Rate. If an identifier is
+     * present for the Rate (and/or one of its contained sub-objects)
+     * and a record is found for that identifier, the validation
+     * checks if the Rate can be updated to the new values. If an
+     * identifier is not present or a record does not exist, the
+     * validation checks if the object with the given data can be
+     * created.
      *
      * @param validationTypeKey the identifier for the validation Type
-     * @param catalogFeeId the identifier for the fee catalog entry
-     * @param feeTypeKey the identifier for the fee Type
-     * @param feeInfo the Fee information to be validated
+     * @param catalogRateId the identifier for the rate catalog entry
+     * @param rateTypeKey the identifier for the rate Type
+     * @param rateInfo the Rate information to be validated
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of validation results or an empty list if
      *         validation succeeded
-     * @throws DoesNotExistException validationTypeKey, catalogFeeId,
-     *         or feeTypeKey is not found
-     * @throws InvalidParameterException feeInfo or contextInfo is
+     * @throws DoesNotExistException validationTypeKey, catalogRateId,
+     *         or rateTypeKey is not found
+     * @throws InvalidParameterException rateInfo or contextInfo is
      *         not valid
      * @throws MissingParameterException validationTypeKey,
-     *         catalogFeeId, feeTypeKey, feeInfo, or contextInfo is
+     *         catalogRateId, rateTypeKey, rateInfo, or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateFee(@WebParam(name = "validationTypeKey") String validationTypeKey, 
-                                                  @WebParam(name = "catalogFeeId") String catalogFeeId, 
-                                                  @WebParam(name = "feeTypeKey") String feeTypeKey, 
-                                                  @WebParam(name = "feeInfo") FeeInfo feeInfo, 
-                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<ValidationResultInfo> validateRate(@WebParam(name = "validationTypeKey") String validationTypeKey, 
+                                                   @WebParam(name = "catalogRateId") String catalogRateId, 
+                                                   @WebParam(name = "rateTypeKey") String rateTypeKey, 
+                                                   @WebParam(name = "rateInfo") RateInfo rateInfo, 
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -553,31 +555,31 @@ public interface FeeService {
                PermissionDeniedException;
 
     /** 
-     * Creates a new Fee. The Fee Id, Type, and Meta information may
-     * nogt be set in the supplied data.
+     * Creates a new Rate. The Rate Id, Type, and Meta information may
+     * not be set in the supplied data.
      *
-     * @param catalogFeeId the identifier for the fee catalog entry
-     * @param feeTypeKey the identifier for the Type of the new Fee
-     * @param feeInfo the data with which to create the Fee
+     * @param catalogRateId the identifier for the rate catalog entry
+     * @param rateTypeKey the identifier for the Type of the new Rate
+     * @param rateInfo the data with which to create the Rate
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the new Fee 
+     * @return the new Rate 
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException catalogFeeId or feeTypeKey does
+     * @throws DoesNotExistException catalogRateId or rateTypeKey does
      *         not exist or is not supported
-     * @throws InvalidParameterException feeInfo or contextInfo is not
+     * @throws InvalidParameterException rateInfo or contextInfo is not
      *         valid
-     * @throws MissingParameterException catalogFeeId, feeTypeKey,
-     *         feeInfo or contextInfo is missing or null
+     * @throws MissingParameterException catalogRateId, rateTypeKey,
+     *         rateInfo or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public FeeInfo createFee(@WebParam(name = "catalogFeeId") String catalogFeeId, 
-                             @WebParam(name = "feeTypeKey") String feeTypeKey, 
-                             @WebParam(name = "feeInfo") FeeInfo feeInfo, 
-                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public RateInfo createRate(@WebParam(name = "catalogRateId") String catalogRateId, 
+                               @WebParam(name = "rateTypeKey") String rateTypeKey, 
+                               @WebParam(name = "rateInfo") RateInfo rateInfo, 
+                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DataValidationErrorException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -586,19 +588,19 @@ public interface FeeService {
                ReadOnlyException;
 
     /** 
-     * Updates an existing Fee. The Fee Id, Type, and Meta information
-     * may not be changed.
+     * Updates an existing Rate. The Rate Id, Type, and Meta
+     * information may not be changed.
      *
-     * @param feeId the identifier for the Fee to be updated
-     * @param feeInfo the new data for the Fee
+     * @param rateId the identifier for the Rate to be updated
+     * @param rateInfo the new data for the Rate
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the updated Fee
+     * @return the updated Rate
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException feeId not found
-     * @throws InvalidParameterException feeInfo or contextInfo is not
-     *         valid
-     * @throws MissingParameterException feeId, feeInfo, or
+     * @throws DoesNotExistException rateId not found
+     * @throws InvalidParameterException rateInfo or contextInfo is
+     *         not valid
+     * @throws MissingParameterException rateId, rateInfo, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -607,9 +609,9 @@ public interface FeeService {
      * @throws VersionMismatchException optimistic locking failure or
      *         the action was attempted on an out of date version
      */
-    public FeeInfo updateFee(@WebParam(name = "feeId") String feeId, 
-                             @WebParam(name = "feeInfo") FeeInfo feeInfo, 
-                             @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public RateInfo updateRate(@WebParam(name = "rateId") String rateId, 
+                               @WebParam(name = "rateInfo") RateInfo rateInfo, 
+                               @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DataValidationErrorException, 
                DoesNotExistException, 
                InvalidParameterException, 
@@ -620,25 +622,24 @@ public interface FeeService {
                VersionMismatchException;
 
     /**
-     * Changes the state of a Fee.
+     * Changes the state of a Rate.
      *
-     * @param feeId the Id of the Fee
+     * @param rateId the Id of the Rate
      * @param stateKey the identifier for the new State 
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the status of the operation. This must always be
-     *         true.
-     * @throws DoesNotExistException feeId not found or stateKey
-     *         not found in Fee Lifecycle
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException rateId not found or stateKey
+     *         not found in Rate Lifecycle
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException feeId, stateKey, or
+     * @throws MissingParameterException rateId, stateKey, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo changeFeeState(@WebParam(name = "feeId") String feeId, 
-                                     @WebParam(name = "stateKey") String stateKey,
-                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public StatusInfo changeRateState(@WebParam(name = "rateId") String rateId, 
+                                      @WebParam(name = "stateKey") String stateKey,
+                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 
@@ -646,22 +647,22 @@ public interface FeeService {
                PermissionDeniedException;
 
     /** 
-     * Deletes an existing Fee.
+     * Deletes an existing Rate.
      *
-     * @param feeId the identifier for the Fee to be deleted
+     * @param rateId the identifier for the Rate to be deleted
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the status of the delete operation. This must always be
      *         true.
-     * @throws DoesNotExistException feeId not found
+     * @throws DoesNotExistException rateId not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException feeId or contextInfo is
+     * @throws MissingParameterException rateId or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteFee(@WebParam(name = "feeId") String feeId, 
-                                @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public StatusInfo deleteRate(@WebParam(name = "rateId") String rateId, 
+                                 @WebParam(name = "contextInfo") ContextInfo contextInfo) 
         throws DoesNotExistException, 
                InvalidParameterException, 
                MissingParameterException, 

@@ -14,9 +14,9 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.fee.dto;
+package org.kuali.student.core.rate.dto;
 
-import org.kuali.student.core.fee.infc.FlexibleCreditAmount;
+import org.kuali.student.core.rate.infc.FlexibleCreditAmount;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 
 import java.io.Serializable;
