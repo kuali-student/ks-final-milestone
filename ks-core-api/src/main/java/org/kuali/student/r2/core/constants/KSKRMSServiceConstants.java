@@ -183,13 +183,14 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_COMPLETEDCOURSE = "CompletedCourse";
     public static final String TERM_RESOLVER_COMPLETEDCOURSES = "CompletedCourses";
     public static final String TERM_RESOLVER_NUMBEROFCOMPLETEDCOURSES = "NumberOfCompletedCourses";
-    public static final String TERM_RESOLVER_NUMBEROFCREDITSFROMCOMPLETEDCOURSES = "NumberOfCreditsFromCompletedCourses";
     public static final String TERM_RESOLVER_ENROLLEDCOURSE = "EnrolledCourse";
     public static final String TERM_RESOLVER_ENROLLEDCOURSES = "EnrolledCourses";
     public static final String TERM_RESOLVER_NUMBEROFENROLLEDCOURSES = "NumberOfEnrolledCourses";
     public static final String TERM_RESOLVER_GPAFORCOURSES = "GPAForCourses";
     public static final String TERM_RESOLVER_GRADETYPEFORCOURSES = "GradeTypeForCourses";
     public static final String TERM_RESOLVER_NUMBEROFCREDITSFROMORGANIZATION = "NumberOfCreditsFromOrganization";
+    public static final String TERM_RESOLVER_NUMBEROFCREDITSFROMCOMPLETEDCOURSES = "NumberOfCreditsFromCompletedCourses";
+    public static final String TERM_RESOLVER_NUMBEROFCREDITSEARNED = "NumberOfCreditsEarned";
     public static final String TERM_RESOLVER_ADMINORGANIZATIONPERMISSIONREQUIRED = "AdminOrganizationPermissionRequired";
     public static final String TERM_RESOLVER_SCOREONTEST = "ScoreOnTest";
     public static final String TERM_RESOLVER_FREEFORMTEXT = "FreeFormText";
