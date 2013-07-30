@@ -20,7 +20,8 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 /**
- * This class //TODO ...
+ * This serves to cache a mapping between source schedule request sets and target schedule request sets
+ * in support of rolling over co-located AO IDs.
  *
  * @author Kuali Student Team
  */

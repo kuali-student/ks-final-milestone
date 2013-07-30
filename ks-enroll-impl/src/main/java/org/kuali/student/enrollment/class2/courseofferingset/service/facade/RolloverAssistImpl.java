@@ -24,7 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * Used to record information within rolloverCourseOffering so it can be accessed in future
+ * rolloverCourseOfferings.  Useful for rolling over colocated AOs.
  *
  * @author Kuali Student Team
  */
