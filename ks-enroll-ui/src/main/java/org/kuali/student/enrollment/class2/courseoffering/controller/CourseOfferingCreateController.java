@@ -172,10 +172,9 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                                 coCreateWrapper.getExistingTermOfferings().add(coEditWrapper);
                             }
                         }catch(Exception e){
-
+                            LOG.warn("An Exception occurred but was not handled. ", e);
                         }
                     }
-//                    continueFromCreate(maintenanceForm, result, request, response);
                 }
 
 
