@@ -20,6 +20,7 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
@@ -739,36 +740,60 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     private void loadNavigationDetails( CourseOfferingEditWrapper wrapper ) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<CourseOfferingInfo> relatedCOs = searchForRelatedCOs( wrapper );
+        int indexOfCurrentCo = buildListOfRelatedCOsAndReturnIndexOfCurrentCO( wrapper, relatedCOs );
+        wrapper.getRenderHelper().setSelectedCoCode( wrapper.getCourseOfferingCode() );
+        setPreviousToCurrentCO( wrapper, indexOfCurrentCo, relatedCOs );
+        setNextToCurrentCO( wrapper, indexOfCurrentCo, relatedCOs );
+    }
 
-        // get related COs
+    private List<CourseOfferingInfo> searchForRelatedCOs( CourseOfferingEditWrapper wrapper ) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<CourseOfferingInfo> result = new ArrayList<CourseOfferingInfo>();
+
         SearchRequestInfo searchRequest = new SearchRequestInfo( CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey() );
         searchRequest.addParam( CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, wrapper.getCourse().getCode() );
         searchRequest.addParam( CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, wrapper.getTerm().getId() );
         searchRequest.addParam( CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true) );
         List<CourseOfferingInfo> relatedCOs = CourseOfferingViewHelperUtil.loadCourseOfferings( getSearchService(), searchRequest );
+        if( relatedCOs != null ) result.addAll( relatedCOs );
 
+        return result;
+    }
 
-        // determine index of current CO
-        int indexOfTargetCo = -1;
+    private int buildListOfRelatedCOsAndReturnIndexOfCurrentCO( CourseOfferingEditWrapper currentCO, List<CourseOfferingInfo> relatedCOs ) {
+
+        int indexOfCurrentCo = -1;
         for( CourseOfferingInfo coInfo : relatedCOs ) {
-            if( wrapper.getId().equals( coInfo.getId() ) ) {
-                indexOfTargetCo = relatedCOs.indexOf( coInfo );
-           }
+
+            // store index of current item if it's the one the user is looking at
+            if( currentCO.getId().equals( coInfo.getId() ) ) {
+                indexOfCurrentCo = relatedCOs.indexOf( coInfo );
+            }
+
+            // store current item in list of related-COs
+            ConcreteKeyValue keyValue = new ConcreteKeyValue();
+            keyValue.setKey( coInfo.getId() );
+            keyValue.setValue( coInfo.getCourseOfferingCode() );
+            currentCO.getRenderHelper().getRelatedCOs().add( keyValue );
         }
 
-        // set previous CO (if any)
+        return indexOfCurrentCo;
+    }
+
+    private void setPreviousToCurrentCO( CourseOfferingEditWrapper currentCO, int indexOfCurrentCO, List<CourseOfferingInfo> relatedCOs ) {
         CourseOfferingInfo previousCoInfo = new CourseOfferingInfo();
-        if( indexOfTargetCo > 0 ) {
-            previousCoInfo = relatedCOs.get( indexOfTargetCo - 1 );
+        if( indexOfCurrentCO > 0 ) {
+            previousCoInfo = relatedCOs.get( indexOfCurrentCO - 1 );
         }
-        wrapper.getRenderHelper().setPrevCO(previousCoInfo);
+        currentCO.getRenderHelper().setPrevCO(previousCoInfo);
+    }
 
-        // set next CO (if any)
+    private void setNextToCurrentCO( CourseOfferingEditWrapper currentCO, int indexOfCurrentCO, List<CourseOfferingInfo> relatedCOs ) {
         CourseOfferingInfo nextCoInfo = new CourseOfferingInfo();
-        if( indexOfTargetCo < relatedCOs.size()-1 ) {
-            nextCoInfo = relatedCOs.get( indexOfTargetCo + 1 );
+        if( indexOfCurrentCO < relatedCOs.size()-1 ) {
+            nextCoInfo = relatedCOs.get( indexOfCurrentCO + 1 );
         }
-        wrapper.getRenderHelper().setNextCO( nextCoInfo );
+        currentCO.getRenderHelper().setNextCO( nextCoInfo );
     }
 
     private void setTermPropertiesOnFormObject( CourseOfferingEditWrapper formObject, CourseOfferingInfo coInfo, ContextInfo contextInfo ) throws Exception {

@@ -98,6 +98,8 @@
                            <bean parent="KS-Unified-Header-Action-Group">
                                <property name="items">
                                    <list>
+
+                                       <!-- PREVIOUS CO -->
                                        <bean parent="Uif-ActionLink"
                                              id="edit_co_prev"
                                              p:actionImagePlacement="LEFT"
@@ -115,6 +117,19 @@
                                            </property>
                                        </bean>
 
+                                       <!-- DROP-DOWN LIST OF ALL RELATED COs -->
+                                       <bean parent="Uif-InputField"
+                                             id="edit_co_select"
+                                             p:propertyName="renderHelper.selectedCoCode">
+                                           <property name="control">
+                                               <bean parent="Uif-DropdownControl" p:onChangeScript="alert('CHANGE!');" />
+                                           </property>
+                                           <property name="optionsFinder">
+                                               <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingCodesKeyValues" p:addBlankOption="false" />
+                                           </property>
+                                       </bean>
+
+                                       <!-- NEXT CO -->
                                        <bean parent="Uif-ActionLink"
                                              id="edit_co_next"
                                              p:actionImagePlacement="RIGHT"
