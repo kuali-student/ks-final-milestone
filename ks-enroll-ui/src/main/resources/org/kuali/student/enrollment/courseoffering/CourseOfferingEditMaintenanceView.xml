@@ -99,11 +99,10 @@
                             <property name="items">
                                 <list>
 
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Update"
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="@{(document.oldMaintainableObject.dataObject.createCO) ? 'Create':'Update'}"
                                           p:ajaxSubmit="false" p:methodToCall="route"  />
-
                                     <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Save Progress"
-                                          p:ajaxSubmit="false" p:methodToCall="route" >
+                                          p:ajaxSubmit="false" p:methodToCall="route" p:render="@{!document.oldMaintainableObject.dataObject.createCO}">
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="coId" value="@{#dp.courseOfferingId}" />
