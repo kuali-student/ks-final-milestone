@@ -281,8 +281,18 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
             // Get all rule types for each agenda type
             List<TypeTypeRelation> ruleRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaRelationship.getToTypeId());
+            // order rules
+            List<TypeTypeRelation> sortedRuleRelationships = new ArrayList<TypeTypeRelation>();
+            sortedRuleRelationships.addAll(ruleRelationships);
+            Collections.sort(sortedRuleRelationships, new Comparator<TypeTypeRelation>() {
+                @Override
+                public int compare(TypeTypeRelation typeTypeRelation1, TypeTypeRelation typeTypeRelation2) {
+                    return typeTypeRelation1.getSequenceNumber().compareTo(typeTypeRelation2.getSequenceNumber());
+                }
+            });
+
             List<RuleTypeInfo> ruleTypes = new ArrayList<RuleTypeInfo>();
-            for (TypeTypeRelation ruleRelationship : ruleRelationships) {
+            for (TypeTypeRelation ruleRelationship : sortedRuleRelationships) {
                 RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
                 ruleTypeInfo.setId(ruleRelationship.getToTypeId());
                 KrmsTypeDefinition ruleType = this.getKrmsTypeRepositoryService().getTypeById(ruleTypeInfo.getId());

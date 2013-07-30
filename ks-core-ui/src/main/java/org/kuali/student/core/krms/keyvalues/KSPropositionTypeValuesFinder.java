@@ -37,6 +37,8 @@ import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -71,7 +73,15 @@ public class KSPropositionTypeValuesFinder extends UifKeyValuesFinderBase {
 
         // if we have an agenda w/ a selected context
         Collection<TypeTypeRelation> typeRelations = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(ruleTypeId);
-        for (TypeTypeRelation typeRelation : typeRelations) {
+        List<TypeTypeRelation> sortedTypeRelations = new ArrayList<TypeTypeRelation>();
+        sortedTypeRelations.addAll(typeRelations);
+        Collections.sort(sortedTypeRelations, new Comparator<TypeTypeRelation>() {
+            @Override
+            public int compare(TypeTypeRelation typeTypeRelation1, TypeTypeRelation typeTypeRelation2) {
+                return typeTypeRelation1.getSequenceNumber().compareTo(typeTypeRelation2.getSequenceNumber());
+            }
+        });
+        for (TypeTypeRelation typeRelation : sortedTypeRelations) {
 
             NaturalLanguageTemplate template = null;
             try{
