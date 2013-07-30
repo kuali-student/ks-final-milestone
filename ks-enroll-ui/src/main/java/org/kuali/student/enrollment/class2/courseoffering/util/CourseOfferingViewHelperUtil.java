@@ -42,6 +42,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -53,6 +54,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -462,6 +464,37 @@ public class CourseOfferingViewHelperUtil {
         }
 
         return termDayOfYear;
+    }
+
+
+    public static List<CourseOfferingInfo> loadCourseOfferings( SearchService searchService, SearchRequestInfo searchRequest ) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+
+        List<CourseOfferingInfo> result = new ArrayList<CourseOfferingInfo>();
+
+        ContextInfo contextInfo = new ContextInfo();
+
+        SearchResultInfo searchResult = searchService.search( searchRequest, contextInfo );
+
+        for( SearchResultRowInfo row : searchResult.getRows() ) {
+            CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
+
+            for( SearchResultCellInfo cellInfo : row.getCells() ) {
+
+                String value = StringUtils.defaultIfEmpty( cellInfo.getValue(), StringUtils.EMPTY );
+
+                if( CourseOfferingManagementSearchImpl.SearchResultColumns.CODE.equals( cellInfo.getKey() ) ) {
+                    courseOfferingInfo.setCourseOfferingCode( value );
+                }
+                else if( CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals( cellInfo.getKey() ) ) {
+                    courseOfferingInfo.setId( value );
+                }
+
+            }
+
+            result.add( courseOfferingInfo );
+        }
+
+        return result;
     }
 
 }

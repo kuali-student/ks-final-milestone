@@ -356,13 +356,32 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         this.renderHelper = renderHelper;
     }
 
-    public class RenderHelper implements Serializable{
+    public class RenderHelper implements Serializable {
+
+        private CourseOfferingInfo nextCO;
+        private CourseOfferingInfo prevCO;
 
         protected RenderHelper(){
         }
 
         public boolean isShowFormatAddButton() {
             return getFormatOfferingList().size() < getCourse().getFormats().size();
+        }
+
+        public void setPrevCO( CourseOfferingInfo prevCO ) {
+            this.prevCO = prevCO;
+        }
+
+        public CourseOfferingInfo getPrevCO() {
+            return this.prevCO;
+        }
+
+        public void setNextCO( CourseOfferingInfo nextCO ) {
+            this.nextCO = nextCO;
+        }
+
+        public CourseOfferingInfo getNextCO() {
+            return this.nextCO;
         }
 
     }

@@ -123,6 +123,7 @@ public class CourseOfferingWrapper implements Serializable{
         } else {
             this.ownerAliases = ownerAliases;
         }
+
     }
 
     public CourseInfo getCourse() {

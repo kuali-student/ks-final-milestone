@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -46,6 +47,10 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -54,12 +59,15 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
@@ -95,6 +103,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     private transient CourseOfferingSetService courseOfferingSetService;
     private transient TypeService typeService;
     private transient StateService stateService;
+    private transient SearchService searchService;
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012). KSENROLL-1375
 
@@ -715,6 +724,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                     formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
                     formObject.getAlternateCourseCodesSuffixStripped().add(crossListingInfo.getCode());
                 }
+
+                loadNavigationDetails( formObject );
+
                 return formObject;
             }
         }catch (AuthorizationException ae){
@@ -724,6 +736,39 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    private void loadNavigationDetails( CourseOfferingEditWrapper wrapper ) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        // get related COs
+        SearchRequestInfo searchRequest = new SearchRequestInfo( CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey() );
+        searchRequest.addParam( CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, wrapper.getCourse().getCode() );
+        searchRequest.addParam( CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, wrapper.getTerm().getId() );
+        searchRequest.addParam( CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(true) );
+        List<CourseOfferingInfo> relatedCOs = CourseOfferingViewHelperUtil.loadCourseOfferings( getSearchService(), searchRequest );
+
+
+        // determine index of current CO
+        int indexOfTargetCo = -1;
+        for( CourseOfferingInfo coInfo : relatedCOs ) {
+            if( wrapper.getId().equals( coInfo.getId() ) ) {
+                indexOfTargetCo = relatedCOs.indexOf( coInfo );
+           }
+        }
+
+        // set previous CO (if any)
+        CourseOfferingInfo previousCoInfo = new CourseOfferingInfo();
+        if( indexOfTargetCo > 0 ) {
+            previousCoInfo = relatedCOs.get( indexOfTargetCo - 1 );
+        }
+        wrapper.getRenderHelper().setPrevCO(previousCoInfo);
+
+        // set next CO (if any)
+        CourseOfferingInfo nextCoInfo = new CourseOfferingInfo();
+        if( indexOfTargetCo < relatedCOs.size()-1 ) {
+            nextCoInfo = relatedCOs.get( indexOfTargetCo + 1 );
+        }
+        wrapper.getRenderHelper().setNextCO( nextCoInfo );
     }
 
     private void setTermPropertiesOnFormObject( CourseOfferingEditWrapper formObject, CourseOfferingInfo coInfo, ContextInfo contextInfo ) throws Exception {
@@ -793,6 +838,13 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             stateService = (StateService) GlobalResourceLoader.getService( new QName(StateServiceConstants.NAMESPACE, StateServiceConstants.SERVICE_NAME_LOCAL_PART) );
         }
         return stateService;
+    }
+
+    public SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+        }
+        return searchService;
     }
 
     private DefaultOptionKeysService defaultOptionKeysService;
