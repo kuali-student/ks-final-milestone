@@ -9,7 +9,7 @@ Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) 
 /
 Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1570','KS-KRMS-NL-USAGE-1000','Student must be a member of $population.name','10080',0)
 /
-Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1571','KS-KRMS-NL-USAGE-1005','Student must be a member of $population.name','10080',0)
+Insert into KRMS_NL_TMPL_T (LANG_CD,NL_TMPL_ID,NL_USAGE_ID,TMPL,TYP_ID,VER_NBR) values ('en','KS-KRMS-NL-TMPL-1571','KS-KRMS-NL-USAGE-1005','student must be a member of $population.name','10080',0)
 /
 
 
