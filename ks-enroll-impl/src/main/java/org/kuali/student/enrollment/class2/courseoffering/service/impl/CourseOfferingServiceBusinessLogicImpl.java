@@ -681,6 +681,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         for( CourseOfferingCrossListingInfo cross : targetCo.getCrossListings() ) {
             cross.setId(null);
+            String crossListedCourseCodesSuffixStripped = StringUtils.stripEnd(cross.getCode(),targetCo.getCourseNumberSuffix());
+            cross.setCode(crossListedCourseCodesSuffixStripped);
         }
 //        for (RevenueInfo rev : targetCo.getRevenues()) {
 //            rev.setId(null);
