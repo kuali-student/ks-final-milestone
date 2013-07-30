@@ -32,12 +32,14 @@ import org.kuali.student.enrollment.class2.courseoffering.service.util.PseudoUni
 import org.kuali.student.enrollment.class2.courseoffering.service.util.RegGroupStateResult;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.TransitionGridYesNoEnum;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -65,6 +67,9 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import javax.xml.namespace.QName;
@@ -88,6 +93,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private CourseOfferingSetService socService = null;
     private CourseService courseService = null;
     private LuiService luiService = null;
+    private SchedulingService schedulingService = null;
 
     // List of objects used in test
     private SocInfo socInfo;
@@ -228,14 +234,30 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             try {
                 coIds = socService.getCourseOfferingIdsBySoc(socInfoLocal.getId(), CONTEXT);
                 if (coIds != null) {
-                    if (coIds.size() > 1) {
-                        throw new PseudoUnitTestException("Should only have 1 CO in this term");
+                    if (coIds.size() > 2) {
+                        throw new PseudoUnitTestException("Should only have at most 2 COs in this term");
                     } else if (!coIds.isEmpty()) { // Has one CO
                         coService.deleteCourseOfferingCascaded(coIds.get(0), CONTEXT);
+                        if (coIds.size() > 1) {
+                            coService.deleteCourseOfferingCascaded(coIds.get(1), CONTEXT);
+                        }
                     }
                 }
             } catch (DoesNotExistException e) {
                 // Do nothing
+            }
+            List<String> itemIds = socService.getSocRolloverResultIdsBySourceSoc(socInfoLocal.getId(), CONTEXT);
+            // Fetch socRollover
+            for (String itemId: itemIds) {
+                SocRolloverResultInfo result = socService.getSocRolloverResult(itemId, CONTEXT);
+                List<SocRolloverResultItemInfo> items =
+                        socService.getSocRolloverResultItemsByResultId(result.getId(), CONTEXT);
+                if (items != null) {
+                    for (SocRolloverResultItemInfo item: items) {
+                        socService.deleteSocRolloverResultItem(item.getId(), CONTEXT);
+                    }
+                }
+                socService.deleteSocRolloverResult(result.getId(), CONTEXT);
             }
             socService.deleteSoc(socInfoLocal.getId(), CONTEXT);
         }
@@ -258,12 +280,14 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     private void _reset(boolean createCourseOffering) throws Exception {
-        _cleanSoc(SAMPLE_TERM);
-        _cleanSoc(SAMPLE_ROLLOVER_TERM);
-        // Fortunately, subterms are indepedent of SOCs
+        for (int i = 0; i <= 4; i++) {
+            _cleanSoc("200" + i + "08");
+        }
+        // Fortunately, subterms are independent of SOCs
         _cleanSubterms(SAMPLE_TERM);
         _cleanSubterms(SAMPLE_ROLLOVER_TERM);
         socInfo = _createSocForTerm(SAMPLE_TERM);
+        _createSocForTerm(SAMPLE_ROLLOVER_TERM);
         if (createCourseOffering) {
             Map<String, Object> keyToValues =
                     rolloverCourseOfferingFromSourceTermToTargetTerm("CHEM237", "201201", SAMPLE_TERM);
@@ -385,9 +409,45 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         System.err.println("Hi");
     }
 
+    private void _testColo(ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+
+//        ScheduleRequestSetInfo set =
+//                schedulingService.getScheduleRequestSet("E150F1007232E857E040440A9B9A7EB8", context);
+//        List<ActivityOfferingInfo> aoInfos = new ArrayList<ActivityOfferingInfo>();
+//        for (String aoId: set.getRefObjectIds()) {
+//            ActivityOfferingInfo aoInfo = coService.getActivityOffering(aoId, context);
+//            aoInfos.add(aoInfo);
+//        }
+        RolloverAssist rolloverAssist =
+                (RolloverAssist) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/rolloverAssist", "RolloverAssist"));
+        List<ScheduleRequestSetInfo> srsList1 =
+                schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, primaryAoId, context);
+        List<ScheduleRequestSetInfo> srsList2 =
+                schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, secondaryAoId, context);
+        ScheduleRequestSetInfo srs1 = srsList1.get(0);
+        ScheduleRequestSetInfo srs2 = srsList2.get(0);
+        schedulingService.deleteScheduleRequestSet(srs2.getId(), context);
+        srs1.getRefObjectIds().add(secondaryAoId);
+        ScheduleRequestSetInfo srs1Fetched = null;
+        try {
+            srs1Fetched = schedulingService.updateScheduleRequestSet(srs1.getId(), srs1, context);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException(e.getMessage());
+        }
+        try {
+            rolloverCourseOfferingFromSourceTermToTargetTerm("CHEM237", SAMPLE_TERM, SAMPLE_ROLLOVER_TERM);
+        } catch (Exception e) {
+            System.out.println("Woops");
+        }
+        System.out.println("Hi");
+    }
+
     @Override
     public void runTests(TestStatePropagationForm form) throws Exception {
         _initServices();
+
         // Now begin to test AO state transitions
         System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
         _reset(true);
@@ -1061,6 +1121,11 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         if (luiService == null) {
             luiService = (LuiService) GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE,
                     LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+
+        if (schedulingService == null) {
+            schedulingService = (SchedulingService) GlobalResourceLoader.getService(new QName(SchedulingServiceConstants.NAMESPACE,
+                    SchedulingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
     }
 }

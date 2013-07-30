@@ -288,14 +288,15 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
      * @param rolloverId Used to access a mapping of source schedule request to a target
      *                   schedule request.  Needed to assist in colocation of rollover
      *                   or copy CO in same term.
-     * @param skipRolloverAssist if true, don't use the rollover assist.  The effect is
-     *                           to break colocation.  Breaking colo done when copying CO from
-     *                           a different term.
+     * @param doColocate if true, use the rollover assist.  The effect is
+     *                   to keep colocation.  If false, it breaks colocation.
+     *                   Breaking colo done when copying CO from a different term.
      */
     private void _RCO_rolloverSrcSchedsToTargetSchedReqs(ActivityOfferingInfo sourceAo,
                                                          ActivityOfferingInfo targetAo,
                                                          String rolloverId,
-                                                         boolean skipRolloverAssist,
+                                                         boolean doColocate,
+                                                         boolean sourceTermSameAsTarget,
                                                          ContextInfo context)
             throws InvalidParameterException, DataValidationErrorException, MissingParameterException,
                    DoesNotExistException, ReadOnlyException, PermissionDeniedException,
@@ -308,8 +309,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 sourceAo.getId(), context);
         for (ScheduleRequestSetInfo sourceSRSet: srSets) {
             String targetSetId = null;
-            if (!skipRolloverAssist) {
-                rolloverAssist.getTargetSRSId(rolloverId, sourceSRSet.getId());
+            if (doColocate && sourceTermSameAsTarget) {
+                if (sourceSRSet.getRefObjectIds().size() > 1) { // Avoids co-location if size is 1
+                    targetSetId = sourceSRSet.getId(); // Reuse the source schedule request set id
+                }
+            } else if (doColocate) {
+                targetSetId = rolloverAssist.getTargetSRSId(rolloverId, sourceSRSet.getId());
             }
             if (targetSetId != null) {
                 // A target schedule request set already exists.  Just add the AO id to the co-located
@@ -319,7 +324,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 ScheduleRequestSetInfo targetScheduleRequestSet =
                         _RCO_createScheduleRequestSet(targetAo.getId(), context);
                 // Use rollover assist to set the mapping between the source
-                if (!skipRolloverAssist) {
+                if (doColocate) {
                     rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRSet.getId(), targetScheduleRequestSet.getId());
                 }
                 _RCO_createTargetScheduleRequestsFromScheduleIds(sourceAo.getScheduleIds(), targetAo,
@@ -353,7 +358,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     private void _RCO_rolloverSrcSchedReqsToTargetSchedReqs(ActivityOfferingInfo sourceAo,
                                                             ActivityOfferingInfo targetAo,
                                                             String rolloverId,
-                                                            boolean doNotColocate,
+                                                            boolean doColocate,
+                                                            boolean sourceTermSameAsTarget,
                                                             ContextInfo context)
             throws InvalidParameterException, DataValidationErrorException, MissingParameterException,
             DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
@@ -363,7 +369,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         sourceAo.getId(), context);
         for (ScheduleRequestSetInfo sourceSRSet: srSets) {
             String targetSetId = null; // If this stays null, forces the target SRS to only have one AO ID
-            if (doNotColocate) {
+            if (doColocate && sourceTermSameAsTarget) {
+                if (sourceSRSet.getRefObjectIds().size() > 1) { // Avoids co-location if size is 1
+                    targetSetId = sourceSRSet.getId(); // Reuse the source schedule request set id
+                }
+            } else if (doColocate) {
                 targetSetId = rolloverAssist.getTargetSRSId(rolloverId, sourceSRSet.getId());
             }
 
@@ -376,7 +386,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 ScheduleRequestSetInfo targetScheduleRequestSet =
                         _RCO_createScheduleRequestSet(targetAo.getId(), context);
                 // Use rollover assist to set the mapping between the source
-                if (doNotColocate) {
+                if (doColocate) {
                     rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRSet.getId(), targetScheduleRequestSet.getId());
                 }
                 _RCO_createTargetScheduleRequestsFromSourceRequests(sourceRequests, targetAo,
@@ -631,12 +641,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
 
                 if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-                    boolean doNotColocate = !(sourceTermSameAsTarget || isPartOfRolloverSoc);
+                    boolean doColocate = sourceTermSameAsTarget || isPartOfRolloverSoc;
                     if (_hasAtLeastOneValidScheduleId(sourceAo)) {
-                        _RCO_rolloverSrcSchedsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doNotColocate, context);
+                        _RCO_rolloverSrcSchedsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
                     } else {
                         // KSNEROLL-6475 Copy RDLs if there are no ADLs from source to target term
-                        _RCO_rolloverSrcSchedReqsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doNotColocate, context);
+                        _RCO_rolloverSrcSchedReqsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
                     }
                 }
                 _RCO_rolloverSeatpools(sourceAo, targetAo, context);
