@@ -41,6 +41,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingVie
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -74,6 +75,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
@@ -402,6 +405,15 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                                 co.setGradingOption(getGradingOption(courseOfferingInfo.getGradingOptionId()));
                                 coWrapper.getExistingTermOfferings().add(co);
                             }
+
+                            //sort existing COs by term code
+                            Collections.sort(coWrapper.getExistingTermOfferings(), new Comparator<CourseOfferingEditWrapper>() {
+                                @Override
+                                public int compare(CourseOfferingEditWrapper co1, CourseOfferingEditWrapper co2) {
+                                    return co2.getTerm().getCode().compareTo(co1.getTerm().getCode());
+                                }
+                            });
+
 
                             CourseOfferingCreateMaintainableImpl maintainable = (CourseOfferingCreateMaintainableImpl)KSControllerHelper.getViewHelperService(form);
                             maintainable.loadCourseJointInfos(coWrapper, form.getViewId());
