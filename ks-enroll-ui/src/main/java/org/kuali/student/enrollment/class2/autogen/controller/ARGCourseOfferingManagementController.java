@@ -43,6 +43,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroup
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -730,6 +731,12 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=renameAClusterThroughDialog")
     public ModelAndView renameAClusterThroughDialog(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
+
+        /* Indicate that the search used to redraw the page after this operation completes should use an exact
+         * match of the course code rather than the usual "like" criteria. Otherwise, if the course code matches multiple
+         * items (e.g. CHEM100, CHEM100A, CHEM100B) then the Manage multiple COs page will be displayed rather than Manage
+         * individual CO page. */
+        theForm.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
 
         //  Test for required private name.
         String requestedPrivateName = theForm.getPrivateClusterNameForRenamePopover();
