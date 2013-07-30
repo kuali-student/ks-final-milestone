@@ -1140,3 +1140,337 @@ function openDataTablePage(tableId, pageNumber) {
         }
     }
 }
+
+
+
+//*********************************************************************************************
+//START: Please REMOVE THIS CODE AFTER THE RICE 2.3-RC1 Upgrade!!!
+/**
+ * Performs client side validation on the list of given controls and returns whether the controls
+ * are valid
+ *
+ * @param controlsToValidate - list of controls (jQuery wrapping objects) that should be validated
+ */
+function validateLineFields(controlsToValidate) {
+    profile(true,"addLine validate");
+    var valid = true;
+
+    // skip completely if client validation is off
+    if (!validateClient) {
+        return valid;
+    }
+
+    jQuery.watermark.hideAll();
+
+    // Turn on this flag to avoid prematurely writing out messages which will cause performance issues if MANY
+    // fields have validation errors simultaneously (first we are only checking for errors, not checking and
+    // writing simultaneously like normal)
+    clientErrorExistsCheck = true;
+
+    // Temporarily turn off this flag to avoid traversing unneeded logic (all messages will be shown at the end)
+    messageSummariesShown = false;
+
+    controlsToValidate.each(function () {
+        var control = jQuery(this);
+        var fieldId = jQuery(this).closest("div[data-role='InputField']").attr("id");
+        var field = jQuery("#" + fieldId);
+        var parent = field.data("parent");
+        var validValue = true;
+
+        // remove ignoreValid because there are issues with the plugin if it stays on
+        control.removeClass("ignoreValid");
+
+        haltValidationMessaging = true;
+
+        if (!control.prop("disabled") && !control.hasClass("uif-readOnlyContent")) {
+            control.valid();
+            if (control.hasClass("error")) {
+                validValue = false;
+            }
+        }
+
+        var data = field.data(kradVariables.VALIDATION_MESSAGES);
+        data.errors = [];
+        data.warnings = [];
+        data.info = [];
+        handleMessagesAtGroup(parent, fieldId, data, true);
+
+        haltValidationMessaging = false;
+
+        //details visibility check
+        if (control.not(":visible") && !validValue) {
+            cascadeOpen(control);
+        }
+
+        if (!validValue) {
+            valid = false;
+        }
+
+        control.addClass("ignoreValid");
+    });
+
+    // Toggle the flag back to default
+    clientErrorExistsCheck = false;
+
+    // Message summaries are going to be shown
+    messageSummariesShown = true;
+
+    // Finally, write the result of the validation messages
+    writeMessagesForPage();
+
+    jQuery.watermark.showAll();
+    profile(false,"addLine validate");
+    return valid;
+}
+
+function handleMessagesAtGroup(id, fieldId, fieldData, pageSetupPhase) {
+    var group = jQuery("#" + id);
+    var data = group.data(kradVariables.VALIDATION_MESSAGES);
+
+    var pageLevel = false;
+    var parent = group.data("parent");
+    if (data) {
+        var messageMap = data.messageMap;
+        pageLevel = data.pageLevel;
+
+        //init empty params
+        if (!data.errors) {
+            data.errors = [];
+        }
+        if (!data.warnings) {
+            data.warnings = [];
+        }
+        if (!data.info) {
+            data.info = [];
+        }
+        if (!messageMap) {
+            messageMap = {};
+            data.messageMap = messageMap;
+        }
+
+        //retrieve header for section
+        if (data.isSection == undefined) {
+            var sectionHeader = jQuery("[data-header_for='" + id + "']").find("> :header, > label");
+            data.isSection = sectionHeader.length;
+        }
+
+        //add fresh data to group's message data based on the new field info
+        messageMap[fieldId] = fieldData;
+
+        //write messages for this group
+        if (!pageSetupPhase) {
+            var forceWrite = jQuery("div[data-messages_for='" + id + "']").find("li[data-messageitemfor='" + fieldId + "']").length;
+            writeMessagesForGroup(id, data, forceWrite);
+            displayHeaderMessageCount(id, data);
+        }
+    }
+
+    if (!pageLevel && parent) {
+        handleMessagesAtGroup(parent, fieldId, fieldData, pageSetupPhase);
+    }
+}
+
+function writeMessagesForGroup(id, data, forceWrite) {
+    var parent = jQuery("#" + id).data("parent");
+
+    if (data) {
+        var messageMap = data.messageMap;
+        var pageLevel = data.pageLevel;
+        var order = data.order;
+        var sections = data.sections;
+
+        //retrieve header for section
+        if (data.isSection == undefined) {
+            var sectionHeader = jQuery("[data-header_for='" + id + "']").find("> :header, > label");
+            data.isSection = sectionHeader.length;
+        }
+
+        //show messages if data is received as force show or if this group is considered a section
+        var showMessages = data.isSection || data.forceShow;
+
+        //TabGroups rely on tab error indication to indicate messages - don't show messages here
+        var type = jQuery("#" + id).data("type");
+        if (type && type == kradVariables.TAB_GROUP_CLASS) {
+            showMessages = false;
+        }
+
+        //if this group is in a tab in a tab group show your messages because TabGroups will not
+        if (parent) {
+            var parentType = jQuery("#" + parent).data("type");
+            if (parentType && parentType == kradVariables.TAB_GROUP_CLASS) {
+                showMessages = true;
+            }
+        }
+
+        //init empty params
+        if (!data.errors) {
+            data.errors = [];
+        }
+        if (!data.warnings) {
+            data.warnings = [];
+        }
+        if (!data.info) {
+            data.info = [];
+        }
+
+        data = calculateMessageTotals(id, data);
+
+        if (showMessages) {
+
+            var newList = jQuery("<ul class='" + kradVariables.VALIDATION_MESSAGES_CLASS + "'></ul>");
+
+            if (data.messageTotal || jQuery("span.uif-correctedError").length || forceWrite) {
+
+                newList = generateSectionLevelMessages(id, data, newList);
+
+                if (data.summarize) {
+                    newList = generateSummaries(id, messageMap, sections, order, newList);
+                }
+                else {
+                    //if not generating summaries just output field links
+                    for (var key in messageMap) {
+                        var link = generateFieldLink(messageMap[key], key, data.collapseFieldMessages, data.displayLabel);
+                        newList = writeMessageItemToList(link, newList);
+                    }
+                }
+
+                var messageBlock = jQuery("[data-messages_for='" + id + "']");
+
+                //remove old block styling
+                messageBlock.removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
+                messageBlock.removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_WARNING_CLASS);
+                messageBlock.removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS);
+
+                //give the block styling
+                if (data.errorTotal > 0) {
+                    messageBlock.addClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
+                }
+                else if (data.warningTotal > 0) {
+                    messageBlock.addClass(kradVariables.PAGE_VALIDATION_MESSAGE_WARNING_CLASS);
+                }
+                else if (data.infoTotal > 0) {
+                    messageBlock.addClass(kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS);
+                }
+
+                //clear and write the new list of summary items
+                clearMessages(id, false);
+                handleTabStyle(id, data.errorTotal, data.warningTotal, data.infoTotal);
+                writeMessages(id, newList);
+                //page level validation messsage header handling
+                if (pageLevel) {
+                    if (newList.children().length) {
+                        var messagesDiv = jQuery("[data-messages_for='" + id + "']");
+                        var countMessage = generateCountString(data.errorTotal, data.warningTotal,
+                            data.infoTotal);
+
+                        //set the window title
+                        addCountToDocumentTitle(countMessage);
+
+                        var single = isSingularMessage(newList);
+                        var pageValidationHeader;
+                        if (!single) {
+                            pageValidationHeader = jQuery("<h3 tabindex='0' class='" + kradVariables.VALIDATION_PAGE_HEADER_CLASS + "' "
+                                + "id='pageValidationHeader'>This page has " + countMessage + "</h3>");
+                        }
+                        else {
+                            pageValidationHeader = jQuery(newList).detach();
+                        }
+
+                        pageValidationHeader.find(".uif-validationImage").remove();
+                        var pageSummaryClass = "";
+                        var image = errorGreyImage;
+                        if (data.errorTotal) {
+                            pageSummaryClass = kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS;
+                            image = errorImage;
+                        }
+                        else if (data.warningTotal) {
+                            pageSummaryClass = kradVariables.PAGE_VALIDATION_MESSAGE_WARNING_CLASS;
+                            image = warningImage;
+                        }
+                        else if (data.infoTotal) {
+                            pageSummaryClass = kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS;
+                            image = infoImage;
+                        }
+
+                        if (!single) {
+                            pageValidationHeader.prepend(image);
+                        }
+                        else {
+                            pageValidationHeader.find("li").prepend(image);
+                            pageValidationHeader.addClass("uif-pageValidationMessage-single")
+                        }
+
+                        messagesDiv.prepend(pageValidationHeader);
+
+                        //Handle special classes
+                        pageValidationHeader.parent().removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_ERROR_CLASS);
+                        pageValidationHeader.parent().removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_WARNING_CLASS);
+                        pageValidationHeader.parent().removeClass(kradVariables.PAGE_VALIDATION_MESSAGE_INFO_CLASS);
+                        pageValidationHeader.parent().addClass(pageSummaryClass);
+
+                        if (!data.showPageSummaryHeader && !single) {
+                            pageValidationHeader.hide();
+                        }
+
+                        messagesDiv.find(".uif-validationMessagesList").attr("id", "pageValidationList");
+                        messagesDiv.find(".uif-validationMessagesList").attr("aria-labelledby",
+                            "pageValidationHeader");
+                    }
+                }
+            }
+            else {
+                clearMessages(id, true);
+            }
+        }
+    }
+}
+
+function runHiddenScripts(id, isSelector, skipValidationBubbling) {
+
+    if (id) {
+
+        var selector = "#" + id;
+        if (isSelector) {
+            selector = id;
+        }
+
+        evaluateScripts(selector);
+
+        if(!isSelector){
+            runScriptsForId(id);
+        }
+
+        //Interpret new server message state for refreshed InputFields and write them out
+        profile(true,"hiddenscripts");
+        if (!skipValidationBubbling) {
+
+            //reinitialize BubblePopup
+            initBubblePopups();
+
+            jQuery(selector).find("div[data-role='InputField']").andSelf().filter("div[data-role='InputField']").each(function () {
+                var id = jQuery(this).attr('id');
+                var field = jQuery("#" + id);
+                var data = field.data(kradVariables.VALIDATION_MESSAGES);
+                data.errors = [];
+                data.warnings = [];
+                data.info = [];
+                var parent = field.data("parent");
+                writeMessagesAtField(id);
+                handleMessagesAtGroup(parent, id, data, true);
+            });
+
+            writeMessagesForPage();
+        }
+        profile(false,"hiddenscripts");
+    }
+    else {
+        evaluateScripts();
+
+        //reinitialize BubblePopup
+        initBubblePopups();
+    }
+
+}
+//END: Please REMOVE THIS CODE AFTER THE RICE 2.3-RC1 Upgrade!!!
+//*********************************************************************************************
+
