@@ -341,10 +341,13 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                             //create a new FO
                             formatOfferingInfo.setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
                             formatOfferingInfo.setTypeKey(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY);
-                            formatOfferingInfo.setName(null);//Clear these out so they are generated nicely
                             formatOfferingInfo.setDescr(null);
                             formatOfferingInfo.setTermId(coInfo.getTermId());
                             formatOfferingInfo.setCourseOfferingId(coInfo.getId());
+                            //We need to set the name to maintain ordinality from CLU. (If we're not setting the name here, service will set the name based on priority order which is not the expected behavior)
+                            if (StringUtils.isBlank(formatOfferingInfo.getName())){
+                                formatOfferingInfo.setName(getFormatName(foWrapper,coEditWrapper.getCourse()));
+                            }
                             if (coInfo.getFinalExamType() != null && !coInfo.getFinalExamType().equals(CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)) {
                                 formatOfferingInfo.setFinalExamLevelTypeKey(null);
                             }

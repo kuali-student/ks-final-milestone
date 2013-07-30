@@ -87,7 +87,11 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                     }
                     activityName.append(activityType.getName()+"/");
                 }
-                return StringUtils.removeEnd(activityName.toString(),"/");
+                if (format.getActivities().size() == 1){
+                    return StringUtils.removeEnd(activityName.toString(),"/") + " Only";
+                } else {
+                    return StringUtils.removeEnd(activityName.toString(),"/");
+                }
             }
         }
         return StringUtils.EMPTY;
