@@ -861,12 +861,9 @@ public class RuleEditorController extends MaintenanceDocumentController {
                                           HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        RuleEditor ruleEditor = getRuleEditor(form);
-        if (ruleEditor.getProposition() != null) {
-            PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
-        }
 
         //Reset the description on current selected proposition
+        RuleEditor ruleEditor = getRuleEditor(form);
         PropositionEditor proposition = PropositionTreeUtil.getProposition(ruleEditor);
         if (proposition != null) {
 
@@ -902,6 +899,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
                 this.setUpdatedProposition(ruleEditor.getPropositionEditor(), proposition);
             }
 
+        }
+
+        if (ruleEditor.getProposition() != null) {
+            PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
         }
 
         // clear dialog history so user can press the button again
