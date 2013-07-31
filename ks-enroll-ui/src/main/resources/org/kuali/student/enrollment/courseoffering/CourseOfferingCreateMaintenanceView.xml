@@ -437,7 +437,7 @@
                 <bean parent="Uif-InputField" p:propertyName="targetTermCode" p:required="true" p:id="targetTermCode"
                       p:label="Target Term" p:labelPlacement="TOP" p:fieldLabel.renderColon="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:watermarkText="201301"/>
+                        <bean parent="Uif-TextControl" p:size="10" p:watermarkText="201301" p:onClickScript="toggleTextBoxes(this);"/>
                     </property>
                     <property name="help">
                         <bean parent="Uif-Help" p:tooltipHelpContent="Term is required to retrieve the correct version of the Catalog Course"/>
@@ -448,10 +448,8 @@
                     <property name="refreshWhenChangedPropertyNames" value="targetTermCode"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:watermarkText="ENGL237">
-                            <!-- KSENROLL-8304 Browser autosuggest for targetTermCode will not trigger an event to allow enabling of this field
-                                Removing the feature until there is a fix for KSENROLL-8399 -->
-                            <!--<property name="disabled" value="@{#dp.targetTermCode eq null}"/>-->
-                            <!--<property name="evaluateDisabledOnKeyUp" value="false"/>-->
+                            <property name="disabled" value="@{#dp.targetTermCode eq null}"/>
+                            <property name="evaluateDisabledOnKeyUp" value="true"/>
                         </bean>
                     </property>
                     <!-- KSENROLL-8303 took this out untill it is working better -->
@@ -640,7 +638,7 @@
                                                <!--{'bSortable':true},-->
                                                <!--{'bSortable':true}-->
                                                 <!--]"/>-->
-        <entry key="aoColumns" value="oTable.fnSetColumnVis( 0, false );"/>
+                <entry key="aoColumns" value="oTable.fnSetColumnVis( 0, false );"/>
             </map>
         </property>
 		<property name="items">

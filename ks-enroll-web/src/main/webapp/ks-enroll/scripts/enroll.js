@@ -1474,3 +1474,9 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
 //END: Please REMOVE THIS CODE AFTER THE RICE 2.3-RC1 Upgrade!!!
 //*********************************************************************************************
 
+function toggleTextBoxes(textBox){
+    jQuery(textBox).bind('input', function(event) {
+        jQuery(textBox).keyup();
+        console.log(event);
+    });
+}
