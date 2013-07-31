@@ -72,10 +72,10 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
             //Retrieve the version independent clu id.
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
 
-            List<VersionDisplayInfo> versions = cluVersionService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
+            List<VersionDisplayInfo> versions = this.getCluVersionService().getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
             for(VersionDisplayInfo version : versions){
                 //Retrieve the students academic record for this version.
-                if(academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context).size()>0){
+                if(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context).size()>0){
                     return true; //if service returned anything, the student has completed a version of the clu.
                 }
             }

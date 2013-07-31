@@ -213,9 +213,9 @@ public class TestTermResolvers {
         termResolver.setCluService(cluService);
         termResolver.setCourseOfferingService(courseOfferingService);
 
-        //Setup data
+        //Setup data for unsubmitted registration request.
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TERM_ID,dataLoader.getFallTermId());
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TERM_ID, dataLoader.getFallTermId());
         String versionIndId = cluService.getClu("COURSE8", contextInfo).getVersion().getVersionIndId();
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
 
@@ -224,9 +224,25 @@ public class TestTermResolvers {
                 KSKRMSServiceConstants.TERM_RESOLVER_ENROLLEDCOURSE);
 
         //Evaluate term Resolver
-        //Boolean isEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
-        //assertNotNull(isEnrolled);
-        //assertTrue(isEnrolled);
+        Boolean isEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isEnrolled);
+        assertTrue(isEnrolled);
+
+        //Setup data for submitted enrollment.
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+        versionIndId = cluService.getClu("COURSE3", contextInfo).getVersion().getVersionIndId();
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
+        isEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isEnrolled);
+        assertTrue(isEnrolled);
+
+        //Setup data for completed course, completed course should not be included, only concurrently enrolled courses.
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID);
+        versionIndId = cluService.getClu("COURSE2", contextInfo).getVersion().getVersionIndId();
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
+        isEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isEnrolled);
+        assertFalse(isEnrolled);
     }
 
     @Test
@@ -240,16 +256,28 @@ public class TestTermResolvers {
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TERM_ID, dataLoader.getFallTermId());
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "2");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "COURSE-SET1");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_ENROLLEDCOURSES);
 
         //Evaluate term Resolver
-        //Boolean isAllEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
-        //assertNotNull(isAllEnrolled);
-        //assertTrue(isAllEnrolled);
+        Boolean isAllEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isAllEnrolled);
+        assertFalse(isAllEnrolled);
+
+        //Student two is enrolled for course1.
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
+        isAllEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isAllEnrolled);
+        assertTrue(isAllEnrolled);
+
+        //Check for a different term
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TERM_ID, dataLoader.getSpringTermId());
+        isAllEnrolled = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isAllEnrolled);
+        assertFalse(isAllEnrolled);
     }
 
     @Test
@@ -261,17 +289,25 @@ public class TestTermResolvers {
         termResolver.setCourseOfferingService(courseOfferingService);
 
         //Setup data
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "DTC101");
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TERM_ID, dataLoader.getFallTermId());
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "COURSE-SET3");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_NUMBEROFENROLLEDCOURSES);
 
         //Evaluate term Resolver
-        //Integer numberOfEnrolledCourses = termResolver.resolve(resolvedPrereqs, parameters);
-        //assertNotNull(numberOfEnrolledCourses);
-        //assertEquals(new Integer(0), numberOfEnrolledCourses);
+        Integer numberOfEnrolledCourses = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(numberOfEnrolledCourses);
+        assertEquals(new Integer(2), numberOfEnrolledCourses);
+
+        //Check student 2
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "COURSE-SET2");
+        numberOfEnrolledCourses = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(numberOfEnrolledCourses);
+        assertEquals(new Integer(1), numberOfEnrolledCourses);
     }
 
     @Test
@@ -727,7 +763,7 @@ public class TestTermResolvers {
             createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(), "COURSE4");
             createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(), "COURSE5");
 
-            // setup the test data for student 1
+            // setup the test data for student 3
             createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, dataLoader.getSpringTermId(), "COURSE1");
             createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, dataLoader.getSpringTermId(), "COURSE2");
             createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, dataLoader.getSpringTermId(), "COURSE3");
@@ -747,10 +783,10 @@ public class TestTermResolvers {
     private void loadRegistrationData() {
         try {
             // setup the test data for student 1
-            RegistrationRequestInfo regReqInfo = createRegistrationRequest(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(), "COURSE3", "COURSE5");
+            RegistrationRequestInfo regReqInfo = createRegistrationRequest(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(), "COURSE3", "COURSE5");
             dataLoader.submitRegistrationRequest(regReqInfo.getId());
             // setup the test data for student 2
-            createRegistrationRequest(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(), "COURSE6", "COURSE7", "COURSE8");
+            createRegistrationRequest(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(), "COURSE1", "COURSE6", "COURSE7", "COURSE8");
         } catch (Exception e) {
             e.printStackTrace();
         }

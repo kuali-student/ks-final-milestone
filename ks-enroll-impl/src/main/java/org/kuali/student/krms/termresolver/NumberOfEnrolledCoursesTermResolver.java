@@ -41,12 +41,15 @@ import java.util.Set;
  * courseCodes from the courseSetId.
  *
  * The studentId is passed as a resolvedPrereq.
+ *
  */
 public class NumberOfEnrolledCoursesTermResolver implements TermResolver<Integer> {
 
     private CourseRegistrationService courseRegistrationService;
     private CourseOfferingService courseOfferingService;
     private CluService cluService;
+
+    private EnrolledCourseTermResolver enrolledCourseTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -80,18 +83,12 @@ public class NumberOfEnrolledCoursesTermResolver implements TermResolver<Integer
         try {
             //Retrieve the list of cluIds from the cluset.
             String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
-            List<String> cluIds = new ArrayList<String>();    //Create new list so that we can remove the once that are already checked.
-            cluIds.addAll(this.cluService.getAllCluIdsInCluSet(cluSetId, context));
+            List<String> versionIndIds = this.cluService.getAllCluIdsInCluSet(cluSetId, context);
 
             //Retrieve the students academic record.
-            List<CourseRegistrationInfo> recordInfoList = courseRegistrationService.getCourseRegistrationsByStudent(personId, context);
-            for(CourseRegistrationInfo studentRecord : recordInfoList){
-                //We need the course offering to retrieve the courseid in order to retrieve the original course
-                CourseOffering courseOffering = this.courseOfferingService.getCourseOffering(studentRecord.getCourseOfferingId(), context);
-                CluInfo clu = this.cluService.getClu(courseOffering.getCourseId(), context);
-                //If the version independent id is in the list, remove it and increment the counter.
-                if (cluIds.contains(clu.getVersion().getVersionIndId())){
-                    cluIds.remove(clu.getVersion().getVersionIndId());
+            for(String versionIndId : versionIndIds){
+                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
+                if(this.getEnrolledCourseTermResolver().resolve(resolvedPrereqs, parameters)){
                     counter++;
                 }
             }
@@ -100,6 +97,16 @@ public class NumberOfEnrolledCoursesTermResolver implements TermResolver<Integer
         }
 
         return counter;
+    }
+
+    public EnrolledCourseTermResolver getEnrolledCourseTermResolver(){
+        if(enrolledCourseTermResolver==null){
+            enrolledCourseTermResolver = new EnrolledCourseTermResolver();
+            enrolledCourseTermResolver.setCourseRegistrationService(this.getCourseRegistrationService());
+            enrolledCourseTermResolver.setCourseOfferingService(this.getCourseOfferingService());
+            enrolledCourseTermResolver.setCluService(this.getCluService());
+        }
+        return enrolledCourseTermResolver;
     }
 
     public CourseRegistrationService getCourseRegistrationService() {
