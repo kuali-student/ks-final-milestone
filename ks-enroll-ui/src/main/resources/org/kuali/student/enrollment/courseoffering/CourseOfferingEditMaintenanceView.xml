@@ -95,7 +95,7 @@
            <bean parent="KS-Unified-Header-Right-Group" >
                    <property name="items">
                        <list>
-                           <bean parent="KS-Unified-Header-Action-Group">
+                           <bean parent="KS-Unified-Header-Action-Group" p:render="@{!document.oldMaintainableObject.dataObject.createCO}">
                                <property name="items">
                                    <list>
 
@@ -104,11 +104,11 @@
                                              id="edit_co_prev"
                                              p:actionImagePlacement="LEFT"
                                              p:methodToCall="route"
-                                             p:actionLabel="@{#dp.renderHelper.prevCO.courseOfferingCode}"
-                                             p:render="@{#dp.renderHelper.prevCO.id != null}">
+                                             p:actionLabel="@{#dp.renderHelper.prevCO==null?'':#dp.renderHelper.prevCO.courseOfferingCode}"
+                                             p:render="@{#dp.renderHelper.prevCO==null?false:#dp.renderHelper.prevCO.id != null}">
                                            <property name="actionParameters">
                                                <map>
-                                                   <entry key="coId" value="@{#dp.renderHelper.prevCO.id}" />
+                                                   <entry key="coId" value="@{#dp.renderHelper.prevCO==null?null:#dp.renderHelper.prevCO.id}" />
                                                </map>
                                            </property>
                                            <property name="actionImage">
@@ -134,11 +134,11 @@
                                              id="edit_co_next"
                                              p:actionImagePlacement="RIGHT"
                                              p:methodToCall="route"
-                                             p:actionLabel="@{#dp.renderHelper.nextCO.courseOfferingCode}"
-                                             p:render="@{#dp.renderHelper.nextCO.id != null}">
+                                             p:actionLabel="@{#dp.renderHelper.nextCO==null?'':#dp.renderHelper.nextCO.courseOfferingCode}"
+                                             p:render="@{#dp.renderHelper.nextCO==null?false:#dp.renderHelper.nextCO.id != null}">
                                            <property name="actionParameters">
                                                <map>
-                                                   <entry key="coId" value="@{#dp.renderHelper.nextCO.id}" />
+                                                   <entry key="coId" value="@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}" />
                                                </map>
                                            </property>
                                            <property name="actionImage">
