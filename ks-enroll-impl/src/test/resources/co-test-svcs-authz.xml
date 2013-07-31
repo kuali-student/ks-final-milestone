@@ -14,8 +14,6 @@
 
 	 <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:ks-test-system-property-configurer.xml" />
-    <import resource="classpath:ks-enroll-api-data-dictionary-services-configuration.xml"/>
-    <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml"/>
 
     <bean id="configContext" class="org.kuali.student.common.test.KSTestConfigContextLoader">
         <constructor-arg index="0">
@@ -66,14 +64,6 @@
         <property name="rolloverAssist" ref="rolloverAssist"/>
     </bean>
 
-    <bean id="coService" class=" org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
-        <property name="nextDecorator" ref="coServiceImpl"/>
-        <property name="validator" ref="validator" />
-        <property name="socService" ref="socService" />
-    </bean>
-
-    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImpl"/>
-    
     <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl"/>
     
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl" />
