@@ -504,6 +504,8 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             }
         }
 
+        //  According to Jira 4353 copy the title from CO instead of CLU. So set the property not to copy from CLU
+        optionKeys.add(CourseOfferingSetServiceConstants.NOT_COURSE_TITLE_OPTION_KEY);
         SocRolloverResultItemInfo item = getCourseOfferingService().rolloverCourseOffering(existingCO.getId(),
                 createWrapper.getTerm().getId(),
                 optionKeys,
