@@ -318,13 +318,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
     }
 
     private void setHolidayEndDate(HolidayWrapper holidayWrapper) {
-        if (holidayWrapper.isAllDay()) {
-            holidayWrapper.getHolidayInfo().setIsDateRange(holidayWrapper.isDateRange());
-        }
-        else {
-            // dateRange in db is true if end date OR end time != start date/time
-            holidayWrapper.getHolidayInfo().setIsDateRange(true);
-        }
+        holidayWrapper.getHolidayInfo().setIsDateRange(holidayWrapper.isDateRange());
         Date endDateToInfo = timeSetWrapperEndDate(holidayWrapper);
         holidayWrapper.getHolidayInfo().setEndDate(endDateToInfo);
     }
@@ -335,7 +329,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
         if (timeSetWrapper.isAllDay()) {
             if (timeSetWrapper.isDateRange()) {
                 //just clearing out any time already set in end date
-                endDateToInfo = CommonUtils.getDateWithTime(timeSetWrapper.getEndDate(),"00:00",StringUtils.EMPTY);
+                endDateToInfo = CommonUtils.getDateWithTime(timeSetWrapper.getEndDate(), CalendarConstants.DEFAULT_END_TIME, "PM");
             }
             else {
                 endDateToInfo = null;
@@ -344,29 +338,30 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
 
             // set the UI time & am/pm fields to null in case they just had values:
             timeSetWrapper.setStartTime(null);
-            timeSetWrapper.setStartTimeAmPm(null);
+            timeSetWrapper.setStartTimeAmPm("AM");
             timeSetWrapper.setEndTime(null);
-            timeSetWrapper.setEndTimeAmPm(null);
+            timeSetWrapper.setEndTimeAmPm("AM");
         }
         else {
-            String endTime = timeSetWrapper.getEndTime();
-            String endTimeAmPm = timeSetWrapper.getEndTimeAmPm();
-            Date endDate = timeSetWrapper.getEndDate();
+            if (timeSetWrapper.isDateRange()){
+                String endTime = timeSetWrapper.getEndTime();
+                String endTimeAmPm = timeSetWrapper.getEndTimeAmPm();
+                Date endDate = timeSetWrapper.getEndDate();
 
-            //If it's not date range, then set
-            if (!timeSetWrapper.isDateRange()){
-                endDate = timeSetWrapper.getStartDate();
-                timeSetWrapper.setEndDate(null);
-            }
-
-            if (StringUtils.isBlank(endTime)){
-                endTime = CalendarConstants.DEFAULT_END_TIME;
-                endTimeAmPm = "PM";
+                if (StringUtils.isBlank(endTime)){
+                    endTime = CalendarConstants.DEFAULT_END_TIME;
+                    endTimeAmPm = "PM";
+                }
                 timeSetWrapper.setEndTime(endTime);
                 timeSetWrapper.setEndTimeAmPm(endTimeAmPm);
-            }
 
-            endDateToInfo = CommonUtils.getDateWithTime(endDate,endTime,endTimeAmPm);
+                endDateToInfo = CommonUtils.getDateWithTime(endDate, endTime, endTimeAmPm);
+            } else {
+                timeSetWrapper.setEndDate(null);
+                timeSetWrapper.setEndTime(null);
+                timeSetWrapper.setEndTimeAmPm("AM");
+                endDateToInfo = null;
+            }
         }
 
         return endDateToInfo;
@@ -404,25 +399,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
                         "error.enroll.holiday.dateNotInHcal", holiday.getTypeName());
             }
 
-            // NOTE: next 2 edits not needed if KRAD validation is working properly
-            if (holiday.isDateRange()) {
-                if(null == holiday.getEndDate()){
-                    // KRAD 2.0 bug where endDate not filled but gets prior value anyway; gets past endDate edit
-                    GlobalVariables.getMessageMap().putErrorForSectionId( "holidays["+index+"].endDate",CalendarConstants.MessageKeys.ERROR_DATE_END_REQUIRED, holiday.getTypeName());
-                }else if (!CommonUtils.isValidDateRange(holiday.getStartDate(),holiday.getEndDate())){
-                    GlobalVariables.getMessageMap().putErrorForSectionId("holidays["+index+"].endDate", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE,holiday.getTypeName(),CommonUtils.formatDate(holiday.getStartDate()),CommonUtils.formatDate(holiday.getEndDate()));
-                }
-            }
-            if (!holiday.isAllDay()) { // time fields are enabled and can be filled in
-                if (!StringUtils.isEmpty(holiday.getStartTime()) && StringUtils.isEmpty(holiday.getStartTimeAmPm())) {
-                    GlobalVariables.getMessageMap().putError( "holidays["+index+"].startTimeAmPm",
-                            CalendarConstants.MessageKeys.ERROR_TIME_START_AMPM_REQUIRED, holiday.getTypeName());
-                }
-                if (!StringUtils.isEmpty(holiday.getEndTime()) && StringUtils.isEmpty(holiday.getEndTimeAmPm())) {
-                    GlobalVariables.getMessageMap().putError( "holidays["+index+"].endTimeAmPm",
-                            CalendarConstants.MessageKeys.ERROR_TIME_END_AMPM_REQUIRED, holiday.getTypeName());
-                }
-            }
+            isValidTimeSetWrapper("KS-HolidayCalendar-HolidaySection", holiday.getTypeKey(), holiday, holiday.getTypeName());
         }
 
     }
@@ -531,8 +508,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
         if (model instanceof HolidayCalendarForm) {
             if (addLine instanceof HolidayWrapper) {
                 HolidayWrapper holidayWrapper = (HolidayWrapper)addLine;
-                if (!isValidTimeSetWrapper(holidayWrapper, holidayWrapper.getTypeName(),
-                        "newCollectionLines['holidays']")) {
+                if (!isValidTimeSetWrapper(collectionGroup.getId(), holidayWrapper.getTypeKey(), holidayWrapper, holidayWrapper.getTypeName())) {
                     return false;
                 }
             }
@@ -542,26 +518,100 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
     }
 
     // NOTE: edits here should not be needed if KRAD validation is working properly...
-    private boolean isValidTimeSetWrapper(TimeSetWrapper wrapper, String wrapperName, String lineName) {
+    private boolean isValidTimeSetWrapper(String collectionGroupId, String KeyDateType, TimeSetWrapper wrapper, String wrapperName) {
         boolean isValid = true;
 
-        // KRAD 2.2.0-M1 can handle endDate, but acal not currently using it because of addLine bug
-        if (wrapper.isDateRange() && (null == wrapper.getEndDate())) {
-            GlobalVariables.getMessageMap().putError(lineName+".endDate",
-                    CalendarConstants.MessageKeys.ERROR_DATE_END_REQUIRED, wrapperName);
-            isValid = false;
+        if(StringUtils.isEmpty(KeyDateType)) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
+//            GlobalVariables.getMessageMap().putErrorForSectionId(lineName+".typeKey", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
+            return false;
         }
 
-        if (!wrapper.isAllDay()) { // time fields are enabled and can be filled in
-            if (!StringUtils.isEmpty(wrapper.getStartTime()) && StringUtils.isEmpty(wrapper.getStartTimeAmPm())) {
-                GlobalVariables.getMessageMap().putError(lineName+".startTimeAmPm",
-                        CalendarConstants.MessageKeys.ERROR_TIME_START_AMPM_REQUIRED, wrapperName);
-                isValid = false;
-            }
-            if (!StringUtils.isEmpty(wrapper.getEndTime()) && StringUtils.isEmpty(wrapper.getEndTimeAmPm())) {
-                GlobalVariables.getMessageMap().putError(lineName+".endTimeAmPm",
-                        CalendarConstants.MessageKeys.ERROR_TIME_END_AMPM_REQUIRED, wrapperName);
-                isValid = false;
+        // Start Date not null, Start Time null, End Date null, End Time not null - illegal
+        if (wrapper.getStartDate()!=null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()==null && (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_TIME, wrapperName);
+            return false;
+        }
+        // Start Date null, Start Time not null, different combinations of End Date and End Time - illegal
+        else if (wrapper.getStartDate()==null && (wrapper.getStartTime()!=null && !StringUtils.isBlank(wrapper.getStartTime()))){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_TIME, wrapperName);
+            return false;
+        }
+        // Start Date null, Start Time null, End Date null, End Time not null - illegal
+        else if (wrapper.getStartDate()==null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()==null && (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))){
+            GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_TIME, wrapperName);
+            return false;
+        }
+
+        // Start Date and End Date could be null but put a warning
+        if (wrapper.getStartDate()==null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()==null && (wrapper.getEndTime()==null || StringUtils.isBlank(wrapper.getEndTime()))){
+            GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, wrapperName);
+        }
+
+        if (wrapper.getStartDate()!=null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()==null && (wrapper.getEndTime()==null || StringUtils.isBlank(wrapper.getEndTime()))){
+            wrapper.setAllDay(true);
+            wrapper.setDateRange(false);
+        } else if (wrapper.getStartDate()!=null && (wrapper.getStartTime()!=null && !StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()==null && (wrapper.getEndTime()==null || StringUtils.isBlank(wrapper.getEndTime()))){
+            wrapper.setAllDay(false);
+            wrapper.setDateRange(false);
+        } else if (wrapper.getStartDate()==null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()!=null && (wrapper.getEndTime()==null || StringUtils.isBlank(wrapper.getEndTime()))){
+            wrapper.setStartDate(wrapper.getEndDate());
+            wrapper.setEndDate(null);
+            wrapper.setAllDay(true);
+            wrapper.setDateRange(false);
+        } else if (wrapper.getStartDate()==null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()!=null && (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))){
+            wrapper.setStartDate(wrapper.getEndDate());
+            wrapper.setStartTime(wrapper.getEndTime());
+            wrapper.setEndDate(null);
+            wrapper.setEndTime(null);
+            wrapper.setAllDay(false);
+            wrapper.setDateRange(false);
+        } else if (wrapper.getStartDate()!=null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()!=null && (wrapper.getEndTime()==null || StringUtils.isBlank(wrapper.getEndTime()))){
+            wrapper.setAllDay(true);
+            wrapper.setDateRange(true);
+        } else if (wrapper.getStartDate()!=null && (wrapper.getStartTime()!=null && !StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()!=null && (wrapper.getEndTime()==null || StringUtils.isBlank(wrapper.getEndTime()))){
+            wrapper.setAllDay(false);
+            wrapper.setDateRange(true);
+            timeSetWrapperEndDate(wrapper);
+        } else if (wrapper.getStartDate()!=null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()!=null && (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))){
+            wrapper.setAllDay(false);
+            wrapper.setDateRange(true);
+            getStartDateWithUpdatedTime(wrapper, false);
+        } else if (wrapper.getStartDate()!=null && (wrapper.getStartTime()!=null && !StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()!=null && (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))){
+            wrapper.setAllDay(false);
+            wrapper.setDateRange(true);
+        } else if (wrapper.getStartDate()!=null && (wrapper.getStartTime()!=null && !StringUtils.isBlank(wrapper.getStartTime())) &&
+                wrapper.getEndDate()==null && (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))){
+            wrapper.setEndDate(wrapper.getStartDate());
+            wrapper.setAllDay(false);
+            wrapper.setDateRange(true);
+        }
+
+        // Start Date can't be later than End Date
+        if (wrapper.getStartDate()!=null && wrapper.getEndDate()!=null){
+            if ((wrapper.getStartTime()!=null && !StringUtils.isBlank(wrapper.getStartTime())) &&
+                    (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))) {
+                Date startDate = getStartDateWithUpdatedTime(wrapper, false);
+                Date endDate =  timeSetWrapperEndDate(wrapper);
+                if (!CommonUtils.isValidDateRange(startDate, endDate)) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, wrapperName, CommonUtils.formatDate(wrapper.getStartDate()), CommonUtils.formatDate(wrapper.getEndDate()));
+                    return false;                }
+            } else {
+                if (!CommonUtils.isValidDateRange(wrapper.getStartDate(), wrapper.getEndDate())) {
+                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, wrapperName, CommonUtils.formatDate(wrapper.getStartDate()), CommonUtils.formatDate(wrapper.getEndDate()));
+                    return false;
+                }
             }
         }
 
