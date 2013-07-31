@@ -368,118 +368,173 @@
     <bean id="KS-KitchenSink-Buttons-Bootstrap" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Primary Large" p:buttonSize="large" p:actionScript="return false;">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Large&quot; p:buttonSize=&quot;large&quot;/&gt;"/>
-                                    </bean>
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Primary Large" p:buttonSize="large" p:actionScript="return false;">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent"
+                                                              value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Large&quot; p:buttonSize=&quot;large&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Primary Default" p:actionScript="return false;">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Default&quot; p:buttonSize=&quot;default&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Primary Small" p:buttonSize="small" p:actionScript="return false;">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Small&quot; p:buttonSize=&quot;small&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Primary Mini" p:buttonSize="mini" p:actionScript="return false;">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Mini&quot; p:buttonSize=&quot;mini&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-PrimaryActionButton" p:actionScript="return false;" p:actionImagePlacement="LEFT">
+                                            <property name="actionImage">
+                                                <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/plus_white.png"/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Primary Default" p:actionScript="return false;">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Default&quot; p:buttonSize=&quot;default&quot;/&gt;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Primary Small" p:buttonSize="small" p:actionScript="return false;">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Small&quot; p:buttonSize=&quot;small&quot;/&gt;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Primary Mini" p:buttonSize="mini" p:actionScript="return false;">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Mini&quot; p:buttonSize=&quot;mini&quot;/&gt;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionScript="return false;" p:actionImagePlacement="LEFT">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/plus_white.png"/>
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Disabled Primary Large" p:buttonSize="large" p:actionScript="return false;" p:disabled="true">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Disabled Primary Large&quot; p:buttonSize=&quot;large&quot; p:disabled=&quot;true&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-PrimaryActionButton"
+                                              p:actionLabel="Disabled Primary Default" p:actionScript="return false;" p:disabled="true">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Disabled Primary Default&quot; p:buttonSize=&quot;default&quot;/&gt; p:disabled=&quot;true&quot;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Disabled Primary Small" p:buttonSize="small" p:actionScript="return false;" p:disabled="true">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Disabled Primary Small&quot; p:buttonSize=&quot;small&quot;/&gt; p:disabled=&quot;true&quot;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Disabled Primary Mini" p:buttonSize="mini" p:actionScript="return false;" p:disabled="true">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Disabled Primary Mini&quot; p:buttonSize=&quot;mini&quot;/&gt; p:disabled=&quot;true&quot;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-PrimaryActionButton" p:actionScript="return false;" p:actionImagePlacement="LEFT" p:disabled="true">
+                                            <property name="actionImage">
+                                                <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/plus_white.png"/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-VerticalBoxSection">
+                <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Disabled Primary Large" p:buttonSize="large" p:actionScript="return false;" p:disabled="true">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Large&quot; p:buttonSize=&quot;large&quot; p:disabled=&quot;true&quot;/&gt;"/>
-                                    </bean>
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Disabled Secondary Large" p:buttonSize="large" p:actionScript="return false;">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent"  value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Disabled Secondary Large&quot; p:buttonSize=&quot;large&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Disabled Secondary Default" p:actionScript="return false;">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Disabled Secondary Default&quot; p:buttonSize=&quot;default&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Disabled Secondary Small" p:buttonSize="small" p:actionScript="return false;">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Disabled Secondary Small&quot; p:buttonSize=&quot;small&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Disabled Secondary Mini" p:buttonSize="mini" p:actionScript="return false;">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Disabled Secondary Mini&quot; p:buttonSize=&quot;mini&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionScript="return false;" p:actionImagePlacement="LEFT">
+                                            <property name="actionImage">
+                                                <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/plus_grey.png"/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Disabled Primary Default" p:actionScript="return false;" p:disabled="true">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Default&quot; p:buttonSize=&quot;default&quot;/&gt; p:disabled=&quot;true&quot;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Disabled Primary Small" p:buttonSize="small" p:actionScript="return false;" p:disabled="true">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Small&quot; p:buttonSize=&quot;small&quot;/&gt; p:disabled=&quot;true&quot;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Disabled Primary Mini" p:buttonSize="mini" p:actionScript="return false;" p:disabled="true">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Mini&quot; p:buttonSize=&quot;mini&quot;/&gt; p:disabled=&quot;true&quot;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-PrimaryActionButton" p:actionScript="return false;" p:actionImagePlacement="LEFT" p:disabled="true">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/plus_white.png"/>
-                                </property>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Secondary Large" p:buttonSize="large" p:actionScript="return false;">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Secondary Large&quot; p:buttonSize=&quot;large&quot;/&gt;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Secondary Default" p:actionScript="return false;">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Secondary Default&quot; p:buttonSize=&quot;default&quot;/&gt;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Secondary Small" p:buttonSize="small" p:actionScript="return false;">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Secondary Small&quot; p:buttonSize=&quot;small&quot;/&gt;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Secondary Mini" p:buttonSize="mini" p:actionScript="return false;">
-                                <property name="toolTip">
-                                    <bean parent="Uif-Tooltip">
-                                        <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Mini&quot; p:buttonSize=&quot;mini&quot;/&gt;"/>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="KS-Uif-SecondaryActionButton" p:actionScript="return false;" p:actionImagePlacement="LEFT">
-                                <property name="actionImage">
-                                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/plus_grey.png"/>
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Secondary Large" p:buttonSize="large" p:actionScript="return false;" p:disabled="true">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Secondary Large&quot; p:buttonSize=&quot;large&quot; p:disabled=&quot;true&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Secondary Default" p:actionScript="return false;" p:disabled="true">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent"  value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Secondary Default&quot; p:buttonSize=&quot;default&quot; p:disabled=&quot;true&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Secondary Small" p:buttonSize="small" p:actionScript="return false;" p:disabled="true">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Secondary Small&quot; p:buttonSize=&quot;small&quot; p:disabled=&quot;true&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Secondary Mini" p:buttonSize="mini" p:actionScript="return false;" p:disabled="true">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-Tooltip">
+                                                    <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Primary Mini&quot; p:buttonSize=&quot;mini&quot; p:disabled=&quot;true&quot;/&gt;"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="KS-Uif-SecondaryActionButton" p:actionScript="return false;"
+                                              p:actionImagePlacement="LEFT" p:disabled="true">
+                                            <property name="actionImage">
+                                                <bean parent="Uif-Image"
+                                                      p:source="@{#ConfigProperties['ks.externalizable.images.url']}/plus_grey.png"/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                         </list>
@@ -503,16 +558,14 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-ActionLink" p:actionLabel="Link Small" p:buttonSize="small"
-                                  p:actionScript="return false;">
+                            <bean parent="KS-Uif-ActionLink" p:actionLabel="Link Small" p:buttonSize="small" p:actionScript="return false;">
                                 <property name="toolTip">
                                     <bean parent="Uif-Tooltip">
                                         <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Link Smal&quot; p:buttonSize=&quot;small&quot;/&gt;"/>
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-ActionLink" p:actionLabel="Link Mini" p:buttonSize="mini"
-                                  p:actionScript="return false;">
+                            <bean parent="KS-Uif-ActionLink" p:actionLabel="Link Mini" p:buttonSize="mini" p:actionScript="return false;">
                                 <property name="toolTip">
                                     <bean parent="Uif-Tooltip">
                                         <property name="tooltipContent" value="bean parent=&quot;KS-Uif-ActionLink&quot; p:actionLabel=&quot;Link Mini&quot; p:buttonSize=&quot;mini&quot;/&gt;"/>
