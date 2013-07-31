@@ -735,7 +735,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     private void loadNavigationDetails( CourseOfferingEditWrapper wrapper ) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CourseOfferingInfo> relatedCOs = searchForRelatedCOs( wrapper );
         int indexOfCurrentCo = buildListOfRelatedCOsAndReturnIndexOfCurrentCO( wrapper, relatedCOs );
-        wrapper.getRenderHelper().setSelectedCoCode( wrapper.getCourseOfferingCode() );
+        wrapper.getRenderHelper().setSelectedCoCode( wrapper.getId() );
         setPreviousToCurrentCO( wrapper, indexOfCurrentCo, relatedCOs );
         setNextToCurrentCO( wrapper, indexOfCurrentCo, relatedCOs );
     }

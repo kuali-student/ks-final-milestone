@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
@@ -123,7 +124,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             return handleRouteForCoCreate( form );
         }
 
-        return handleRouteForCoEdit( form );
+        return handleRouteForCoEdit(form);
     }
 
     /* Returns a ModelAndView for the route()-method to return to original view if there were errors.
@@ -201,7 +202,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         }
 
         // special handling if navigating to a specific CO
-        /*String loadNewCO = form.getActionParameters().get( "coId" );
+        String loadNewCO = form.getActionParameters().get( "coId" );
         if( StringUtils.isNotBlank( loadNewCO ) ) {
 
             urlParameters.put( KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT );
@@ -212,7 +213,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             urlParameters.put( "returnLocation", urlToRedirectTo );
 
             urlToRedirectTo = "courseOffering";
-        }*/
+        }
 
         return performRedirect(form, urlToRedirectTo, urlParameters);
     }
@@ -435,6 +436,41 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         DocumentFormBase documentForm = (DocumentFormBase) form;
         performWorkflowAction(documentForm, UifConstants.WorkflowAction.CANCEL, false);
 
+        String urlToRedirectTo = "";
+        Properties urlParameters = new Properties();
+
+        // determine which url to redirect to
+        String returnLocationFromForm = form.getReturnLocation();
+        if( StringUtils.contains( returnLocationFromForm,"viewId=courseOfferingManagementView" )
+                || StringUtils.contains( returnLocationFromForm,"pageId=manageTheCourseOfferingPage" ) )
+        {
+            if ( !returnLocationFromForm.contains("methodToCall=") ) {  // This happens when we display a list of COs and then user click on Manage action
+                urlToRedirectTo = returnLocationFromForm + "&methodToCall=reloadManageCO";
+            }
+            else {
+                urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=reloadManageCO");
+            }
+        }
+        else {
+            urlToRedirectTo = returnLocationFromForm;
+        }
+
+        String loadNewCO = form.getActionParameters().get( "coId" );
+        if( StringUtils.isNotBlank( loadNewCO ) ) {
+
+            urlParameters.put( KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT );
+            urlParameters.put( "courseOfferingInfo.id", loadNewCO );
+            urlParameters.put( KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName() );
+            urlParameters.put( UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false) );
+
+            urlParameters.put( "returnLocation", urlToRedirectTo );
+
+            urlToRedirectTo = "courseOffering";
+            GlobalVariables.getUifFormManager().removeSessionForm(form);
+            return performRedirect(form, urlToRedirectTo, urlParameters);
+        }
+
+        form.setReturnLocation( urlToRedirectTo );
         return back(form,result,request,response);
     }
 

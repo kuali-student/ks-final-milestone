@@ -75,6 +75,12 @@
             </list>
         </property>
 
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/courseOffering.js</value>
+            </list>
+        </property>
+
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
@@ -87,15 +93,15 @@
                 <ref bean="KS-CourseOfferingEdit-Waitlist"/>
                 <ref bean="KS-CourseOfferingEdit-PersonnelSection"/>
                 <ref bean="KS-CourseOfferingEdit-MiscSection"/>
+                <ref bean="CourseOfferingEdit-NavigationConfirmation" />
             </list>
         </property>
 
-<!-- BJG -->
        <property name="header.rightGroup">
            <bean parent="KS-Unified-Header-Right-Group" >
                    <property name="items">
                        <list>
-                           <bean parent="KS-Unified-Header-Action-Group" p:render="@{!document.oldMaintainableObject.dataObject.createCO}">
+                           <bean parent="KS-Unified-Header-Action-Group" p:render="@{!document.oldMaintainableObject.dataObject.createCO and #dp.renderHelper.relatedCOs.size() > 1}">
                                <property name="items">
                                    <list>
 
@@ -105,7 +111,8 @@
                                              p:actionImagePlacement="LEFT"
                                              p:methodToCall="route"
                                              p:actionLabel="@{#dp.renderHelper.prevCO==null?'':#dp.renderHelper.prevCO.courseOfferingCode}"
-                                             p:render="@{#dp.renderHelper.prevCO==null?false:#dp.renderHelper.prevCO.id != null}">
+                                             p:render="@{#dp.renderHelper.prevCO==null?false:#dp.renderHelper.prevCO.id != null}"
+                                             p:actionScript="handleCONavigation( this, &quot;@{#dp.renderHelper.prevCO.id}&quot; );" >
                                            <property name="actionParameters">
                                                <map>
                                                    <entry key="coId" value="@{#dp.renderHelper.prevCO==null?null:#dp.renderHelper.prevCO.id}" />
@@ -122,7 +129,7 @@
                                              id="edit_co_select"
                                              p:propertyName="renderHelper.selectedCoCode">
                                            <property name="control">
-                                               <bean parent="Uif-DropdownControl" p:onChangeScript="alert('CHANGE!');" />
+                                               <bean parent="Uif-DropdownControl" p:onChangeScript="handleCOSelection(this);" />
                                            </property>
                                            <property name="optionsFinder">
                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CourseOfferingCodesKeyValues" p:addBlankOption="false" />
@@ -135,7 +142,8 @@
                                              p:actionImagePlacement="RIGHT"
                                              p:methodToCall="route"
                                              p:actionLabel="@{#dp.renderHelper.nextCO==null?'':#dp.renderHelper.nextCO.courseOfferingCode}"
-                                             p:render="@{#dp.renderHelper.nextCO==null?false:#dp.renderHelper.nextCO.id != null}">
+                                             p:render="@{#dp.renderHelper.nextCO==null?false:#dp.renderHelper.nextCO.id != null}"
+                                             p:actionScript="handleCONavigation( this, &quot;@{#dp.renderHelper.nextCO.id}&quot; );" >
                                            <property name="actionParameters">
                                                <map>
                                                    <entry key="coId" value="@{#dp.renderHelper.nextCO==null?null:#dp.renderHelper.nextCO.id}" />
@@ -153,7 +161,6 @@
                    </property>
            </bean>
        </property>
-<!-- BJG -->
 
         <!--Override the default maintenance doc buttons. -->
         <property name="footer">
@@ -761,4 +768,48 @@
         <bean parent="Uif-KeyLabelPair" p:key="7" p:value="7"/>
         <bean parent="Uif-KeyLabelPair" p:key="8" p:value="8"/>
     </util:list>
+
+    <bean id="CourseOfferingEdit-NavigationConfirmation"
+          parent="Uif-VerticalBoxSection"
+          p:layoutManager.orientation="VERTICAL">
+        <property name="headerText" value="Unsaved Changes" />
+        <property name="hidden" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="You are about to leave this page and any unsaved changes will not be retained?" />
+
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="edit_co_save_and_continue" parent="Uif-PrimaryActionButton"
+                                  p:ajaxSubmit="false" p:methodToCall="route"
+                                  p:actionLabel="Save and Continue">
+                                <property name="actionParameters">
+                                    <map>
+                                        <entry key="coId" value="" />
+                                    </map>
+                                </property>
+                            </bean>
+
+                            <bean id="edit_co_cancel" parent="Uif-SecondaryActionButton-Small"
+                                  p:ajaxSubmit="false" p:methodToCall="cancel"
+                                  p:actionLabel="Continue Without Saving">
+                                <property name="actionParameters">
+                                    <map>
+                                        <entry key="coId" value="" />
+                                    </map>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-ActionLink"
+                                  p:ajaxSubmit="false"
+                                  p:actionScript="closeLightbox();"
+                                  p:actionLabel="Cancel" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 </beans>
