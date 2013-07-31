@@ -107,12 +107,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
             if (document.getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
                 CourseOfferingEditWrapper wrapper = (CourseOfferingEditWrapper)document.getNewMaintainableObject().getDataObject();
 
-                for (FormatOfferingWrapper foWrapper : wrapper.getFormatOfferingList()){
-                    foWrapper.getRenderHelper().setNewRow(false);
-                    if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getName())){
-                        foWrapper.getFormatOfferingInfo().setName(getFormatName(foWrapper,wrapper.getCourse()));
-                    }
-                }
+                populateFormatNames(wrapper);
 
                 FormatOfferingWrapper newFoWrapper = new FormatOfferingWrapper();
                 newFoWrapper.getRenderHelper().setNewRow(true);
@@ -362,6 +357,24 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
                 coInfo.getCrossListings().add(crossListingInfo);
             }
         }
+    }
+
+    public void populateFormatNames(CourseOfferingWrapper coWrapper){
+
+        if (!(coWrapper instanceof CourseOfferingEditWrapper)){
+            throw new RuntimeException("Invalid CourseOffering wrapper.");
+        }
+
+        CourseOfferingEditWrapper editWrapper = (CourseOfferingEditWrapper)coWrapper;
+        for (FormatOfferingWrapper foWrapper : editWrapper.getFormatOfferingList()){
+            if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getName())){
+                foWrapper.getFormatOfferingInfo().setName(getFormatName(foWrapper,editWrapper.getCourse()));
+            }
+            if (StringUtils.isNotBlank(foWrapper.getFormatId())){
+                foWrapper.getRenderHelper().setNewRow(false);
+            }
+        }
+
     }
 
     protected TypeService getTypeService() {

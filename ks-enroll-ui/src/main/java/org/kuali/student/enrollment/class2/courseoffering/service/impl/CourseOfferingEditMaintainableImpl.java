@@ -497,14 +497,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             }
         }  else if(collectionGroup.getPropertyName().endsWith("formatOfferingList")) {
             CourseOfferingEditWrapper coWrapper = (CourseOfferingEditWrapper)document.getNewMaintainableObject().getDataObject();
-            for (FormatOfferingWrapper foWrapper : coWrapper.getFormatOfferingList()){
-                if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getName())){
-                    foWrapper.getFormatOfferingInfo().setName(getFormatName(foWrapper,coWrapper.getCourse()));
-                }
-                if (StringUtils.isNotBlank(foWrapper.getFormatId())){
-                    foWrapper.getRenderHelper().setNewRow(false);
-                }
-            }
+            populateFormatNames(coWrapper);
         } else {
             super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
         }

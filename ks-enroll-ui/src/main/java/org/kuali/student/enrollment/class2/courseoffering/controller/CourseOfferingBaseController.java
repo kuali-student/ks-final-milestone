@@ -142,12 +142,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             CourseOfferingEditMaintainableImpl viewHelper = (CourseOfferingEditMaintainableImpl)KSControllerHelper.getViewHelperService(form);
             //Make the format type drop down readonly.. otherwise, we run into display issue when the server returns back error
             CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
-            for (FormatOfferingWrapper foWrapper : dataObject.getFormatOfferingList()){
-                foWrapper.getRenderHelper().setNewRow(false);
-                if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getName())){
-                    foWrapper.getFormatOfferingInfo().setName(viewHelper.getFormatName(foWrapper,dataObject.getCourse()));
-                }
-            }
+            viewHelper.populateFormatNames(dataObject);
         }
 
         return getUIFModelAndView(form);    // because there were errors, return a MAV to re-nav back to
@@ -211,7 +206,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         }
 
         // special handling if navigating to a specific CO
-        String loadNewCO = form.getActionParameters().get( "coId" );
+        /*String loadNewCO = form.getActionParameters().get( "coId" );
         if( StringUtils.isNotBlank( loadNewCO ) ) {
 
             urlParameters.put( KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT );
@@ -222,7 +217,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             urlParameters.put( "returnLocation", urlToRedirectTo );
 
             urlToRedirectTo = "courseOffering";
-        }
+        }*/
 
         return performRedirect(form, urlToRedirectTo, urlParameters);
     }
