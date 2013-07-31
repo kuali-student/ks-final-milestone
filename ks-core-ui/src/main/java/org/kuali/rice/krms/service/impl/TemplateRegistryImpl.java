@@ -24,6 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Provides a hashmap implementation that contains rule statement (proposition) types to
+ * template information relationships.
+ *
  * @author Kuali Student Team
  */
 public class TemplateRegistryImpl implements TemplateRegistry {
@@ -70,12 +73,8 @@ public class TemplateRegistryImpl implements TemplateRegistry {
             try {
                 builder = (ComponentBuilder) Class.forName(template.getComponentBuilderClass()).newInstance();
                 componentBuilderMap.put(template.getComponentBuilderClass(), builder);
-            } catch (InstantiationException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            } catch (Exception e) {
+                throw new RuntimeException("Unable to locate component builder for class " + template.getComponentBuilderClass());
             }
         }
 

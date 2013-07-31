@@ -15,19 +15,41 @@
  */
 package org.kuali.rice.krms.dto;
 
-import org.kuali.rice.krad.uif.container.Group;
-
 /**
+ * This class contains information required by the ui render components based on the
+ * linked rule statement (proposition) type.
+ *
  * @author Kuali Student Team
  */
 public class TemplateInfo {
 
+    /**
+     * Used to create/update the term.
+     */
     private String termSpecName;
+
+    /**
+     * Default operator value for specific rule statement type.
+     */
     private String operator;
+
+    /**
+     * Default constant value for specific rule statement type.
+     */
     private String value;
 
+    /**
+     * UI component (bean) id to be displayed in the ui.
+     */
     private String componentId;
+
+    @Deprecated
     private String constantComponentId;
+
+    /**
+     * Java class name responsible for resolving and building of term paramters for the specific rule
+     * statement(proposition) type.
+     */
     private String componentBuilderClass;
 
     public String getTermSpecName() {
