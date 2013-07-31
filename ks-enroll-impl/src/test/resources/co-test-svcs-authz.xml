@@ -101,7 +101,7 @@
 
 	<!-- Configure the authorization decorator -->
 	<bean id="CourseOfferingServiceAuthorizationDecorator" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceAuthorizationDecorator">
-		<property name="nextDecorator" ref="coService"/>
+		<property name="nextDecorator" ref="coServiceImpl"/>
 		<property name="courseService" ref="courseService"/>
 		<property name="permissionService" ref="roleAndPermissionService"/>
 		
