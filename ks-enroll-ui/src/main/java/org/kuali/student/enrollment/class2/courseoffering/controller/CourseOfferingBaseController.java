@@ -193,7 +193,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
                 urlToRedirectTo = returnLocationFromForm + "&methodToCall=reloadManageCO";
             }
             else {
-                urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=reloadManageCO");
+                urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
             }
         }
         else {
