@@ -3,6 +3,14 @@ function ksapAddPostOptionsToForm(tempForm) {
 	return tempForm;
 }
 
+function ksapAddGetParameters() {
+	return '';
+}
+
+function ksapAdditionalFormData(additionalData) {
+	return additionalData;
+}
+
 function readUrlHash(key) {
     var aHash = window.location.hash.replace('#', '').split('&');
     var oHash = {};
