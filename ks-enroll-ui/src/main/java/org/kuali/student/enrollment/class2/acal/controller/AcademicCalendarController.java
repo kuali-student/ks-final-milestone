@@ -1241,11 +1241,12 @@ public class AcademicCalendarController extends UifControllerBase {
         keyDate.setTypeKey(keyDateWrapper.getKeyDateType());
         keyDate.setName(keyDateWrapper.getKeyDateNameUI());
         keyDate.setIsAllDay(keyDateWrapper.isAllDay());
+        keyDate.setIsDateRange(keyDateWrapper.isDateRange());
         keyDate.setStartDate(getDateInfoForKeyDate(keyDateWrapper.isAllDay(),keyDateWrapper.getStartDate(),keyDateWrapper.getStartTime(),keyDateWrapper.getStartTimeAmPm()));
-        if(keyDateWrapper.isDateRange()){
+        if (keyDateWrapper.isDateRange()){
             keyDate.setEndDate(getDateInfoForKeyDate(keyDateWrapper.isAllDay(),keyDateWrapper.getEndDate(),keyDateWrapper.getEndTime(),keyDateWrapper.getEndTimeAmPm()));
-        }else{
-            keyDate.setEndDate(getDateInfoForKeyDate(keyDateWrapper.isAllDay(),keyDateWrapper.getStartDate(),keyDateWrapper.getStartTime(),keyDateWrapper.getStartTimeAmPm()));
+        } else{
+            keyDate.setEndDate(null);
         }
 
         // Save Key date to database
@@ -1323,11 +1324,12 @@ public class AcademicCalendarController extends UifControllerBase {
         eventInfo.setDescr(rti);
         eventInfo.setTypeKey(event.getEventTypeKey());
         eventInfo.setIsAllDay(event.isAllDay());
+        eventInfo.setIsDateRange(event.isDateRange());
         eventInfo.setStartDate(getDateInfoForKeyDate(event.isAllDay(),event.getStartDate(),event.getStartTime(),event.getStartTimeAmPm()));
         if(event.isDateRange()){
             eventInfo.setEndDate(getDateInfoForKeyDate(event.isAllDay(),event.getEndDate(),event.getEndTime(),event.getEndTimeAmPm()));
         } else{
-            eventInfo.setEndDate(getDateInfoForKeyDate(event.isAllDay(),event.getStartDate(),event.getEndTime(),event.getEndTimeAmPm()));
+            eventInfo.setEndDate(null);
         }
         // If calendar is official event is too
         if (!form.isOfficialCalendar()){
