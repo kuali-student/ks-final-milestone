@@ -44,28 +44,22 @@ public class TimeSetWrapper {
         //This is needed to display enddate for readonly view (not needed for edit mode).
         endDateUI = getEndDate();
 
+        // some defaults
+        setStartTimeAmPm("AM");
+        setEndTimeAmPm("AM");
+
         // If not all day, set start/end time in the wrapper
         if (!isAllDay()){
+            setStartTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getStartDate()));
+            setStartTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getStartDate()));
 
             if (getEndDate() != null){
-                setStartTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getStartDate()));
                 setEndTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getEndDate()));
-
-                setStartTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getStartDate()));
                 setEndTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getEndDate()));
-
-                String startDate = CommonUtils.formatDate(getStartDate());
-                String endDate = CommonUtils.formatDate(getEndDate());
-
-                if (StringUtils.equals(startDate,endDate)){
-                    setDateRange(false);
-                    setEndDate(null);
-                }else{
-                    setDateRange(true);
-                }
             }
-        }else if (!isDateRange()){
-            setEndDate(null);
+        } else if (!isDateRange()){
+                setEndDate(null);
+                setEndTime(null);
         }
     }
 
