@@ -49,6 +49,7 @@ public class CourseSummaryDetails implements Serializable {
 	}
 
 	public String getCourseIdXmlSafe() {
+        if(getCourseId()==null)return "";
 		return getCourseId().replace('.', '_');
 	}
 
@@ -185,6 +186,7 @@ public class CourseSummaryDetails implements Serializable {
 	}
 
 	public List<String> getScheduledTerms() {
+        if(scheduledTerms==null) scheduledTerms=new ArrayList<String>();
 		return scheduledTerms;
 	}
 

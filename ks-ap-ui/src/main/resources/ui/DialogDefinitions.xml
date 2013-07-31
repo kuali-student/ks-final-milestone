@@ -69,6 +69,336 @@
         </property>
     </bean>
 
+    <bean id="KSAP-Planner-CourseSummary-Dialog" parent="Myplan-Dialog-Base">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:headerText="View Course Summary">
+                    <property name="header">
+                        <bean parent="Uif-HeaderSix"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Link" p:target="" p:style="width:280px; display:block;">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>fl-text-bold</value>
+                                        <value>myplan-text-wrap</value>
+                                    </list>
+                                </property>
+                                <property name="linkText"
+                                          value="@{courseSummaryDetails.code} @{courseSummaryDetails.courseTitle} (@{courseSummaryDetails.credit})"/>
+                                <property name="title"
+                                          value="@{courseSummaryDetails.code} @{courseSummaryDetails.courseTitle} (@{courseSummaryDetails.credit})"/>
+                                <property name="href"
+                                          value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{courseSummaryDetails.courseId}"/>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxGroup" p:style="margin:0px;">
+                                <property name="validationMessages.render" value="false"/>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-VerticalBoxGroup">
+                                            <property name="validationMessages.render" value="false"/>
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>myplan-course-details</value>
+                                                </list>
+                                            </property>
+                                            <property name="items">
+                                                <list>
+                                                    <!-- Scheduled Terms -->
+                                                    <bean parent="Uif-DataField" p:label="Scheduled for"
+                                                          p:propertyName="courseSummaryDetails.scheduledTermsNames"
+                                                          p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal" p:labelPlacement="LEFT">
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>myplan-data-list</value>
+                                                            </list>
+                                                        </property>
+                                                        <property name="render"
+                                                                  value="@{courseSummaryDetails.scheduledTerms.size() gt 0}"/>
+                                                    </bean>
+                                                    <bean parent="Uif-MessageField" p:label="Scheduled for"
+                                                          p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal"
+                                                          p:render="@{courseSummaryDetails.scheduledTerms.size() eq 0}">
+                                                        <property name="message">
+                                                            <bean parent="Uif-Message" p:messageText="Not currently scheduled"/>
+                                                        </property>
+                                                    </bean>
+                                                    <!-- Last Offered -->
+                                                    <bean parent="Uif-DataField" p:label="Last Offered" p:propertyName="courseSummaryDetails.lastOffered"
+                                                          p:labelPlacement="LEFT">
+                                                        <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                                                        <property name="render" value="@{courseSummaryDetails.lastOffered ne null and courseSummaryDetails.scheduledTerms.size() eq 0}"/>
+                                                    </bean>
+                                                    <!-- Projected Terms -->
+                                                    <bean parent="Uif-DataField" p:label="Projected for" p:propertyName="courseSummaryDetails.termsOffered"
+                                                          p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
+                                                        <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                                                        <property name="propertyEditor" ref="terms_formatter"/>
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>myplan-data-list</value>
+                                                            </list>
+                                                        </property>
+                                                        <property name="render"
+                                                                  value="@{courseSummaryDetails.scheduledTerms.size() gt 0 ? false : true}"/>
+                                                    </bean>
+                                                    <!-- Requisites -->
+                                                    <bean parent="Uif-DataField" p:label="Course Requisites"
+                                                          p:propertyName="courseSummaryDetails.requisites"
+                                                          p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
+                                                        <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                                                        <property name="propertyEditor" ref="data_list_formatter"/>
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>myplan-data-list</value>
+                                                                <value>myplan-multiline-ellipsis</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-Link" p:target="">
+                                                        <property name="linkText" value="View more details"/>
+                                                        <property name="title" value="View more details about @{courseSummaryDetails.code}"/>
+                                                        <property name="href"
+                                                                  value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{courseSummaryDetails.courseId}"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Planner-Delete-Dialog" parent="Myplan-Dialog-Base">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection"
+                      p:headerText="Delete @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}">
+                    <property name="header">
+                        <bean parent="Uif-HeaderSix"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Are you sure that you want to delete &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt;? Once deleted, you cannot undo."/>
+                            <bean parent="Uif-DataField" p:propertyName="planActivities"
+                                  p:escapeHtmlInPropertyValue="false"
+                                  p:render="@{planActivities ne null ? true : false}">
+                                <property name="propertyEditor" ref="planned_sections_formatter"/>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean  parent="Uif-HorizontalBoxGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-PrimaryActionButton-Small"
+                                                          p:actionLabel="Delete">
+                                                        <property name="methodToCall"
+                                                                  value="removeItem"/>
+                                                        <property name="refreshId" value="KSAP_Planner_InputField_CourseId"/>
+                                                        <property name="onSubmitScript" value="parent.jQuery.fancybox.close();"/>
+                                                    </bean>
+                                                    <bean parent="Uif-SecondaryActionButton-Small"
+                                                          p:actionLabel="Cancel">
+                                                        <property name="actionScript"
+                                                                  value="parent.jQuery.fancybox.close();"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                       <!-- <bean id="KSAP_Planner_Group_DeleteStatus" parent="Uif-HorizontalBoxGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="KSAP_Planner_Message_DeleteStatus" parent="Uif-Message"
+                                                          p:MessageText="Status Message"
+                                                          p:onDocumentReadyScript="refreshStatus();"  />
+                                                    <bean id="KSAP_Planner_Status_Display" parent="Uif-InputField" p:propertyName="displayDialogStatus">
+                                                        <property name="control">
+                                                            <bean parent="Uif-HiddenControl"/>
+                                                        </property>
+                                                    </bean>
+                                                    <bean id="KSAP_Planner_Status_Message" parent="Uif-InputField" p:propertyName="dialogMessage">
+                                                        <property name="control">
+                                                            <bean parent="Uif-HiddenControl"/>
+                                                        </property>
+                                                    </bean>
+                                                    <bean id="KSAP_Planner_Status_Success" parent="Uif-InputField" p:propertyName="dialogSuccess">
+                                                        <property name="control">
+                                                            <bean parent="Uif-HiddenControl"/>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>-->
+                                    </list>
+                                </property>
+                            </bean>
+
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KSAP-Planner-MoveTo-Dialog" parent="Myplan-Dialog-Base">
+        <property name="items">
+        <list>
+            <bean parent="Uif-VerticalBoxSection" p:headerText="Move to Another Quarter">
+                <property name="header">
+                    <bean parent="Uif-HeaderSix"/>
+                </property>
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalBoxGroup" p:style="display:block;">
+                            <property name="validationMessages.render" value="false"/>
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>fl-container-300</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message"
+                                          p:messageText="Which quarter would you like to move &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
+
+                                    <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
+                                          p:label="Scheduled For"
+                                          p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal"
+                                          p:labelPlacement="LEFT">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>myplan-data-list</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+
+                                    <ref bean="KSAP_Planner_Group_SelectedAtpId"/>
+
+                                    <!--  Backup checkbox -->
+                                    <!--<ref bean="planned_course_backup"/>-->
+                                    <bean parent="Uif-VerticalFieldGroup">
+                                        <property name="fieldLabel.render" value="false"/>
+                                        <property name="group.validationMessages.render" value="false"/>
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-HorizontalFieldGroup">
+                                                    <property name="fieldLabel.render" value="false"/>
+                                                    <property name="group.validationMessages.render" value="false"/>
+                                                    <property name="items">
+                                                        <list>
+                                                            <bean parent="Uif-PrimaryActionButton-Small"
+                                                                  p:actionLabel="Move">
+                                                                <property name="methodToCall" value="movePlanCourse"/>
+                                                                <property name="refreshId" value="KSAP_Planner_InputField_CourseId"/>
+                                                                <property name="onClickScript" value="setSelectedAtp();"/>
+                                                            </bean>
+
+                                                            <bean parent="Uif-SecondaryActionButton-Small"
+                                                                  p:actionLabel="Cancel">
+                                                                <property name="actionScript"
+                                                                          value="parent.jQuery.fancybox.close();"/>
+                                                            </bean>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Planner-CopyTo-Dialog" parent="Myplan-Dialog-Base">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection" p:headerText="Copy to Another Quarter">
+                    <property name="header">
+                        <bean parent="Uif-HeaderSix"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxGroup" p:style="display:block;">
+                                <property name="validationMessages.render" value="false"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>fl-container-300</value>
+                                    </list>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="Which quarter would you like to copy &lt;strong&gt;@{courseSummaryDetails.code}&lt;/strong&gt; to?"/>
+
+                                        <bean parent="Uif-DataField" p:propertyName="courseSummaryDetails.scheduledTermsNames"
+                                              p:label="Scheduled For"
+                                              p:fieldLabel.cssClasses="fl-text-gray fl-font-size-90 myplan-text-normal"
+                                              p:labelPlacement="LEFT">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>myplan-data-list</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+
+                                        <ref bean="KSAP_Planner_Group_SelectedAtpId"/>
+
+                                        <!--  Backup checkbox -->
+                                        <!--<ref bean="planned_course_backup"/>-->
+                                        <bean parent="Uif-VerticalFieldGroup">
+                                            <property name="fieldLabel.render" value="false"/>
+                                            <property name="group.validationMessages.render" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-HorizontalFieldGroup">
+                                                        <property name="fieldLabel.render" value="false"/>
+                                                        <property name="group.validationMessages.render" value="false"/>
+                                                        <property name="items">
+                                                            <list>
+
+                                                                <bean parent="Uif-PrimaryActionButton-Small"
+                                                                      p:actionLabel="Copy">
+                                                                    <property name="methodToCall" value="copyPlanCourse"/>
+                                                                    <property name="refreshId" value="KSAP_Planner_InputField_CourseId"/>
+                                                                    <property name="onClickScript" value="setSelectedAtp();"/>
+                                                                </bean>
+
+                                                                <bean parent="Uif-SecondaryActionButton-Small"
+                                                                      p:actionLabel="Cancel">
+                                                                    <property name="actionScript"
+                                                                              value="parent.jQuery.fancybox.close();"/>
+                                                                </bean>
+
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
     <!--View Course Summary Dialog Box content -->
     <bean id="plan_item_course_summary_dialog" parent="Uif-VerticalBoxSection" p:headerText="View Course Summary">
         <property name="header">
@@ -92,7 +422,7 @@
         <property name="linkText"
                   value="@{courseSummaryDetails.code} @{courseSummaryDetails.courseTitle} (@{courseSummaryDetails.credit})"/>
         <property name="title"
-                  value="@{courseSummaryDetails.code.replaceAll(&quot;( )+&quot;, &quot; &quot;)} @{courseSummaryDetails.courseTitle} (@{courseSummaryDetails.credit})"/>
+                  value="@{courseSummaryDetails.code} @{courseSummaryDetails.courseTitle} (@{courseSummaryDetails.credit})"/>
         <property name="href"
                   value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{courseSummaryDetails.courseId}"/>
     </bean>
@@ -406,10 +736,10 @@
                                 </property>
                             </bean>
 
-                            <bean p:id="cancelPlannedCourse" parent="Uif-SecondaryActionButton-Small"
+                            <bean parent="Uif-SecondaryActionButton-Small"
                                   p:actionLabel="Cancel">
                                 <property name="actionScript"
-                                          value="fnCloseAllPopups();"/>
+                                          value="jQuery('.fancybox-opened').fancybox.close(true)"/>
                             </bean>
                         </list>
                     </property>
@@ -1203,6 +1533,26 @@
                                 </property>
                             </bean>
                         </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP_Planner_Group_SelectedAtpId" parent="Uif-HorizontalFieldGroup" p:style="padding-top: 0.5em;"
+          p:label="Quarter &amp; Year" p:labelPlacement="TOP">
+        <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+        <property name="fieldLabel.renderColon" value="false"/>
+        <property name="group.validationMessages.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean id="KSAP_Planner_Control_SelectedAtpId" parent="Uif-InputField" p:propertyName="fakeSelectedAtpId"
+                      p:style="width:120px;">
+                    <property name="control">
+                        <bean  parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
                     </property>
                 </bean>
             </list>

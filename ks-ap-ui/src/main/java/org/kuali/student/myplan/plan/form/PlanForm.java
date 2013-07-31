@@ -87,6 +87,10 @@ public class PlanForm extends UifFormBase {
     //  Form fields.
     private String atpId;
 
+    private String selectedAtpId;
+
+    private String fakeSelectedAtpId;
+
     private String termName;
 
     private boolean other = false;
@@ -120,6 +124,13 @@ public class PlanForm extends UifFormBase {
     private boolean courseInBackup;
 
     private StatusInfo statusInfo = new StatusInfo();
+
+
+    // Dialog Responses
+    private boolean displayDialogStatus;
+    private boolean dialogSuccess;
+    private String dialogMessage;
+
 
     public int getBookmarkedCount() {
         return bookmarkedCount;
@@ -184,6 +195,11 @@ public class PlanForm extends UifFormBase {
     }
 
     public void setAtpId(String atpId) {
+        if(atpId!=null){
+            if(atpId.contains(",")){
+                atpId=atpId.substring(0,atpId.indexOf(","));
+            }
+        }
         this.atpId = atpId;
     }
 
@@ -228,6 +244,7 @@ public class PlanForm extends UifFormBase {
     }
 
     public CourseSummaryDetails getCourseSummaryDetails() {
+        if(courseSummaryDetails==null) courseSummaryDetails = new CourseSummaryDetails();
         return this.courseSummaryDetails;
     }
 
@@ -236,6 +253,7 @@ public class PlanForm extends UifFormBase {
     }
 
     public PlannedCourseSummary getPlannedCourseSummary() {
+        if(plannedCourseSummary==null) plannedCourseSummary = new PlannedCourseSummary();
         return plannedCourseSummary;
     }
 
@@ -418,5 +436,53 @@ public class PlanForm extends UifFormBase {
     }
     public void setStatusInfo(StatusInfo statusInfo){
         this.statusInfo=statusInfo;
+    }
+
+
+    public boolean isDisplayDialogStatus() {
+        return displayDialogStatus;
+    }
+
+    public void setDisplayDialogStatus(boolean displayDialogStatus) {
+        this.displayDialogStatus = displayDialogStatus;
+    }
+
+    public boolean isDialogSuccess() {
+        return dialogSuccess;
+    }
+
+    public void setDialogSuccess(boolean dialogSuccess) {
+        this.dialogSuccess = dialogSuccess;
+    }
+
+    public String getDialogMessage() {
+        return dialogMessage;
+    }
+
+    public void setDialogMessage(String dialogMessage) {
+        this.dialogMessage = dialogMessage;
+    }
+
+    public void resetDialogResponse(){
+        setDialogMessage("");
+        setDialogSuccess(false);
+        setDisplayDialogStatus(false);
+
+    }
+
+    public String getSelectedAtpId() {
+        return selectedAtpId;
+    }
+
+    public void setSelectedAtpId(String selectedAtpId) {
+        this.selectedAtpId = selectedAtpId;
+    }
+
+    public String getFakeSelectedAtpId() {
+        return fakeSelectedAtpId;
+    }
+
+    public void setFakeSelectedAtpId(String fakeSelectedAtpId) {
+        this.fakeSelectedAtpId = fakeSelectedAtpId;
     }
 }

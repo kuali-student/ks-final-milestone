@@ -2558,3 +2558,7 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     -moz-border-radius: 8px;
 }
 */
+
+.invisible {
+    visibility: hidden;
+}

@@ -1818,3 +1818,66 @@ function buildHoverText(obj) {
     }
     obj.attr("title", message).find("img.uif-image").attr("alt", message);
 }
+
+function setCourseId(courseId){
+    var returnObject = jQuery('#KSAP_Planner_InputField_CourseId_control');
+    if(returnObject.length==0) return;
+    returnObject[0].value=courseId;
+}
+
+function setPlannerValues(courseId, planItemId, atpId, planType){
+    var returnCourseId = jQuery('#KSAP_Planner_InputField_CourseId_control');
+    if(returnCourseId.length==0) return;
+    returnCourseId[0].value=courseId;
+
+    var returnPlanItemId = jQuery('#KSAP_Planner_InputField_PlanItemId_control');
+    if(returnPlanItemId.length==0) return;
+    returnPlanItemId[0].value=planItemId;
+
+    var returnAtpId = jQuery('#KSAP_Planner_InputField_AtpId_control');
+    if(returnAtpId.length==0) return;
+    returnAtpId[0].value=atpId;
+}
+
+function refreshStatus(){
+    var display = jQuery('#KSAP_Planner_Status_Display_control');
+    if(display.length==0) return;
+
+    var message = jQuery('#KSAP_Planner_Status_Message_control');
+    if(message.length==0) return;
+
+    var success = jQuery('#KSAP_Planner_Status_Success_control');
+    if(success.length==0) return;
+
+    var status = jQuery('#KSAP_Planner_Message_DeleteStatus_span');
+    if(status.length==0) return;
+
+    var messageGroup = jQuery('#KSAP_Planner_Group_DeleteStatus');
+    if(messageGroup.length==0) return;
+    messageGroup.css('display','block');
+
+    if(display[0].value=="false"){
+        status.addClass('invisible');
+        return;
+    }
+
+    if(display[0].value=="true"){
+        status.removeClass('invisible');
+        status[0].innerHTML=message[0].value;
+    }
+
+
+}
+
+function setSelectedAtp(){
+    var dropdown = jQuery('#KSAP_Planner_Control_SelectedAtpId_control');
+    if(dropdown.length==0) return;
+    var selectedAtpId=dropdown[0].value;
+
+    var returnSelectedAtpId = jQuery('#KSAP_Planner_InputField_SelectedAtpId_control');
+    if(returnSelectedAtpId.length==0) return;
+    returnSelectedAtpId[0].value=selectedAtpId;
+
+    var dropdown = jQuery('#KSAP_Planner_Control_SelectedAtpId_control');
+    return;
+}

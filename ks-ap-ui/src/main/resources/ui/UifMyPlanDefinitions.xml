@@ -37,7 +37,7 @@
         <property name="theme">
             <bean parent="MyPlanBaseTheme"/>
         </property>
-        <property name="persistFormToSession" value="false"/>
+        <property name="persistFormToSession" value="true"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
         <property name="onLoadScript" value="try{Typekit.load();}catch(e){}"/>
@@ -740,6 +740,22 @@
         </property>
         <property name="toolTip">
             <null/>
+        </property>
+    </bean>
+
+    <bean id="Myplan-Dialog-Base" parent="Uif-DialogGroup">
+        <property name="renderHeader" value="false"/>
+        <property name="promptText" value=""/>
+        <property name="availableResponses">
+            <list>
+                <!-- Empty -->
+            </list>
+        </property>
+        <property name="cssClasses">
+            <list>
+                <value>uif-page</value>
+                <value>fl-container-300</value>
+            </list>
         </property>
     </bean>
 

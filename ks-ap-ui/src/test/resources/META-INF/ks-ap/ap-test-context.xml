@@ -37,17 +37,17 @@
     </bean>
 
 	<bean id="ksEnrollAcalService"
-          class="org.kuali.rice.coreframework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="ksEnrollAcalService"/>
     </bean>
 
 	<bean id="academicPlanService"
-          class="org.kuali.rice.coreframework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="academicPlanService"/>
     </bean>
 
     <bean id="coursePreReqSearch"
-          class="org.kuali.rice.coreframework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="coursePreReqSearch"/>
     </bean>
 
