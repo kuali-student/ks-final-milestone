@@ -115,6 +115,7 @@ public class CalendarConstants {
         public static final String ERROR_INVALID_DATERANGE_KEYDATE = "error.enroll.keydate.dateNotInTerm";
         public static final String ERROR_CALCULATING_INSTRUCTIONAL_DAYS = "error.enroll.acal.instructionaldays.calculation";
         public static final String ERROR_NO_PARENT_TERM_FOR_SUBTERM = "error.enroll.acal.term.noParentTermForSubterm";
+        public static final String ERROR_INVALID_DATE_TIME = "error.enroll.date.time.invalid";
     }
 
     public static final String EMPTY_TERM_CODE = "No Code";
