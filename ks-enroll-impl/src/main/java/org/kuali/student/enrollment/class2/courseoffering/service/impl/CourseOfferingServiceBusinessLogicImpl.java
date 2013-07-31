@@ -1022,8 +1022,65 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
         generator.initializeGenerator(coService, fo, contextInfo, keyValues);
 
+        //Sort the lists in order to be in sequence with RGIDs when generating
+        //Sort aoList
+        if(aoList.size()>1){
+            Collections.sort(aoList, new Comparator<ActivityOfferingInfo>() {
+                @Override
+                public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
+                    return o1.getActivityCode().compareTo(o2.getActivityCode());
+                }
+            });
+        }
+        //Sort AO IDs within the regGroupAoIds list's arrays
+        ArrayList<List<ActivityOfferingInfo>> regGroupAoInfosSorted = new ArrayList<List<ActivityOfferingInfo>>();
+        for (List<String> aoIDs : regGroupAoIds) {
+            List<ActivityOfferingInfo> aoListSorted = new ArrayList<ActivityOfferingInfo>();
+            if (aoIDs.size() > 1) {  //more than 1 AOId in the set
+                //loop aoIDs and find the related AO that will store the activityCode to be sorted on
+                for (String aoIDinaoIDs: aoIDs){
+                    //find the matching ID and associate it to the AOInfo
+                    for (ActivityOfferingInfo aoInfo :  aoList) {
+                        if (aoInfo.getId().equals(aoIDinaoIDs)) {
+                            aoListSorted.add(aoInfo); //create a list of AOInfos to be sorted (later pass the IDs back from the them)
+                            break;
+                        }
+                    }
+                }
+                //Sort aoListSorted based on activityCode
+                Collections.sort(aoListSorted, new Comparator<ActivityOfferingInfo>() {
+                    @Override
+                    public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
+                        return o1.getActivityCode().compareTo(o2.getActivityCode());
+                    }
+                });
+            }
+            regGroupAoInfosSorted.add(aoListSorted);
+        }
+        //Sort regGroupAoInfosSorted
+        Collections.sort(regGroupAoInfosSorted, new Comparator <List<ActivityOfferingInfo>>() {
+            @Override
+            public int compare(List<ActivityOfferingInfo> o1, List<ActivityOfferingInfo> o2) {
+                String o1Code = "";
+                String o2Code = "";
+                for (ActivityOfferingInfo aoInfo : o1) { //build o1 code
+                    o1Code = o1Code + aoInfo.getActivityCode();
+                }
+                for (ActivityOfferingInfo aoInfo : o2) { //build o2 code
+                    o2Code = o2Code + aoInfo.getActivityCode();
+                }
+                //compare
+                return o1Code.compareTo(o2Code);
+            }
+        });
+
         // Loop through each set of AO Ids and create a reg group.
-        for (List<String> activityOfferingPermutation : regGroupAoIds) {
+        for (List<ActivityOfferingInfo> aoInfoList : regGroupAoInfosSorted) {
+            List<String> activityOfferingPermutation = new ArrayList<String>();
+            for (ActivityOfferingInfo aoInfo : aoInfoList){
+                activityOfferingPermutation.add(aoInfo.getId());
+            }
+
             if (!_isValidActivityOfferingPermutation(activityOfferingPermutation)) {
                 continue;
             }
