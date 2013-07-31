@@ -28,10 +28,10 @@ import java.util.Set;
 public class CompletedCoursePriorToTermTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
-    private CourseOfferingService courseOfferingService;
     private AtpService atpService;
 
     private TermResolver<List<String>> courseIdsTermResolver;
+    private TermResolver<AtpInfo> atpForCOIdTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -76,8 +76,8 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
                 //Retrieve the students academic record for this version.
                 List<StudentCourseRecordInfo> courseRecords = this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context);
                 for (StudentCourseRecordInfo courseRecord : courseRecords){
-                    CourseOffering courseOffering = this.getCourseOfferingService().getCourseOffering(courseRecord.getCourseOfferingId(), context);
-                    AtpInfo atpInfo = this.getAtpService().getAtp(courseOffering.getTermId(), context);
+                    parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CO_KEY, courseRecord.getCourseOfferingId());
+                    AtpInfo atpInfo = this.getAtpForCOIdTermResolver().resolve(resolvedPrereqs, parameters);
                     if(atpInfo.getEndDate().before(term.getEndDate())) {
                         return true;
                     }
@@ -98,14 +98,6 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
         this.academicRecordService = academicRecordService;
     }
 
-    public CourseOfferingService getCourseOfferingService() {
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
-    }
-
     public AtpService getAtpService() {
         return atpService;
     }
@@ -120,5 +112,13 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
 
     public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
         this.courseIdsTermResolver = courseIdsTermResolver;
+    }
+
+    public TermResolver<AtpInfo> getAtpForCOIdTermResolver() {
+        return atpForCOIdTermResolver;
+    }
+
+    public void setAtpForCOIdTermResolver(TermResolver<AtpInfo> atpForCOIdTermResolver) {
+        this.atpForCOIdTermResolver = atpForCOIdTermResolver;
     }
 }

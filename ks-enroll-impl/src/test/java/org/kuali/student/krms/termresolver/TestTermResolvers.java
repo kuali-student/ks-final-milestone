@@ -13,12 +13,14 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader;
+import org.kuali.student.krms.termresolver.util.AtpForCourseOfferingIdTermResolver;
 import org.kuali.student.krms.termresolver.util.CluIdsInCourseSetTermResolver;
 import org.kuali.student.krms.termresolver.util.CourseIdsFromVersionIndIdTermResolver;
 import org.kuali.student.krms.termresolver.util.CourseRecordsForCourseIdTermResolver;
 import org.kuali.student.krms.termresolver.util.CourseRecordsForCourseSetTermResolver;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoader;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -602,14 +604,21 @@ public class TestTermResolvers {
         assertTrue(completed);
     }
 
+    private TermResolver<AtpInfo> getAtpForCOIdTermResolver() {
+        AtpForCourseOfferingIdTermResolver termResolver = new AtpForCourseOfferingIdTermResolver();
+        termResolver.setCourseOfferingService(courseOfferingService);
+        termResolver.setAtpService(atpService);
+        return termResolver;
+    }
+
     @Test
     public void testCompletedCourseAsOfTermTermResolver() throws Exception{
         //Setup the term resolver
         CompletedCourseAsOfTermTermResolver termResolver = new CompletedCourseAsOfTermTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
-        termResolver.setCourseOfferingService(courseOfferingService);
         termResolver.setAtpService(atpService);
         termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setAtpForCOIdTermResolver(this.getAtpForCOIdTermResolver());
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID);
@@ -637,9 +646,9 @@ public class TestTermResolvers {
         //Setup the term resolver
         CompletedCoursePriorToTermTermResolver termResolver = new CompletedCoursePriorToTermTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
-        termResolver.setCourseOfferingService(courseOfferingService);
         termResolver.setAtpService(atpService);
         termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setAtpForCOIdTermResolver(this.getAtpForCOIdTermResolver());
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID);
@@ -667,9 +676,9 @@ public class TestTermResolvers {
         //Setup the term resolver
         CompletedCourseBetweenTermsTermResolver termResolver = new CompletedCourseBetweenTermsTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
-        termResolver.setCourseOfferingService(courseOfferingService);
         termResolver.setAtpService(atpService);
         termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setAtpForCOIdTermResolver(this.getAtpForCOIdTermResolver());
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID);
