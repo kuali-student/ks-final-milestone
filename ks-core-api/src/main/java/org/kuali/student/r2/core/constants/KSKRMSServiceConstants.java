@@ -147,6 +147,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_DURATION_TYPE_KEY = "kuali.term.parameter.type.durationType.id";
     public static final String TERM_PARAMETER_TYPE_ORGANIZATION_KEY = "kuali.term.parameter.type.org.id";
     public static final String TERM_PARAMETER_TYPE_CLU_KEY = "kuali.term.parameter.type.course.clu.id";
+    public static final String TERM_PARAMETER_TYPE_CO_KEY = "kuali.term.parameter.type.course.offering.id";
     public static final String TERM_PARAMETER_TYPE_TERM_KEY = "kuali.term.parameter.type.Term";
     public static final String TERM_PARAMETER_TYPE_TERM2_KEY = "kuali.term.parameter.type.Term2";
     public static final String TERM_PARAMETER_TYPE_TOTAL_CREDIT_KEY = "kuali.term.parameter.type.totalCredits";
