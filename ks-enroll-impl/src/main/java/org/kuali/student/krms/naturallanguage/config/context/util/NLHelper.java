@@ -10,6 +10,9 @@ public class NLHelper {
 	}
 	
     public static String getProperGrammar(Number number, String singularText) {
+        if(singularText.charAt(singularText.length()-1) == 's') {
+            return  singularText;
+        }
         return (number.intValue() == 1 ? singularText : singularText + "s");
     }	
 

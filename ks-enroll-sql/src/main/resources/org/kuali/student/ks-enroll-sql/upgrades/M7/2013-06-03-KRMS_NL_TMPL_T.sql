@@ -82,4 +82,10 @@ update KRMS_NL_TMPL_T
   where NL_TMPL_ID ='KS-KRMS-NL-TMPL-1187'
   /
 
+ -- KSENROLL-8326
+Update KRMS_NL_TMPL_T
+  Set TMPL ='Must have earned a minimum cumulative GPA of $intValue in $duration $NLHelper.getProperGrammar($duration, $durationType.getName()).toLowerCase()'
+WHERE NL_TMPL_ID IN ('KS-KRMS-NL-TMPL-1272','KS-KRMS-NL-TMPL-1247')
+/
+
 
