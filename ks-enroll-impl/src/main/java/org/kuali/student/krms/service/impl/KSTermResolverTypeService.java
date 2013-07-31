@@ -30,7 +30,6 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_FREEFORMTEXT)) {
 			FreeFormTextTermResolver resolverForm = new FreeFormTextTermResolver();
-			//resolver.setAcademicRecordService(acadRecordService); Does not exist
 			return resolverForm;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_GPAFORCOURSES)) {
 			GPATermResolver resolver = new GPATermResolver();
@@ -38,7 +37,6 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_NUMBEROFCREDITS)) {
 			CreditsEarnedFromCoursesTermResolver resolver = new CreditsEarnedFromCoursesTermResolver();
-			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_SCOREONTEST)) {
 			ScoreTermResolver resolver = new ScoreTermResolver();
@@ -50,7 +48,6 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			return resolver;
 		}else if (termResolverDefinition.getName().equals(KSKRMSServiceConstants.TERM_SPEC_NUMBEROFCOMPLETEDCOURSES)) {
 			NumberOfCompletedCoursesTermResolver resolver = new NumberOfCompletedCoursesTermResolver();
-			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		}
 		return null;

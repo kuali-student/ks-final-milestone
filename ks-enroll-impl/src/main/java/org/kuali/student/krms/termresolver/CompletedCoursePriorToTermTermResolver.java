@@ -11,9 +11,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -32,8 +29,9 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
 
     private AcademicRecordService academicRecordService;
     private CourseOfferingService courseOfferingService;
-    private VersionManagementService cluVersionService;
     private AtpService atpService;
+
+    private TermResolver<List<String>> courseIdsTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -70,15 +68,16 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
             //Retrieve the version independent clu id.
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
             String startTermId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY);
-            AtpInfo term = atpService.getAtp(startTermId, context);
+            AtpInfo term = this.getAtpService().getAtp(startTermId, context);
 
-            List<VersionDisplayInfo> versions = cluVersionService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
-            for(VersionDisplayInfo version : versions){
+            //Retrieve the version independent clu id.
+            List<String> courseIds = this.getCourseIdsTermResolver().resolve(resolvedPrereqs, parameters);
+            for(String courseId : courseIds){
                 //Retrieve the students academic record for this version.
-                List<StudentCourseRecordInfo> courseRecords = academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context);
+                List<StudentCourseRecordInfo> courseRecords = this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context);
                 for (StudentCourseRecordInfo courseRecord : courseRecords){
-                    CourseOffering courseOffering = courseOfferingService.getCourseOffering(courseRecord.getCourseOfferingId(), context);
-                    AtpInfo atpInfo = atpService.getAtp(courseOffering.getTermId(), context);
+                    CourseOffering courseOffering = this.getCourseOfferingService().getCourseOffering(courseRecord.getCourseOfferingId(), context);
+                    AtpInfo atpInfo = this.getAtpService().getAtp(courseOffering.getTermId(), context);
                     if(atpInfo.getEndDate().before(term.getEndDate())) {
                         return true;
                     }
@@ -107,14 +106,6 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
         this.courseOfferingService = courseOfferingService;
     }
 
-    public VersionManagementService getCluVersionService() {
-        return cluVersionService;
-    }
-
-    public void setCluVersionService(VersionManagementService cluVersionService) {
-        this.cluVersionService = cluVersionService;
-    }
-
     public AtpService getAtpService() {
         return atpService;
     }
@@ -123,4 +114,11 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
         this.atpService = atpService;
     }
 
+    public TermResolver<List<String>> getCourseIdsTermResolver() {
+        return courseIdsTermResolver;
+    }
+
+    public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
+        this.courseIdsTermResolver = courseIdsTermResolver;
+    }
 }

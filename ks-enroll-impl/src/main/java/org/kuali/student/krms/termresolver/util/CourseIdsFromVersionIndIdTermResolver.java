@@ -13,15 +13,18 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.krms.termresolver;
+package org.kuali.student.krms.termresolver.util;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -31,16 +34,13 @@ import java.util.Set;
 /**
  * Return true if student completed course.
  */
-public class CompletedCourseTermResolver implements TermResolver<Boolean> {
+public class CourseIdsFromVersionIndIdTermResolver implements TermResolver<List<String>> {
 
-    private AcademicRecordService academicRecordService;
-
-    private TermResolver<List<String>> courseIdsTermResolver;
+    private VersionManagementService cluVersionService;
 
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<String>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
         prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         return Collections.unmodifiableSet(prereqs);
     }
@@ -61,39 +61,30 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
     }
 
     @Override
-    public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public List<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        List<String> courseIds = new ArrayList<String>();
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
 
         try {
-            //Retrieve the students academic record for this version.
-            List<String> courseIds = this.getCourseIdsTermResolver().resolve(resolvedPrereqs, parameters);
-            for(String courseId : courseIds){
-                if(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context).size()>0){
-                    return true; //if service returned anything, the student has completed a version of the clu.
-                }
+            //Retrieve the version independent clu id.
+            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+            List<VersionDisplayInfo> versions = this.getCluVersionService().getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
+            for(VersionDisplayInfo version : versions){
+                courseIds.add(version.getVersionedFromId());
             }
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
-        return false;
+        return courseIds;
     }
 
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
+    public VersionManagementService getCluVersionService() {
+        return cluVersionService;
     }
 
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
-
-    public TermResolver<List<String>> getCourseIdsTermResolver() {
-        return courseIdsTermResolver;
-    }
-
-    public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
-        this.courseIdsTermResolver = courseIdsTermResolver;
+    public void setCluVersionService(VersionManagementService cluVersionService) {
+        this.cluVersionService = cluVersionService;
     }
 
 }

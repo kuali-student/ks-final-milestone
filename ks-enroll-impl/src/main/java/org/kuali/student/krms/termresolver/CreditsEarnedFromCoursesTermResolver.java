@@ -18,17 +18,10 @@ package org.kuali.student.krms.termresolver;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -44,10 +37,7 @@ import java.util.Set;
  */
 public class CreditsEarnedFromCoursesTermResolver implements TermResolver<Integer> {
 
-    private AcademicRecordService academicRecordService;
-    private CluService cluService;
-
-    private CourseRecordsForCourseSetTermResolver courseRecordsForCourseSetTermResolver;
+    private TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseSetTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -92,29 +82,11 @@ public class CreditsEarnedFromCoursesTermResolver implements TermResolver<Intege
         return credits;
     }
 
-    private CourseRecordsForCourseSetTermResolver getCourseRecordsForCourseSetTermResolver(){
-        if(courseRecordsForCourseSetTermResolver==null){
-            courseRecordsForCourseSetTermResolver = new CourseRecordsForCourseSetTermResolver();
-            courseRecordsForCourseSetTermResolver.setAcademicRecordService(this.getAcademicRecordService());
-            courseRecordsForCourseSetTermResolver.setCluService(this.getCluService());
-        }
+    public TermResolver<List<StudentCourseRecordInfo>> getCourseRecordsForCourseSetTermResolver() {
         return courseRecordsForCourseSetTermResolver;
     }
 
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
+    public void setCourseRecordsForCourseSetTermResolver(TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseSetTermResolver) {
+        this.courseRecordsForCourseSetTermResolver = courseRecordsForCourseSetTermResolver;
     }
-
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
-
-    public CluService getCluService() {
-        return cluService;
-    }
-
-    public void setCluService(CluService cluService) {
-        this.cluService = cluService;
-    }
-
 }

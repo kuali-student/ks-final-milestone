@@ -13,18 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.krms.termresolver;
+package org.kuali.student.krms.termresolver.util;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,8 +39,8 @@ import java.util.Set;
  */
 public class CourseRecordsForCourseSetTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {
 
-    private AcademicRecordService academicRecordService;
-    private CluService cluService;
+    private TermResolver<List<String>> cluIdsInCourseSetTermResolver;
+    private TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseIdTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -73,20 +68,12 @@ public class CourseRecordsForCourseSetTermResolver implements TermResolver<List<
     @Override
     public List<StudentCourseRecordInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         List<StudentCourseRecordInfo> studentRecords = new ArrayList<StudentCourseRecordInfo>();
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
         try {
             //Retrieve the list of cluIds from the cluset.
-            String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
-            List<String> versionIndIds = this.cluService.getAllCluIdsInCluSet(cluSetId, context);
-
+            List<String> versionIndIds = this.getCluIdsInCourseSetTermResolver().resolve(resolvedPrereqs, parameters);
             for(String versionIndId : versionIndIds){
-                boolean completed = false;
-                List<VersionDisplayInfo> versions = cluService.getVersions(CluServiceConstants.CLU_NAMESPACE_URI, versionIndId, context);
-                for(VersionDisplayInfo version : versions){
-                    //Retrieve the students academic record for this version.
-                    studentRecords.addAll(academicRecordService.getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context));
-                }
+                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
+                studentRecords.addAll(this.getCourseRecordsForCourseIdTermResolver().resolve(resolvedPrereqs, parameters));
             }
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
@@ -95,20 +82,20 @@ public class CourseRecordsForCourseSetTermResolver implements TermResolver<List<
         return studentRecords;
     }
 
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
+    public TermResolver<List<String>> getCluIdsInCourseSetTermResolver() {
+        return cluIdsInCourseSetTermResolver;
     }
 
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
+    public void setCluIdsInCourseSetTermResolver(TermResolver<List<String>> cluIdsInCourseSetTermResolver) {
+        this.cluIdsInCourseSetTermResolver = cluIdsInCourseSetTermResolver;
     }
 
-    public CluService getCluService() {
-        return cluService;
+    public TermResolver<List<StudentCourseRecordInfo>> getCourseRecordsForCourseIdTermResolver() {
+        return courseRecordsForCourseIdTermResolver;
     }
 
-    public void setCluService(CluService cluService) {
-        this.cluService = cluService;
+    public void setCourseRecordsForCourseIdTermResolver(TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseIdTermResolver) {
+        this.courseRecordsForCourseIdTermResolver = courseRecordsForCourseIdTermResolver;
     }
 
 }

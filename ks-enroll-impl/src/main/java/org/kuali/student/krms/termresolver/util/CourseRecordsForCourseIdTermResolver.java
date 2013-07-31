@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.krms.termresolver;
+package org.kuali.student.krms.termresolver.util;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
@@ -22,10 +22,6 @@ import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,7 +42,8 @@ import java.util.Set;
 public class CourseRecordsForCourseIdTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {
 
     private AcademicRecordService academicRecordService;
-    private VersionManagementService cluVersionService;
+
+    private TermResolver<List<String>> courseIdsTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -80,9 +77,9 @@ public class CourseRecordsForCourseIdTermResolver implements TermResolver<List<S
             //Retrieve the version independent clu id.
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
 
-            List<VersionDisplayInfo> versions = this.getCluVersionService().getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
-            for(VersionDisplayInfo version : versions){
-                studentRecords.addAll(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, version.getVersionedFromId(), context));
+            List<String> courseIds = this.getCourseIdsTermResolver().resolve(resolvedPrereqs, parameters);
+            for(String courseId : courseIds){
+                studentRecords.addAll(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context));
             }
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
@@ -99,12 +96,11 @@ public class CourseRecordsForCourseIdTermResolver implements TermResolver<List<S
         this.academicRecordService = academicRecordService;
     }
 
-    public VersionManagementService getCluVersionService() {
-        return cluVersionService;
+    public TermResolver<List<String>> getCourseIdsTermResolver() {
+        return courseIdsTermResolver;
     }
 
-    public void setCluVersionService(VersionManagementService cluVersionService) {
-        this.cluVersionService = cluVersionService;
+    public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
+        this.courseIdsTermResolver = courseIdsTermResolver;
     }
-
 }

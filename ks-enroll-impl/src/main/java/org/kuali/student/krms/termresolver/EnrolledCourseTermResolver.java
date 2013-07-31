@@ -28,10 +28,6 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,7 +45,8 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
     private CourseRegistrationService courseRegistrationService;
     private CourseOfferingService courseOfferingService;
-    private CluService cluService;
+
+    private TermResolver<List<String>> courseIdsTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -82,12 +79,7 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
         try {
             //Retrieve the version independent clu id.
-            List<String> courseIds = new ArrayList<String>();
-            String versionIndId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
-            List<VersionDisplayInfo> versions = this.getCluService().getVersions(CluServiceConstants.CLU_NAMESPACE_URI, versionIndId, context);
-            for(VersionDisplayInfo version : versions){
-                courseIds.add(version.getVersionedFromId());
-            }
+            List<String> courseIds = courseIdsTermResolver.resolve(resolvedPrereqs, parameters);
 
             //First check in the students current registration requests
             List<String> regGroupIds = new ArrayList<String>();
@@ -142,12 +134,12 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
         this.courseOfferingService = courseOfferingService;
     }
 
-    public CluService getCluService() {
-        return cluService;
+    public TermResolver<List<String>> getCourseIdsTermResolver() {
+        return courseIdsTermResolver;
     }
 
-    public void setCluService(CluService cluService) {
-        this.cluService = cluService;
+    public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
+        this.courseIdsTermResolver = courseIdsTermResolver;
     }
 
 }
