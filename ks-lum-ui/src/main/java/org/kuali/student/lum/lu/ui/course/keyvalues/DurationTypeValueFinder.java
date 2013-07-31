@@ -47,24 +47,8 @@ public class DurationTypeValueFinder extends UifKeyValuesFinderBase {
     public List<KeyValue> getKeyValues(ViewModel model) {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-
-        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        Predicate predicate = PredicateFactory.in("id",
-                AtpServiceConstants.DURATION_YEAR_TYPE_KEY,
-                AtpServiceConstants.DURATION_FOUR_YEARS_TYPE_KEY,
-                AtpServiceConstants.DURATION_HALF_SEMESTER_TYPE_KEY,
-                AtpServiceConstants.DURATION_SESSION_TYPE_KEY,
-                AtpServiceConstants.DURATION_PERIOD_TYPE_KEY,
-                AtpServiceConstants.DURATION_MINI_MESTER_TYPE_KEY,
-                AtpServiceConstants.DURATION_MONTH_TYPE_KEY,
-                AtpServiceConstants.DURATION_TERM_TYPE_KEY,
-                AtpServiceConstants.DURATION_HOURS_TYPE_KEY,
-                AtpServiceConstants.DURATION_WEEK_TYPE_KEY);
-        qBuilder.setPredicates(predicate);
-        try
-        {
-            List<TypeInfo> list = this.getTypeService().searchForTypes(qBuilder.build(),ContextUtils.getContextInfo());
-
+        try {
+            List<TypeInfo> list = this.getTypeService().getTypesByRefObjectUri(AtpServiceConstants.REF_OBJECT_URI_TIME_AMOUNT_INFO, ContextUtils.getContextInfo());
             if (list != null) {
                 for (TypeInfo info : list) {
                     keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
