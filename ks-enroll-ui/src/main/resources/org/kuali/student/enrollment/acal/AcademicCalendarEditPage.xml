@@ -230,9 +230,7 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean id="term_makeofficial_link" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial"
-                      p:actionLabel="Make Official" p:render="@{!#line.official and !#view.readOnly}"
-                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
+
             </list>
         </property>
     </bean>
