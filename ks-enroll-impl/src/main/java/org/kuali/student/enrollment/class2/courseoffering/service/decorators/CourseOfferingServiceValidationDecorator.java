@@ -41,7 +41,6 @@ import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
-import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -132,7 +131,7 @@ public class CourseOfferingServiceValidationDecorator
     public List<ValidationResultInfo> validateCourseOffering(String validationType, CourseOfferingInfo courseOfferingInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        verifySocStatePermitsAccess(courseOfferingInfo, context);
+        this.verifySocStatePermitsCrud(courseOfferingInfo.getTermId(), context);
 
         // validate
         List<ValidationResultInfo> errors;
@@ -299,6 +298,8 @@ public class CourseOfferingServiceValidationDecorator
     @Override
     public List<ValidationResultInfo> validateActivityOffering(String validationType, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        this.verifySocStatePermitsCrud(activityOfferingInfo.getTermId(), context);
         // validate
         List<ValidationResultInfo> errors;
         try {
@@ -536,10 +537,42 @@ public class CourseOfferingServiceValidationDecorator
     @Override
     public StatusInfo deleteCourseOfferingCascaded(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        CourseOfferingInfo courseOfferingInfo = getCoService().getCourseOffering( courseOfferingId, context );
-        verifySocStatePermitsAccess(courseOfferingInfo, context);
+        verifySocStatePermitsCrud(_getTermIdByOfferingId(courseOfferingId, context), context);
 
         return getNextDecorator().deleteCourseOfferingCascaded(courseOfferingId, context);
+    }
+
+    /**
+     * Finds the term Id associated with the given CO Id
+     *
+     * @param offeringId
+     * @return term Id
+     * @throws OperationFailedException Atp Id was not found in the query result
+     */
+    private String _getTermIdByOfferingId(String offeringId, ContextInfo context) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
+
+        String termId;
+
+        // Query for AO id and codes, and build a Map.
+        SearchRequestInfo request = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.TERM_ID_BY_OFFERING_ID_SEARCH_KEY);
+        request.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.OFFERING_ID, offeringId);
+        SearchResultInfo result = searchService.search(request, context);
+        List<SearchResultRowInfo> rows = result.getRows();
+        //  If there are no rows assume the operation is an add and skip the check.
+        if (rows.isEmpty()) {
+            throw new OperationFailedException("Missing term id for offering id (" + offeringId + ")");
+        }
+
+        SearchResultRowInfo row = rows.get(0);
+        List<SearchResultCellInfo> cells = row.getCells();
+        SearchResultCellInfo cell = cells.get(0);
+        if (cell.getKey().equals(ActivityOfferingSearchServiceImpl.SearchResultColumns.ATP_ID)) {
+            termId = cell.getValue();
+        } else {
+            throw new OperationFailedException("Query for term id is missing the column.");
+        }
+
+        return termId;
     }
 
     @Override
@@ -548,6 +581,8 @@ public class CourseOfferingServiceValidationDecorator
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
             DependentObjectsExistException {
+
+        verifySocStatePermitsCrud(_getTermIdByOfferingId(courseOfferingId, context), context);
 
         List<FormatOfferingInfo> formats = getFormatOfferingsByCourseOffering(courseOfferingId, context);
 
@@ -574,6 +609,7 @@ public class CourseOfferingServiceValidationDecorator
             OperationFailedException, PermissionDeniedException,
             DependentObjectsExistException {
 
+        this.verifySocStatePermitsCrud(_getTermIdByOfferingId(activityOfferingId, context), context);
         ActivityOfferingInfo offering = getActivityOffering(activityOfferingId, context);
 
         // check for reg groups
@@ -696,19 +732,19 @@ public class CourseOfferingServiceValidationDecorator
         return false;
     }
 
-    private void verifySocStatePermitsAccess( CourseOfferingInfo courseOfferingInfo, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private void verifySocStatePermitsCrud( String termId, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
-        String socStateKey = getSocState( courseOfferingInfo, contextInfo );
+        String socStateKey = getSocState( termId, contextInfo );
 
-        denyAccessOnSocState( CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being scheduled." );
-        denyAccessOnSocState( CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being published." );
+        denyAccessOnSocState( CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being scheduled (SocState)." );
+        denyAccessOnSocState( CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, socStateKey, "Access to course offerings is not permitted while this term's Set of Course (SOC) is being published (SocState)." );
 
     }
 
-    private String getSocState( CourseOfferingInfo courseOfferingInfo, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private String getSocState( String termId, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         String socStateKey = StringUtils.EMPTY;
-        List<String> socIds = getSocService().getSocIdsByTerm( courseOfferingInfo.getTermId(), contextInfo );
+        List<String> socIds = getSocService().getSocIdsByTerm( termId, contextInfo );
         if( !socIds.isEmpty() ) {
             for( SocInfo soc : this.getSocService().getSocsByIds(socIds, contextInfo) ) {
                 if( soc.getTypeKey().equals( CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY ) ) {
@@ -721,7 +757,7 @@ public class CourseOfferingServiceValidationDecorator
     }
 
     private void denyAccessOnSocState( String socStateKeyToDenyAccess, String socStateKey, String denialErrorMessage ) throws OperationFailedException {
-        denialErrorMessage = StringUtils.defaultIfEmpty( denialErrorMessage, "Access to course offerings is not permitted while this term's Set of Courses (SOC) is in state: " + socStateKey );
+        denialErrorMessage = StringUtils.defaultIfEmpty( denialErrorMessage, "Access to course offerings is not permitted while this term's SocState : " + socStateKey );
 
         if( StringUtils.equalsIgnoreCase( socStateKeyToDenyAccess, socStateKey ) ) {
             throw new OperationFailedException( denialErrorMessage );

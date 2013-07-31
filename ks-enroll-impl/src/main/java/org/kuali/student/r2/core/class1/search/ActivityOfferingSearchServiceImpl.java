@@ -44,6 +44,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final TypeInfo REG_GROUPS_BY_CO_ID_SEARCH_TYPE;
     public static final TypeInfo AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE;
     public static final TypeInfo AO_CODES_BY_CO_ID_SEARCH_TYPE;
+    public static final TypeInfo TERM_ID_BY_OFFERING_ID_SEARCH_TYPE;
+
 
     public static final String SCH_IDS_BY_AO_SEARCH_KEY = "kuali.search.type.lui.searchForScheduleIdsByAoId";
     public static final TypeInfo COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE;
@@ -57,6 +59,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final String FO_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForFOByCoId";
     public static final String RELATED_AO_TYPES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForRelatedAoTypesByCoId";
     public static final String AO_CODES_BY_CO_ID_SEARCH_KEY = "kuali.search.type.lui.searchForAoCodesByCoId";
+    public static final String TERM_ID_BY_OFFERING_ID_SEARCH_KEY = "kuali.search.type.lui.searchForTermIdByOfferingId";
+
 
     private static final int RESULTROW_AOID_OFFSET = 6;
     private static final int RESULTROW_SCHED_OFFSET = 9;
@@ -64,6 +68,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
     public static final class SearchParameters {
         public static final String AO_ID = "id";
         public static final String CO_ID = "coId";
+        public static final String OFFERING_ID = "offeringId";
         public static final String FO_ID = "foId";
         public static final String AO_IDS = "aoIds";
     }
@@ -82,6 +87,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String AO_MAX_SEATS = "aoMaxSeats";
         public static final String AO_CODE = "aoCode";
         public static final String CO_CODE = "coCode";
+        public static final String CO_ID = "coId";
         public static final String LUI_SET_ID = "luiSetId";
         public static final String RG_NAME = "rgId";
         public static final String RG_ID = "rgName";
@@ -187,6 +193,18 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             throw new RuntimeException("bad code");
         }
         AO_CODES_BY_CO_ID_SEARCH_TYPE = info;
+
+        info = new TypeInfo();
+        info.setKey(TERM_ID_BY_OFFERING_ID_SEARCH_KEY);
+        info.setName("Term Id for offering id");
+        info.setDescr(new RichTextHelper().fromPlain("Returns term id for a given offering id"));
+
+        try {
+            info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse("01/01/2012"));
+        } catch ( IllegalArgumentException ex) {
+            throw new RuntimeException("bad code");
+        }
+        TERM_ID_BY_OFFERING_ID_SEARCH_TYPE = info;
     }
 
     @Override
@@ -224,6 +242,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         if (AO_CODES_BY_CO_ID_SEARCH_KEY.equals(searchTypeKey)) {
             return AO_CODES_BY_CO_ID_SEARCH_TYPE;
         }
+        if (TERM_ID_BY_OFFERING_ID_SEARCH_KEY.equals(searchTypeKey)) {
+            return AO_CODES_BY_CO_ID_SEARCH_TYPE;
+        }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
 
@@ -234,7 +255,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             OperationFailedException {
         return Arrays.asList(SCH_IDS_BY_AO_SEARCH_TYPE, AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_TYPE,
                 REG_GROUPS_BY_CO_ID_SEARCH_TYPE, AOS_WO_CLUSTER_BY_FO_ID_SEARCH_TYPE, COLOCATED_AOS_BY_AO_IDS_SEARCH_TYPE, FO_BY_CO_ID_SEARCH_TYPE,
-                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE);
+                RELATED_AO_TYPES_BY_CO_ID_SEARCH_TYPE, AO_CODES_BY_CO_ID_SEARCH_TYPE, TERM_ID_BY_OFFERING_ID_SEARCH_TYPE);
     }
 
     @Override
@@ -264,6 +285,9 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         }
         else if (AO_CODES_BY_CO_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
             return searchForAoCodesByCoId(searchRequestInfo);
+        }
+        else if (TERM_ID_BY_OFFERING_ID_SEARCH_KEY.equals(searchRequestInfo.getSearchKey())){
+            return searchForTermIdByOfferingId(searchRequestInfo);
         }
         else{
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
@@ -631,6 +655,30 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
 
         return resultInfo;
     }
+
+    /**
+     * Finds a list of AO codes and Ids given a CO id.
+     */
+    private SearchResultInfo searchForTermIdByOfferingId(SearchRequestInfo searchRequestInfo) {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String offeringId = requestHelper.getParamAsString(SearchParameters.OFFERING_ID);
+
+        String queryStr =
+                "SELECT lui.atpId " +
+                        "FROM  LuiEntity lui " +
+                        "WHERE lui.id = :offeringId ";
+        Query query = entityManager.createQuery(queryStr);
+        query.setParameter(SearchParameters.OFFERING_ID, offeringId);
+        List<Object[]> results = query.getResultList();
+        String termId = (String)query.getResultList().get(0);
+        SearchResultRowInfo row = new SearchResultRowInfo();
+        row.addCell(SearchResultColumns.ATP_ID, termId);
+        resultInfo.getRows().add(row);
+
+        return resultInfo;
+    }
+
 
     private static String commaString(List<String> items){
         StringBuilder sb = new StringBuilder();
