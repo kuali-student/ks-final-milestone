@@ -47,6 +47,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
@@ -281,6 +283,30 @@ public class ARGActivityOfferingClusterHandler {
             aoClusterWrapper.setClusterNameForDisplay("Forget to set cluster?");
 
             aoClusterWrapperList.add(aoClusterWrapper);
+            // KSENROLL-6506 Added below, the sorting on FormatOfferingID and Private name of the Cluster.
+            if(aoClusterWrapperList.size() > 1){
+                Collections.sort(aoClusterWrapperList, new Comparator<ActivityOfferingClusterWrapper>() {
+                    @Override
+                    public int compare(ActivityOfferingClusterWrapper obj1, ActivityOfferingClusterWrapper obj2) {
+
+                        int formatOfferingComparison = obj1.getAoCluster().getFormatOfferingId().compareTo(obj2.getAoCluster().getFormatOfferingId());
+                        if (formatOfferingComparison == 0)
+                        {
+                            int nameComparison = obj1.getAoCluster().getPrivateName().compareTo(obj2.getAoCluster().getPrivateName());
+                            int formatComparison = obj1.getFormatNameForDisplay().compareTo(obj2.getFormatNameForDisplay());
+                            if(formatComparison==0){
+                                return nameComparison;
+                            } else {
+                                return formatComparison;
+                            }
+                        } else{
+                            return formatOfferingComparison;
+                        }
+
+                    }
+                });
+            }
+
             theForm.setClusterResultList(aoClusterWrapperList);
             theForm.setPrivateClusterNamePopover("");
             theForm.setPublishedClusterNamePopover("");
