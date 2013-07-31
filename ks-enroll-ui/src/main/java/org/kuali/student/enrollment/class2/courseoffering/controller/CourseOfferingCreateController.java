@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCont
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.CreateSocViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysServiceImpl;
@@ -44,6 +45,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -105,6 +107,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     private CourseOfferingService courseOfferingService;
     private transient SearchService searchService;
     private transient TypeService typeService;
+    private transient CourseOfferingSetService socService;
 
     private String getGradingOption(String gradingOptionId) throws Exception {
         String gradingOption = "";
@@ -165,8 +168,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     if(coId != null){
                         try {
                             // configure context bar
-                            List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coCreateWrapper.getTerm().getId(), contextInfo);
-                            SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0), contextInfo);
+                            SocInfo soc = getMainSocForTerm(coCreateWrapper.getTerm(), contextInfo);
                             coCreateWrapper.setSocInfo(soc);
                             coCreateWrapper.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(coCreateWrapper.getTerm(), coCreateWrapper.getSocInfo(),
                                     getStateService(), getAcalService(), contextInfo));
@@ -612,6 +614,17 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         return props;
     }
 
+    private SocInfo getMainSocForTerm(TermInfo term, ContextInfo contextInfo) throws Exception {
+        List<String> socIds = getSocService().getSocIdsByTerm(term.getId(), contextInfo);
+        List<SocInfo> socInfos = getSocService().getSocsByIds(socIds, contextInfo);
+        for (SocInfo socInfo: socInfos) {
+            if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                return socInfo;
+            }
+        }
+        return null;
+    }
+
     protected TypeService getTypeService() {
         if(typeService == null) {
             typeService = CourseOfferingResourceLoader.loadTypeService();
@@ -632,4 +645,12 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         }
         return searchService;
     }
+
+    private CourseOfferingSetService getSocService() {
+        if (socService == null) {
+            socService = CourseOfferingResourceLoader.loadSocService();
+        }
+        return socService;
+    }
+
 }

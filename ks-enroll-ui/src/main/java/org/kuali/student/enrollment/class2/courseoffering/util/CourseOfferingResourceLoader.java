@@ -110,4 +110,10 @@ public class CourseOfferingResourceLoader {
         LuiService luiService = (LuiService)GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE, LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
         return luiService;
     }
+
+    public static CourseOfferingSetService loadSocService() {
+        CourseOfferingSetService socService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
+                CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        return socService;
+    }
 }
