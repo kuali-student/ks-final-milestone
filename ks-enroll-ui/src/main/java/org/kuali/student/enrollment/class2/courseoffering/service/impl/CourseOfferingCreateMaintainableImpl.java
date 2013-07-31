@@ -48,6 +48,9 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -77,6 +80,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingCreateMaintainableImpl.class);
     private static PermissionService permissionService = getPermissionService();
     private CluService cluService;
+    private AtpService atpService;
     private static String CACHE_NAME = "CourseOfferingMaintainableImplCache";
     private CacheManager cacheManager;
 
@@ -586,15 +590,15 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * @throws PermissionDeniedException
      * @throws OperationFailedException
      */
-    public List<CourseCodeSuggestResults> retrieveCourseCodes(String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    public List<String> retrieveCourseCodes(String targetTermCode, String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
-        List<CourseCodeSuggestResults> results =   new ArrayList<CourseCodeSuggestResults>();
+        List<String> results = new ArrayList<String>();
 
         if(catalogCourseCode == null || catalogCourseCode.isEmpty())   return results;   // if nothing passed in, return empty list
 
         catalogCourseCode = catalogCourseCode.toUpperCase(); // force toUpper
 
-        MultiKey cacheKey = new MultiKey("retrieveCourseCodes", catalogCourseCode);
+        MultiKey cacheKey = new MultiKey(targetTermCode+"retrieveCourseCodes", catalogCourseCode);
 
         // only one character. This is the base search.
         if(catalogCourseCode.length() == 1){
@@ -602,11 +606,11 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
             Object result;
             if (cachedResult == null) {
-                result = _retrieveCourseCodes(catalogCourseCode);
+                result = _retrieveCourseCodes(targetTermCode, catalogCourseCode);
                 getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, result));
-                results = (List<CourseCodeSuggestResults>)result;
+                results = (List<String>)result;
             } else {
-                results = (List<CourseCodeSuggestResults>)cachedResult.getValue();
+                results = (List<String>)cachedResult.getValue();
             }
         }else{
             Element cachedResult = getCacheManager().getCache(CACHE_NAME).get(cacheKey);
@@ -615,16 +619,16 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
                 // This is where the recursion happens. If you entered CHEM and it didn't find anything it will
                 // recurse and search for CHE -> CH -> C (C is the base). Each time building up the cache.
                 // This for loop is the worst part of this method. I'd love to use some logic to remove the for loop.
-                for(CourseCodeSuggestResults courseCode : retrieveCourseCodes(catalogCourseCode.substring(0,catalogCourseCode.length()-1))){
+                for(String courseCode : retrieveCourseCodes(targetTermCode, catalogCourseCode.substring(0,catalogCourseCode.length()-1))){
                     // for every course code, see if it's part of the Match.
-                    if(courseCode.getCatalogCourseCode().startsWith(catalogCourseCode)){
+                    if(courseCode.startsWith(catalogCourseCode)){
                         results.add(courseCode);
                     }
                 }
 
                 getCacheManager().getCache(CACHE_NAME).put(new Element(cacheKey, results));
             } else {
-                results = (List<CourseCodeSuggestResults>)cachedResult.getValue();
+                results = (List<String>)cachedResult.getValue();
             }
         }
 
@@ -636,20 +640,30 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * @param catalogCourseCode the starting characters of a course code
      * @return a list of CourseCodeSuggestResults containing matching course codes
      */
-    private List<CourseCodeSuggestResults> _retrieveCourseCodes(String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private List<String> _retrieveCourseCodes(String targetTermCode, String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
-        List<CourseCodeSuggestResults> rList = new ArrayList<CourseCodeSuggestResults>();
+        List<String> rList = new ArrayList<String>();
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
 
+        //First get ATP information
+        List<AtpInfo> atps = getAtpService().getAtpsByCode(targetTermCode, context);
+        if(atps == null || atps.size() != 1){
+            return rList;
+        }
+
+        //Then do the search
         SearchRequestInfo request = new SearchRequestInfo("lu.search.courseCodes");
         request.addParam("lu.queryParam.startsWith.cluCode", catalogCourseCode);
         request.addParam("lu.queryParam.luOptionalType", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
+        request.addParam("lu.queryParam.luOptionalGreaterThanEqualExpirDate", DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
+        request.addParam("lu.queryParam.luOptionalLessThanEqualEffectDate", DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
         request.setSortColumn("lu.resultColumn.cluOfficialIdentifier.cluCode");
         
-        SearchResultInfo results = getCluService().search(request, ContextUtils.createDefaultContextInfo());
+        SearchResultInfo results = getCluService().search(request, context);
         for(SearchResultRow row:results.getRows()){
             for(SearchResultCell cell:row.getCells()){
                 if("lu.resultColumn.cluOfficialIdentifier.cluCode".equals(cell.getKey())){
-                    rList.add(new CourseCodeSuggestResults(cell.getValue()));
+                    rList.add(cell.getValue());
                 }
             }
         }
@@ -661,6 +675,13 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             cluService = CourseOfferingResourceLoader.loadCluService();
         }
         return cluService;
+    }
+
+    private AtpService getAtpService() {
+        if(atpService == null){
+            atpService = CourseOfferingResourceLoader.loadAtpService();
+        }
+        return atpService;
     }
 
     public class CourseCodeSuggestResults{

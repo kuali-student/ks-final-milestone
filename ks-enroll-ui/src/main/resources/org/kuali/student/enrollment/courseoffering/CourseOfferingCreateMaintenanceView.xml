@@ -452,25 +452,24 @@
                             <property name="evaluateDisabledOnKeyUp" value="true"/>
                         </bean>
                     </property>
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="code" value="catalogCourseCode"/>
-                        </map>
-                    </property>
-                    <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup" p:disabled="@{#dp.targetTermCode eq null}"
-                              p:evaluateDisabledOnKeyUp="true" />
-                    </property>
-                    <property name="quickfinder.lightBoxLookup">
-                        <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
-                    </property>
+                    <!-- KSENROLL-8303 took this out untill it is working better -->
+                    <!--<property name="quickfinder.fieldConversions">-->
+                        <!--<map>-->
+                            <!--<entry key="code" value="catalogCourseCode"/>-->
+                        <!--</map>-->
+                    <!--</property>-->
+                    <!--<property name="quickfinder.quickfinderAction">-->
+                        <!--<bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup" p:disabled="@{#dp.targetTermCode eq null}"-->
+                              <!--p:evaluateDisabledOnKeyUp="true" />-->
+                    <!--</property>-->
+                    <!--<property name="quickfinder.lightBoxLookup">-->
+                        <!--<bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>-->
+                    <!--</property>-->
                     <property name="suggest">
-                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="catalogCourseCode"
-                              p:suggestQuery.dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl.CourseCodeSuggestResults">
+                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="catalogCourseCode">
+                            <property name="returnFullQueryObject" value="true"/>
                             <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseCodes"
-                                      p:queryFieldMapping="catalogCourseCode:catalogCourseCode" p:returnFieldMapping="catalogCourseCode:catalogCourseCode"/>
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="retrieveCourseCodes" p:queryMethodArgumentFieldList="document.newMaintainableObject.dataObject.targetTermCode"/>
                             </property>
                             <property name="templateOptions">
                                 <map merge="true">
