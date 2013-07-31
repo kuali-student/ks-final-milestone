@@ -1801,6 +1801,23 @@
         </search:resultColumns>
     </search:searchResultTypeInfo>
 
+    <search:queryParam id="lu.queryParam.luOptionalGreaterThanEqualExpirDate" parent="lu.queryParam.luOptionalGreaterThanEqualExpirDate-parent"/>
+    <search:queryParam id="lu.queryParam.luOptionalGreaterThanEqualExpirDate-parent" optional="true" abstract="true">
+        <dict:fieldDescriptor>
+            <dict:name>Compare Date with Expiration Date</dict:name>
+            <dict:desc>Compare Date with Expiration Date</dict:desc>
+            <dict:dataType>date</dict:dataType>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+    <search:queryParam id="lu.queryParam.luOptionalLessThanEqualEffectDate" parent="lu.queryParam.luOptionalLessThanEqualEffectDate-parent"/>
+    <search:queryParam id="lu.queryParam.luOptionalLessThanEqualEffectDate-parent" optional="true" abstract="true">
+        <dict:fieldDescriptor>
+            <dict:name>Compare Date with Effective Date</dict:name>
+            <dict:desc>Compare Date with Effective Date</dict:desc>
+            <dict:dataType>date</dict:dataType>
+        </dict:fieldDescriptor>
+    </search:queryParam>
+
     <search:searchCriteriaTypeInfo id="lu.criteria.courseCodes" parent="lu.criteria.courseCodes-parent"/>
     <search:searchCriteriaTypeInfo id="lu.criteria.courseCodes-parent"  abstract="true">
         <search:name>Course Code criteria</search:name>
@@ -1808,6 +1825,8 @@
         <search:queryParams>
             <ref bean="lu.queryParam.startsWith.cluCode" />
             <ref bean="lu.queryParam.luOptionalType" />
+            <ref bean="lu.queryParam.luOptionalGreaterThanEqualExpirDate" />
+            <ref bean="lu.queryParam.luOptionalLessThanEqualEffectDate" />
         </search:queryParams>
     </search:searchCriteriaTypeInfo>
 
@@ -2107,6 +2126,14 @@
 				<entry key="lu.queryParam.luOptionalEffectiveDate2">
 				    <value>clu.effectiveDate &lt;= :lu_queryParam_luOptionalEffectiveDate2</value>
 				</entry>
+
+                <entry key="lu.queryParam.luOptionalGreaterThanEqualExpirDate">
+                    <value>(clu.expirationDate IS NULL OR clu.expirationDate &gt;= :lu_queryParam_luOptionalGreaterThanEqualExpirDate)</value>
+                </entry>
+                <entry key="lu.queryParam.luOptionalLessThanEqualEffectDate">
+                    <value>clu.effectiveDate &lt;= :lu_queryParam_luOptionalLessThanEqualEffectDate</value>
+                </entry>
+
 				<entry key="lu.queryParam.luOptionalVersionIndId">
 					<value>clu.version.versionIndId = :lu_queryParam_luOptionalVersionIndId
 			            AND (clu.version.currentVersionStart &lt;= CURRENT_TIMESTAMP AND (clu.version.currentVersionEnd &gt; CURRENT_TIMESTAMP OR clu.version.currentVersionEnd IS NULL) )</value>
