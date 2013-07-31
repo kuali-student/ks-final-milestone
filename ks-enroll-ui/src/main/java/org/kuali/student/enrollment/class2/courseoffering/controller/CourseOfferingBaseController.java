@@ -1,10 +1,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.document.MaintenanceDocumentBase;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -16,11 +14,8 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.enrollment.class2.autogen.controller.ARGCourseOfferingHandler;
-import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl;
@@ -241,6 +236,8 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             //3. set formatOfferingList
             formObject.setFormatOfferingList(new ArrayList<FormatOfferingWrapper>());
             FormatOfferingWrapper defaultFO = new FormatOfferingWrapper();
+           // defaultFO.setFormatInfo(courseInfo.getFormats().get(0));
+            defaultFO.setFormatId(courseInfo.getFormats().get(0).getId());
             defaultFO.getRenderHelper().setNewRow(true);
             formObject.getFormatOfferingList().add(defaultFO);
 
