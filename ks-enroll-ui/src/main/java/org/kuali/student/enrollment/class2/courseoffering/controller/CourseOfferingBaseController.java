@@ -37,6 +37,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
@@ -190,12 +191,15 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         if( StringUtils.contains( returnLocationFromForm,"viewId=courseOfferingManagementView" )
                 || StringUtils.contains( returnLocationFromForm,"pageId=manageTheCourseOfferingPage" ) )
         {
-            if ( !returnLocationFromForm.contains("methodToCall=") ) {  // This happens when we display a list of COs and then user click on Manage action
-                urlToRedirectTo = returnLocationFromForm + "&methodToCall=reloadManageCO";
+            if ( !returnLocationFromForm.contains("methodToCall=") ) {
+                // This happens when we display a list of COs and then user click on Manage action
+                form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
             }
             else {
-                urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
+                form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.FALSE.toString());
+                //urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
             }
+            urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
         }
         else {
             urlToRedirectTo = returnLocationFromForm;
