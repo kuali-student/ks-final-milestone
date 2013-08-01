@@ -339,6 +339,12 @@ function resetCutSelected(selectedItemId) {
 function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
+
+    var collectionGroup = jq('#' + collectionGroupId);
+    //Set parent to be refreshed
+    var componentId = jq(collectionGroup).offsetParent().attr('id');
+    var tabId = componentId.substring(0, componentId.indexOf('_'));
+
     var actionRevealCallBack = function (htmlContent) {
 
         resetControlKeys();
@@ -349,7 +355,7 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
 
         disablePasteButton();
     };
-    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+    retrieveComponent(tabId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 
 }
 
