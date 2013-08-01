@@ -373,7 +373,7 @@ limitations under the License.
                     <property name="instructionalText" value="Enter text from valid Learning Objective"/>
                 </bean>
 
-                <bean parent="KS-CourseRange-AddButton"/>
+                <bean parent="KS-CourseRange-AddButton"  p:style="margin-top: 50px;"/>
             </list>
         </property>
     </bean>
