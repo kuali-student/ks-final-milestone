@@ -36,7 +36,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class performs lookups on organizations of type kuali.org.Department
+ *
+ * Input criteria:
+ * 1) Short name of the department.
+ * 2) Long name of the department.
  *
  * @author Kuali Student Team
  */
