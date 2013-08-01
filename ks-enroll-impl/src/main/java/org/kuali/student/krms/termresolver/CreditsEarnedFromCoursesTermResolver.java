@@ -32,8 +32,11 @@ import java.util.Set;
  * Returns an integer based on the number of credits earned for the given course list.
  *
  * Rule statement examples:
- * Must successfully complete no more than  <n> credits from <courses>
- * Must have successfully completed a minimum of <n> credits from <courses>
+ * 1) Must successfully complete no more than  <n> credits from <courses>
+ * 2) Must have successfully completed a minimum of <n> credits from <courses>
+ * 3) Must not have successfully completed any credits from <courses>
+ *
+ * @author Kuali Student Team
  */
 public class CreditsEarnedFromCoursesTermResolver implements TermResolver<Integer> {
 

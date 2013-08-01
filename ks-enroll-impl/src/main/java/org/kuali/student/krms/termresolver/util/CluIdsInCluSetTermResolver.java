@@ -37,8 +37,9 @@ import java.util.Set;
  *
  * The studentId is passed as a resolvedPrereq.
  *
+ * @author Kuali Student Team
  */
-public class CluIdsInCourseSetTermResolver implements TermResolver<List<String>> {
+public class CluIdsInCluSetTermResolver implements TermResolver<List<String>> {
 
     private CluService cluService;
 

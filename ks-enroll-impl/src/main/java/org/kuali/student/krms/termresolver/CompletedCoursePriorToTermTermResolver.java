@@ -19,18 +19,14 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW Genis
- * Date: 2013/07/15
- * Time: 1:57 PM
- * To change this template use File | Settings | File Templates.
+ * @author Kuali Student Team
  */
 public class CompletedCoursePriorToTermTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
     private AtpService atpService;
 
-    private TermResolver<List<String>> courseIdsTermResolver;
+    private TermResolver<List<String>> cluIdsTermResolver;
     private TermResolver<AtpInfo> atpForCOIdTermResolver;
 
     @Override
@@ -71,7 +67,7 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
             AtpInfo term = this.getAtpService().getAtp(startTermId, context);
 
             //Retrieve the version independent clu id.
-            List<String> courseIds = this.getCourseIdsTermResolver().resolve(resolvedPrereqs, parameters);
+            List<String> courseIds = this.getCluIdsTermResolver().resolve(resolvedPrereqs, parameters);
             for(String courseId : courseIds){
                 //Retrieve the students academic record for this version.
                 List<StudentCourseRecordInfo> courseRecords = this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context);
@@ -106,12 +102,12 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
         this.atpService = atpService;
     }
 
-    public TermResolver<List<String>> getCourseIdsTermResolver() {
-        return courseIdsTermResolver;
+    public TermResolver<List<String>> getCluIdsTermResolver() {
+        return cluIdsTermResolver;
     }
 
-    public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
-        this.courseIdsTermResolver = courseIdsTermResolver;
+    public void setCluIdsTermResolver(TermResolver<List<String>> cluIdsTermResolver) {
+        this.cluIdsTermResolver = cluIdsTermResolver;
     }
 
     public TermResolver<AtpInfo> getAtpForCOIdTermResolver() {

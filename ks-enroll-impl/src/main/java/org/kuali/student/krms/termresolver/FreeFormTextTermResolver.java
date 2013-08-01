@@ -23,6 +23,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author Kuali Student Team
+ */
 public class FreeFormTextTermResolver implements TermResolver<Boolean> {
 
     @Override

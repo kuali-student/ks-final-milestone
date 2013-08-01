@@ -29,6 +29,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ *
+ * Rule statement examples:
+ * 1) Must have earned a minimum cumulative GPA of <GPA>
+ *
+ * @author Kuali Student Team
+ */
 public class GPATermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
@@ -53,7 +60,6 @@ public class GPATermResolver implements TermResolver<Integer> {
 
     @Override
     public int getCost() {
-        // TODO Analyze, though probably not much to check here
         return 5;
     }
 

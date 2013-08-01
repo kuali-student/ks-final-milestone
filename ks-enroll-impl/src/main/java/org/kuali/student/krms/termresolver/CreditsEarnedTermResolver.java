@@ -28,6 +28,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Returns a cumulative number for all credits earned by the student.
+ *
+ * Rule Statement examples:
+ * 1) Must have earned a minimum of <n> total credits
+ * 2) May be repeated for a maximum of <n> credits
+ *
+ * @author Kuali Student Team
+ */
 public class CreditsEarnedTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
@@ -62,7 +71,7 @@ public class CreditsEarnedTermResolver implements TermResolver<Integer> {
 
         String credits = null;
         try {
-            credits = academicRecordService.getEarnedCredits(personId, AcademicRecordServiceConstants.ACADEMIC_RECORD_CALCULATION_GPA_TYPE_KEY, context);
+            credits = this.getAcademicRecordService().getEarnedCredits(personId, AcademicRecordServiceConstants.ACADEMIC_RECORD_CALCULATION_GPA_TYPE_KEY, context);
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }

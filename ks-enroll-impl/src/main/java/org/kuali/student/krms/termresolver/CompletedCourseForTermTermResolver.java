@@ -17,18 +17,14 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW Genis
- * Date: 2013/07/15
- * Time: 1:57 PM
- * To change this template use File | Settings | File Templates.
+ * @author Kuali Student Team
  */
 public class CompletedCourseForTermTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
     private CourseOfferingService courseOfferingService;
 
-    private TermResolver<List<String>> courseIdsTermResolver;
+    private TermResolver<List<String>> cluIdsTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -66,7 +62,7 @@ public class CompletedCourseForTermTermResolver implements TermResolver<Boolean>
             String termId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY);
 
             //Retrieve the version independent clu id.
-            List<String> courseIds = this.getCourseIdsTermResolver().resolve(resolvedPrereqs, parameters);
+            List<String> courseIds = this.getCluIdsTermResolver().resolve(resolvedPrereqs, parameters);
             for(String courseId : courseIds){
                 //Retrieve the students academic record for this version.
                 List<StudentCourseRecordInfo> courseRecords = this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context);
@@ -100,11 +96,11 @@ public class CompletedCourseForTermTermResolver implements TermResolver<Boolean>
         this.courseOfferingService = courseOfferingService;
     }
 
-    public TermResolver<List<String>> getCourseIdsTermResolver() {
-        return courseIdsTermResolver;
+    public TermResolver<List<String>> getCluIdsTermResolver() {
+        return cluIdsTermResolver;
     }
 
-    public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
-        this.courseIdsTermResolver = courseIdsTermResolver;
+    public void setCluIdsTermResolver(TermResolver<List<String>> cluIdsTermResolver) {
+        this.cluIdsTermResolver = cluIdsTermResolver;
     }
 }

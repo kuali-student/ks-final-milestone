@@ -28,6 +28,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author Kuali Student Team
+ */
 public class AdminOrgPermissionTermResolver implements TermResolver<Boolean> {
 
     private OrganizationService organizationService;

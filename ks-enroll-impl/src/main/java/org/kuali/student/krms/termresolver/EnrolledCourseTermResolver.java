@@ -40,13 +40,17 @@ import java.util.Set;
  * Return true if student has an unsubmitted registration request that includes
  * the given course or if the student is currently enrolled for the given course.
  *
+ * Example rule statement:
+ * 1) Must be concurrently enrolled in all courses from <courses>
+ *
+ * @author Kuali Student Team
  */
 public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
     private CourseRegistrationService courseRegistrationService;
     private CourseOfferingService courseOfferingService;
 
-    private TermResolver<List<String>> courseIdsTermResolver;
+    private TermResolver<List<String>> cluIdsTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -79,7 +83,7 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
         try {
             //Retrieve the version independent clu id.
-            List<String> courseIds = courseIdsTermResolver.resolve(resolvedPrereqs, parameters);
+            List<String> courseIds = this.getCluIdsTermResolver().resolve(resolvedPrereqs, parameters);
 
             //First check in the students current registration requests
             List<String> regGroupIds = new ArrayList<String>();
@@ -134,12 +138,12 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
         this.courseOfferingService = courseOfferingService;
     }
 
-    public TermResolver<List<String>> getCourseIdsTermResolver() {
-        return courseIdsTermResolver;
+    public TermResolver<List<String>> getCluIdsTermResolver() {
+        return cluIdsTermResolver;
     }
 
-    public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
-        this.courseIdsTermResolver = courseIdsTermResolver;
+    public void setCluIdsTermResolver(TermResolver<List<String>> cluIdsTermResolver) {
+        this.cluIdsTermResolver = cluIdsTermResolver;
     }
 
 }

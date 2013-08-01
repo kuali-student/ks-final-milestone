@@ -19,11 +19,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW Genis
- * Date: 2013/07/15
- * Time: 1:57 PM
- * To change this template use File | Settings | File Templates.
+ * Returns the atp for the given course offering.
+ *
+ * @author Kuali Student Team
  */
 public class AtpForCourseOfferingIdTermResolver implements TermResolver<AtpInfo> {
 

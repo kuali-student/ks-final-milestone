@@ -32,9 +32,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Return true if student completed course.
+ * Return a list of all the clu ids that belongs to the given version independent id.
+ *
+ * @author Kuali Student Team
  */
-public class CourseIdsFromVersionIndIdTermResolver implements TermResolver<List<String>> {
+public class CluIdsFromVersionIndIdTermResolver implements TermResolver<List<String>> {
 
     private VersionManagementService cluVersionService;
 

@@ -10,11 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW Genis
- * Date: 2013/07/15
- * Time: 1:53 PM
- * To change this template use File | Settings | File Templates.
+ * @author Kuali Student Team
  */
 public class ProgramCoursesOrgDurationTermResolver implements TermResolver<Integer> {
 
@@ -42,11 +38,11 @@ public class ProgramCoursesOrgDurationTermResolver implements TermResolver<Integ
 
     @Override
     public int getCost() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 
     @Override
     public Integer resolve(Map<String, Object> stringObjectMap, Map<String, String> stringStringMap) throws TermResolutionException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 }

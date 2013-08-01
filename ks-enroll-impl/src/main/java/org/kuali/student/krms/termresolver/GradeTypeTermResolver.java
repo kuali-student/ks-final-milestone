@@ -28,6 +28,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * @author Kuali Student Team
+ */
 public class GradeTypeTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
@@ -56,7 +59,6 @@ public class GradeTypeTermResolver implements TermResolver<Integer> {
 
     @Override
     public int getCost() {
-        // TODO Analyze, though probably not much to check here
         return 5;
     }
 

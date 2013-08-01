@@ -30,12 +30,14 @@ import java.util.Set;
 
 /**
  * Return true if student completed course.
+ *
+ * @author Kuali Student Team
  */
 public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
     private AcademicRecordService academicRecordService;
 
-    private TermResolver<List<String>> courseIdsTermResolver;
+    private TermResolver<List<String>> cluIdsTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -67,7 +69,7 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
 
         try {
             //Retrieve the students academic record for this version.
-            List<String> courseIds = this.getCourseIdsTermResolver().resolve(resolvedPrereqs, parameters);
+            List<String> courseIds = this.getCluIdsTermResolver().resolve(resolvedPrereqs, parameters);
             for(String courseId : courseIds){
                 if(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context).size()>0){
                     return true; //if service returned anything, the student has completed a version of the clu.
@@ -88,12 +90,12 @@ public class CompletedCourseTermResolver implements TermResolver<Boolean> {
         this.academicRecordService = academicRecordService;
     }
 
-    public TermResolver<List<String>> getCourseIdsTermResolver() {
-        return courseIdsTermResolver;
+    public TermResolver<List<String>> getCluIdsTermResolver() {
+        return cluIdsTermResolver;
     }
 
-    public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
-        this.courseIdsTermResolver = courseIdsTermResolver;
+    public void setCluIdsTermResolver(TermResolver<List<String>> cluIdsTermResolver) {
+        this.cluIdsTermResolver = cluIdsTermResolver;
     }
 
 }

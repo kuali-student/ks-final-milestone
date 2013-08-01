@@ -36,10 +36,11 @@ import java.util.Set;
  *
  * The studentId is passed as a resolvedPrereq.
  *
+ * @author Kuali Student Team
  */
 public class CourseRecordsForCourseSetTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {
 
-    private TermResolver<List<String>> cluIdsInCourseSetTermResolver;
+    private TermResolver<List<String>> cluIdsInCluSetTermResolver;
     private TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseIdTermResolver;
 
     @Override
@@ -70,7 +71,7 @@ public class CourseRecordsForCourseSetTermResolver implements TermResolver<List<
         List<StudentCourseRecordInfo> studentRecords = new ArrayList<StudentCourseRecordInfo>();
         try {
             //Retrieve the list of cluIds from the cluset.
-            List<String> versionIndIds = this.getCluIdsInCourseSetTermResolver().resolve(resolvedPrereqs, parameters);
+            List<String> versionIndIds = this.getCluIdsInCluSetTermResolver().resolve(resolvedPrereqs, parameters);
             for(String versionIndId : versionIndIds){
                 parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
                 studentRecords.addAll(this.getCourseRecordsForCourseIdTermResolver().resolve(resolvedPrereqs, parameters));
@@ -82,12 +83,12 @@ public class CourseRecordsForCourseSetTermResolver implements TermResolver<List<
         return studentRecords;
     }
 
-    public TermResolver<List<String>> getCluIdsInCourseSetTermResolver() {
-        return cluIdsInCourseSetTermResolver;
+    public TermResolver<List<String>> getCluIdsInCluSetTermResolver() {
+        return cluIdsInCluSetTermResolver;
     }
 
-    public void setCluIdsInCourseSetTermResolver(TermResolver<List<String>> cluIdsInCourseSetTermResolver) {
-        this.cluIdsInCourseSetTermResolver = cluIdsInCourseSetTermResolver;
+    public void setCluIdsInCluSetTermResolver(TermResolver<List<String>> cluIdsInCluSetTermResolver) {
+        this.cluIdsInCluSetTermResolver = cluIdsInCluSetTermResolver;
     }
 
     public TermResolver<List<StudentCourseRecordInfo>> getCourseRecordsForCourseIdTermResolver() {

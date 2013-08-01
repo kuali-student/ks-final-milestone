@@ -38,12 +38,13 @@ import java.util.Set;
  *
  * The studentId is passed as a resolvedPrereq.
  *
+ * @author Kuali Student Team
  */
 public class CourseRecordsForCourseIdTermResolver implements TermResolver<List<StudentCourseRecordInfo>> {
 
     private AcademicRecordService academicRecordService;
 
-    private TermResolver<List<String>> courseIdsTermResolver;
+    private TermResolver<List<String>> cluIdsTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -77,7 +78,7 @@ public class CourseRecordsForCourseIdTermResolver implements TermResolver<List<S
             //Retrieve the version independent clu id.
             String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
 
-            List<String> courseIds = this.getCourseIdsTermResolver().resolve(resolvedPrereqs, parameters);
+            List<String> courseIds = this.getCluIdsTermResolver().resolve(resolvedPrereqs, parameters);
             for(String courseId : courseIds){
                 studentRecords.addAll(this.getAcademicRecordService().getCompletedCourseRecordsForCourse(personId, courseId, context));
             }
@@ -96,11 +97,11 @@ public class CourseRecordsForCourseIdTermResolver implements TermResolver<List<S
         this.academicRecordService = academicRecordService;
     }
 
-    public TermResolver<List<String>> getCourseIdsTermResolver() {
-        return courseIdsTermResolver;
+    public TermResolver<List<String>> getCluIdsTermResolver() {
+        return cluIdsTermResolver;
     }
 
-    public void setCourseIdsTermResolver(TermResolver<List<String>> courseIdsTermResolver) {
-        this.courseIdsTermResolver = courseIdsTermResolver;
+    public void setCluIdsTermResolver(TermResolver<List<String>> cluIdsTermResolver) {
+        this.cluIdsTermResolver = cluIdsTermResolver;
     }
 }

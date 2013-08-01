@@ -14,11 +14,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW Genis
- * Date: 2013/07/15
- * Time: 1:50 PM
- * To change this template use File | Settings | File Templates.
+ *
+ * Rule statement example:
+ *
+ *
+ * @author Kuali Student Team
  */
 public class CreditsEarnedFromOrganizationTermResolver implements TermResolver<Integer> {
 

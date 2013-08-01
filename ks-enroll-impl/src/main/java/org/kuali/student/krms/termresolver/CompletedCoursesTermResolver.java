@@ -37,7 +37,7 @@ import java.util.Set;
  */
 public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
 
-    private TermResolver<List<String>> cluIdsInCourseSetTermResolver;
+    private TermResolver<List<String>> cluIdsInCluSetTermResolver;
     private TermResolver<Boolean> completedCourseTermResolver;
 
     @Override
@@ -67,7 +67,7 @@ public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         try {
             //Retrieve the list of cluIds from the cluset.
-            List<String> versionIndIds = this.getCluIdsInCourseSetTermResolver().resolve(resolvedPrereqs, parameters);
+            List<String> versionIndIds = this.getCluIdsInCluSetTermResolver().resolve(resolvedPrereqs, parameters);
             for(String versionIndId : versionIndIds){
                 parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
                 if(!this.getCompletedCourseTermResolver().resolve(resolvedPrereqs, parameters)){
@@ -81,12 +81,12 @@ public class CompletedCoursesTermResolver implements TermResolver<Boolean> {
         return true;
     }
 
-    public TermResolver<List<String>> getCluIdsInCourseSetTermResolver() {
-        return cluIdsInCourseSetTermResolver;
+    public TermResolver<List<String>> getCluIdsInCluSetTermResolver() {
+        return cluIdsInCluSetTermResolver;
     }
 
-    public void setCluIdsInCourseSetTermResolver(TermResolver<List<String>> cluIdsInCourseSetTermResolver) {
-        this.cluIdsInCourseSetTermResolver = cluIdsInCourseSetTermResolver;
+    public void setCluIdsInCluSetTermResolver(TermResolver<List<String>> cluIdsInCluSetTermResolver) {
+        this.cluIdsInCluSetTermResolver = cluIdsInCluSetTermResolver;
     }
 
     public TermResolver<Boolean> getCompletedCourseTermResolver() {
