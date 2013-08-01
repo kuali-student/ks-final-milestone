@@ -325,8 +325,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             Collections.sort(clusterWrapperList, new Comparator<ActivityOfferingClusterWrapper>() {
                 @Override
                 public int compare(ActivityOfferingClusterWrapper o1, ActivityOfferingClusterWrapper o2) {
-                    int nameComparison = o1.getAoCluster().getPrivateName().compareTo(o2.getAoCluster().getPrivateName());
-                    int formatComparison = o1.getFormatNameForDisplay().compareTo(o2.getFormatNameForDisplay());
+                    int nameComparison = o1.getAoCluster().getPrivateName().compareToIgnoreCase(o2.getAoCluster().getPrivateName());
+                    int formatComparison = o1.getFormatNameForDisplay().compareToIgnoreCase(o2.getFormatNameForDisplay());
 
                     if(formatComparison==0){
                         return nameComparison;

@@ -53,6 +53,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 
+
 /**
  * This class is used by the ARGCourseOfferingManagementController to handle AO Cluster operations
  *
@@ -299,8 +300,8 @@ public class ARGActivityOfferingClusterHandler {
                         int formatOfferingComparison = obj1.getAoCluster().getFormatOfferingId().compareTo(obj2.getAoCluster().getFormatOfferingId());
                         if (formatOfferingComparison == 0)
                         {
-                            int nameComparison = obj1.getAoCluster().getPrivateName().compareTo(obj2.getAoCluster().getPrivateName());
-                            int formatComparison = obj1.getFormatNameForDisplay().compareTo(obj2.getFormatNameForDisplay());
+                            int nameComparison = obj1.getAoCluster().getPrivateName().compareToIgnoreCase(obj2.getAoCluster().getPrivateName());
+                            int formatComparison = obj1.getFormatNameForDisplay().compareToIgnoreCase(obj2.getFormatNameForDisplay());
                             if(formatComparison==0){
                                 return nameComparison;
                             } else {
