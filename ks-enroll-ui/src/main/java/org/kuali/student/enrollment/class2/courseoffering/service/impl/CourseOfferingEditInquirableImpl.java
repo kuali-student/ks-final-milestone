@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
+import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -337,7 +338,38 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             for (OfferingInstructorInfo offeringInstructorInfo : instructorInfos) {
                 aoWrapper.setInstructorDisplayNames(offeringInstructorInfo.getPersonName(), true);
             }
-        } 
+        }
+
+        //Check for sub-term or term and populate accordingly if AO belongs to a subterm
+        //If no change of AO.getTermId() > avoid service calls and populate sub-term info as it has been stored in aoWrapperStored
+        TermInfo term;
+        TermInfo subTerm;
+        aoWrapper.setHasSubTerms(false);
+        aoWrapper.setSubTermName("None");
+        aoWrapper.setSubTermId("");
+        //check if the term has any parent term
+        List<TermInfo> terms = getAcalService().getContainingTerms(aoInfo.getTermId(), contextInfo);
+        if (terms == null || terms.isEmpty()) { //AO belong to a parent term or a standard term
+            term = getAcalService().getTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+            // checking if we can have sub-terms for giving term
+            List<TermInfo> subTerms = getAcalService().getIncludedTermsInTerm(aoWrapper.getAoInfo().getTermId(), contextInfo);
+            if(!subTerms.isEmpty()) {
+                aoWrapper.setHasSubTerms(true);
+            }
+        } else {//AO belongs to a sub-term
+            subTerm = getAcalService().getTerm(aoInfo.getTermId(), contextInfo);
+            term = terms.get(0);
+            aoWrapper.setHasSubTerms(true);
+            aoWrapper.setSubTermId(subTerm.getId());
+            TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
+            aoWrapper.setSubTermName(subTermType.getName());
+            aoWrapper.setTermStartEndDate(ARGUtil.getTermStartEndDate(subTerm.getId(), subTerm));
+        }
+        aoWrapper.setTerm(term);
+        if (term != null) {
+            aoWrapper.setTermName(term.getName());
+        }
+        aoWrapper.setTermDisplayString(ARGUtil.getTermDisplayString(aoInfo.getTermId(), term));
         return aoWrapper;
     }
 
