@@ -64,6 +64,7 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
         List<ReferenceObjectBinding> refsToCopy = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(fromReferenceDiscriminatorType, fromReferenceObjectId);
         for (ReferenceObjectBinding reference : refsToCopy) {
             ReferenceObjectBinding.Builder refBldr = null;
+            //At the moment we only support agendas.
             if (reference.getKrmsDiscriminatorType().equals(KSKRMSServiceConstants.KRMS_DISCRIMINATOR_TYPE_AGENDA)) {
                 AgendaTreeDefinition agendaTree = getRuleManagementService().getAgendaTree(reference.getKrmsObjectId());
 
@@ -75,8 +76,8 @@ public class KrmsRuleManagementCopyMethodsImpl implements KrmsRuleManagementCopy
                 refBldr.setReferenceDiscriminatorType(toReferenceDiscriminatorType);
                 refBldr.setKrmsObjectId(copiedAgenda.getId());
             } else {
-                //TODO no support for copying any other krms types yet
-                continue;
+                //no support for copying any other krms types yet
+                throw new RiceIllegalStateException("unknown/unhandled KRMS discriminator type " + reference.getKrmsDiscriminatorType());
             }
             ReferenceObjectBinding refBinding = getRuleManagementService().createReferenceObjectBinding(refBldr.build());
             copiedRefList.add(refBinding);
