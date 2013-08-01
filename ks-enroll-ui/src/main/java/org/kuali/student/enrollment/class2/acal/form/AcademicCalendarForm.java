@@ -47,6 +47,7 @@ public class AcademicCalendarForm extends KSUifForm {
     //used by copying
     private boolean newCalendar;
     private boolean officialCalendar;
+    private boolean officialParentTerm;
 
     private String defaultTabToShow;
 
@@ -457,5 +458,13 @@ public class AcademicCalendarForm extends KSUifForm {
 
     public void setFieldsToSave(List<String> fieldsToSave) {
         this.fieldsToSave = fieldsToSave;
+    }
+
+    public boolean isOfficialParentTerm() {
+        return officialParentTerm;
+    }
+
+    public void setOfficialParentTerm(boolean officialParentTerm) {
+        this.officialParentTerm = officialParentTerm;
     }
 }

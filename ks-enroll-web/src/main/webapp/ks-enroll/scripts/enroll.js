@@ -1095,16 +1095,16 @@ function replaceCheckBoxWithRadio(containerId) {
 /**
  * Resets all dialog responses to unchecked
  */
-function resetDialogResponses(returnFieldId){
+function resetDialogResponses(){
     var dialogResponses = jQuery('input.uif-dialogButtons');
     for(i =0; i < dialogResponses.length; i++){
         dialogResponses[i].checked=false;
     }
-    resetDirtyFields(returnFieldId);
 }
 
 function resetDirtyFields(returnFieldId){
     if(!dirtyFieldsRefreshed){
+        resetDialogResponses();
         var dirtyFields = jQuery('#'+returnFieldId+'_control');
         if(dirtyFields.length==0) return;
         if(typeof dirtyFields[0].value === 'undefined') return;

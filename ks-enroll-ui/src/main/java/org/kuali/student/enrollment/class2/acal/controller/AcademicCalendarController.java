@@ -470,7 +470,14 @@ public class AcademicCalendarController extends UifControllerBase {
             academicCalendarForm.setMakeOfficialIsSubterm(termWrapper.isSubTerm());
             if(termWrapper.getParentTermInfo()!=null){
                 academicCalendarForm.setMakeOfficialParentTermName(termWrapper.getParentTermInfo().getName());
+                academicCalendarForm.setOfficialParentTerm(false);
+                for(AcademicTermWrapper term : academicCalendarForm.getTermWrapperList()){
+                    if(term.getTermInfo().getId().equals(termWrapper.getParentTermInfo().getId())){
+                        academicCalendarForm.setOfficialParentTerm(term.isOfficial());
+                    }
+                }
             }
+
             //redirect back to client to display lightbox
             return showDialog(dialog, academicCalendarForm, request, response);
         }else{
@@ -489,7 +496,15 @@ public class AcademicCalendarController extends UifControllerBase {
                 academicCalendarForm.setMakeOfficialIsSubterm(termWrapper.isSubTerm());
                 if(termWrapper.getParentTermInfo()!=null){
                     academicCalendarForm.setMakeOfficialParentTermName(termWrapper.getParentTermInfo().getName());
+                    academicCalendarForm.setOfficialParentTerm(false);
+                    for(AcademicTermWrapper term : academicCalendarForm.getTermWrapperList()){
+                        if(term.getTermInfo().getId().equals(termWrapper.getParentTermInfo().getId())){
+                            academicCalendarForm.setOfficialParentTerm(term.isOfficial());
+                        }
+                    }
                 }
+
+
                 //redirect back to client to display lightbox
                 return showDialog(dialog, academicCalendarForm, request, response);
             }
