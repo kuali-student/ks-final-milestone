@@ -389,10 +389,15 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="key_date_start_time_ampm" parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}"
-                      p:refreshWhenChangedPropertyNames="#lp.startTime" p:defaultValue="AM">
+                <bean id="key_date_start_time_ampm" parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>acal_keydate_radiobutton</value>
+                        </list>
+                    </property>
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
+                              p:enabledWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
                             <property name="disabled" value="@{#empty(#lp.startTime)}"/>
                         </bean>
                     </property>
@@ -414,10 +419,15 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="key_date_end_time_ampm" parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}"
-                      p:refreshWhenChangedPropertyNames="#lp.endTime" p:defaultValue="AM">
+                <bean id="key_date_end_time_ampm" parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>acal_keydate_radiobutton</value>
+                        </list>
+                    </property>
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
+                              p:enabledWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">
                             <property name="disabled" value="@{#empty(#lp.endTime)}"/>
                         </bean>
                     </property>

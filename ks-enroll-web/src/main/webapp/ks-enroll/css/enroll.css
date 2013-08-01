@@ -959,3 +959,14 @@ div#Uif-ApplicationHeader-Wrapper{
     padding-top: 20px;
     width: 75%;
 }
+
+/* Acal radio buttons for key dates and events */
+.acal_keydate_radiobutton > fieldset > span {
+    margin-top: -0.1em;
+    height: 17px;
+}
+
+.acal_keydate_radiobutton_label {
+    font-size: 0.9em;
+    font-weight: normal;
+}

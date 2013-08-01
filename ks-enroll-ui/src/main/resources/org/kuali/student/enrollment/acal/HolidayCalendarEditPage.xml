@@ -201,9 +201,14 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:defaultValue="AM">
-                    <property name="refreshWhenChangedPropertyNames" value="#lp.startTime"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>acal_keydate_radiobutton</value>
+                        </list>
+                    </property>
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
+                              p:enabledWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
                             <property name="disabled" value="@{#empty(#lp.startTime)}"/>
                         </bean>
                     </property>
@@ -225,9 +230,14 @@
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:defaultValue="AM">
-                    <property name="refreshWhenChangedPropertyNames" value="#lp.endTime"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>acal_keydate_radiobutton</value>
+                        </list>
+                    </property>
                     <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" >
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
+                              p:enabledWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">
                             <property name="disabled" value="@{#empty(#lp.endTime)}"/>
                         </bean>
                     </property>
@@ -251,8 +261,8 @@
     </util:list>
 
     <util:list id="hctime-options">
-        <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="am"/>
-        <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="pm"/>
+        <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="[css='acal_keydate_radiobutton_label']am[/css]"/>
+        <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="[css='acal_keydate_radiobutton_label']pm[/css]"/>
     </util:list>
 
 </beans>
