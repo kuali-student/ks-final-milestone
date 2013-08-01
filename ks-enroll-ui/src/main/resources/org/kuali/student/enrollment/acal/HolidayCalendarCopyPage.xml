@@ -164,7 +164,7 @@
     </bean>
 
     <bean id="KS-HolidayCalendar-CopyPage-To" parent="Uif-VerticalBoxSubSection"
-          p:headerText="Copy To"
+          p:headerText="Copy to"
           p:render="@{holidayCalendarInfo != null}"
           p:style="margin-bottom:0;">
         <property name="header">
