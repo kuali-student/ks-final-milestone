@@ -740,7 +740,6 @@ public class CourseOfferingTransformer {
         }
 
         courseOfferingInfo.setDescr(courseInfo.getDescr());
-        courseOfferingInfo.setInstructors(copyInstructors(courseInfo.getInstructors()));
     }
 
     public void copyRulesFromCanonical(CourseInfo courseInfo,
