@@ -43,15 +43,22 @@ public class CluSetDataLoader {
         loadCourseSet("COURSE-SET1", "COURSE-SET1-NAME", "COURSE1");
         loadCourseSet("COURSE-SET2", "COURSE-SET2-NAME", "COURSE2", "COURSE3");
         loadCourseSet("COURSE-SET3", "COURSE-SET3-NAME", "COURSE4", "COURSE5", "COURSE6", "COURSE7");
+
+        loadProgramSet("PROG-SET1", "PROG-SET1-NAME", "PROGRAM1");
     }
 
-    public CluSetInfo loadCourseSet(String id,
-            String name,
-            String... cluIds) {
+    public CluSetInfo loadCourseSet(String id, String name, String... cluIds) {
+        return loadCluSet(id, name, CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE, cluIds);
+    }
 
+    public CluSetInfo loadProgramSet(String id, String name, String... cluIds) {
+        return loadCluSet(id, name, CluServiceConstants.CLUSET_TYPE_PROGRAM, cluIds);
+    }
+
+    private CluSetInfo loadCluSet(String id, String name, String type, String[] cluIds) {
         CluSetInfo cluSetInfo = new CluSetInfo();
         cluSetInfo.setId(id);
-        cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
+        cluSetInfo.setTypeKey(type);
         cluSetInfo.setStateKey("Active");
         cluSetInfo.setName(name);
         cluSetInfo.setEffectiveDate(new Date());
@@ -59,7 +66,7 @@ public class CluSetDataLoader {
         cluSetInfo.setIsReusable(Boolean.FALSE);
         // convert cluIds into version independent ids
         List<String> versionIndCluIds = new ArrayList<String>();
-        cluSetInfo.setCluIds(versionIndCluIds);        
+        cluSetInfo.setCluIds(versionIndCluIds);
         List<CluInfo> clus;
         try {
             clus = this.cluService.getClusByIds(Arrays.asList(cluIds), contextInfo);
