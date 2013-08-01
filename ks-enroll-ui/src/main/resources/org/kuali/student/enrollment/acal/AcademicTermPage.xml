@@ -397,7 +397,7 @@
                     </property>
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
-                              p:enabledWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
+                              p:refreshWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
                             <property name="disabled" value="@{#empty(#lp.startTime)}"/>
                         </bean>
                     </property>
@@ -427,7 +427,7 @@
                     </property>
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
-                              p:enabledWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">
+                              p:refreshWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">
                             <property name="disabled" value="@{#empty(#lp.endTime)}"/>
                         </bean>
                     </property>
