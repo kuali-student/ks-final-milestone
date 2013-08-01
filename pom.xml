@@ -139,6 +139,8 @@
         <metainf.sql.propertySource>org.kuali.student.deploy.spring.SqlMetaInfPropertySourceConfig</metainf.sql.propertySource>
         <jdk6.rt.jar>/var/lib/jenkins/tools/jdk6/jre/lib/rt.jar</jdk6.rt.jar>
         <kuali-impex.version>${impex.version}</kuali-impex.version>
+        <!-- Remove this once the top level Kuali pom is on this version (or higher) -->
+        <plugin.externals.version>1.0.10</plugin.externals.version>
     </properties>
     <profiles>
         <profile>
