@@ -60,9 +60,9 @@ public class KeyDateWrapper extends TimeSetWrapper{
             this.setAllDay(keydate.getIsAllDay());
             this.setDateRange(keydate.getIsDateRange());
             this.setKeyDateInfo(keydate);
+            buildDateAndTime();        // don't do this when copying
         }
 
-        buildDateAndTime();
     }
 
     public String getKeyDateType() {

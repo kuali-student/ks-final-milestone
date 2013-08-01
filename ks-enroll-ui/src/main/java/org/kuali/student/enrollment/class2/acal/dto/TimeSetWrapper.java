@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 
 import java.util.Date;
@@ -50,9 +49,10 @@ public class TimeSetWrapper {
 
         // If not all day, set start/end time in the wrapper
         if (!isAllDay()){
-            setStartTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getStartDate()));
-            setStartTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getStartDate()));
-
+            if (getStartDate() != null){
+                setStartTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getStartDate()));
+                setStartTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getStartDate()));
+            }
             if (getEndDate() != null){
                 setEndTime(DateFormatters.HOUR_MINUTE_TIME_FORMATTER.format(getEndDate()));
                 setEndTimeAmPm(DateFormatters.AM_PM_TIME_FORMATTER.format(getEndDate()));
