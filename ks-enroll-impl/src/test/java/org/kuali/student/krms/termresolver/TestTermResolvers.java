@@ -14,8 +14,8 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.krms.data.KRMSEnrollmentEligibilityDataLoader;
 import org.kuali.student.krms.termresolver.util.AtpForCourseOfferingIdTermResolver;
-import org.kuali.student.krms.termresolver.util.CluIdsInCourseSetTermResolver;
-import org.kuali.student.krms.termresolver.util.CourseIdsFromVersionIndIdTermResolver;
+import org.kuali.student.krms.termresolver.util.CluIdsFromVersionIndIdTermResolver;
+import org.kuali.student.krms.termresolver.util.CluIdsInCluSetTermResolver;
 import org.kuali.student.krms.termresolver.util.CourseRecordsForCourseIdTermResolver;
 import org.kuali.student.krms.termresolver.util.CourseRecordsForCourseSetTermResolver;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -102,8 +102,8 @@ public class TestTermResolvers {
         dataLoader.afterTest();
     }
 
-    private TermResolver<List<String>> getCourseIdsTermResolver() {
-        CourseIdsFromVersionIndIdTermResolver termResolver = new CourseIdsFromVersionIndIdTermResolver();
+    private TermResolver<List<String>> getCluIdsTermResolver() {
+        CluIdsFromVersionIndIdTermResolver termResolver = new CluIdsFromVersionIndIdTermResolver();
         termResolver.setCluVersionService(cluService);
         return termResolver;
     }
@@ -111,7 +111,7 @@ public class TestTermResolvers {
     private CompletedCourseTermResolver getCompletedCourseTermResolver(){
         CompletedCourseTermResolver termResolver = new CompletedCourseTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
-        termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setCluIdsTermResolver(this.getCluIdsTermResolver());
         return termResolver;
     }
 
@@ -143,8 +143,8 @@ public class TestTermResolvers {
         assertFalse(isCompleted);
     }
 
-    private TermResolver<List<String>> getCluIdsInCourseSetTermResolver() {
-        CluIdsInCourseSetTermResolver termResolver = new CluIdsInCourseSetTermResolver();
+    private TermResolver<List<String>> getCluIdsInCluSetTermResolver() {
+        CluIdsInCluSetTermResolver termResolver = new CluIdsInCluSetTermResolver();
         termResolver.setCluService(cluService);
         return termResolver;
     }
@@ -153,7 +153,7 @@ public class TestTermResolvers {
     public void testCompletedCoursesTermResolver() {
         //Setup the term resolver
         CompletedCoursesTermResolver termResolver = new CompletedCoursesTermResolver();
-        termResolver.setCluIdsInCourseSetTermResolver(this.getCluIdsInCourseSetTermResolver());
+        termResolver.setCluIdsInCluSetTermResolver(this.getCluIdsInCluSetTermResolver());
         termResolver.setCompletedCourseTermResolver(this.getCompletedCourseTermResolver());
 
         //Setup data
@@ -180,7 +180,7 @@ public class TestTermResolvers {
     public void testNumberOfCompletedCoursesTermResolver() {
         //Setup the term resolver
         NumberOfCompletedCoursesTermResolver termResolver = new NumberOfCompletedCoursesTermResolver();
-        termResolver.setCluIdsInCourseSetTermResolver(this.getCluIdsInCourseSetTermResolver());
+        termResolver.setCluIdsInCluSetTermResolver(this.getCluIdsInCluSetTermResolver());
         termResolver.setCompletedCourseTermResolver(this.getCompletedCourseTermResolver());
 
         //Setup data
@@ -206,13 +206,13 @@ public class TestTermResolvers {
     private TermResolver<List<StudentCourseRecordInfo>> getCourseRecordsForCourseIdTermResolver() {
         CourseRecordsForCourseIdTermResolver termResolver = new CourseRecordsForCourseIdTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
-        termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setCluIdsTermResolver(this.getCluIdsTermResolver());
         return termResolver;
     }
 
     private TermResolver<List<StudentCourseRecordInfo>> getCourseRecordsForCourseSetTermResolver() {
         CourseRecordsForCourseSetTermResolver termResolver = new CourseRecordsForCourseSetTermResolver();
-        termResolver.setCluIdsInCourseSetTermResolver(this.getCluIdsInCourseSetTermResolver());
+        termResolver.setCluIdsInCluSetTermResolver(this.getCluIdsInCluSetTermResolver());
         termResolver.setCourseRecordsForCourseIdTermResolver(this.getCourseRecordsForCourseIdTermResolver());
         return termResolver;
     }
@@ -246,7 +246,7 @@ public class TestTermResolvers {
         EnrolledCourseTermResolver termResolver = new EnrolledCourseTermResolver();
         termResolver.setCourseRegistrationService(courseRegistrationService);
         termResolver.setCourseOfferingService(courseOfferingService);
-        termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setCluIdsTermResolver(this.getCluIdsTermResolver());
         return termResolver;
     }
 
@@ -291,7 +291,7 @@ public class TestTermResolvers {
     public void testEnrolledCoursesTermResolver() {
         //Setup the term resolver
         EnrolledCoursesTermResolver termResolver = new EnrolledCoursesTermResolver();
-        termResolver.setCluIdsInCourseSetTermResolver(this.getCluIdsInCourseSetTermResolver());
+        termResolver.setCluIdsInCluSetTermResolver(this.getCluIdsInCluSetTermResolver());
         termResolver.setEnrolledCourseTermResolver(this.getEnrolledCourseTermResolver());
 
         //Setup data
@@ -325,7 +325,7 @@ public class TestTermResolvers {
     public void testNumberOfEnrolledCoursesTermResolver() {
         //Setup the term resolver
         NumberOfEnrolledCoursesTermResolver termResolver = new NumberOfEnrolledCoursesTermResolver();
-        termResolver.setCluIdsInCourseSetTermResolver(this.getCluIdsInCourseSetTermResolver());
+        termResolver.setCluIdsInCluSetTermResolver(this.getCluIdsInCluSetTermResolver());
         termResolver.setEnrolledCourseTermResolver(this.getEnrolledCourseTermResolver());
 
         //Setup data
@@ -522,6 +522,7 @@ public class TestTermResolvers {
     public void testAdmittedToProgramTermResolver() {
         //Setup the term resolver
         AdmittedProgramTermResolver termResolver = new AdmittedProgramTermResolver();
+        termResolver.setAcademicRecordService(academicRecordService);
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
@@ -532,7 +533,7 @@ public class TestTermResolvers {
                 KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAM);
 
         //Evaluate term Resolver
-        Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
+        //Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
         //assertNotNull(isAdmitted);
         //assertTrue(isAdmitted);
     }
@@ -544,7 +545,7 @@ public class TestTermResolvers {
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CLU_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CLU_ID, "Program1");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -559,18 +560,19 @@ public class TestTermResolvers {
     @Test
     public void testAdmittedToProgramWithClassStandingTermResolver() {
         //Setup the term resolver
-        AdmittedProgramTermResolver termResolver = new AdmittedProgramTermResolver();
+        AdmittedProgramWithClassStandingTermResolver termResolver = new AdmittedProgramWithClassStandingTermResolver();
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLASS_STANDING_KEY, "1");
         parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "1");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
-                KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAM);
+                KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAMWITHCLASSSTANDING);
 
         //Evaluate term Resolver
-        Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
+        //Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
         //assertNotNull(isAdmitted);
         //assertTrue(isAdmitted);
     }
@@ -581,7 +583,7 @@ public class TestTermResolvers {
         CompletedCourseForTermTermResolver termResolver = new CompletedCourseForTermTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
         termResolver.setCourseOfferingService(courseOfferingService);
-        termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setCluIdsTermResolver(this.getCluIdsTermResolver());
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
@@ -617,7 +619,7 @@ public class TestTermResolvers {
         CompletedCourseAsOfTermTermResolver termResolver = new CompletedCourseAsOfTermTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
         termResolver.setAtpService(atpService);
-        termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setCluIdsTermResolver(this.getCluIdsTermResolver());
         termResolver.setAtpForCOIdTermResolver(this.getAtpForCOIdTermResolver());
 
         //Setup data
@@ -647,7 +649,7 @@ public class TestTermResolvers {
         CompletedCoursePriorToTermTermResolver termResolver = new CompletedCoursePriorToTermTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
         termResolver.setAtpService(atpService);
-        termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setCluIdsTermResolver(this.getCluIdsTermResolver());
         termResolver.setAtpForCOIdTermResolver(this.getAtpForCOIdTermResolver());
 
         //Setup data
@@ -677,7 +679,7 @@ public class TestTermResolvers {
         CompletedCourseBetweenTermsTermResolver termResolver = new CompletedCourseBetweenTermsTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
         termResolver.setAtpService(atpService);
-        termResolver.setCourseIdsTermResolver(this.getCourseIdsTermResolver());
+        termResolver.setCluIdsTermResolver(this.getCluIdsTermResolver());
         termResolver.setAtpForCOIdTermResolver(this.getAtpForCOIdTermResolver());
 
         //Setup data

@@ -10,11 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Peggy
- * Date: 2013/07/06
- * Time: 1:44 PM
- * To change this template use File | Settings | File Templates.
+ * @author Kuali Student Team
  */
 public class AdmittedProgramAtCourseCampusTermResolver implements TermResolver<Boolean> {
 

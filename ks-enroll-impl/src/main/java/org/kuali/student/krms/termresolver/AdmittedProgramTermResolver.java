@@ -2,21 +2,34 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
+import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.krms.util.KSKRMSExecutionUtil;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: SW Genis
- * Date: 2013/07/15
- * Time: 1:54 PM
- * To change this template use File | Settings | File Templates.
+ * Returns true if the student is admitted to the given program.
+ *
+ * From services:
+ * The StudentProgramRecord will indicate admission into a Program. Since there is no program offering and enrollment
+ * services, that's the only path available at this point.
+ *
+ * Example rule statements:
+ * 1) Must have been admitted to the <program> program
+ * 2) Must not have been admitted to the <program> program
+ *
+ * @author Kuali Student Team
  */
 public class AdmittedProgramTermResolver implements TermResolver<Boolean> {
+
+    private AcademicRecordService academicRecordService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -42,7 +55,33 @@ public class AdmittedProgramTermResolver implements TermResolver<Boolean> {
     }
 
     @Override
-    public Boolean resolve(Map<String, Object> stringObjectMap, Map<String, String> stringStringMap) throws TermResolutionException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
+
+        try {
+            String programId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+
+            //Retrieve the students academic record.
+            List<StudentProgramRecordInfo> programRecords = this.getAcademicRecordService().getProgramRecords(personId, context);
+            for(StudentProgramRecordInfo programRecord : programRecords){
+                if(programRecord.getProgramId().equals(programId)){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        }
+
+        return false;
     }
+
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
+
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
+    }
+
 }
