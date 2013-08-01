@@ -452,7 +452,7 @@
                             <property name="evaluateDisabledOnKeyUp" value="true"/>
                         </bean>
                     </property>
-                    <!-- KSENROLL-8303 took this out untill it is working better -->
+                    <!-- KSENROLL-8303 took this out until it is working better (Add back in for KSENROLL-8289)-->
                     <!--<property name="quickfinder.fieldConversions">-->
                         <!--<map>-->
                             <!--<entry key="code" value="catalogCourseCode"/>-->
@@ -631,13 +631,6 @@
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
                 <entry key="bPaginate" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}"/>
-                <!--<entry key="aoColumns" value="[{'bSortable':false},-->
-                                               <!--{'bSortable':true},-->
-                                               <!--{'bSortable':true},-->
-                                               <!--{'bSortable':true},-->
-                                               <!--{'bSortable':true},-->
-                                               <!--{'bSortable':true}-->
-                                                <!--]"/>-->
                 <entry key="aoColumns" value="oTable.fnSetColumnVis( 0, false );"/>
             </map>
         </property>
