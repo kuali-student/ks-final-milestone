@@ -605,12 +605,11 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
                 Date startDate = getStartDateWithUpdatedTime(wrapper, false);
                 Date endDate =  timeSetWrapperEndDate(wrapper);
                 if (!CommonUtils.isValidDateRange(startDate, endDate)) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, wrapperName, CommonUtils.formatDate(wrapper.getStartDate()), CommonUtils.formatDate(wrapper.getEndDate()));
-                    return false;                }
+                    GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, wrapperName, CommonUtils.formatDate(wrapper.getStartDate()), CommonUtils.formatDate(wrapper.getEndDate()));
+                }
             } else {
                 if (!CommonUtils.isValidDateRange(wrapper.getStartDate(), wrapper.getEndDate())) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, wrapperName, CommonUtils.formatDate(wrapper.getStartDate()), CommonUtils.formatDate(wrapper.getEndDate()));
-                    return false;
+                    GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_RANGE, wrapperName, CommonUtils.formatDate(wrapper.getStartDate()), CommonUtils.formatDate(wrapper.getEndDate()));
                 }
             }
         }
