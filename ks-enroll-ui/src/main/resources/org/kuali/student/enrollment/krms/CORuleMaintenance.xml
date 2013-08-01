@@ -533,9 +533,9 @@ limitations under the License.
     <bean id="KSCO-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup" p:componentSecurity.editAuthz="true">
         <property name="items">
             <list>
-                <bean parent="KRMS-LogicArea-InputField"/>
-                <bean parent="KRMS-LogicPreview-Button"/>
-                <bean parent="KSCO-LogicPreview-Tree"/>
+                <ref bean="KRMS-LogicArea-InputField"/>
+                <ref bean="KRMS-LogicPreview-Button"/>
+                <ref bean="KSCO-LogicPreview-Tree"/>
             </list>
         </property>
     </bean>
@@ -543,7 +543,7 @@ limitations under the License.
     <bean id="KSCO-LogicPreview-Tree" parent="KRMS-LogicPreview-Tree">
         <property name="items">
             <list>
-                <bean parent="KSCO-PreviewTree-Section"/>
+                <ref bean="KSCO-PreviewTree-Section"/>
             </list>
         </property>
     </bean>

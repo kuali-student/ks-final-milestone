@@ -34,6 +34,8 @@ import java.util.Map;
  */
 public class KSKRMSViewAuthorizer extends KsViewAuthorizerBase {
 
+    private static final String KRMS_COMPARE_ACTION_EVENT = "compare";
+
     public boolean canPerformAction(View view, ViewModel model, Action action, String actionEvent,
                                     String actionId, Person user) {
         // check action authz flag is set
@@ -56,7 +58,9 @@ public class KSKRMSViewAuthorizer extends KsViewAuthorizerBase {
 
         String socState = StringUtils.lowerCase(wrapper.getContextBar().getTermSocState());
 
-        roleQualifications.put("offeringAdminOrgId", wrapper.getAdminOrg());
+        if(!actionEvent.equals(KRMS_COMPARE_ACTION_EVENT)) {
+            roleQualifications.put("offeringAdminOrgId", wrapper.getAdminOrg());
+        }
 
         permissionDetails.put("socState", socState);
         if(ruleType != null) {
