@@ -18,6 +18,7 @@ package org.kuali.rice.krms.tree;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
@@ -50,12 +51,24 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
             if(childNode.getData() != null){
                 CompareTreeNode compareTreeNode = childNode.getData();
 
-                if(!compareTreeNode.getFirstElement().trim().isEmpty()){
-                    compareTreeNode.setFirstElement(compareTreeNode.getFirstElement() + ":");
+                if(firstElement != null) {
+                    if(firstElement.getProposition() != null) {
+                        if(firstElement.getProposition().getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+                            if(!compareTreeNode.getFirstElement().trim().isEmpty()){
+                                compareTreeNode.setFirstElement(compareTreeNode.getFirstElement() + ":");
+                            }
+                        }
+                    }
                 }
 
-                if(!compareTreeNode.getSecondElement().trim().isEmpty()){
-                    compareTreeNode.setSecondElement(compareTreeNode.getSecondElement() + ":");
+                if(secondElement != null) {
+                    if(secondElement.getProposition() != null) {
+                        if(secondElement.getProposition().getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+                            if(!compareTreeNode.getSecondElement().trim().isEmpty()){
+                                compareTreeNode.setSecondElement(compareTreeNode.getSecondElement() + ":");
+                            }
+                        }
+                    }
                 }
             }
         }
