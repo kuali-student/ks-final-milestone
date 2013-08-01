@@ -449,11 +449,12 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
                 || StringUtils.contains( returnLocationFromForm,"pageId=manageTheCourseOfferingPage" ) )
         {
             if ( !returnLocationFromForm.contains("methodToCall=") ) {  // This happens when we display a list of COs and then user click on Manage action
-                urlToRedirectTo = returnLocationFromForm + "&methodToCall=reloadManageCO";
+                form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.TRUE.toString());
             }
             else {
-                urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=reloadManageCO");
+                form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.FALSE.toString());
             }
+            urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
         }
         else {
             urlToRedirectTo = returnLocationFromForm;
