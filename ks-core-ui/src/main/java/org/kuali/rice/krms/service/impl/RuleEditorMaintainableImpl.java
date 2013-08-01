@@ -400,10 +400,10 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     public AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
 
-        Stack<RuleEditor> rules = new Stack<RuleEditor>();
+        Queue<RuleEditor> rules = new LinkedList<RuleEditor>();
         for (RuleEditor rule : agenda.getRuleEditors().values()) {
             if (!rule.isDummy()) {
-                rules.push(rule);
+                rules.add(rule);
             }
         }
 
@@ -430,10 +430,10 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         AgendaItemDefinition rootItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
         AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(rootItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
-        while (!rules.empty()) {
-            itemBuilder.setRule(this.finRule(rules.pop(), namePrefix, nameSpace));
+        while (rules.peek()!=null) {
+            itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
-            if (!rules.empty()) {
+            if (rules.peek()!=null) {
                 itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
                 itemBuilder = itemBuilder.getWhenTrue();
             }
