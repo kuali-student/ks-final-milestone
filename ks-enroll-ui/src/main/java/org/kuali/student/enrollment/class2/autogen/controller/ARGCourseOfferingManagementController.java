@@ -775,7 +775,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             aoCluster.setPrivateName(requestedPrivateName);
             aoCluster.setName(requestedName);
             try {
-                aoCluster = ARGUtil.getCourseOfferingService().updateActivityOfferingCluster(theForm.getFormatOfferingIdForViewRG(),
+                aoCluster = ARGUtil.getCourseOfferingService().updateActivityOfferingCluster(aoCluster.getFormatOfferingId(),
                     aoCluster.getId(), aoCluster, ContextUtils.createDefaultContextInfo());
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.CLUSTER_RENAME_SUCCESS);
                 selectedClusterWrapper.setAoCluster(aoCluster);
