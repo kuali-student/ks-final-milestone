@@ -29,6 +29,6 @@ public class KSDeploymentResourcesConfig {
 		Project project = ksDeploymentResourcesProject();
 		String encoding = ProjectUtils.getEncoding(project);
 		String prefix = ProjectUtils.getClasspathPrefix(project.getGroupId(), project.getArtifactId());
-		return new ImmutableLocation(prefix + suffix, encoding);
+		return new ImmutableLocation(prefix + suffix, encoding, true);
 	}
 }
