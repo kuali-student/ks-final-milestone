@@ -291,6 +291,7 @@
         <property name="businessLogic" ref="socBusinessLogic" />
         <property name="stateTransitionsHelper" ref="stateTransitionsHelper"/>
         <property name="stateService" ref="stateService"/>
+        <property name="acalService" ref="AcademicCalendarService" />
     </bean>
 
     <bean id="ks.exp.socService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

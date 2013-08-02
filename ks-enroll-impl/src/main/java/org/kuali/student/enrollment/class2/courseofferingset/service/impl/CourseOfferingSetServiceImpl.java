@@ -50,6 +50,9 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
 import org.springframework.transaction.annotation.Transactional;
@@ -76,6 +79,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     private CriteriaLookupService criteriaLookupService;
     private StateTransitionsHelper stateTransitionsHelper;
     private StateService stateService;
+    private AcademicCalendarService acalService;
 
     public CourseOfferingSetServiceBusinessLogic getBusinessLogic() {
         return businessLogic;
@@ -310,7 +314,20 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     @Transactional(readOnly = true)
     public List<String> getSocIdsByTerm(String termId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return socDao.getSocIdsByTerm(termId);
+
+        List<String> socIds = socDao.getSocIdsByTerm(termId);
+
+        //Added to support subterms, which are not directly linked to a soc, but are linked through their parent term.
+        if(socIds == null || socIds.isEmpty()){
+            List<TermInfo> terms = acalService.getContainingTerms(termId, context);
+            if(terms != null && !terms.isEmpty()){
+                if(terms.size() > 1){
+                    throw new OperationFailedException("Multiple parent terms found, expecting only one parent term.");
+                }
+                socIds = socDao.getSocIdsByTerm(terms.get(0).getId());
+            }
+        }
+        return socIds;
     }
 
     @Override
@@ -839,6 +856,14 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
             infos.add(info);
         }
         return infos;
+    }
+
+    public AcademicCalendarService getAcalService() {
+        return acalService;
+    }
+
+    public void setAcalService(AcademicCalendarService acalService) {
+        this.acalService = acalService;
     }
 
     public StateService getStateService() {

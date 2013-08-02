@@ -3538,6 +3538,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     }
                 }
             } else{
+                LOGGER.warn("State Constraints failed for AO id " + activityOfferingId + " to state " + nextStateKey);
                 return scStatus;
             }
         }
