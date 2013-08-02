@@ -104,6 +104,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean maxEnrollmentShared;
     private boolean hiddenMaxEnrollmentShared;
     private int sharedMaxEnrollment;
+    private boolean hasSeatpools;
 
     private ScheduleRequestSetInfo scheduleRequestSetInfo;
 
@@ -895,6 +896,14 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setSharedMaxEnrollment(int sharedMaxEnrollment) {
         this.sharedMaxEnrollment = sharedMaxEnrollment;
+    }
+
+    public boolean getHasSeatpools() {
+        return hasSeatpools;
+    }
+
+    public void setHasSeatpools(boolean hasSeatpools) {
+        this.hasSeatpools = hasSeatpools;
     }
 
     public ScheduleRequestSetInfo getScheduleRequestSetInfo() {
