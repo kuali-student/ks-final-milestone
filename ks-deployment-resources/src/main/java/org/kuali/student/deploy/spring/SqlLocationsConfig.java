@@ -1,5 +1,7 @@
 package org.kuali.student.deploy.spring;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kuali.common.util.properties.Location;
@@ -20,7 +22,10 @@ public class SqlLocationsConfig {
 
 	@Bean
 	public List<Location> metaInfSqlLocations() {
-		return null;
+		List<Location> locations = new ArrayList<Location>();
+		locations.addAll(sqlLocationsConfig.metaInfSqlBuildLocations());
+		locations.add(sourceDbLocationsConfig.ksSourceDbCommon());
+		return Collections.unmodifiableList(locations);
 	}
 
 }
