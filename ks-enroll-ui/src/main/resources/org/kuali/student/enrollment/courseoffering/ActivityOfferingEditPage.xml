@@ -351,6 +351,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Seat Pools"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-seatpools</value>
@@ -361,9 +362,7 @@
             <list>
                 <bean id="ActivityOffering-SeatpoolsSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="ao-seatpoolgroupZ"
-                      p:layoutManager.id="ao-seatpoolgroup-table">
-
-                    <property name="headerText" value="Seat Pools"/>
+                      p:layoutManager.id="ao-seatpoolgroup-table" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
                     <property name="propertyName" value="seatpools" />
                     <property name="addBlankLineAction.actionLabel" value="Add Seat Pool"/>
