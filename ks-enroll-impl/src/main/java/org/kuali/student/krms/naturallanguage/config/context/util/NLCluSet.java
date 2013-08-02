@@ -19,6 +19,8 @@ import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -46,12 +48,12 @@ public class NLCluSet {
 	
 	public NLCluSet(String cluSetId, List<CluInfo> cluList) {
 		this.cluSetId = cluSetId;
-		this.cluList = cluList;
+        setCluList(cluList);
 	}
 	
 	public NLCluSet(String cluSetId, List<CluInfo> cluList, CluSetInfo cluSet) {
 		this.cluSetId = cluSetId;
-		this.cluList = cluList;
+		setCluList(cluList);
 		this.cluSet = cluSet;
 	}
 	
@@ -63,6 +65,23 @@ public class NLCluSet {
 	public String getCluSetId() {
 		return cluSetId;
 	}
+
+    /**
+     * Sorts the clu list and sets this.cluList
+     *
+     * @param cluList
+     */
+    public void setCluList(List<CluInfo> cluList) {
+        Collections.sort(cluList, new Comparator<CluInfo>() {
+
+            @Override
+            public int compare(CluInfo o1, CluInfo o2) {
+                return o1.getOfficialIdentifier().getCode().compareTo(o2.getOfficialIdentifier().getCode());
+            }
+        });
+
+        this.cluList = cluList;
+    }
 
 	/**
 	 * Gets a list of CLUs.
