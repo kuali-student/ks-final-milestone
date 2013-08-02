@@ -6,6 +6,8 @@ import java.util.Properties;
 import org.kuali.common.util.properties.Location;
 import org.kuali.common.util.properties.PropertiesService;
 import org.kuali.common.util.properties.spring.ProjectPropertiesServiceConfig;
+import org.kuali.common.util.properties.spring.PropertiesServiceConfig;
+import org.kuali.common.util.properties.spring.PropertyLocationsConfig;
 import org.kuali.common.util.spring.service.PropertySourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,20 +17,20 @@ import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
 
 @Configuration
-@Import({ SqlLocationsConfig.class, ProjectPropertiesServiceConfig.class })
+@Import({ SqlMetaInfLocationsConfig.class, ProjectPropertiesServiceConfig.class })
 public class SqlMetaInfPropertySourceConfig implements PropertySourceConfig {
 
 	@Autowired
-	SqlLocationsConfig sqlLocationsConfig;
+	PropertyLocationsConfig propertyLocationsConfig;
 
 	@Autowired
-	ProjectPropertiesServiceConfig projectPropertiesServiceConfig;
+	PropertiesServiceConfig propertiesServiceConfig;
 
 	@Override
 	@Bean
 	public PropertySource<?> propertySource() {
-		List<Location> locations = sqlLocationsConfig.metaInfSqlLocations();
-		PropertiesService service = projectPropertiesServiceConfig.projectPropertiesService();
+		List<Location> locations = propertyLocationsConfig.propertyLocations();
+		PropertiesService service = propertiesServiceConfig.propertiesService();
 		Properties properties = service.getProperties(locations);
 		return new PropertiesPropertySource("propertiesPropertySource", properties);
 	}

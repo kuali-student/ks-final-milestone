@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.kuali.common.util.properties.Location;
+import org.kuali.common.util.properties.spring.PropertyLocationsConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({ SourceDbLocationsConfig.class, org.kuali.common.util.metainf.spring.SqlLocationsConfig.class })
-public class SqlLocationsConfig {
+public class SqlMetaInfLocationsConfig implements PropertyLocationsConfig {
 
 	@Autowired
 	SourceDbLocationsConfig sourceDbLocationsConfig;
@@ -20,8 +21,9 @@ public class SqlLocationsConfig {
 	@Autowired
 	org.kuali.common.util.metainf.spring.SqlLocationsConfig sqlLocationsConfig;
 
+	@Override
 	@Bean
-	public List<Location> metaInfSqlLocations() {
+	public List<Location> propertyLocations() {
 		List<Location> locations = new ArrayList<Location>();
 		locations.addAll(sqlLocationsConfig.metaInfSqlBuildLocations());
 		locations.add(sourceDbLocationsConfig.ksSourceDbCommon());
