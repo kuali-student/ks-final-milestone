@@ -200,7 +200,7 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-RuleEdit-Links" parent="Uif-LinkGroup" p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
-        <property name="linkSeparator" value=" | "/>
+        <property name="linkSeparator" value=" "/>
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}"/>
@@ -211,7 +211,7 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-RuleView-Links" parent="Uif-LinkGroup" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
-        <property name="linkSeparator" value=" | "/>
+        <property name="linkSeparator" value=" "/>
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
@@ -224,7 +224,7 @@ limitations under the License.
     </bean>
 
     <bean id="KRMS-RuleAdd-Links" parent="Uif-LinkGroup">
-        <property name="linkSeparator" value="@{#line.dummy and #line.parent != null ? ' | ' : ''}"/>
+        <property name="linkSeparator" value=" "/>
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules"
