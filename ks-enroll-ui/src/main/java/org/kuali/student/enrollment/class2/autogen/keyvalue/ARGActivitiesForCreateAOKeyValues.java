@@ -56,6 +56,7 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
+        ARGFormatsForCreateAOKeyValues argFormatsForCreateAOKeyValues = new ARGFormatsForCreateAOKeyValues();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
@@ -64,7 +65,8 @@ public class ARGActivitiesForCreateAOKeyValues extends UifKeyValuesFinderBase im
             if (coForm.getFoId2aoTypeMap().isEmpty()) {
                 return keyValues;
             }
-            formatOfferingId = (String)coForm.getFoId2aoTypeMap().keySet().toArray()[0];
+            //formatOfferingId =argFormatsForCreateAOKeyValues.getKeyValues(model).get(0).getKey();
+            formatOfferingId = argFormatsForCreateAOKeyValues.getFirstKey(model);
         }
 
         String courseId = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo().getCourseId();

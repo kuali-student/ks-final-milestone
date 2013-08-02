@@ -77,6 +77,32 @@ public class ARGFormatsForCreateAOKeyValues extends UifKeyValuesFinderBase imple
         return keyValues;
     }
 
+    public String getFirstKey(ViewModel model){
+        ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
+        ARGCourseOfferingManagementViewHelperServiceImpl helperService = ((ARGCourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
+
+        String foId = null;
+
+        CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
+
+        try {
+            SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.FO_BY_CO_ID_SEARCH_KEY);
+            sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, selectedCourseOffering.getId());
+
+            SearchResultInfo results = helperService.getSearchService().search(sr, null);
+
+                for(SearchResultCellInfo cell:results.getRows().get(0).getCells()){
+                    if(ActivityOfferingSearchServiceImpl.SearchResultColumns.FO_ID.equals(cell.getKey())){
+                        foId = cell.getValue();
+                    }
+                }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return foId;
+    }
+
 
 
 

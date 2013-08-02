@@ -43,7 +43,7 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-
+        ARGFormatsForCreateAOKeyValues argFormatsForCreateAOKeyValues = new ARGFormatsForCreateAOKeyValues();
         ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
         String formatOfferingId = coForm.getFormatOfferingIdForNewAO();
         coForm.setHasAOCluster(false);
@@ -53,7 +53,7 @@ public class ARGClustersForCreateAOKeyValues extends UifKeyValuesFinderBase impl
             if (coForm.getFoId2aoTypeMap().isEmpty()) {
                 return keyValues;
             }
-            formatOfferingId = (String)coForm.getFoId2aoTypeMap().keySet().toArray()[0];
+            formatOfferingId = argFormatsForCreateAOKeyValues.getFirstKey(model);
         }
 
         if (!StringUtils.isEmpty(formatOfferingId)) {
