@@ -482,8 +482,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 spWrapper.setId(seatPoolDefinitionInfo.getId());
                 seatPoolWrapperList.add(spWrapper);
             }
+            wrapper.setHasSeatpools(true);
             //try to add an empty line
             if(seatPoolWrapperList.size()==0){
+                wrapper.setHasSeatpools(false);
                 SeatPoolWrapper spWrapper = new SeatPoolWrapper();
                 SeatPoolDefinitionInfo seatPool = new SeatPoolDefinitionInfo();
                 seatPool.setProcessingPriority(1);
