@@ -254,37 +254,24 @@ public class CourseController extends UifControllerBase {
     public ModelAndView createComment(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-    	String commentDialogKey = "commentsDialog";
-        if (!hasDialogBeenAnswered(commentDialogKey, form)){
-            
-            // redirect back to client to display lightbox
-            return showDialog(commentDialogKey, form, request, response);
-        }
-        
-        // Get value from chosen radio button
-        boolean choice = getBooleanDialogResponse(commentDialogKey, form, request, response);
-        
-        // clear dialog history so they can press the button again
-        form.getDialogManager().removeDialog(commentDialogKey);
-        
-        if (choice) {
-            CommentInfo commentInfo = form.getCommentInfo();
-            commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
-            commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
-            //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
-            commentInfo.setReferenceId("temp_reference_id");
-            commentInfo.setReferenceTypeKey("referenceType.clu.proposal");
-            commentInfo.setStateKey(DtoState.ACTIVE.toString());
-            CommentInfo newComment = null;
-            try {
-                newComment = getCommentService().createComment_KRAD(commentInfo.getReferenceId(),
-                        commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
-                        ContextUtils.getContextInfo());
-            } catch (Exception e) {
-                throw new RuntimeException("Error creating a new comment.", e);
+            for(CommentInfo ittCommentInfo: form.getCommentInfos()){
+                CommentInfo commentInfo = ittCommentInfo;
+                commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
+                commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
+                //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
+                commentInfo.setReferenceId("temp_reference_id");
+                commentInfo.setReferenceTypeKey("referenceType.clu.proposal");
+                commentInfo.setStateKey(DtoState.ACTIVE.toString());
+                CommentInfo newComment = null;
+                try {
+                    newComment = getCommentService().createComment_KRAD(commentInfo.getReferenceId(),
+                            commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
+                            ContextUtils.getContextInfo());
+                } catch (Exception e) {
+                    throw new RuntimeException("Error creating a new comment.", e);
+                }
+                ittCommentInfo = newComment;    
             }
-            form.setCommentInfo(newComment);
-        }
     	return getUIFModelAndView(form);
     }
     

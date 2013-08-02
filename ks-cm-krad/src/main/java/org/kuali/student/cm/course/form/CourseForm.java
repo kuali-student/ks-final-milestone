@@ -30,45 +30,41 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
  */
 public class CourseForm extends UifFormBase {
 
-    private static final long serialVersionUID = -988885314122936950L;
-    
-    private CourseInfo courseInfo;
-    
-    private ProposalInfo proposalInfo;
-    
-    private boolean audit;
-    
-    private boolean passFail;
-    
-    private List<CluInstructorInfoWrapper> instructorDisplays;
-    
-    private List<CourseJointInfoWrapper> courseJointDisplays;
-    
-    private List<ResultValuesGroupInfoWrapper> creditOptionsDisplay;
-    
-    private String finalExamStatus;
-    
-    private String finalExamRationale;
-    
-    private CommentInfo commentInfo;
-    
-    private String dialog1;
-    
-    private String Field1;
-
+	private static final long serialVersionUID = -988885314122936950L;
+	
+	private CourseInfo courseInfo;
+	
+	private ProposalInfo proposalInfo;
+	
+	private boolean audit;
+	
+	private boolean passFail;
+	
+	private List<CluInstructorInfoWrapper> instructorDisplays;
+	
+	private List<CourseJointInfoWrapper> courseJointDisplays;
+	
+	private List<ResultValuesGroupInfoWrapper> creditOptionsDisplay;
+	
+	private String finalExamStatus;
+	
+	private String finalExamRationale;
+	
+	private List<CommentInfo> commentInfos;
+	
     private LearningObjectiveDialogWrapper loDialogWrapper;
     
     private Boolean showAll;
-
-    public CourseForm() {
-        this.courseInfo = new CourseInfo();
-        this.proposalInfo = new ProposalInfo();
-        this.instructorDisplays = new ArrayList<CluInstructorInfoWrapper>();
-        
-        this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoWrapper>();
-        this.courseJointDisplays = new ArrayList<CourseJointInfoWrapper>();
-        this.commentInfo = new CommentInfo();
-    }
+	
+	public CourseForm() {
+		this.courseInfo = new CourseInfo();
+		this.proposalInfo = new ProposalInfo();
+		this.instructorDisplays = new ArrayList<CluInstructorInfoWrapper>();
+		
+		this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoWrapper>();
+		this.courseJointDisplays = new ArrayList<CourseJointInfoWrapper>();
+		this.commentInfos = new ArrayList<CommentInfo>();
+	}
 
     public CourseInfo getCourseInfo() {
         return courseInfo;
@@ -143,30 +139,6 @@ public class CourseForm extends UifFormBase {
         this.finalExamRationale = finalExamRationale;
     }
 
-    public CommentInfo getCommentInfo() {
-        return commentInfo;
-    }
-
-    public void setCommentInfo(CommentInfo commentInfo) {
-        this.commentInfo = commentInfo;
-    }
-
-    public String getDialog1() {
-        return dialog1;
-    }
-
-    public void setDialog1(String dialog1) {
-        this.dialog1 = dialog1;
-    }
-
-    public String getField1() {
-        return Field1;
-    }
-
-    public void setField1(String field1) {
-        Field1 = field1;
-    }
-
     public LearningObjectiveDialogWrapper getLoDialogWrapper() {
         return loDialogWrapper;
     }
@@ -182,4 +154,13 @@ public class CourseForm extends UifFormBase {
     public Boolean getShowAll() {
         return this.showAll;
     }
+
+    public List<CommentInfo> getCommentInfos() {
+        return commentInfos;
+    }
+
+    public void setCommentInfos(List<CommentInfo> commentInfos) {
+        this.commentInfos = commentInfos;
+    }
+
 }
