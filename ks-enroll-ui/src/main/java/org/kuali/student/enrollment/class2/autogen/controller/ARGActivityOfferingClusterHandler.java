@@ -326,7 +326,7 @@ public class ARGActivityOfferingClusterHandler {
             return theForm;
         }
 
-        GlobalVariables.getMessageMap().addGrowlMessage("", "cluster.created", growlPrivateName, growlPublicName );
+        GlobalVariables.getMessageMap().addGrowlMessage("", CourseOfferingConstants.CLUSTER_CREATE_SUCCESS, growlPrivateName, growlPublicName );
 
         return theForm;
     }
