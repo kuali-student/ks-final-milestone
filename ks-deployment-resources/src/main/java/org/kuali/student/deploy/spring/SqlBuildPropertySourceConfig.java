@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({ SqlMetaInfLocationsConfig.class, ProjectPropertiesServiceConfig.class })
-public class SqlMetaInfPropertySourceConfig extends LocationPropertySourceConfig {
+@Import({ SqlBuildLocationsConfig.class, ProjectPropertiesServiceConfig.class })
+public class SqlBuildPropertySourceConfig extends LocationPropertySourceConfig {
 
 }

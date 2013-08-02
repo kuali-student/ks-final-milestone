@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @Import({ SourceDbLocationsConfig.class, org.kuali.common.util.metainf.spring.SqlLocationsConfig.class })
-public class SqlMetaInfLocationsConfig implements PropertyLocationsConfig {
+public class SqlBuildLocationsConfig implements PropertyLocationsConfig {
 
 	@Autowired
 	SourceDbLocationsConfig sourceDbLocationsConfig;
