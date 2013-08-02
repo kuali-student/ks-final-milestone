@@ -41,7 +41,6 @@
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
 
-        <property name="formClass" value="org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm" />
 
         <property name="headerText" value="@{document.oldMaintainableObject.dataObject.courseOfferingInfo.courseOfferingCode}"/>
         <property name="page.headerText" value="@{(document.oldMaintainableObject.dataObject.createCO) ? 'Create':'Edit'} Course Offering" />

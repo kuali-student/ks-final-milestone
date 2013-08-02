@@ -14,6 +14,7 @@ import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -81,7 +82,10 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
     private transient StateService stateService;
     private transient OrganizationService organizationService;
 
-
+    @Override
+    protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
+        return new KSUifMaintenanceDocumentForm();
+    }
 
     @Override
     public ModelAndView maintenanceEdit(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,

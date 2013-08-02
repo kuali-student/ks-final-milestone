@@ -55,7 +55,6 @@
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
-        <property name="formClass" value="org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm"/>
 
         <!-- Statically set the title and then dynamically replace the View-title using JS-onDocumentReadyScript so the browser's title remains unchanged.
              ie: from "Edit Activity Offering" to "ENGL250 - Lecture A"
