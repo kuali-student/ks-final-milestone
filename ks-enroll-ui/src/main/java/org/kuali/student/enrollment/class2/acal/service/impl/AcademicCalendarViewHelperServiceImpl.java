@@ -647,8 +647,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
                     getValidDateTimeErrors(keyDateGroupSectionName, keyDateWrapper.getKeyDateType(), keyDateWrapper, keyDateWrapper.getKeyDateNameUI());
 
-                    keyDateWrapper.getKeyDateInfo().setStartDate(getStartDateWithUpdatedTime(keyDateWrapper,false));
-                    setKeyDateEndDate(keyDateWrapper);
+                    if(keyDateWrapper.getStartDate() != null){
+                        keyDateWrapper.getKeyDateInfo().setStartDate(getStartDateWithUpdatedTime(keyDateWrapper,false));
+                        setKeyDateEndDate(keyDateWrapper);
+                    }
                 }
             }
         }
@@ -956,10 +958,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 }
                 return CommonUtils.getDateWithTime(timeSetWrapper.getStartDate(),startTime,startTimeApPm);
             }else{
-                timeSetWrapper.setStartTime("12:00");
-                timeSetWrapper.setStartTimeAmPm("AM");
-                return CommonUtils.getDateWithTime(timeSetWrapper.getStartDate(),
-                                           timeSetWrapper.getStartTime(),timeSetWrapper.getStartTimeAmPm());
+                return null; // should never get here.
             }
         }else{
             return timeSetWrapper.getStartDate();
