@@ -527,12 +527,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                         termType = termWrapper.getTermInfo().getTypeKey();
                     }
                     if (term.getParentTerm().equals(termType)){
-                        parentTerm =termWrapper;
+                        parentTerm = termWrapper;
                         break;
                     }
                 }
 
-                if(parentTerm==null){
+                if (parentTerm == null){
                     return false;
                 }
 
@@ -1195,6 +1195,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             newKeyDatesGroupWrappers.add(newKeyDatesGroup);
         }
         newLine.setKeyDatesGroupWrappers(newKeyDatesGroupWrappers);
+
+        newLine.setParentTermInfo(parentTermWrapper.getTermInfo());
     }
 
     public AcademicCalendarService getAcalService() {
