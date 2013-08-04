@@ -70,8 +70,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-@Controller
-@RequestMapping(value = "/courseOffering")
+//@Controller
+//@RequestMapping(value = "/courseOffering")
 public class CourseOfferingBaseController extends MaintenanceDocumentController {
 
     private transient CourseService courseService;
