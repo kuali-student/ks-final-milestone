@@ -438,22 +438,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                    OperationFailedException, DoesNotExistException {
         Map<String, List<ActivityOfferingInfo>> foIdsToAOList = new HashMap<String, List<ActivityOfferingInfo>>();
         for (FormatOfferingInfo sourceFo: fos) {
-            // Pass in some context attributes so these values don't need to be looked up again
-            List<AttributeInfo> originalContextAttributes = context.getAttributes();
-            List<AttributeInfo> newContextAttributes = new ArrayList<AttributeInfo>(originalContextAttributes);
-            newContextAttributes.add(new AttributeInfo("FOId", sourceFo.getId()));
-            newContextAttributes.add(new AttributeInfo("FOShortName", sourceFo.getShortName()));
-            newContextAttributes.add(new AttributeInfo("COId", sourceCo.getId()));
-            newContextAttributes.add(new AttributeInfo("COCode", sourceCo.getCourseCode()));
-            newContextAttributes.add(new AttributeInfo("COLongName", sourceCo.getCourseOfferingTitle()));
-            context.setAttributes(newContextAttributes);
-
             // Make the call with the additional contextAttributes
             List<ActivityOfferingInfo> aos = this.getCoService().getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
-
-            // Reset the attributes to avoid side affects
-            context.setAttributes(originalContextAttributes);
-
             foIdsToAOList.put(sourceFo.getId(), aos);
         }
         return foIdsToAOList;

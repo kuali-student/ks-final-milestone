@@ -63,6 +63,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -111,7 +112,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
 
@@ -1206,34 +1206,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     }
 
     private void _populateActivityOfferingRelationships(ActivityOfferingInfo ao, LuiInfo luiCO, LuiInfo luiFO, ContextInfo context) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException {
-        String foId = context.getAttributeValue("FOId");
-        String foShortName;
-        String coId;
-        String coCode;
-        String coLongName;
-
-        //Pull values from the context so we don't have to look them up if they are known ahead of time
-        if (foId == null) {
-
-            if (luiCO == null){
-                throw new MissingParameterException("LuiInfo dto for CO is null");
-            }
-
-            if (luiFO == null){
-                throw new MissingParameterException("LuiInfo dto for FO is null");
-            }
-
-            foId = luiFO.getId();
-            foShortName = luiFO.getOfficialIdentifier() == null ? null : luiFO.getOfficialIdentifier().getShortName();
-            coId = luiCO.getId();
-            coCode = luiCO.getOfficialIdentifier().getCode();
-            coLongName = luiCO.getOfficialIdentifier().getLongName();
-        } else {
-            foShortName = context.getAttributeValue("FOShortName");
-            coId = context.getAttributeValue("COId");
-            coCode = context.getAttributeValue("COCode");
-            coLongName = context.getAttributeValue("COLongName");
+        if (luiCO == null){
+            throw new MissingParameterException("LuiInfo dto for CO is null");
         }
+
+        if (luiFO == null){
+            throw new MissingParameterException("LuiInfo dto for FO is null");
+        }
+
+        String foId = luiFO.getId();
+        String foShortName = luiFO.getOfficialIdentifier() == null ? null : luiFO.getOfficialIdentifier().getShortName();
+        String coId = luiCO.getId();
+        String coCode = luiCO.getOfficialIdentifier().getCode();
+        String coLongName = luiCO.getOfficialIdentifier().getLongName();
 
         ao.setFormatOfferingId(foId);
         ao.setCourseOfferingId(coId);
