@@ -393,6 +393,33 @@ public class PlanForm extends UifFormBase {
     /**
      * Returns the list of events that should be
      */
+    public String getPlannerJavascriptEventsAsJSON() {
+
+
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonOut = null;
+        try {
+            //  Turn the list of javascript events into a string of JSON.
+            jsonOut = mapper.writeValueAsString(javascriptEvents);
+            jsonOut = StringEscapeUtils.unescapeJava(jsonOut);
+            jsonOut = jsonOut.replaceAll("\"\\{", "{");
+            jsonOut = jsonOut.replaceAll("}\"", "}");
+            jsonOut = StringEscapeUtils.escapeHtml(jsonOut);
+        } catch (Exception e) {
+            logger.error("Could not convert javascript events to JSON.", e);
+            jsonOut = "";
+        }
+
+        //  TODO: Determine if there is a config that can be set to avoid having to do this.
+
+
+        return jsonOut;
+    }
+
+    /**
+     * Returns the list of events that should be
+     */
     public String getJavascriptEventsAsJSON() {
         ObjectMapper mapper = new ObjectMapper();
         String jsonOut = null;

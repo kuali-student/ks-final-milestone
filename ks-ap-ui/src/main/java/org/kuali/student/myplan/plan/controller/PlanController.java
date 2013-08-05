@@ -1620,8 +1620,8 @@ public class PlanController extends UifControllerBase {
             @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
 
-        form.resetDialogResponse();
         String dialog = "KSAP-Planner-CourseSummary-Dialog";
+        form.getDialogManager().resetDialogStatus(dialog);
         CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
                 .retrieveCourseSummaryById(form.getCourseId());
         form.setCourseSummaryDetails(courseDetails);
@@ -1633,8 +1633,8 @@ public class PlanController extends UifControllerBase {
             @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
 
-        form.resetDialogResponse();
         String dialog = "KSAP-Planner-Delete-Dialog";
+        form.getDialogManager().resetDialogStatus(dialog);
         CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
                 .retrieveCourseSummaryById(form.getCourseId());
         form.setCourseSummaryDetails(courseDetails);
@@ -1647,8 +1647,8 @@ public class PlanController extends UifControllerBase {
             @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
 
-        form.resetDialogResponse();
         String dialog = "KSAP-Planner-MoveTo-Dialog";
+        form.getDialogManager().resetDialogStatus(dialog);
         CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
                 .retrieveCourseSummaryById(form.getCourseId());
         form.setCourseSummaryDetails(courseDetails);
@@ -1660,8 +1660,8 @@ public class PlanController extends UifControllerBase {
             @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
 
-        form.resetDialogResponse();
         String dialog = "KSAP-Planner-CopyTo-Dialog";
+        form.getDialogManager().resetDialogStatus(dialog);
         CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
                 .retrieveCourseSummaryById(form.getCourseId());
         form.setCourseSummaryDetails(courseDetails);
@@ -1858,7 +1858,7 @@ public class PlanController extends UifControllerBase {
 	public ModelAndView removePlanItem(
 			@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
 			HttpServletRequest httprequest, HttpServletResponse httpresponse) {
-		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied", null);
 		}
 

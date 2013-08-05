@@ -829,14 +829,27 @@ function myplanAjaxSubmitForm(methodToCall, successCallback, additionalData, ele
             complete:function () {
                 elementToBlock.unblock();
             },
-            error:function () {
+            error:function(jqXHR, textStatus,
+                           errorThrown) {
+                hideLoading();
+                showGrowl(textStatus + " "
+                    + errorThrown,
+                    "Search Error");
                 if (elementToBlock.hasClass("unrendered")) {
                     elementToBlock.hide();
                 }
                 else {
                     elementToBlock.unblock();
                 }
+            },
+            statusCode : {
+                500 : function() {
+                    showGrowl(
+                        "500 Internal Server Error",
+                        "Fatal Error");
+                }
             }
+
         };
     }
     jQuery.extend(submitOptions, elementBlockingOptions);
@@ -1865,19 +1878,26 @@ function refreshStatus(){
         status.removeClass('invisible');
         status[0].innerHTML=message[0].value;
     }
-
-
 }
-
-function setSelectedAtp(){
-    var dropdown = jQuery('#KSAP_Planner_Control_SelectedAtpId_control');
+function setSelectedAtp(atpObject){
+    var dropdown = jQuery('#'+atpObject+'_control');
     if(dropdown.length==0) return;
     var selectedAtpId=dropdown[0].value;
 
     var returnSelectedAtpId = jQuery('#KSAP_Planner_InputField_SelectedAtpId_control');
     if(returnSelectedAtpId.length==0) return;
     returnSelectedAtpId[0].value=selectedAtpId;
+}
 
-    var dropdown = jQuery('#KSAP_Planner_Control_SelectedAtpId_control');
-    return;
+function refreshPage(){
+    var jsonObject = jQuery('#KSAP_Planner_InputField_JSONEvents_control');
+    var jsonObject0= jsonObject[0];
+    var jsonStr = jsonObject0.value;
+    jsonObject0.value="";
+    var json = jQuery.parseJSON(jQuery.trim(jsonStr));
+    for (var key in json) {
+        if (json.hasOwnProperty(key)) {
+            eval('jQuery.publish("' + key + '", [' + JSON.stringify(json[key]) + ']);');
+        }
+    }
 }

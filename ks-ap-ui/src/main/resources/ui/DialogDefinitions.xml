@@ -204,8 +204,7 @@
                                                           p:actionLabel="Delete">
                                                         <property name="methodToCall"
                                                                   value="removeItem"/>
-                                                        <property name="refreshId" value="KSAP_Planner_InputField_CourseId"/>
-                                                        <property name="onSubmitScript" value="parent.jQuery.fancybox.close();"/>
+                                                        <property name="refreshId" value="KSAP_Planner_InputField_JSONEvents"/>
                                                     </bean>
                                                     <bean parent="Uif-SecondaryActionButton-Small"
                                                           p:actionLabel="Cancel">
@@ -259,7 +258,7 @@
                 <property name="items">
                     <list>
                         <bean parent="Uif-VerticalBoxGroup" p:style="display:block;">
-                            <property name="validationMessages.render" value="false"/>
+                            <property name="validationMessages.render" value="false" />
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>fl-container-300</value>
@@ -281,7 +280,26 @@
                                         </property>
                                     </bean>
 
-                                    <ref bean="KSAP_Planner_Group_SelectedAtpId"/>
+                                    <bean parent="Uif-HorizontalFieldGroup" p:style="padding-top: 0.5em;"
+                                          p:label="Quarter &amp; Year" p:labelPlacement="TOP"
+                                          p:forceSessionPersistence="true">
+                                        <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+                                        <property name="fieldLabel.renderColon" value="false"/>
+                                        <property name="group.validationMessages.render" value="false"/>
+                                        <property name="items">
+                                            <list>
+                                                <bean id="KSAP_Planner_Control_MoveSelectedAtpId" parent="Uif-InputField" p:propertyName="fakeSelectedAtpId"
+                                                      p:style="width:120px;" p:forceSessionPersistence="true">
+                                                    <property name="control">
+                                                        <bean  parent="Uif-DropdownControl" p:forceSessionPersistence="true"/>
+                                                    </property>
+                                                    <property name="optionsFinder">
+                                                        <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
+                                                    </property>
+                                                </bean>
+                                            </list>
+                                        </property>
+                                    </bean>
 
                                     <!--  Backup checkbox -->
                                     <!--<ref bean="planned_course_backup"/>-->
@@ -298,8 +316,8 @@
                                                             <bean parent="Uif-PrimaryActionButton-Small"
                                                                   p:actionLabel="Move">
                                                                 <property name="methodToCall" value="movePlanCourse"/>
-                                                                <property name="refreshId" value="KSAP_Planner_InputField_CourseId"/>
-                                                                <property name="onClickScript" value="setSelectedAtp();"/>
+                                                                <property name="refreshId" value="KSAP_Planner_InputField_JSONEvents"/>
+                                                                <property name="onClickScript" value="setSelectedAtp('KSAP_Planner_Control_MoveSelectedAtpId');"/>
                                                             </bean>
 
                                                             <bean parent="Uif-SecondaryActionButton-Small"
@@ -356,7 +374,26 @@
                                             </property>
                                         </bean>
 
-                                        <ref bean="KSAP_Planner_Group_SelectedAtpId"/>
+                                        <bean parent="Uif-HorizontalFieldGroup" p:style="padding-top: 0.5em;"
+                                              p:label="Quarter &amp; Year" p:labelPlacement="TOP"
+                                              p:forceSessionPersistence="true">
+                                            <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+                                            <property name="fieldLabel.renderColon" value="false"/>
+                                            <property name="group.validationMessages.render" value="false"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean id="KSAP_Planner_Control_CopySelectedAtpId" parent="Uif-InputField" p:propertyName="fakeSelectedAtpId"
+                                                          p:style="width:120px;" p:forceSessionPersistence="true">
+                                                        <property name="control">
+                                                            <bean  parent="Uif-DropdownControl" p:forceSessionPersistence="true"/>
+                                                        </property>
+                                                        <property name="optionsFinder">
+                                                            <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
 
                                         <!--  Backup checkbox -->
                                         <!--<ref bean="planned_course_backup"/>-->
@@ -374,8 +411,8 @@
                                                                 <bean parent="Uif-PrimaryActionButton-Small"
                                                                       p:actionLabel="Copy">
                                                                     <property name="methodToCall" value="copyPlanCourse"/>
-                                                                    <property name="refreshId" value="KSAP_Planner_InputField_CourseId"/>
-                                                                    <property name="onClickScript" value="setSelectedAtp();"/>
+                                                                    <property name="refreshId" value="KSAP_Planner_InputField_JSONEvents"/>
+                                                                    <property name="onClickScript" value="setSelectedAtp('KSAP_Planner_Control_CopySelectedAtpId');"/>
                                                                 </bean>
 
                                                                 <bean parent="Uif-SecondaryActionButton-Small"
@@ -1539,24 +1576,6 @@
         </property>
     </bean>
 
-    <bean id="KSAP_Planner_Group_SelectedAtpId" parent="Uif-HorizontalFieldGroup" p:style="padding-top: 0.5em;"
-          p:label="Quarter &amp; Year" p:labelPlacement="TOP">
-        <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
-        <property name="fieldLabel.renderColon" value="false"/>
-        <property name="group.validationMessages.render" value="false"/>
-        <property name="items">
-            <list>
-                <bean id="KSAP_Planner_Control_SelectedAtpId" parent="Uif-InputField" p:propertyName="fakeSelectedAtpId"
-                      p:style="width:120px;">
-                    <property name="control">
-                        <bean  parent="Uif-DropdownControl"/>
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.myplan.plan.util.TermsListBuilder"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
-    </bean>
+
 
 </beans>
