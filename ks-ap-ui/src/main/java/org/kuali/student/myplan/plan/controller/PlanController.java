@@ -193,7 +193,7 @@ public class PlanController extends UifControllerBase {
 		return getUIFModelAndView(planForm);
 	}
 
-	@RequestMapping(params = "methodToCall=startAddPlannedCourseForm")
+	@RequestMapping(params = "AddPlannedCourseForm")
 	public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -896,7 +896,7 @@ public class PlanController extends UifControllerBase {
 		}
 		// Further validation of ATP IDs will happen in the service validation
 		// methods.
-		if (StringUtils.isEmpty(form.getAtpId())) {
+		if (StringUtils.isEmpty(form.getSelectedAtpId())) {
 			return doOperationFailedError(form, "Term Year value missing", null);
 		}
 
@@ -915,12 +915,8 @@ public class PlanController extends UifControllerBase {
 		// will fail.
 		// Use LinkedList here so that the remove method works during "other"
 		// option processing.
-		List<String> newAtpIds = null;
-		try {
-			newAtpIds = getNewTermIds(form);
-		} catch (RuntimeException e) {
-			return doOperationFailedError(form, "Unable to process request.", e);
-		}
+		List<String> newAtpIds = new ArrayList<String>();
+        newAtpIds.add(form.getSelectedAtpId());
 
 		try {
 			KsapFrameworkServiceLocator.getTermHelper().getTerm(
@@ -1081,7 +1077,7 @@ public class PlanController extends UifControllerBase {
 
 		// validation of Year and Term will happen in the service validation
 		// methods.
-		if (StringUtils.isEmpty(form.getAtpId())) {
+		if (StringUtils.isEmpty(form.getSelectedAtpId())) {
 			return doOperationFailedError(form, "Term Year value missing", null);
 		}
 
@@ -1097,12 +1093,8 @@ public class PlanController extends UifControllerBase {
 		// will fail.
 		// Use LinkedList here so that the remove method works during "other"
 		// option processing.
-		List<String> newAtpIds = null;
-		try {
-			newAtpIds = getNewTermIds(form);
-		} catch (RuntimeException e) {
-			return doOperationFailedError(form, "Unable to process request.", e);
-		}
+        List<String> newAtpIds = new ArrayList<String>();
+        newAtpIds.add(form.getSelectedAtpId());
 
 		try {
 			KsapFrameworkServiceLocator.getTermHelper().getTerm(
@@ -1623,7 +1615,60 @@ public class PlanController extends UifControllerBase {
 
 	}
 
-	/**
+    @RequestMapping(params = "methodToCall=courseSummeryDialog")
+    public ModelAndView courseSummeryDialog(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        String dialog = "KSAP-Planner-CourseSummary-Dialog";
+        form.getDialogManager().resetDialogStatus(dialog);
+        CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
+                .retrieveCourseSummaryById(form.getCourseId());
+        form.setCourseSummaryDetails(courseDetails);
+        return showDialog(dialog, form, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=deleteDialog")
+    public ModelAndView deleteDialog(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        String dialog = "KSAP-Planner-Delete-Dialog";
+        form.getDialogManager().resetDialogStatus(dialog);
+        CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
+                .retrieveCourseSummaryById(form.getCourseId());
+        form.setCourseSummaryDetails(courseDetails);
+        return showDialog(dialog, form, request, response);
+
+    }
+
+    @RequestMapping(params = "methodToCall=MoveToDialog")
+    public ModelAndView moveToDialog(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        String dialog = "KSAP-Planner-MoveTo-Dialog";
+        form.getDialogManager().resetDialogStatus(dialog);
+        CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
+                .retrieveCourseSummaryById(form.getCourseId());
+        form.setCourseSummaryDetails(courseDetails);
+        return showDialog(dialog, form, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=CopyToDialog")
+    public ModelAndView copyToDialog(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        String dialog = "KSAP-Planner-CopyTo-Dialog";
+        form.getDialogManager().resetDialogStatus(dialog);
+        CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
+                .retrieveCourseSummaryById(form.getCourseId());
+        form.setCourseSummaryDetails(courseDetails);
+        return showDialog(dialog, form, request, response);
+    }
+
+    /**
 	 * AtpId generated from the year and the term in the form .
 	 * 
 	 * @param form
@@ -1813,7 +1858,7 @@ public class PlanController extends UifControllerBase {
 	public ModelAndView removePlanItem(
 			@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
 			HttpServletRequest httprequest, HttpServletResponse httpresponse) {
-		if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
 			return doAdviserAccessError(form, "Adviser Access Denied", null);
 		}
 
@@ -2132,6 +2177,8 @@ public class PlanController extends UifControllerBase {
 		GlobalVariables.getMessageMap().clearErrorMessages();
 		GlobalVariables.getMessageMap().putErrorForSectionId(
 				PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, errorKey, params);
+
+        GlobalVariables.getMessageMap().addGrowlMessage("",errorKey,params);
 		return getUIFModelAndView(form,
 				PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID);
 	}
@@ -2170,6 +2217,12 @@ public class PlanController extends UifControllerBase {
 		form.setRequestStatus(PlanForm.REQUEST_STATUS.SUCCESS);
 		GlobalVariables.getMessageMap().putInfoForSectionId(
 				PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, key, params);
+
+        form.setDisplayDialogStatus(true);
+        form.setDialogSuccess(true);
+        form.setDialogMessage(key);
+        GlobalVariables.getMessageMap().addGrowlMessage("",key,params);
+
 		return getUIFModelAndView(form,
 				PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID);
 	}

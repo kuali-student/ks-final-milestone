@@ -53,6 +53,37 @@
                             <ref bean="cart_menu_items"/>
                             <bean id="hidden_new_user_flag" parent="Uif-DataField" p:propertyName="newUser"
                                   p:style="display:none;"/>
+                            <bean id="KSAP_Planner_InputField_CourseId" parent="Uif-InputField">
+                                <property name="propertyName" value="courseId"/>
+                                <property name="control">
+                                    <bean parent="Uif-HiddenControl"/>
+                                </property>
+                            </bean>
+                            <bean id="KSAP_Planner_InputField_PlanItemId" parent="Uif-InputField">
+                                <property name="propertyName" value="planItemId"/>
+                                <property name="control">
+                                    <bean parent="Uif-HiddenControl"/>
+                                </property>
+                            </bean>
+                            <bean id="KSAP_Planner_InputField_AtpId" parent="Uif-InputField">
+                                <property name="propertyName" value="atpId"/>
+                                <property name="control">
+                                    <bean parent="Uif-HiddenControl"/>
+                                </property>
+                            </bean>
+                            <bean id="KSAP_Planner_InputField_SelectedAtpId" parent="Uif-InputField">
+                                <property name="propertyName" value="selectedAtpId"/>
+                                <property name="control">
+                                    <bean parent="Uif-HiddenControl"/>
+                                </property>
+                            </bean>
+                            <bean id="KSAP_Planner_InputField_JSONEvents" parent="Uif-InputField">
+                                <property name="propertyName" value="plannerJavascriptEventsAsJSON"/>
+                                <property name="control">
+                                    <bean parent="Uif-HiddenControl"/>
+                                </property>
+                                <property name="onDocumentReadyScript" value="refreshPage();"/>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -60,6 +91,14 @@
         </property>
         <property name="footer.render" value="false"/>
         <property name="formClass" value="org.kuali.student.myplan.plan.form.PlanForm"/>
+        <property name="dialogs">
+            <list>
+                <ref bean="KSAP-Planner-CourseSummary-Dialog"/>
+                <ref bean="KSAP-Planner-Delete-Dialog"/>
+                <ref bean="KSAP-Planner-MoveTo-Dialog"/>
+                <ref bean="KSAP-Planner-CopyTo-Dialog"/>
+            </list>
+        </property>
     </bean>
     
     <bean id="plannedCourses_myplan_section" parent="plannedCourses_myplan_section-parent" />
@@ -111,17 +150,8 @@
         <property name="items">
             <list>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="View Course Summary"
-                      p:title="View Course Summary">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                <bean parent="KSAP-Planner-CourseSummary-Link">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'));"/>
                 </bean>
 
                 <bean parent="Uif-Link" p:target="" p:href="#"
@@ -162,20 +192,8 @@
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
-
-
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Delete from Plan"
-                      p:title="Delete from Plan"
-                      p:style="margin:0;">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'plan_item_delete_page',{planItemId:jQuery(this).data('planitemid'),pageId:'plan_item_delete_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                <bean parent="KSAP-Planner-Delete-Link"  p:style="margin:0;">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'),jQuery(this).data('planitemid'),jQuery(this).data('atpid'));"/>
                 </bean>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
@@ -189,18 +207,8 @@
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="View Course Summary"
-                      p:title="View Course Summary">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                <bean parent="KSAP-Planner-CourseSummary-Link">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'));"/>
                 </bean>
 
                 <bean parent="Uif-Link" p:target="" p:href="#"
@@ -225,44 +233,16 @@
                 <bean parent="Uif-Message" p:messageText="Will be moved below the Total Credit line"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Move to Another Quarter"
-                      p:title="Move to Another Quarter">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'move_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'move_dialog_page', moveCourse:'true',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                <bean parent="KSAP-Planner-MoveTo-Link">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'),jQuery(this).data('planitemid'),jQuery(this).data('atpid'),'planned');"/>
                 </bean>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Copy to Another Quarter"
-                      p:title="Copy to Another Quarter">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'copy_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'copy_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                <bean parent="KSAP-Planner-CopyTo-Link">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'),jQuery(this).data('planitemid'),jQuery(this).data('atpid'),'planned');"/>
                 </bean>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Delete from Plan"
-                      p:title="Delete from Plan"
-                      p:style="margin:0;">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'plan_item_delete_page',{planItemId:jQuery(this).data('planitemid'),pageId:'plan_item_delete_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                <bean parent="KSAP-Planner-Delete-Link"  p:style="margin:0;">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'),jQuery(this).data('planitemid'),jQuery(this).data('atpid'));"/>
                 </bean>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
@@ -277,18 +257,7 @@
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="View Course Summary"
-                      p:title="View Course Summary">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid'),courseId:jQuery(this).data('courseid')},e,null,{tail:{hidden:true},align:'top'});"/>
-                </bean>
+                <bean parent="KSAP-Planner-CourseSummary-Link"/>
 
                 <bean parent="Uif-Link" p:target="" p:href="#"
                       p:linkText="Place in Cart"
@@ -311,42 +280,16 @@
                 <bean parent="Uif-Message" p:messageText="Will be moved above the Total Credit line"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
 
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Move to Another Quarter"
-                      p:title="Move to Another Quarter">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'move_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'move_dialog_page', moveCourse:'true',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                <bean parent="KSAP-Planner-MoveTo-Link">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'),jQuery(this).data('planitemid'),jQuery(this).data('atpid'),'backup');"/>
                 </bean>
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Copy to Another Quarter"
-                      p:title="Copy to Another Quarter">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'copy_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'copy_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+
+                <bean parent="KSAP-Planner-CopyTo-Link">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'),jQuery(this).data('planitemid'),jQuery(this).data('atpid'),'backup');"/>
                 </bean>
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Delete from Plan"
-                      p:title="Delete from Plan"
-                      p:style="margin:0;">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'plan_item_delete_page',{planItemId:jQuery(this).data('planitemid'),pageId:'plan_item_delete_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+
+                <bean parent="KSAP-Planner-Delete-Link"  p:style="margin:0;">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'),jQuery(this).data('planitemid'),jQuery(this).data('atpid'));"/>
                 </bean>
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
@@ -359,18 +302,8 @@
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="View Course Summary"
-                      p:title="View Course Summary">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('courseid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'course_summary_dialog_page',{courseId:jQuery(this).data('courseid'),pageId:'course_summary_dialog_page'},e,null,{tail:{hidden:true},align:'top'});"/>
-                </bean>
+                <bean parent="KSAP-Planner-CourseSummary-Link"/>
+
                 <bean parent="Uif-Link" p:target="" p:href="#" p:style="margin:0;"
                       p:linkText="Copy to Another Quarter"
                       p:title="Copy to Another Quarter">
@@ -393,43 +326,15 @@
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="View Course Summary"
-                      p:title="View Course Summary">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'course_summary_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'course_summary_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                <bean parent="KSAP-Planner-CourseSummary-Link"/>
+
+                <bean parent="KSAP-Planner-CopyTo-Link">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'),jQuery(this).data('planitemid'),jQuery(this).data('atpid'),'backup');"/>
                 </bean>
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Copy to Another Quarter"
-                      p:title="Copy to Another Quarter">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'copy_dialog_page',{planItemId:jQuery(this).data('planitemid'),pageId:'copy_dialog_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
+                <bean parent="KSAP-Planner-Delete-Link"  p:style="margin:0;">
+                    <property name="onClickScript" value="setPlannerValues(jQuery(this).data('courseid'),jQuery(this).data('planitemid'),jQuery(this).data('atpid'));"/>
                 </bean>
-                <bean parent="Uif-Link" p:target="" p:href="#"
-                      p:linkText="Delete from Plan"
-                      p:title="Delete from Plan"
-                      p:style="margin:0;">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('planitemid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'plan_item_delete_page',{planItemId:jQuery(this).data('planitemid'),pageId:'plan_item_delete_page',atpId:jQuery(this).data('atpid')},e,null,{tail:{hidden:true},align:'top'});"/>
-                </bean>
+
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
                       p:cssClasses="fl-text-gray fl-font-size-90"/>
             </list>
@@ -1796,7 +1701,22 @@
             </list>
         </property>
     </bean>
-
+    <bean id="KSAP-Planner-CourseSummary-Link" parent="Uif-ActionLink">
+        <property name="methodToCall" value="courseSummeryDialog"/>
+        <property name="actionLabel" value="View Course Summary"/>
+    </bean>
+    <bean id="KSAP-Planner-Delete-Link" parent="Uif-ActionLink">
+        <property name="methodToCall" value="deleteDialog"/>
+        <property name="actionLabel" value="Delete from Plan"/>
+    </bean>
+    <bean id="KSAP-Planner-MoveTo-Link" parent="Uif-ActionLink">
+        <property name="methodToCall" value="MoveToDialog"/>
+        <property name="actionLabel" value="Move to Another Quarter"/>
+    </bean>
+    <bean id="KSAP-Planner-CopyTo-Link" parent="Uif-ActionLink">
+        <property name="methodToCall" value="CopyToDialog"/>
+        <property name="actionLabel" value="Copy to Another Quarter"/>
+    </bean>
 
 
 
