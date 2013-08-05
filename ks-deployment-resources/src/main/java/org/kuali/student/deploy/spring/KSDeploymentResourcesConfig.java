@@ -1,8 +1,8 @@
 package org.kuali.student.deploy.spring;
 
-import org.kuali.common.util.project.Project;
 import org.kuali.common.util.project.ProjectService;
 import org.kuali.common.util.project.ProjectUtils;
+import org.kuali.common.util.project.model.Project;
 import org.kuali.common.util.project.spring.ProjectServiceConfig;
 import org.kuali.common.util.properties.ImmutableLocation;
 import org.kuali.common.util.properties.Location;

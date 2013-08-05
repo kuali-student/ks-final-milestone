@@ -25,7 +25,7 @@ import org.kuali.common.util.Str;
 import org.kuali.common.util.config.KualiUtilConfig;
 import org.kuali.common.util.config.spring.ProjectPropertySourceConfig;
 import org.kuali.common.util.maven.MavenConstants;
-import org.kuali.common.util.project.Project;
+import org.kuali.common.util.project.model.Project;
 import org.kuali.common.util.spring.SpringUtils;
 import org.kuali.student.deploy.config.KSDeploymentResourcesConfig;
 import org.springframework.beans.factory.annotation.Autowired;
