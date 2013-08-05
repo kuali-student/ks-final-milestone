@@ -157,7 +157,7 @@ public class SchedulingServiceUtil {
      * @param request
      * @return
      */
-    public static ScheduleInfo requestToSchedule(ScheduleRequestInfo request,ScheduleInfo result) {
+    public static ScheduleInfo requestToSchedule(ScheduleRequestInfo request,ScheduleInfo result,RoomService roomService, ContextInfo callContext) {
         result.setStateKey(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
         result.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
         result.setScheduleComponents(new ArrayList<ScheduleComponentInfo>(request.getScheduleRequestComponents().size()));
@@ -169,6 +169,16 @@ public class SchedulingServiceUtil {
             // grabbing the first room in the list
             if(!reqComp.getRoomIds().isEmpty()){
                 compInfo.setRoomId(reqComp.getRoomIds().get(0));
+            } else if (!reqComp.getBuildingIds().isEmpty()){
+                String buildingId = reqComp.getBuildingIds().get(0);
+                try {
+                    List<String> rooms = roomService.getRoomIdsByBuilding(buildingId,callContext);
+                    if (!rooms.isEmpty()){
+                        compInfo.setRoomId(rooms.get(0));
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
             compInfo.setTimeSlotIds(reqComp.getTimeSlotIds());
 
