@@ -154,7 +154,7 @@
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
                 </bean>
-                <bean id="rdl_days" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:uppercaseValue="true" p:required="true">
+                <bean id="rdl_days" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="newScheduleRequest.days" p:uppercaseValue="true">
                     <property name="constraintText" value="MTWHFSU"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components"/>
@@ -163,7 +163,8 @@
 						<bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" p:messageKey="validation.enroll.ao.scheduleValidChars"/>
 					</property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Start Time" p:propertyName="newScheduleRequest.startTime" p:required="true">
+                <bean id="rdl_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time" p:propertyName="newScheduleRequest.startTime" p:required="true">
+                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="constraintText" value="HH:MM"/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
@@ -177,13 +178,14 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="newScheduleRequest.startTimeAMPM" p:required="true">
+                <bean id="rdl_starttime_ampm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="newScheduleRequest.startTimeAMPM" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime" p:required="true">
+                <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime" p:required="true">
+                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="constraintText" value="HH:MM"/>
                      <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
@@ -192,13 +194,14 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="newScheduleRequest.endTimeAMPM" p:required="true">
+                <bean id="rdl_endtime_ampm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="newScheduleRequest.endTimeAMPM" p:required="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true" p:required="true">
+                <bean id="rdl_bldg" parent="Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true" p:required="true">
+                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
@@ -225,9 +228,9 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:label="Room" p:propertyName="newScheduleRequest.roomCode" p:required="true">
+                <bean id="rdl_room" parent="Uif-InputField-LabelTop" p:label="Room" p:propertyName="newScheduleRequest.roomCode">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
+                        <bean parent="Uif-TextControl" p:size="20"/>
                     </property>
                      <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
                     <property name="quickfinder.autoSearch" value="true"/>
@@ -240,6 +243,11 @@
                         <map>
                             <entry key="newScheduleRequest.buildingCode" value="buildingCode"/>
                         </map>
+                    </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                          <bean parent="PrerequisiteConstraint" p:propertyName="newScheduleRequest.buildingCode"/>
+                        </list>
                     </property>
                 </bean>
                 <!--<bean parent="Uif-InputField-LabelTop" p:label="Capacity" p:propertyName="newScheduleRequest.roomCapacity" p:readOnly="true"/>-->

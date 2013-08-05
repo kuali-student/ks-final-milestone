@@ -1917,7 +1917,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             ScheduleInfo scheduleInfo = new ScheduleInfo();
 
             // short cut the submission to the scheduler, and just translate requested delivery logistics to actual delivery logistics
-            SchedulingServiceUtil.requestToSchedule(request, scheduleInfo);
+            SchedulingServiceUtil.requestToSchedule(request, scheduleInfo,getRoomService(),contextInfo);
 
             scheduleInfo.setAtpId(aoInfo.getTermId());
             try {
