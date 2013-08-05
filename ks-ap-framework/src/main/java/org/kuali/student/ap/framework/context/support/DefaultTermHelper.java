@@ -100,9 +100,8 @@ public class DefaultTermHelper implements TermHelper {
 							query,
 							KsapFrameworkServiceLocator.getContext()
 									.getContextInfo());
-			if (rv == null || rv.isEmpty())
-				throw new IllegalStateException(
-						"AcademicCalendarService did not return any current terms");
+			if (rv == null)
+				rv = Collections.emptyList();
 			return new java.util.ArrayList<Term>(rv);
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException("Acal lookup failure", e);
@@ -496,7 +495,8 @@ public class DefaultTermHelper implements TermHelper {
 	public YearTerm getYearTerm(Term term) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(term.getStartDate());
-		return new DefaultYearTerm(term.getId(), term.getTypeKey(), c.get(Calendar.YEAR));
+		return new DefaultYearTerm(term.getId(), term.getTypeKey(),
+				c.get(Calendar.YEAR));
 	}
 
 }
