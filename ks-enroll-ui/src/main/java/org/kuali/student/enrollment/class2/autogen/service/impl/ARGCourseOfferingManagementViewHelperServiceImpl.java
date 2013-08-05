@@ -698,7 +698,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 List<ScheduleCalcContainer> schedList = ao2sch.get(aoId);
                 boolean newRow = false;
                 for (ScheduleCalcContainer sched : schedList) {
-//                    aoWrapper.setScheduleInfo(new ScheduleInfo());
                     aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty() ? sched.getStart() : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getStart()))), newRow);
                     aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty() ? sched.getEnd() : DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(Long.parseLong(sched.getEnd()))), newRow);
                     aoWrapper.setBuildingName(sched.getBldgName(), newRow);
@@ -711,29 +710,85 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             } else if (ao2schReq.containsKey((aoId))) {
                 List<ScheduleRequestCalcContainer> schedList = ao2schReq.get(aoId);
                 for (ScheduleRequestCalcContainer sched : schedList) {
+
                     boolean newLine = aoWrapper.getTbaDisplayName() != null && !aoWrapper.getTbaDisplayName().isEmpty();
-                    for (RoomInfo room : sched.getRooms()) {
-                        aoWrapper.setRoomName(room.getRoomCode(), newLine, "uif-scheduled-dl");
-                    }
-                    for (BuildingInfo bldg : sched.getBldgs()) {
-                        aoWrapper.setBuildingName(bldg.getName(), newLine, "uif-scheduled-dl");
-                    }
-                    for (TimeSlotInfo timeSlotInfo : sched.getTimeSlots()) {
-                        if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null) {
-                            aoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getStartTime().getMilliSeconds())), newLine, "uif-scheduled-dl");
-                        }
-                        if (timeSlotInfo.getEndTime() != null && timeSlotInfo.getEndTime().getMilliSeconds() != null) {
-                            aoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getEndTime().getMilliSeconds())), newLine, "uif-scheduled-dl");
-                        }
-                        if (timeSlotInfo.getWeekdays() != null && !timeSlotInfo.getWeekdays().isEmpty()) {
-                            aoWrapper.setDaysDisplayName(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()), newLine, "uif-scheduled-dl");
-                        }
-                    }
+                    String cssStyle = "uif-scheduled-dl";
+
+                    setRoomNameOnAoWrapper( sched, aoWrapper, newLine, cssStyle );
+                    setBuildingNameOnAoWrapper( sched, aoWrapper, newLine, cssStyle );
+                    setTimesAndDaysOnAoWrapper( sched, aoWrapper, newLine, cssStyle );
+
                     aoWrapper.setTbaDisplayName(sched.getTbaInd(), true);
                 }
 
             }
         }
+    }
+
+    private void setRoomNameOnAoWrapper( ScheduleRequestCalcContainer sched, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle ) {
+        if( sched.getRooms() == null || sched.getRooms().isEmpty() ) {
+            aoWrapper.setRoomName( StringUtils.EMPTY, newline, cssStyle );
+            return;
+        }
+
+        for (RoomInfo room : sched.getRooms()) {
+            String roomName = StringUtils.defaultIfEmpty( room.getRoomCode(), StringUtils.EMPTY );
+            aoWrapper.setRoomName( roomName, newline, cssStyle );
+        }
+    }
+
+    private void setBuildingNameOnAoWrapper( ScheduleRequestCalcContainer sched, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle ) {
+        if( sched.getBldgs() == null || sched.getBldgs().isEmpty() ) {
+            aoWrapper.setBuildingName( StringUtils.EMPTY, newline, cssStyle );
+            return;
+        }
+
+        for (BuildingInfo bldg : sched.getBldgs()) {
+            String bldgName = StringUtils.defaultIfEmpty( bldg.getName(), StringUtils.EMPTY );
+            aoWrapper.setBuildingName( bldgName, newline, "uif-scheduled-dl");
+        }
+    }
+
+    private void setTimesAndDaysOnAoWrapper( ScheduleRequestCalcContainer sched, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle ) {
+        if( sched.getTimeSlots() == null || sched.getTimeSlots().isEmpty() ) {
+            setStartTimeOnAoWrapper( null, aoWrapper, newline, cssStyle );
+            setEndTimeOnAoWrapper( null, aoWrapper, newline, cssStyle );
+            setDaysOnAoWrapper( null, aoWrapper, newline, cssStyle );
+            return;
+        }
+
+        for( TimeSlotInfo timeSlotInfo : sched.getTimeSlots() ) {
+            setStartTimeOnAoWrapper( timeSlotInfo, aoWrapper, newline, cssStyle );
+            setEndTimeOnAoWrapper( timeSlotInfo, aoWrapper, newline, cssStyle );
+            setDaysOnAoWrapper( timeSlotInfo, aoWrapper, newline, cssStyle );
+        }
+    }
+
+    private void setStartTimeOnAoWrapper( TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle ) {
+        if( timeSlotInfo == null || timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getMilliSeconds() == null ) {
+            aoWrapper.setStartTimeDisplay( StringUtils.EMPTY, newline, cssStyle );
+            return;
+        }
+
+        aoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getStartTime().getMilliSeconds())), newline, "uif-scheduled-dl");
+    }
+
+    private void setEndTimeOnAoWrapper( TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle ) {
+        if( timeSlotInfo == null || timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getMilliSeconds() == null ) {
+            aoWrapper.setEndTimeDisplay( StringUtils.EMPTY, newline, cssStyle );
+            return;
+        }
+
+        aoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(new Date(timeSlotInfo.getEndTime().getMilliSeconds())), newline, "uif-scheduled-dl");
+    }
+
+    private void setDaysOnAoWrapper( TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle ) {
+        if( timeSlotInfo == null || timeSlotInfo.getWeekdays() == null || timeSlotInfo.getWeekdays().isEmpty() ) {
+            aoWrapper.setDaysDisplayName( StringUtils.EMPTY, newline, cssStyle );
+            return;
+        }
+
+        aoWrapper.setDaysDisplayName( SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays()), newline, cssStyle );
     }
 
     private List<RegistrationGroupWrapper> processRgData(SearchResultInfo searchResults, Map<String, ActivityOfferingClusterWrapper> clusterMap, Map<String, ActivityOfferingWrapper> aoMap) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
