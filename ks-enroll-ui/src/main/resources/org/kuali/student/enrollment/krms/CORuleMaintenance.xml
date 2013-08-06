@@ -474,7 +474,7 @@ limitations under the License.
                 <bean parent="KS-HorizontalBoxGroup-WithRPadding">
                     <property name="items">
                         <list>
-                            <bean id="KSCO-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-AddButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditGroupRule"/>
+                            <bean parent="KRMS-RuleEditorView-AddButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditGroupRule"/>
                             <bean parent="KRMS-RuleEditorView-EditButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditGroupRule"/>
                         </list>
                     </property>
@@ -504,7 +504,7 @@ limitations under the License.
                         <list>
                             <bean parent="KRMS-RuleEditorView-CopyButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyCutRule"/>
                             <bean parent="KRMS-RuleEditorView-CutButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyCutRule"/>
-                            <bean parent="KRMS-RuleEditorView-PasteButton"/>
+                            <bean parent="KRMS-RuleEditorView-PasteButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyCutRule"/>
                             <bean parent="KRMS-RuleEditorView-DeleteButton" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteRule"/>
                         </list>
                     </property>

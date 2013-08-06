@@ -16,8 +16,6 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
-import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
