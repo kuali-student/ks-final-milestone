@@ -38,6 +38,12 @@ limitations under the License.
         </property>
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Calendars"/>
+                    <property name="url.viewId" value="calendarSearchView"/>
+                    <property name="url.controllerMapping" value="/calendarSearch"/>
+                    <property name="url.methodToCall" value="search"/>
+                </bean>
                 <bean parent="Uif-BreadcrumbItem" p:render="@{!#view.readOnly and !newCalendar}">
                     <property name="label" value="@{academicCalendarInfo.name}"/>
                     <property name="url.viewId" value="academicCalendarFlowView"/>
@@ -49,7 +55,6 @@ limitations under the License.
                             <entry key="showHome" value="false"/>
                             <entry key="readOnlyView" value="true"/>
                             <entry key="id" value="@{academicCalendarInfo.id}"/>
-                            <entry key="flow" value="@{flowKey}"/>
                         </map>
                     </property>
                 </bean>
