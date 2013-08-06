@@ -80,6 +80,7 @@ public class CourseController extends UifControllerBase {
     private CourseService courseService;
     private CommentService commentService;
     private LearningObjectiveService learningObjectiveService;
+    private OrganizationService organizationService;
     
     private enum CourseViewPages {
         COURSE_INFO("KS-CourseView-CourseInfoPage"), 
