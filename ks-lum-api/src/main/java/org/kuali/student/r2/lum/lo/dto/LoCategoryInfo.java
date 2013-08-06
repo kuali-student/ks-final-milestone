@@ -13,7 +13,6 @@ package org.kuali.student.r2.lum.lo.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.lo.infc.LoCategory;
 //import org.w3c.dom.Element;
 

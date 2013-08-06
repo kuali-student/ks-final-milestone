@@ -89,13 +89,13 @@ public interface ActivityOffering extends IdEntity {
     public String getActivityCode();
 
     /**
-     * Gets the schedule Id for this activity offering.
+     * Gets the schedule Ids for this activity offering.
      * 
      * No value will exist until the scheduling process has been completed for this activity offering.
      *
-     * @name Schedule Id
+     * @name Schedule Ids
      */
-    public String getScheduleId();
+    public List<String> getScheduleIds();
 
     /**
      * Indicates where this activity offering is in the scheduling process.
@@ -160,25 +160,6 @@ public interface ActivityOffering extends IdEntity {
      * @impl maps to the containing formatOffering's courseOffering's title
      */
     public String getCourseOfferingTitle();
-
-    /********************** Final Exam Information ******************/
-    /**
-     * Start time of final exam
-     * @name Final Exam StartTime
-     */
-    public Date getFinalExamStartTime();
-
-    /**
-     * End time of final exam.
-     * @name Final Exam EndTime
-     */
-    public Date getFinalExamEndTime();
-
-    /**
-     * Space code where final exam will be conducted
-     * @name Final Exam Space Code
-     */
-    public String getFinalExamSpaceCode();
 
     /********************* Delivery Logistics **********************/
     /**
@@ -245,55 +226,14 @@ public interface ActivityOffering extends IdEntity {
      * @name Activity Offering URL
      */
     public String getActivityOfferingURL();
-    
-    /**
-     * Indicates whether a RegistrationGroup has a waitlist.
-     *
-     * @name Has Waitlist
-     * @impl maps to Lui.hasWaitlist
-     */
-    public Boolean getHasWaitlist();
 
     /**
-     * Indicates the type of waitlist as it relates to processing
-     * students on and off.
-     *
-     * @name Waitlist Type
-     * @impl maps to Lui.waitlistTypeKey
-     */
-    public String getWaitlistTypeKey();
-
-    /**
-     * Maximum number of students to be allowed on the wait list.
-     *
-     * @name Waitlist Maximum
-     * @impl maps to Lui.waitlistMaximum
-     */
-    public Integer getWaitlistMaximum();    
-
-    /**
-     * Indicates if the waitlist requires checkin.
-     *
-     * @name Is Waitlist Checkin Required
-     * @impl maps to Lui.isWaitlistCheckinRequired
-     */
-    public Boolean getIsWaitlistCheckinRequired();
-    
-    /**
-     * Frequency for the waitlist checkin.
-     *
-     * @name Waitlist Checkin Frequency 
-     * @impl maps to Lui.waitlistCheckinFrequency
-     */
-    public TimeAmount getWaitlistCheckinFrequency();
-
-    /**
-     * Indicates that the activity offering is part of a ColocatedOfferingSet.
+     * Indicates that the activity offering has one or more shared delivery logistics.
      * This is a derived flag, managed without persistence
      *
-     * @name Is Part Of Colocated Offering Set
+     * @name Is Colocated
      * @readOnly
      */
-    public Boolean getIsPartOfColocatedOfferingSet();
+    public Boolean getIsColocated();
 
 }

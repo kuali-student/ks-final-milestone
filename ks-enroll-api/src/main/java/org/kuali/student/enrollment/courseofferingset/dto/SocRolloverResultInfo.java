@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
-import org.kuali.student.r2.common.assembler.HasDynamicAttributes;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.w3c.dom.Element;

@@ -17,7 +17,6 @@ package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.infc.DateRange;
 import org.kuali.student.r2.core.scheduling.infc.MeetingTime;
 import org.kuali.student.r2.core.scheduling.infc.Schedule;
@@ -39,10 +38,12 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "atpId", "scheduleComponents", "blackoutDates", "blackoutMilestoneIds", "additionalMeetingTimes",
+        "scheduleTransactionId", "atpId", "scheduleComponents", "blackoutDates", "blackoutMilestoneIds", "additionalMeetingTimes",
         "meta", "attributes", "_futureElements" }) 
 public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable {
 
+    @XmlElement
+    private String scheduleTransactionId;
     @XmlElement
     private String atpId;
     @XmlElement
@@ -62,6 +63,7 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
     public ScheduleInfo(Schedule schedule) {
         super (schedule);
         if (null != schedule) {
+            this.scheduleTransactionId = schedule.getScheduleTransactionId();
             this.atpId = schedule.getAtpId();
             this.scheduleComponents = new ArrayList<ScheduleComponentInfo>();
             for (ScheduleComponent scheduleComponent : schedule.getScheduleComponents()) {
@@ -77,6 +79,15 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
                 this.additionalMeetingTimes.add(new MeetingTimeInfo(meetingTime));
             }
         }
+    }
+
+    @Override
+    public String getScheduleTransactionId() {
+        return this.scheduleTransactionId;
+    }
+
+    public void setScheduleTransactionId(String scheduleTransactionId) {
+        this.scheduleTransactionId = scheduleTransactionId;
     }
 
     @Override

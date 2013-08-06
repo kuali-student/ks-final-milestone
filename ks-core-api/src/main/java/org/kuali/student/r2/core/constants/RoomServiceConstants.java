@@ -16,8 +16,6 @@
 package org.kuali.student.r2.core.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.dto.TagInfo;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.infc.RoomResponsibleOrg;

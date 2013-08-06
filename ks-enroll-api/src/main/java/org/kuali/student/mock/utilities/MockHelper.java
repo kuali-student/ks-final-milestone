@@ -18,7 +18,6 @@ package org.kuali.student.mock.utilities;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.*;
 

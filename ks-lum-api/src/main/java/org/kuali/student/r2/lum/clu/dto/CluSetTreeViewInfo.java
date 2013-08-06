@@ -19,7 +19,6 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.clu.infc.Clu;
 import org.kuali.student.r2.lum.clu.infc.CluSetTreeView;
 
-import javax.xml.bind.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;

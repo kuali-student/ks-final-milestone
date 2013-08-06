@@ -40,6 +40,7 @@ public class SchedulingServiceConstants {
     public static final String REF_OBJECT_URI_SCHEDULE = NAMESPACE + "/" + ScheduleInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_COMPONENT = NAMESPACE + "/" + ScheduleComponentInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_REQUEST = NAMESPACE + "/" + ScheduleRequestInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_SCHEDULE_REQUEST_SET = NAMESPACE + "/" + ScheduleRequestSetInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_REQUEST_COMPONENT = NAMESPACE + "/" + ScheduleRequestComponentInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_SCHEDULE_TIME_SLOT = NAMESPACE + "/" + TimeSlotInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_MEETING_TIME = NAMESPACE + "/" + MeetingTimeInfo.class.getSimpleName();
@@ -52,6 +53,9 @@ public class SchedulingServiceConstants {
     // schedule request types
     public static final String SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST = "kuali.scheduling.schedule.request.type.schedule.request";
 
+    // schedule request set types
+    public static final String SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET = "kuali.scheduling.schedule.request.set.type.schedule.request.set";
+
     // schedule transaction types
     public static final String SCHEDULE_TRANSACTION_TYPE_REQUEST_TRANSACTION = "kuali.scheduling.schedule.transaction.type.request";
 
@@ -63,9 +67,17 @@ public class SchedulingServiceConstants {
 
     // time slot types
     // See https://wiki.kuali.org/display/STUDENT/Time+Slot+Types
-    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING = "kuali.scheduling.time.slot.type.activityoffering";
+
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC = "kuali.scheduling.time.slot.type.activityoffering.adhoc";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD = "kuali.scheduling.time.slot.type.activityoffering.standard";
     public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA = "kuali.scheduling.time.slot.type.activityoffering.tba";
-    public static final String TIME_SLOT_TYPE_FINAL_EXAM = "kuali.scheduling.time.slot.type.finalexam"; // currently this is a Placeholder, not an Approved
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.fall";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SPRING = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.spring";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_WINTER = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.winter";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SUMMER = "kuali.scheduling.time.slot.type.activityoffering.standard.fullterm.summer";
+    public static final String TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_HALFTERM = "kuali.scheduling.time.slot.type.activityoffering.standard.halfterm";
+    public static final String TIME_SLOT_TYPE_EXAM = "kuali.scheduling.time.slot.type.exam"; // currently this is a Placeholder, not an Approved
 
     /////////////////////////////
     // States
@@ -74,6 +86,20 @@ public class SchedulingServiceConstants {
     // schedule request states
     public static final String SCHEDULE_REQUEST_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.request.lifecycle";
     public static final String SCHEDULE_REQUEST_STATE_CREATED = "kuali.scheduling.schedule.request.state.created";
+    public static final String SCHEDULE_REQUEST_STATE_MODIFIED = "kuali.scheduling.schedule.request.state.modified";
+    public static final String SCHEDULE_REQUEST_STATE_REQUESTED = "kuali.scheduling.schedule.request.state.requested";
+    public static final String SCHEDULE_REQUEST_STATE_PROCESSED = "kuali.scheduling.schedule.request.state.processed";
+    public static final String SCHEDULE_REQUEST_STATE_ERROR = "kuali.scheduling.schedule.request.state.error";
+
+    // schedule request set states
+    public static final String SCHEDULE_REQUEST_SET_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.request.set.lifecycle";
+    public static final String SCHEDULE_REQUEST_SET_STATE_CREATED = "kuali.scheduling.schedule.request.set.state.created";
+    public static final String SCHEDULE_REQUEST_SET_STATE_MODIFIED = "kuali.scheduling.schedule.request.set.state.modified";
+    public static final String SCHEDULE_REQUEST_SET_STATE_REQUESTED = "kuali.scheduling.schedule.request.set.state.requested";
+    public static final String SCHEDULE_REQUEST_SET_STATE_PARTIAL = "kuali.scheduling.schedule.request.set.state.partial";
+    public static final String SCHEDULE_REQUEST_SET_STATE_PROCESSED = "kuali.scheduling.schedule.request.set.state.processed";
+    public static final String SCHEDULE_REQUEST_SET_STATE_ERROR = "kuali.scheduling.schedule.request.set.state.error";
+
 
     // schedule transaction states
     public static final String SCHEDULE_TRANSACTION_STATE_LIFECYCLE_KEY = "kuali.scheduling.schedule.transaction.lifecycle";

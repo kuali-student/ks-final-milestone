@@ -112,7 +112,7 @@ public interface LearningResultRecordService {
 
     /** 
      * Retrieves a list of learning result records by source Id
-     * @param lprIds List of Lui person relation identifier
+     * @param sourceIds List of Lui person relation identifier
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -122,12 +122,12 @@ public interface LearningResultRecordService {
      * @throws MissingParameterException personId not specified
      * @throws OperationFailedException unable to complete request
      */
-    public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name="lprIds")List<String> sourceIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name="sourceIds")List<String> sourceIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     
     
     /** 
      * Creates an learning result record.
-     * @param learningResultRecordInfo information about the learning result record
+     * @param learningResultRecord information about the learning result record
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -158,6 +158,28 @@ public interface LearningResultRecordService {
      * @throws VersionMismatchException The action was attempted on an out of date version.
 	 */
     public LearningResultRecordInfo updateLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId, @WebParam(name="learningResultRecordInfo")LearningResultRecordInfo learningResultRecordInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    /**
+     * Updates the state of an existing LearningResultRecord to another state
+     * provided that it is valid to do so.
+     *
+     * @param learningResultRecordId    identifier of the LearningResultRecord to be
+     *                                  updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           LearningResultRecord will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified LearningResultRecord does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeLearningResultRecordState(@WebParam(name = "learningResultRecordId") String learningResultRecordId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Deletes an learning result record
@@ -242,8 +264,7 @@ public interface LearningResultRecordService {
     
     /** 
      * Create a new result source 
-     * @param learningResultRecordId learning result record identifier
-     * @param sourceInfo source information
+     * @param sourceInfo learning result record identifier
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -254,7 +275,7 @@ public interface LearningResultRecordService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure    
 	 */
-    public ResultSourceInfo createResultSource(@WebParam(name="resultSourceInfo")ResultSourceInfo sourceInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ResultSourceInfo createResultSource(@WebParam(name="sourceInfo")ResultSourceInfo sourceInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Updates a result source 
@@ -274,9 +295,31 @@ public interface LearningResultRecordService {
      */
     public ResultSourceInfo updateResultSource(@WebParam(name="resultSourceId")String resultSourceId, @WebParam(name="resultSourceInfo")ResultSourceInfo resultSourceInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
+    /**
+     * Updates the state of an existing ResultSource to another state
+     * provided that it is valid to do so.
+     *
+     * @param resultSourceId     identifier of the ResultSource to be
+     *                           updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           ResultSource will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified ResultSource does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeResultSourceState(@WebParam(name = "resultSourceId") String resultSourceId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /** 
      * Delete a result source. The result source should not be deleteable if it is still being referenced by any LRR
-     * @param sourceId source information identifier
+     * @param resultSourceId source information identifier
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation
@@ -287,7 +330,7 @@ public interface LearningResultRecordService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteResultSource(@WebParam(name="deleteResultSourceId")String resultSourceId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteResultSource(@WebParam(name="resultSourceId")String resultSourceId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Validates a result source 

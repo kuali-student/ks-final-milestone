@@ -16,7 +16,6 @@ import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import javax.xml.bind.annotation.XmlSeeAlso;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 import org.kuali.student.r2.core.search.service.SearchService;

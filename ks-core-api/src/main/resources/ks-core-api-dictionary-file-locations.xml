@@ -238,10 +238,6 @@
         <constructor-arg value="classpath:ks-SeatPoolDefinitionInfo-dictionary.xml" />
     </bean>
 
-    <bean id="colocatedOfferingSetInfoInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-ColocatedOfferingSetInfo-dictionary.xml" />
-    </bean>
-
     <bean name="courseOfferingServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
@@ -252,7 +248,6 @@
                 <bean parent="activityOfferingSetInfoDictionaryLocation"/>
                 <bean parent="registrationGroupInfoDictionaryLocation"/>
                 <bean parent="seatPoolDefinitionInfoDictionaryLocation"/>
-                <bean parent="colocatedOfferingSetInfoInfoDictionaryLocation"/>
             </list>
         </constructor-arg>
     </bean>
@@ -286,7 +281,6 @@
                 <bean parent="activityOfferingSetInfoDictionaryLocation"/>
                 <bean parent="registrationGroupInfoDictionaryLocation" />
                 <bean parent="seatPoolDefinitionInfoDictionaryLocation" />
-                <bean parent="colocatedOfferingSetInfoInfoDictionaryLocation"/>
                 <bean parent="socInfoDictionaryLocation"/>
                 <bean parent="socRolloverResultInfoDictionaryLocation"/>
                 <bean parent="socRolloverResultItemInfoDictionaryLocation" />
@@ -311,6 +305,9 @@
                 <bean parent="timeOfDayInfoDictionaryLocation"/>
                 <bean parent="populationInfoDictionaryLocation" />
                 <bean parent="populationRuleInfoDictionaryLocation" />
+                <bean parent="buildingInfoDictionaryLocation" />
+                <bean parent="roomInfoDictionaryLocation"/>
+                <bean parent="roomResponsibleOrgInfoDictionaryLocation"/>
             </list>
         </constructor-arg>
     </bean>

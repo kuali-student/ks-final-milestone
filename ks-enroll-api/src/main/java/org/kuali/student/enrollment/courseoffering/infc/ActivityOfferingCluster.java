@@ -32,6 +32,15 @@ public interface ActivityOfferingCluster
     extends IdEntity {
 
     /**
+     * A display name for this entity.   For ActivityOfferingCluster
+     * this represents the published name.
+     *
+     * @name Name
+     */
+    @Override
+    public String getName();
+
+    /**
      * Private name of ActivityOfferingCluster
      * @name Private Name
      */

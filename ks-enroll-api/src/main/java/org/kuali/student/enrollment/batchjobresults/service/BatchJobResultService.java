@@ -15,29 +15,20 @@
  */
 package org.kuali.student.enrollment.batchjobresults.service;
 
-import java.util.Date;
+import org.kuali.student.enrollment.batchjobresults.dto.BatchJobResultInfo;
+import org.kuali.student.enrollment.batchjobresults.dto.BatchJobResultItemInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.BatchJobResultServiceConstants;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
+import java.util.Date;
 import java.util.List;
-import org.kuali.student.enrollment.batchjobresults.dto.BatchJobResultInfo;
-import org.kuali.student.enrollment.batchjobresults.dto.BatchJobResultItemInfo;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.util.constants.BatchJobResultServiceConstants;
 
 /**
  * The batch job results service provides a simple mechanism to 
@@ -207,6 +198,28 @@ public interface BatchJobResultService {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Updates the state of an existing BatchJobResult to another state
+     * provided that it is valid to do so.
+     *
+     * @param batchJobResultId   identifier of the BatchJobResult to be
+     *                           updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           BatchJobResult will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified BatchJobResult does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeBatchJobResultState(@WebParam(name = "batchJobResultId") String batchJobResultId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Update progress information
@@ -446,6 +459,28 @@ public interface BatchJobResultService {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Updates the state of an existing BatchJobResultItem to another state
+     * provided that it is valid to do so.
+     *
+     * @param batchJobResultItemId   identifier of the BatchJobResultItem to be
+     *                               updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           BatchJobResultItem will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified BatchJobResultItem does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeBatchJobResultItemState(@WebParam(name = "batchJobResultItemId") String batchJobResultItemId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes an existing BatchJobResultItem. 

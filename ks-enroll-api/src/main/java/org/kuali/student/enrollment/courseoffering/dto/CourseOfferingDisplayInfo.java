@@ -227,7 +227,7 @@ public class CourseOfferingDisplayInfo extends IdNamelessEntityInfo implements C
     }
 
     @Override
-    public KeyName getGradingOption() {
+    public KeyNameInfo getGradingOption() {
         return this.gradingOption;
     }
 

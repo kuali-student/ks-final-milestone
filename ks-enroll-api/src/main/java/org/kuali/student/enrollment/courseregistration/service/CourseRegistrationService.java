@@ -853,7 +853,29 @@ public interface CourseRegistrationService  {
                OperationFailedException, 
                PermissionDeniedException,
                ReadOnlyException,
-               VersionMismatchException;                          
+               VersionMismatchException;
+
+    /**
+     * Updates the state of an existing RegistrationRequest to another state
+     * provided that it is valid to do so.
+     *
+     * @param registrationRequestId     identifier of the RegistrationRequest to be
+     *                                  updated
+     * @param nextStateKey       The State Key into which the identified
+     *                           RegistrationRequest will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified RegistrationRequest does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeRegistrationRequestState(@WebParam(name = "registrationRequestId") String registrationRequestId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Deletes an existing RegistrationRequest.

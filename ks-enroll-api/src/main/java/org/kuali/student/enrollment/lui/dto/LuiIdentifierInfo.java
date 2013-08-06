@@ -33,13 +33,13 @@ import org.w3c.dom.Element;
 @XmlType(name = "LuiIdentifierInfo", propOrder = { "id", "typeKey", "stateKey",
         "code", "shortName", "longName", "level", "division", "variation", "suffixCode",
         "orgId", "meta", "attributes", "_futureElements" })
-public class LuiIdentifierInfo 
+public class LuiIdentifierInfo
     extends IdNamelessEntityInfo
     implements LuiIdentifier, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlElement 
+    @XmlElement
     private String code;
 
     @XmlElement 
@@ -51,7 +51,7 @@ public class LuiIdentifierInfo
     @XmlElement
     private String level;
 
-    @XmlElement 
+    @XmlElement
     private String division;
 
     @XmlElement

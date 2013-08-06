@@ -16,9 +16,6 @@
 
 package org.kuali.student.enrollment.courseoffering.infc;
 
-import java.util.List;
-
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**

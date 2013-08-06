@@ -19,7 +19,6 @@ import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 
 /**
  * Grading Service Constants

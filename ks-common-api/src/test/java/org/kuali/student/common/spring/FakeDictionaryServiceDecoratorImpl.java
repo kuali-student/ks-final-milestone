@@ -18,17 +18,8 @@ package org.kuali.student.common.spring;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.jws.WebMethod;
-import javax.jws.WebParam;
-import javax.xml.ws.RequestWrapper;
-import javax.xml.ws.ResponseWrapper;
-
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 
 
 /**

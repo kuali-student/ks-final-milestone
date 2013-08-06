@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -99,7 +100,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public TypeInfo getAcademicCalendarType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeInfo getAcademicCalendarType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid AcademicCalendar types.
@@ -112,7 +119,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getAcademicCalendarTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getAcademicCalendarTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets an AcademicCalendar State by key.
@@ -129,7 +140,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StateInfo getAcademicCalendarState(@WebParam(name = "academicCalendarStateKey") String academicCalendarStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StateInfo getAcademicCalendarState(@WebParam(name = "academicCalendarStateKey") String academicCalendarStateKey,
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid AcademicCalendar States.
@@ -142,7 +159,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StateInfo> getAcademicCalendarStates(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StateInfo> getAcademicCalendarStates(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a single AcademicCalendar by an AcademicCalendar Id.
@@ -160,7 +181,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public AcademicCalendarInfo getAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AcademicCalendarInfo getAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list AcademicCalendars from a list of AcademicCalendar Ids.
@@ -181,7 +208,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AcademicCalendarInfo> getAcademicCalendarsByIds(@WebParam(name = "academicCalendarIds") List<String> academicCalendarIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcademicCalendarInfo> getAcademicCalendarsByIds(@WebParam(name = "academicCalendarIds") List<String> academicCalendarIds,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of AcademicCalendar Ids by Type.
@@ -199,7 +232,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getAcademicCalendarIdsByType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getAcademicCalendarIdsByType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of AcademicCalendars that start in the given year.
@@ -214,7 +252,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(@WebParam(name = "year") Integer year, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(@WebParam(name = "year") Integer year,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
 
     /**
@@ -230,7 +273,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AcademicCalendarInfo> getAcademicCalendarsForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcademicCalendarInfo> getAcademicCalendarsForTerm(@WebParam(name = "termId") String termId,
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for AcademicCalendars that meet the given search criteria.
@@ -245,7 +294,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForAcademicCalendarIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForAcademicCalendarIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for AcademicCalendars that meet the given search criteria.
@@ -260,7 +314,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AcademicCalendarInfo> searchForAcademicCalendars(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcademicCalendarInfo> searchForAcademicCalendars(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Validates an AcademicCalendar. Depending on the value of validationType,
@@ -292,7 +351,15 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateAcademicCalendar(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateAcademicCalendar(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                               @WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey,
+                                                               @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a new AcademicCalendar. The AcademicCalendar Id, Type, and Meta
@@ -318,8 +385,16 @@ public interface AcademicCalendarService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */
-    public AcademicCalendarInfo createAcademicCalendar(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
+    public AcademicCalendarInfo createAcademicCalendar(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey,
+                                                       @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      * Updates an existing AcademicCalendar. The AcademicCalendar Id, Type, and
@@ -346,7 +421,17 @@ public interface AcademicCalendarService {
      * @throws VersionMismatchException an optimistic locking failure
      *         or the action was attempted on an out of date version
      */
-    public AcademicCalendarInfo updateAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public AcademicCalendarInfo updateAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                       @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo,
+                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Changes the state of an existing AcademicCalendar to another state
@@ -367,7 +452,14 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo changeAcademicCalendarState(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeAcademicCalendarState(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                  @WebParam(name = "nextStateKey") String nextStateKey,
+                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Deletes an existing AcademicCalendar.
@@ -385,7 +477,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Copy an AcademicCalendar. The associated Terms and key dates are also
@@ -411,7 +509,15 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public AcademicCalendarInfo copyAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AcademicCalendarInfo copyAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                     @WebParam(name = "startDate") Date startDate,
+                                                     @WebParam(name = "endDate") Date endDate,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Generates calendaring data for the Terms and key dates in an Academic
@@ -434,7 +540,14 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public String getAcademicCalendarData(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "calendarDataFormatTypeKey") String calendarDataFormatTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public String getAcademicCalendarData(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                          @WebParam(name = "calendarDataFormatTypeKey") String calendarDataFormatTypeKey,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Rerieves a HolidayCalendar Type by Type key.
@@ -451,7 +564,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public TypeInfo getHolidayCalendarType(@WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeInfo getHolidayCalendarType(@WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid HolidayCalendar types.
@@ -464,7 +583,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getHolidayCalendarTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getHolidayCalendarTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a HolidayCalendar State by key.
@@ -481,7 +604,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StateInfo getHolidayCalendarState(@WebParam(name = "holidayCalendarStateKey") String holidayCalendarStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StateInfo getHolidayCalendarState(@WebParam(name = "holidayCalendarStateKey") String holidayCalendarStateKey,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid HolidayCalendar States.
@@ -494,7 +623,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StateInfo> getHolidayCalendarStates(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StateInfo> getHolidayCalendarStates(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a single HolidayCalendar by a HolidayCalendar Id.
@@ -512,7 +645,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public HolidayCalendarInfo getHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public HolidayCalendarInfo getHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId,
+                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list HolidayCalendars from a list of HolidayCalendar Ids. The
@@ -533,7 +672,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<HolidayCalendarInfo> getHolidayCalendarsByIds(@WebParam(name = "holidayCalendarIds") List<String> holidayCalendarIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HolidayCalendarInfo> getHolidayCalendarsByIds(@WebParam(name = "holidayCalendarIds") List<String> holidayCalendarIds,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of HolidayCalendar Ids by Type.
@@ -550,7 +695,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getHolidayCalendarIdsByType(@WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getHolidayCalendarIdsByType(@WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of HolidayCalendars that start in the given year.
@@ -565,7 +715,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<HolidayCalendarInfo> getHolidayCalendarsByStartYear(@WebParam(name = "year") Integer year, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HolidayCalendarInfo> getHolidayCalendarsByStartYear(@WebParam(name = "year") Integer year,
+                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for HolidayCalendars that meet the given search criteria.
@@ -580,7 +735,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForHolidayCalendarIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForHolidayCalendarIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for HolidayCalendars that meet the given search criteria.
@@ -595,7 +755,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<HolidayCalendarInfo> searchForHolidayCalendars(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HolidayCalendarInfo> searchForHolidayCalendars(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Validates a HolidayCalendar. Depending on the value of validationType,
@@ -627,7 +792,15 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateHolidayCalendar(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey, @WebParam(name = "holidayCalendarInfo") HolidayCalendarInfo holidayCalendarInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateHolidayCalendar(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                              @WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey,
+                                                              @WebParam(name = "holidayCalendarInfo") HolidayCalendarInfo holidayCalendarInfo,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a new HolidayCalendar. The HolidayCalendar Id, Type, and Meta
@@ -653,8 +826,16 @@ public interface AcademicCalendarService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */
-    public HolidayCalendarInfo createHolidayCalendar(@WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey, @WebParam(name = "holidayCalendarInfo") HolidayCalendarInfo holidayCalendarInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
+    public HolidayCalendarInfo createHolidayCalendar(@WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey,
+                                                     @WebParam(name = "holidayCalendarInfo") HolidayCalendarInfo holidayCalendarInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
 
 
     /**
@@ -677,7 +858,15 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public HolidayCalendarInfo copyHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate,  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException ;
+    public HolidayCalendarInfo copyHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId,
+                                                   @WebParam(name = "startDate") Date startDate,
+                                                   @WebParam(name = "endDate") Date endDate,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException ;
 
     /**
      * Updates an existing Holiday Calendar. The HolidayCalendar Id,
@@ -704,7 +893,17 @@ public interface AcademicCalendarService {
      *                                      action was attempted on an out of
      *                                      date version
      */
-    public HolidayCalendarInfo updateHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "holidayCalendarInfo") HolidayCalendarInfo holidayCalendarInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public HolidayCalendarInfo updateHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId,
+                                                     @WebParam(name = "holidayCalendarInfo") HolidayCalendarInfo holidayCalendarInfo,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Changes the state of an existing HolidayCalendar to another state
@@ -725,7 +924,14 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo changeHolidayCalendarState(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeHolidayCalendarState(@WebParam(name = "holidayCalendarId") String holidayCalendarId,
+                                                 @WebParam(name = "nextStateKey") String nextStateKey,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Deletes an existing HolidayCalendar.
@@ -743,7 +949,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a Term Type by Type key.
@@ -759,7 +971,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public TypeInfo getTermType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeInfo getTermType(@WebParam(name = "termTypeKey") String termTypeKey,
+                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid Term types.
@@ -772,7 +990,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getTermTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getTermTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * This method returns the valid Term types for an AcademicCalendar Type.
@@ -791,7 +1013,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getTermTypesForAcademicCalendarType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getTermTypesForAcademicCalendarType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * This method returns the valid Term types for a Term Type. Only Terms of
@@ -808,7 +1036,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getTermTypesForTermType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getTermTypesForTermType(@WebParam(name = "termTypeKey") String termTypeKey,
+                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a Term State by key.
@@ -824,7 +1058,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StateInfo getTermState(@WebParam(name = "termStateKey") String termStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StateInfo getTermState(@WebParam(name = "termStateKey") String termStateKey,
+                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid Term States.
@@ -836,7 +1076,11 @@ public interface AcademicCalendarService {
      * @throws MissingParameterException contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      */
-    public List<StateInfo> getTermStates(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StateInfo> getTermStates(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a single Term by a Term Id.
@@ -852,7 +1096,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public TermInfo getTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TermInfo getTerm(@WebParam(name = "termId") String termId,
+                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list Terms from a list of Term Ids. The returned list may be
@@ -870,7 +1120,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TermInfo> getTermsByIds(@WebParam(name = "termIds") List<String> termIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getTermsByIds(@WebParam(name = "termIds") List<String> termIds,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of Term Ids by Type.
@@ -887,7 +1143,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getTermIdsByType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getTermIdsByType(@WebParam(name = "termTypeKey") String termTypeKey,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of Terms by Code. Typically, a Term Code is unique.
@@ -901,7 +1163,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TermInfo> getTermsByCode(@WebParam(name = "code") String code, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getTermsByCode(@WebParam(name = "code") String code,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of the top level Terms mapped to the given
@@ -919,44 +1186,63 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getTermsForAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
-     * Retrieves a list Terms included immediately inside the given Term ordered
+     * Retrieves a list of Terms that are children of the parentTermId ordered
      * by Term start date. This method should be called recursively to get
-     * sub-terms of the returned Terms.
+     * descendant sub-terms of the returned Terms.
      *
-     * @param termId      an identifier for a Term
+     * @param parentTermId      an identifier for the parent term
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return a list of Terms or an empty list if there are no included Terms
-     * @throws DoesNotExistException     termId is not found
+     * @throws DoesNotExistException     parentTermId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException termId or contextInfo is missing or
+     * @throws MissingParameterException parentTermId or contextInfo is missing or
      *                                   null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getIncludedTermsInTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getIncludedTermsInTerm(@WebParam(name = "parentTermId") String parentTermId,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
-     * Gets the containing terms of a given term. A term may be "included"
-     * inside other terms using addTermToTerm(). This method returns the list of
-     * Terms that the given Term has been placed inside. Typically, a term is
-     * placed inside a single parent term.
+     * Gets the containing (or parent) terms of a given child term. Although
+     * parent-child relations typically assume a single parent, the contract allows
+     * for multiple parents for a given child term.  One can call this recursively to
+     * get to a term that has no parents (assuming the term tree is acyclic).  That
+     * root term presumably is attached to a calendar.
      *
-     * @param termId      an identifier for a Term
+     * @param childTermId      an identifier for a child Term
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return the parent terms or an empty list if it is a root
-     * @throws DoesNotExistException     termId is not found
+     * @throws DoesNotExistException     childTermId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException termId or contextInfo is missing or
+     * @throws MissingParameterException childTermId or contextInfo is missing or
      *                                   null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TermInfo> getContainingTerms(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getContainingTerms(@WebParam(name = "childTermId") String childTermId,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for Terms that meet the given search criteria.
@@ -971,7 +1257,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForTermIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForTermIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for Terms that meet the given search criteria.
@@ -986,7 +1277,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TermInfo> searchForTerms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> searchForTerms(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Validates a Term. Depending on the value of validationType, this
@@ -1016,7 +1312,15 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateTerm(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "termInfo") TermInfo termInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateTerm(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                   @WebParam(name = "termTypeKey") String termTypeKey,
+                                                   @WebParam(name = "termInfo") TermInfo termInfo,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a new Term. The Term Type and Meta information may not be set in
@@ -1039,7 +1343,16 @@ public interface AcademicCalendarService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */
-    public TermInfo createTerm(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "termInfo") TermInfo termInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public TermInfo createTerm(@WebParam(name = "termTypeKey") String termTypeKey,
+                               @WebParam(name = "termInfo") TermInfo termInfo,
+                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      * Updates an existing Term. The Term Id, Type, and Meta information may not
@@ -1064,7 +1377,17 @@ public interface AcademicCalendarService {
      *                                      action was attempted on an out of
      *                                      date version
      */
-    public TermInfo updateTerm(@WebParam(name = "termId") String termId, @WebParam(name = "termInfo") TermInfo termInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public TermInfo updateTerm(@WebParam(name = "termId") String termId,
+                               @WebParam(name = "termInfo") TermInfo termInfo,
+                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Changes the state of an existing Term to another state
@@ -1085,7 +1408,14 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo changeTermState(@WebParam(name = "termId") String termId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeTermState(@WebParam(name = "termId") String termId,
+                                      @WebParam(name = "nextStateKey") String nextStateKey,
+                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Deletes an existing Term.
@@ -1101,7 +1431,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteTerm(@WebParam(name = "termId") String termId,
+                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Adds a Term to an AcademicCalendar.
@@ -1122,7 +1458,15 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo addTermToAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo addTermToAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                @WebParam(name = "termId") String termId,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Removes a Term from an AcademicCalendar.
@@ -1142,48 +1486,75 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removeTermFromAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeTermFromAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                     @WebParam(name = "termId") String termId,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
-     * Adds a Term as an included term within another Term.
+     * Adds a child Term to a parent Term assuming such a relationship does not
+     * already exists.  The child Term is not necessarily contained within the
+     * start/end date of the parent Term.  This merely represents a hierarchy.
+     * Also, a child Term could, in principle, be added to multiple parent terms
+     * although, in practice, it usually is not.
      *
-     * @param termId         an identifier for a Term
-     * @param includedTermId the identifier for the Term to be included
+     * @param parentTermId   an identifier for a parent Term
+     * @param childTermId    the identifier for the child Term
      * @param contextInfo    information containing the principalId and locale
      *                       information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws AlreadyExistsException    includedTermId is already mapped to
-     *                                   termId
-     * @throws DoesNotExistException     temId or includedTermId is not found
+     * @throws AlreadyExistsException    parentTermId is already mapped to
+     *                                   childTermId
+     * @throws DoesNotExistException     parentTermId or childTermId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException temId, includedTermId, or contextInfo
+     * @throws MissingParameterException parentTermId, childTermId, or contextInfo
      *                                   is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo addTermToTerm(@WebParam(name = "termId") String termId, @WebParam(name = "includedTermId") String includedTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo addTermToTerm(@WebParam(name = "parentTermId") String parentTermId,
+                                    @WebParam(name = "childTermId") String childTermId,
+                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
-     * Removes an included Term from a Term.
+     * Removes a child Term from a parent Term.
      *
-     * @param termId         an identifier for a Term
-     * @param includedTermId the identifier for the Term to be removed
+     * @param parentTermId         an identifier for a Term
+     * @param childTermId the identifier for the Term to be removed that is a "child"
+     *                    of the parent Term
      * @param contextInfo    information containing the principalId and locale
      *                       information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws DoesNotExistException     termId or includedTermId is not found
-     *                                   or includedTermId is not mapped to
-     *                                   termId
+     * @throws DoesNotExistException     parentTermId or childTermId is not found
+     *                                   or childTermId is not mapped to
+     *                                   parentTermId
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException termId, includedTermId, or contextInfo
+     * @throws MissingParameterException parentTermId, childTermId, or contextInfo
      *                                   is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo removeTermFromTerm(@WebParam(name = "termId") String termId, @WebParam(name = "includedTermId") String includedTermId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo removeTermFromTerm(@WebParam(name = "parentTermId") String parentTermId,
+                                         @WebParam(name = "childTermId") String childTermId,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
-     * Rerieves a KeyDate Type by Type key.
+     * Retrieves a KeyDate Type by Type key.
      *
      * @param keyDateTypeKey the key of a keyDate Type
      * @param contextInfo    information containing the principalId and locale
@@ -1196,7 +1567,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public TypeInfo getKeyDateType(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeInfo getKeyDateType(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey,
+                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid KeyDate types.
@@ -1209,7 +1586,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getKeyDateTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getKeyDateTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * This method returns the valid KeyDate Types for the given Term Type.
@@ -1225,7 +1606,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getKeyDateTypesForTermType(@WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getKeyDateTypesForTermType(@WebParam(name = "termTypeKey") String termTypeKey,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a KeyDate State by key.
@@ -1241,7 +1628,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StateInfo getKeyDateState(@WebParam(name = "keyDateStateKey") String keyDateStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StateInfo getKeyDateState(@WebParam(name = "keyDateStateKey") String keyDateStateKey,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid KeyDate States.
@@ -1254,7 +1647,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StateInfo> getKeyDateStates(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StateInfo> getKeyDateStates(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a single KeyDate by a KeyDate Id.
@@ -1270,7 +1667,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public KeyDateInfo getKeyDate(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public KeyDateInfo getKeyDate(@WebParam(name = "keyDateId") String keyDateId,
+                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list KeyDates from a list of KeyDate Ids. The returned list
@@ -1288,7 +1691,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<KeyDateInfo> getKeyDatesByIds(@WebParam(name = "keyDateIds") List<String> keyDateIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<KeyDateInfo> getKeyDatesByIds(@WebParam(name = "keyDateIds") List<String> keyDateIds,
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of KeyDate Ids by Type.
@@ -1305,7 +1714,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getKeyDateIdsByType(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getKeyDateIdsByType(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of KeyDate Ids by Type and for a specific Term
@@ -1322,7 +1737,14 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getKeyDateIdsByTypeForTerm(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getKeyDateIdsByTypeForTerm(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey,
+                                                   @WebParam(name = "termId") String termId,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of KeyDates immediately mapped to a Term ordered by
@@ -1339,7 +1761,37 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<KeyDateInfo> getKeyDatesForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<KeyDateInfo> getKeyDatesForTerm(@WebParam(name = "termId") String termId,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of KeyDates IDs immediately mapped to a Term ordered by
+     * date.  Useful for bulk deletes where only IDs are needed.  Reduces overhead
+     * from constructing full KeyDateInfo objects.
+     *
+     * @param termId      an identifier for a term
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of KeyDates mapped to the given Term
+     * @throws DoesNotExistException     termId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException termId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getKeyDateIdsForTerm(@WebParam(name = "termId") String termId,
+                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of KeyDates immediately mapped to a Term that fall
@@ -1359,7 +1811,15 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<KeyDateInfo> getKeyDatesForTermByDate(@WebParam(name = "termId") String termId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<KeyDateInfo> getKeyDatesForTermByDate(@WebParam(name = "termId") String termId,
+                                                      @WebParam(name = "startDate") Date startDate,
+                                                      @WebParam(name = "endDate") Date endDate,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of KeyDates impacted by a change to a given KeyDate. Rules
@@ -1378,7 +1838,13 @@ public interface AcademicCalendarService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @deprecated Key Dates are to be calculated when calender is copied.
      */
-    public List<KeyDateInfo> getImpactedKeyDates(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<KeyDateInfo> getImpactedKeyDates(@WebParam(name = "keyDateId") String keyDateId,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for KeyDates that meet the given search criteria.
@@ -1393,7 +1859,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForKeyDateIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForKeyDateIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for KeyDates that meet the given search criteria.
@@ -1408,7 +1879,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<KeyDateInfo> searchForKeyDates(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<KeyDateInfo> searchForKeyDates(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Validates a KeyDate. Depending on the value of validationType, this
@@ -1440,7 +1916,16 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateKeyDate(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "termId") String termId, @WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateKeyDate(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                      @WebParam(name = "termId") String termId,
+                                                      @WebParam(name = "keyDateTypeKey") String keyDateTypeKey,
+                                                      @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a new KeyDate. The KeyDate Id, Type, and Meta information may not
@@ -1466,7 +1951,17 @@ public interface AcademicCalendarService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */
-    public KeyDateInfo createKeyDate(@WebParam(name = "termId") String termId, @WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public KeyDateInfo createKeyDate(@WebParam(name = "termId") String termId,
+                                     @WebParam(name = "keyDateTypeKey") String keyDateTypeKey,
+                                     @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      * Updates an existing KeyDate. The KeyDate Id, Type, and Meta information
@@ -1491,7 +1986,17 @@ public interface AcademicCalendarService {
      *                                      action was attempted on an out of
      *                                      date version
      */
-    public KeyDateInfo updateKeyDate(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public KeyDateInfo updateKeyDate(@WebParam(name = "keyDateId") String keyDateId,
+                                     @WebParam(name = "keyDateInfo") KeyDateInfo keyDateInfo,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Changes the state of an existing KeyDate to another state
@@ -1512,7 +2017,14 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo changeKeyDateState(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeKeyDateState(@WebParam(name = "keyDateId") String keyDateId,
+                                         @WebParam(name = "nextStateKey") String nextStateKey,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Deletes an existing KeyDate.
@@ -1528,7 +2040,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteKeyDate(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteKeyDate(@WebParam(name = "keyDateId") String keyDateId,
+                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Calculates the dates in the KeyDate based on a rule attached to the
@@ -1547,7 +2065,13 @@ public interface AcademicCalendarService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @deprecated Key Dates are to be calculated when calender is copied.
      */
-    public KeyDateInfo calculateKeyDate(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public KeyDateInfo calculateKeyDate(@WebParam(name = "keyDateId") String keyDateId,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Rerieves a AcalEvent Type by Type key.
@@ -1564,7 +2088,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public TypeInfo getAcalEventType(@WebParam(name = "acalEventTypeKey") String acalEventTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeInfo getAcalEventType(@WebParam(name = "acalEventTypeKey") String acalEventTypeKey,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid AcalEvent types.
@@ -1577,7 +2107,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getAcalEventTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getAcalEventTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * This method returns the valid AcalEvent Types for the given
@@ -1595,7 +2129,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getAcalEventTypesForAcademicCalendarType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getAcalEventTypesForAcademicCalendarType(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey,
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a AcalEvent State by key.
@@ -1612,7 +2152,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StateInfo getAcalEventState(@WebParam(name = "acalEventStateKey") String acalEventStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StateInfo getAcalEventState(@WebParam(name = "acalEventStateKey") String acalEventStateKey,
+                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid AcalEvent States.
@@ -1625,7 +2171,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StateInfo> getAcalEventStates(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StateInfo> getAcalEventStates(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a single AcalEvent by an AcalEvent Id.
@@ -1641,7 +2191,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public AcalEventInfo getAcalEvent(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AcalEventInfo getAcalEvent(@WebParam(name = "acalEventId") String acalEventId,
+                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list AcalEvents from a list of AcalEvent Ids. The returned
@@ -1659,7 +2215,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AcalEventInfo> getAcalEventsByIds(@WebParam(name = "acalEventIds") List<String> acalEventIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcalEventInfo> getAcalEventsByIds(@WebParam(name = "acalEventIds") List<String> acalEventIds,
+                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of AcalEvent Ids by Type.
@@ -1676,7 +2238,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getAcalEventIdsByType(@WebParam(name = "acalEventTypeKey") String acalEventTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getAcalEventIdsByType(@WebParam(name = "acalEventTypeKey") String acalEventTypeKey,
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of AcalEvents immediately mapped to an AcademicCalendar
@@ -1694,7 +2261,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<AcalEventInfo> getAcalEventsForAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcalEventInfo> getAcalEventsForAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of AcalEvents immediately mapped to an AcademicCalendar
@@ -1715,7 +2288,15 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<AcalEventInfo> getAcalEventsForAcademicCalendarByDate(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcalEventInfo> getAcalEventsForAcademicCalendarByDate(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                                      @WebParam(name = "startDate") Date startDate,
+                                                                      @WebParam(name = "endDate") Date endDate,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of AcalEvents impacted by a change to a given AcalEvent.
@@ -1734,7 +2315,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AcalEventInfo> getImpactedAcalEvents(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcalEventInfo> getImpactedAcalEvents(@WebParam(name = "acalEventId") String acalEventId,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for AcalEvents that meet the given search criteria.
@@ -1749,7 +2336,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForAcalEventIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForAcalEventIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for AcalEvents that meet the given search criteria.
@@ -1764,7 +2356,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AcalEventInfo> searchForAcalEvents(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AcalEventInfo> searchForAcalEvents(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Validates an AcalEvent. Depending on the value of validationType, this
@@ -1797,7 +2394,16 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateAcalEvent(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "termId") String termId, @WebParam(name = "acalEventTypeKey") String acalEventTypeKey, @WebParam(name = "acalEventInfo") AcalEventInfo acalEventInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateAcalEvent(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                        @WebParam(name = "termId") String termId,
+                                                        @WebParam(name = "acalEventTypeKey") String acalEventTypeKey,
+                                                        @WebParam(name = "acalEventInfo") AcalEventInfo acalEventInfo,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a new AcalEvent. The AcalEvent Id, Type, and Meta information may
@@ -1826,7 +2432,17 @@ public interface AcademicCalendarService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */
-    public AcalEventInfo createAcalEvent(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "acalEventTypeKey") String acalEventTypeKey, @WebParam(name = "acalEventInfo") AcalEventInfo acalEventInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public AcalEventInfo createAcalEvent(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                         @WebParam(name = "acalEventTypeKey") String acalEventTypeKey,
+                                         @WebParam(name = "acalEventInfo") AcalEventInfo acalEventInfo,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      * Updates an existing AcalEvent. The AcalEvent Id, Type, and Meta
@@ -1851,7 +2467,17 @@ public interface AcademicCalendarService {
      *                                      action was attempted on an out of
      *                                      date version
      */
-    public AcalEventInfo updateAcalEvent(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "acalEventInfo") AcalEventInfo acalEventInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public AcalEventInfo updateAcalEvent(@WebParam(name = "acalEventId") String acalEventId,
+                                         @WebParam(name = "acalEventInfo") AcalEventInfo acalEventInfo,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Changes the state of an existing AcalEvent to another state
@@ -1872,7 +2498,14 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo changeAcalEventState(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeAcalEventState(@WebParam(name = "acalEventId") String acalEventId,
+                                           @WebParam(name = "nextStateKey") String nextStateKey,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Deletes an existing AcalEvent.
@@ -1888,7 +2521,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteAcalEvent(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteAcalEvent(@WebParam(name = "acalEventId") String acalEventId,
+                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Calculates the dates in the AcalEvent based on a rule attached to the
@@ -1906,7 +2545,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public AcalEventInfo calculateAcalEvent(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AcalEventInfo calculateAcalEvent(@WebParam(name = "acalEventId") String acalEventId,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Rerieves a Holiday Type by Type key.
@@ -1922,7 +2567,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public TypeInfo getHolidayType(@WebParam(name = "holidayTypeKey") String holidayTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeInfo getHolidayType(@WebParam(name = "holidayTypeKey") String holidayTypeKey,
+                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid Holiday types.
@@ -1935,7 +2586,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getHolidayTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getHolidayTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * This method returns the valid Holiday Types for the given HolidayCalendar
@@ -1953,7 +2608,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeInfo> getHolidayTypesForHolidayCalendarType(@WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getHolidayTypesForHolidayCalendarType(@WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey,
+                                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a Holiday State by key.
@@ -1969,7 +2630,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StateInfo getHolidayState(@WebParam(name = "holidayStateKey") String holidayStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StateInfo getHolidayState(@WebParam(name = "holidayStateKey") String holidayStateKey,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets the valid Holiday States.
@@ -1982,7 +2649,11 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StateInfo> getHolidayStates(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StateInfo> getHolidayStates(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a single Holiday by a Holiday Id.
@@ -1998,7 +2669,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public HolidayInfo getHoliday(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public HolidayInfo getHoliday(@WebParam(name = "holidayId") String holidayId,
+                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list Holidays from a list of Holiday Ids. The returned list
@@ -2016,7 +2693,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<HolidayInfo> getHolidaysByIds(@WebParam(name = "holidayIds") List<String> holidayIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HolidayInfo> getHolidaysByIds(@WebParam(name = "holidayIds") List<String> holidayIds,
+                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of Holiday Ids by Type.
@@ -2033,7 +2716,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getHolidayIdsByType(@WebParam(name = "holidayTypeKey") String holidayTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getHolidayIdsByType(@WebParam(name = "holidayTypeKey") String holidayTypeKey,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of Holidays immediately mapped to a HolidayCalendar
@@ -2051,7 +2740,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<HolidayInfo> getHolidaysForHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HolidayInfo> getHolidaysForHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves a list of Holidays immediately mapped to a HolidayCalendar that
@@ -2072,7 +2767,15 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<HolidayInfo> getHolidaysForHolidayCalendarByDate(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HolidayInfo> getHolidaysForHolidayCalendarByDate(@WebParam(name = "holidayCalendarId") String holidayCalendarId,
+                                                                 @WebParam(name = "startDate") Date startDate,
+                                                                 @WebParam(name = "endDate") Date endDate,
+                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of holidays for a particular Academic Calendar further
@@ -2094,7 +2797,15 @@ public interface AcademicCalendarService {
      *                                   reason
      * @throws PermissionDeniedException authorization failure
      */
-    public List<HolidayInfo> getHolidaysByDateForAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HolidayInfo> getHolidaysByDateForAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId,
+                                                                  @WebParam(name = "startDate") Date startDate,
+                                                                  @WebParam(name = "endDate") Date endDate,
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Gets a list of Holidays impacted by a change to a given Holiday. Rules
@@ -2113,7 +2824,13 @@ public interface AcademicCalendarService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @deprecated Holidays are to be calculated when calender is copied.
      */
-    public List<HolidayInfo> getImpactedHolidays(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HolidayInfo> getImpactedHolidays(@WebParam(name = "holidayId") String holidayId,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for Holidays that meet the given search criteria.
@@ -2128,7 +2845,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForHolidayIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForHolidayIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Searches for Holidays that meet the given search criteria.
@@ -2143,7 +2865,12 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<HolidayInfo> searchForHolidays(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<HolidayInfo> searchForHolidays(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Validates a Holiday. Depending on the value of validationType, this
@@ -2175,7 +2902,16 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateHoliday(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "holidayTypeKey") String holidayTypeKey, @WebParam(name = "holidayInfo") HolidayInfo holidayInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateHoliday(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                      @WebParam(name = "holidayCalendarId") String holidayCalendarId,
+                                                      @WebParam(name = "holidayTypeKey") String holidayTypeKey,
+                                                      @WebParam(name = "holidayInfo") HolidayInfo holidayInfo,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Creates a new Holiday. The Holiday Id, Type, and Meta information may not
@@ -2204,7 +2940,17 @@ public interface AcademicCalendarService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      */
-    public HolidayInfo createHoliday(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "holidayTypeKey") String holidayTypeKey, @WebParam(name = "holidayInfo") HolidayInfo holidayInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public HolidayInfo createHoliday(@WebParam(name = "holidayCalendarId") String holidayCalendarId,
+                                     @WebParam(name = "holidayTypeKey") String holidayTypeKey,
+                                     @WebParam(name = "holidayInfo") HolidayInfo holidayInfo,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      * Updates an existing Holiday. The Holiday Id, Type, and Meta information
@@ -2229,7 +2975,17 @@ public interface AcademicCalendarService {
      *                                      action was attempted on an out of
      *                                      date version
      */
-    public HolidayInfo updateHoliday(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "holidayInfo") HolidayInfo holidayInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public HolidayInfo updateHoliday(@WebParam(name = "holidayId") String holidayId,
+                                     @WebParam(name = "holidayInfo") HolidayInfo holidayInfo,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
 
 
     /**
@@ -2251,7 +3007,14 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo changeHolidayState(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeHolidayState(@WebParam(name = "holidayId") String holidayId,
+                                         @WebParam(name = "nextStateKey") String nextStateKey,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Deletes an existing Holiday.
@@ -2267,7 +3030,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteHoliday(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteHoliday(@WebParam(name = "holidayId") String holidayId,
+                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Calculates the dates in the Holiday based on a rule attached to the
@@ -2286,7 +3055,13 @@ public interface AcademicCalendarService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @deprecated Holidays are to be calculated when calender is copied.
      */
-    public HolidayInfo calculateHoliday(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public HolidayInfo calculateHoliday(@WebParam(name = "holidayId") String holidayId,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Calculates the number of instructional days for a Term. The number of
@@ -2304,7 +3079,13 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public Integer getInstructionalDaysForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public Integer getInstructionalDaysForTerm(@WebParam(name = "termId") String termId,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Convenience method added for core-slice development to get a current
@@ -2325,5 +3106,477 @@ public interface AcademicCalendarService {
      * @deprecated This was a hack for core-slice but it is being used by
      *             MyPlan.
      */
-    public List<TermInfo> getCurrentTerms(@WebParam(name = "usageKey") String usageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TermInfo> getCurrentTerms(@WebParam(name = "usageKey") String usageKey,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves an ExamPeriod type by Type key.
+     *
+     * @param examPeriodTypeKey             the key of an ExamPeriod Type
+     * @param contextInfo                   information containing the principalId and locale
+     *                                      information about the caller of service operation
+     * @return the type requested
+     * @throws DoesNotExistException        examPeriodTypeKey is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    examPeriodTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public TypeInfo getExamPeriodType(@WebParam(name = "examPeriodTypeKey") String examPeriodTypeKey,
+                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Gets the valid ExamPeriod types.
+     *
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of valid ExamPeriod Types
+     * @throws InvalidParameterException    contextInfo is not value
+     * @throws MissingParameterException    contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<TypeInfo> getExamPeriodTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * This method returns the valid ExamPeriod types for a Term Type.
+     * Only ExamPeriods of allowed Types can be mapped to a Term.
+     *
+     * @param termTypeKey       an identifier for a Term Type
+     * @param contextInfo       information containing the principalId and locale information about
+     *                          the caller of service operation
+     * @return a list of valid ExamPeriod Types for the Term Type
+     * @throws DoesNotExistException     termTypeKey is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException termTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeInfo> getExamPeriodTypesForTermType(@WebParam(name = "termTypeKey") String termTypeKey,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Gets an ExamPeriod State by key.
+     *
+     * @param examPeriodStateKey    a key for an ExamPeriod State
+     * @param contextInfo           information containing the principalId and locale
+     *                              information about the caller of service operation
+     * @return the ExamPeriod State requested
+     * @throws DoesNotExistException     examPeriodStateKey is not found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException examPeriodStateKey or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StateInfo getExamPeriodState(@WebParam(name = "examPeriodStateKey") String examPeriodStateKey,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Gets the valid ExamPeriod States.
+     *
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of valid ExamPeriod States
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     */
+    public List<StateInfo> getExamPeriodStates(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
+     * Retrieves a single ExamPeriod by a ExamPeriod Id.
+     *
+     * @param examPeriodId      the identifier for the ExamPeriod to be retrieved
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return the ExamPeriod requested
+     * @throws DoesNotExistException     examPeriodId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException examPeriodId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public ExamPeriodInfo getExamPeriod(@WebParam(name = "examPeriodId") String examPeriodId,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ExamPeriods from a list of ExamPeriod Ids. The returned list may be
+     * in any order and if duplicate Ids are supplied, a unique set may or may
+     * not be returned.
+     *
+     * @param examPeriodIds         list of ExamPeriod Ids
+     * @param contextInfo           information containing the principalId and locale
+     *                              information about the caller of service operation
+     * @return a list of ExamPeriods
+     * @throws DoesNotExistException     an ExamPeriod Id in list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException examPeriodIds, an Id in examPeriodIds, or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ExamPeriodInfo> getExamPeriodsByIds(@WebParam(name = "examPeriodIds") List<String> examPeriodIds,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ExamPeriod Ids by Type.
+     *
+     * @param examPeriodTypeKey     an identifier for an ExamPeriod Type
+     * @param contextInfo           information containing the principalId and locale
+     *                              information about the caller of service operation
+     * @return a list of ExamPeriods matching examPeriodTypeKey or an empty list if none found
+     * @throws DoesNotExistException     an examPeriod TypeKey in list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException examPeriodTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getExamPeriodIdsByType(@WebParam(name = "examPeriodTypeKey") String examPeriodTypeKey,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Gets a list of ExamPeriods by Code.
+     *
+     * @param code        an ExamPeriod Code
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of ExamPeriods with the given ExamPeriod Code
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException code or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @impl Typically, an ExamPeriod Code is unique (should be enforced by the dictionary).
+     */
+    public List<ExamPeriodInfo> getExamPeriodsByCode(@WebParam(name = "code") String code,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for ExamPeriods that meet the given search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of ExamPeriod identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForExamPeriodIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for ExamPeriods that meet the given search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return a list of ExamPeriods matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ExamPeriodInfo> searchForExamPeriods(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates an ExamPeriod. If an identifier is present for the ExamPeriod
+     * and a record is found for that identifier, the
+     * validation checks if the ExamPeriod can be updated to the new values. If an
+     * identifier is not present or a record does not exist, the validation
+     * checks if the ExamPeriod with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param examPeriodTypeKey       the identifier for the ExamPeriod Type to be validated
+     * @param examPeriodInfo    the ExamPeriod to be validated
+     * @param contextInfo       information containing the principalId and
+     *                          locale information about the caller of service
+     *                          operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException     validationTypeKey or examPeriodTypeKey is not found
+     * @throws InvalidParameterException examPeriodInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, examPeriodTypeKey,
+     *                                   examPeriodInfo, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateExamPeriod(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                         @WebParam(name = "examPeriodTypeKey") String examPeriodTypeKey,
+                                                         @WebParam(name = "examPeriodInfo") ExamPeriodInfo examPeriodInfo,
+                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new ExamPeriod. The ExamPeriod Type and Meta information may not be set in
+     * the supplied data object.
+     *
+     * @param examPeriodTypeKey     the identifier for the Type of ExamPeriod to be created
+     * @param examPeriodInfo        the data with which to create the ExamPeriod
+     * @param contextInfo           information containing the principalId and locale
+     *                              information about the caller of service operation
+     * @return the new ExamPeriod
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        examPeriodTypeKey does not exist or is not supported
+     * @throws InvalidParameterException    examPeriodInfo or contextInfo is not valid
+     * @throws MissingParameterException    examPeriodTypeKey, examPeriodInfo, or
+     *                                      contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     */
+    public ExamPeriodInfo createExamPeriod(@WebParam(name = "examPeriodTypeKey") String examPeriodTypeKey,
+                                           @WebParam(name = "examPeriodInfo") ExamPeriodInfo examPeriodInfo,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     * Updates an existing ExamPeriod. The ExamPeriod Id, Type, and Meta information may not
+     * be changed.
+     *
+     * @param examPeriodId      the identifier for the ExamPeriod to be updated
+     * @param examPeriodInfo    the new data for the ExamPeriod
+     * @param contextInfo       information containing the principalId and locale
+     *                          information about the caller of service operation
+     * @return the updated ExamPeriod
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        examPeriodId is not found
+     * @throws InvalidParameterException    examPeriodInfo or contextInfo is not
+     *                                      valid
+     * @throws MissingParameterException    examPeriodId, examPeriodInfo, or contextInfo is
+     *                                      missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException           an attempt at changing information
+     *                                      deisgnated as read only
+     * @throws VersionMismatchException     an optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public ExamPeriodInfo updateExamPeriod(@WebParam(name = "examPeriodId") String examPeriodId,
+                                           @WebParam(name = "examPeriodInfo") ExamPeriodInfo examPeriodInfo,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+    /**
+     * Changes the state of an existing ExamPeriod to another state
+     * provided that it is valid to do so.
+     *
+     * @param examPeriodId      Id of the ExamPeriod to be updated.
+     * @param nextStateKey       The State Key into which the identified
+     *                           ExamPeriod will be placed if the
+     *                           operation succeeds.
+     * @param contextInfo        Context information containing the principalId
+     *                           and locale information about the caller of
+     *                           service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     the identified ExamPeriod does
+     *                                   not exist
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException One or more parameters missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo changeExamPeriodState(@WebParam(name = "examPeriodId") String examPeriodId,
+                                            @WebParam(name = "nextStateKey") String nextStateKey,
+                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Deletes an existing ExamPeriod.
+     *
+     * @param examPeriodId      the identifier for the ExamPeriod to be deleted
+     * @param contextInfo       information containing the principalId and locale
+     *                          information about the caller of service operation
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException     examPeriodId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException examPeriodId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteExamPeriod(@WebParam(name = "examPeriodId") String examPeriodId,
+                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Adds an ExamPeriod to a Term.
+     *
+     * @param termId        an identifier for the Term to which the ExamPeriod is to be added
+     * @param examPeriodId  the Id of ExamPeriod to be added
+     * @param contextInfo   information containing the principalId and
+     *                      locale information about the caller of service operation
+     * @return the status of the operation. This must always be true.
+     * @throws AlreadyExistsException    The ExamPeriod is already mapped to the Term
+     * @throws DoesNotExistException     termId or examPeriodId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException termId, examPeriodId, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo addExamPeriodToTerm(@WebParam(name = "termId") String termId,
+                                          @WebParam(name = "examPeriodId") String examPeriodId,
+                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Removes an ExamPeriod from a Term.
+     *
+     * @param termId            an identifier for the Term
+     * @param examPeriodId      the Id of ExamPeriod to be unmapped
+     * @param contextInfo       information containing the principalId and
+     *                          locale information about the caller of service
+     *                          operation
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException     termId or examPeriodId is not
+     *                                   found or examPeriodId is not mapped to termId
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException termId, examPeriodId, or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo removeExamPeriodFromTerm(@WebParam(name = "termId") String termId,
+                                               @WebParam(name = "examPeriodId") String examPeriodId,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ExamPeriods mapped to the given Term.
+     *
+     * @param termId        an identifier for the Term
+     * @param contextInfo   information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return a list of ExamPeriods mapped to the given Term
+     * @throws DoesNotExistException     termId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException termId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ExamPeriodInfo> getExamPeriodsForTerm(@WebParam(name = "termId") String termId,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Terms mapped to the given ExamPeriod.
+     *
+     * @param examPeriodId  an identifier for the ExamPeriod
+     * @param contextInfo   information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return a list of Terms mapped to the given ExamPeriod
+     * @throws DoesNotExistException     examPeriodId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException examPeriodId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TermInfo> getTermsForExamPeriod(@WebParam(name = "examPeriodId") String examPeriodId,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 }

@@ -96,7 +96,7 @@ public interface StudentCourseRecord
 
     /**
      * The code or number of the primary activity or section that was
-     * in effect at the time the student took the course.
+     * in effect at the time the student took the course. ???
      *
      * @name Activity Code
      * @readOnly

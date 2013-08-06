@@ -249,6 +249,27 @@ public class LprServiceDecorator implements LprService {
         return getNextDecorator().validateLprTransaction(validationType, lprTransactionType, lprTransactionInfo, contextInfo);
     }
 
+	@Override
+	public StatusInfo changeLprState(String lprId,
+			String nextStateKey,
+			ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().changeLprState(lprId, nextStateKey, contextInfo);
+	}
+
+	@Override
+	public StatusInfo changeLprTransactionState(
+			String lprTransactionId,
+			String nextStateKey,
+			ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().changeLprTransactionState(lprTransactionId, nextStateKey, contextInfo);
+	}
+
    
     
     

@@ -38,6 +38,7 @@ public class HoldServiceConstants {
      */
     public static final String STUDENT_HOLD_TYPE_KEY = "kuali.hold.type.student";
     public static final String INTRUCTOR_HOLD_TYPE_KEY = "kuali.hold.type.instructor";
+
     /**
      * ISSUE TYPES
      */
@@ -57,8 +58,10 @@ public class HoldServiceConstants {
     public static final String PRIOR_TRANSCRIPT_ISSUE_TYPE_KEY = "kuali.hold.issue.type.prior.transcript";
     public static final String INCOMPLETE_BIO_ISSUE_TYPE_KEY = "kuali.hold.issue.type.incomplete.bio";
     public static final String RESIDENCY_ISSUE_TYPE_KEY = "kuali.hold.issue.type.residency";
+
     /**
-     * known issue keys
+     * known issue keys  -- DO NOT USE THESE KEYS -- ISSUES DO NOT HAVE KEYS
+     * CLEAN UP WHEN POC code is changed
      */
     public static final String ISSUE_KEY_BOOK_OVERDUE = "kuali.hold.issue.library.book.overdue";
     public static final String ISSUE_KEY_UNPAID_FINE = "kuali.hold.issue.library.unpaid.fine";

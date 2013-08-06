@@ -89,7 +89,7 @@ public interface FormatOffering
     /**
      * Indicates what activity type does the final exam exist in
      *
-     * @name  Final Exam Level Type Key
+     * @name  Final ExamOffering Level Type Key
      */
     public String getFinalExamLevelTypeKey();
 }

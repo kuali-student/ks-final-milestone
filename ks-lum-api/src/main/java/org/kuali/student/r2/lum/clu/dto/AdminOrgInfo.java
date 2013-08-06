@@ -21,7 +21,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Kuali Student Team (sambitpa@kuali.org)

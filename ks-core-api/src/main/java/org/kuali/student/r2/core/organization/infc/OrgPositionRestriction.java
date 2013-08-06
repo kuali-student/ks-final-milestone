@@ -37,7 +37,7 @@ public interface OrgPositionRestriction
      * Organization the restriction applies to.
      *
      * @name Org Id
-     * @reqired
+     * @required
      * @readOnly
      */
     public String getOrgId();

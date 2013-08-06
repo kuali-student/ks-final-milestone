@@ -126,9 +126,18 @@ public class CourseOfferingSetServiceConstants {
     public static final String LOG_FREQUENCY_OPTION_KEY_PREFIX = "kuali.rollover.processing.log.frequency.";
     public static final String HALT_ERRORS_MAX_OPTION_KEY_PREFIX = "kuali.rollover.processing.halt.error.max.";
     public static final String RUN_SYNCHRONOUSLY_OPTION_KEY = "kuali.rollover.processing.run.synchronously";
+    public static final String BYPASS_BUSINESS_LOGIC_ON_SOC_STATE_CHANGE_FOR_AFT_TESTING = "kuali.aft-decorator.bypass.business.logic";
     
     // scheduling
     public static final String RUN_SCHEDULING_SYNCHRONOUSLY_OPTION_KEY = "kuali.scheduling.processing.run.synchronously";
+
+    // Whether to check target term/subterm for official states at the rolloverCourseOffering level
+    // Or at the rolloverSoc level.  If this option key exists, then no need for rolloverCourseOffering
+    // to make this check.
+    public static final String TARGET_TERM_VALIDATED_OPTION_KEY = "kuali.rollover.option.targetterm.validated";
+
+    // KSENROLL-8062 Dynamic attributes for rolling over individual CO information that has access to "global settings"
+    public static final String ROLLOVER_ASSIST_ID_DYNATTR_KEY = "kuali.rollover.context.att.rollover.assist.id";
 
     // dynamic attributes for rollover info
     public static final String CO_CREATED_RESULT_DYNATTR_KEY = "kuali.soc.rollover.result.dynattr.course.offerings.created";

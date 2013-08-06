@@ -35,14 +35,13 @@ import java.io.Serializable;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingCrossListingInfo", propOrder = {
                 "id", "typeKey", "stateKey", "code", "subjectArea",
-        "subjectOrgId", "courseNumberSuffix",
+                "subjectOrgId", "courseNumberSuffix",
                 "meta", "attributes", "_futureElements"
 })
 
 public class CourseOfferingCrossListingInfo 
     extends IdNamelessEntityInfo 
-    implements CourseOfferingCrossListing, Serializable,
-                Comparable<CourseOfferingCrossListing> {
+    implements CourseOfferingCrossListing, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -136,26 +135,4 @@ public class CourseOfferingCrossListingInfo
     public void setCourseNumberSuffix(String courseNumberSuffix) {
         this.courseNumberSuffix = courseNumberSuffix;
     }
-
-    @Override
-    public int compareTo(CourseOfferingCrossListing that) {
-        final int BEFORE = -1;
-        final int EQUAL = 0;
-        final int AFTER = 1;
-
-        if( that == null ) throw new NullPointerException("that cannot be null");
-        if( this == that ) return EQUAL;
-
-        int comparison = this.getSubjectArea().compareTo(that.getSubjectArea());
-        if( comparison != EQUAL ) return comparison;
-
-        comparison = this.getCode().compareTo(that.getCode());
-        if( comparison != EQUAL ) return comparison;
-
-        comparison = this.getCourseNumberSuffix().compareTo(that.getCourseNumberSuffix());
-        if( comparison != EQUAL ) return comparison;
-
-        return EQUAL;
-    }
-
 }

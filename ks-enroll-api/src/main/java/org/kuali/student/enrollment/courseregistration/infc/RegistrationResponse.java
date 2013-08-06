@@ -18,8 +18,6 @@ package org.kuali.student.enrollment.courseregistration.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.OperationStatus;
-
 public interface RegistrationResponse {
 
     /**

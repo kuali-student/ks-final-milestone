@@ -116,9 +116,4 @@ public class CourseOfferingServiceConstants {
     public static final String AUTOGEN_COUNTS_TOTAL_AOCS = "kuali.search.type.course.offering.autogen.counts.total.aocs";
     public static final String AUTOGEN_COUNTS_TOTAL_RGS = "kuali.search.type.course.offering.autogen.counts.total.rgs";
     public static final String AUTOGEN_COUNTS_TOTAL_INVALID_RGS = "kuali.search.type.course.offering.autogen.counts.total.invalid.rgs";
-    
-    
-    
-    
-    
 }
