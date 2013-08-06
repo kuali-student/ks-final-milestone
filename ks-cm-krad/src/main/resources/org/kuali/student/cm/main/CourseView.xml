@@ -67,7 +67,7 @@
         </property>
     </bean>
 
-    <bean id="commentsLightBox" parent="Uif-VerticalBoxSection"
+    <bean id="commentsLightBox" parent="Uif-VerticalBoxGroup"
         p:instructionalText="All comments posted here will be visible to authors, and to reviewers after you submit the proposal">
         <property name="headerText" value="Proposal Comments" />
         <property name="items">
@@ -250,7 +250,7 @@
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                                                     p:actionScript="showLightboxComponent('commentsLightBox');" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
-                                                    p:actionScript="showLightboxComponent('decisionsLightBox');" />
+                                                    p:actionScript="showLightboxComponent('decisionsDialog');" />
                                                 <bean parent="Uif-Space" />
                                             </list>
                                         </property>
@@ -293,8 +293,26 @@
                   <property name="layoutManager.richTable.render" value="false" /> 
                 </bean>
                 -->
-                <bean parent="Uif-PrimaryActionButton" p:actionLabel="OK" p:methodToCall="refresh" />
             </list>
+        </property>
+        <property name="responseInputField">
+            <bean parent="Uif-DialogResponse">
+                <property name="control">
+                    <bean parent="Uif-HorizontalCheckboxesControl">
+                        <property name="options">
+                            <list>
+                                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="OK"/>
+                            </list>
+                        </property>
+                        <property name="cssClasses">
+                            <list merge="true">
+                                <value>uif-dialogButtons</value>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="onChangeScript" value="lightboxButtonScript();"/>
+            </bean>
         </property>
     </bean>
 
