@@ -329,9 +329,8 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
 
             ArrayList<OrganizationInfoWrapper> orgList = new ArrayList<OrganizationInfoWrapper>();
 
-            // ??? Do we have to pull them off courseInfo ?
-            if(courseInfo.getUnitsDeployment() != null){
-                for(String orgId: courseInfo.getUnitsDeployment()){
+            if(courseInfo.getUnitsContentOwner() != null && !courseInfo.getUnitsContentOwner().isEmpty()){
+                for(String orgId : courseInfo.getUnitsContentOwner()){
                     OrgInfo orgInfo = getOrganizationService().getOrg(orgId,contextInfo);
                     orgList.add(new OrganizationInfoWrapper(orgInfo));
                 }
