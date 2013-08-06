@@ -20,6 +20,11 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -71,18 +76,8 @@ public class CluInformationHelper {
                         }
 
                         cluInformation.setCredits(getCreditInfo(cluInfo.getId()));
-
                         cluInformation.setType(cluInfo.getTypeKey());
-                        //If the clu type is variation, get the parent clu id.
-                        if ("kuali.lu.type.Variation".equals(cluInfo.getTypeKey())) {
-                            List<String> clus = this.getCluService().getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", ContextUtils.getContextInfo());
-                            if (clus == null || clus.size() == 0) {
-                                throw new RuntimeException("Statement Dependency clu found, but no parent Program exists");
-                            } else if (clus.size() > 1) {
-                                throw new RuntimeException("Statement Dependency clu can only have one parent Program relation");
-                            }
-                            cluInformation.setParentCluId(clus.get(0));
-                        }
+                        cluInformation.setParentCluId(this.getParentCluId(cluInfo));
 
                         cluInformation.setCluId(cluInfo.getId());
                         cluInformation.setVerIndependentId(cluInfo.getVersion().getVersionIndId());
@@ -93,10 +88,28 @@ public class CluInformationHelper {
                 }
             }
         }
-        if (result != null) {
-            Collections.sort(result);
-        }
+
+        Collections.sort(result);
         return result;
+    }
+
+    private String getParentCluId(CluInfo cluInfo){
+        //If the clu type is variation, get the parent clu id.
+        if ("kuali.lu.type.Variation".equals(cluInfo.getTypeKey())) {
+            List<String> clus = null;
+            try {
+                clus = this.getCluService().getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", ContextUtils.getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException("Could not retrieve parent clu.");
+            }
+            if (clus == null || clus.size() == 0) {
+                throw new RuntimeException("Statement Dependency clu found, but no parent Program exists");
+            } else if (clus.size() > 1) {
+                throw new RuntimeException("Statement Dependency clu can only have one parent Program relation");
+            }
+            return clus.get(0);
+        }
+        return null;
     }
 
     public String getCreditInfo(String cluId) {
