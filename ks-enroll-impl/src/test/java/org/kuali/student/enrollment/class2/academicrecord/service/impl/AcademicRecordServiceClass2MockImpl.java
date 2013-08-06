@@ -131,10 +131,10 @@ public class AcademicRecordServiceClass2MockImpl implements
      * Store a program record for the term specified.  The caller is responsible for filling in the object correctly.
      *
      * @param studentId    the student who completed the course
-     * @param termId       the term the course is from
+     * @param programId       the id of the program
      * @param programRecord the course record itself.
      */
-    public void storeStudentProgramRecord(String studentId, String termId, String courseId, StudentProgramRecordInfo programRecord) {
+    public void storeStudentProgramRecord(String studentId, String programId, StudentProgramRecordInfo programRecord) {
 
         // link to student
         List<StudentProgramRecordInfo> studentProgramList = studentToProgramRecordsMap.get(studentId);

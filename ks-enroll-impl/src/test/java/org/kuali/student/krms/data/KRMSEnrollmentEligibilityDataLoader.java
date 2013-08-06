@@ -206,9 +206,7 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
      * Helper to create a new StudentProgramRecordInfo object built using the provided details.
      *
      * @param studentId the student that completed the program
-     * @param termId the term when the course was taken
-     * @param courseCode the course code of the course that was taken
-     * @param courseTitle the title of the course
+     * @param program the program
      * @return the non-saved new course record built using the provided details
      * @throws DoesNotExistException the term does not exist
      * @throws InvalidParameterException the
@@ -216,11 +214,13 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StudentProgramRecordInfo createStudentProgramRecord(String studentId, String termId, String courseCode, String courseTitle) throws DoesNotExistException, OperationFailedException {
+    public StudentProgramRecordInfo createStudentProgramRecord(String studentId, CluInfo program) throws DoesNotExistException, OperationFailedException {
 
         StudentProgramRecordInfo programRecord = new StudentProgramRecordInfo();
 
-        programRecord.setProgramId("");
+        programRecord.setProgramId(program.getId());
+        programRecord.setProgramCode(program.getOfficialIdentifier().getCode());
+        programRecord.setProgramTitle(program.getOfficialIdentifier().getLongName());
 
         return programRecord;
 
@@ -254,13 +254,13 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
     /**
      * Store a new ProgramRecord for the student in the term given.
      * @param studentId
-     * @param termId
+     * @param programId
      * @param programRecord
      * @throws DoesNotExistException if the term does not exist.
      * @throws OperationFailedException  if an exception occurs that prevents the execution of the method.
      */
-    public void storeStudentProgramRecord (String studentId, String termId, String courseId, StudentProgramRecordInfo programRecord) throws DoesNotExistException, OperationFailedException {
-        recordService.storeStudentProgramRecord(studentId, termId, courseId, programRecord);
+    public void storeStudentProgramRecord (String studentId, String programId, StudentProgramRecordInfo programRecord) throws DoesNotExistException, OperationFailedException {
+        recordService.storeStudentProgramRecord(studentId, programId, programRecord);
     }
 
     private AtpInfo createTerm(String atpSpringTypeKey, Date startDate, Date endDate, String name) {
@@ -361,6 +361,10 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
 
             return courseService.createCourse(course, contextInfo);
         }
+    }
+
+    public CluInfo getProgram(String programId) throws Exception {
+        return cluService.getClu(programId, contextInfo);
     }
 
     public RegistrationGroupInfo getRegistrationGroup(String courseId, String termId) throws Exception {

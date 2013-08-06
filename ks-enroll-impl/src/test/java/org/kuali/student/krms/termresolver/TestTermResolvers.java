@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
@@ -26,6 +27,7 @@ import org.kuali.student.r2.core.class1.organization.service.impl.OrgTestDataLoa
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lu.service.impl.CluDataLoader;
@@ -92,6 +94,7 @@ public class TestTermResolvers {
         loadCluData();
         loadAcadRecordData();
         loadRegistrationData();
+        loadProgramRecordData();
 
         resolvedPrereqs = getDefaultPrerequisites();
         parameters = getDefaultParameters();
@@ -526,16 +529,21 @@ public class TestTermResolvers {
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "2");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "PROGRAM1");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_ADMITTEDTOPROGRAM);
 
         //Evaluate term Resolver
-        //Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
-        //assertNotNull(isAdmitted);
-        //assertTrue(isAdmitted);
+        Boolean isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isAdmitted);
+        assertTrue(isAdmitted);
+
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "PROGRAM2");
+        isAdmitted = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isAdmitted);
+        assertFalse(isAdmitted);
     }
 
     @Test
@@ -848,6 +856,25 @@ public class TestTermResolvers {
             request.getRegistrationRequestItems().add(dataLoader.createRegistrationItem(studentId, regGroup.getId()));
         }
         return dataLoader.persistRegistrationRequest(request);
+    }
+
+    private void loadProgramRecordData() {
+        try {
+
+            // setup the test data for student 1
+            insertStudentProgramRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, "PROGRAM1");
+            insertStudentProgramRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, "PROGRAM1");
+            insertStudentProgramRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, "PROGRAM2");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void insertStudentProgramRecord(String personId, String programId) throws Exception {
+        CluInfo program = dataLoader.getProgram(programId);
+        StudentProgramRecordInfo programRecord = dataLoader.createStudentProgramRecord(personId, program);
+        dataLoader.storeStudentProgramRecord(personId, programRecord.getProgramId(), programRecord);
     }
 
 }

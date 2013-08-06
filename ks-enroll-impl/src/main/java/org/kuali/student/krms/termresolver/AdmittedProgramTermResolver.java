@@ -51,7 +51,7 @@ public class AdmittedProgramTermResolver implements TermResolver<Boolean> {
 
     @Override
     public int getCost() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 
     @Override
