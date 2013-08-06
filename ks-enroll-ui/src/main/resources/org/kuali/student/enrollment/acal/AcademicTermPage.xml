@@ -153,14 +153,14 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="parent_term_type" parent="Uif-InputField-LabelTop" p:propertyName="parentTerm" p:label="Parent Term" p:render="@{#isAddLine}" p:refreshWhenChangedPropertyNames="#lp.termType">
+                <!-- bean id="parent_term_type" parent="Uif-InputField-LabelTop" p:propertyName="parentTerm" p:label="Parent Term" p:render="@{#isAddLine}" p:refreshWhenChangedPropertyNames="#lp.termType">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermParentTypeKeyValues" p:addBlankOption="false"/>
                     </property>
-                </bean>
+                </bean -->
             </list>
         </property>
         <property name="items">
@@ -202,6 +202,17 @@
                                         <bean id="term_code" parent="Uif-InputField-LabelTop" p:propertyName="termCode" p:label="Term Code" p:render="@{#line.termCode != T(org.kuali.student.enrollment.class2.acal.util.CalendarConstants).EMPTY_TERM_CODE}">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:disabled="true" p:size="9">
+                                                    <property name="cssClasses">
+                                                        <list>
+                                                            <value>acal_term_code</value>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="parent_term_name" parent="Uif-InputField-LabelTop" p:propertyName="parentTermName" p:label="Parent Term" p:render="@{#line.parentTerm != null and #line.parentTerm != ''}">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:disabled="true" p:size="20">
                                                     <property name="cssClasses">
                                                         <list>
                                                             <value>acal_term_code</value>
