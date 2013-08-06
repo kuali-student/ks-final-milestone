@@ -423,10 +423,11 @@ public class TestTermResolvers {
         //Setup the term resolver
         CreditsEarnedFromOrganizationTermResolver termResolver = new CreditsEarnedFromOrganizationTermResolver();
         termResolver.setAcademicRecordService(academicRecordService);
+        termResolver.setCourseOfferingService(courseOfferingService);
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "1");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "ORG1");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
@@ -437,10 +438,10 @@ public class TestTermResolvers {
         assertNotNull(credits);
         assertEquals(new Integer(9), credits);
 
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID);
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY, "ORG2");
         credits = termResolver.resolve(resolvedPrereqs, parameters);
         assertNotNull(credits);
-        assertEquals(new Integer(12), credits);
+        assertEquals(new Integer(0), credits);
     }
 
     @Test
@@ -741,7 +742,7 @@ public class TestTermResolvers {
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CLU_ID, "1");
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CLU_ID, "ORG1");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,

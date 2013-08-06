@@ -2,7 +2,11 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.infc.StudentCourseRecord;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
@@ -10,6 +14,7 @@ import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,6 +28,7 @@ import java.util.Set;
 public class CreditsEarnedFromOrganizationTermResolver implements TermResolver<Integer> {
 
     private AcademicRecordService academicRecordService;
+    private CourseOfferingService courseOfferingService;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -52,14 +58,23 @@ public class CreditsEarnedFromOrganizationTermResolver implements TermResolver<I
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
 
-        String credits = null;
+        Integer credits = 0;
         try {
-            credits = academicRecordService.getEarnedCredits(personId, AcademicRecordServiceConstants.ACADEMIC_RECORD_CALCULATION_GPA_TYPE_KEY, context);
+
+            String orgId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY);
+
+            List<StudentCourseRecordInfo> courseRecords = academicRecordService.getCompletedCourseRecords(personId, context);
+            for(StudentCourseRecordInfo courseRecord : courseRecords){
+                CourseOffering courseOffering = courseOfferingService.getCourseOffering(courseRecord.getCourseOfferingId(), context);
+                if(courseOffering.getUnitsContentOwnerOrgIds().contains(orgId)){
+                    credits += Integer.parseInt(courseRecord.getCreditsEarned());
+                }
+            }
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
 
-        return Integer.parseInt(credits);
+        return credits;
     }
 
     public AcademicRecordService getAcademicRecordService() {
@@ -68,5 +83,13 @@ public class CreditsEarnedFromOrganizationTermResolver implements TermResolver<I
 
     public void setAcademicRecordService(AcademicRecordService academicRecordService) {
         this.academicRecordService = academicRecordService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
     }
 }

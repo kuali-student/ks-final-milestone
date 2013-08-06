@@ -336,6 +336,7 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
             courseOffering.setId(coId);
             courseOffering = courseOfferingService.createCourseOffering(course.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
                     courseOffering, new ArrayList<String>(), contextInfo);
+            courseOffering.getUnitsContentOwnerOrgIds().add("ORG1");
             RegistrationGroupInfo regGroup = new RegistrationGroupInfo();
             regGroup.setCourseOfferingId(courseOffering.getId());
             regGroup.setTypeKey("atype");
