@@ -63,7 +63,6 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
         List<String> currentTermTypes = new ArrayList<String>();
        // Added below if check to avoid class cast exception on Window registration page.
         if (model instanceof RegistrationWindowsManagementForm) {
-
             for (AppointmentWindowWrapper termWrapper : ((RegistrationWindowsManagementForm) model).getAppointmentWindows()) {
                 currentTermTypes.add(termWrapper.getTermType());
             }
