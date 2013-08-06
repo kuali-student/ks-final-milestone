@@ -119,26 +119,8 @@ function activityEditDocumentOnLoad(){
  * This method refreshes all the related components when the user adds/deletes an AO from the colocated set.
  */
 function addColocatedAOSuccessCallBack(){
-
-    /* KSENROLL-6378 mods the checkbox-component used in this function (ID: ActivityOffering-CoLocated-checkbox) because we are not
-     * yet supporting partial-colocation; therefore, simple text is implemented in lieu of checkboxes, making this code obsolete.
-     * This code is likely to be used in the future once partial-colocation is implemented, so I've left this code laying here
-     * but commented-out.  Of note, I had to comment-out the part that updates just the checkbox-component and instead update it's
-     * parent-container because doing otherwise was generating a stack-trace.
-     *
-     * See ActivityOfferingEdit-ScheduleSection.xml id="ActivityOffering-CoLocated-checkbox"
-     * ~brandon.gresham
-     */
     retrieveComponent('enr_shared_table',undefined, function () {
-        //If 'Manage Enrollments separately' is not checked, add ignore class.
-        if (!jQuery('#share_seats_control_1').is(":checked")){
-            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
-        }
-        //retrieveComponent('ActivityOffering-CoLocated-checkbox', undefined, function () {
-        retrieveComponent('ActivityOffering-DeliveryLogistic-New', undefined, function() {
-            onColoCheckBoxChange(true);
-            retrieveComponent('ActivityOffering-DeliveryLogistic-Requested');
-        });
+        jQuery('#ActivityOfferingEdit-CoLocatedActivities').show();
     });
 }
 

@@ -152,6 +152,7 @@
                 <bean parent="Uif-InputField" p:propertyName="termId" p:hidden="true"/>
                 <ref bean="ActivityOfferingEdit-NavigationConfirmation"/>
                 <ref bean="ActivityOfferingEdit-BreakColocateConfirmation"/>
+                <ref bean="ActivityOfferingEdit-CoLocatedAddLineDialog"/>
             </list>
         </property>
         <property name="dialogs">
