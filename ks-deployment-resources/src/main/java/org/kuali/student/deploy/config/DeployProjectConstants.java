@@ -9,7 +9,7 @@ public abstract class DeployProjectConstants {
 	private static final String GID = KualiProjectConstants.STUDENT_GROUP_ID;
 	private static final String AID = "ks-deployment-resources";
 
-	public static final ProjectId PROJECT_IDENTIFIER = new ProjectId(GID, AID);
+	public static final ProjectId ID = new ProjectId(GID, AID);
 
 	@Deprecated
 	public static final String GROUP_ID = GID;

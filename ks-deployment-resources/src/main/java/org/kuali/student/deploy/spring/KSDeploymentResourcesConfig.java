@@ -22,7 +22,7 @@ public class KSDeploymentResourcesConfig {
 	@Bean
 	public Project ksDeploymentResourcesProject() {
 		ProjectService service = projectServiceConfig.projectService();
-		return service.getProject(DeployProjectConstants.PROJECT_IDENTIFIER);
+		return service.getProject(DeployProjectConstants.ID);
 	}
 
 	public Location getLocation(String suffix) {
