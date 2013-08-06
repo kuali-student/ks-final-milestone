@@ -185,6 +185,9 @@ public class CourseSummaryDetails implements Serializable {
 	}
 
 	public List<String> getScheduledTerms() {
+		if (scheduledTerms == null) {
+			scheduledTerms = new java.util.ArrayList<String>();
+		}
 		return scheduledTerms;
 	}
 
