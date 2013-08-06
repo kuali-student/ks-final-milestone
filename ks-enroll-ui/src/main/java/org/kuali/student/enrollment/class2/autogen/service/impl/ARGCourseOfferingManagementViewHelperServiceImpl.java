@@ -629,6 +629,14 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                             rooms.add(roomIdMap.get(roomId));
                             buildings.add(buildingIdMap.get(roomIdMap.get(roomId).getBuildingId()));
                         }
+
+                        if (src.getRoomIds().isEmpty()){
+                            for (String buildingId : src.getBuildingIds()) {
+                                buildings.add(buildingIdMap.get(buildingId));
+                            }
+                        }
+
+
                         for (String timeSlotId : src.getTimeSlotIds()) {
                             TimeSlotInfo timeSlotInfo = timeslotIdMap.get(timeSlotId);
                             timeSlots.add(timeSlotInfo);

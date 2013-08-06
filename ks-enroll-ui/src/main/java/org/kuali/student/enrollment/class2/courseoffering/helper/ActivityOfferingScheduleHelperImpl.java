@@ -180,6 +180,10 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             scheduleWrapper.setEndTimeUI(scheduleWrapper.getEndTime() + " " + scheduleWrapper.getEndTimeAMPM());
         }
 
+        if (StringUtils.isBlank(scheduleWrapper.getRoomCode())){
+            scheduleWrapper.setRoom(null);
+        }
+
         activityOfferingWrapper.getRequestedScheduleComponents().add(scheduleWrapper);
 
         ScheduleWrapper newScheduleWrapper = new ScheduleWrapper();
