@@ -1506,7 +1506,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		                                                          });
 		                                                      }
 		                                                  });
-		                                              myplanGetSectionEnrollment('plan/enroll', {'courseId':'@{dataObject.courseSummaryDetails.courseId}'});
+		                                              myplanGetSectionEnrollment('course/enroll', {'courseId':'@{dataObject.courseSummaryDetails.courseId}'});
 		                                          " />
 							<property name="validationMessages">
 								<null />

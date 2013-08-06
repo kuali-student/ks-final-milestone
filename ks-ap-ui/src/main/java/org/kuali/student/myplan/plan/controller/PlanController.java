@@ -3137,42 +3137,6 @@ public class PlanController extends UifControllerBase {
 		return isNewUser;
 	}
 
-	// Course ID GUID, atp key id eg "uw.kuali.atp.2001.1"
-	@RequestMapping(value = "/plan/enroll")
-	public void getCourseSectionStatusAsJson(HttpServletResponse response,
-			HttpServletRequest request) throws IOException, ServletException {
-		String courseId = request.getParameter("courseId");
-		CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
-				.retrieveCourseSummaryById(courseId);
-
-		String termIdInput = request.getParameter("termId");
-		List<String> termIds;
-		if (StringUtils.isBlank(termIdInput))
-			termIds = new java.util.ArrayList<String>(
-					courseDetails.getScheduledTerms());
-		else
-			termIds = Collections.singletonList(termIdInput);
-
-		CourseHelper ch = KsapFrameworkServiceLocator.getCourseHelper();
-		Map<String, Map<String, Object>> payload = new java.util.LinkedHashMap<String, Map<String, Object>>();
-		for (String termId : termIds)
-			ch.getAllSectionStatus(payload, courseId, termId);
-
-		String json;
-		try {
-			json = mapper.writeValueAsString(payload);
-			response.setHeader("content-type", "application/json");
-			response.setHeader("Cache-Control", "No-cache");
-			response.setHeader("Cache-Control", "No-store");
-			response.setHeader("Cache-Control", "max-age=0");
-			response.getWriter().println(json);
-		} catch (JsonGenerationException e) {
-			throw new ServletException("JSON generation failed", e);
-		} catch (JsonMappingException e) {
-			throw new ServletException("JSON generation failed", e);
-		}
-	}
-
 	public DegreeAuditService getDegreeAuditService() {
 		if (degreeAuditService == null) {
 			degreeAuditService = (DegreeAuditService) GlobalResourceLoader
