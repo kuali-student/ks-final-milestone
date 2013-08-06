@@ -1057,17 +1057,17 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         Collections.sort(regGroupAoInfosSorted, new Comparator <List<ActivityOfferingInfo>>() {
             @Override
             public int compare(List<ActivityOfferingInfo> o1, List<ActivityOfferingInfo> o2) {
-                String o1Code = "";
-                String o2Code = "";
-                for (ActivityOfferingInfo aoInfo : o1) { //build o1 code
-                    o1Code = o1Code + aoInfo.getActivityCode();
+                StringBuilder sb1 = new StringBuilder();
+                StringBuilder sb2 = new StringBuilder();
+                for (ActivityOfferingInfo aoInfo1 : o1) { //build o1 code
+                    sb1.append(aoInfo1.getActivityCode());
                 }
-                for (ActivityOfferingInfo aoInfo : o2) { //build o2 code
-                    o2Code = o2Code + aoInfo.getActivityCode();
+                for (ActivityOfferingInfo aoInfo2 : o2) { //build o2 code
+                    sb2.append(aoInfo2.getActivityCode());
                 }
-                if (o1Code != null && o2Code != null
-                        && !o1Code.equals("") && !o2Code.equals("")){
-                    return o1Code.compareTo(o2Code);
+                if (sb1 != null && sb2 != null
+                        && !sb1.toString().equals("") && !sb2.toString().equals("")){
+                    return sb1.toString().compareTo(sb2.toString());
                 } else {
                     return -1;
                 }
