@@ -45,6 +45,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -88,7 +89,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         CORuleManagementWrapper dataObject = new CORuleManagementWrapper();
 
         dataObject.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
-        dataObject.setRefDiscriminatorType(KSKRMSServiceConstants.RULE_DISCR_TYPE_COURSE_OFFERING);
+        dataObject.setRefDiscriminatorType(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING);
 
         String coId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(coId);

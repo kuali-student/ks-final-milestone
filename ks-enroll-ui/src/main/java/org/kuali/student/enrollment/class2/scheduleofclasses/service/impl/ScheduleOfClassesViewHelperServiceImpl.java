@@ -378,7 +378,7 @@ public class ScheduleOfClassesViewHelperServiceImpl extends ViewHelperServiceImp
     protected static String retrieveRequisites(String courseOfferingId, RuleManagementService ruleManagementService, String usageId) {
 
         //Retrieve reference object bindings for course offering
-        List<ReferenceObjectBinding> refObjectsBindings = ruleManagementService.findReferenceObjectBindingsByReferenceObject(KSKRMSServiceConstants.RULE_DISCR_TYPE_COURSE_OFFERING, courseOfferingId);
+        List<ReferenceObjectBinding> refObjectsBindings = ruleManagementService.findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, courseOfferingId);
 
         //Retrieve agenda's for course offering
         String requisites = StringUtils.EMPTY;

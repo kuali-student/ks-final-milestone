@@ -47,6 +47,7 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -95,7 +96,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         dataObject.setRefObjectId(aoId);
 
         dataObject.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
-        dataObject.setRefDiscriminatorType("kuali.lui.type.activity.offering");
+        dataObject.setRefDiscriminatorType(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
 
         //Retrieve the Reg Object information
         ActivityOfferingInfo activityOffering = null;
@@ -115,15 +116,8 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         //Populate Clu Identification Information
         if (activityOffering != null) {
-            StringBuilder courseNameBuilder = new StringBuilder();
-            courseNameBuilder.append(activityOffering.getTermCode());
-            courseNameBuilder.append(" - ");
-            courseNameBuilder.append(activityOffering.getCourseOfferingCode() + activityOffering.getActivityCode());
-            courseNameBuilder.append(" - ");
-            courseNameBuilder.append(activityOffering.getCourseOfferingTitle());
-
-            //Set the description and atp used on the screen.
-            dataObject.setCluDescription(courseNameBuilder.toString());
+            //Set the description on the screen.
+            dataObject.setCluDescription(activityOffering.getCourseOfferingCode() + activityOffering.getActivityCode());
         }
 
         if(courseOffering!=null){
@@ -212,7 +206,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         } catch (Exception e) {
             throw new RuntimeException("Could not retrieve activity offering for " + refObjectId);
         }
-        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(KSKRMSServiceConstants.RULE_DISCR_TYPE_COURSE_OFFERING, activityOfferingInfo.getCourseOfferingId());
+        return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING, activityOfferingInfo.getCourseOfferingId());
     }
 
     /**
@@ -225,7 +219,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
     public List<AgendaEditor> getCluAgendasByCourseId(String courseId) {
 
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
-        List<ReferenceObjectBinding> cluRefObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject("kuali.lu.type.CreditCourse", courseId);
+        List<ReferenceObjectBinding> cluRefObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(KSKRMSServiceConstants.RULE_DISCR_TYPE_CREDIT, courseId);
         for (ReferenceObjectBinding referenceObject : cluRefObjects) {
             AgendaEditor agendaEditor = this.getAgendaEditor(referenceObject.getKrmsObjectId());
 
