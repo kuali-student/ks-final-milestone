@@ -29,16 +29,15 @@ public class TestRuleLogicExpressionParser {
 
     @Test
     public void testExpressionValidation(){
-        String[] array = new String[] { "A","E","C","D" };
         List<String> errorMessages = new ArrayList<String>();
         RuleLogicExpressionParser parser = new RuleLogicExpressionParser();
 
-        parser.setExpression("A(E AND C AND D)");
-        parser.validateExpression(errorMessages, Arrays.asList(array));
+        parser.setExpression("E AND (C AND D)");
+        parser.validateExpression(errorMessages);
         assertEquals(0, errorMessages.size());
 
-        parser.setExpression("A(E AND C OR D)");
-        parser.validateExpression(errorMessages, Arrays.asList(array));
+        parser.setExpression("A AND (E AND C OR D)");
+        parser.validateExpression(errorMessages);
         assertEquals(1, errorMessages.size());
 
     }

@@ -161,23 +161,23 @@ public class PropositionTreeUtil {
     public static String configureLogicExpression(PropositionEditor proposition) {
         // If the prop is a compound proposition, calls itself for each of the compoundComponents
         if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(proposition.getPropositionTypeCode())) {
-            String logicExpression = "";
+            StringBuilder logicExpression = new StringBuilder();
             boolean first = true;
             for (PropositionEditor child : proposition.getCompoundEditors()) {
                 // add an opcode node in between each of the children.
                 if (!first) {
-                    logicExpression += " " + getLabelForOperator(proposition.getCompoundOpCode()) + " ";
+                    logicExpression.append(" " + getLabelForOperator(proposition.getCompoundOpCode()) + " ");
                 }
                 first = false;
                 // call to build the childs node
                 String compoundExpression = configureLogicExpression(child);
                 if (compoundExpression.length() > 1) {
-                    logicExpression += "(" + compoundExpression + ")";
+                    logicExpression.append("(" + compoundExpression + ")");
                 } else {
-                    logicExpression += compoundExpression;
+                    logicExpression.append(compoundExpression);
                 }
             }
-            return logicExpression;
+            return logicExpression.toString();
         } else {
             return proposition.getKey();
         }

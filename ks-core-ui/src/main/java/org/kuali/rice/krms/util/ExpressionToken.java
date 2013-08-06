@@ -54,6 +54,20 @@ public class ExpressionToken implements Cloneable {
         this.value = value;
     }
 
+    public static boolean isOperator(int type){
+        if((type==ExpressionToken.OPERATOR_AND)||(type==ExpressionToken.OPERATOR_OR)){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isParenthesis(int type){
+        if((type==ExpressionToken.PARENTHESIS_START)||(type==PARENTHESIS_END)){
+            return true;
+        }
+        return false;
+    }
+
     public static ExpressionToken createAndToken(){
         ExpressionToken t = new ExpressionToken();
         t.type = OPERATOR_AND;
@@ -82,7 +96,7 @@ public class ExpressionToken implements Cloneable {
     }
     
     public boolean equals(Object obj){
-        if(obj instanceof ExpressionToken == false){
+        if(!(obj instanceof ExpressionToken)){
             return false;
         }
         ExpressionToken t = (ExpressionToken)obj;
@@ -97,7 +111,7 @@ public class ExpressionToken implements Cloneable {
     
     public int hashCode(){
     	int hash =1;
-    	hash = hash * 31 + new Integer(type).hashCode();
+    	hash = hash * 31 + Integer.valueOf(type).hashCode();
     	hash = hash * 31 + (value == null ? 0 : value.hashCode());
     	return hash;
     }

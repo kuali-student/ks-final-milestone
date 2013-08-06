@@ -45,13 +45,12 @@ public class OrganizationComponentBuilder implements ComponentBuilder<KSProposit
     @Override
     public void resolveTermParameters(KSPropositionEditor propositionEditor, Map<String, String> termParameters) {
         String orgId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_ORGANIZATION_KEY);
-        String credits = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TOTAL_CREDIT_KEY);
         if (orgId != null) {
             try {
                 OrgInfo orgInfo = this.getOrganizationService().getOrg(orgId, ContextUtils.getContextInfo());
                 propositionEditor.setOrgInfo(orgInfo);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Could not load orgarnization", e);
             }
 
         }

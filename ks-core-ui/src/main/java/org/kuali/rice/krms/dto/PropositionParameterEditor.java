@@ -41,7 +41,7 @@ public class PropositionParameterEditor implements PropositionParameterContract,
         super();
         this.setParameterType(parameterType);
         this.setSequenceNumber(sequenceNumber);
-        this.setVersionNumber(new Long(1));
+        this.setVersionNumber(Long.valueOf(1));
         this.setValue(null);
         this.setTermValue(null);
     }

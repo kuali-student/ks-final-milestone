@@ -48,7 +48,7 @@ public class PopulationComponentBuilder implements ComponentBuilder<KSPropositio
                 PopulationInfo populationInfo = this.getPopulationService().getPopulation(populationId, ContextUtils.getContextInfo());
                 propositionEditor.setPopulation(populationInfo);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Could not load population", e);
             }
 
         }

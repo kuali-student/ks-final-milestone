@@ -47,24 +47,25 @@ public class RuleLogicExpressionParser {
         }
     }
 
-    public boolean validateExpression(List<String> errorMessages, List<String> propsAlpha) {
+    public boolean validateExpression(List<String> errorMessages) {
         checkExpressionSet();
-        return doValidateExpression(errorMessages, tokenList, propsAlpha);
+        return doValidateExpression(errorMessages, tokenList);
     }
 
-    private boolean doValidateExpression(List<String> errorMessages, final List<ExpressionToken> tokens, List<String> propsAlpha) {
+    private boolean doValidateExpression(List<String> errorMessages, final List<ExpressionToken> tokens) {
         boolean valid = true;
         List<String> seenConditonValues = new ArrayList<String>();
-        // allow empty expression. ie. user wants the entire rule deleted.
-        if (tokens.size() == 0) {
-            return true;
-        }
 
-        int firstTokenType = tokens.get(0).getType();
-        if ((firstTokenType != ExpressionToken.PARENTHESIS_START)
-                && (firstTokenType != ExpressionToken.CONDITION)) {
-            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_LOGIC_EXPRESSION_START);
-            return false;
+        // allow empty expression. ie. user wants the entire rule deleted.
+        if (tokens.size() > 0) {
+            int firstTokenType = tokens.get(0).getType();
+            if ((firstTokenType != ExpressionToken.PARENTHESIS_START)
+                    && (firstTokenType != ExpressionToken.CONDITION)) {
+                errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_LOGIC_EXPRESSION_START);
+                return false;
+            }
+        } else {
+            return true;
         }
         if (countToken(tokens, ExpressionToken.PARENTHESIS_START) != countToken(tokens, ExpressionToken.PARENTHESIS_END)) {
             errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PARENTHESIS_NOT_PAIR);
@@ -79,7 +80,7 @@ public class RuleLogicExpressionParser {
 
             ExpressionToken prevToken = null;
             ExpressionToken nextToken = null;
-            if(tokens != null){
+            if (tokens != null) {
                 prevToken = i - 1 < 0 ? null : tokens.get(i - 1);
                 nextToken = i + 1 >= tokens.size() ? null : tokens.get(i + 1);
             }
@@ -93,7 +94,7 @@ public class RuleLogicExpressionParser {
                     return false;
                 }
             } else if (token.getType() == ExpressionToken.PARENTHESIS_START) {
-                if (!checkStartParenthesis(errorMessages, prevToken, nextToken)) {
+                if (!checkStartParenthesis(errorMessages, nextToken)) {
                     return false;
                 }
             } else if (token.getType() == ExpressionToken.PARENTHESIS_END) {
@@ -157,8 +158,8 @@ public class RuleLogicExpressionParser {
     private boolean checkAnd(List<String> errorMessages, ExpressionToken prevToken, ExpressionToken nextToken) {
         boolean validToken = true;
         if ((prevToken != null) && (prevToken.getType() != ExpressionToken.CONDITION) && (prevToken.getType() != ExpressionToken.PARENTHESIS_END)) {
-                errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PRECEDE_OPERATOR);
-                validToken = false;
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PRECEDE_OPERATOR);
+            validToken = false;
         }
         if ((nextToken != null) && (nextToken.getType() != ExpressionToken.CONDITION) && (nextToken.getType() != ExpressionToken.PARENTHESIS_START)) {
             errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_OPERATOR);
@@ -180,11 +181,11 @@ public class RuleLogicExpressionParser {
         return validToken;
     }
 
-    private boolean checkStartParenthesis(List<String> errorMessages, ExpressionToken prevToken, ExpressionToken nextToken) {
+    private boolean checkStartParenthesis(List<String> errorMessages, ExpressionToken nextToken) {
         boolean validToken = true;
         if ((nextToken != null) && (nextToken.getType() != ExpressionToken.CONDITION) && (nextToken.getType() != ExpressionToken.PARENTHESIS_START)) {
-                errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_START_PARENTHESIS);
-                validToken = false;
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_START_PARENTHESIS);
+            validToken = false;
         }
         return validToken;
     }
@@ -195,7 +196,7 @@ public class RuleLogicExpressionParser {
             errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PRECEDE_END_PARENTHESIS);
             validToken = false;
         }
-        if ((nextToken != null) && (nextToken.getType() != ExpressionToken.OPERATOR_OR) && (nextToken.getType() != ExpressionToken.OPERATOR_AND) && (nextToken.getType() != ExpressionToken.PARENTHESIS_END)) {
+        if ((nextToken != null) && (!ExpressionToken.isOperator(nextToken.getType())) && (nextToken.getType() != ExpressionToken.PARENTHESIS_END)) {
             errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_END_PARENTHESIS);
             validToken = false;
         }
@@ -204,11 +205,11 @@ public class RuleLogicExpressionParser {
 
     private boolean checkCondition(List<String> errorMessages, ExpressionToken prevToken, ExpressionToken nextToken) {
         boolean validToken = true;
-        if ((prevToken != null) && (prevToken.getType() != ExpressionToken.OPERATOR_AND) && (prevToken.getType() != ExpressionToken.OPERATOR_OR) && (prevToken.getType() != ExpressionToken.PARENTHESIS_START)) {
+        if ((prevToken != null) && (!ExpressionToken.isOperator(prevToken.getType())) && (prevToken.getType() != ExpressionToken.PARENTHESIS_START)) {
             errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PRECEDE_CONDITION);
             validToken = false;
         }
-        if ((nextToken != null) && (nextToken.getType() != ExpressionToken.OPERATOR_OR) && (nextToken.getType() != ExpressionToken.OPERATOR_AND) && (nextToken.getType() != ExpressionToken.PARENTHESIS_END) && (nextToken.getType() != ExpressionToken.PARENTHESIS_START)) {
+        if ((nextToken != null) && (!ExpressionToken.isOperator(nextToken.getType())) && (nextToken.getType() != ExpressionToken.PARENTHESIS_END) && (nextToken.getType() != ExpressionToken.PARENTHESIS_START)) {
             errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_CONDITION);
             validToken = false;
         }
@@ -252,18 +253,17 @@ public class RuleLogicExpressionParser {
     }
 
     private List<String> getTokenValue(String expression) {
-        expression = expression.toLowerCase();
         List<String> tokenValueList = new ArrayList<String>();
-        StringBuffer tokenValue = new StringBuffer();
+        StringBuilder tokenValue = new StringBuilder();
         for (int i = 0; i < expression.length(); i++) {
 
             char ch = expression.charAt(i);
             if (Character.isSpaceChar(ch)) {
                 tokenValueList.add(tokenValue.toString());
-                tokenValue = new StringBuffer();
+                tokenValue = new StringBuilder();
             } else if (ch == '(' || ch == ')') {
                 tokenValueList.add(tokenValue.toString());
-                tokenValue = new StringBuffer();
+                tokenValue = new StringBuilder();
                 tokenValueList.add(String.valueOf(ch));
             } else {
                 tokenValue.append(ch);
@@ -275,7 +275,7 @@ public class RuleLogicExpressionParser {
 
     public void setExpression(String expression) {
         this.expression = expression;
-        List<String> tokenValueList = getTokenValue(expression);
+        List<String> tokenValueList = getTokenValue(expression.toLowerCase());
         this.tokenList = getTokenList(tokenValueList);
     }
 
@@ -300,7 +300,7 @@ public class RuleLogicExpressionParser {
         int index = 0;
         isOtiose = false;
         for (ExpressionToken token : tokenList) {
-            if(isOtioseCompound(token, tokenList, index)) {
+            if (isOtioseCompound(token, tokenList, index)) {
                 index++;
                 continue;
             }
@@ -318,14 +318,14 @@ public class RuleLogicExpressionParser {
 
     private boolean isOtioseCompound(ExpressionToken token, List<ExpressionToken> tokenList, int index) {
 
-        if(token.getType() == ExpressionToken.PARENTHESIS_END && isOtiose) {
+        if (token.getType() == ExpressionToken.PARENTHESIS_END && isOtiose) {
             isOtiose = false;
             return true;
         }
 
-        if(token.getType() == ExpressionToken.PARENTHESIS_START) {
-            if(tokenList.size() > index + 2) {
-                if(tokenList.get(index+1).getType() == ExpressionToken.CONDITION && tokenList.get(index+2).getType() == ExpressionToken.PARENTHESIS_END) {
+        if (token.getType() == ExpressionToken.PARENTHESIS_START) {
+            if (tokenList.size() > index + 2) {
+                if (tokenList.get(index + 1).getType() == ExpressionToken.CONDITION && tokenList.get(index + 2).getType() == ExpressionToken.PARENTHESIS_END) {
                     isOtiose = true;
                     return true;
                 }
@@ -337,7 +337,7 @@ public class RuleLogicExpressionParser {
     /**
      * This is a recursive method that loop thru the proposition tree to add all simple proposition in a map so that
      * they can easily be retrieved by their keys when we rebuild the proposition tree.
-     *
+     * <p/>
      * It also creates a queue with all the existing compound propositions so that the root proposition could be
      * retrieved first.
      *
@@ -370,11 +370,11 @@ public class RuleLogicExpressionParser {
      * @return
      */
     public PropositionEditor ruleFromStack(Stack<ExpressionToken> tokenStack, Map<String, PropositionEditor> simplePropositions,
-                                         Queue<PropositionEditor> compoundPropositions, RuleEditor rule, RuleViewHelperService viewHelper) {
+                                           Queue<PropositionEditor> compoundPropositions, RuleEditor rule, RuleViewHelperService viewHelper) {
 
         //Get the first compound from the queue, if nothing left create new one.
         PropositionEditor currentCompound = null;
-        if(compoundPropositions.peek()==null){
+        if (compoundPropositions.peek() == null) {
             currentCompound = new PropositionEditor();
             currentCompound.setPropositionTypeCode(PropositionType.COMPOUND.getCode());
             currentCompound.setRuleId(rule.getId());
@@ -387,16 +387,16 @@ public class RuleLogicExpressionParser {
         //Loop thru tokens and recreate the proposition tree.
         while (!tokenStack.empty()) {
             ExpressionToken token = tokenStack.pop();
-            if(token.getType() == ExpressionToken.PARENTHESIS_END){
+            if (token.getType() == ExpressionToken.PARENTHESIS_END) {
                 PropositionEditor compound = ruleFromStack(tokenStack, simplePropositions, compoundPropositions, rule, viewHelper);
-                currentCompound.getCompoundEditors().add(0,compound);
+                currentCompound.getCompoundEditors().add(0, compound);
             } else if (token.getType() == ExpressionToken.PARENTHESIS_START) {
                 return currentCompound;
-            } else if (token.getType() == ExpressionToken.CONDITION){
-                currentCompound.getCompoundEditors().add(0,simplePropositions.remove(token.getValue().toUpperCase()));
-            } else if (token.getType() == ExpressionToken.OPERATOR_AND){
+            } else if (token.getType() == ExpressionToken.CONDITION) {
+                currentCompound.getCompoundEditors().add(0, simplePropositions.remove(token.getValue().toUpperCase()));
+            } else if (token.getType() == ExpressionToken.OPERATOR_AND) {
                 viewHelper.setTypeForCompoundOpCode(currentCompound, LogicalOperator.AND.getCode());
-            } else if (token.getType() == ExpressionToken.OPERATOR_OR){
+            } else if (token.getType() == ExpressionToken.OPERATOR_OR) {
                 viewHelper.setTypeForCompoundOpCode(currentCompound, LogicalOperator.OR.getCode());
             }
         }

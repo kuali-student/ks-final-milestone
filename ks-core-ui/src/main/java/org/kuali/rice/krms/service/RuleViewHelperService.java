@@ -44,9 +44,9 @@ public interface RuleViewHelperService {
 
     public void refreshViewTree(RuleEditor rule);
 
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) throws Exception;
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare);
 
-    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception;
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor);
 
     public Boolean compareRules(RuleEditor original);
 

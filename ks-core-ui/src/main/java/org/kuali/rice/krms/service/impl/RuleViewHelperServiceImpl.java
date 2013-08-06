@@ -304,7 +304,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) {
 
         //Build the Tree
         return this.getCompareTreeBuilder().buildTree(original, compare);
@@ -312,7 +312,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception {
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) {
 
         //Build the Tree
         return this.getCompareTreeBuilder().buildTree(coRuleEditor, cluRuleEditor);

@@ -49,7 +49,7 @@ public class AdministeringOrgComponentBuilder implements ComponentBuilder<KSProp
                 OrgInfo orgInfo = this.getOrganizationService().getOrg(orgId, ContextUtils.getContextInfo());
                 propositionEditor.setOrgInfo(orgInfo);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Could not load orgarnization", e);
             }
 
         }

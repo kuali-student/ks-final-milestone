@@ -61,9 +61,9 @@ public class AlphaIterator implements Serializable, Iterator {
         }
 
         //Create the return string
-        String returnValue = "";
+        StringBuilder returnValue = new StringBuilder();
         for (Inner in : list) {
-            returnValue = returnValue + (char)in.current();
+            returnValue.append((char)in.current());
         }
 
         return prefix + returnValue;
