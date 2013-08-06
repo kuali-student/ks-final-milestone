@@ -1,10 +1,10 @@
 -- KSENROLL-8098
 -- deleting existing permission (need different for Admin vs DSC
-delete from KRIM_ROLE_PERM_T where PERM_ID = 'KS-12468'
+delete from KRIM_ROLE_PERM_T where PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Open Views for Create Course Offering' AND NMSPC_CD = 'KS-ENR')
 /
-delete from KRIM_PERM_ATTR_DATA_T where PERM_ID = 'KS-12468'
+delete from KRIM_PERM_ATTR_DATA_T where PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Open Views for Create Course Offering' AND NMSPC_CD = 'KS-ENR')
 /
-delete from KRIM_PERM_T where PERM_ID = 'KS-12468'
+delete from KRIM_PERM_T where PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Open Views for Create Course Offering' AND NMSPC_CD = 'KS-ENR')
 /
 -- deleting existing permissions for Create CO - not used anymore
 delete from KRIM_ROLE_PERM_T where ROLE_PERM_ID in ('KS-KRIM-ROLE-PERM-1060', 'KS-KRIM-ROLE-PERM-1061', 'KS-KRIM-ROLE-PERM-1062')
