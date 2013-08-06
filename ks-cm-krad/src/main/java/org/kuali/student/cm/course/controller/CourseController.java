@@ -39,9 +39,11 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
+import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -76,30 +78,30 @@ public class CourseController extends UifControllerBase {
     private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
 
     private CourseService courseService;
-	private CommentService commentService;
-	private LearningObjectiveService learningObjectiveService;
+    private CommentService commentService;
+    private LearningObjectiveService learningObjectiveService;
     
     private enum CourseViewPages {
-    	COURSE_INFO("KS-CourseView-CourseInfoPage"), 
-    	GOVERNANCE("KS-CourseView-GovernancePage"), 
-    	COURSE_LOGISTICS("KS-CourseView-CourseLogisticsPage"), 
-    	LEARNING_OBJECTIVES("KS-CourseView-LearningObjectivesPage"), 
-    	COURSE_REQUISITES("KS-CourseView-CourseRequisitesPage"), 
-    	ACTIVE_DATES("KS-CourseView-ActiveDatesPage"), 
-    	FINANCIALS("KS-CourseView-FinancialsPage"),
-    	AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaboratorsPage"),
-    	SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocumentsPage"),
-    	REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");
-    	
-    	private String pageId;
-    	
-    	CourseViewPages(String pageId) {
-    		this.pageId = pageId;
-    	}
-    	
-    	String getPageId() {
-    		return this.pageId;
-    	}
+        COURSE_INFO("KS-CourseView-CourseInfoPage"), 
+        GOVERNANCE("KS-CourseView-GovernancePage"), 
+        COURSE_LOGISTICS("KS-CourseView-CourseLogisticsPage"), 
+        LEARNING_OBJECTIVES("KS-CourseView-LearningObjectivesPage"), 
+        COURSE_REQUISITES("KS-CourseView-CourseRequisitesPage"), 
+        ACTIVE_DATES("KS-CourseView-ActiveDatesPage"), 
+        FINANCIALS("KS-CourseView-FinancialsPage"),
+        AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaboratorsPage"),
+        SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocumentsPage"),
+        REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");
+        
+        private String pageId;
+        
+        CourseViewPages(String pageId) {
+            this.pageId = pageId;
+        }
+        
+        String getPageId() {
+            return this.pageId;
+        }
 
     }
     
@@ -107,8 +109,8 @@ public class CourseController extends UifControllerBase {
     
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
-    	CourseForm courseForm = new CourseForm();
-    	return courseForm;
+        CourseForm courseForm = new CourseForm();
+        return courseForm;
     }
     
     /**
@@ -122,50 +124,50 @@ public class CourseController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveAndContinue")
     public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
-    	
-    	//Clear collection fields (those with matching 'display' collections)
-    	form.getCourseInfo().getJoints().clear();
-    	form.getCourseInfo().getInstructors().clear();
-    	
-    	//Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
-    	if (form.getCourseJointDisplays() != null) {
-	    	for (CourseJointInfoWrapper jointInfoDisplay : form.getCourseJointDisplays()) {
-	    		form.getCourseInfo().getJoints().add(CourseViewHelperServiceImpl.getInstance().getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
-	    	}
-    	}
-    	
-    	if (form.getInstructorDisplays() != null) {
-    		for (CluInstructorInfoWrapper instructorDisplay : form.getInstructorDisplays()) {
-    			CluInstructorInfoWrapper retrievedInstructor = CourseViewHelperServiceImpl.getInstance().getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
-    			form.getCourseInfo().getInstructors().add(retrievedInstructor);
-    		}
-    	}
-    	
-    	//Set derived course fields before saving/updating
-        form.setCourseInfo(calculateCourseDerivedFields(form.getCourseInfo()));
-    	
-    	CourseInfo savedCourseInfo = null;
-    	if (form.getCourseInfo().getId() == null) {
-			debug("Create the course proposal");
-			try {
-				savedCourseInfo = getCourseService().createCourse_KRAD(
-						form.getCourseInfo(), ContextUtils.getContextInfo());
-			} catch (Exception e) {
-				throw new RuntimeException(
-						"Error creating a new course.", e);
-			}
-			
-    	} else {
-    		debug("Update the course proposal");
-    		try {
-    			savedCourseInfo = courseService.updateCourse_KRAD(form.getCourseInfo().getId(), form.getCourseInfo(), ContextUtils.getContextInfo());
-    		} catch (Exception e) {
-    			throw new RuntimeException("Error updating a course with title: " + form.getCourseInfo().getCourseTitle(), e);
-    		}
-    		
+        
+        //Clear collection fields (those with matching 'display' collections)
+        form.getCourseInfo().getJoints().clear();
+        form.getCourseInfo().getInstructors().clear();
+        
+        //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
+        if (form.getCourseJointDisplays() != null) {
+            for (CourseJointInfoWrapper jointInfoDisplay : form.getCourseJointDisplays()) {
+                form.getCourseInfo().getJoints().add(CourseViewHelperServiceImpl.getInstance().getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
+            }
         }
-    	form.setCourseInfo(savedCourseInfo);
-    	return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+        
+        if (form.getInstructorDisplays() != null) {
+            for (CluInstructorInfoWrapper instructorDisplay : form.getInstructorDisplays()) {
+                CluInstructorInfoWrapper retrievedInstructor = CourseViewHelperServiceImpl.getInstance().getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
+                form.getCourseInfo().getInstructors().add(retrievedInstructor);
+            }
+        }
+        
+        //Set derived course fields before saving/updating
+        form.setCourseInfo(calculateCourseDerivedFields(form.getCourseInfo()));
+        
+        CourseInfo savedCourseInfo = null;
+        if (form.getCourseInfo().getId() == null) {
+            debug("Create the course proposal");
+            try {
+                savedCourseInfo = getCourseService().createCourse_KRAD(
+                        form.getCourseInfo(), ContextUtils.getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException(
+                        "Error creating a new course.", e);
+            }
+            
+        } else {
+            debug("Update the course proposal");
+            try {
+                savedCourseInfo = courseService.updateCourse_KRAD(form.getCourseInfo().getId(), form.getCourseInfo(), ContextUtils.getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException("Error updating a course with title: " + form.getCourseInfo().getCourseTitle(), e);
+            }
+            
+        }
+        form.setCourseInfo(savedCourseInfo);
+        return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
     }
     
     /**
@@ -204,26 +206,26 @@ public class CourseController extends UifControllerBase {
      * Return the user name of the instructor using the display name
      */
     private String getInstructorSearchString(String displayName) {
-    	String searchString = null;
-    	if (displayName.contains("(") && displayName.contains(")")) {
-    		searchString = displayName.substring(displayName.lastIndexOf("(") + 1, displayName.lastIndexOf(")"));
-    	}
-    	return searchString;
+        String searchString = null;
+        if (displayName.contains("(") && displayName.contains(")")) {
+            searchString = displayName.substring(displayName.lastIndexOf("(") + 1, displayName.lastIndexOf(")"));
+        }
+        return searchString;
     }
     
     private String getNextPageId(String currentPageId) {
-    	String nextPageId = null;
-    	CourseViewPages[] pages = CourseViewPages.values();
-		for (int i = 0; i < pages.length; i++) {
-			if (pages[i].getPageId().equals(currentPageId)) {
-				//Get the next page in the enum, except when it's the last page in the enum
-				if (i + 1 < pages.length) {
-					nextPageId = pages[++i].getPageId();
-					break;
-				}
-			}
-		}
-		return nextPageId;
+        String nextPageId = null;
+        CourseViewPages[] pages = CourseViewPages.values();
+        for (int i = 0; i < pages.length; i++) {
+            if (pages[i].getPageId().equals(currentPageId)) {
+                //Get the next page in the enum, except when it's the last page in the enum
+                if (i + 1 < pages.length) {
+                    nextPageId = pages[++i].getPageId();
+                    break;
+                }
+            }
+        }
+        return nextPageId;
     }
 
     @Override
@@ -232,7 +234,7 @@ public class CourseController extends UifControllerBase {
                               HttpServletRequest request, HttpServletResponse response) { 
         final CourseForm courseForm = (CourseForm) form;
 
-    	courseForm.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
+        courseForm.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
         return super.start(courseForm, result, request, response);
     }
 
@@ -272,16 +274,16 @@ public class CourseController extends UifControllerBase {
                 }
                 ittCommentInfo = newComment;    
             }
-    	return getUIFModelAndView(form);
+        return getUIFModelAndView(form);
     }
     
     @RequestMapping(params = "methodToCall=browseForCategories")
     public ModelAndView browseForCategories(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	String commentDialogKey = "loCategoryDialog";
+        String commentDialogKey = "loCategoryDialog";
         if (!hasDialogBeenAnswered(commentDialogKey, form)){
-        	//Get the available categories
-        	// form.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
+            //Get the available categories
+            // form.getLoDialogWrapper().setLearningObjectiveOptions(getLoCategories());
             
             // redirect back to client to display lightbox
             return showDialog(commentDialogKey, form, request, response);
@@ -292,59 +294,65 @@ public class CourseController extends UifControllerBase {
         
         // clear dialog history so they can press the button again
         form.getDialogManager().removeDialog(commentDialogKey);
-    	return getUIFModelAndView(form);
+        return getUIFModelAndView(form);
     }
     
     private List<LoDisplayInfoWrapper> getLoCategories() {
-    	List<LoDisplayInfoWrapper> loCategories = new ArrayList<LoDisplayInfoWrapper>();
-    	SearchRequestInfo searchRequest = new SearchRequestInfo();
+        List<LoDisplayInfoWrapper> loCategories = new ArrayList<LoDisplayInfoWrapper>();
+        SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(LookupableConstants.LOCATEGORY_SEARCH);
         searchRequest.setSortColumn(LookupableConstants.LO_CATEGORY_NAME_RESULT);
-    	try {
-    		SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
-			for (SearchResultRowInfo result : searchResult.getRows()) {
+        try {
+            SearchResultInfo searchResult = getLearningObjectiveService().search(searchRequest, ContextUtils.getContextInfo());
+            for (SearchResultRowInfo result : searchResult.getRows()) {
                 List<SearchResultCellInfo> cells = result.getCells();
                 LoDisplayInfoWrapper loWrapper = new LoDisplayInfoWrapper();
                 for (SearchResultCellInfo cell : cells) {
-                	if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
-                		loWrapper.setId(cell.getValue());
-                	} else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
-                		loWrapper.setName(cell.getValue());
-                	} else if(LookupableConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
-                		loWrapper.setTypeKey(cell.getValue());
-            		} else if(LookupableConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
-            			loWrapper.setTypeName(cell.getValue());
+                    if (LookupableConstants.LO_CATEGORY_ID_RESULT.equals(cell.getKey())) {
+                        loWrapper.setId(cell.getValue());
+                    } else if (LookupableConstants.LO_CATEGORY_NAME_RESULT.equals(cell.getKey())) {
+                        loWrapper.setName(cell.getValue());
+                    } else if(LookupableConstants.LO_CATEGORY_TYPE_RESULT.equals(cell.getKey())){
+                        loWrapper.setTypeKey(cell.getValue());
+                    } else if(LookupableConstants.LO_CATEGORY_TYPE_NAME_RESULT.equals(cell.getKey())){
+                        loWrapper.setTypeName(cell.getValue());
                     } else if(LookupableConstants.LO_CATEGORY_STATE_RESULT.equals(cell.getKey())){
-                    	loWrapper.setStateKey(cell.getValue());
+                        loWrapper.setStateKey(cell.getValue());
                     }
                 }
                 loCategories.add(loWrapper);
             }
-		} catch (Exception e) {
-			throw new RuntimeException("An error occurred while searching for the available Learning Categories", e);
-		}
-    	return loCategories;
+        } catch (Exception e) {
+            throw new RuntimeException("An error occurred while searching for the available Learning Categories", e);
+        }
+        return loCategories;
     }   
     
-    private CourseService getCourseService() {
-    	if (courseService == null) {
-    		courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
-    	}
-    	return courseService;
+    protected CourseService getCourseService() {
+        if (courseService == null) {
+            courseService = (CourseService) GlobalResourceLoader.getService(new QName(CourseServiceConstants.COURSE_NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseService;
     }
     
-    private CommentService getCommentService() {
-    	if (commentService == null) {
-    		commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, "CommentService"));
-    	}
-    	return commentService;
+    protected CommentService getCommentService() {
+        if (commentService == null) {
+            commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
+        }
+        return commentService;
     }
     
-    private LearningObjectiveService getLearningObjectiveService() {
-		if (learningObjectiveService == null) {
-			learningObjectiveService = GlobalResourceLoader.getService(new QName(LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
-		}
-		return learningObjectiveService;
-	}
+    protected LearningObjectiveService getLearningObjectiveService() {
+        if (learningObjectiveService == null) {
+            learningObjectiveService = GlobalResourceLoader.getService(new QName(LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
+        }
+        return learningObjectiveService;
+    }
 
+    protected OrganizationService getOrganizationService() {
+        if (organizationService == null) {
+            organizationService = GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationService.class.getSimpleName()));
+        }
+        return organizationService;
+    }
 }
