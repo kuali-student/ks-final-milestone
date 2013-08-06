@@ -36,7 +36,7 @@ public class TermsListBuilder extends KeyValuesBase {
 				.getContextInfo();
 		AtpService atpService = KsapFrameworkServiceLocator.getAtpService();
 		Calendar c = Calendar.getInstance();
-		c.setTime(KsapFrameworkServiceLocator.getTermHelper().getCurrentTerms().get(0).getStartDate());
+		c.setTime(KsapFrameworkServiceLocator.getTermHelper().getPlanningTerms().get(0).getStartDate());
 		c.add(Calendar.DATE, -1);
 		Date startDate = c.getTime();
 		c.setTime(new Date());
