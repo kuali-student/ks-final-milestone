@@ -21,6 +21,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -31,6 +32,7 @@ import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
@@ -60,6 +62,7 @@ import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -113,7 +116,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         try{
 
-            AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId,createContextInfo());
+            AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId, createContextInfo());
 
             acalForm.setAcademicCalendarInfo(acalInfo);
             acalForm.setAdminOrgName(getAdminOrgNameById(acalInfo.getAdminOrgId()));
@@ -1035,28 +1038,26 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
             //need to handle Term vs subTerm in different way
             try {
-                TypeInfo termType = getAcalService().getTermType(newLine.getTermType(),createContextInfo());
-                if (StringUtils.isBlank(newLine.getParentTerm())){ //try to add a term
+                TypeInfo termType = getAcalService().getTermType(newLine.getTermType(), createContextInfo());
+                // check if term is subterm vs parent term
+                getParentTermType(newLine);
+
+                if (newLine.getParentTerm() == null || StringUtils.isBlank(newLine.getParentTerm())){ //try to add a term
                     newLine.setTermNameForUI(termType.getName());
                     newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
                     newLine.setTypeInfo(termType);
                     newLine.setSubTerm(false);
-
-                }
-                else {//try to add a subterm
-                    if(isParentTermExisting(newLine.getParentTerm(), acalForm.getTermWrapperList(),null)) {
-                        newLine.setTermNameForUI(termType.getName());
-                        newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
-                        newLine.setTypeInfo(termType);
-                        newLine.setSubTerm(true);
-                        AcademicTermWrapper parentTermWrapper = getParentTermInForm(newLine.getParentTerm(), acalForm.getTermWrapperList());
-                        if(parentTermWrapper != null){
-                            populateParentTermToSubterm(parentTermWrapper, newLine);
-                        }
-                        parentTermWrapper.setHasSubterm(true);
-                        parentTermWrapper.getSubterms().add(newLine);
+                } else { //try to add a subterm
+                    newLine.setTermNameForUI(termType.getName());
+                    newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
+                    newLine.setTypeInfo(termType);
+                    newLine.setSubTerm(true);
+                    AcademicTermWrapper parentTermWrapper = getParentTermInForm(newLine.getParentTerm(), acalForm.getTermWrapperList());
+                    if(parentTermWrapper != null){
+                        populateParentTermToSubterm(parentTermWrapper, newLine);
                     }
-                    //otherwise, let performAddLineValidation to handle and post validation error
+                    parentTermWrapper.setHasSubterm(true);
+                    parentTermWrapper.getSubterms().add(newLine);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -1147,21 +1148,19 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         }
     }
 
-    private boolean isParentTermExisting(String parentTermType, List<AcademicTermWrapper> termWrapperList, String lineName) {
-       for (AcademicTermWrapper termWrapper : termWrapperList){
-           String termType = termWrapper.getTermType();
-           if (StringUtils.isBlank(termType)){
-               termType = termWrapper.getTermInfo().getTypeKey();
-           }
-           if (parentTermType.equals(termType)){
-               return true;
-           }
-       }
-       if (lineName != null){
-            GlobalVariables.getMessageMap().putErrorForSectionId(lineName,
-               CalendarConstants.MessageKeys.ERROR_NO_PARENT_TERM_FOR_SUBTERM);
-       }
-       return false;
+    private void getParentTermType(AcademicTermWrapper childTerm) {
+        try {
+            ContextInfo context = createContextInfo();
+            // check if child term is subterm or term and if it is (list is not empty) then add all parent terms to types
+            List<TypeTypeRelationInfo> typeTypeRelationInfos = getTypeService().getTypeTypeRelationsByRelatedTypeAndType(childTerm.getTermType(), TypeServiceConstants.TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY, context);
+            if (!typeTypeRelationInfos.isEmpty()) {
+                TypeInfo parentTerm = getTypeService().getType(typeTypeRelationInfos.get(0).getOwnerTypeKey(), context);
+                childTerm.setParentTerm(parentTerm.getKey());
+                childTerm.setParentTermName(parentTerm.getName());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private AcademicTermWrapper getParentTermInForm(String parentTermType, List<AcademicTermWrapper> termWrapperList){
