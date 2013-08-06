@@ -1,6 +1,8 @@
+-- should be deleted, no valid data in this file
+
 TRUNCATE TABLE KREW_RULE_RSP_T DROP STORAGE
 /
--- None of the RSP_ID values match to ids in the KRIM_RSP_T table, which is where I think it is supposed to link to
+-- RSP_ID is supposed to match a "RSP_ID" value in a row of the KREW_DLGN_RSP_T table, but no rows exist in that table upon initial data load
 INSERT INTO KREW_RULE_RSP_T (ACTN_RQST_CD,APPR_PLCY,NM,OBJ_ID,PRIO,RSP_ID,RULE_ID,RULE_RSP_ID,TYP,VER_NBR)
   VALUES ('A','F','org.kuali.rice.ken.kew.ChannelReviewerRoleAttribute!reviewers','6166CBA1BBFC644DE0404F8189D86C09',1,'2020','1044','2021','R',1)
 /

@@ -1,3 +1,5 @@
+-- should be deleted
+
 TRUNCATE TABLE KREW_RULE_EXT_VAL_T DROP STORAGE
 /
 

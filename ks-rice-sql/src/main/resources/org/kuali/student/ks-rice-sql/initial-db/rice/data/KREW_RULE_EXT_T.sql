@@ -1,3 +1,5 @@
+-- should be deleted, only valid row is duped in rice data
+
 TRUNCATE TABLE KREW_RULE_EXT_T DROP STORAGE
 /
 -- orig id 1045
