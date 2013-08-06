@@ -59,6 +59,7 @@ public class AcademicTermWrapper {
     private boolean makeOfficial;
 
     private String parentTerm;
+    private String parentTermName;
     private TermInfo parentTermInfo;
     private boolean subTerm = false;
 
@@ -161,6 +162,14 @@ public class AcademicTermWrapper {
      */
     public void setParentTerm(String parentTerm) {
         this.parentTerm = parentTerm;
+    }
+
+    public String getParentTermName() {
+        return parentTermName;
+    }
+
+    public void setParentTermName(String parentTermName) {
+        this.parentTermName = parentTermName;
     }
 
     /**
