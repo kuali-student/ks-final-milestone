@@ -1,0 +1,1323 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="0-59%" RVG_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="00ce05a8-aaf9-4ed4-a94d-3ef77c329e9e" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0198a1fc-e7a2-49d8-9e56-c85df3758341" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="01f4bf6f-e084-4a29-b619-bd3da42f4092" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="02043c45-b5b6-42e3-8b91-3b214a831f8e" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0373de77-7814-48d5-842d-25ada87b5817" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="03faac43-b4b3-451e-80d5-1d04a7ea4dcf" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0408ee7d-2a21-44f8-b563-f04b59840752" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="050a977a-e4b8-42f4-9d8e-5e1e126943ac" RVG_ID="kuali.creditType.credit.degree.4-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="05220820-e91b-4872-9233-5f6b3e277dbc" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="05eaaf88-bddb-4160-a9ed-1f1f1046632d" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="067d7d24-e12e-48b6-b43f-46e6ac6ff7cb" RVG_ID="kuali.creditType.credit.degree.2-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="06ee0643-9d66-42ad-b8cc-79ca16e23ec7" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="06f4e60e-ec08-4b9e-8962-0b56103e7920" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="073c52d6-1b49-4dbb-800f-582895c7d0ea" RVG_ID="kuali.creditType.credit.degree.1.5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="08f77e80-932d-43ae-91ee-1c5d7bbd006f" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0912fcda-de67-40bd-b1a9-709a3a7f5e62" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="093989bd-bd5f-41f4-95ba-4170f9d7520c" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="09831842-8fc7-47d5-89f9-e6a550627e62" RVG_ID="kuali.creditType.credit.degree.1-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0b377c3e-0d4b-4a52-a1d6-1706362b87f7" RVG_ID="kuali.creditType.credit.degree.2-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0ba7ad4f-babf-4b40-b5ce-b2d62336b90c" RVG_ID="kuali.creditType.credit.degree..5-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0bfe5b28-8b15-4429-a807-f39c2b26442f" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0c9541b5-0b60-463a-b2f1-8793544559d4" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0d1e8ca0-af33-44d5-b41c-3e0f62c0614f" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0d6de776-d53a-4326-820f-12d94c9e3e64" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0d7c4266-d6a6-4652-b23c-65ac58b54de1" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0d846704-a423-4606-a4c1-a4ca4d08cde3" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0e948535-350b-4d96-a9e9-8430dd24f678" RVG_ID="kuali.creditType.credit.degree.4-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0f07f08e-a9f5-4708-b849-60b1f5a32b90" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="0f85496f-0584-41bb-a3d2-41196b5fd56e" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="10961677-1db3-4dc1-9497-d3b5a1d2c157" RVG_ID="kuali.creditType.credit.degree.0.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="10972a98-0009-4e24-9d4f-2dfdfbdf5af5" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="109e567c-0fa0-4790-9bc0-af3148bf9949" RVG_ID="kuali.creditType.credit.degree.1-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1187d4a4-eb48-494d-bf58-c712d8c74dc6" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1192fa63-17d4-48ed-a5f4-39f067ddb29c" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="12fb74ea-b115-4c95-9355-21e3a0aa92bb" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="138436e5-970f-4601-9aac-39b8455157fe" RVG_ID="kuali.creditType.credit.degree.3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="13b86874-3da6-459f-ade5-f4be22a0e208" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="147cbe52-4ddc-4187-91dd-54043531c1f4" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="15a774d7-f47b-4aee-b616-766e5558e461" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="15af88f2-90d7-4aa9-be28-a6426703c19f" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1770fbb2-021b-471e-af89-f006f5de7f44" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1778a6a7-f77b-46a2-9ef4-6555758166ac" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="178649cc-b704-4bfd-bf02-e46dbf21ef44" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1817af50-6165-4792-a956-5cdd6833fdc9" RVG_ID="kuali.creditType.credit.degree.5.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="185093c4-2362-4979-b070-7b70278be72f" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="18a6859c-d9ce-4bb9-8954-78f70789066a" RVG_ID="kuali.creditType.credit.degree.2-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="18ad9ca9-8d56-41e4-849f-81a0de8e444e" RVG_ID="kuali.creditType.credit.degree.1-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="18f3b40c-661e-4f2d-b525-e83a34f2d863" RVG_ID="kuali.creditType.credit.degree.3-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="190ff251-981b-4abb-bb25-fd3206e47886" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="19a164f5-5503-4e99-bd66-4f8e01721434" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1a35113f-0ed0-4f38-bf1c-9b1a149f5b75" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1b4d7549-a33a-4985-b3d6-1a68281f4bd8" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1b58942f-68fb-433f-b4d4-86389c20902c" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1b7b6214-519e-48cb-99a8-b0113b96a64e" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1c11d15d-8038-44a8-967c-3b04a7624600" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1e8cc039-81d1-4f52-9222-dca9a82d187e" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1ec5c83a-9458-4d45-a22e-8d15e5dd3c86" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1eed347a-4285-4f46-b673-094774bed899" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1f25fb65-481d-4852-9fd5-e16456654ef8" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="1fac4094-90cf-42b5-8b70-3188687c8220" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="203c58c8-b200-44c5-8048-35fbc6631d26" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="207ea67f-6dd1-44f0-acde-5a9bd1fb4bf6" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="20d150db-11be-45c5-92f2-22a076c713c4" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="20f14ce3-619f-4f9f-a1e9-2f18d5608c77" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="20f21493-66d2-4fd2-b397-4e0ba97c2ee4" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2130c290-f931-4e7a-bf0e-d7896514f8b8" RVG_ID="kuali.creditType.credit.degree.1-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="214790b7-acea-4f89-bfb0-eb279334d1de" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2150f156-dd2c-4f90-b8bd-28d4a1740e76" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2184c7ed-c669-40ba-84b0-31ff5c121001" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="218a2117-15da-47b0-bac5-7c489e5ce11f" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="222ff89a-7f02-4d24-8089-6d842f412e4b" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="22994629-b2b0-4a47-b6a9-9ab6bfaca697" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="237f8578-4609-4187-aeb9-2d362fc99ec2" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="24969c47-3b59-432a-9465-f785d17fa879" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="25c6f7f3-3169-47a1-aa8d-92b393958765" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2630878d-9fd7-4e09-b108-3fbd7d859660" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="28b6e694-01ab-4945-9b8a-2379013a9f6e" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="29f8ce5b-44f6-4a7a-8be6-ab5a13ff0e53" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2a3a1ec4-3988-4d2a-a4da-d3486c42469c" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2adec267-0f85-4959-a351-3a6e0e16fdf6" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2aea2cdb-596c-4bf9-b87d-625b18a8cc05" RVG_ID="kuali.creditType.credit.degree.6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2b52b8ae-4fc0-4dfc-b9df-75684c71df62" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2bf0cb7e-7f79-4c3e-a018-d108589835e2" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2c3c2a73-610e-4323-a772-812705ca636a" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2ca62b4b-3297-427d-b4fd-67690ea54763" RVG_ID="kuali.creditType.credit.degree.1-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2f59aad3-366d-47a2-9358-5d6991b3c031" RVG_ID="kuali.creditType.credit.degree.2-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="2f98f19e-b99e-43f6-8657-c2256e2eae20" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="308ef0a8-b0be-4be5-833f-584fbf5eea32" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="31348b8d-9bfb-48d5-9e14-30985f37b992" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="323f0e99-f75c-4088-a3eb-b7ac26d99dc0" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="326b1893-f00f-457d-8193-79cc0e6aa7dd" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="334ce7c6-fe02-4424-a27b-45442e27382e" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="339c1a4f-b74f-4033-aece-226012b4be5b" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="340766c2-b559-4231-8503-26afaa057af1" RVG_ID="kuali.creditType.credit.degree.1-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="342a4b43-e2e6-4128-9f72-2e4d618426c1" RVG_ID="kuali.creditType.credit.degree.3-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3434ec37-9795-435f-9908-c7b9d86fe19e" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="36a2a5e1-306d-4a63-b41b-52ed09651f9a" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="374caa19-c1a4-4677-9ce5-a5e7aed5e89d" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="38e80d4c-6fe6-49f8-af3f-84217e54f18c" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="39c980c9-0275-4015-87a6-e51694966054" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3b4415f4-ce06-4fc9-8949-418751c72711" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3cbb3e9e-f84f-4bb3-a7b3-5423573f4b84" RVG_ID="kuali.creditType.credit.degree.2-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3cf332c7-a005-4232-acf5-bd8bc9d3160f" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3d04dff5-b3b8-4705-ad25-76cc11df8720" RVG_ID="kuali.creditType.credit.degree.15.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3d24dbde-f800-402d-8456-9fbfd0d0c0ec" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3dd158c3-f7e9-43dd-a9ee-13265c80e526" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3dfe3b97-fdbd-4e06-8dd3-fe6e9ffdf44d" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3e369c8a-0e0c-40fa-a405-454fb743133f" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3ea089d8-6e99-4aa7-8707-518136971433" RVG_ID="kuali.creditType.credit.degree.2-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="3f94abdd-9f9f-4dde-82ad-09da0028b8c2" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="4092474c-e46a-4bf2-821c-62a5b2f813a0" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="42516dde-8389-40d6-a264-5b373b689cab" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="43fc96bc-2238-4e91-97d2-4038abc4bb1e" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="44b2969e-2e7b-48aa-bf56-ae5ff85ed6c7" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="4504410c-fb69-45d9-a8d5-763678ded7b4" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="4604f2e5-44bc-4bfb-a458-8d7f0dd3d321" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="461ad34d-6d5a-4618-b4ca-a24a2c7c7300" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="46629a71-f948-4ab6-87c1-19f9ed6f58de" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="469cc9ae-feda-4107-9c66-61565bb4ea93" RVG_ID="kuali.creditType.credit.degree.4-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="46a320c4-8d9b-4f2a-b507-c19fc1fb5551" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="46c7378d-9de2-42d0-8520-cdfa12918af5" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="46c7e917-ae93-4f75-9b10-f039704eea40" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="46ec80e1-8135-412f-8610-ae5d97252e11" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="47320b89-52f0-4601-b733-a1591920a031" RVG_ID="kuali.creditType.credit.degree.1-2"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="473964c3-f01d-4893-a18c-88c33d365b73" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="473ee685-a04c-4f24-943a-671ec89c0770" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="47e89aef-6f4d-4d98-9c41-4aa5fc90cb1a" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="483bd328-1c20-4df7-ac79-278a81ae8015" RVG_ID="kuali.creditType.credit.degree..5-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="494becff-dab9-426a-8f21-ea29e025a641" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="4b408874-9393-4c42-9009-b0f2f6ab2357" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="4d532029-481f-4022-9a97-f5bd0550658b" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="4eab821d-1408-4671-9124-b59beba8a0ce" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="4f80e730-0892-4a86-a0e2-ccf952ff1677" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="4fb55f6a-096b-4cfc-bdbe-32ae7eef8caa" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="509c6bc6-1d82-424d-8f33-4869f56bc586" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="51f34bcb-5f3c-46a9-a7cc-3f164cc5b200" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="549fc8b8-3a4e-4241-ad6c-37a9098d581b" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="5536430b-f6c9-4e9e-95a3-a0160c3a61f9" RVG_ID="kuali.creditType.credit.degree.4-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="55a251be-7dba-43a2-97e5-d3e03afa1961" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="55dba166-934e-4243-a2f3-aab2e81ce176" RVG_ID="kuali.creditType.credit.degree.2-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="56071241-bbb1-47ea-ae3f-c83d6596d34d" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="5753dc8a-92ec-4ac1-863c-a48de51ca9df" RVG_ID="kuali.creditType.credit.degree.3-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="57a54074-df7b-44d3-871b-b633c7b5a763" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="57e31ab1-bba4-4a3b-b114-3e5636ea89de" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="57f9db26-38ae-49fa-ad0e-dbc0d18b3edf" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="5c7b2f34-a49d-453d-8296-188d799234de" RVG_ID="kuali.creditType.credit.degree.4-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="5cc9dc73-a46e-4203-836e-208af905dda4" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="5fc0df63-b593-46b6-baa5-e6aec86b437a" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="60-69%" RVG_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="601dbc26-cff6-45ba-863d-d49340fd876b" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="60ea1beb-e271-45cc-91db-911c0fcf06bc" RVG_ID="kuali.creditType.credit.degree..5-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="628ff7b6-19ef-4c25-9da1-f5b941ee7656" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="633b9587-846e-4b96-9e44-94ae9f298b07" RVG_ID="kuali.creditType.credit.degree.4-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6345a53b-1529-4a58-83b9-5d8b22ab6357" RVG_ID="kuali.creditType.credit.degree.1-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="639f9439-7f65-40c8-8740-4151834675e5" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="643f6a2a-6d36-42cc-b8e5-5bb120249153" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6451f01b-fbf3-467c-88a5-c0b8f8f9ac39" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="645e10c5-c530-423c-880a-746441e0f70b" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="65169910-8960-4630-8c0a-fe324d324cf7" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="659a7218-6bcd-4d58-807a-d720110e3378" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="65e10fab-e1de-4343-a83c-4fffb9a18eaf" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="66754f60-c23c-4f82-b631-c255aef3361d" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="68005683-eea1-4719-a656-94d805d03f0b" RVG_ID="kuali.creditType.credit.degree.1-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="689c3a99-6437-4a80-82cb-972f0adbf310" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="69308204-7638-472b-8769-fb45d3fa2cad" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="694c5cda-70c9-4cea-b357-3bcac88faca2" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6a2654e4-d913-4657-951b-3c927f3cdf58" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6a28ffc3-b108-4b7b-90d1-b722e06bc828" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6a3e36dc-f566-4e4f-b5cc-f2c654efbfbf" RVG_ID="kuali.creditType.credit.degree.4.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6a701e96-3d08-4ad9-a4ab-ac16ea53af8e" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6b631337-f94b-4a86-ad3a-703412aca18a" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6ba9f8f5-6d3e-4b3d-9c64-bd9eedd547ad" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6c92d1e8-7553-452a-a8b9-235a50fe4a8b" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6ca30f69-bead-4f11-b57c-54ff043f4e12" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6dd4a97e-ae74-46eb-9e3f-56880346b7ea" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6e8adb48-66d4-483f-ae75-57862a8c5ee8" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6ed6a418-da9e-45aa-b423-14b09339629f" RVG_ID="kuali.creditType.credit.degree.12.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6edd2208-1028-404f-a049-3644badba50e" RVG_ID="kuali.creditType.credit.degree.4-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6f0452fd-247e-41b6-9877-22605e45e081" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6f4341a2-f1b2-4f7b-b59c-e98db261d93c" RVG_ID="kuali.creditType.credit.degree.1-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6f5e028d-64cd-4c38-964f-a4d25052ed0a" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6fc712eb-f059-464a-9420-e3b57ffe1a19" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="6fca02bf-2ce0-472c-b0f4-034128462160" RVG_ID="kuali.creditType.credit.degree.1-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="70-79%" RVG_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7021d7af-5e20-436d-a6f0-d82e1012996b" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="70c2ebcb-367a-4e37-87d2-13a8e3562a54" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="70cda2f0-6a1b-4d1b-8125-5c9156d07df2" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="72677767-a252-41d4-83d7-1038904b3968" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="72b87196-f803-4aff-9d83-4f40389ab4c3" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="73b86504-5c74-468a-ae69-d26bab0eb5f5" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="74615f4e-02fd-43ae-aa28-6d6b99073f65" RVG_ID="kuali.creditType.credit.degree.2-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="74baee25-a9aa-4432-8baa-0f74501b2c4a" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="74d3a69f-3fa7-4c19-b043-b8090ba29b8f" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="74dea26c-1593-4a11-ad48-300a846dd05f" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="751cdcaa-c5bc-46eb-82e5-12b975b368fd" RVG_ID="kuali.creditType.credit.degree.2-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="76af0de5-ac5a-4335-8c9a-9ddfe8722a43" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="76ef6d18-74ed-410d-bb37-49d56237e16b" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="772082eb-7bf8-4827-bc13-a758de4c169e" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="77635d6d-3a32-4f84-98d4-7f4a46001574" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="77a487ab-9bcd-40f7-a041-3509e4d6ce86" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="77f6fea6-44c1-4b49-83b1-2136a982f525" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="78042a48-82fa-436a-b2a2-575b19bf654f" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7810b833-920b-4130-9816-959a3f1cb057" RVG_ID="kuali.creditType.credit.degree.2-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="79642e58-451e-4d68-81c0-e68b86deced3" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="79b56e23-1227-4e59-8a0d-45d8ddc84f0a" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="79c42234-cb72-4bb4-a319-b80a72fb2021" RVG_ID="kuali.creditType.credit.degree.4-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7a0880e5-68bb-480d-8a27-993c9b34f124" RVG_ID="kuali.creditType.credit.degree.2-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7a0fb451-ca9c-4180-9808-d48dd2eea4df" RVG_ID="kuali.creditType.credit.degree.1-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7a2d0d22-4f50-43db-a444-30bbab6e27d9" RVG_ID="kuali.creditType.credit.degree.1-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7aafd7fe-470c-4925-a90f-42f22d7ac77e" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7b0aafae-a9c4-4608-8327-4d55efd0ec42" RVG_ID="kuali.creditType.credit.degree.3-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7c392f47-c973-4c46-b895-c4afa922fcbc" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7cb849af-729c-44e1-ac03-e4772af751c2" RVG_ID="kuali.creditType.credit.degree.1-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7daaaf50-1a0f-47f4-8ecd-695c4dba44a1" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7e6937c7-ef0c-4806-8409-3973e9df22ef" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="7f4efdbc-421c-4ad4-8e3a-4ee688420599" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="80-84%" RVG_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="80a7907e-451a-49cd-9e5f-64f8e9a0e340" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="80b54059-e038-49fc-8057-2c58df91b4cb" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8149d0ff-82ff-4ccf-9525-d4430681a563" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="820c9c6f-73c3-4b9f-8c4d-b9764630cdbd" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="832cebf1-db6a-41f7-a258-f0aef8a8d0d3" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8392c5d0-5bd6-45c8-82c5-07b52fc5ea36" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8406324c-c15b-4f9d-8279-7ac2c292a2e1" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="845619b8-e02f-4a20-9de9-b073229c8b6c" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="847155ed-cf36-42e2-8aea-42a951608f11" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="85-89%" RVG_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="851a990a-16ee-452b-aa6a-85e5671e8743" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8559f451-3848-4d27-800a-ec58e6e3934f" RVG_ID="kuali.creditType.credit.degree.3-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8631b012-a6f5-41cc-91da-ace28c518224" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="86963ca1-2643-4be7-9919-9cfff485718e" RVG_ID="kuali.creditType.credit.degree.4-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="86b9ad72-9b21-46f1-a07d-fcc1b6d737e1" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="86c474cf-e2e5-4a2c-907d-5b68c44c4865" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="871b86d8-ba65-4554-bcb6-eb028b90e1ca" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="87396895-c6ea-4065-8e6f-1fe2d5280d12" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="875c9f0f-6f00-4328-b219-0f5558137ed5" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="87798b17-7529-48ba-a296-d9897daa15e0" RVG_ID="kuali.creditType.credit.degree.11.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="886b04d3-c073-454c-9203-3b4c31908f99" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="88db0d24-7000-4009-a1b2-46a44dbc8fa3" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="89303e7c-fc6c-4cf4-9443-b798fcd2eb88" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="89395ca5-0742-4c53-a619-756f9a7b23ae" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8980cd3a-aef5-4e5d-818a-aff1a49dba15" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8a2cf917-1ead-469d-8593-65ea17d86b61" RVG_ID="kuali.creditType.credit.degree.3-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8a774bfa-23f0-41c6-82e3-410640c1d911" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8b794e04-5af4-4ca5-ad93-ff3e6751f623" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8bc3352f-6b9b-48b6-88d1-22e6ba50f091" RVG_ID="kuali.creditType.credit.degree.4-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8c1088f5-b12f-47be-b8f2-7f258a4e60aa" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8c7c372b-7181-4ad9-a9ee-923de2b0a7ca" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8ca6a758-8aad-4934-869a-1d34792aef53" RVG_ID="kuali.creditType.credit.degree.4-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8d675972-4131-43cd-b09e-2453bdc85c38" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8df3e746-0ec1-44d7-8b33-25bfba5fbfbb" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8ef663b2-bd8a-4b97-85cc-5d9e5e81d935" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="8fd9024a-2f08-4d20-896b-99299b8b4a8e" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="90-94%" RVG_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="907396e0-8e2e-45fb-b3eb-be561c67e061" RVG_ID="kuali.creditType.credit.degree.3-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="90fa8cd6-0898-46ec-a66e-2e6fe8f29913" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="916a0214-ab64-4117-b6a0-ae650a7f9776" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="916e4917-1f51-4524-9701-83fb8b82a1c7" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="91a13f3f-a14a-481e-87ec-0f8caa676eae" RVG_ID="kuali.creditType.credit.degree.1-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="94daf3bd-475e-4cf6-9ddf-2e70d9345e52" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="95495ebe-b0fc-4efd-b251-14a3d82a495d" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="96a93554-bd49-4f1e-b4d7-96ed66aea2e1" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9711262b-e25d-43bd-86f0-ed57ca441bde" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="97264bb0-be74-4bec-9791-693c073761dc" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="97de62cb-dd5f-4678-93ab-49b424b0caca" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="98ca91df-fe74-4136-96ed-70b90e01a1d8" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="99a1bb89-54e0-4e0d-9dbe-92ed0342960a" RVG_ID="kuali.creditType.credit.degree.2-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9a966e5d-9799-4123-ab2b-fbb0b4620fb5" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9aea6eda-5b14-4fa7-b8da-8ed1f5045221" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9b4a9761-5c3b-42ae-a6fc-0d289a627ec4" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9b7124c8-fc30-43a7-a525-c5cfaf57b4d2" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9c17d21b-5f7d-45d1-9db3-dc65c4e97c15" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9c1834cd-e717-45bd-98bd-9dc8137c4d72" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9cad9213-196e-499d-9087-e877977dfad1" RVG_ID="kuali.creditType.credit.degree.1.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9dad7568-c3a3-46c5-9000-67df267aecb1" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9dc1cd8e-5df4-44c2-bde2-5adac9ec4896" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9ee8bf9c-835e-4dd2-a0c6-39b04cccfc0a" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9f25f5c0-c499-4166-a2b4-31fbef51a3d8" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9f4afeac-45eb-41d7-9e4e-2acedf15813b" RVG_ID="kuali.creditType.credit.degree.2.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="9fd8d85e-946c-46cb-ba17-f19ecc22da47" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID=">95%" RVG_ID="kuali.resultComponent.grade.percentage"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="A" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="A+" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="A-" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="B" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="B+" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="B-" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="C" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="C+" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="C-" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="Completed" RVG_ID="kuali.resultComponent.grade.completedNotation"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="D" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="D+" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="D-" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="F" RVG_ID="kuali.resultComponent.grade.letter"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="Fail" RVG_ID="kuali.resultComponent.grade.passFail"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="In-Progress" RVG_ID="kuali.resultComponent.grade.completedNotation"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="Not-Completed" RVG_ID="kuali.resultComponent.grade.completedNotation"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="Not-Satisfactory" RVG_ID="kuali.resultComponent.grade.satisfactory"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="Pass" RVG_ID="kuali.resultComponent.grade.passFail"/>
+    <KSEN_LRC_RVG_RESULT_VALUE RESULT_VALUE_ID="Satisfactory" RVG_ID="kuali.resultComponent.grade.satisfactory"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a1a807f1-d151-495f-8932-14e9065fb733" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a1cbb20a-d78b-451e-9bf4-c8e7a54c1529" RVG_ID="kuali.creditType.credit.degree.4-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a241b085-06e9-4498-8a4d-13d7bd347d85" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a3281fe8-c044-449f-b859-ed93607b4896" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a545230f-0a93-4c57-aa56-3b13cc39e51e" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a558792c-861b-4ca9-9d2e-e9407f503181" RVG_ID="kuali.creditType.credit.degree.0.5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a55c7b90-3b4b-454e-9955-4e74636271cb" RVG_ID="kuali.creditType.credit.degree.2-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a5a72570-2e38-4487-b3c1-7ec090049ef5" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a5cab017-1db9-47e2-b37e-88fef671dff9" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a6f9e4b2-4e1e-4cc9-82ce-e71b9b491424" RVG_ID="kuali.creditType.credit.degree.3-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a837636b-5e80-440d-9907-f8aaaed0c53f" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a84cf841-98d8-4c53-8acb-3da181a40296" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a85fce84-7f9d-4383-ad52-15d17df73a50" RVG_ID="kuali.creditType.credit.degree.1-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a94684d0-8475-4378-a76e-a8a68fea6fe9" RVG_ID="kuali.creditType.credit.degree.3-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="a9dffc00-c4cd-441d-a625-0d4f68dd1b13" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="aa3b9630-9291-4116-b52f-54148a047ae0" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="aa642896-06c6-4ae3-8713-0336ca680ded" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ab54731d-6ed9-43dc-ab17-ca830f54a8fd" RVG_ID="kuali.creditType.credit.degree.2-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ab98f047-89f4-47c6-a70b-4be5be21e77d" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="abec3917-3bdf-4232-9b20-8f56471dc137" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="abf95ba1-fe9a-4886-a91d-145a35bf0c8e" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="abfd80d4-3b38-4643-b4e7-3deb75cee5bc" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ac283570-41bf-42d5-bb5c-b6a152d71035" RVG_ID="kuali.creditType.credit.degree.4-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="aca14479-7926-4d32-88cc-f28e88e8a03d" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ad13cf89-80f7-4e8b-a2a5-318bd3f62475" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ad246851-cc60-484d-be30-a3f725364f87" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ae47a4f5-97c6-4eef-a32c-6230b7d81955" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="af7ba0a5-bf94-465e-9333-248fdd716199" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b023e36f-f027-4cc8-86b4-5e46ef06cb3f" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b09e1d76-80ad-4c59-b84f-57d7097e337b" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b0e90d32-a34e-4026-a378-2a8e9530fcb0" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b10074fa-8b8a-40c9-bec1-3764e9e35ef2" RVG_ID="kuali.creditType.credit.degree.1-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b1067292-8996-4bcb-a866-7c175c28d6d3" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b1651d26-6b97-4fbf-ba56-703c815cffe4" RVG_ID="kuali.creditType.credit.degree.3-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b1796e8b-4451-43d0-a1df-c8607302db28" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b2ecd88d-ee4f-41cc-a26c-45afbba2e9b5" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b2f0fad6-f645-4495-9600-fcf0a5533fb1" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b37390c2-9770-4ba6-b85e-0db7bc09a2ba" RVG_ID="kuali.creditType.credit.degree.3-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b3d89f71-7b23-4782-9eb5-6903b8d19e82" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b54e2e61-1263-4119-813a-9efd2bbbeed2" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b5698922-e458-48a7-acf9-02a4a2085c80" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b5b7ed8b-f750-47c8-b292-d6f389c13924" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b644b9f3-c743-4c34-8920-0ba7a4480fbc" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b697e79c-2014-4b19-bb80-4b86efa10103" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b794cfa5-5feb-4dff-9352-2f1a6e63d104" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b823da11-49ab-46be-bcca-a062cf721f4b" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b8619669-874d-4c86-9f6c-ce11f41dbbfe" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b8d21180-ae13-4b64-b655-c5d7f7aee9f8" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b8ef4afb-a704-41db-9a4b-957bc202ef47" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b8f81c8b-1e78-46bf-94f9-8a36bbd1ed6f" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="b91b3fe2-9ad2-454c-95f9-ac293c8ee4db" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ba1c35b5-ddc1-4a3e-a9a6-4382667f6cc4" RVG_ID="kuali.creditType.credit.degree.2-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ba349b68-de39-4511-bbef-c186179a869a" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="baae57b0-4901-43f6-a0c0-b9b2a2d7efbb" RVG_ID="kuali.creditType.credit.degree..5-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bad89d33-b378-42ee-9ea7-ac3478b43e7b" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bb71beda-da07-4c53-90bf-22bf07a5f855" RVG_ID="kuali.creditType.credit.degree.2-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bbabb79e-64cf-4443-942c-7d0a758870bf" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bc182457-84b8-4c3f-875c-223d86519925" RVG_ID="kuali.creditType.credit.degree.3-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bc3d864e-3bc1-4973-96ac-58ec8435dade" RVG_ID="kuali.creditType.credit.degree.1-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bc6fb17c-2a52-4301-8943-c7600df5c9e7" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bc9b2078-9bd5-42c0-84f9-de78699e1525" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bcf0b728-c8f4-4898-b30b-e322c2553eb1" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bd4d5faa-b398-42be-83dd-a90c66c0d101" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bd9591f1-6946-48c3-81e4-c8a99730eae2" RVG_ID="kuali.creditType.credit.degree.4-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="be065516-24e7-4233-bcb6-73d0512a48bc" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="be1b0890-4292-49dd-aede-bb7d1d2909fc" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bf150434-6f61-43b3-9309-0e4a8c7104cc" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bf5ffff9-95bc-4eed-b384-c5d564bce65c" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="bf761bd1-3b04-4ab4-ab4a-f213e0463412" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c01d29c1-754c-4eaf-b032-060479e7c4cf" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c026ba81-a2d5-4335-94c2-509a747ba160" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c094b7ec-efb5-4559-ab42-f0e87d28b782" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c13e0851-4b72-439c-b561-2b0518edb845" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c14b97ee-f7bd-46ab-ba2a-324813d19834" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c1592499-270c-4457-aa20-f0f65a8150ec" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c1d63c12-cf1a-49ae-9bad-5991b9605d8d" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c1e04fc0-bdd3-41b2-9514-89c79d1b5332" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c25099d1-dd0d-45c0-a7a3-3070ac3eec7e" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c29d0fad-5553-46b0-bc70-3eabeaa0cc1b" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c3c53e64-8712-4a70-b40d-7785af6cdc05" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c466a5c3-2428-4f1a-b93c-ca2156ee723e" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c53968f2-2b79-4d00-a4df-2a4a71afd985" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c5c02991-edd5-4662-806d-ed2acfcaf8fc" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c6039fb8-a06c-4794-8381-b98d6d1ec5b8" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c68f3720-acc3-4b46-94c2-0cba56a61853" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c6e46c46-71fb-4099-adb4-c979ff890395" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c7591bb2-3c44-43c4-8d4b-9704ed663a36" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c883f97e-0933-4823-a5fe-8bc316944ffd" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c90f76a5-24a2-4934-bc11-a9dfc61bf79b" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c93911a5-c429-4f9d-a22b-b94b9a06df43" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c93e6069-d8f6-4a1c-ab67-bc2ca95d066d" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="c9fe7a44-f0c1-4be2-bd4e-369acb6f475e" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ca13dac8-7914-47e2-b60b-0ad629f7d19a" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="cbef91f8-fd23-424d-b85e-e4b1dc25640c" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="cc00463b-ff99-4f97-abee-d9e66be389f4" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="cc3ecac4-7858-428a-8ae8-10fc53254730" RVG_ID="kuali.creditType.credit.degree.1-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="cc6d29d8-45d1-4a9d-8859-b22fcf07f0b0" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="cce8c26d-555f-4448-a464-fab22d552f3b" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="cd8a6639-bdc0-4269-adf9-45016330c40d" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="cda1b610-4423-435a-87c3-00c23e3fc490" RVG_ID="kuali.creditType.credit.degree.2-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ce066bee-0e6d-4d29-861a-4662c34d4c4f" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ced108e2-d096-4c5b-92a8-43908c18ebdc" RVG_ID="kuali.creditType.credit.degree.1-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ceef0f09-5b37-4472-bcad-b598e7f2d8da" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="cfac490c-ac17-43f4-a618-6ec81e7ab4f9" RVG_ID="kuali.creditType.credit.degree.2-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d01fdc48-12a0-4d87-b09c-3783ed8a38e8" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d08bc35f-2be1-4069-8b43-cc0fafccf269" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d09740bc-d97c-4b87-80f1-1ddc31fcd2e1" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d0eaeb18-b3de-4bc0-91f5-029de0d863b3" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d1b57a98-ba4a-46ce-8c22-465d9c3c1a5f" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d2cbee54-cb17-48ef-b533-59da15be3a9b" RVG_ID="kuali.creditType.credit.degree.2-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d3065e37-6593-40ec-be05-5f8369fc8c42" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d31f22f9-3f08-45e4-9733-543f213f23b2" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d357c918-3686-41b5-81d5-d686ec14b7db" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d3e8c414-900f-448b-b559-92c215856d58" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d43b7b36-6d44-4442-b1e6-88de8c9822a1" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d53c4114-3b38-4d9d-bf21-5d906d30a466" RVG_ID="kuali.creditType.credit.degree.2-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d5649045-a073-4364-adf7-ad8af463f060" RVG_ID="kuali.creditType.credit.degree.8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d59a7f7f-1716-456c-864a-08040d0caa3c" RVG_ID="kuali.creditType.credit.degree.2-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d5fa7e23-02e1-444d-8b62-c1fd1ecc1fcc" RVG_ID="kuali.creditType.credit.degree.1-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d72824b8-24e2-4341-83b0-0d67233a6a21" RVG_ID="kuali.creditType.credit.degree.3-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d7339c17-264c-40db-bb07-51e81187e643" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d78a7d38-b837-4f9b-9775-388ee28543b9" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d796a7b1-0c03-434e-a34a-b641677e0b0f" RVG_ID="kuali.creditType.credit.degree.1-10"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d7a7780f-c494-4bd1-a717-4ed898f3b228" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d7ea12fd-fea4-4245-9f4a-f4bb86e0d97a" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d8b87a59-f372-4f30-b34c-3529c3be8516" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d928371c-e9c2-4ffc-8d1c-22bbedb11387" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="d943a05f-4b3d-4f72-9b09-7521e563beb7" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="da825825-faf7-46fe-865b-45761b44dd11" RVG_ID="kuali.creditType.credit.degree.1.5-2"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="db062953-9061-48bd-928c-eda4978354cf" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="db1e7713-b586-4faf-a5db-01e86e741685" RVG_ID="kuali.creditType.credit.degree.4-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="db540b58-8b39-4bdf-b94a-767f8dc328db" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="db942f04-7ed1-431a-a89e-87926516c252" RVG_ID="kuali.creditType.credit.degree.4-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="dcf6f892-1fd3-4620-bc76-6da5deadc715" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ddc9a00f-69b8-4a04-91dc-80e0ceea812e" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="de2129f0-3784-4159-9be8-0182e58d5661" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="dea9cf47-d401-4ed9-ae67-b06f58a719e6" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="deb84c1a-8540-4b76-903e-707a5f74a8ec" RVG_ID="kuali.creditType.credit.degree.2-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="dfa4cede-ed6a-4e72-b90b-5e310694db23" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e115fc90-5b94-4ed3-8af9-9c986eb61626" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e182751f-eab7-4319-8d1e-689368aae49f" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e18d6778-232c-4d1b-ba00-12ce02fb503c" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e3c356e7-859f-4464-874c-ea8679974239" RVG_ID="kuali.creditType.credit.degree.3-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e3c737d9-e068-4b09-ad63-3defe2da756b" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e4d7ef27-9d28-4be5-8279-6e71dc9f311d" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e51fc006-ac33-40ad-b72a-4d800307884b" RVG_ID="kuali.creditType.credit.degree.1.5-2"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e5ec8419-ba67-4de5-97cd-b51d51540f95" RVG_ID="kuali.creditType.credit.degree.1-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e5ed705b-9ee1-49fd-84a2-444c6e153ba2" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e612ad21-4bca-4e6c-9d93-a14e8cb9c853" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e63f4427-d337-4209-96d6-4943a90f7451" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e77a2fa3-0bf3-4eec-a9d6-51cb91ea00c3" RVG_ID="kuali.creditType.credit.degree.1-2"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e86e0359-413b-4f2d-8dee-1971a1926f9d" RVG_ID="kuali.creditType.credit.degree.4-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e8a972ad-126c-4a81-8dcf-5220d780883d" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e8ebde75-1bad-41fe-9ee2-98f35c574772" RVG_ID="kuali.creditType.credit.degree..5-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e91845db-c595-4ad2-898e-e0be4955192a" RVG_ID="kuali.creditType.credit.degree..5-3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="e966ab5b-f193-4495-823f-5c4488f15ecc" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ea1cc9e7-8cca-4dac-b3c2-24cc58a90fa6" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ea47d150-c7f2-4133-84e5-5dc5be3958d4" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="eafa9050-25db-4418-b0f4-67ccd5f73cfd" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="eb2792bd-ffb1-41c3-a15d-f251a6cbf24c" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ebb5a246-d2c0-4a83-b04c-bbcda18f9947" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ec51ed3f-d643-48d8-9e72-98cd1e4df3d7" RVG_ID="kuali.creditType.credit.degree.3-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ec8899ef-be6e-4e03-b1b2-b61cc37a78ad" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ed6f5450-4004-430a-99c4-47d6861b7460" RVG_ID="kuali.creditType.credit.degree.3-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ee3c261f-f75e-458a-85fd-2ab89d787f99" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="eea1d30b-46b2-4cd4-bd85-5f539454980a" RVG_ID="kuali.creditType.credit.degree.2-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="eec672ee-d5d8-43aa-b056-d199b09582b0" RVG_ID="kuali.creditType.credit.degree.1-2"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ef5e61b1-4b4d-4aa6-84ea-c3274eea3f9c" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="efb58132-fb18-4eef-a620-bcce62597fe6" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f2375944-ade7-4e49-ace7-59fadbfccc32" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f23a08cb-f452-4358-9921-b1123a9a56a1" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f26793dc-0425-4afb-814f-426a516f7114" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f46bf58a-c545-456c-89f6-409689d0afe1" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f5970bcc-7961-4925-9e14-04d5bbb8c714" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f6b1eb62-fbd4-4c04-8725-d1cb3a7f684d" RVG_ID="kuali.creditType.credit.degree.6-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f7576b7f-ef4d-4328-aa44-536ea14f3461" RVG_ID="kuali.creditType.credit.degree.1-15"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f8cb44a5-dea0-4d8e-898a-ba727571f28d" RVG_ID="kuali.creditType.credit.degree.3-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f8f5f409-fbc9-4571-b3b5-2cadb26b3f5b" RVG_ID="kuali.creditType.credit.degree.1-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f93b5f42-f157-4360-8a64-0810214f9fd6" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f96d46a7-5945-43fe-b24d-f62540c14f80" RVG_ID="kuali.creditType.credit.degree.1-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f9771c3e-f3e0-44a5-8a70-021057dcd22b" RVG_ID="kuali.creditType.credit.degree.1-20"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="f9909ff2-ab25-44e4-aa36-048ef4e77a4d" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="fa4c2599-77f9-455f-8d6c-244962728f33" RVG_ID="kuali.creditType.credit.degree.0-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="faf3a0a6-5972-4461-bdbb-8285a45a608f" RVG_ID="kuali.creditType.credit.degree.2-8"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="fb365e8d-8a92-4be9-88e3-3c2aa08d2371" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="fb85b59b-6662-4b94-8989-1bc3a720a45c" RVG_ID="kuali.creditType.credit.degree.6-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="fba13dc6-8485-41e8-998a-2f3fb2e235dc" RVG_ID="kuali.creditType.credit.degree.1-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="fc1f66a6-c9d1-4174-95d7-c6f7d6d6b3fc" RVG_ID="kuali.creditType.credit.degree.2-6"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="fc39bfb3-02dc-4093-b348-59cb41358022" RVG_ID="kuali.creditType.credit.degree.4-11"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="fc47fc64-3c16-4563-bced-db3ba158b32d" RVG_ID="kuali.creditType.credit.degree.3-9"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="fdd0f200-d2fa-4455-956c-05f7580bfd7b" RVG_ID="kuali.creditType.credit.degree.4-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="fdf04adf-35c3-4622-b777-fa4968f6872f" RVG_ID="kuali.creditType.credit.degree.1-12"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="feedb69e-15f6-4927-a9f0-69dcf0248bfb" RVG_ID="kuali.creditType.credit.degree.2-4"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ff77aa41-9068-4805-a4f2-336508f892b3" RVG_ID="kuali.creditType.credit.degree.3-16"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="ffe3591e-a6e5-4e75-a09c-70f4cdfdceeb" RVG_ID="kuali.creditType.credit.degree.1-5"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.0" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.1.5" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.10.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.10.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.11.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.11.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.12.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.12.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.13.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.13.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.14.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.14.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.15.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.15.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.16.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.0" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.2.5" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.1.0.1.5.2.5.2.0.3.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.3.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.0" RVG_ID="kuali.creditType.credit.degree.4.0,4.5,5.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.4.5" RVG_ID="kuali.creditType.credit.degree.4.0,4.5,5.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.0" RVG_ID="kuali.creditType.credit.degree.4.0,4.5,5.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.5.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.6.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.7.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.8.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.8.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.8.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.8.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.8.5" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.9.0" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.9.0" RVG_ID="kuali.creditType.credit.degree.3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.degree.9.5" RVG_ID="kuali.creditType.credit.degree.1.0,1.5,2.0,2.5,3.0,3.5,4.0,4.5,5.0,5.5,6.0,6.5,7.0,7.5,8.0,8.5,9.0,9.5,10.0,10.5,11.0,11.5,12.0,12.5,13.0,13.5,14.0,14.5,15.0,15.5,16.0"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.remedial.1" RVG_ID="kuali.result.group.credit.remedial.fixed.1"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.remedial.2" RVG_ID="kuali.result.group.credit.remedial.fixed.2"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.credit.remedial.3" RVG_ID="kuali.result.group.credit.remedial.fixed.3"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.aa" RVG_ID="kuali.result.group.degree.aa"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.aa" RVG_ID="kuali.result.group.degree.associates"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.as" RVG_ID="kuali.result.group.degree.as"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.as" RVG_ID="kuali.result.group.degree.associates"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.ba" RVG_ID="kuali.result.group.degree.bachelors"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.bsc" RVG_ID="kuali.result.group.degree.bachelors"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.jd" RVG_ID="kuali.result.group.degree.professional"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.ma" RVG_ID="kuali.result.group.degree.ma"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.ma" RVG_ID="kuali.result.group.degree.masters"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.march" RVG_ID="kuali.result.group.degree.march"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.march" RVG_ID="kuali.result.group.degree.professional"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.mba" RVG_ID="kuali.result.group.degree.professional"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.md" RVG_ID="kuali.result.group.degree.doctoral"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.meng" RVG_ID="kuali.result.group.degree.meng"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.meng" RVG_ID="kuali.result.group.degree.professional"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.ms" RVG_ID="kuali.result.group.degree.masters"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.ms" RVG_ID="kuali.result.group.degree.ms"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.phd" RVG_ID="kuali.result.group.degree.doctoral"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.degree.phd" RVG_ID="kuali.result.group.degree.phd"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.admin.i" RVG_ID="kuali.result.group.grade.admin.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.admin.ip" RVG_ID="kuali.result.group.grade.admin.in-progress"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.admin.judicial" RVG_ID="kuali.result.group.grade.admin.in-progress"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.admin.judicial" RVG_ID="kuali.result.group.grade.admin.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.admin.nr" RVG_ID="kuali.result.group.grade.admin.in-progress"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.admin.nr" RVG_ID="kuali.result.group.grade.admin.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.admin.w" RVG_ID="kuali.result.group.grade.admin.in-progress"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.admin.w" RVG_ID="kuali.result.group.grade.admin.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.a" RVG_ID="kuali.result.group.grade.letter.graduate"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.a" RVG_ID="kuali.result.group.grade.letter.passing.translation"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.b" RVG_ID="kuali.result.group.grade.letter.graduate"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.b" RVG_ID="kuali.result.group.grade.letter.passing.translation"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.c" RVG_ID="kuali.result.group.grade.letter.graduate"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.c" RVG_ID="kuali.result.group.grade.letter.passing.translation"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.d" RVG_ID="kuali.result.group.grade.letter.passing.translation"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.f" RVG_ID="kuali.result.group.grade.letter.graduate"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.a" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.a+" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.a-" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.b" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.b+" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.b-" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.c" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.c+" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.c-" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.d" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.d+" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.d-" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.letter.plus.minus.f" RVG_ID="kuali.result.group.grade.letter.plus.minus.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.pnp.np" RVG_ID="kuali.result.group.grade.pnp.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.grade.pnp.p" RVG_ID="kuali.result.group.grade.pnp.standard"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.honor.deans.list.on" RVG_ID="kuali.result.group.honor.deans.list"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.honor.degree.latin.laud" RVG_ID="kuali.result.group.honor.degree.latin"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.honor.degree.latin.magna" RVG_ID="kuali.result.group.honor.degree.latin"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.honor.degree.latin.summa" RVG_ID="kuali.result.group.honor.degree.latin"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.minor" RVG_ID="kuali.result.group.minor"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.1" RVG_ID="kuali.result.group.student.year"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.1" RVG_ID="kuali.result.group.student.year.undergrad"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.2" RVG_ID="kuali.result.group.student.year"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.2" RVG_ID="kuali.result.group.student.year.undergrad"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.3" RVG_ID="kuali.result.group.student.year"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.3" RVG_ID="kuali.result.group.student.year.undergrad"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.4" RVG_ID="kuali.result.group.student.year"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.4" RVG_ID="kuali.result.group.student.year.undergrad"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.g" RVG_ID="kuali.result.group.student.year"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.grad.g1" RVG_ID="kuali.result.group.student.year.grad"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.grad.g2" RVG_ID="kuali.result.group.student.year.grad"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.lockstep.1" RVG_ID="kuali.result.group.student.year.lockstep.law"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.lockstep.1" RVG_ID="kuali.result.group.student.year.lockstep.med"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.lockstep.2" RVG_ID="kuali.result.group.student.year.lockstep.law"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.lockstep.2" RVG_ID="kuali.result.group.student.year.lockstep.med"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.lockstep.3" RVG_ID="kuali.result.group.student.year.lockstep.law"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.lockstep.3" RVG_ID="kuali.result.group.student.year.lockstep.med"/>
+    <KSEN_LRC_RVG_RESULT_VALUE
+        RESULT_VALUE_ID="kuali.result.value.student.year.lockstep.4" RVG_ID="kuali.result.group.student.year.lockstep.med"/>
+</dataset>

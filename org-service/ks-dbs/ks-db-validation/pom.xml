@@ -1,0 +1,98 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.kuali.student.db</groupId>
+        <artifactId>ks-dbs</artifactId>
+        <version>2.0.0-M7-SNAPSHOT</version>
+    </parent>
+    <artifactId>ks-db-validation</artifactId>
+    <name>KS DB Validation</name>
+    <description>Kuali Student Database Validation resources</description>
+    <profiles>
+        <profile>
+            <id>ddlSchema</id>
+            <properties>
+                <properties.decrypt>true</properties.decrypt>
+                <spring.forceMojoExecution>true</spring.forceMojoExecution>
+                <db.vendor>oracle</db.vendor>
+                <jdbc.username>KS_DDL_SOURCE_DB${db.branch.qualifier}</jdbc.username>
+                <oracle.dba.username>master</oracle.dba.username>
+                <oracle.dba.password>ENC(eEFVZmL4+y/5KlzDMCt6dGlBKQzXevFp)</oracle.dba.password>
+                <oracle.dba.url>${oracle.source.dba.url}</oracle.dba.url>
+                <!-- KS ddl source db is pure SQL not .mpx -->
+                <sql.data.concurrent.progress.label>SQL Count</sql.data.concurrent.progress.label>
+                <sql.data.concurrent.progress.label.throughput>SQL/s</sql.data.concurrent.progress.label.throughput>
+                <sql.data.concurrent.trackProgressByUpdateCount>false</sql.data.concurrent.trackProgressByUpdateCount>
+                <!-- Schemas -->
+                <!-- SQL resources -->
+                <sql.schema>classpath:${project.groupId.path}/${project.artifactId}/ddl/schema.sql</sql.schema>
+                <sql.constraints>classpath:${project.groupId.path}/${project.artifactId}/ddl/constraints.sql</sql.constraints>
+                <!-- Controller properties -->
+                <sql.schema.concurrent>sql.schema</sql.schema.concurrent>
+                <sql.constraints.concurrent>sql.constraints</sql.constraints.concurrent>
+                <!-- Define execution order -->
+                <sql.execution.order>schema.concurrent,constraints.concurrent</sql.execution.order>
+                <ks.ddl.schema.path>ddl/schema.xml</ks.ddl.schema.path>
+                <ks.ddl.constraints.path>ddl/onstraints.xml</ks.ddl.constraints.path>
+                <!-- schema export properties -->
+                <impex.export.schema.tables.location>${project.basedir}/src/main/resources/${project.groupId.path}/${project.artifactId}/${ks.ddl.schema.path}</impex.export.schema.tables.location>
+                <impex.export.schema.views.location>${project.basedir}/src/main/resources/${project.groupId.path}/${project.artifactId}/${ks.ddl.schema.path}</impex.export.schema.views.location>
+                <impex.export.schema.sequences.location>${project.basedir}/src/main/resources/${project.groupId.path}/${project.artifactId}/${ks.ddl.schema.path}</impex.export.schema.sequences.location>
+                <impex.export.schema.foreignkeys.location>${project.basedir}/src/main/resources/${project.groupId.path}/${project.artifactId}/${ks.ddl.constraints.path}</impex.export.schema.foreignkeys.location>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.kuali.maven.plugins</groupId>
+                        <artifactId>spring-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>load-ddl</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>load</goal>
+                                </goals>
+                                <configuration>
+                                    <forceMojoExecution>true</forceMojoExecution>
+                                    <propertySourcesConfig>org.kuali.common.jdbc.spring.JdbcMavenPropertySourceConfig</propertySourcesConfig>
+                                    <removeExistingPropertySources>true</removeExistingPropertySources>
+                                    <annotatedClasses>
+                                    <annotatedClass>org.kuali.common.jdbc.spring.SqlControllerConfig</annotatedClass>
+                                    </annotatedClasses>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>export-ddl</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>load</goal>
+                                </goals>
+                                <configuration>
+                                    <forceMojoExecution>true</forceMojoExecution>
+                                    <propertySourcesConfig>org.kuali.common.jdbc.spring.JdbcMavenPropertySourceConfig</propertySourcesConfig>
+                                    <annotatedClass>org.kuali.common.impex.spring.ExportSchemaConfig</annotatedClass>
+                                </configuration>
+                            </execution>
+                        </executions>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.kuali.student.db</groupId>
+                                <artifactId>ks-db-validation</artifactId>
+                                <version>${project.version}</version>
+                            </dependency>
+                        </dependencies>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>sonar</id>
+            <properties>
+                <!-- Enable the database validation sensors in only one module -->
+                <kuali.student.sonar.fkvalidation.skip>false</kuali.student.sonar.fkvalidation.skip>
+                <kuali.student.sonar.schemacompare.skip>false</kuali.student.sonar.schemacompare.skip>
+            </properties>
+        </profile>
+    </profiles>
+</project>

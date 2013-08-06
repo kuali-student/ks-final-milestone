@@ -1,0 +1,1965 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<schema>
+    <foreignKey foreignTableName="KREN_CHNL_T" localTableName="KREN_CHNL_SUBSCRP_T" name="KREN_CHAN_SUBSCRP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CHNL_ID</foreignColumnNames>
+        <localColumnNames>CHNL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_CHNL_T" localTableName="KREN_CHNL_PRODCR_T" name="KREN_CHNL_PRODCR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CHNL_ID</foreignColumnNames>
+        <localColumnNames>CHNL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_PRODCR_T" localTableName="KREN_CHNL_PRODCR_T" name="KREN_CHNL_PRODCR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PRODCR_ID</foreignColumnNames>
+        <localColumnNames>PRODCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_MSG_T" localTableName="KREN_MSG_DELIV_T" name="KREN_MSG_DELIV_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>MSG_ID</foreignColumnNames>
+        <localColumnNames>MSG_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_CHNL_T" localTableName="KREN_NTFCTN_T" name="KREN_NTFCTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CHNL_ID</foreignColumnNames>
+        <localColumnNames>CHNL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_CNTNT_TYP_T" localTableName="KREN_NTFCTN_T" name="KREN_NTFCTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CNTNT_TYP_ID</foreignColumnNames>
+        <localColumnNames>CNTNT_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_PRIO_T" localTableName="KREN_NTFCTN_T" name="KREN_NTFCTN_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PRIO_ID</foreignColumnNames>
+        <localColumnNames>PRIO_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_PRODCR_T" localTableName="KREN_NTFCTN_T" name="KREN_NTFCTN_FK4" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PRODCR_ID</foreignColumnNames>
+        <localColumnNames>PRODCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_NTFCTN_T" localTableName="KREN_NTFCTN_MSG_DELIV_T" name="KREN_NTFCTN_MSG_DELIV_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NTFCTN_ID</foreignColumnNames>
+        <localColumnNames>NTFCTN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_NTFCTN_T" localTableName="KREN_RECIP_T" name="KREN_RECIP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NTFCTN_ID</foreignColumnNames>
+        <localColumnNames>NTFCTN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_CHNL_T" localTableName="KREN_RECIP_LIST_T" name="KREN_RECIP_LIST_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CHNL_ID</foreignColumnNames>
+        <localColumnNames>CHNL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_NTFCTN_T" localTableName="KREN_SNDR_T" name="KREN_SNDR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NTFCTN_ID</foreignColumnNames>
+        <localColumnNames>NTFCTN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_DOC_TYP_APP_STAT_CAT_T" localTableName="KREW_DOC_TYP_APP_DOC_STAT_T" name="KREW_DOC_TYP_APP_DOC_STAT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>DOC_TYP_ID</foreignColumnNames>
+        <foreignColumnNames>CAT_NM</foreignColumnNames>
+        <localColumnNames>DOC_TYP_ID</localColumnNames>
+        <localColumnNames>CAT_NM</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_DOC_TYP_T" localTableName="KREW_DOC_TYP_APP_STAT_CAT_T" name="KREW_DOC_TYP_APP_STAT_CAT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>DOC_TYP_ID</foreignColumnNames>
+        <localColumnNames>DOC_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_PPL_FLW_T" localTableName="KREW_PPL_FLW_ATTR_T" name="KREW_PPL_FLW_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PPL_FLW_ID</foreignColumnNames>
+        <localColumnNames>PPL_FLW_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_ATTR_DEFN_T" localTableName="KREW_PPL_FLW_ATTR_T" name="KREW_PPL_FLW_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_PPL_FLW_MBR_T" localTableName="KREW_PPL_FLW_DLGT_T" name="KREW_PPL_FLW_DLGT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PPL_FLW_MBR_ID</foreignColumnNames>
+        <localColumnNames>PPL_FLW_MBR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_TYP_T" localTableName="KREW_PPL_FLW_T" name="KREW_PPL_FLW_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYP_ID</foreignColumnNames>
+        <localColumnNames>TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_PPL_FLW_T" localTableName="KREW_PPL_FLW_MBR_T" name="KREW_PPL_FLW_MBR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PPL_FLW_ID</foreignColumnNames>
+        <localColumnNames>PPL_FLW_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_RULE_EXPR_T" localTableName="KREW_RULE_T" name="KREW_RULE_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>RULE_EXPR_ID</foreignColumnNames>
+        <localColumnNames>RULE_EXPR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_ATTR_DEFN_T" localTableName="KREW_TYP_ATTR_T" name="KREW_TYP_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREW_TYP_T" localTableName="KREW_TYP_ATTR_T" name="KREW_TYP_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYP_ID</foreignColumnNames>
+        <localColumnNames>TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_DLGN_MBR_ATTR_DATA_T" name="KRIM_DLGN_MBR_ATTR_DATA_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ATTR_DEFN_T" localTableName="KRIM_DLGN_MBR_ATTR_DATA_T" name="KRIM_DLGN_MBR_ATTR_DATA_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>KIM_ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_DLGN_T" localTableName="KRIM_DLGN_MBR_T" name="KRIM_DLGN_MBR_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>DLGN_ID</foreignColumnNames>
+        <localColumnNames>DLGN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ROLE_T" localTableName="KRIM_DLGN_T" name="KRIM_DLGN_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ROLE_ID</foreignColumnNames>
+        <localColumnNames>ROLE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_DLGN_T" name="KRIM_DLGN_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_ENT_TYP_T" localTableName="KRIM_ENTITY_ADDR_T" name="KRIM_ENTITY_ADDR_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENT_TYP_CD</foreignColumnNames>
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENT_TYP_CD</localColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ADDR_TYP_T" localTableName="KRIM_ENTITY_ADDR_T" name="KRIM_ENTITY_ADDR_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ADDR_TYP_CD</foreignColumnNames>
+        <localColumnNames>ADDR_TYP_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_ENTITY_AFLTN_T" name="KRIM_ENTITY_AFLTN_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_AFLTN_TYP_T" localTableName="KRIM_ENTITY_AFLTN_T" name="KRIM_ENTITY_AFLTN_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>AFLTN_TYP_CD</foreignColumnNames>
+        <localColumnNames>AFLTN_TYP_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_ENTITY_CTZNSHP_T" name="KRIM_ENTITY_CTZNSHP_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_CTZNSHP_STAT_T" localTableName="KRIM_ENTITY_CTZNSHP_T" name="KRIM_ENTITY_CTZNSHP_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CTZNSHP_STAT_CD</foreignColumnNames>
+        <localColumnNames>CTZNSHP_STAT_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_ENT_TYP_T" localTableName="KRIM_ENTITY_EMAIL_T" name="KRIM_ENTITY_EMAIL_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENT_TYP_CD</foreignColumnNames>
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENT_TYP_CD</localColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_ENTITY_EMP_INFO_T" name="KRIM_ENTITY_EMP_INFO_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_EMP_STAT_T" localTableName="KRIM_ENTITY_EMP_INFO_T" name="KRIM_ENTITY_EMP_INFO_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>EMP_STAT_CD</foreignColumnNames>
+        <localColumnNames>EMP_STAT_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_EMP_TYP_T" localTableName="KRIM_ENTITY_EMP_INFO_T" name="KRIM_ENTITY_EMP_INFO_TR3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>EMP_TYP_CD</foreignColumnNames>
+        <localColumnNames>EMP_TYP_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_AFLTN_T" localTableName="KRIM_ENTITY_EMP_INFO_T" name="KRIM_ENTITY_EMP_INFO_TR4" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_AFLTN_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_AFLTN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_ENTITY_ENT_TYP_T" name="KRIM_ENTITY_ENT_TYP_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENT_TYP_T" localTableName="KRIM_ENTITY_ENT_TYP_T" name="KRIM_ENTITY_ENT_TYP_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ENT_TYP_CD</foreignColumnNames>
+        <localColumnNames>ENT_TYP_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_ENTITY_ETHNIC_T" name="KRIM_ENTITY_ETHNIC_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_ENTITY_EXT_ID_T" name="KRIM_ENTITY_EXT_ID_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_EXT_ID_TYP_T" localTableName="KRIM_ENTITY_EXT_ID_T" name="KRIM_ENTITY_EXT_ID_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>EXT_ID_TYP_CD</foreignColumnNames>
+        <localColumnNames>EXT_ID_TYP_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_ENTITY_NM_T" name="KRIM_ENTITY_NM_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_ENT_TYP_T" localTableName="KRIM_ENTITY_PHONE_T" name="KRIM_ENTITY_PHONE_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENT_TYP_CD</foreignColumnNames>
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENT_TYP_CD</localColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_PHONE_TYP_T" localTableName="KRIM_ENTITY_PHONE_T" name="KRIM_ENTITY_PHONE_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PHONE_TYP_CD</foreignColumnNames>
+        <localColumnNames>PHONE_TYP_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_ENTITY_RESIDENCY_T" name="KRIM_ENTITY_RESIDENCY_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_ENTITY_VISA_T" name="KRIM_ENTITY_VISA_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_GRP_ATTR_DATA_T" name="KRIM_GRP_ATTR_DATA_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ATTR_DEFN_T" localTableName="KRIM_GRP_ATTR_DATA_T" name="KRIM_GRP_ATTR_DATA_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>KIM_ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_GRP_T" localTableName="KRIM_GRP_ATTR_DATA_T" name="KRIM_GRP_ATTR_DATA_TR3" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>GRP_ID</foreignColumnNames>
+        <localColumnNames>GRP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_GRP_T" localTableName="KRIM_GRP_MBR_T" name="KRIM_GRP_MBR_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>GRP_ID</foreignColumnNames>
+        <localColumnNames>GRP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_GRP_T" name="KRIM_GRP_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_PERM_ATTR_DATA_T" name="KRIM_PERM_ATTR_DATA_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ATTR_DEFN_T" localTableName="KRIM_PERM_ATTR_DATA_T" name="KRIM_PERM_ATTR_DATA_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>KIM_ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_PERM_T" localTableName="KRIM_PERM_ATTR_DATA_T" name="KRIM_PERM_ATTR_DATA_TR3" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>PERM_ID</foreignColumnNames>
+        <localColumnNames>PERM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_PERM_TMPL_T" name="KRIM_PERM_TMPL_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_PERM_TMPL_T" localTableName="KRIM_PERM_T" name="KRIM_PERM_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PERM_TMPL_ID</foreignColumnNames>
+        <localColumnNames>PERM_TMPL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_PERSON_DOCUMENT_T" localTableName="KRIM_PND_AFLTN_MT" name="KRIM_PND_AFLTN_MT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>FDOC_NBR</foreignColumnNames>
+        <localColumnNames>FDOC_NBR</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ENTITY_T" localTableName="KRIM_PRNCPL_T" name="KRIM_PRNCPL_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ENTITY_ID</foreignColumnNames>
+        <localColumnNames>ENTITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_ROLE_MBR_ATTR_DATA_T" name="KRIM_ROLE_MBR_ATTR_DATA_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ATTR_DEFN_T" localTableName="KRIM_ROLE_MBR_ATTR_DATA_T" name="KRIM_ROLE_MBR_ATTR_DATA_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>KIM_ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ROLE_T" localTableName="KRIM_ROLE_MBR_T" name="KRIM_ROLE_MBR_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>ROLE_ID</foreignColumnNames>
+        <localColumnNames>ROLE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_PERM_T" localTableName="KRIM_ROLE_PERM_T" name="KRIM_ROLE_PERM_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PERM_ID</foreignColumnNames>
+        <localColumnNames>PERM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_RSP_T" localTableName="KRIM_ROLE_RSP_T" name="KRIM_ROLE_RSP_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>RSP_ID</foreignColumnNames>
+        <localColumnNames>RSP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_ROLE_T" name="KRIM_ROLE_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_RSP_ATTR_DATA_T" name="KRIM_RSP_ATTR_DATA_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ATTR_DEFN_T" localTableName="KRIM_RSP_ATTR_DATA_T" name="KRIM_RSP_ATTR_DATA_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>KIM_ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_RSP_T" localTableName="KRIM_RSP_ATTR_DATA_T" name="KRIM_RSP_ATTR_DATA_TR3" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>RSP_ID</foreignColumnNames>
+        <localColumnNames>RSP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_RSP_TMPL_T" name="KRIM_RSP_TMPL_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_RSP_TMPL_T" localTableName="KRIM_RSP_T" name="KRIM_RSP_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>RSP_TMPL_ID</foreignColumnNames>
+        <localColumnNames>RSP_TMPL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_TYP_T" localTableName="KRIM_TYP_ATTR_T" name="KRIM_TYP_ATTRIBUTE_TR1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_TYP_ID</foreignColumnNames>
+        <localColumnNames>KIM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRIM_ATTR_DEFN_T" localTableName="KRIM_TYP_ATTR_T" name="KRIM_TYP_ATTR_TR2" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>KIM_ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>KIM_ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRLC_ST_T" localTableName="KRLC_CNTY_T" name="KRLC_CNTY_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>POSTAL_STATE_CD</foreignColumnNames>
+        <foreignColumnNames>POSTAL_CNTRY_CD</foreignColumnNames>
+        <localColumnNames>STATE_CD</localColumnNames>
+        <localColumnNames>POSTAL_CNTRY_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_ACTN_T" localTableName="KRMS_ACTN_ATTR_T" name="KRMS_ACTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ACTN_ID</foreignColumnNames>
+        <localColumnNames>ACTN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_ATTR_DEFN_T" localTableName="KRMS_ACTN_ATTR_T" name="KRMS_ACTN_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_RULE_T" localTableName="KRMS_ACTN_T" name="KRMS_ACTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>RULE_ID</foreignColumnNames>
+        <localColumnNames>RULE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_AGENDA_T" localTableName="KRMS_AGENDA_ATTR_T" name="KRMS_AGENDA_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>AGENDA_ID</foreignColumnNames>
+        <localColumnNames>AGENDA_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_ATTR_DEFN_T" localTableName="KRMS_AGENDA_ATTR_T" name="KRMS_AGENDA_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_CNTXT_T" localTableName="KRMS_AGENDA_T" name="KRMS_AGENDA_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CNTXT_ID</foreignColumnNames>
+        <localColumnNames>CNTXT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_RULE_T" localTableName="KRMS_AGENDA_ITM_T" name="KRMS_AGENDA_ITM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>RULE_ID</foreignColumnNames>
+        <localColumnNames>RULE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_AGENDA_T" localTableName="KRMS_AGENDA_ITM_T" name="KRMS_AGENDA_ITM_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>AGENDA_ID</foreignColumnNames>
+        <localColumnNames>AGENDA_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_AGENDA_T" localTableName="KRMS_AGENDA_ITM_T" name="KRMS_AGENDA_ITM_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>AGENDA_ID</foreignColumnNames>
+        <localColumnNames>SUB_AGENDA_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_AGENDA_ITM_T" localTableName="KRMS_AGENDA_ITM_T" name="KRMS_AGENDA_ITM_FK4" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>AGENDA_ITM_ID</foreignColumnNames>
+        <localColumnNames>WHEN_TRUE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_AGENDA_ITM_T" localTableName="KRMS_AGENDA_ITM_T" name="KRMS_AGENDA_ITM_FK5" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>AGENDA_ITM_ID</foreignColumnNames>
+        <localColumnNames>WHEN_FALSE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_AGENDA_ITM_T" localTableName="KRMS_AGENDA_ITM_T" name="KRMS_AGENDA_ITM_FK6" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>AGENDA_ITM_ID</foreignColumnNames>
+        <localColumnNames>ALWAYS</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_PROP_T" localTableName="KRMS_CMPND_PROP_PROPS_T" name="KRMS_CMPND_PROP_PROPS_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PROP_ID</foreignColumnNames>
+        <localColumnNames>PROP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_PROP_T" localTableName="KRMS_CMPND_PROP_PROPS_T" name="KRMS_CMPND_PROP_PROPS_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PROP_ID</foreignColumnNames>
+        <localColumnNames>CMPND_PROP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_CNTXT_T" localTableName="KRMS_CNTXT_ATTR_T" name="KRMS_CNTXT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CNTXT_ID</foreignColumnNames>
+        <localColumnNames>CNTXT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_ATTR_DEFN_T" localTableName="KRMS_CNTXT_ATTR_T" name="KRMS_CNTXT_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_CNTXT_T" localTableName="KRMS_CNTXT_VLD_ACTN_TYP_T" name="KRMS_CNTXT_VLD_ACTN_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CNTXT_ID</foreignColumnNames>
+        <localColumnNames>CNTXT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_CNTXT_T" localTableName="KRMS_CNTXT_VLD_AGENDA_TYP_T" name="KRMS_CNTXT_VLD_AGENDA_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CNTXT_ID</foreignColumnNames>
+        <localColumnNames>CNTXT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_CNTXT_T" localTableName="KRMS_CNTXT_VLD_FUNC_T" name="KRMS_CNTXT_VLD_FUNC_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CNTXT_ID</foreignColumnNames>
+        <localColumnNames>CNTXT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_CNTXT_T" localTableName="KRMS_CNTXT_VLD_RULE_TYP_T" name="KRMS_CNTXT_VLD_RULE_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CNTXT_ID</foreignColumnNames>
+        <localColumnNames>CNTXT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_CNTXT_T" localTableName="KRMS_CNTXT_VLD_TERM_SPEC_T" name="KRMS_CNTXT_VLD_TERM_SPEC_TI1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CNTXT_ID</foreignColumnNames>
+        <localColumnNames>CNTXT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TERM_SPEC_T" localTableName="KRMS_CNTXT_VLD_TERM_SPEC_T" name="KRMS_CNTXT_VLD_TERM_SPEC_TI2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TERM_SPEC_ID</foreignColumnNames>
+        <localColumnNames>TERM_SPEC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_FUNC_T" localTableName="KRMS_FUNC_CTGRY_T" name="KRMS_FUNC_CTGRY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>FUNC_ID</foreignColumnNames>
+        <localColumnNames>FUNC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_CTGRY_T" localTableName="KRMS_FUNC_CTGRY_T" name="KRMS_FUNC_CTGRY_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CTGRY_ID</foreignColumnNames>
+        <localColumnNames>CTGRY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TYP_T" localTableName="KRMS_FUNC_T" name="KRMS_FUNC_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYP_ID</foreignColumnNames>
+        <localColumnNames>TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_FUNC_T" localTableName="KRMS_FUNC_PARM_T" name="KRMS_FUNC_PARM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>FUNC_ID</foreignColumnNames>
+        <localColumnNames>FUNC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TERM_RSLVR_T" localTableName="KRMS_TERM_RSLVR_INPUT_SPEC_T" name="KRMS_INPUT_ASSET_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TERM_RSLVR_ID</foreignColumnNames>
+        <localColumnNames>TERM_RSLVR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TERM_SPEC_T" localTableName="KRMS_TERM_RSLVR_INPUT_SPEC_T" name="KRMS_INPUT_ASSET_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TERM_SPEC_ID</foreignColumnNames>
+        <localColumnNames>TERM_SPEC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_NL_TMPL_T" localTableName="KRMS_NL_TMPL_ATTR_T" name="KRMS_NL_TMPL_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NL_TMPL_ID</foreignColumnNames>
+        <localColumnNames>NL_TMPL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_ATTR_DEFN_T" localTableName="KRMS_NL_TMPL_ATTR_T" name="KRMS_NL_TMPL_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_NL_USAGE_T" localTableName="KRMS_NL_TMPL_T" name="KRMS_NL_TMPL_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NL_USAGE_ID</foreignColumnNames>
+        <localColumnNames>NL_USAGE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_NL_USAGE_T" localTableName="KRMS_NL_USAGE_ATTR_T" name="KRMS_NL_USAGE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NL_USAGE_ID</foreignColumnNames>
+        <localColumnNames>NL_USAGE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_ATTR_DEFN_T" localTableName="KRMS_NL_USAGE_ATTR_T" name="KRMS_NL_USAGE_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TYP_T" localTableName="KRMS_PROP_T" name="KRMS_PROP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYP_ID</foreignColumnNames>
+        <localColumnNames>TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_PROP_T" localTableName="KRMS_PROP_PARM_T" name="KRMS_PROP_PARM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PROP_ID</foreignColumnNames>
+        <localColumnNames>PROP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_RULE_T" localTableName="KRMS_RULE_ATTR_T" name="KRMS_RULE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>RULE_ID</foreignColumnNames>
+        <localColumnNames>RULE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_ATTR_DEFN_T" localTableName="KRMS_RULE_ATTR_T" name="KRMS_RULE_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_PROP_T" localTableName="KRMS_RULE_T" name="KRMS_RULE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PROP_ID</foreignColumnNames>
+        <localColumnNames>PROP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TERM_T" localTableName="KRMS_TERM_PARM_T" name="KRMS_TERM_PARM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TERM_ID</foreignColumnNames>
+        <localColumnNames>TERM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TERM_RSLVR_T" localTableName="KRMS_TERM_RSLVR_PARM_SPEC_T" name="KRMS_TERM_RESLV_PARM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TERM_RSLVR_ID</foreignColumnNames>
+        <localColumnNames>TERM_RSLVR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TERM_RSLVR_T" localTableName="KRMS_TERM_RSLVR_ATTR_T" name="KRMS_TERM_RSLVR_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TERM_RSLVR_ID</foreignColumnNames>
+        <localColumnNames>TERM_RSLVR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_ATTR_DEFN_T" localTableName="KRMS_TERM_RSLVR_ATTR_T" name="KRMS_TERM_RSLVR_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TERM_SPEC_T" localTableName="KRMS_TERM_RSLVR_T" name="KRMS_TERM_RSLVR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TERM_SPEC_ID</foreignColumnNames>
+        <localColumnNames>OUTPUT_TERM_SPEC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TYP_T" localTableName="KRMS_TERM_RSLVR_T" name="KRMS_TERM_RSLVR_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYP_ID</foreignColumnNames>
+        <localColumnNames>TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TERM_SPEC_T" localTableName="KRMS_TERM_SPEC_CTGRY_T" name="KRMS_TERM_SPEC_CTGRY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TERM_SPEC_ID</foreignColumnNames>
+        <localColumnNames>TERM_SPEC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_CTGRY_T" localTableName="KRMS_TERM_SPEC_CTGRY_T" name="KRMS_TERM_SPEC_CTGRY_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CTGRY_ID</foreignColumnNames>
+        <localColumnNames>CTGRY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TERM_SPEC_T" localTableName="KRMS_TERM_T" name="KRMS_TERM_T__FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TERM_SPEC_ID</foreignColumnNames>
+        <localColumnNames>TERM_SPEC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_ATTR_DEFN_T" localTableName="KRMS_TYP_ATTR_T" name="KRMS_TYP_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ATTR_DEFN_ID</foreignColumnNames>
+        <localColumnNames>ATTR_DEFN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TYP_T" localTableName="KRMS_TYP_ATTR_T" name="KRMS_TYP_ATTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYP_ID</foreignColumnNames>
+        <localColumnNames>TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TYP_T" localTableName="KRMS_TYP_RELN_T" name="KRMS_TYP_RELN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYP_ID</foreignColumnNames>
+        <localColumnNames>FROM_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TYP_T" localTableName="KRMS_TYP_RELN_T" name="KRMS_TYP_RELN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYP_ID</foreignColumnNames>
+        <localColumnNames>TO_TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRMS_TYP_T" localTableName="KRMS_NL_TMPL_T" name="KRMS_TYP_T" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYP_ID</foreignColumnNames>
+        <localColumnNames>TYP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRNS_NTE_T" localTableName="KRNS_ATT_T" name="KRNS_ATT_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NTE_ID</foreignColumnNames>
+        <localColumnNames>NTE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRNS_MAINT_DOC_T" localTableName="KRNS_MAINT_DOC_ATT_LST_T" name="KRNS_MAINT_DOC_ATT_LST_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>DOC_HDR_ID</foreignColumnNames>
+        <localColumnNames>DOC_HDR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRNS_DOC_HDR_T" localTableName="KRNS_MAINT_DOC_T" name="KRNS_MAINT_DOC_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>DOC_HDR_ID</foreignColumnNames>
+        <localColumnNames>DOC_HDR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRNS_NTE_TYP_T" localTableName="KRNS_NTE_T" name="KRNS_NTE_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NTE_TYP_CD</foreignColumnNames>
+        <localColumnNames>NTE_TYP_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRCR_NMSPC_T" localTableName="KRCR_CMPNT_T" name="KRNS_PARM_DTL_TYP_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NMSPC_CD</foreignColumnNames>
+        <localColumnNames>NMSPC_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRCR_NMSPC_T" localTableName="KRCR_PARM_T" name="KRNS_PARM_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>NMSPC_CD</foreignColumnNames>
+        <localColumnNames>NMSPC_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRCR_PARM_TYP_T" localTableName="KRCR_PARM_T" name="KRNS_PARM_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PARM_TYP_CD</foreignColumnNames>
+        <localColumnNames>PARM_TYP_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRSB_QRTZ_TRIGGERS" localTableName="KRSB_QRTZ_BLOB_TRIGGERS" name="KRSB_QRTZ_BLOB_TRIGGERS_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TRIGGER_NAME</foreignColumnNames>
+        <foreignColumnNames>TRIGGER_GROUP</foreignColumnNames>
+        <localColumnNames>TRIGGER_NAME</localColumnNames>
+        <localColumnNames>TRIGGER_GROUP</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRSB_QRTZ_TRIGGERS" localTableName="KRSB_QRTZ_CRON_TRIGGERS" name="KRSB_QRTZ_CRON_TRIGGERS_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TRIGGER_NAME</foreignColumnNames>
+        <foreignColumnNames>TRIGGER_GROUP</foreignColumnNames>
+        <localColumnNames>TRIGGER_NAME</localColumnNames>
+        <localColumnNames>TRIGGER_GROUP</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRSB_QRTZ_TRIGGERS" localTableName="KRSB_QRTZ_SIMPLE_TRIGGERS" name="KRSB_QRTZ_SIMPLE_TRIGGERS_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TRIGGER_NAME</foreignColumnNames>
+        <foreignColumnNames>TRIGGER_GROUP</foreignColumnNames>
+        <localColumnNames>TRIGGER_NAME</localColumnNames>
+        <localColumnNames>TRIGGER_GROUP</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRSB_QRTZ_TRIGGERS" localTableName="KRSB_QRTZ_TRIGGER_LISTENERS" name="KRSB_QRTZ_TRIGGER_LISTENE_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TRIGGER_NAME</foreignColumnNames>
+        <foreignColumnNames>TRIGGER_GROUP</foreignColumnNames>
+        <localColumnNames>TRIGGER_NAME</localColumnNames>
+        <localColumnNames>TRIGGER_GROUP</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRSB_QRTZ_JOB_DETAILS" localTableName="KRSB_QRTZ_JOB_LISTENERS" name="KRSB_QUARTZ_JOB_LISTENERS_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>JOB_NAME</foreignColumnNames>
+        <foreignColumnNames>JOB_GROUP</foreignColumnNames>
+        <localColumnNames>JOB_NAME</localColumnNames>
+        <localColumnNames>JOB_GROUP</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRSB_SVC_DSCRPTR_T" localTableName="KRSB_SVC_DEF_T" name="KRSB_SVC_DEF_FK1" onDelete="CASCADE" onUpdate="RESTRICT">
+        <foreignColumnNames>SVC_DSCRPTR_ID</foreignColumnNames>
+        <localColumnNames>SVC_DSCRPTR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRLC_CNTRY_T" localTableName="KRLC_PSTL_CD_T" name="KR_POSTAL_CODE_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>POSTAL_CNTRY_CD</foreignColumnNames>
+        <localColumnNames>POSTAL_CNTRY_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRLC_ST_T" localTableName="KRLC_PSTL_CD_T" name="KR_POSTAL_CODE_TR2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>POSTAL_STATE_CD</foreignColumnNames>
+        <foreignColumnNames>POSTAL_CNTRY_CD</foreignColumnNames>
+        <localColumnNames>POSTAL_STATE_CD</localColumnNames>
+        <localColumnNames>POSTAL_CNTRY_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRLC_CNTY_T" localTableName="KRLC_PSTL_CD_T" name="KR_POSTAL_CODE_TR3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>COUNTY_CD</foreignColumnNames>
+        <foreignColumnNames>STATE_CD</foreignColumnNames>
+        <foreignColumnNames>POSTAL_CNTRY_CD</foreignColumnNames>
+        <localColumnNames>COUNTY_CD</localColumnNames>
+        <localColumnNames>POSTAL_STATE_CD</localColumnNames>
+        <localColumnNames>POSTAL_CNTRY_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRLC_CNTRY_T" localTableName="KRLC_ST_T" name="KR_STATE_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>POSTAL_CNTRY_CD</foreignColumnNames>
+        <localColumnNames>POSTAL_CNTRY_CD</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_COMMENT" localTableName="KSCO_COMMENT_ATTR" name="KSCO_COMMENT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_COMMENT_TYPE" localTableName="KSCO_COMMENT" name="KSCO_COMMENT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_RICH_TEXT_T" localTableName="KSCO_COMMENT" name="KSCO_COMMENT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_REFERENCE" localTableName="KSCO_COMMENT" name="KSCO_COMMENT_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>REFERENCE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_COMMENT_TYPE" localTableName="KSCO_COMMENT_TYPE_ATTR" name="KSCO_COMMENT_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_REFERENCE_TYPE" localTableName="KSCO_REFERENCE" name="KSCO_REFERENCE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REFERENCE_TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_REFERENCE_TYPE" localTableName="KSCO_REFERENCE_TYPE_ATTR" name="KSCO_REFERENCE_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_TAG" localTableName="KSCO_TAG_ATTR" name="KSCO_TAG_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_REFERENCE" localTableName="KSCO_TAG" name="KSCO_TAG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>REFERENCE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_TAG_TYPE" localTableName="KSCO_TAG" name="KSCO_TAG_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSCO_TAG_TYPE" localTableName="KSCO_TAG_TYPE_ATTR" name="KSCO_TAG_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_DOCUMENT" localTableName="KSDO_DOCUMENT_ATTR" name="KSDO_DOCUMENT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>DOC_ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_RICH_TEXT_T" localTableName="KSDO_DOCUMENT_CATEGORY" name="KSDO_DOCUMENT_CATEGORY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_RICH_TEXT_T" localTableName="KSDO_DOCUMENT" name="KSDO_DOCUMENT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_DOCUMENT_TYPE" localTableName="KSDO_DOCUMENT" name="KSDO_DOCUMENT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_DOCUMENT_TYPE" localTableName="KSDO_DOCUMENT_TYPE_ATTR" name="KSDO_DOCUMENT_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_DOCUMENT_CATEGORY" localTableName="KSDO_DOCUMENT_CATEGORY_ATTR" name="KSDO_DOC_CATEGORY_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CATEGORY_ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_DOCUMENT" localTableName="KSDO_DOCUMENT_JN_DOC_CATEGORY" name="KSDO_DOC_JN_DOC_CATEGORY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>DOC_ID</foreignColumnNames>
+        <localColumnNames>DOC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_DOCUMENT_CATEGORY" localTableName="KSDO_DOCUMENT_JN_DOC_CATEGORY" name="KSDO_DOC_JN_DOC_CATEGORY_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CATEGORY_ID</foreignColumnNames>
+        <localColumnNames>CATEGORY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_REF_DOC_RELTN_TYPE" localTableName="KSDO_REF_DOC_RELTN" name="KSDO_REF_DOC_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE_KEY</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_REF_OBJ_TYPE" localTableName="KSDO_REF_DOC_RELTN" name="KSDO_REF_DOC_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REF_OBJ_TYPE_KEY</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_RICH_TEXT_T" localTableName="KSDO_REF_DOC_RELTN" name="KSDO_REF_DOC_RELTN_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_DOCUMENT" localTableName="KSDO_REF_DOC_RELTN" name="KSDO_REF_DOC_RELTN_FK4" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>DOC_ID</foreignColumnNames>
+        <localColumnNames>DOC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_REF_DOC_RELTN" localTableName="KSDO_REF_DOC_REL_ATTR" name="KSDO_REF_DOC_REL_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_REF_DOC_RELTN_TYPE" localTableName="KSDO_REF_DOC_RELTN_TYPE_ATTR" name="KSDO_REF_DOC_REL_TYP_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_REF_OBJ_SUB_TYPE" localTableName="KSDO_REF_OBJ_SUB_TYPE_ATTR" name="KSDO_REF_OBJ_SUB_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_REF_OBJ_TYPE" localTableName="KSDO_REF_OBJ_SUB_TYPE" name="KSDO_REF_OBJ_SUB_TYPE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REF_OBJ_TYPE_KEY</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_REF_OBJ_TYPE" localTableName="KSDO_REF_OBJ_TYPE_ATTR" name="KSDO_REF_OBJ_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_REF_OBJ_SUB_TYPE" localTableName="KSDO_REF_REL_TYP_JN_SUB_TYP" name="KSDO_REF_REL_TYP_JN_SUBTYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REF_OBJ_SUB_TYPE_KEY</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSDO_REF_DOC_RELTN_TYPE" localTableName="KSDO_REF_REL_TYP_JN_SUB_TYP" name="KSDO_REF_REL_TYP_JN_SUBTYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REF_DOC_RELTN_TYPE_KEY</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEM_CTX_T" localTableName="KSEM_CTX_JN_ENUM_VAL_T" name="KSEM_CTX_JN_ENUM_VAL_T_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CTX_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEM_ENUM_VAL_T" localTableName="KSEM_CTX_JN_ENUM_VAL_T" name="KSEM_CTX_JN_ENUM_VAL_T_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ENUM_VAL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEM_ENUM_T" localTableName="KSEM_ENUM_ATTR" name="KSEM_ENUM_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ENUM_KEY</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEM_ENUM_T" localTableName="KSEM_ENUM_VAL_T" name="KSEM_ENUM_VAL_T_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ENUM_KEY</foreignColumnNames>
+        <localColumnNames>ENUM_KEY</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_APPT" localTableName="KSEN_APPT_ATTR" name="KSEN_APPT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_APPT_SLOT" localTableName="KSEN_APPT" name="KSEN_APPT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SLOT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_APPT_SLOT" localTableName="KSEN_APPT_SLOT_ATTR" name="KSEN_APPT_SLOT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_APPT_WINDOW" localTableName="KSEN_APPT_SLOT" name="KSEN_APPT_SLOT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>APPT_WINDOW_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_APPT_WINDOW" localTableName="KSEN_APPT_WINDOW_ATTR" name="KSEN_APPT_WINDOW_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ATPATP_RELTN" localTableName="KSEN_ATPATP_RELTN_ATTR" name="KSEN_ATPATP_RELTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ATP" localTableName="KSEN_ATPATP_RELTN" name="KSEN_ATPATP_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ATP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ATP" localTableName="KSEN_ATPATP_RELTN" name="KSEN_ATPATP_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RELATED_ATP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ATP" localTableName="KSEN_ATPMSTONE_RELTN" name="KSEN_ATPMSTONE_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ATP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ATP" localTableName="KSEN_ATP_ATTR" name="KSEN_ATP_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_CO_AO_CLUSTER_SET" localTableName="KSEN_CO_AO_CLUSTER_SET_AO" name="KSEN_CO_AOC_SET_AO_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>AOC_SET_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_CO_AO_CLUSTER" localTableName="KSEN_CO_AO_CLUSTER_ATTR" name="KSEN_CO_AO_CLUSTER_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_CO_AO_CLUSTER" localTableName="KSEN_CO_AO_CLUSTER_SET" name="KSEN_CO_AO_CLUSTER_SET_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>AO_CLUSTER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_CO_SEAT_POOL_DEFN" localTableName="KSEN_CO_SEAT_POOL_DEFN_ATTR" name="KSEN_CO_SPD_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ENROLLMENT_FEE" localTableName="KSEN_ENROLLMENT_FEE_ATTR" name="KSEN_ENRL_FEE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_HOLD" localTableName="KSEN_HOLD_ATTR" name="KSEN_HOLD_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_HOLD_ISSUE" localTableName="KSEN_HOLD" name="KSEN_HOLD_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ISSUE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_HOLD_ISSUE" localTableName="KSEN_HOLD_ISSUE_ATTR" name="KSEN_HOLD_ISSUE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR" localTableName="KSEN_LPR_ATTR" name="KSEN_LPR_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_TRANS_ITEM" localTableName="KSEN_LPR_TRANS_ITEM_RQST_OPT" name="KSEN_LPR_LTI_RQST_OPT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LPR_TRANS_ITEM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_TRANS_ITEM" localTableName="KSEN_LPR_TRANS_ITEM_RVG" name="KSEN_LPR_LTI_RVG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LPR_TRANS_ITEM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR" localTableName="KSEN_LPR_RESULT_VAL_GRP" name="KSEN_LPR_RESULT_VAL_GRP_KF1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LPR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_ROSTER" localTableName="KSEN_LPR_ROSTER_ASSO_LUI_ID" name="KSEN_LPR_ROSTER_ASSO_LUI_ID_FK" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LPR_ROSTER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_ROSTER_ENTRY" localTableName="KSEN_LPR_ROSTER_ENTRY_ATTR" name="KSEN_LPR_ROSTER_ENTRY_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR" localTableName="KSEN_LPR_ROSTER_ENTRY" name="KSEN_LPR_ROSTER_ENTRY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LPR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_ROSTER" localTableName="KSEN_LPR_ROSTER_ENTRY" name="KSEN_LPR_ROSTER_ENTRY_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LPR_ROSTER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_ROSTER" localTableName="KSEN_LPR_ROSTER_ATTR" name="KSEN_LPR_ROSTER_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_TRANS" localTableName="KSEN_LPR_TRANS_ATTR" name="KSEN_LPR_TRANS_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_TRANS_ITEM" localTableName="KSEN_LPR_TRANS_ITEM_ATTR" name="KSEN_LPR_TRANS_ITEM_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LPR_TRANS" localTableName="KSEN_LPR_TRANS_ITEM" name="KSEN_LPR_TRANS_ITEM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LPR_TRANS_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LRC_RESULT_SCALE" localTableName="KSEN_LRC_RESULT_SCALE_ATTR" name="KSEN_LRC_RESULT_SCALE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LRC_RESULT_VALUE" localTableName="KSEN_LRC_RESULT_VALUE_ATTR" name="KSEN_LRC_RESULT_VALUE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LRC_RESULT_SCALE" localTableName="KSEN_LRC_RESULT_VALUE" name="KSEN_LRC_RESULT_VAL_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RESULT_SCALE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LRC_RVG" localTableName="KSEN_LRC_RVG_ATTR" name="KSEN_LRC_RVG_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LRC_RESULT_SCALE" localTableName="KSEN_LRC_RVG" name="KSEN_LRC_RVG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RESULT_SCALE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LRC_RVG" localTableName="KSEN_LRC_RVG_RESULT_VALUE" name="KSEN_LRC_RVG_RV_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RVG_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LRC_RESULT_VALUE" localTableName="KSEN_LRC_RVG_RESULT_VALUE" name="KSEN_LRC_RVG_RV_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RESULT_VALUE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LRR" localTableName="KSEN_LRR_ATTR" name="KSEN_LRR_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_RICH_TEXT_T" localTableName="KSEN_LRR" name="KSEN_LRR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LRR_TYPE" localTableName="KSEN_LRR" name="KSEN_LRR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUICAPACITY_RELTN" name="KSEN_LUICAPACITY_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI_CAPACITY" localTableName="KSEN_LUICAPACITY_RELTN" name="KSEN_LUICAPACITY_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_CAPACITY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUILUI_RELTN" localTableName="KSEN_LUILUI_RELTN_ATTR" name="KSEN_LUILUI_RELTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUILUI_RELTN" name="KSEN_LUILUI_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RELATED_LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUILUI_RELTN" name="KSEN_LUILUI_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_ATTR" name="KSEN_LUI_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_CAMPUS_LOC" name="KSEN_LUI_CAMPUS_LOC_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_CLUCLU_RELTN" name="KSEN_LUI_CLUCLU_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI_IDENT" localTableName="KSEN_LUI_IDENT_ATTR" name="KSEN_LUI_IDENT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_IDENT" name="KSEN_LUI_IDENT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI_LU_CD" localTableName="KSEN_LUI_LU_CD_ATTR" name="KSEN_LUI_LU_CD_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_LU_CD" name="KSEN_LUI_LU_CD_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_RELATED_LUI_TYPES" name="KSEN_LUI_RELATED_LUI_TYPE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_RESULT_VAL_GRP" name="KSEN_LUI_RESULT_VAL_GRP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI_SET" localTableName="KSEN_LUI_SET_ATTR" name="KSEN_LUI_SET_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI_SET" localTableName="KSEN_LUI_SET_LUI" name="KSEN_LUI_SET_LUI_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_SET_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_SET_LUI" name="KSEN_LUI_SET_LUI_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_UNITS_CONT_OWNER" name="KSEN_LUI_UNITS_CONT_OWNER_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_LUI" localTableName="KSEN_LUI_UNITS_DEPLOYMENT" name="KSEN_LUI_UNITS_DEPLOYMENT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LUI_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_MSTONE" localTableName="KSEN_MSTONE_ATTR" name="KSEN_MSTONE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION" localTableName="KSEN_POPULATION_ATTR" name="KSEN_POPULATION_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION_CAT" localTableName="KSEN_POPULATION_CAT_ATTR" name="KSEN_POP_CAT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION" localTableName="KSEN_POPULATION_CAT_RELTN" name="KSEN_POP_CAT_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>POPULATION_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION_CAT" localTableName="KSEN_POPULATION_CAT_RELTN" name="KSEN_POP_CAT_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>POPULATION_CAT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION_RULE" localTableName="KSEN_POPULATION" name="KSEN_POP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>POPULATION_RULE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION_RULE" localTableName="KSEN_POPULATION_RULE_AGENDA" name="KSEN_POP_RULE_AGENDA_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>POPULATION_RULE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION_RULE" localTableName="KSEN_POPULATION_RULE_ATTR" name="KSEN_POP_RULE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION_RULE" localTableName="KSEN_POPULATION_RULE_CHILD_POP" name="KSEN_POP_RULE_CHILD_POP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>POPULATION_RULE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION_RULE" localTableName="KSEN_POPULATION_RULE_GRP" name="KSEN_POP_RULE_GRP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>POPULATION_RULE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION_RULE" localTableName="KSEN_POPULATION_RULE_PERS" name="KSEN_POP_RULE_PERS_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>POPULATION_RULE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_POPULATION_RULE" localTableName="KSEN_POPULATION_RULE_SOT" name="KSEN_POP_RULE_SOT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>POPULATION_RULE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS" localTableName="KSEN_PROCESS_ATTR" name="KSEN_PROC_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS_CATEGORY" localTableName="KSEN_PROCESS_CATEGORY_ATTR" name="KSEN_PROC_CAT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS" localTableName="KSEN_PROCESS_CATEGORY_RELTN" name="KSEN_PROC_CAT_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>PROCESS_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS_CATEGORY" localTableName="KSEN_PROCESS_CATEGORY_RELTN" name="KSEN_PROC_CAT_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>PROCESS_CATEGORY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS_CHECK" localTableName="KSEN_PROCESS_CHECK_ATTR" name="KSEN_PROC_CHECK_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS" localTableName="KSEN_PROCESS_CHECK" name="KSEN_PROC_CHECK_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CHILD_PROCESS_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS_CHECK" localTableName="KSEN_PROCESS_INSTRN" name="KSEN_PROC_INSTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CHECK_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS_INSTRN" localTableName="KSEN_PROCESS_INSTRN_ATTR" name="KSEN_PROC_INSTRN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS_INSTRN" localTableName="KSEN_PROCESS_INSTRN_AAT" name="KSEN_PROC_INSTRN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>PROCESS_INSTRN_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_PROCESS" localTableName="KSEN_PROCESS_INSTRN" name="KSEN_PROC_INSTRN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>PROCESS_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM" localTableName="KSEN_ROOM_ACCESS_TYPE" name="KSEN_ROOM_ACCESS_TYPE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ROOM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM" localTableName="KSEN_ROOM_ATTR" name="KSEN_ROOM_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM_BUILDING" localTableName="KSEN_ROOM_BUILDING_ATTR" name="KSEN_ROOM_BUILDING_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM_FIXED_RSRC" localTableName="KSEN_ROOM_FIXED_RSRC_ATTR" name="KSEN_ROOM_FIXED_RSRC_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM" localTableName="KSEN_ROOM_FIXED_RSRC" name="KSEN_ROOM_FIXED_RSRC_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ROOM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM_BUILDING" localTableName="KSEN_ROOM" name="KSEN_ROOM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>BUILDING_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM_RESP_ORG" localTableName="KSEN_ROOM_RESP_ORG_ATTR" name="KSEN_ROOM_RESP_ORG_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM" localTableName="KSEN_ROOM_RESP_ORG" name="KSEN_ROOM_RESP_ORG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ROOM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM_USAGE" localTableName="KSEN_ROOM_USAGE_ATTR" name="KSEN_ROOM_USAGE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_ROOM" localTableName="KSEN_ROOM_USAGE" name="KSEN_ROOM_USAGE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ROOM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED" localTableName="KSEN_SCHED_ATTR" name="KSEN_SCHED_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED" localTableName="KSEN_SCHED_CMP" name="KSEN_SCHED_CMP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SCHED_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_TMSLOT" localTableName="KSEN_SCHED_CMP_TMSLOT" name="KSEN_SCHED_CMP_TMSLOT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>TM_SLOT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_CMP" localTableName="KSEN_SCHED_CMP_TMSLOT" name="KSEN_SCHED_CMP_TMSLOT_KF1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SCHED_CMP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST_SET" localTableName="KSEN_SCHED_REF_OBJECT" name="KSEN_SCHED_REF_OBJECT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SCHED_RQST_SET_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST" localTableName="KSEN_SCHED_RQST_ATTR" name="KSEN_SCHED_REQUEST_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST_CMP" localTableName="KSEN_SCHED_RQST_CMP_BLDG" name="KSEN_SCHED_RQST_CMP_BLDG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CMP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST_CMP" localTableName="KSEN_SCHED_RQST_CMP_CAMPUS" name="KSEN_SCHED_RQST_CMP_CAMPUS_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CMP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST" localTableName="KSEN_SCHED_RQST_CMP" name="KSEN_SCHED_RQST_CMP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SCHED_RQST_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST_CMP" localTableName="KSEN_SCHED_RQST_CMP_ORG" name="KSEN_SCHED_RQST_CMP_ORG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CMP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST_CMP" localTableName="KSEN_SCHED_RQST_CMP_ROOM" name="KSEN_SCHED_RQST_CMP_ROOM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CMP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST_CMP" localTableName="KSEN_SCHED_RQST_CMP_TMSLOT" name="KSEN_SCHED_RQST_CMP_TMSLOT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CMP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST_SET" localTableName="KSEN_SCHED_RQST" name="KSEN_SCHED_RQST_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SCHED_RQST_SET_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST_CMP" localTableName="KSEN_SCHED_RQST_CMP_RT" name="KSEN_SCHED_RQST_RT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CMP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_RQST_SET" localTableName="KSEN_SCHED_RQST_SET_ATTR" name="KSEN_SCHED_RQST_SET_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SCHED_TMSLOT" localTableName="KSEN_SCHED_TMSLOT_ATTR" name="KSEN_SCHED_TMSLOT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SOC" localTableName="KSEN_SOC_ATTR" name="KSEN_SOC_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SOC_ROR" localTableName="KSEN_SOC_ROR_ATTR" name="KSEN_SOC_ROR_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SOC" localTableName="KSEN_SOC_ROR" name="KSEN_SOC_ROR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SOURCE_SOC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SOC" localTableName="KSEN_SOC_ROR" name="KSEN_SOC_ROR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>TARGET_SOC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SOC_ROR_ITEM" localTableName="KSEN_SOC_ROR_ITEM_ATTR" name="KSEN_SOC_ROR_ITEM_ATTR" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SOC_ROR" localTableName="KSEN_SOC_ROR_ITEM" name="KSEN_SOC_ROR_ITEM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ROR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_SOC_ROR" localTableName="KSEN_SOC_ROR_OPTION" name="KSEN_SOC_ROR_OPTION_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ROR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE" localTableName="KSEN_STATE_ATTR" name="KSEN_STATE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE_CHG" localTableName="KSEN_STATE_CHG_ATTR" name="KSEN_STATE_CHG_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE" localTableName="KSEN_STATE_CHG" name="KSEN_STATE_CHG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>FROM_STATE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE" localTableName="KSEN_STATE_CHG" name="KSEN_STATE_CHG_IF2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>TO_STATE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE_CNSTRNT" localTableName="KSEN_STATE_CNSTRNT_ROS" name="KSEN_STATE_CNSTRNT_ROS_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>STATE_CNSTRNT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE" localTableName="KSEN_STATE_CNSTRNT_ROS" name="KSEN_STATE_CNSTRNT_ROS_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>REL_OBJ_STATE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE_LIFECYCLE" localTableName="KSEN_STATE" name="KSEN_STATE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LIFECYCLE_KEY</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE_LIFECYCLE" localTableName="KSEN_STATE_LIFECYCLE_ATTR" name="KSEN_STATE_LIFECYCLE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE_PROPAGT" localTableName="KSEN_STATE_PROPAGT_ATTR" name="KSEN_STATE_PROPAGT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE_PROPAGT" localTableName="KSEN_STATE_PROPAGT_CNSTRNT" name="KSEN_STATE_PROPAGT_CNS_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>STATE_PROPAGT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE_CNSTRNT" localTableName="KSEN_STATE_PROPAGT_CNSTRNT" name="KSEN_STATE_PROPAGT_CNS_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>STATE_CNSTRNT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_STATE_CHG" localTableName="KSEN_STATE_PROPAGT" name="KSEN_STATE_PROPAGT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>TARGET_STATE_CHG_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_TYPETYPE_RELTN" localTableName="KSEN_TYPETYPE_RELTN_ATTR" name="KSEN_TYPETYPE_RELTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_TYPE" localTableName="KSEN_TYPETYPE_RELTN" name="KSEN_TYPETYPE_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_TYPE" localTableName="KSEN_TYPETYPE_RELTN" name="KSEN_TYPETYPE_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>RELATED_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSEN_TYPE" localTableName="KSEN_TYPE_ATTR" name="KSEN_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO" localTableName="KSLO_ATTR" name="KSLO_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_CATEGORY" localTableName="KSLO_LO_CATEGORY_ATTR" name="KSLO_LO_CATEGORY_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_RICH_TEXT_T" localTableName="KSLO_LO_CATEGORY" name="KSLO_LO_CATEGORY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_REPOSITORY" localTableName="KSLO_LO_CATEGORY" name="KSLO_LO_CATEGORY_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LO_REPO_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_CATEGORY_TYPE" localTableName="KSLO_LO_CATEGORY" name="KSLO_LO_CATEGORY_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LO_CATEGORY_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_CATEGORY_TYPE" localTableName="KSLO_LO_CATEGORY_TYPE_ATTR" name="KSLO_LO_CATEGORY_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_RICH_TEXT_T" localTableName="KSLO_LO" name="KSLO_LO_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_TYPE" localTableName="KSLO_LO" name="KSLO_LO_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LOTYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_REPOSITORY" localTableName="KSLO_LO" name="KSLO_LO_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LO_REPO_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_CATEGORY" localTableName="KSLO_LO_JN_LOCATEGORY" name="KSLO_LO_JN_LOCATEGORY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LOCATEGORY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO" localTableName="KSLO_LO_JN_LOCATEGORY" name="KSLO_LO_JN_LOCATEGORY_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LO_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_RELTN" localTableName="KSLO_LO_RELTN_ATTR" name="KSLO_LO_RELTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_RELTN_TYPE" localTableName="KSLO_LO_RELTN" name="KSLO_LO_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LO_LO_RELATION_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO" localTableName="KSLO_LO_RELTN" name="KSLO_LO_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RELATED_LO_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO" localTableName="KSLO_LO_RELTN" name="KSLO_LO_RELTN_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LO_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_RELTN_TYPE" localTableName="KSLO_LO_RELTN_TYPE_ATTR" name="KSLO_LO_RELTN_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_REPOSITORY" localTableName="KSLO_LO_REPOSITORY_ATTR" name="KSLO_LO_REPOSITORY_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO" localTableName="KSLO_LO_REPOSITORY" name="KSLO_LO_REPOSITORY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LO_ROOT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_RICH_TEXT_T" localTableName="KSLO_LO_REPOSITORY" name="KSLO_LO_REPOSITORY_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLO_LO_TYPE" localTableName="KSLO_LO_TYPE_ATTR" name="KSLO_LO_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLUCLU_RELTN" localTableName="KSLU_CLUCLU_RELTN_ATTR" name="KSLU_CLUCLU_RELTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLUCLU_RELTN" name="KSLU_CLUCLU_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLUCLU_RELTN" name="KSLU_CLUCLU_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RELATED_CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LULU_RELTN_TYPE" localTableName="KSLU_CLUCLU_RELTN" name="KSLU_CLUCLU_RELTN_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LU_RELTN_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_FEE_REC" localTableName="KSLU_CLU_FEE_JN_CLU_FEE_REC" name="KSLU_CLUFEE_JN_CLUFEE_REC_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_FEE_REC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_FEE" localTableName="KSLU_CLU_FEE_JN_CLU_FEE_REC" name="KSLU_CLUFEE_JN_CLUFEE_REC_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_FEE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_RSLT" localTableName="KSLU_CLURES_JN_RESOPT" name="KSLU_CLURES_JN_RESOPT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_RES_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RSLT_OPT" localTableName="KSLU_CLURES_JN_RESOPT" name="KSLU_CLURES_JN_RESOPT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RES_OPT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_ACCRED" localTableName="KSLU_CLU_ACCRED_ATTR" name="KSLU_CLU_ACCRED_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_ACCT" localTableName="KSLU_CLU_ACCT_ATTR" name="KSLU_CLU_ACCT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_AFFIL_ORG" localTableName="KSLU_CLU_ACCT_JN_AFFIL_ORG" name="KSLU_CLU_ACCT_JN_AFFIL_ORG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>AFFIL_ORG_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_ACCT" localTableName="KSLU_CLU_ACCT_JN_AFFIL_ORG" name="KSLU_CLU_ACCT_JN_AFFIL_ORG_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ACCT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_ADMIN_ORG" localTableName="KSLU_CLU_ADMIN_ORG_ATTR" name="KSLU_CLU_ADMIN_ORG_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_ADMIN_ORG" name="KSLU_CLU_ADMIN_ORG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_ATP_TYPE_KEY" name="KSLU_CLU_ATP_TYPE_KEY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_ATTR" name="KSLU_CLU_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_AFFIL_ORG" localTableName="KSLU_CLU_FEEREC_JN_AFFIL_ORG" name="KSLU_CLU_FEEREC_JN_AFF_ORG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>AFFIL_ORG_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_FEE_REC" localTableName="KSLU_CLU_FEEREC_JN_AFFIL_ORG" name="KSLU_CLU_FEEREC_JN_AFF_ORG_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_FEE_REC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_FEE_REC" localTableName="KSLU_CLU_FEE_AMOUNT" name="KSLU_CLU_FEE_AMOUNT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLUE_FEE_REC_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_FEE" localTableName="KSLU_CLU_FEE_ATTR" name="KSLU_CLU_FEE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RICH_TEXT_T" localTableName="KSLU_CLU_FEE" name="KSLU_CLU_FEE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_FEE_REC" localTableName="KSLU_CLU_FEE_REC_ATTR" name="KSLU_CLU_FEE_REC_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RICH_TEXT_T" localTableName="KSLU_CLU_FEE_REC" name="KSLU_CLU_FEE_REC_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_INSTR" localTableName="KSLU_CLU" name="KSLU_CLU_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>PRI_INSTR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LUTYPE" localTableName="KSLU_CLU" name="KSLU_CLU_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>LUTYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RICH_TEXT_T" localTableName="KSLU_CLU" name="KSLU_CLU_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_FEE" localTableName="KSLU_CLU" name="KSLU_CLU_FK4" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>FEE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_IDENT" localTableName="KSLU_CLU" name="KSLU_CLU_FK5" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OFFIC_CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_ACCT" localTableName="KSLU_CLU" name="KSLU_CLU_FK6" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ACCT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_INSTR" localTableName="KSLU_CLU_INSTR_ATTR" name="KSLU_CLU_INSTR_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_JN_ACCRED" name="KSLU_CLU_JN_ACCRED_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_ACCRED" localTableName="KSLU_CLU_JN_ACCRED" name="KSLU_CLU_JN_ACCRED_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ACCRED_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_JN_CAMP_LOC" name="KSLU_CLU_JN_CAMP_LOC_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_IDENT" localTableName="KSLU_CLU_JN_CLU_IDENT" name="KSLU_CLU_JN_CLU_IDENT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ALT_CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_JN_CLU_IDENT" name="KSLU_CLU_JN_CLU_IDENT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_JN_CLU_INSTR" name="KSLU_CLU_JN_CLU_INSTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_INSTR" localTableName="KSLU_CLU_JN_CLU_INSTR" name="KSLU_CLU_JN_CLU_INSTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_INSTR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_JN_SUBJ_ORG" name="KSLU_CLU_JN_SUBJ_ORG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LUTYPE" localTableName="KSLU_CLU_LO_ALOW_RELTN_TYPE" name="KSLU_CLU_LO_ALOW_REL_TYPE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>LU_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_LO_RELTN_TYPE" localTableName="KSLU_CLU_LO_ALOW_RELTN_TYPE" name="KSLU_CLU_LO_ALOW_REL_TYPE_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>CLULO_RELTN_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_LO_RELTN" localTableName="KSLU_CLU_LO_RELTN_ATTR" name="KSLU_CLU_LO_RELTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_LO_RELTN" name="KSLU_CLU_LO_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_LO_RELTN_TYPE" localTableName="KSLU_CLU_LO_RELTN" name="KSLU_CLU_LO_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_LO_RELTN_TYPE" localTableName="KSLU_CLU_LO_RELTN_TYPE_ATTR" name="KSLU_CLU_LO_REL_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_PUBL" localTableName="KSLU_CLU_PUBL_ATTR" name="KSLU_CLU_PUBL_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_PUBL" name="KSLU_CLU_PUBL_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_PUBL_TYPE" localTableName="KSLU_CLU_PUBL" name="KSLU_CLU_PUBL_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>CLU_PUB_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_PUBL_TYPE" localTableName="KSLU_CLU_PUBL_TYPE_ATTR" name="KSLU_CLU_PUBL_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_PUBL" localTableName="KSLU_CLU_PUBL_VARI" name="KSLU_CLU_PUBL_VARI_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_PUB_TYPE" localTableName="KSLU_CLU_PUB_TYPE_ATTR" name="KSLU_CLU_PUB_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_RSLT_TYP" localTableName="KSLU_CLU_RESULT_TYPE_ATTR" name="KSLU_CLU_RESULT_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_RSLT_TYP" localTableName="KSLU_CLU_RSLT" name="KSLU_CLU_RSLT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE_KEY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_CLU_RSLT" name="KSLU_CLU_RSLT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RICH_TEXT_T" localTableName="KSLU_CLU_RSLT" name="KSLU_CLU_RSLT_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_RSLT_TYP" localTableName="KSLU_CLU_RSLT_LU_ALOW_TYPE" name="KSLU_CLU_RSLT_LU_ALOW_TYPE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>CLU_RSLT_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LUTYPE" localTableName="KSLU_CLU_RSLT_LU_ALOW_TYPE" name="KSLU_CLU_RSLT_LU_ALOW_TYPE_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>LU_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_SET" localTableName="KSLU_CLU_SET_ATTR" name="KSLU_CLU_SET_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_MEMSHIP" localTableName="KSLU_CLU_SET" name="KSLU_CLU_SET_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>MEM_QUERY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RICH_TEXT_T" localTableName="KSLU_CLU_SET" name="KSLU_CLU_SET_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_SET" localTableName="KSLU_CLU_SET_JN_CLU" name="KSLU_CLU_SET_JN_CLU_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_SET_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_SET" localTableName="KSLU_CLU_SET_JN_CLU_SET" name="KSLU_CLU_SET_JN_CLU_SET_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_SET_PARENT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_SET" localTableName="KSLU_CLU_SET_JN_CLU_SET" name="KSLU_CLU_SET_JN_CLU_SET_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_SET_CHILD_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU_SET_TYPE" localTableName="KSLU_CLU_SET_TYPE_ATTR" name="KSLU_CLU_SET_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_DLVMTHD_TYPE" localTableName="KSLU_DLVMTHD_TYPE_ATTR" name="KSLU_DLVMTHD_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_INSTFRMT_TYPE" localTableName="KSLU_INSTFRMT_TYPE_ATTR" name="KSLU_INSTFRMT_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LULU_RELTN_TYPE" localTableName="KSLU_LULU_RELTN_TYPE_ATTR" name="KSLU_LULU_RELTN_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LULU_RELTN_TYPE" localTableName="KSLU_LULU_RELTN_TYPE_JN_LU_TYP" name="KSLU_LULU_RELTYP_JN_LUTYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LULU_RELTN_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LUTYPE" localTableName="KSLU_LULU_RELTN_TYPE_JN_LU_TYP" name="KSLU_LULU_RELTYP_JN_LUTYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>LU_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LU_CD_TYPE" localTableName="KSLU_LU_CD_TYPE_ATTR" name="KSLU_LU_CD_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LU_CODE" localTableName="KSLU_LU_CODE_ATTR" name="KSLU_LU_CODE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_LU_CODE" name="KSLU_LU_CODE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LUTYPE" localTableName="KSLU_LU_LU_ALOW_RELTN_TYPE" name="KSLU_LU_LU_ALOW_RELTN_TYPE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>LU_REL_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LULU_RELTN_TYPE" localTableName="KSLU_LU_LU_ALOW_RELTN_TYPE" name="KSLU_LU_LU_ALOW_RELTN_TYPE_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>LU_LU_RELTN_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LUTYPE" localTableName="KSLU_LU_LU_ALOW_RELTN_TYPE" name="KSLU_LU_LU_ALOW_RELTN_TYPE_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>LU_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LU_PUBL_TYPE" localTableName="KSLU_LU_PUBL_TYPE_ATTR" name="KSLU_LU_PUBL_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LUTYPE" localTableName="KSLU_LU_TYPE_ATTR" name="KSLU_LU_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_MEMSHIP" localTableName="KSLU_MEMSHIP_KSLU_SPARAM" name="KSLU_MEMSHIP_KSLU_SPARAM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>KSLU_MEMSHIP_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_SPARAM" localTableName="KSLU_MEMSHIP_KSLU_SPARAM" name="KSLU_MEMSHIP_KSLU_SPARAM_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SEARCHPARAMETERS_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RSLT_USG_TYPE" localTableName="KSLU_RSLT_COMP_USG_ALOW_TYPE" name="KSLU_RSLTCOMP_USG_ALOW_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>RSLT_USG_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RSLT_USG_TYPE" localTableName="KSLU_RSLTUSAGE_LU_ALOW_TYPE" name="KSLU_RSLTUSAGE_LU_ALOW_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>CLU_RSLT_USAGE_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_LUTYPE" localTableName="KSLU_RSLTUSAGE_LU_ALOW_TYPE" name="KSLU_RSLTUSAGE_LU_ALOW_TYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>LU_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RSLT_USG_TYPE" localTableName="KSLU_RSLT_OPT" name="KSLU_RSLT_OPT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>RES_USAGE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RICH_TEXT_T" localTableName="KSLU_RSLT_OPT" name="KSLU_RSLT_OPT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_RSLT_USG_TYPE" localTableName="KSLU_RSLT_USG_TYPE_ATTR" name="KSLU_RSLT_USG_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_CLU" localTableName="KSLU_RSRC" name="KSLU_RSRC_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CLU_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_SPARAM" localTableName="KSLU_SPARAM_KSLU_SPVALUE" name="KSLU_SPARAM_KSLU_SPVALUE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>KSLU_SPARAM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSLU_SPVALUE" localTableName="KSLU_SPARAM_KSLU_SPVALUE" name="KSLU_SPARAM_KSLU_SPVALUE_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>VALUES_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_PERS_RELTN_TYPE" localTableName="KSOR_ORG_TYPE_JN_ORG_PERRL_TYP" name="KSOR_ORGTYP_JN_ORGPREL_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>ORG_PERS_RELTN_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_TYPE" localTableName="KSOR_ORG_TYPE_JN_ORG_PERRL_TYP" name="KSOR_ORGTYP_JN_ORGPREL_TYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>ORG_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG" localTableName="KSOR_ORG_ATTR" name="KSOR_ORG_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_TYPE" localTableName="KSOR_ORG" name="KSOR_ORG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_HIRCHY" localTableName="KSOR_ORG_HIRCHY_ATTR" name="KSOR_ORG_HIRCHY_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG" localTableName="KSOR_ORG_HIRCHY" name="KSOR_ORG_HIRCHY_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ROOT_ORG</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_HIRCHY" localTableName="KSOR_ORG_HIRCHY_JN_ORG_TYPE" name="KSOR_ORG_HIRCHY_JN_ORG_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ORG_HIRCHY_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_TYPE" localTableName="KSOR_ORG_HIRCHY_JN_ORG_TYPE" name="KSOR_ORG_HIRCHY_JN_ORG_TYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>ORG_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_PERS_RELTN_TYPE" localTableName="KSOR_ORG_JN_ORG_PERS_REL_TYPE" name="KSOR_ORG_JN_ORG_PERREL_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>ORG_PERS_RELTN_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG" localTableName="KSOR_ORG_JN_ORG_PERS_REL_TYPE" name="KSOR_ORG_JN_ORG_PERREL_TYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ORG_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_ORG_RELTN" localTableName="KSOR_ORG_ORG_RELTN_ATTR" name="KSOR_ORG_ORG_RELTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG" localTableName="KSOR_ORG_ORG_RELTN" name="KSOR_ORG_ORG_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ORG</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG" localTableName="KSOR_ORG_ORG_RELTN" name="KSOR_ORG_ORG_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RELATED_ORG</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_ORG_RELTN_TYPE" localTableName="KSOR_ORG_ORG_RELTN" name="KSOR_ORG_ORG_RELTN_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_HIRCHY" localTableName="KSOR_ORG_ORG_RELTN_TYPE" name="KSOR_ORG_ORG_RELTN_TYPE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ORG_HIRCHY</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_ORG_RELTN_TYPE" localTableName="KSOR_ORG_ORG_RELTN_TYPE_ATTR" name="KSOR_ORG_ORG_REL_TYP_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_PERS_RELTN" localTableName="KSOR_ORG_PERS_RELTN_ATTR" name="KSOR_ORG_PERS_RELTN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG" localTableName="KSOR_ORG_PERS_RELTN" name="KSOR_ORG_PERS_RELTN_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ORG</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_PERS_RELTN_TYPE" localTableName="KSOR_ORG_PERS_RELTN" name="KSOR_ORG_PERS_RELTN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>ORG_PERS_RELTN_TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_PERS_RELTN_TYPE" localTableName="KSOR_ORG_PERS_RELTN_TYPE_ATTR" name="KSOR_ORG_PERS_REL_TYP_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_POS_RESTR" localTableName="KSOR_ORG_POS_RESTR_ATTR" name="KSOR_ORG_POS_RESTR_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_PERS_RELTN_TYPE" localTableName="KSOR_ORG_POS_RESTR" name="KSOR_ORG_POS_RESTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>PERS_RELTN_TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG" localTableName="KSOR_ORG_POS_RESTR" name="KSOR_ORG_POS_RESTR_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>ORG</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSOR_ORG_TYPE" localTableName="KSOR_ORG_TYPE_ATTR" name="KSOR_ORG_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSPR_PROPOSAL" localTableName="KSPR_PROPOSAL_ATTR" name="KSPR_PROPOSAL_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PROPOSAL_ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSPR_PROPOSAL_TYPE" localTableName="KSPR_PROPOSAL" name="KSPR_PROPOSAL_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSPR_PROPOSAL" localTableName="KSPR_PROPOSAL_JN_ORG" name="KSPR_PROPOSAL_JN_ORG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PROPOSAL_ID</foreignColumnNames>
+        <localColumnNames>PROPOSAL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSPR_PROPOSAL" localTableName="KSPR_PROPOSAL_JN_PERSON" name="KSPR_PROPOSAL_JN_PERSON_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PROPOSAL_ID</foreignColumnNames>
+        <localColumnNames>PROPOSAL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSPR_PROPOSAL_REFERENCE" localTableName="KSPR_PROPOSAL_JN_REFERENCE" name="KSPR_PROPOSAL_JN_REFERENCE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>REFERENCE_ID</foreignColumnNames>
+        <localColumnNames>REFERENCE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSPR_PROPOSAL" localTableName="KSPR_PROPOSAL_JN_REFERENCE" name="KSPR_PROPOSAL_JN_REFERENCE_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>PROPOSAL_ID</foreignColumnNames>
+        <localColumnNames>PROPOSAL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSPR_PROPOSAL_REFTYPE" localTableName="KSPR_PROPOSAL_REFERENCE" name="KSPR_PROPOSAL_REFERENCE_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSPR_PROPOSAL_REFTYPE" localTableName="KSPR_PROPOSAL_REFTYPE_ATTR" name="KSPR_PROPOSAL_REFTYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSPR_PROPOSAL_TYPE" localTableName="KSPR_PROPOSAL_TYPE_ATTR" name="KSPR_PROPOSAL_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSSC_SUBJ_CD_TYPE" localTableName="KSSC_SUBJ_CD" name="KSSC_SUBJ_CD_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>TYPE</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSSC_SUBJ_CD" localTableName="KSSC_SUBJ_CD_JN_ORG" name="KSSC_SUBJ_CD_JN_ORG_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>SUBJ_CD_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_OBJECT_SUB_TYPE" localTableName="KSST_OBJECT_SUB_TYPE_ATTR" name="KSST_OBJECT_SUB_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_OBJECT_TYPE" localTableName="KSST_OBJECT_TYPE_ATTR" name="KSST_OBJECT_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_OBJECT_SUB_TYPE" localTableName="KSST_OBJ_TYP_JN_OBJ_SUB_TYP" name="KSST_OBJ_TYP_JN_OBJ_SUBTYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OBJ_SUB_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_OBJECT_TYPE" localTableName="KSST_OBJ_TYP_JN_OBJ_SUB_TYP" name="KSST_OBJ_TYP_JN_OBJ_SUBTYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OBJ_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REQ_COM_FIELD_TYPE" localTableName="KSST_RCTYP_JN_RCFLDTYP" name="KSST_RCTYP_JN_RCFLDTYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>REQ_COMP_FIELD_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REQ_COM_TYPE" localTableName="KSST_RCTYP_JN_RCFLDTYP" name="KSST_RCTYP_JN_RCFLDTYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REQ_COMP_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REQ_COM" localTableName="KSST_RC_JN_RC_FIELD" name="KSST_RC_JN_RC_FIELD_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>REQ_COM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REQ_COM_FIELD" localTableName="KSST_RC_JN_RC_FIELD" name="KSST_RC_JN_RC_FIELD_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>REQ_COM_FIELD_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REF_STMT_REL" localTableName="KSST_REF_STMT_REL_ATTR" name="KSST_REF_STMT_REL_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REF_STMT_REL_TYPE" localTableName="KSST_REF_STMT_REL" name="KSST_REF_STMT_REL_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REF_STMT_REL_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT" localTableName="KSST_REF_STMT_REL" name="KSST_REF_STMT_REL_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>STMT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REF_STMT_REL_TYPE" localTableName="KSST_REF_STMT_REL_TYPE_ATTR" name="KSST_REF_STMT_REL_TYP_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REQ_COM_TYPE" localTableName="KSST_REQ_COM" name="KSST_REQ_COM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REQ_COM_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_RICH_TEXT_T" localTableName="KSST_REQ_COM" name="KSST_REQ_COM_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REQ_COM_TYPE" localTableName="KSST_REQ_COM_TYPE_ATTR" name="KSST_REQ_COM_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REQ_COM_TYPE" localTableName="KSST_REQ_COM_TYPE_NL_TMPL" name="KSST_REQ_COM_TYPE_NL_TMPL_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_OBJECT_SUB_TYPE" localTableName="KSST_RSTMT_RTYP_JN_OSUB_TYP" name="KSST_RSTMT_RTYP_JN_OSUBTYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OBJ_SUB_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REF_STMT_REL_TYPE" localTableName="KSST_RSTMT_RTYP_JN_OSUB_TYP" name="KSST_RSTMT_RTYP_JN_OSUBTYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REF_STMT_REL_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REF_STMT_REL_TYPE" localTableName="KSST_RSTMT_RTYP_JN_STMT_TYP" name="KSST_RSTMT_RTYP_JN_ST_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REF_STMT_REL_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT_TYPE" localTableName="KSST_RSTMT_RTYP_JN_STMT_TYP" name="KSST_RSTMT_RTYP_JN_ST_TYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>STMT_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT" localTableName="KSST_STMT_ATTR" name="KSST_STMT_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT_TYPE" localTableName="KSST_STMT" name="KSST_STMT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>STMT_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_RICH_TEXT_T" localTableName="KSST_STMT" name="KSST_STMT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>RT_DESCR_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT" localTableName="KSST_STMT_JN_REQ_COM" name="KSST_STMT_JN_REQ_COM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>STMT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REQ_COM" localTableName="KSST_STMT_JN_REQ_COM" name="KSST_STMT_JN_REQ_COM_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>REQ_COM_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT" localTableName="KSST_STMT_JN_STMT" name="KSST_STMT_JN_STMT_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>STMT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT" localTableName="KSST_STMT_JN_STMT" name="KSST_STMT_JN_STMT_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>ID</foreignColumnNames>
+        <localColumnNames>CHLD_STMT_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT_TYPE" localTableName="KSST_STMT_TYPE_ATTR" name="KSST_STMT_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_REQ_COM_TYPE" localTableName="KSST_STMT_TYP_JN_RC_TYP" name="KSST_STMT_TYP_JN_RC_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>REQ_COM_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT_TYPE" localTableName="KSST_STMT_TYP_JN_RC_TYP" name="KSST_STMT_TYP_JN_RC_TYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>STMT_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT_TYPE" localTableName="KSST_STMT_TYP_JN_STMT_TYP" name="KSST_STMT_TYP_JN_STMT_TYP_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>CHLD_STMT_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_STMT_TYPE" localTableName="KSST_STMT_TYP_JN_STMT_TYP" name="KSST_STMT_TYP_JN_STMT_TYP_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>STMT_TYPE_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KSST_NL_USAGE_TYPE" localTableName="KSST_USAGE_TYPE_ATTR" name="KSST_USAGE_TYPE_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>TYPE_KEY</foreignColumnNames>
+        <localColumnNames>OWNER</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KREN_CHNL_T" localTableName="KREN_RVWER_T" name="NOTIFICATION_REVIEWERS_N_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CHNL_ID</foreignColumnNames>
+        <localColumnNames>CHNL_ID</localColumnNames>
+    </foreignKey>
+    <foreignKey foreignTableName="KRLC_CMP_TYP_T" localTableName="KRLC_CMP_T" name="SH_CAMPUS_TR1" onDelete="RESTRICT" onUpdate="RESTRICT">
+        <foreignColumnNames>CAMPUS_TYP_CD</foreignColumnNames>
+        <localColumnNames>CAMPUS_TYP_CD</localColumnNames>
+    </foreignKey>
+</schema>
