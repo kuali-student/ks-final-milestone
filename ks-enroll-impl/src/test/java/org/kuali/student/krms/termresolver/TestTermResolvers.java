@@ -36,6 +36,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,6 +96,7 @@ public class TestTermResolvers {
         loadAcadRecordData();
         loadRegistrationData();
         loadProgramRecordData();
+        loadPopulationData();
 
         resolvedPrereqs = getDefaultPrerequisites();
         parameters = getDefaultParameters();
@@ -721,17 +723,17 @@ public class TestTermResolvers {
         termResolver.setPopulationService(populationService);
 
         //Setup data
-        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY, "1");
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, "SENIOR_ONLY_STUDENTS100000285");
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY, "SENIOR_ONLY_STUDENTS");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_POPULATION);
 
         //Evaluate term Resolver
-        //Boolean isInClassStanding = termResolver.resolve(resolvedPrereqs, parameters);
-        //assertNotNull(isInClassStanding);
-        //assertTrue(isInClassStanding);
+        Boolean isInPopulation = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(isInPopulation);
+        assertTrue(isInPopulation);
 
     }
 
@@ -876,6 +878,14 @@ public class TestTermResolvers {
         CluInfo program = dataLoader.getProgram(programId);
         StudentProgramRecordInfo programRecord = dataLoader.createStudentProgramRecord(personId, program);
         dataLoader.storeStudentProgramRecord(personId, programRecord.getProgramId(), programRecord);
+    }
+
+    private void loadPopulationData() {
+        try {
+            populationService.getMembersAsOfDate("SENIOR_ONLY_STUDENTS", new Date(), contextInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

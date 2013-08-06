@@ -9,11 +9,15 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
+ * Tests if a Person is currently a member of a Population. Returns true if the person is a member of the Population,
+ * false otherwise
+ *
  * @author Kuali Student Team
  */
 public class PopulationTermResolver implements TermResolver<Boolean> {
@@ -37,25 +41,24 @@ public class PopulationTermResolver implements TermResolver<Boolean> {
     public Set<String> getParameterNames() {
         return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY);
     }
+
     @Override
     public int getCost() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;
     }
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String populationId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY);
-        PopulationInfo populationInfo = null;
-        if (populationId != null) {
-            try {
-                 populationInfo = this.getPopulationService().getPopulation(populationId, context);
-                 return true;
-            } catch (Exception e) {
-                KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
-            }
+        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
 
+        try {
+            String populationId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_POPULATION_KEY);
+            return this.getPopulationService().isMemberAsOfDate(personId, populationId, new Date(), context);
+        } catch (Exception e) {
+            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
         }
+
         return false;
     }
 
