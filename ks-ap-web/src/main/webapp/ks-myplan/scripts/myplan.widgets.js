@@ -843,11 +843,21 @@ function myplanAjaxSubmitForm(methodToCall, successCallback, additionalData, ele
                 }
             },
             statusCode : {
-                500 : function() {
+                400 : function() {
                     showGrowl(
-                        "500 Internal Server Error",
-                        "Fatal Error");
-                }
+                        "403 Bad Request",
+                        "Bad Request");
+                },
+                403 : function() {
+                    showGrowl(
+                        "403 Forbidden",
+                        "Access Denied");
+                },
+	            500 : function() {
+	                showGrowl(
+	                    "500 Internal Server Error",
+	                    "Fatal Error");
+	            }
             }
 
         };

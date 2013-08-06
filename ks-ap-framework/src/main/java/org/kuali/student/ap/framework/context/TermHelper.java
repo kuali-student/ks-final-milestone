@@ -131,6 +131,13 @@ public interface TermHelper {
 	List<Term> getPublishedTerms();
 
 	/**
+	 * Gets a list of planning terms.
+	 * 
+	 * @return
+	 */
+	List<Term> getPlanningTerms();
+
+	/**
 	 * 
 	 * @param yearTerm
 	 *            - Year and term storage object
