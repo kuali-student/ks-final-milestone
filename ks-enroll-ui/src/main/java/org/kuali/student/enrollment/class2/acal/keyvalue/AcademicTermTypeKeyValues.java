@@ -33,6 +33,8 @@ import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.enrollment.class2.appointment.dto.AppointmentWindowWrapper;
+import org.kuali.student.enrollment.class2.appointment.form.RegistrationWindowsManagementForm;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -55,15 +57,25 @@ public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
-        assert (model instanceof AcademicCalendarForm);
-
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         //Grab a list of current term types
         List<String> currentTermTypes = new ArrayList<String>();
-        for (AcademicTermWrapper termWrapper : ((AcademicCalendarForm) model).getTermWrapperList()) {
-            currentTermTypes.add(termWrapper.getTermType());
+       // Added below if check to avoid class cast exception on Window registration page.
+        if (model instanceof RegistrationWindowsManagementForm) {
+
+            for (AppointmentWindowWrapper termWrapper : ((RegistrationWindowsManagementForm) model).getAppointmentWindows()) {
+                currentTermTypes.add(termWrapper.getTermType());
+            }
+        } else {
+            for (AcademicTermWrapper termWrapper : ((AcademicCalendarForm) model).getTermWrapperList()) {
+                currentTermTypes.add(termWrapper.getTermType());
+            }
+
         }
+
+
+
 
         try {
             //Get the subterm types
