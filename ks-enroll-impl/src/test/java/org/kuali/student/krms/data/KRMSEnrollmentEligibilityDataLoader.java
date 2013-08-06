@@ -25,6 +25,7 @@ import javax.annotation.Resource;
 import org.joda.time.DateTime;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceClass2MockImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -200,6 +201,31 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
         return courseRecord;
         
     }
+
+    /**
+     * Helper to create a new StudentProgramRecordInfo object built using the provided details.
+     *
+     * @param studentId the student that completed the program
+     * @param termId the term when the course was taken
+     * @param courseCode the course code of the course that was taken
+     * @param courseTitle the title of the course
+     * @return the non-saved new course record built using the provided details
+     * @throws DoesNotExistException the term does not exist
+     * @throws InvalidParameterException the
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StudentProgramRecordInfo createStudentProgramRecord(String studentId, String termId, String courseCode, String courseTitle) throws DoesNotExistException, OperationFailedException {
+
+        StudentProgramRecordInfo programRecord = new StudentProgramRecordInfo();
+
+        programRecord.setProgramId("");
+
+        return programRecord;
+
+    }
+
     /**
      * Store a new CourseRecord for the student in the term given.
      * @param studentId
@@ -223,6 +249,18 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
         }
         
         recordService.storeStudentCourseRecord(studentId, termId, courseId, courseRecord);
+    }
+
+    /**
+     * Store a new ProgramRecord for the student in the term given.
+     * @param studentId
+     * @param termId
+     * @param programRecord
+     * @throws DoesNotExistException if the term does not exist.
+     * @throws OperationFailedException  if an exception occurs that prevents the execution of the method.
+     */
+    public void storeStudentProgramRecord (String studentId, String termId, String courseId, StudentProgramRecordInfo programRecord) throws DoesNotExistException, OperationFailedException {
+        recordService.storeStudentProgramRecord(studentId, termId, courseId, programRecord);
     }
 
     private AtpInfo createTerm(String atpSpringTypeKey, Date startDate, Date endDate, String name) {

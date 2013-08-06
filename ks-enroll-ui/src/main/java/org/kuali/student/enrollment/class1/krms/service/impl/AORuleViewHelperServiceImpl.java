@@ -62,7 +62,7 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor aoRuleEditor, RuleEditor cluRuleEditor) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor aoRuleEditor, RuleEditor cluRuleEditor) {
 
         //Set the original nl if not already exists.
         checkNaturalLanguageForTree(aoRuleEditor);
@@ -83,7 +83,7 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception {
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) {
 
         //Set the original nl if not already exists.
         checkNaturalLanguageForTree(coRuleEditor);

@@ -30,12 +30,11 @@ public class CORuleEditorController extends EnrolRuleEditorController {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @Override
     @RequestMapping(params = "methodToCall=addRule")
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID);
         return super.addRule(form, result, request, response);
@@ -50,11 +49,10 @@ public class CORuleEditorController extends EnrolRuleEditorController {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=goToRuleView")
     public ModelAndView goToRuleView(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_CO_MAINTENANCE_PAGE_ID);
         return super.goToRuleView(form, result, request, response);
@@ -68,12 +66,10 @@ public class CORuleEditorController extends EnrolRuleEditorController {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=cancelEditRule")
     public ModelAndView cancelEditRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+                                       HttpServletRequest request, HttpServletResponse response) {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
         return super.cancelEditRule(form, result, request, response);
@@ -87,12 +83,10 @@ public class CORuleEditorController extends EnrolRuleEditorController {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=updateRule")
     public ModelAndView updateRule(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+                                   HttpServletRequest request, HttpServletResponse response) {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_AGENDA_CO_MAINTENANCE_PAGE_ID);
         return super.updateRule(form, result, request, response);
@@ -106,11 +100,10 @@ public class CORuleEditorController extends EnrolRuleEditorController {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=getSelectedKey")
     public ModelAndView getSelectedKey(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                       HttpServletRequest request, HttpServletResponse response) {
 
         //Clear the current states of the tabs to open the first tab again with the edit tree.
         Map<String, String> states = (Map<String, String>) form.getClientStateForSyncing().get(EnrolKRMSConstants.KSKRMS_RULE_CO_TABS_ID);
@@ -131,11 +124,10 @@ public class CORuleEditorController extends EnrolRuleEditorController {
      * @param request  - http request
      * @param response - http response
      * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=compareRules")
     public ModelAndView compareRules(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                     HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                     HttpServletRequest request, HttpServletResponse response) {
 
         doCompareRules(form);
 

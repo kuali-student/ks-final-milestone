@@ -71,6 +71,8 @@ import java.util.Map;
  */
 public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CORuleEditorMaintainableImpl.class);
+
     private transient CluService cluService;
     private transient AtpService atpService;
     private transient CourseOfferingService courseOfferingService;
@@ -248,7 +250,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
      * @param atpCode
      * @throws Exception
      */
-    public void populateContextBar(AORuleManagementWrapper form, String atpCode) throws Exception {
+    public void populateContextBar(AORuleManagementWrapper form, String atpCode) {
         String socStateKey = null;
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -256,39 +258,47 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         QueryByCriteria criteria = qbcBuilder.build();
 
-        List<TermInfo> terms = getAcalService().searchForTerms(criteria, createContextInfo());
+        try {
+            List<TermInfo> terms = getAcalService().searchForTerms(criteria, createContextInfo());
 
-        if (terms.isEmpty()) {
-            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, atpCode);
-        } else if (terms.size() > 1) {
-            GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, atpCode);
-        } else {
-            //Checking soc
-            List<String> socIds;
-            try {
-                socIds = getSocService().getSocIdsByTerm(terms.get(0).getId(), createContextInfo());
-            } catch (Exception e) {
-                throw convertServiceExceptionsToUI(e);
-            }
-
-            if (socIds.isEmpty()) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
+            if (terms.isEmpty()) {
+                GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_TERM_IS_FOUND, atpCode);
+            } else if (terms.size() > 1) {
+                GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, atpCode);
             } else {
-                socStateKey = getSocStateKey(socIds);
-            }
-        }
+                //Checking soc
+                List<String> socIds;
+                try {
+                    socIds = getSocService().getSocIdsByTerm(terms.get(0).getId(), createContextInfo());
+                } catch (Exception e) {
+                    throw convertServiceExceptionsToUI(e);
+                }
 
-        form.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(terms.get(0), socStateKey,
-                getStateService(), getAcalService(), createContextInfo()));
+                if (socIds.isEmpty()) {
+                    GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
+                } else {
+                    socStateKey = getSocStateKey(socIds);
+                }
+            }
+
+            form.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(terms.get(0), socStateKey,
+                    getStateService(), getAcalService(), createContextInfo()));
+        } catch (Exception e) {
+            throw new RuntimeException("Could not populate context bar.");
+        }
     }
 
-    private String getSocStateKey(List<String> socIds) throws Exception {
+    private String getSocStateKey(List<String> socIds) {
         if (socIds != null && !socIds.isEmpty()) {
-            List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, createContextInfo());
-            for (SocInfo soc : targetSocs) {
-                if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                    return soc.getStateKey();
+            try {
+                List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, createContextInfo());
+                for (SocInfo soc : targetSocs) {
+                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
+                        return soc.getStateKey();
+                    }
                 }
+            } catch (Exception e) {
+                throw new RuntimeException("Could not retrive targetSocs for context bar.");
             }
         }
         return null;

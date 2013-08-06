@@ -108,12 +108,11 @@ public class EnrolRuleEditorController extends RuleEditorController {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @Override
     @RequestMapping(params = "methodToCall=addRule")
     public ModelAndView addRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
-                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+                                @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
@@ -140,11 +139,10 @@ public class EnrolRuleEditorController extends RuleEditorController {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @RequestMapping(params="methodToCall=viewCourseRange")
     public ModelAndView viewCourseRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                             HttpServletRequest request, HttpServletResponse response) {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         CORuleManagementWrapper ruleWrapper = (CORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
@@ -166,11 +164,10 @@ public class EnrolRuleEditorController extends RuleEditorController {
      * @param request
      * @param response
      * @return
-     * @throws Exception
      */
     @RequestMapping(params = "methodToCall=addRange")
     public ModelAndView addRange(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-                                      HttpServletRequest request, HttpServletResponse response) throws Exception {
+                                      HttpServletRequest request, HttpServletResponse response) {
 
         LURuleEditor rule = (LURuleEditor) getRuleEditor(form);
         LUPropositionEditor prop = (LUPropositionEditor) PropositionTreeUtil.getProposition(rule);
