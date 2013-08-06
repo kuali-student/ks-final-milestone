@@ -518,7 +518,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-CoLocatedAddLineDialog" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
-        <!--<property name="headerText" value="Warning"/>-->
+        <property name="headerText" value="Colocation Warning"/>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
