@@ -17,27 +17,26 @@ package org.kuali.student.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
-import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.kuali.student.krms.util.KSKRMSExecutionUtil;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 /**
  *
  * Rule statement examples:
- * 1) Must have earned a minimum cumulative GPA of <GPA>
+ * 1) Must have earned a minimum GPA of <GPA> in <courses>
  *
  * @author Kuali Student Team
  */
-public class GPATermResolver implements TermResolver<Float> {
+public class GPAForCoursesTermResolver implements TermResolver<Float> {
 
+    private TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseSetTermResolver;
     private AcademicRecordService academicRecordService;
 
     @Override
@@ -50,12 +49,12 @@ public class GPATermResolver implements TermResolver<Float> {
 
     @Override
     public String getOutput() {
-        return KSKRMSServiceConstants.TERM_RESOLVER_GPA;
+        return KSKRMSServiceConstants.TERM_RESOLVER_GPAFORCOURSES;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.emptySet();//Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
     }
 
     @Override
@@ -65,17 +64,16 @@ public class GPATermResolver implements TermResolver<Float> {
 
     @Override
     public Float resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-
+        //Retrieve the completed course records from cluset.
+        List<StudentCourseRecordInfo> studentCourseRecordInfoList = this.getCourseRecordsForCourseSetTermResolver().resolve(resolvedPrereqs, parameters);
         Float result = null;
-        try {
-            GPAInfo cumulativeGPA = academicRecordService.getCumulativeGPA(personId, AcademicRecordServiceConstants.ACADEMIC_RECORD_CALCULATION_GPA_TYPE_KEY, context);
-            result = Float.parseFloat(cumulativeGPA.getValue());
-        } catch (Exception e) {
-            KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
+        if(studentCourseRecordInfoList.size() > 0){
+            result = new Float(0);
+            for (StudentCourseRecordInfo si : studentCourseRecordInfoList) {
+                result += Float.parseFloat(si.getCalculatedGradeValue());
+            }
+            result = result/studentCourseRecordInfoList.size();
         }
-
         return result;
     }
 
@@ -85,5 +83,13 @@ public class GPATermResolver implements TermResolver<Float> {
 
     public void setAcademicRecordService(AcademicRecordService academicRecordService) {
         this.academicRecordService = academicRecordService;
+    }
+
+    public TermResolver<List<StudentCourseRecordInfo>> getCourseRecordsForCourseSetTermResolver() {
+        return courseRecordsForCourseSetTermResolver;
+    }
+
+    public void setCourseRecordsForCourseSetTermResolver(TermResolver<List<StudentCourseRecordInfo>> courseRecordsForCourseSetTermResolver) {
+        this.courseRecordsForCourseSetTermResolver = courseRecordsForCourseSetTermResolver;
     }
 }

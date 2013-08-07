@@ -1,7 +1,9 @@
 package org.kuali.student.krms.termresolver;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.krms.api.engine.TermResolver;
@@ -54,8 +56,7 @@ public class TestTermResolvers {
     public ContextInfo contextInfo = null;
     Map<String, Object> resolvedPrereqs = null;
     Map<String, String> parameters = null;
-    private String termID = "1001";
-    private String calcTypeID = "mockTypeKey3";
+    private static boolean notSetup = true;
 
     @Resource(name = "orgServiceImpl")
     private OrganizationService organizationService;
@@ -86,26 +87,24 @@ public class TestTermResolvers {
 
     @Before
     public void setUp() {
+            contextInfo = new ContextInfo();
+            contextInfo.setLocale(new LocaleInfo());
+            contextInfo.setPrincipalId("admin");
+            dataLoader.setContextInfo(contextInfo);
+            if(notSetup){
+                loadCluData();
+                loadAcadRecordData();
+                loadRegistrationData();
+                loadProgramRecordData();
+                loadPopulationData();
+                loadOrgData();
+                notSetup = false;
+            }
 
-        contextInfo = new ContextInfo();
-        contextInfo.setLocale(new LocaleInfo());
-        contextInfo.setPrincipalId("admin");
-        dataLoader.setContextInfo(contextInfo);
-
-        loadCluData();
-        loadAcadRecordData();
-        loadRegistrationData();
-        loadProgramRecordData();
-        loadPopulationData();
-
-        resolvedPrereqs = getDefaultPrerequisites();
-        parameters = getDefaultParameters();
+            resolvedPrereqs = getDefaultPrerequisites();
+            parameters = getDefaultParameters();
     }
 
-    @After
-    public void teardown() throws Exception {
-        dataLoader.afterTest();
-    }
 
     private TermResolver<List<String>> getCluIdsTermResolver() {
         CluIdsFromVersionIndIdTermResolver termResolver = new CluIdsFromVersionIndIdTermResolver();
@@ -363,16 +362,55 @@ public class TestTermResolvers {
 
         //Setup data
         resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
-        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "DTC101");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_GPA);
+
+        //Evaluate term Resolver
+        Float gpa = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(gpa);
+        assertEquals(new Float(3.9), gpa);
+    }
+
+    @Test
+    public void testGPAForCoursesTermResolver() {
+        //Setup the term resolver
+        GPAForCoursesTermResolver termResolver = new GPAForCoursesTermResolver();
+        termResolver.setAcademicRecordService(academicRecordService);
+        termResolver.setCourseRecordsForCourseSetTermResolver(this.getCourseRecordsForCourseSetTermResolver());
+        //Setup data
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+        parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, "COURSE-SET2");
 
         //Validate the term resolver
         validateTermResolver(termResolver, resolvedPrereqs, parameters,
                 KSKRMSServiceConstants.TERM_RESOLVER_GPAFORCOURSES);
 
         //Evaluate term Resolver
-        Integer gpa = termResolver.resolve(resolvedPrereqs, parameters);
+        Float gpa = termResolver.resolve(resolvedPrereqs, parameters);
+        assertNotNull(gpa);
+        assertEquals(new Float(3.0), gpa);
+    }
+
+    @Test
+    public void testGPAForDurationTermResolver() {
+        //Setup the term resolver
+        GPAForDurationTermResolver termResolver = new GPAForDurationTermResolver();
+        termResolver.setAcademicRecordService(academicRecordService);
+
+        //Setup data
+        resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID, KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID);
+        //parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, "DTC101");
+
+        //Validate the term resolver
+        validateTermResolver(termResolver, resolvedPrereqs, parameters,
+                KSKRMSServiceConstants.TERM_RESOLVER_GPAFORDURATION);
+
+        //Evaluate term Resolver
+        Float gpa = termResolver.resolve(resolvedPrereqs, parameters);
         //assertNotNull(gpa);
-        //assertEquals(new Integer(0), gpa);
+        //assertEquals(new Float(3.9), gpa);
     }
 
     @Test
@@ -448,8 +486,7 @@ public class TestTermResolvers {
 
     @Test
     public void testAdminOrgPermissionRequiredTermResolver() {
-        OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
-        orgDataLoader.loadData();
+
 
         //Setup the term resolver
         AdminOrgPermissionTermResolver termResolver = new AdminOrgPermissionTermResolver();
@@ -886,6 +923,11 @@ public class TestTermResolvers {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void loadOrgData(){
+        OrgTestDataLoader orgDataLoader = new OrgTestDataLoader(organizationService);
+        orgDataLoader.loadData();
     }
 
 }
