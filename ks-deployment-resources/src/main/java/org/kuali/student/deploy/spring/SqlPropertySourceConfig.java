@@ -8,5 +8,4 @@ import org.springframework.context.annotation.Import;
 @Configuration
 @Import({ SqlLocationsConfig.class, ProjectPropertiesServiceConfig.class, LocationPropertySourceConfig.class })
 public class SqlPropertySourceConfig {
-
 }
