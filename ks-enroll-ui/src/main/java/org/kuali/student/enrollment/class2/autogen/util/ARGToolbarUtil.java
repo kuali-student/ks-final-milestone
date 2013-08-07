@@ -247,7 +247,6 @@ public class ARGToolbarUtil {
                 //Reset the form
                 activityWrapper.setEnableCopyAOActionLink(false);
                 activityWrapper.setEnableEditAOActionLink(false);
-                activityWrapper.setRequisiteLink(false);
                 activityWrapper.setEnableCancelButton(false);
                 activityWrapper.setEnableMoveToButton(false);
                 activityWrapper.setEnableApproveButton(false);
@@ -306,12 +305,6 @@ public class ARGToolbarUtil {
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "editAOonManageAOsPage");
                 if(permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails,roleQualifications)){
                     activityWrapper.setEnableEditAOActionLink(true);
-                }
-
-                //for manage AO requisites link on each CO row.
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "requisiteAOLink");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    activityWrapper.setRequisiteLink(true);
                 }
 
                 //Currently, there are no reinstate, suspend and cancel AO buttons. Comment out the following checking

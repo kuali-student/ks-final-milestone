@@ -96,9 +96,6 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean enableCopyAOActionLink = false;
     private boolean enableEditAOActionLink = false;
 
-    //Permission flag for Manage AO Requisite link
-    private boolean requisiteLink = false;
-
     private boolean colocatedAO;
     private List<ColocatedActivity> colocatedActivities;
     private boolean maxEnrollmentShared;
@@ -1131,14 +1128,6 @@ public class ActivityOfferingWrapper implements Serializable{
 
     public void setSubTermDatesJsonString(String subTermDatesJsonString) {
         this.subTermDatesJsonString = subTermDatesJsonString;
-    }
-
-    public boolean isRequisiteLink() {
-        return requisiteLink;
-    }
-
-    public void setRequisiteLink(boolean requisiteLink) {
-        this.requisiteLink = requisiteLink;
     }
 
     /**
