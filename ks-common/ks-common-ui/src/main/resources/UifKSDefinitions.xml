@@ -654,4 +654,7 @@
         </property>
         <property name="style" value="margin-top:30px; margin-left:-150px; margin-bottom:15px"/>
     </bean>
+
+    <bean id="KS-Uif-Inquiry" parent="KS-Uif-Inquiry-parent"/>
+    <bean id="KS-Uif-Inquiry-parent" parent="Uif-Inquiry" abstract="true" scope="prototype" class="org.kuali.student.common.uif.element.KSUifInquiry"/>
 </beans>
