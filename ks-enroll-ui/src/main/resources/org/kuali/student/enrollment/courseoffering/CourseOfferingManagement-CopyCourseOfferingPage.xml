@@ -19,13 +19,14 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
-          p:id="copyCourseOfferingPage"
-          p:headerText="Copy Course Offering">
+    <!--<bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"-->
+          <!--p:id="copyCourseOfferingPage"-->
+          <!--p:headerText="Copy Course Offering">-->
 
         <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect subject-code.
              ie: from "Course Offerings" to "WMST200"
              This is a work-around, at least until KRAD 2.3-m3 -->
+<!--
         <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{courseOfferingCopyWrapper.courseOfferingCode}' );" />
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -88,12 +89,13 @@
     <bean id="KS-HomewardPathBreadcrumbs-CopyCo-Page" parent="Uif-BreadcrumbItem">
       <property name="label" value="@{(courseOfferingCopyWrapper.courseOfferingCode eq null)? '' : 'Copy '}  @{courseOfferingCopyWrapper.courseOfferingCode}"/>
     </bean>
-
+ -->
     <!--
      This is the context bar that will be put into the static context bar placeholder on page load. It does this via the
      "updateContextBar" javascript.
      Note: because of the way the breadcrumbs are implemented we had to set the "display: none"
     -->
+    <!--
     <bean id="KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: block;"
           p:onDocumentReadyScript="updateContextBar('KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar', 'KS-CourseOfferingManagement-ContextBar-PlaceHolder'); setSeasonalColor('KS-CourseOfferingManagement-CopyCourseOfferingPage-ContextBar',@{termDayOfYear}, '@{#ConfigProperties['application.url']}');">
         <property name="cssClasses">
@@ -136,7 +138,6 @@
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingsSection" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="6"  p:readOnly="true" p:renderAddLine="false">
         <property name="headerText" value="Activity Offerings" />
-        <!-- <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />    -->
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="activityWrapperList" />
         <property name="collectionLookup.quickfinderAction.render" value="false" />
@@ -203,5 +204,5 @@
      </list>
      </property>
   </bean>
-
+-->
 </beans>

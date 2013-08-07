@@ -77,7 +77,7 @@
             <list>
                 <ref bean="KS-CourseOfferingManagement-SearchInputPage"/>
                 <ref bean="KS-CourseOfferingManagement-ManageCourseOfferingsPage"/>
-                <ref bean="KS-CourseOfferingManagement-CopyCourseOfferingPage"/>
+                <!--<ref bean="KS-CourseOfferingManagement-CopyCourseOfferingPage"/>-->
                 <ref bean="KS-CourseOfferingManagement-ManageTheCourseOfferingPage"/>
                 <ref bean="KS-CourseOfferingManagement-CoDeleteConfirmationPage"/>
                 <ref bean="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage"/>
