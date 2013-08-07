@@ -15,14 +15,20 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
@@ -31,8 +37,11 @@ import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
+import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -41,6 +50,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.common.util.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
@@ -80,7 +90,7 @@ public class CourseController extends UifControllerBase {
     private CourseService courseService;
     private CommentService commentService;
     private LearningObjectiveService learningObjectiveService;
-    private OrganizationService organizationService;
+    private IdentityService identityService;
     
     private enum CourseViewPages {
         COURSE_INFO("KS-CourseView-CourseInfoPage"), 
@@ -239,11 +249,21 @@ public class CourseController extends UifControllerBase {
         return super.start(courseForm, result, request, response);
     }
 
+    /**
+     * Server-side action for rendering the decisions lightbox
+     *
+     * @param form {@link CourseForm} instance used for this action
+     * @param result
+     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+     * @param response The intended {@link HttpServletResponse} sent back to the user
+     * @throws Exception
+     */
     @RequestMapping(params = "methodToCall=showDecisions")
     public ModelAndView showDecisions(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        if (!hasDialogBeenAnswered(DECISIONS_DIALOG_KEY, form)){
+        if (!hasDialogBeenAnswered(DECISIONS_DIALOG_KEY, form)) {
+            redrawDecisionTable(form);
             return showDialog(DECISIONS_DIALOG_KEY, form, request, response);
         }
 
@@ -252,6 +272,100 @@ public class CourseController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    /**
+     *
+     * @param form the {@link CourseForm} instance where the decisions are to be stored for the lightbox.
+     * @throws InvalidParameterException when incorrect parameters are used for looking up the comments made
+     * @throws MissingParameterException when null or empty parameters are used for looking up the comments made
+     * @throws OperationFailedException when it cannot be determined what comments were made.
+     * @throws PermissionDeniedException when the user doesn't have rights to look up comments.
+     */
+    protected void redrawDecisionTable(final CourseForm form) 
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<CommentInfo> commentInfos = null;
+        try {
+            commentInfos = getCommentService()
+                .getCommentsByReferenceAndType("temp_reference_id",
+                                               "referenceType.clu.proposal",
+                                               ContextUtils.getContextInfo());
+        }
+        catch (DoesNotExistException e) {
+            // Add a dummy row
+            form.getDecisions().add(new DecisionInfo());
+
+            // If there are no comments, don't go any further
+            return;
+        }
+
+        // Collect person ids to search 
+		final List<String> personIds = new ArrayList<String>();
+		for (CommentInfo comment : commentInfos) {
+			if(comment.getMeta().getCreateId()!=null){
+				personIds.add(comment.getMeta().getCreateId());
+			}
+			else{
+				personIds.add("");
+			}
+		}
+
+        final Map<String, MembershipInfo> members = getNamesForPersonIds(personIds);
+
+        redrawDecisionTable(form, commentInfos, members);
+    }
+    
+    /**
+     *
+     * @param form
+     * @param commentInfos
+     * @param members
+     */
+	protected void redrawDecisionTable(final CourseForm form,
+                                       final List<CommentInfo> commentInfos,
+                                       final Map<String, MembershipInfo> members) {
+		if (commentInfos != null) {
+			int rowIndex = 0;
+			for (final CommentInfo commentInfo : commentInfos) {
+			    /* we only want decision rationale comments so if no DecisionRationaleDetail is returned for comment
+                 * type then don't add that comment to the table
+                 */
+			    final DecisionRationaleDetail drDetails = DecisionRationaleDetail.getByType(commentInfo.getType());
+			    if (drDetails != null) {
+                    final DecisionInfo decision = new DecisionInfo();
+                    decision.setDecision(drDetails.getLabel());
+                    decision.setId(commentInfo.getId());
+
+                    final SimpleDateFormat dateformat = new SimpleDateFormat("MM/dd/yyyy");
+                    
+                    final StringBuilder rationaleDate = new StringBuilder(dateformat.format(commentInfo.getMeta().getCreateTime()));
+    				decision.setDate(rationaleDate.toString());
+    
+    				if (members.get(commentInfo.getMeta().getCreateId()) != null) {
+    					final MembershipInfo memberInfo = members.get(commentInfo.getMeta().getCreateId());
+    					final StringBuilder memberName = new StringBuilder();
+    					memberName.append(memberInfo.getFirstName());
+    					memberName.append(" ");
+    					memberName.append(memberInfo.getLastName());
+
+    					decision.setActor(memberName.toString());
+    				}
+    				decision.setRationale(commentInfo.getCommentText().getPlain());
+                    form.getDecisions().add(decision);
+			    }
+			}
+		}
+	}
+
+    protected Map<String, MembershipInfo> getNamesForPersonIds(final List<String> personIds) {
+        final Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
+        for (String pId : personIds ){
+            final EntityDefault entity = getIdentityService().getEntityDefaultByPrincipalId(pId);
+            final MembershipInfo memeberEntity = new MembershipInfo();
+            memeberEntity.setFirstName(entity.getName().getFirstName());
+            memeberEntity.setLastName(entity.getName().getLastName());
+            identities.put(pId, memeberEntity);
+        }
+        return identities;
+    }
      
     @RequestMapping(params = "methodToCall=createComment")
     public ModelAndView createComment(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
@@ -350,10 +464,10 @@ public class CourseController extends UifControllerBase {
         return learningObjectiveService;
     }
 
-    protected OrganizationService getOrganizationService() {
-        if (organizationService == null) {
-            organizationService = GlobalResourceLoader.getService(new QName(OrganizationServiceConstants.NAMESPACE, OrganizationService.class.getSimpleName()));
+    protected IdentityService getIdentityService() {
+        if (identityService == null) {
+            identityService = GlobalResourceLoader.getService(new QName(KimConstants.Namespaces.KIM_NAMESPACE_2_0, "identityService"));
         }
-        return organizationService;
+        return identityService;
     }
 }

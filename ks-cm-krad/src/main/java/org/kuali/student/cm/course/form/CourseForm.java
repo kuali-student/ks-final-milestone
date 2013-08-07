@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
@@ -30,41 +31,44 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
  */
 public class CourseForm extends UifFormBase {
 
-	private static final long serialVersionUID = -988885314122936950L;
-	
-	private CourseInfo courseInfo;
-	
-	private ProposalInfo proposalInfo;
-	
-	private boolean audit;
-	
-	private boolean passFail;
-	
-	private List<CluInstructorInfoWrapper> instructorDisplays;
-	
-	private List<CourseJointInfoWrapper> courseJointDisplays;
-	
-	private List<ResultValuesGroupInfoWrapper> creditOptionsDisplay;
-	
-	private String finalExamStatus;
-	
-	private String finalExamRationale;
-	
-	private List<CommentInfo> commentInfos;
-	
+    private static final long serialVersionUID = -988885314122936950L;
+    
+    private CourseInfo courseInfo;
+    
+    private ProposalInfo proposalInfo;
+    
+    private boolean audit;
+    
+    private boolean passFail;
+    
+    private List<CluInstructorInfoWrapper> instructorDisplays;
+    
+    private List<CourseJointInfoWrapper> courseJointDisplays;
+    
+    private List<ResultValuesGroupInfoWrapper> creditOptionsDisplay;
+    
+    private String finalExamStatus;
+    
+    private String finalExamRationale;
+    
+    private List<CommentInfo> commentInfos;
+    
     private LearningObjectiveDialogWrapper loDialogWrapper;
     
     private Boolean showAll;
-	
-	public CourseForm() {
-		this.courseInfo = new CourseInfo();
-		this.proposalInfo = new ProposalInfo();
-		this.instructorDisplays = new ArrayList<CluInstructorInfoWrapper>();
-		
-		this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoWrapper>();
-		this.courseJointDisplays = new ArrayList<CourseJointInfoWrapper>();
-		this.commentInfos = new ArrayList<CommentInfo>();
-	}
+    
+    private List<DecisionInfo> decisions;
+    
+    public CourseForm() {
+        this.courseInfo = new CourseInfo();
+        this.proposalInfo = new ProposalInfo();
+        this.instructorDisplays = new ArrayList<CluInstructorInfoWrapper>();
+        
+        this.creditOptionsDisplay = new ArrayList<ResultValuesGroupInfoWrapper>();
+        this.courseJointDisplays = new ArrayList<CourseJointInfoWrapper>();
+        this.commentInfos = new ArrayList<CommentInfo>();
+        this.decisions = new ArrayList<DecisionInfo>();
+    }
 
     public CourseInfo getCourseInfo() {
         return courseInfo;
@@ -87,7 +91,7 @@ public class CourseForm extends UifFormBase {
     }
 
     public void setInstructorDisplays(
-            List<CluInstructorInfoWrapper> instructorDisplays) {
+        List<CluInstructorInfoWrapper> instructorDisplays) {
         this.instructorDisplays = instructorDisplays;
     }
 
@@ -161,6 +165,14 @@ public class CourseForm extends UifFormBase {
 
     public void setCommentInfos(List<CommentInfo> commentInfos) {
         this.commentInfos = commentInfos;
+    }
+
+    public List<DecisionInfo> getDecisions() {
+        return decisions;
+    }
+
+    public void setDecisions(List<DecisionInfo> decisionInfos) {
+        this.decisions = decisionInfos;
     }
 
 }
