@@ -393,6 +393,14 @@ public class DefaultTermHelper implements TermHelper {
 	}
 
 	@Override
+	public boolean isPublished(String termId) {
+		for (Term t : getPublishedTerms())
+			if (t.getId().equals(termId))
+				return true;
+		return false;
+	}
+
+	@Override
 	public boolean isPlanning(String atpId) {
 		for (Term t : getPlanningTerms())
 			if (t.getId().equals(atpId))
