@@ -21,7 +21,7 @@ import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.ProgramCluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.OrganizationServiceConstants;

@@ -49,12 +49,11 @@ import java.util.Map;
 /**
  * @author Kuali Student Team
  */
-public class CourseComponentBuilder implements ComponentBuilder<LUPropositionEditor> {
+public class CourseComponentBuilder extends CluComponentBuilder {
 
     private final static Logger LOG = Logger.getLogger(CourseComponentBuilder.class);
 
     private CourseService courseService;
-    private CluService cluService;
     private AcademicCalendarService acalService = null;
     private SearchService searchService = null;
 
@@ -168,13 +167,6 @@ public class CourseComponentBuilder implements ComponentBuilder<LUPropositionEdi
             courseService = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "course", "CourseService"));
         }
         return courseService;
-    }
-
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return cluService;
     }
 
     private AcademicCalendarService getAcalService() {

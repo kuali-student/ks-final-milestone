@@ -51,13 +51,7 @@ import java.util.Map;
 /**
  * @author Kuali Student Team
  */
-public class MultiCourseComponentBuilder implements ComponentBuilder<LUPropositionEditor> {
-
-    private CluService cluService;
-    private CourseService courseService;
-    private LRCService lrcService;
-
-    private CluInformationHelper cluInfoHelper;
+public class MultiCourseComponentBuilder extends CluComponentBuilder {
 
     @Override
     public List<String> getComponentIds() {
@@ -141,97 +135,6 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<LUPropositi
     }
 
     /**
-     * This methos assumes that there can only be a maximum of one wrapped cluset
-     * for cluids and one for membershipqueries.
-     *
-     * @param cluSetId
-     * @return
-     */
-    public CluSetInformation getCluSetInformation(String cluSetId) {
-
-        CluSetInformation result = new CluSetInformation();
-        result.setCluSetInfo(this.getCluSetInfo(cluSetId));
-
-        List<String> cluIds = result.getCluSetInfo().getCluIds();
-        this.createCluSetRange(result, result.getCluSetInfo().getMembershipQuery());
-
-        // goes through the list of sub clusets and ignore the ones that are not reusable
-        List<CluSetInfo> cluSetInfos = getCluSetInfos(result.getCluSetInfo().getCluSetIds());
-        if (cluSetInfos != null) {
-            List<CluSetInformation> unWrappedCluSets = new ArrayList<CluSetInformation>();
-            for (CluSetInfo subCluSet : cluSetInfos) {
-                if (subCluSet.getIsReusable()) {
-
-                    //Handle predefined clusets.
-                    CluSetInformation cluSetInformation = new CluSetInformation(subCluSet);
-                    cluSetInformation.setClus(this.getCluInfoHelper().getCourseInfos(subCluSet.getCluIds()));
-                    unWrappedCluSets.add(cluSetInformation);
-                } else {
-
-                    //Retrieve the information from the wrapped membership cluset.
-                    if(subCluSet.getMembershipQuery()!=null){
-                        this.createCluSetRange(result, subCluSet.getMembershipQuery());
-                    } else {
-
-                        //Retrieve the information from the wrapped clu cluset.
-                        if (subCluSet.getCluIds() != null && !subCluSet.getCluIds().isEmpty()) {
-                            cluIds = subCluSet.getCluIds();
-                        }
-                    }
-                }
-            }
-            result.setCluSets(unWrappedCluSets);
-        }
-
-        result.setClus(this.getCluInfoHelper().getCourseInfos(cluIds));
-
-        return result;
-    }
-
-    /**
-     * Creates a new clusetrangeinformation wrapper object for each membershipquery that exist in the
-     * wrapper cluset.
-     *
-     * @param clusetInfo
-     * @param mqInfo
-     */
-    private void createCluSetRange(CluSetInformation clusetInfo, MembershipQueryInfo mqInfo) {
-        if (mqInfo == null || mqInfo.getSearchTypeKey() == null || mqInfo.getSearchTypeKey().isEmpty()) {
-            return;
-        }
-        CluSetRangeInformation cluSetRange = new CluSetRangeInformation();
-        cluSetRange.setMembershipQueryInfo(mqInfo);
-        cluSetRange.setClusInRange(this.getCluInfoHelper().getCluInfosWithDetailForQuery(mqInfo));
-        cluSetRange.setCluSetRangeLabel(clusetInfo.getRangeHelper().buildLabelFromQuery(mqInfo));
-
-        clusetInfo.getCluSetRanges().add(cluSetRange);
-    }
-
-    private List<CluSetInfo> getCluSetInfos(List<String> cluSetIds) {
-        List<CluSetInfo> clusetInfos = new ArrayList<CluSetInfo>();
-        if (cluSetIds != null) {
-            for (String cluSetId : cluSetIds) {
-                clusetInfos.add(this.getCluSetInfo(cluSetId));
-            }
-        }
-        return clusetInfos;
-    }
-
-    private CluSetInfo getCluSetInfo(String cluSetId) {
-        CluSetInfo cluSetInfo = null;
-        try {
-            // note: the cluIds returned by cluService.getCluSetInfo also contains the clus
-            //       that are the result of query parameter search.  Set to null here and
-            //       retrieve the clus that are direct members.
-            cluSetInfo = this.getCluService().getCluSet(cluSetId, ContextUtils.getContextInfo());
-            cluSetInfo.setCluIds(this.getCluService().getCluIdsFromCluSet(cluSetId, ContextUtils.getContextInfo()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return cluSetInfo;
-    }
-
-    /**
      * This method build the CluSetInfo object based on the CluSetInformation wrapper object.
      *
      * Calculates if we require a wrapper cluset or not and the create sub clusets for the different types
@@ -240,28 +143,13 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<LUPropositi
      * @param cluSetInformation
      * @return
      */
+    @Override
     public CluSetInfo buildCourseSet(CluSetInformation cluSetInformation) {
 
-        // Create a Cluset if not exist.
-        if (cluSetInformation.getCluSetInfo() == null) {
-            cluSetInformation.setCluSetInfo(new CluSetInfo());
-        }
-
-        // Set default properties.
-        CluSetInfo cluSetInfo = cluSetInformation.getCluSetInfo();
+        CluSetInfo cluSetInfo = super.buildCourseSet(cluSetInformation);
         if (cluSetInfo.getTypeKey() == null) {
             cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
         }
-        cluSetInfo.setStateKey("Active");
-        cluSetInfo.setName("AdHock");
-        cluSetInfo.setEffectiveDate(new Date());
-        cluSetInfo.setIsReferenceable(Boolean.TRUE);
-        cluSetInfo.setIsReusable(Boolean.FALSE);
-
-        //Clear all current values
-        cluSetInfo.getCluSetIds().clear();
-        cluSetInfo.setMembershipQuery(null);
-        cluSetInfo.getCluIds().clear();
 
         boolean hasCluIds = cluSetInformation.hasClus();
         int nrOfMembershipQueries = cluSetInformation.getCluSetRanges().size();
@@ -369,33 +257,4 @@ public class MultiCourseComponentBuilder implements ComponentBuilder<LUPropositi
         return param;
     }
 
-    protected CluInformationHelper getCluInfoHelper() {
-        if (cluInfoHelper == null) {
-            cluInfoHelper = new CluInformationHelper();
-            cluInfoHelper.setCluService(this.getCluService());
-            cluInfoHelper.setLrcService(this.getLrcService());
-        }
-        return cluInfoHelper;
-    }
-
-    protected CourseService getCourseService() {
-        if (courseService == null) {
-            courseService = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "course", "CourseService"));
-        }
-        return courseService;
-    }
-
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return cluService;
-    }
-
-    protected LRCService getLrcService() {
-        if (lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return lrcService;
-    }
 }

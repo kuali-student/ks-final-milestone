@@ -39,7 +39,7 @@ public class LUPropositionEditor extends KSPropositionEditor {
     private String programType;
     private String gradeScale;
     private OrgInfo orgInfo;
-    private ProgramCluSetInformation progCluSet;
+    private CluSetInformation progCluSet;
     private String termCode;
     private String termCode2;
     private TermInfo termInfo;
@@ -120,11 +120,11 @@ public class LUPropositionEditor extends KSPropositionEditor {
         this.orgInfo = orgInfo;
     }
 
-    public ProgramCluSetInformation getProgCluSet() {
+    public CluSetInformation getProgCluSet() {
         return progCluSet;
     }
 
-    public void setProgCluSet(ProgramCluSetInformation progCluSet) {
+    public void setProgCluSet(CluSetInformation progCluSet) {
         this.progCluSet = progCluSet;
     }
 

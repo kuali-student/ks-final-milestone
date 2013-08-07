@@ -235,14 +235,14 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
                 }
             }
 
-            //Populate compare proposition ProgramCluSetInformation for comparison
+            //Populate compare proposition Program CluSetInformation for comparison
             if(enrolOriginal.getProgCluSet() != null) {
                 if(enrolOriginal.getProgCluSet().getParent() == null) {
                     ProgramComponentBuilder builder = new ProgramComponentBuilder();
                     TermEditor term = new TermEditor(PropositionTreeUtil.getTermParameter(compare.getParameters()).getTermValue());
                     for(TermParameterEditor termParameterEditor : term.getEditorParameters()) {
                         if(termParameterEditor.getName().equals(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY)) {
-                            enrolOriginal.getProgCluSet().setParent(builder.getProgramCluSetInformation(termParameterEditor.getValue()));
+                            enrolOriginal.getProgCluSet().setParent(builder.getCluSetInformation(termParameterEditor.getValue()));
                             break;
                         }
                     }
@@ -347,7 +347,7 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            cluSet.setClus(this.getCluInfoHelper().getCourseInfos(cluSet.getCluSetInfo().getCluIds()));
+            cluSet.setClus(this.getCluInfoHelper().getCluInfos(cluSet.getCluSetInfo().getCluIds()));
 
             //Sort the clus.
             RuleEditor ruleEditor = this.getRuleEditor(model);

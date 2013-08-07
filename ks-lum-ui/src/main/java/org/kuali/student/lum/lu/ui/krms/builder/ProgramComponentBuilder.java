@@ -21,8 +21,9 @@ import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.ProgramCluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
@@ -51,12 +52,7 @@ import java.util.Map;
 /**
  * @author Kuali Student Team
  */
-public class ProgramComponentBuilder implements ComponentBuilder<LUPropositionEditor> {
-
-
-    private CluService cluService;
-
-    private LRCService lrcService;
+public class ProgramComponentBuilder extends CluComponentBuilder {
 
     @Override
     public List<String> getComponentIds() {
@@ -68,7 +64,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<LUPropositionEd
         String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY);
         if (cluSetId != null) {
             try {
-                ProgramCluSetInformation cluSetInfo = this.getProgramCluSetInformation(cluSetId);
+                CluSetInformation cluSetInfo = this.getCluSetInformation(cluSetId);
                 propositionEditor.setProgCluSet(cluSetInfo);
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -114,7 +110,7 @@ public class ProgramComponentBuilder implements ComponentBuilder<LUPropositionEd
 
     @Override
     public void validate(LUPropositionEditor propositionEditor) {
-        ProgramCluSetInformation progCluSet = propositionEditor.getProgCluSet();
+        CluSetInformation progCluSet = propositionEditor.getProgCluSet();
         if(progCluSet != null){
             if(!progCluSet.hasClus() && progCluSet.getCluSets().size()==0 ){
                 String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "programType");
@@ -123,181 +119,13 @@ public class ProgramComponentBuilder implements ComponentBuilder<LUPropositionEd
         }
     }
 
-    /**
-     * This methos assumes that there can only be a maximum of one wrapped cluset
-     * for cluids and one for membershipqueries.
-     *
-     * @param cluSetId
-     * @return
-     */
-    public ProgramCluSetInformation getProgramCluSetInformation(String cluSetId) {
+    @Override
+    public CluSetInfo buildCourseSet(CluSetInformation programCluSetInformation) {
 
-        ProgramCluSetInformation result = new ProgramCluSetInformation();
-        result.setCluSetInfo(this.getCluSetInfo(cluSetId));
-
-        List<String> cluIds = result.getCluSetInfo().getCluIds();
-
-        // goes through the list of sub clusets and ignore the ones that are not reusable
-        List<CluSetInfo> cluSetInfos = getCluSetInfos(result.getCluSetInfo().getCluSetIds());
-        if (cluSetInfos != null) {
-            List<CluSetInfo> unWrappedCluSets = new ArrayList<CluSetInfo>();
-            for (CluSetInfo subCluSet : cluSetInfos) {
-                if (subCluSet.getIsReusable()) {
-                    unWrappedCluSets.add(subCluSet);
-                } else {
-
-                    //Retrieve the information from the wrapped clu cluset.
-                    if (subCluSet.getCluIds() != null && !subCluSet.getCluIds().isEmpty()) {
-                        cluIds = subCluSet.getCluIds();
-                    }
-                }
-            }
-            result.setCluSets(unWrappedCluSets);
+        CluSetInfo cluSetInfo = super.buildCourseSet(programCluSetInformation);
+        if (cluSetInfo.getTypeKey() == null) {
+            cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_CREDIT_COURSE);
         }
-
-        result.setClus(this.getCluInformations(cluIds));
-
-        return result;
-    }
-
-    private List<CluSetInfo> getCluSetInfos(List<String> cluSetIds) {
-        List<CluSetInfo> clusetInfos = new ArrayList<CluSetInfo>();
-        if (cluSetIds != null) {
-            for (String cluSetId : cluSetIds) {
-                clusetInfos.add(this.getCluSetInfo(cluSetId));
-            }
-        }
-        return clusetInfos;
-    }
-
-    private CluSetInfo getCluSetInfo(String cluSetId) {
-        CluSetInfo cluSetInfo = null;
-        try {
-            // note: the cluIds returned by cluService.getCluSetInfo also contains the clus
-            //       that are the result of query parameter search.  Set to null here and
-            //       retrieve the clus that are direct members.
-            cluSetInfo = this.getCluService().getCluSet(cluSetId, ContextUtils.getContextInfo());
-            cluSetInfo.setCluIds(this.getCluService().getCluIdsFromCluSet(cluSetId, ContextUtils.getContextInfo()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return cluSetInfo;
-    }
-
-    private List<CluInformation> getCluInformations(List<String> cluIds) {
-        List<CluInformation> result = new ArrayList<CluInformation>();
-        if (cluIds != null) {
-            for (String cluId : cluIds) {
-                try {
-                    VersionDisplayInfo versionInfo = this.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, ContextUtils.getContextInfo());
-                    CluInfo cluInfo = this.getCluService().getClu(versionInfo.getId(), ContextUtils.getContextInfo());
-                    if (cluInfo != null) {
-
-                        //retrieve credits
-                        String credits = "";
-                        List<CluResultInfo> cluResultInfos = this.getCluService().getCluResultByClu(versionInfo.getId(), ContextUtils.getContextInfo());
-                        if (cluResultInfos != null) {
-                            for (CluResultInfo cluResultInfo : cluResultInfos) {
-                                String cluType = cluResultInfo.getTypeKey();
-
-                                //ignore non-credit results
-                                if ((cluType == null) || (!cluType.equals("kuali.resultType.creditCourseResult"))) {
-                                    continue;
-                                }
-
-                                //retrieve credit type and credit values
-                                ResultValuesGroupInfo resultComponentInfo = null;
-                                List<String> resultValues = null;
-                                String creditType = "";
-                                if (cluResultInfo.getResultOptions() != null) {
-                                    for (ResultOptionInfo resultOption : cluResultInfo.getResultOptions()) {
-                                        if (resultOption.getResultComponentId() != null) {
-                                            resultComponentInfo = this.getLrcService().getResultValuesGroup(resultOption.getResultComponentId(), ContextUtils.getContextInfo());
-                                            resultValues = resultComponentInfo.getResultValueKeys();
-                                            creditType = resultComponentInfo.getTypeKey();
-                                            break;
-                                        }
-                                    }
-                                }
-                                if (resultValues == null) {
-                                    continue;
-                                }
-
-                                if (!credits.isEmpty()) {
-                                    credits = credits + "; ";
-                                }
-
-                                if (creditType.equals("kuali.result.values.group.type.fixed")) {
-                                    credits = credits + resultValues.get(0).substring(33);
-                                } else if (creditType.equals("kuali.result.values.group.type.multiple")) {
-                                    boolean firstValue = true;
-                                    for (String resultValue : resultValues) {
-                                        credits = credits + (firstValue ? "" : ", ") + resultValue.substring(33);
-                                        firstValue = false;
-                                    }
-                                } else if (creditType.equals("kuali.result.values.group.type.range")) {
-                                    String minCredits = resultComponentInfo.getResultValueRange().getMinValue();
-                                    String maxCredits = resultComponentInfo.getResultValueRange().getMaxValue();
-                                    credits += minCredits + " - " + maxCredits;
-                                }
-                            }
-                        }
-
-                        CluInformation cluInformation = new CluInformation();
-                        if (cluInfo.getOfficialIdentifier() != null) {
-                            cluInformation.setCode(cluInfo.getOfficialIdentifier().getCode());
-                            cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
-                            cluInformation.setCredits(credits);
-                        }
-
-                        cluInformation.setType(cluInfo.getTypeKey());
-                        //If the clu type is variation, get the parent clu id.
-                        if ("kuali.lu.type.Variation".equals(cluInfo.getTypeKey())) {
-                            List<String> clus = this.getCluService().getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", ContextUtils.getContextInfo());
-                            if (clus == null || clus.size() == 0) {
-                                throw new RuntimeException("Statement Dependency clu found, but no parent Program exists");
-                            } else if (clus.size() > 1) {
-                                throw new RuntimeException("Statement Dependency clu can only have one parent Program relation");
-                            }
-                            cluInformation.setParentCluId(clus.get(0));
-                        }
-
-                        cluInformation.setCluId(cluInfo.getId());
-                        cluInformation.setVerIndependentId(cluInfo.getVersion().getVersionIndId());
-                        result.add(cluInformation);
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        if (result != null) {
-            Collections.sort(result);
-        }
-        return result;
-    }
-
-
-    public CluSetInfo buildCourseSet(ProgramCluSetInformation programCluSetInformation) {
-
-        // Create a Cluset if not exist.
-        if (programCluSetInformation.getCluSetInfo() == null) {
-            programCluSetInformation.setCluSetInfo(new CluSetInfo());
-        }
-
-        // Set default properties.
-        CluSetInfo cluSetInfo = programCluSetInformation.getCluSetInfo();
-        cluSetInfo.setTypeKey(CluServiceConstants.CLUSET_TYPE_PROGRAM);
-        cluSetInfo.setStateKey("Active");
-        cluSetInfo.setName("AdHock");
-        cluSetInfo.setEffectiveDate(new Date());
-        cluSetInfo.setIsReferenceable(Boolean.TRUE);
-        cluSetInfo.setIsReusable(Boolean.FALSE);
-
-        //Clear all current values
-        cluSetInfo.getCluSetIds().clear();
-        cluSetInfo.setMembershipQuery(null);
-        cluSetInfo.getCluIds().clear();
 
         boolean hasCluIds = programCluSetInformation.hasClus();
 
@@ -308,8 +136,8 @@ public class ProgramComponentBuilder implements ComponentBuilder<LUPropositionEd
                 return cluSetInfo;
             }
         } else {
-            for (CluSetInfo cluset : programCluSetInformation.getCluSets()) {
-                cluSetInfo.getCluSetIds().add(cluset.getId());
+            for (CluSetInformation cluset : programCluSetInformation.getCluSets()) {
+                cluSetInfo.getCluSetIds().add(cluset.getCluSetInfo().getId());
             }
         }
 
@@ -346,17 +174,4 @@ public class ProgramComponentBuilder implements ComponentBuilder<LUPropositionEd
         return wrapperCluSet.getId();
     }
 
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return cluService;
-    }
-
-    protected LRCService getLrcService() {
-        if (lrcService == null) {
-            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return lrcService;
-    }
 }

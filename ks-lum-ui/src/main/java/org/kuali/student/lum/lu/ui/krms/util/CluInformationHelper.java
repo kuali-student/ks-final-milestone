@@ -59,7 +59,7 @@ public class CluInformationHelper {
         super();
     }
 
-    public List<CluInformation> getCourseInfos(List<String> cluIds) {
+    public List<CluInformation> getCluInfos(List<String> cluIds) {
         List<CluInformation> result = new ArrayList<CluInformation>();
         if (cluIds != null) {
             for (String cluId : cluIds) {
