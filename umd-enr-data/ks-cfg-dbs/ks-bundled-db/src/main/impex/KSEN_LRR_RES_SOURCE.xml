@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSEN_LRR_RES_SOURCE ARTICULATE_ID="articulate1"
+        ID="ResultSource-Sample1" NAME="Articulate"
+        RT_DESCR_ID="ResultSource1"
+        TYPE_ID="result.source.type.notdefined.yet" VER_NBR="1"/>
+</dataset>

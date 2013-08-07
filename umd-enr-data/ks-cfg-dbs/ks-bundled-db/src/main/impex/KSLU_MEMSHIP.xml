@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSLU_MEMSHIP ID="00cfbf51-4476-47b4-9cbd-e03f56bc5e24"
+        OBJ_ID="5fa65a70-272c-48d2-95cd-c6bf2ac4827e"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="14b4ed2d-4f9f-42c2-b406-2f51dce4c924"
+        OBJ_ID="fc694d92-aada-43f4-9506-63eeda6e8cf6"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="2135dd86-a04e-4ca2-bc7f-43fb530a7464"
+        OBJ_ID="f231a0c2-a1cb-4c29-9a3d-58afe2fbd611"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="29dc99e5-684b-4327-bdf4-9ee4af041b33"
+        OBJ_ID="7972ec6f-a475-4435-8c0a-0f5d3dc5cc1b"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="3f49375d-5671-485f-be07-03488b55c552"
+        OBJ_ID="161639c8-687b-4ef4-b719-af2f4c009f1b"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="517e480c-67dc-48b5-80b1-43a6f935f793"
+        OBJ_ID="ae0a8ca1-c8af-4de7-ba7a-29c847d7b3cd"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="5ab76eb9-6967-4e03-9b2d-2500205a0235"
+        OBJ_ID="87a987e0-f5de-4a25-b129-0c8a453b00b5"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="697fab79-59aa-4f06-8c41-f07044939016"
+        OBJ_ID="161af183-f206-4546-8c84-6cb1c0dedf21"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="6c44be78-8bcd-4f88-82b1-7019f484d028"
+        OBJ_ID="7395540d-6e89-4d25-ac12-47227d286f6d"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="6e92de52-a610-4b9a-b0f3-085797272323"
+        OBJ_ID="575935e3-c7a6-42ad-a112-772928cf2871"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="70486552-b2f7-4dee-ac27-8721ebc1b0c5"
+        OBJ_ID="5fa77712-a47d-42d7-9ccd-99103559345a"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="7f4210c0-07c8-455f-acf2-cec95bc1b11a"
+        OBJ_ID="b40d3bad-f94b-4e79-9502-550ea888062d"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="82fb2c63-70b7-45b4-8dbe-b4f8446ab353"
+        OBJ_ID="7194a4bf-89c2-4748-9daf-3a5027f7bac0"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="974f2266-3b94-45fd-a2d1-88de52ed06ee"
+        OBJ_ID="0c2fbc62-51ba-4e2d-a34e-2b45df2750a0"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="99e65efe-cec7-4cb9-9781-541a8438aaa7"
+        OBJ_ID="f8152d61-985b-4f98-aebe-ec95f726f284"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="99ed2539-1ac5-4218-b974-b086479d1fd7"
+        OBJ_ID="c89a55e0-de30-4df9-a2e2-8887ec05b09e"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="9a529f0d-7bfe-42a3-955e-02c3f4238abd"
+        OBJ_ID="41411a67-a4a5-4cbf-80b1-3b01c2889675"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="9b05879d-7b1b-4660-8d46-2551e2d594b6"
+        OBJ_ID="d99dce07-a18a-4d90-bc27-5fa50584a5ec"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="cefe23f1-28d5-4934-a849-9a112962a74a"
+        OBJ_ID="6fe057cb-8ec1-4108-8ed4-6fefe0fadc3b"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="d950ee92-3754-48d2-af6f-7a79d3ebb8ba"
+        OBJ_ID="aca657cd-9c4d-45ef-8072-7f5939322dbb"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="db6e05c3-9023-4092-aeff-a91be8a8d17a"
+        OBJ_ID="7ca1c415-c152-4369-b062-09de4f6b25bf"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="de82cabd-3360-4878-955e-ccf3e95ee265"
+        OBJ_ID="8b504102-f713-4896-8fed-3ebeab1970aa"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="ebecf868-0100-43e0-ac25-0f8412833077"
+        OBJ_ID="8c7c7371-b21e-45a9-9109-260ecb1ce332"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="f2fa42a3-270b-4f1c-9050-2794bf6fd802"
+        OBJ_ID="930a63e6-e2eb-4c15-a004-995c9de4dbc9"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+    <KSLU_MEMSHIP ID="f7dc10fe-c76d-45c1-9c65-5c3de47c6aea"
+        OBJ_ID="701336a3-881a-403e-ae9e-cf1ff44bcbc4"
+        SEARCH_TYPE_KEY="lu.search.mostCurrent.union" VER_NBR="0"/>
+</dataset>

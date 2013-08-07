@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSSC_SUBJ_CD_TYPE EFF_DT="20000101000000" NAME="All" OBJ_ID="1"
+        TYPE_DESC="All of" TYPE_KEY="ks.core.subjectcode.usage.all" VER_NBR="0"/>
+    <KSSC_SUBJ_CD_TYPE EFF_DT="20000101000000" NAME="One" OBJ_ID="2"
+        TYPE_DESC="One of" TYPE_KEY="ks.core.subjectcode.usage.one" VER_NBR="0"/>
+</dataset>

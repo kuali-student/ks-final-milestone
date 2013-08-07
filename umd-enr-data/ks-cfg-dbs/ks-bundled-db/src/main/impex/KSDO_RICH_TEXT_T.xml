@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSDO_RICH_TEXT_T ID="RT-DESC-DOCUMENT-1"
+        OBJ_ID="47842800E311442781820A198860509C"
+        PLAIN="Documents attached to a proposal" VER_NBR="0"/>
+    <KSDO_RICH_TEXT_T ID="RT-DESC-DOCUMENT-2"
+        OBJ_ID="CE5450258ACE48B49805425FAF4C06D5"
+        PLAIN="Documents attached to a Course" VER_NBR="0"/>
+</dataset>

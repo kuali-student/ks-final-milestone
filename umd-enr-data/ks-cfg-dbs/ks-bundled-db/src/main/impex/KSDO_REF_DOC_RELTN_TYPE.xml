@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSDO_REF_DOC_RELTN_TYPE NAME="All Relations"
+        OBJ_ID="93D03807FC87493285690C148759085A"
+        TYPE_DESC="Relation for all known sub object types"
+        TYPE_KEY="kuali.org.DocRelation.allObjectTypes" VER_NBR="0"/>
+</dataset>

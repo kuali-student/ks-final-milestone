@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSOR_ORG_HIRCHY_JN_ORG_TYPE
+        ORG_HIRCHY_ID="kuali.org.hierarchy.Curriculum" ORG_TYPE_ID="kuali.org.COC"/>
+    <KSOR_ORG_HIRCHY_JN_ORG_TYPE
+        ORG_HIRCHY_ID="kuali.org.hierarchy.Curriculum" ORG_TYPE_ID="kuali.org.College"/>
+    <KSOR_ORG_HIRCHY_JN_ORG_TYPE
+        ORG_HIRCHY_ID="kuali.org.hierarchy.Curriculum" ORG_TYPE_ID="kuali.org.Department"/>
+    <KSOR_ORG_HIRCHY_JN_ORG_TYPE
+        ORG_HIRCHY_ID="kuali.org.hierarchy.Curriculum" ORG_TYPE_ID="kuali.org.Division"/>
+    <KSOR_ORG_HIRCHY_JN_ORG_TYPE
+        ORG_HIRCHY_ID="kuali.org.hierarchy.Curriculum" ORG_TYPE_ID="kuali.org.Program"/>
+    <KSOR_ORG_HIRCHY_JN_ORG_TYPE
+        ORG_HIRCHY_ID="kuali.org.hierarchy.Curriculum" ORG_TYPE_ID="kuali.org.Senate"/>
+</dataset>

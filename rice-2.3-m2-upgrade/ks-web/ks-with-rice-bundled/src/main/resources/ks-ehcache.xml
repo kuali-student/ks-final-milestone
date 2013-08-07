@@ -1,0 +1,18 @@
+<ehcache name="ks-ehcache">
+    <defaultCache maxElementsInMemory="10" eternal="false" timeToIdleSeconds="120" timeToLiveSeconds="120" />
+    <cache name="enumCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="atpCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="orgCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="lrcCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="statementCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="roomCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="buildingCache" maxElementsInMemory="200" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="roomRespOrgCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="buildingRoomCodeCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+    <cache name="buildingCodeCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="120" />
+
+    <!-- These caches do no refresh. These are for objects that do not change after startup -->
+    <cache name="LRCServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
+    <cache name="TypeServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
+    <cache name="StateServiceCache" maxElementsInMemory="1000" eternal="true" timeToIdleSeconds="0" timeToLiveSeconds="0" />
+</ehcache>

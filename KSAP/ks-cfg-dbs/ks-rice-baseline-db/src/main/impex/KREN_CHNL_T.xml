@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KREN_CHNL_T CHNL_ID="500" DESC_TXT="Builtin channel for KEW"
+        NM="KEW" SUBSCRB_IND="N" VER_NBR="1"/>
+</dataset>

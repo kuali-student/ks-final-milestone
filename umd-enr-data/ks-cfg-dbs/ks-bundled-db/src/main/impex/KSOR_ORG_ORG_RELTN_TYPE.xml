@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSOR_ORG_ORG_RELTN_TYPE EFF_DT="20121024191132"
+        NAME="Parent 2 Child" OBJ_ID="E6F45138A7394EB89969CC6891357BCC"
+        ORG_HIRCHY="kuali.org.hierarchy.Curriculum"
+        TYPE_DESC="Parent to Child"
+        TYPE_KEY="kuali.org.Parent2CurriculumChild" VER_NBR="0"/>
+</dataset>

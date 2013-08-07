@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE dataset SYSTEM "data.dtd">
+<dataset>
+    <KSEN_SOC_ATTR ATTR_KEY="kuali.soc.state.published"
+        ATTR_VALUE="2012-11-13T10:47:30-0500"
+        ID="5084bd4c-88d6-4ad2-9ab5-8a6b1df6e77a"
+        OBJ_ID="602d1227-2bb4-4fc8-a2ba-255e70e6f945" OWNER_ID="88554e12-aebb-4600-a4c0-f36aec78d4e7"/>
+    <KSEN_SOC_ATTR ATTR_KEY="kuali.soc.state.published"
+        ATTR_VALUE="2012-11-13T10:47:30-0500"
+        ID="6d7eaed2-0d38-4272-89aa-c90f3fab8dd7"
+        OBJ_ID="59c62851-3c8b-45cf-9456-71687e512381" OWNER_ID="ef954b54-48b1-4192-a7f4-8253976951fd"/>
+    <KSEN_SOC_ATTR ATTR_KEY="kuali.soc.state.published"
+        ATTR_VALUE="2012-11-13T10:47:30-0500"
+        ID="7d472c0b-8a4f-4cb3-808e-39ca8155b7b6"
+        OBJ_ID="559bfd90-4898-45fe-9835-932255aa3ccf" OWNER_ID="bfc8460e-38da-4494-a096-2446c47991fd"/>
+    <KSEN_SOC_ATTR ATTR_KEY="kuali.soc.state.published"
+        ATTR_VALUE="2012-11-13T10:47:30-0500"
+        ID="ac0b2bb6-4ddc-41df-b393-7be28acb5dfa"
+        OBJ_ID="846c4ff2-957f-4578-8ba2-8ca6a953a336" OWNER_ID="cf5bd74e-9bc9-4f6f-8609-df1141ee45e0"/>
+    <KSEN_SOC_ATTR ATTR_KEY="kuali.soc.state.published"
+        ATTR_VALUE="2012-11-13T10:47:30-0500"
+        ID="ad08c020-6486-4121-93ac-9acc4fda9018"
+        OBJ_ID="24aad10e-86bf-4f81-8f03-484671c5a46a" OWNER_ID="58b9b598-1c25-4fcc-8c29-896ccb579019"/>
+    <KSEN_SOC_ATTR ATTR_KEY="kuali.soc.state.published"
+        ATTR_VALUE="2012-11-13T10:47:30-0500"
+        ID="b9422c2b-2569-48cb-9e22-120b14a14022"
+        OBJ_ID="7780d35b-3eb3-4ca4-9640-08f0c83e36d2" OWNER_ID="4d4e11c3-81c9-4fd7-b309-427821e45af5"/>
+    <KSEN_SOC_ATTR ATTR_KEY="kuali.soc.state.published"
+        ATTR_VALUE="2012-11-13T10:47:30-0500"
+        ID="dde1c908-64ba-4708-b144-5e0a37e50761"
+        OBJ_ID="d7e1dc0b-050c-499d-9404-f75d0c09a8c9" OWNER_ID="03192a24-765a-4b9d-b638-5158430e09c8"/>
+    <KSEN_SOC_ATTR ATTR_KEY="kuali.soc.state.published"
+        ATTR_VALUE="2012-11-13T10:47:30-0500"
+        ID="ec817971-beee-4478-ab90-389cf91d4549"
+        OBJ_ID="27732153-838b-4ee9-81e5-26c80cf81e9f" OWNER_ID="34900c53-8239-4403-a8f6-f6d683a1186b"/>
+</dataset>
