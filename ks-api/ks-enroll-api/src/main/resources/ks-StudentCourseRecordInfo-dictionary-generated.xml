@@ -1,0 +1,607 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- StudentCourseRecordInfo-->
+	<bean id="StudentCourseRecordInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="studentCourseRecordInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo"/>
+		<property name="objectLabel" value="Student Course Record"/>
+		<property name="objectDescription">
+			<value>
+Information about a Student Course Record. A Student Course Record
+contains information on the courses a student has taken.
+
+include notes on Id
+			</value>
+		</property>
+		<property name="titleAttribute" value="courseTitle"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="StudentCourseRecordInfo.id"/>
+				<ref bean="StudentCourseRecordInfo.typeKey"/>
+				<ref bean="StudentCourseRecordInfo.stateKey"/>
+				<ref bean="StudentCourseRecordInfo.courseOfferingId"/>
+				<ref bean="StudentCourseRecordInfo.sourceTypeKey"/>
+				<ref bean="StudentCourseRecordInfo.courseRegistrationId"/>
+				<ref bean="StudentCourseRecordInfo.personId"/>
+				<ref bean="StudentCourseRecordInfo.courseTitle"/>
+				<ref bean="StudentCourseRecordInfo.courseCode"/>
+				<ref bean="StudentCourseRecordInfo.activityCode"/>
+				<ref bean="StudentCourseRecordInfo.termName"/>
+				<ref bean="StudentCourseRecordInfo.courseBeginDate"/>
+				<ref bean="StudentCourseRecordInfo.courseEndDate"/>
+				<ref bean="StudentCourseRecordInfo.assignedGradeValue"/>
+				<ref bean="StudentCourseRecordInfo.assignedGradeScaleKey"/>
+				<ref bean="StudentCourseRecordInfo.administrativeGradeValue"/>
+				<ref bean="StudentCourseRecordInfo.administrativeGradeScaleKey"/>
+				<ref bean="StudentCourseRecordInfo.calculatedGradeValue"/>
+				<ref bean="StudentCourseRecordInfo.calculatedGradeScaleKey"/>
+				<ref bean="StudentCourseRecordInfo.creditsAttempted"/>
+				<ref bean="StudentCourseRecordInfo.creditsEarned"/>
+				<ref bean="StudentCourseRecordInfo.creditsForGPA"/>
+				<ref bean="StudentCourseRecordInfo.countsTowardCredits"/>
+				<ref bean="StudentCourseRecordInfo.isRepeated"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="StudentCourseRecordInfo.meta"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.courseOfferingId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingId"/>
+		<property name="shortLabel" value="Course Offering Id"/>
+		<property name="summary">
+			<value>
+Id of the course that was taken by the student
+			</value>
+		</property>
+		<property name="label" value="Course Offering Id"/>
+		<property name="description">
+			<value>
+Id of the course that was taken by the student
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.sourceTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="sourceTypeKey"/>
+		<property name="shortLabel" value="Source Type Key"/>
+		<property name="summary">
+			<value>
+The Source is represented by a Type to indicate what crated
+ this record. 
+			</value>
+		</property>
+		<property name="label" value="Source Type Key"/>
+		<property name="description">
+			<value>
+The Source is represented by a Type to indicate what crated
+ this record. Examples are &quot;native&quot; that implies the exietence
+ of a Course Registration or a &quot;transfer articulation&quot; that may
+ imply the existence of other data.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.courseRegistrationId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseRegistrationId"/>
+		<property name="shortLabel" value="Course Registration Id"/>
+		<property name="summary">
+			<value>
+The Id of the Course Registration. 
+			</value>
+		</property>
+		<property name="label" value="Course Registration Id"/>
+		<property name="description">
+			<value>
+The Id of the Course Registration. A Course Registration Id is
+available for native source types.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
+		<property name="name" value="personId"/>
+		<property name="shortLabel" value="Person Id"/>
+		<property name="summary">
+			<value>
+The Id of the Student.
+			</value>
+		</property>
+		<property name="label" value="Person Id"/>
+		<property name="description">
+			<value>
+The Id of the Student.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.courseTitle-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseTitle"/>
+		<property name="shortLabel" value="Course Title"/>
+		<property name="summary">
+			<value>
+The title of the course that was in effect at the time
+the student took the course.
+			</value>
+		</property>
+		<property name="label" value="Course Title"/>
+		<property name="description">
+			<value>
+The title of the course that was in effect at the time
+the student took the course.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.courseCode-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="courseCode"/>
+		<property name="shortLabel" value="Course Code"/>
+		<property name="summary">
+			<value>
+The code or number of the course that was in effect at the time
+the student took the course.
+			</value>
+		</property>
+		<property name="label" value="Course Code"/>
+		<property name="description">
+			<value>
+The code or number of the course that was in effect at the time
+the student took the course.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.activityCode-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="activityCode"/>
+		<property name="shortLabel" value="Activity Code"/>
+		<property name="summary">
+			<value>
+The code or number of the primary activity or section that was
+in effect at the time the student took the course.
+			</value>
+		</property>
+		<property name="label" value="Activity Code"/>
+		<property name="description">
+			<value>
+The code or number of the primary activity or section that was
+in effect at the time the student took the course.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.termName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="termName"/>
+		<property name="shortLabel" value="Term Name"/>
+		<property name="summary">
+			<value>
+The name of the term in which the student took the offering.
+			</value>
+		</property>
+		<property name="label" value="Term Name"/>
+		<property name="description">
+			<value>
+The name of the term in which the student took the offering.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.courseBeginDate-generated" abstract="true" parent="BaseKuali.date">
+		<property name="name" value="courseBeginDate"/>
+		<property name="shortLabel" value="Course Begin Date"/>
+		<property name="summary">
+			<value>
+The start date of the course.
+			</value>
+		</property>
+		<property name="label" value="Course Begin Date"/>
+		<property name="description">
+			<value>
+The start date of the course.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.courseEndDate-generated" abstract="true" parent="BaseKuali.endDate">
+		<property name="name" value="courseEndDate"/>
+		<property name="shortLabel" value="Course End Date"/>
+		<property name="summary">
+			<value>
+The end date of the course.
+			</value>
+		</property>
+		<property name="label" value="Course End Date"/>
+		<property name="description">
+			<value>
+The end date of the course.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.assignedGradeValue-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="assignedGradeValue"/>
+		<property name="shortLabel" value="Assigned Grade Value"/>
+		<property name="summary">
+			<value>
+The grade the student was assigned for the course.
+			</value>
+		</property>
+		<property name="label" value="Assigned Grade Value"/>
+		<property name="description">
+			<value>
+The grade the student was assigned for the course.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.assignedGradeScaleKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="assignedGradeScaleKey"/>
+		<property name="shortLabel" value="Assigned Grade Scale Key"/>
+		<property name="summary">
+			<value>
+The Id for the grading scale for the assigned grade.
+			</value>
+		</property>
+		<property name="label" value="Assigned Grade Scale Key"/>
+		<property name="description">
+			<value>
+The Id for the grading scale for the assigned grade.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.administrativeGradeValue-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="administrativeGradeValue"/>
+		<property name="shortLabel" value="Administrative Grade Value"/>
+		<property name="summary">
+			<value>
+The grade the student was assigned for the course.
+			</value>
+		</property>
+		<property name="label" value="Administrative Grade Value Key"/>
+		<property name="description">
+			<value>
+The grade the student was assigned for the course.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.administrativeGradeScaleKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="administrativeGradeScaleKey"/>
+		<property name="shortLabel" value="Administrative Grade Scale Key"/>
+		<property name="summary">
+			<value>
+The Id for the grading scale for the administrative grade.
+			</value>
+		</property>
+		<property name="label" value="Administrative Grade Scale Key"/>
+		<property name="description">
+			<value>
+The Id for the grading scale for the administrative grade.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.calculatedGradeValue-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="calculatedGradeValue"/>
+		<property name="shortLabel" value="Calculated Grade Value"/>
+		<property name="summary">
+			<value>
+The calculated grade the student earned for the course.
+			</value>
+		</property>
+		<property name="label" value="Calculated Grade Value"/>
+		<property name="description">
+			<value>
+The calculated grade the student earned for the course.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.calculatedGradeScaleKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="calculatedGradeScaleKey"/>
+		<property name="shortLabel" value="Calculated Grade Scale Key"/>
+		<property name="summary">
+			<value>
+The Id for the grading scale for the calculated grade.
+			</value>
+		</property>
+		<property name="label" value="Calculated Grade Scale Key"/>
+		<property name="description">
+			<value>
+The Id for the grading scale for the calculated grade.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.creditsAttempted-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditsAttempted"/>
+		<property name="shortLabel" value="Credits Attempted"/>
+		<property name="summary">
+			<value>
+The number of credits the student attempted for this course.
+			</value>
+		</property>
+		<property name="label" value="Credits Attempted"/>
+		<property name="description">
+			<value>
+The number of credits the student attempted for this course.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.creditsEarned-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditsEarned"/>
+		<property name="shortLabel" value="Credits Earned"/>
+		<property name="summary">
+			<value>
+The number of credits the student earned for this course.
+			</value>
+		</property>
+		<property name="label" value="Credits Earned"/>
+		<property name="description">
+			<value>
+The number of credits the student earned for this course.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.creditsForGPA-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="creditsForGPA"/>
+		<property name="shortLabel" value="Credits For GPA"/>
+		<property name="summary">
+			<value>
+The number of credits to be applied for the GPA calculation.
+
+			</value>
+		</property>
+		<property name="label" value="Credits For GPA"/>
+		<property name="description">
+			<value>
+The number of credits to be applied for the GPA calculation.
+This is provides a weighting to this course for the GPA.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.countsTowardCredits-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="countsTowardCredits"/>
+		<property name="shortLabel" value="Counts Toward Credits"/>
+		<property name="summary">
+			<value>
+If this student record counts toward the cumultive credits.
+			</value>
+		</property>
+		<property name="label" value="Counts Toward Credits"/>
+		<property name="description">
+			<value>
+If this student record counts toward the cumultive credits.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.isRepeated-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isRepeated"/>
+		<property name="shortLabel" value="Is Repeated"/>
+		<property name="summary">
+			<value>
+If this course is a repeat of a previous offering. the student
+took.
+			</value>
+		</property>
+		<property name="label" value="Is Repeated"/>
+		<property name="description">
+			<value>
+If this course is a repeat of a previous offering. the student
+took.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="StudentCourseRecordInfo.meta.versionInd"/>
+						<ref bean="StudentCourseRecordInfo.meta.createTime"/>
+						<ref bean="StudentCourseRecordInfo.meta.createId"/>
+						<ref bean="StudentCourseRecordInfo.meta.updateTime"/>
+						<ref bean="StudentCourseRecordInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="StudentCourseRecordInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+</beans>

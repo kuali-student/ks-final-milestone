@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+    <context:annotation-config/>
+
+    <!-- This sets up the data dictionary validator -->
+
+    <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <import resource="classpath:ks-test-system-property-configurer.xml"/>
+    <import resource="classpath:ks-enroll-impl-test-data-dictionary-services-configuration.xml"/>
+    <import resource="classpath:ks-enroll-impl-test-data-dictionary-validator-configuration.xml"/>
+
+    <bean id="configContext" class="org.kuali.student.common.test.KSTestConfigContextLoader">
+        <constructor-arg index="0">
+            <list>
+                <value>classpath:META-INF/course-offering-test-config.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="kualiConfigurationService" class="org.kuali.rice.core.impl.services.ConfigurationServiceImpl" depends-on="configContext"/>
+
+
+    <!-- This is the setup for the decorator -->
+    <alias name="coServiceValidationDecorator" alias="CourseOfferingService" />
+
+    <bean id="coServiceValidationDecorator"
+          class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingServiceValidationDecorator">
+        <property name="nextDecorator" ref="coService"/>
+        <property name="validator" ref="validator"/>
+        <property name="searchService" ref="searchService"/>
+        <property name="cluService" ref="cluService"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="socService" ref="socService"/>
+    </bean>
+
+    <!-- These beans are needed by the validation decorator class itself -->
+    <bean id="cluService" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl">
+        <property name="searchService" ref="searchService" />
+    </bean>
+
+    <!-- Use a mock implementation of the search service since to get around the difficulties of bringing up a full CluService -->
+    <bean id="searchService" class="org.kuali.student.r2.common.class1.search.SearchServiceMockImpl" />
+    <!-- Load up test data for the searches that happen within the validation decorator -->
+    <bean id="searchServiceDataLoader" class="org.kuali.student.enrollment.class2.courseoffering.service.decorators.CourseOfferingValidatorDecoratorTestDataLoader">
+        <constructor-arg ref="searchService" />
+    </bean>
+    <bean id="socService" class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceMockImpl" />
+    <bean id="typeService" class="org.kuali.student.r2.common.type.service.TypeServiceMockImpl" />
+
+    <!-- KSENROLL-8062 -->
+    <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
+    </bean>
+
+    <!-- CourseOfferingServcieMockImpl has a bunch of services defined with @Resource, so they have to be defined as well. -->
+    <bean id="coService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMockImpl" />
+    <bean id="coBusinessLogic" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceBusinessLogicImpl" />
+    <bean id="regGroupCodeGeneratorFactory" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.FourDigitRegistrationGroupCodeGeneratorFactory" />
+    <bean id="courseService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseServiceR1MockImpl" />
+    <bean id="acalService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.AcademicCalendarServiceMockImpl"/>
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl"/>
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl" />
+    <bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5" />
+    <bean id="courseOfferingTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer" />
+    <bean id="acalServiceFacade" class="org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacadeImpl" />
+    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />
+    <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl"/>
+</beans>
+
