@@ -170,17 +170,14 @@
                 <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
                     <!--<property name="seperatedActions">-->
                         <!--<list>-->
-                            <!-- Note by Bonnie: turn on authz on copy and edit links now -->
                             <bean  parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering"
                                   p:actionLabel="Copy"
                                   p:render="@{#line.isEnableCopyCOActionLink() and !#line.isCrossListed()}"
                                   p:actionEvent="copyCOonManageCOsPage"/>
-                            <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="copyCourseOffering" p:actionLabel="Copy" />-->
                             <bean  parent="Uif-NavigationActionLink" p:methodToCall="edit"
                                   p:actionLabel="Edit"
                                   p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage">
                             </bean>
-                            <!--<bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />-->
                             <bean  parent="Uif-NavigationActionLink" p:methodToCall="loadAOs_RGs_AOCs"
                                   p:actionLabel="Manage">
                             </bean>
