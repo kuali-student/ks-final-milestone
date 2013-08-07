@@ -22,7 +22,7 @@
 
     <bean id="KS-ManageRegistrationGroups-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="manageRegistrationGroupsView"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.RegistrationGroupManagementViewHelperServiceImpl"
+          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.courseoffering.service.impl.CO_AO_RG_ViewHelperServiceImpl"
           p:formClass="org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm">
 
         <property name="authorizer">
