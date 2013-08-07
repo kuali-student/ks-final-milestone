@@ -193,7 +193,7 @@ public class PlanController extends UifControllerBase {
 		return getUIFModelAndView(planForm);
 	}
 
-	@RequestMapping(params = "AddPlannedCourseForm")
+	@RequestMapping(params = "methodToCall=startAddPlannedCourseForm")
 	public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
@@ -896,7 +896,7 @@ public class PlanController extends UifControllerBase {
 		}
 		// Further validation of ATP IDs will happen in the service validation
 		// methods.
-		if (StringUtils.isEmpty(form.getSelectedAtpId())) {
+		if (StringUtils.isEmpty(form.getAtpId())) {
 			return doOperationFailedError(form, "Term Year value missing", null);
 		}
 
@@ -916,7 +916,7 @@ public class PlanController extends UifControllerBase {
 		// Use LinkedList here so that the remove method works during "other"
 		// option processing.
 		List<String> newAtpIds = new ArrayList<String>();
-        newAtpIds.add(form.getSelectedAtpId());
+        newAtpIds.add(form.getAtpId());
 
 		try {
 			KsapFrameworkServiceLocator.getTermHelper().getTerm(
@@ -1077,7 +1077,7 @@ public class PlanController extends UifControllerBase {
 
 		// validation of Year and Term will happen in the service validation
 		// methods.
-		if (StringUtils.isEmpty(form.getSelectedAtpId())) {
+		if (StringUtils.isEmpty(form.getAtpId())) {
 			return doOperationFailedError(form, "Term Year value missing", null);
 		}
 
@@ -1094,7 +1094,7 @@ public class PlanController extends UifControllerBase {
 		// Use LinkedList here so that the remove method works during "other"
 		// option processing.
         List<String> newAtpIds = new ArrayList<String>();
-        newAtpIds.add(form.getSelectedAtpId());
+        newAtpIds.add(form.getAtpId());
 
 		try {
 			KsapFrameworkServiceLocator.getTermHelper().getTerm(
@@ -2218,9 +2218,6 @@ public class PlanController extends UifControllerBase {
 		GlobalVariables.getMessageMap().putInfoForSectionId(
 				PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, key, params);
 
-        form.setDisplayDialogStatus(true);
-        form.setDialogSuccess(true);
-        form.setDialogMessage(key);
         GlobalVariables.getMessageMap().addGrowlMessage("",key,params);
 
 		return getUIFModelAndView(form,
