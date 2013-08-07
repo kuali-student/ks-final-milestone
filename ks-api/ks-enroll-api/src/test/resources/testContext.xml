@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean id="testAtpInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-test-AtpInfo-dictionary.xml" />
+    </bean>
+    <bean id="testAcalInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-test-AcademicCalendarInfo-dictionary.xml" />
+    </bean>
+    <bean id="testLuiInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-test-LuiInfo-dictionary.xml" />
+    </bean>
+    <bean id="testLprInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-test-LprInfo-dictionary.xml" />
+    </bean>
+
+    <bean id="testCourseOfferingInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-test-CourseOfferingInfo-dictionary.xml" />
+    </bean>
+    <bean name="testDictionaryFileLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="testAtpInfoDictionaryLocation" />
+                <bean parent="testAcalInfoDictionaryLocation" />
+                <bean parent="testLuiInfoDictionaryLocation" />
+                <bean parent="testCourseOfferingInfoDictionaryLocation" />
+                <bean parent="testLprInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!--All Objects Data Dictionary Service used by Rice-->
+    <bean id="testDataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="shouldNotMatter" />
+        <property name="dictionaryLocations" ref="testDictionaryFileLocations" />
+    </bean>
+    <bean id="testValidator" class="org.kuali.student.r2.common.datadictionary.RiceDataDictionaryValidatorImpl">
+        <property name="riceDataDictionaryService" ref="testDataDictionaryServiceForAllUsedByRice" />
+        <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
+    </bean>
+    <!--<bean id="mockAtpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl"/>-->
+    <bean id="riceDictionaryValidationService" class="org.kuali.rice.krad.service.impl.DictionaryValidationServiceImpl">
+        <property name="dataDictionaryService">
+            <ref bean="riceDataDictionaryService" />
+        </property>
+    </bean>
+
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
+
+    <!--
+      RICE Dictionary service
+      This is used by the rice dictionary validation service
+    -->
+    <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
+    <bean id="riceDataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl">
+        <constructor-arg>
+            <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionaryWithFakeEnvironment" init-method="init">
+                <property name="dataDictionaryMapper">
+                    <bean class="org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper"/>
+                </property>
+                <property name="moduleDictionaryFiles">
+                  <map>
+                    <entry key="http://student.kuali.org/wsdl/datadictionary">
+                      <list>
+                        <value>classpath:ks-OfferingInstructorInfo-dictionary.xml</value>
+                        <value>classpath:ks-CourseOfferingCrossListingInfo-dictionary.xml</value>
+                      </list>
+                      </entry>
+                    </map>
+                </property>
+            </bean>
+        </constructor-arg>
+        <!--<property name="kualiConfigurationService" ref="kualiConfigurationService" />-->
+        <property name="kualiModuleService" ref="kualiModuleService" />
+        <property name="additionalDictionaryFiles">
+            <map>
+                <entry key="http://student.kuali.org/wsdl/datadictionary">
+                    <ref bean="allDictionaryFileLocations"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+</beans>
