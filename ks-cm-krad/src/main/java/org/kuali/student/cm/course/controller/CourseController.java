@@ -246,6 +246,12 @@ public class CourseController extends UifControllerBase {
         final CourseForm courseForm = (CourseForm) form;
 
         courseForm.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
+        try {
+            redrawDecisionTable(courseForm);
+        }
+        catch (Exception e) {
+            error("Untable to create decision table: %s", e.getMessage());
+        }
         return super.start(courseForm, result, request, response);
     }
 

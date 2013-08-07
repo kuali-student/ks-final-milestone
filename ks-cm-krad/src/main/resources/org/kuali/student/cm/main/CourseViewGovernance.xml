@@ -15,22 +15,22 @@
   limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-GovernancePage" parent="Uif-Page"
-		p:headerText="Governance" p:disclosure.render="false">
+    <bean id="KS-CourseView-GovernancePage" parent="Uif-Page"
+        p:headerText="Governance" p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-Header" />
- 		<property name="items">
- 			<list> 
- 				<ref bean="KS-CourseView-GovernancePage-Widgets" /> 
- 			</list> 
- 		</property> 
-		<property name="footer">
+        <property name="items">
+            <list> 
+                <ref bean="KS-CourseView-GovernancePage-Widgets" /> 
+            </list> 
+        </property> 
+        <property name="footer">
             <ref bean="KS-CourseView-Footer" />
         </property>
-	</bean>
+    </bean>
 
     <bean id="KS-CourseView-GovernancePage-Widgets" parent="Uif-VerticalBoxSection">
       <property name="items">
@@ -41,7 +41,9 @@
               <bean parent="Uif-VerticalCheckboxesControl" />
             </property>
             <property name="optionsFinder">
-              <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder"/>
+              <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.CampusLocationsKeyValuesFinder"
+                    p:addBlankOption="false" />
+              
             </property>
           </bean>
           <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.unitsContentOwner" p:label="Curriculum Oversight"
@@ -53,5 +55,5 @@
           </bean>
         </list>
       </property>
-	</bean>
+    </bean>
 </beans>
