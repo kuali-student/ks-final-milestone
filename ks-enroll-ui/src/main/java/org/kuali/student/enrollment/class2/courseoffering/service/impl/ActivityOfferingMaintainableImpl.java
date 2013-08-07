@@ -677,23 +677,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return displayString;
     }
 
-    private void assembleInstructorWrapper(List<OfferingInstructorInfo> instructors, ActivityOfferingWrapper wrapper) {
-        if (instructors != null && !instructors.isEmpty()) {
-            for (OfferingInstructorInfo instructor : instructors) {
-                OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper(instructor);
-                if (instructor.getPercentageEffort() != null) {
-                    instructorWrapper.setsEffort(Integer.toString(instructor.getPercentageEffort().intValue()));
-                }
-                wrapper.getInstructors().add(instructorWrapper);
-            }
-        }
-        if(wrapper.getInstructors().isEmpty()) {
-            // add a empty line to have the personnel table starts
-            OfferingInstructorWrapper instructorWrapper = new OfferingInstructorWrapper();
-            wrapper.getInstructors().add(instructorWrapper);
-        }
-    }
-
     private void disassembleInstructorsWrapper(List<OfferingInstructorWrapper> instructors, ActivityOfferingInfo aoInfo) {
         aoInfo.setInstructors(new ArrayList<OfferingInstructorInfo>());
         if (instructors != null && !instructors.isEmpty()) {
@@ -948,99 +931,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return true;
     }
 
-    public List<BuildingInfo> retrieveBuildingInfo(String buildingCode){
-
-        try {
-            return getScheduleHelper().retrieveBuildingInfo(buildingCode,false);
-        } catch (Exception e) {
-            throw convertServiceExceptionsToUI(e);
-        }
-    }
-
-    public List<String> retrieveCourseOfferingCode(String termId,String courseOfferingCode){
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CO_MANAGEMENT_SEARCH.getKey());
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, StringUtils.upperCase(courseOfferingCode));
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, termId);
-        searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CROSS_LIST_SEARCH_ENABLED, BooleanUtils.toStringTrueFalse(false));
-
-        SearchResultInfo searchResult = null;
-        try {
-            searchResult = getSearchService().search(searchRequest, createContextInfo());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        List<String> courseOfferingCodes = new ArrayList<String>();
-
-        for (SearchResultRowInfo row : searchResult.getRows()) {
-            for(SearchResultCellInfo cellInfo : row.getCells()){
-
-                if(CourseOfferingManagementSearchImpl.SearchResultColumns.CODE.equals(cellInfo.getKey())){
-                    courseOfferingCodes.add(cellInfo.getValue());
-                }
-
-            }
-        }
-
-        return courseOfferingCodes;
-    }
-
-    public void populateColocatedAOs(InputField field, MaintenanceDocumentForm form){
-
-        if (field.isReadOnly()){
-            return;
-        }
-
-        if (field.getOptionsFinder() == null || ((UifKeyValuesFinderBase)field.getOptionsFinder()).getKeyValues(form).isEmpty()){
-            field.getControl().setRender(false);
-        } else {
-            field.getControl().setRender(true);
-        }
-
-
-    }
-
-    public List<String> retrieveActivityOfferingCode(String termId,String courseOfferingCode, String activityOfferingCode){
-        List<String> activityOfferingCodes = new ArrayList<String>();
-
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.equal("courseOfferingCode", StringUtils.upperCase(courseOfferingCode)),
-                PredicateFactory.equalIgnoreCase("atpId", termId)));
-        QueryByCriteria criteria = qbcBuilder.build();
-
-        //Do search. In ideal case, returns one element, which is the desired CO.
-        List<CourseOfferingInfo> courseOfferings = null;
-        try {
-            courseOfferings = getCourseOfferingService().searchForCourseOfferings(criteria, createContextInfo());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        if (!courseOfferings.isEmpty()){
-            try {
-                List<ActivityOfferingInfo> activityOfferingInfos = getCourseOfferingService().getActivityOfferingsByCourseOffering(courseOfferings.get(0).getId(),createContextInfo());
-                for(ActivityOfferingInfo ao : activityOfferingInfos){
-                    if (StringUtils.startsWith(ao.getActivityCode(),StringUtils.upperCase(activityOfferingCode))){
-                        activityOfferingCodes.add(ao.getActivityCode());
-                    }
-                }
-                /**
-                 * No match found? Display all the AOs
-                 */
-                if (activityOfferingCodes.isEmpty()){
-                    for(ActivityOfferingInfo ao : activityOfferingInfos){
-                        activityOfferingCodes.add(ao.getActivityCode());
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        return activityOfferingCodes;
-    }
-
     @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof OfferingInstructorWrapper) {
@@ -1129,20 +1019,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
     protected ActivityOfferingScheduleHelperImpl getScheduleHelper(){
         return new ActivityOfferingScheduleHelperImpl();
-    }
-
-    protected SearchService getSearchService() {
-        if(searchService == null) {
-            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
-        }
-        return searchService;
-    }
-
-    protected LuiService getLuiService() {
-        if(luiService == null) {
-            luiService = CourseOfferingResourceLoader.loadLuiService();
-        }
-        return luiService;
     }
 
     protected SchedulingService getSchedulingService() {

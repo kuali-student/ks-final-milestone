@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
@@ -35,7 +36,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEdit
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
@@ -94,7 +94,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainableImpl implements CourseOfferingMaintainable{
+public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainableImpl implements Maintainable {
     private static final long serialVersionUID = 1L;
     private final static Logger LOG = Logger.getLogger(CourseOfferingEditMaintainableImpl.class);
 
@@ -666,22 +666,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 }
                 formObject.setOrganizationNames(orgList);
 
-
-                // Set socInfo
-//                List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coInfo.getTermId(), ContextUtils.createDefaultContextInfo());
-//                 if (socIds != null && !socIds.isEmpty()){
-//                    //For M5, it should have only one SOC
-//                    if (socIds.size() > 1){
-//                        throw new RuntimeException("More than one SOC found for a term");
-//                    }
-//                    SocInfo soc = getCourseOfferingSetService().getSoc(socIds.get(0),ContextUtils.createDefaultContextInfo());
-//                    formObject.setSocInfo(soc);
-//                }
-
-                //Bonnie: above implementation assumes that each term only has one SOC, which might not be true any more
-                // in m6 and after...
-                // Although a Term can have more than one SOC, it only has one Main type of SOC and
-                // all COs should look into the state of that MAIN socInfo for the specified term
                 List<String> socIds = getCourseOfferingSetService().getSocIdsByTerm(coInfo.getTermId(), ContextUtils.createDefaultContextInfo());
                 if (socIds != null && !socIds.isEmpty()) {
                     List<SocInfo> targetSocs = getCourseOfferingSetService().getSocsByIds(socIds, ContextUtils.createDefaultContextInfo());
@@ -700,8 +684,6 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 document.getOldMaintainableObject().setDataObject(formObject);
                 document.getDocumentHeader().setDocumentDescription("Edit CO - " + coInfo.getCourseOfferingCode());
 
-                //            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), contextInfo());
-    //            formObject.setStateName(state.getName());
                 Person user = GlobalVariables.getUserSession().getPerson();
 
                 boolean canOpenView = this.getDocumentDictionaryService().getDocumentAuthorizer(document).canOpen(document,user);

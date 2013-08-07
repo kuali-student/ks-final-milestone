@@ -62,10 +62,6 @@ public class EnrollmentFeeInfoInquirableImpl extends InquirableImpl {
         return this.feeService;
     }
 
-    public void setFeeService(FeeService feeService) {
-        this.feeService = feeService;
-    }
-
     public CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
     }

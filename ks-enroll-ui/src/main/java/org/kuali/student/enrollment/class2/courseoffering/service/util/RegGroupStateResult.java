@@ -63,10 +63,6 @@ public class RegGroupStateResult {
         actual.set(index, rgState);
     }
 
-    public boolean isSame(int index) {
-        return expected.get(index).equals(actual.get(index));
-    }
-
     public int size() {
         return expected.size();
     }

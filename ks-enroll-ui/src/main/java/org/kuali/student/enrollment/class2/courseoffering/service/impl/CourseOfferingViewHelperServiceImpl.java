@@ -279,12 +279,4 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         return socService;
     }
 
-    private CourseService _getCourseService() {
-        if (courseService == null) {
-            Object o = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "course",
-                    "CourseService"));
-            courseService = (CourseService) o;
-        }
-        return courseService;
-    }
 }

@@ -60,8 +60,6 @@ public class EnrollmentFeeInfoMaintainableImpl extends MaintainableImpl {
             EnrollmentFeeInfo efi = getFeeService().getFee(dataObjectKeys.get("id"), ContextUtils.createDefaultContextInfo());
             document.getNewMaintainableObject().setDataObject(efi);
             document.getOldMaintainableObject().setDataObject(efi);
-//            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
-//            formObject.setStateName(state.getName());
             return efi;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -70,15 +68,7 @@ public class EnrollmentFeeInfoMaintainableImpl extends MaintainableImpl {
 
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-        //TODO What does all this commented out code do?
-        //EnrollmentFeeInfo efi = (EnrollmentFeeInfo)document.getNewMaintainableObject().getDataObject();
         document.getDocumentHeader().setDocumentDescription("Activity Offering");
-//        try {
-//            StateInfo state = getStateService().getState(formObject.getDto().getStateKey(), getContextInfo());
-//            formObject.setStateName(state.getName());
-//        } catch (Exception e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
     }
 
     public TypeService getTypeService() {

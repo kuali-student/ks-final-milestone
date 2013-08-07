@@ -100,10 +100,6 @@ public class CourseOfferingViewHelperUtil {
         }
     }
 
-    public static LRCService getLrcService() {
-        return CourseOfferingResourceLoader.loadLrcService();
-    }
-
     public static CourseService getCourseService() {
         return CourseOfferingResourceLoader.loadCourseService();
     }
