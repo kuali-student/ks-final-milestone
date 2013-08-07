@@ -142,6 +142,15 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         AORuleManagementWrapper ruleWrapper = (AORuleManagementWrapper) document.getDocument().getNewMaintainableObject().getDataObject();
 
         RuleEditor aoRuleEditor = ruleWrapper.getRuleEditor();
+
+        if(aoRuleEditor == null) {
+            String ruleId = document.getActionParamaterValue(KRMSConstants.KRMS_PARM_RULE_KEY);
+            if ((ruleId != null) && (StringUtils.isNotBlank(ruleId))) {
+                //Get a specific ruleEditor based on the ruleId.
+                aoRuleEditor = AgendaUtilities.getSelectedRuleEditor(ruleWrapper, ruleId);
+            }
+        }
+
         RuleEditor cluRuleEditor = null;
         for (AgendaEditor agendaEditor : ruleWrapper.getCluAgendas()) {
             if (agendaEditor.getRuleEditors().containsKey(aoRuleEditor.getTypeId())) {
