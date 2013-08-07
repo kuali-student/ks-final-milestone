@@ -954,7 +954,7 @@ function fnCloseAllPopups() {
  ######################################################################################
  */
 function fnBuildTitle(aView) {
-    var sText = 'Academic Year';
+    var sText = '';
     var aFirst = jQuery.trim(jQuery(aView[0]).find("div:hidden[id^='plan_base_atpId']").text());
     var aLast = jQuery.trim(jQuery(aView[aView.length - 1]).find("div:hidden[id^='plan_base_atpId']").text());
     jQuery("#planned_courses_detail .myplan-plan-header").html(sText + ' ' + aFirst+ ' - ' + aLast);
