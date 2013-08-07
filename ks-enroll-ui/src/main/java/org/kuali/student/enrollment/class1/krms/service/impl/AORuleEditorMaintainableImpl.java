@@ -260,23 +260,18 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             } else if (terms.size() > 1) {
                 GlobalVariables.getMessageMap().putError("termCode", CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_FOUND_MORE_THAN_ONE_TERM, atpCode);
             } else {
+                TermInfo term = terms.get(0);
                 //Checking soc
-                List<String> socIds;
-                try {
-                    socIds = getSocService().getSocIdsByTerm(terms.get(0).getId(), createContextInfo());
-                } catch (Exception e) {
-                    throw convertServiceExceptionsToUI(e);
-                }
-
+                List<String> socIds = getSocService().getSocIdsByTerm(term.getId(), createContextInfo());
                 if (socIds.isEmpty()) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
                 } else {
                     socStateKey = getSocStateKey(socIds);
                 }
+                //Set the contextbar details.
+                form.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(term, socStateKey,
+                        getStateService(), getAcalService(), createContextInfo()));
             }
-
-            form.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(terms.get(0), socStateKey,
-                    getStateService(), getAcalService(), createContextInfo()));
         } catch (Exception e) {
             throw new RuntimeException("Could not populate context bar.");
         }
