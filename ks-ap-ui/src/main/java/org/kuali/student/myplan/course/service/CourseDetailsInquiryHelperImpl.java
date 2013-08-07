@@ -71,8 +71,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	private static final long serialVersionUID = 4933435913745621395L;
 
-	private static final Logger LOG = Logger
-			.getLogger(CourseDetailsInquiryHelperImpl.class);
+	private static final Logger LOG = Logger.getLogger(CourseDetailsInquiryHelperImpl.class);
 
 	public static final String NOT_OFFERED_IN_LAST_TEN_YEARS = "Not offered for more than 10 years.";
 
@@ -136,17 +135,14 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	}
 
 	@Override
-	public CourseDetails retrieveDataObject(
-			@SuppressWarnings("rawtypes") Map fieldValues) {
-		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
-				.getStudentId();
+	public CourseDetails retrieveDataObject(@SuppressWarnings("rawtypes") Map fieldValues) {
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 		return retrieveCourseDetails(
 				(String) fieldValues.get(PlanConstants.PARAM_COURSE_ID),
 				(String) fieldValues.get(PlanConstants.PARAM_TERM_ID),
 				studentId,
 				fieldValues.get(PlanConstants.PARAM_OFFERINGS_FLAG) != null
-						&& Boolean.valueOf(fieldValues.get(
-								PlanConstants.PARAM_OFFERINGS_FLAG).toString()));
+						&& Boolean.valueOf(fieldValues.get(PlanConstants.PARAM_OFFERINGS_FLAG).toString()));
 	}
 
 	/**
@@ -171,8 +167,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 			return courseDetails;
 		} catch (DoesNotExistException e) {
-			throw new RuntimeException(String.format("Course [%s] not found.",
-					courseId), e);
+			throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
 		} catch (Exception e) {
 			throw new RuntimeException("Query failed.", e);
 		}
@@ -194,8 +189,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		CourseSummaryDetails courseDetails = new CourseSummaryDetails();
 
-		courseDetails.setVersionIndependentId(course.getVersion()
-				.getVersionIndId());
+		courseDetails.setVersionIndependentId(course.getVersion().getVersionIndId());
 		courseDetails.setCourseId(course.getId());
 		courseDetails.setCode(course.getCode());
 		courseDetails.setCredit(CreditsFormatter.formatCredits(course));
@@ -213,22 +207,18 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		List<String> prerequisites = new ArrayList<String>();
 
 		if (str != null && str.contains("Prerequisite:")) {
-			String req = (CourseLinkBuilder.makeLinks(str.substring(
-					str.indexOf("Prerequisite:"), str.length()),
-					courseLinkTemplateStyle, KsapFrameworkServiceLocator
-							.getContext().getContextInfo()));
+			String req = (CourseLinkBuilder.makeLinks(str.substring(str.indexOf("Prerequisite:"), str.length()),
+					courseLinkTemplateStyle, KsapFrameworkServiceLocator.getContext().getContextInfo()));
 			req = req.substring(req.indexOf("Prerequisite:"), req.length());
 			req = req.replace("Prerequisite:", "").trim();
-			req = req.substring(0, 1).toUpperCase()
-					.concat(req.substring(1, req.length()));
+			req = req.substring(0, 1).toUpperCase().concat(req.substring(1, req.length()));
 			prerequisites.add(req);
 
 			str = str.substring(0, str.indexOf("Prerequisite:"));
 		}
 		if (str != null) {
 			getCourseLinkBuilder();
-			str = CourseLinkBuilder.makeLinks(str, KsapFrameworkServiceLocator
-					.getContext().getContextInfo());
+			str = CourseLinkBuilder.makeLinks(str, KsapFrameworkServiceLocator.getContext().getContextInfo());
 		}
 		courseDetails.setRequisites(prerequisites);
 		courseDetails.setCourseDescription(str);
@@ -237,11 +227,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		if (cto != null) {
 			List<String> to = new java.util.ArrayList<String>();
 			try {
-				for (TypeInfo ti : KsapFrameworkServiceLocator.getTypeService()
-						.getTypesByKeys(
-								cto,
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo()))
+				for (TypeInfo ti : KsapFrameworkServiceLocator.getTypeService().getTypesByKeys(cto,
+						KsapFrameworkServiceLocator.getContext().getContextInfo()))
 					to.add(ti.getName());
 			} catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
 				throw new IllegalArgumentException("Type lookup error", e);
@@ -262,50 +249,38 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			String value = attributeInfo.getValue();
 
 			// -- Gen Ed requirements
-			if ("Y".equals(value)
-					&& key.startsWith(CourseSearchConstants.GEN_EDU_REQUIREMENTS_PREFIX)) {
+			if ("Y".equals(value) && key.startsWith(CourseSearchConstants.GEN_EDU_REQUIREMENTS_PREFIX)) {
 
 				// Get only the abbre_val of gen ed requirements
-				String abbrev = KsapFrameworkServiceLocator
-						.getEnumerationHelper().getEnumAbbrValForCode(key);
+				String abbrev = KsapFrameworkServiceLocator.getEnumerationHelper().getEnumAbbrValForCode(key);
 				courseDetails.getAbbrGenEdRequirements().add(abbrev);
 
 				// Get general education requirements.
-				EnumeratedValueInfo info = KsapFrameworkServiceLocator
-						.getEnumerationHelper().getGenEdReqEnumInfo(
-								key,
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
-				String genEdText = String.format("%s (%s)", info.getValue(),
-						info.getAbbrevValue());
+				EnumeratedValueInfo info = KsapFrameworkServiceLocator.getEnumerationHelper().getGenEdReqEnumInfo(key,
+						KsapFrameworkServiceLocator.getContext().getContextInfo());
+				String genEdText = String.format("%s (%s)", info.getValue(), info.getAbbrevValue());
 				courseDetails.getGenEdRequirements().add(genEdText);
 			}
 
 			// -- Campus Locations
 			if (key.startsWith(CourseSearchConstants.CAMPUS_LOCATION)) {
-				List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator
-						.getEnumerationHelper().getEnumerationValueInfoList(
-								"kuali.lu.campusLocation");
+				List<EnumeratedValueInfo> enumeratedValueInfoList = KsapFrameworkServiceLocator.getEnumerationHelper()
+						.getEnumerationValueInfoList("kuali.lu.campusLocation");
 				for (EnumeratedValueInfo campusEnum : enumeratedValueInfoList)
 					if (campusEnum.getCode().equals(value))
-						courseDetails.getCampusLocations().add(
-								campusEnum.getValue());
+						courseDetails.getCampusLocations().add(campusEnum.getValue());
 			}
 		}
 
 		// -- Curriculum Title
-		Map<String, String> subjectAreaMap = KsapFrameworkServiceLocator
-				.getOrgHelper().getTrimmedSubjectAreas();
-		courseDetails.setCurriculumTitle(subjectAreaMap.get(course
-				.getSubjectArea().trim()));
+		Map<String, String> subjectAreaMap = KsapFrameworkServiceLocator.getOrgHelper().getTrimmedSubjectAreas();
+		courseDetails.setCurriculumTitle(subjectAreaMap.get(course.getSubjectArea().trim()));
 
 		// -- Scheduled Terms
-		courseDetails.setScheduledTerms(KsapFrameworkServiceLocator
-				.getCourseHelper().getScheduledTerms(course));
+		courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper().getScheduledTerms(course));
 
 		if (courseDetails.getScheduledTerms().size() == 0)
-			courseDetails.setLastOffered(KsapFrameworkServiceLocator
-					.getCourseHelper().getLastOfferedTermId(course));
+			courseDetails.setLastOffered(KsapFrameworkServiceLocator.getCourseHelper().getLastOfferedTermId(course));
 
 		return courseDetails;
 
@@ -319,16 +294,14 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param studentId
 	 * @return
 	 */
-	public CourseDetails retrieveCourseDetails(String courseId, String termId,
-			String studentId, boolean loadActivityOffering) {
+	public CourseDetails retrieveCourseDetails(String courseId, String termId, String studentId,
+			boolean loadActivityOffering) {
 		CourseDetails courseDetails = new CourseDetails();
-		ContextInfo context = KsapFrameworkServiceLocator.getContext()
-				.getContextInfo();
+		ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
 		final CourseInfo course;
 		try {
 			/* Get version verified course */
-			course = getCourseService().getCourse(
-					getVerifiedCourseId(courseId), context);
+			course = getCourseService().getCourse(getVerifiedCourseId(courseId), context);
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("Course lookup failure", e);
 		} catch (InvalidParameterException e) {
@@ -353,17 +326,12 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			termIds.add(termId);
 		}
 		if (loadActivityOffering)
-			courseDetails
-					.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(
-							course, termIds));
+			courseDetails.setCourseOfferingInstitutionList(getCourseOfferingInstitutions(course, termIds));
 		else
-			courseDetails
-					.setCourseOfferingInstitutionList(new java.util.ArrayList<CourseOfferingInstitution>(
-							0));
+			courseDetails.setCourseOfferingInstitutionList(new java.util.ArrayList<CourseOfferingInstitution>(0));
 
 		// Course Plan + Academic Records
-		courseDetails.setPlannedCourseSummary(getPlannedCourseSummary(course,
-				studentId));
+		courseDetails.setPlannedCourseSummary(getPlannedCourseSummary(course, studentId));
 
 		return courseDetails;
 	}
@@ -377,8 +345,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param studentId
 	 * @return
 	 */
-	public PlannedCourseSummary getPlannedCourseSummaryById(String courseId,
-			String studentId) {
+	public PlannedCourseSummary getPlannedCourseSummaryById(String courseId, String studentId) {
 
 		/**
 		 * If version identpendent Id provided, retrieve the right course
@@ -391,8 +358,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			return getPlannedCourseSummary(course, studentId);
 		} catch (DoesNotExistException e) {
-			throw new RuntimeException(String.format("Course [%s] not found.",
-					courseId), e);
+			throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
 		} catch (Exception e) {
 			throw new RuntimeException("Query failed.", e);
 		}
@@ -408,8 +374,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param studentId
 	 * @return
 	 */
-	public PlannedCourseSummary getPlannedCourseSummary(CourseInfo course,
-			String studentId) {
+	public PlannedCourseSummary getPlannedCourseSummary(CourseInfo course, String studentId) {
 
 		PlannedCourseSummary plannedCourseSummary = new PlannedCourseSummary();
 
@@ -419,49 +384,34 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		// Get the first learning plan. There should only be one ...
 		String planTypeKey = AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN;
 		try {
-			List<LearningPlanInfo> plans = academicPlanService
-					.getLearningPlansForStudentByType(studentId, planTypeKey,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
+			List<LearningPlanInfo> plans = academicPlanService.getLearningPlansForStudentByType(studentId, planTypeKey,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			if (plans.size() > 0) {
 				LearningPlan plan = plans.get(0);
 				plannedCourseSummary.setLearningPlanId(plan.getId());
 
 				// Fetch the plan items which are associated with the plan.
-				List<PlanItemInfo> planItemsInPlan = academicPlanService
-						.getPlanItemsInPlan(plan.getId(),
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
+				List<PlanItemInfo> planItemsInPlan = academicPlanService.getPlanItemsInPlan(plan.getId(),
+						KsapFrameworkServiceLocator.getContext().getContextInfo());
 
 				// Iterate through the plan items and set flags to indicate
 				// whether the item is a planned/backup or saved course.
 				for (PlanItem planItemInPlanTemp : planItemsInPlan) {
-					if (planItemInPlanTemp.getRefObjectId().equals(
-							course.getId())) {
+					if (planItemInPlanTemp.getRefObjectId().equals(course.getId())) {
 						// Assuming type is planned or backup if not wishlist.
 						String typeKey = planItemInPlanTemp.getTypeKey();
-						if (typeKey
-								.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST)) {
-							plannedCourseSummary
-									.setSavedItemId(planItemInPlanTemp.getId());
-							String dateStr = planItemInPlanTemp.getMeta()
-									.getCreateTime().toString();
+						if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST)) {
+							plannedCourseSummary.setSavedItemId(planItemInPlanTemp.getId());
+							String dateStr = planItemInPlanTemp.getMeta().getCreateTime().toString();
 							dateStr = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER
-									.format(DateFormatters.DEFAULT_DATE_FORMATTER
-											.parse(dateStr.substring(0, 10)));
-							plannedCourseSummary
-									.setSavedItemDateCreated(dateStr);
+									.format(DateFormatters.DEFAULT_DATE_FORMATTER.parse(dateStr.substring(0, 10)));
+							plannedCourseSummary.setSavedItemDateCreated(dateStr);
 						} else {
-							PlanItemDataObject planItem = PlanItemDataObject
-									.build(planItemInPlanTemp);
-							if (typeKey
-									.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
-								plannedCourseSummary.getPlannedList().add(
-										planItem);
-							} else if (typeKey
-									.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
-								plannedCourseSummary.getBackupList().add(
-										planItem);
+							PlanItemDataObject planItem = PlanItemDataObject.build(planItemInPlanTemp);
+							if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
+								plannedCourseSummary.getPlannedList().add(planItem);
+							} else if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+								plannedCourseSummary.getBackupList().add(planItem);
 							}
 						}
 					}
@@ -470,18 +420,14 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		} catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
 			// Ignore and not load any plan data
 		} catch (Exception e1) {
-			LOG.error(" Error loading plan information for course :"
-					+ course.getCode() + " " + e1.getMessage());
+			LOG.error(" Error loading plan information for course :" + course.getCode() + " " + e1.getMessage());
 		}
 
 		// Get Academic Record Data from the SWS and set that to CourseDetails
 		// acadRecordList
 		try {
 			List<StudentCourseRecordInfo> studentCourseRecordInfos = getAcademicRecordService()
-					.getCompletedCourseRecords(
-							studentId,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
+					.getCompletedCourseRecords(studentId, KsapFrameworkServiceLocator.getContext().getContextInfo());
 			for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
 				AcademicRecordDataObject acadrec = new AcademicRecordDataObject();
 				acadrec.setAtpId(studentInfo.getTermName());
@@ -497,10 +443,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				if (course.getId().equalsIgnoreCase(studentInfo.getId())) {
 					plannedCourseSummary.getAcadRecList().add(acadrec);
 
-					YearTerm str = KsapFrameworkServiceLocator.getTermHelper()
-							.getYearTerm(studentInfo.getTermName());
-					plannedCourseSummary.getAcademicTerms().add(
-							str.getTermName());
+					YearTerm str = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(studentInfo.getTermName());
+					plannedCourseSummary.getAcademicTerms().add(str.getTermName());
 				}
 			}
 		} catch (Exception e) {
@@ -519,8 +463,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param terms
 	 * @return
 	 */
-	public List<CourseOfferingInstitution> getCourseOfferingInstitutionsById(
-			String courseId, List<String> terms) {
+	public List<CourseOfferingInstitution> getCourseOfferingInstitutionsById(String courseId, List<String> terms) {
 
 		/**
 		 * If version identpendent Id provided, retrieve the right course
@@ -533,8 +476,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			return getCourseOfferingInstitutions(course, terms);
 		} catch (DoesNotExistException e) {
-			throw new RuntimeException(String.format("Course [%s] not found.",
-					courseId), e);
+			throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
 		} catch (Exception e) {
 			throw new RuntimeException("Query failed.", e);
 		}
@@ -548,31 +490,22 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 */
 
 	protected Map<String, Map<String, PlanItem>> loadStudentsPlanItems() {
-		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
-				.getStudentId();
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 		Map<String, Map<String, PlanItem>> planItemsByTerm = new HashMap<String, Map<String, PlanItem>>();
 		if (studentId == null)
 			return planItemsByTerm;
 
 		List<LearningPlanInfo> learningPlanList;
 		try {
-			learningPlanList = getAcademicPlanService()
-					.getLearningPlansForStudentByType(
-							studentId,
-							PlanConstants.LEARNING_PLAN_TYPE_PLAN,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
+			learningPlanList = getAcademicPlanService().getLearningPlansForStudentByType(studentId,
+					PlanConstants.LEARNING_PLAN_TYPE_PLAN, KsapFrameworkServiceLocator.getContext().getContextInfo());
 			for (LearningPlanInfo learningPlan : learningPlanList) {
-				List<PlanItemInfo> planItems = getAcademicPlanService()
-						.getPlanItemsInPlan(
-								learningPlan.getId(),
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
+				List<PlanItemInfo> planItems = getAcademicPlanService().getPlanItemsInPlan(learningPlan.getId(),
+						KsapFrameworkServiceLocator.getContext().getContextInfo());
 				if (null != planItems) {
 					for (PlanItem item : planItems) {
 						for (String planPeriod : item.getPlanPeriods()) {
-							Map<String, PlanItem> planMap = planItemsByTerm
-									.get(planPeriod);
+							Map<String, PlanItem> planMap = planItemsByTerm.get(planPeriod);
 							if (null == planMap) {
 								planMap = new HashMap<String, PlanItem>();
 								planItemsByTerm.put(planPeriod, planMap);
@@ -604,8 +537,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param terms
 	 * @return list of course offering institution
 	 */
-	public List<CourseOfferingInstitution> getCourseOfferingInstitutions(
-			CourseInfo course, List<String> terms) {
+	public List<CourseOfferingInstitution> getCourseOfferingInstitutions(CourseInfo course, List<String> terms) {
 		List<CourseOfferingInstitution> instituteList = new ArrayList<CourseOfferingInstitution>();
 
 		Map<String, Map<String, PlanItem>> planItemsByTerm = loadStudentsPlanItems();
@@ -617,12 +549,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			// Load course offering comments
 			List<CourseOfferingInfo> courseOfferingInfoList;
 			try {
-				courseOfferingInfoList = getCourseOfferingService()
-						.getCourseOfferingsByCourseAndTerm(
-								course.getId(),
-								termId,
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
+				courseOfferingInfoList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(),
+						termId, KsapFrameworkServiceLocator.getContext().getContextInfo());
 			} catch (DoesNotExistException e) {
 				throw new IllegalArgumentException("CO lookup failure " + e);
 			} catch (InvalidParameterException e) {
@@ -645,12 +573,10 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				for (AttributeInfo attributeInfo : courseInfo.getAttributes()) {
 					String key = attributeInfo.getKey();
 					String value = attributeInfo.getValue();
-					if ("CourseComments".equalsIgnoreCase(key)
-							&& value.length() > 0) {
+					if ("CourseComments".equalsIgnoreCase(key) && value.length() > 0) {
 						courseComments = value;
 						break;
-					} else if ("CurriculumComments".equalsIgnoreCase(key)
-							&& value.length() > 0) {
+					} else if ("CurriculumComments".equalsIgnoreCase(key) && value.length() > 0) {
 						curriculumComments = value;
 						if (null != courseComments)
 							break;
@@ -658,8 +584,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				}
 			}
 
-			List<ActivityOfferingItem> list = getActivityOfferingItems(course,
-					courseOfferingInfoList, termId, planItemsByTerm.get(termId));
+			List<ActivityOfferingItem> list = getActivityOfferingItems(course, courseOfferingInfoList, termId,
+					planItemsByTerm.get(termId));
 			for (ActivityOfferingItem activityOfferingItem : list) {
 				String instituteCode = activityOfferingItem.getInstituteCode();
 				String instituteName = activityOfferingItem.getInstituteName();
@@ -678,8 +604,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 					instituteList.add(courseOfferingInstitution);
 				}
 
-				List<CourseOfferingTerm> courseOfferingTermList = courseOfferingInstitution
-						.getCourseOfferingTermList();
+				List<CourseOfferingTerm> courseOfferingTermList = courseOfferingInstitution.getCourseOfferingTermList();
 				CourseOfferingTerm courseOfferingTerm = null;
 				for (CourseOfferingTerm temp : courseOfferingTermList)
 					if (termId.equals(temp.getAtpId()))
@@ -687,19 +612,15 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				if (courseOfferingTerm == null) {
 					courseOfferingTerm = new CourseOfferingTerm();
 					courseOfferingTerm.setAtpId(termId);
-					courseOfferingTerm.setTerm(KsapFrameworkServiceLocator
-							.getTermHelper().getYearTerm(termId).getLongName());
+					courseOfferingTerm.setTerm(KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId)
+							.getLongName());
 					courseOfferingTerm.setCourseComments(courseComments);
-					courseOfferingTerm
-							.setCurriculumComments(curriculumComments);
-					courseOfferingTerm
-							.setInstituteCode(courseOfferingInstitution
-									.getCode());
+					courseOfferingTerm.setCurriculumComments(curriculumComments);
+					courseOfferingTerm.setInstituteCode(courseOfferingInstitution.getCode());
 					courseOfferingTermList.add(courseOfferingTerm);
 				}
 
-				courseOfferingTerm.getActivityOfferingItemList().add(
-						activityOfferingItem);
+				courseOfferingTerm.getActivityOfferingItemList().add(activityOfferingItem);
 			}
 		}
 		Collections.sort(instituteList, Collections.reverseOrder());
@@ -713,8 +634,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param termId
 	 * @return
 	 */
-	public List<ActivityOfferingItem> getActivityOfferingItemsById(
-			String courseId, String termId) {
+	public List<ActivityOfferingItem> getActivityOfferingItemsById(String courseId, String termId) {
 
 		List<ActivityOfferingItem> activityOfferingItems = new ArrayList<ActivityOfferingItem>();
 
@@ -725,18 +645,13 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 
 			List<CourseOfferingInfo> courseOfferingInfoList = getCourseOfferingService()
-					.getCourseOfferingsByCourseAndTerm(
-							courseId,
-							termId,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
-			activityOfferingItems = getActivityOfferingItems(course,
-					courseOfferingInfoList, termId, loadStudentsPlanItems()
-							.get(termId));
+					.getCourseOfferingsByCourseAndTerm(courseId, termId,
+							KsapFrameworkServiceLocator.getContext().getContextInfo());
+			activityOfferingItems = getActivityOfferingItems(course, courseOfferingInfoList, termId,
+					loadStudentsPlanItems().get(termId));
 
 		} catch (DoesNotExistException e) {
-			throw new RuntimeException(String.format("Course [%s] not found.",
-					courseId), e);
+			throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
 		} catch (Exception e) {
 			throw new RuntimeException("Query failed.", e);
 		}
@@ -751,18 +666,15 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param courseOfferingInfoList
 	 * @return
 	 */
-	public List<ActivityOfferingItem> getActivityOfferingItems(
-			CourseInfo course, List<CourseOfferingInfo> courseOfferingInfoList,
-			String termId, Map<String, PlanItem> planItemMap) {
+	public List<ActivityOfferingItem> getActivityOfferingItems(CourseInfo course,
+			List<CourseOfferingInfo> courseOfferingInfoList, String termId, Map<String, PlanItem> planItemMap) {
 
 		List<String> plannedSections = new ArrayList<String>();
 		if (planItemMap != null)
 			for (PlanItem planItem : planItemMap.values())
-				if (PlanConstants.SECTION_TYPE.equals(planItem
-						.getRefObjectType())) {
-					String courseCode = KsapFrameworkServiceLocator
-							.getCourseHelper().getCourseCdFromActivityId(
-									planItem.getRefObjectId());
+				if (PlanConstants.SECTION_TYPE.equals(planItem.getRefObjectType())) {
+					String courseCode = KsapFrameworkServiceLocator.getCourseHelper().getCourseCdFromActivityId(
+							planItem.getRefObjectId());
 					if (course.getCode().equalsIgnoreCase(courseCode))
 						plannedSections.add(planItem.getRefObjectId());
 				}
@@ -782,11 +694,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				String courseOfferingID = courseInfo.getId();
 				List<ActivityOfferingDisplayInfo> aodiList;
 				try {
-					aodiList = getCourseOfferingService()
-							.getActivityOfferingDisplaysForCourseOffering(
-									courseOfferingID,
-									KsapFrameworkServiceLocator.getContext()
-											.getContextInfo());
+					aodiList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(
+							courseOfferingID, KsapFrameworkServiceLocator.getContext().getContextInfo());
 				} catch (DoesNotExistException e) {
 					throw new IllegalArgumentException("CO lookup error", e);
 				} catch (InvalidParameterException e) {
@@ -808,20 +717,15 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 							planItemId = planItem.getId();
 						}
 					}
-					ActivityOfferingItem activityOfferingItem = getActivityItem(
-							aodi, courseInfo, openForPlanning, termId,
-							planItemId);
-					String paoid = activityOfferingItem
-							.getPrimaryActivityOfferingId();
-					List<ActivityOfferingItem> aol = activityOfferingItemsByPrimary
-							.get(paoid);
+					ActivityOfferingItem activityOfferingItem = getActivityItem(aodi, courseInfo, openForPlanning,
+							termId, planItemId);
+					String paoid = activityOfferingItem.getPrimaryActivityOfferingId();
+					List<ActivityOfferingItem> aol = activityOfferingItemsByPrimary.get(paoid);
 					if (aol == null)
-						activityOfferingItemsByPrimary
-								.put(paoid,
-										aol = new java.util.LinkedList<ActivityOfferingItem>());
+						activityOfferingItemsByPrimary.put(paoid,
+								aol = new java.util.LinkedList<ActivityOfferingItem>());
 					aol.add(activityOfferingItem);
-					LOG.debug("primary " + paoid + ", ao "
-							+ activityOfferingItem.getLuiId());
+					LOG.debug("primary " + paoid + ", ao " + activityOfferingItem.getLuiId());
 					c++;
 					if (plannedSections.contains(planRefObjId))
 						plannedSections.remove(planRefObjId);
@@ -829,8 +733,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			}
 		}
 
-		List<ActivityOfferingItem> rv = new java.util.ArrayList<ActivityOfferingItem>(
-				c);
+		List<ActivityOfferingItem> rv = new java.util.ArrayList<ActivityOfferingItem>(c);
 		Collections.sort(rv, new Comparator<ActivityOfferingItem>() {
 			@Override
 			public int compare(ActivityOfferingItem o1, ActivityOfferingItem o2) {
@@ -850,8 +753,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				return l1.compareTo(l2);
 			}
 		});
-		for (List<ActivityOfferingItem> aol : activityOfferingItemsByPrimary
-				.values()) {
+		for (List<ActivityOfferingItem> aol : activityOfferingItemsByPrimary.values()) {
 			for (ActivityOfferingItem ao : aol)
 				if (ao.isPrimary())
 					rv.add(ao);
@@ -872,10 +774,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param planItemId
 	 * @return
 	 */
-	public ActivityOfferingItem getActivityItem(
-			ActivityOfferingDisplayInfo displayInfo,
-			CourseOfferingInfo courseOfferingInfo, boolean openForPlanning,
-			String termId, String planItemId) {
+	public ActivityOfferingItem getActivityItem(ActivityOfferingDisplayInfo displayInfo,
+			CourseOfferingInfo courseOfferingInfo, boolean openForPlanning, String termId, String planItemId) {
 		ActivityOfferingItem activity = new ActivityOfferingItem();
 		/* Data from ActivityOfferingDisplayInfo */
 		activity.setLuiId(displayInfo.getId());
@@ -883,17 +783,14 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		activity.setCode(displayInfo.getActivityOfferingCode());
 		activity.setStateKey(displayInfo.getStateKey());
 		activity.setActivityOfferingType(displayInfo.getTypeName());
-		List<MeetingDetails> meetingDetailsList = activity
-				.getMeetingDetailsList();
+		List<MeetingDetails> meetingDetailsList = activity.getMeetingDetailsList();
 		{
 			DateFormat tdf = new SimpleDateFormat("h:mm a");
 			ScheduleDisplayInfo sdi = displayInfo.getScheduleDisplay();
-			for (ScheduleComponentDisplay scdi : sdi
-					.getScheduleComponentDisplays()) {
+			for (ScheduleComponentDisplay scdi : sdi.getScheduleComponentDisplays()) {
 				MeetingDetails meeting = new MeetingDetails();
 
-				if (LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY
-						.equals(activity.getStateKey())) {
+				if (LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY.equals(activity.getStateKey())) {
 					Building building = scdi.getBuilding();
 					if (building != null) {
 						meeting.setCampus(building.getCampusKey());
@@ -933,8 +830,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 								days.append(SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE);
 								break;
 							default:
-								throw new IllegalArgumentException(
-										"Unexpected day code " + weekday);
+								throw new IllegalArgumentException("Unexpected day code " + weekday);
 							}
 						meeting.setDays(days.toString());
 					}
@@ -943,9 +839,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 					TimeOfDayInfo endInfo = timeSlot.getEndTime();
 
 					if (startInfo != null && endInfo != null)
-						meeting.setTime(tdf.format(new Date(startInfo
-								.getMilliSeconds()))
-								+ " - "
+						meeting.setTime(tdf.format(new Date(startInfo.getMilliSeconds())) + " - "
 								+ tdf.format(new Date(endInfo.getMilliSeconds())));
 
 					meetingDetailsList.add(meeting);
@@ -1045,8 +939,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		activity.setPlanItemId(planItemId);
 		activity.setAtpId(termId);
 		activity.setOpenForPlanning(openForPlanning);
-		YearTerm yt = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(
-				termId);
+		YearTerm yt = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(termId);
 		activity.setQtryr(yt.getShortName().replace(' ', '+'));
 		if (instituteCode == null) {
 			instituteCode = campus;
@@ -1069,8 +962,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		String titleValue = null;
 		Map<String, String> subjects = new HashMap<String, String>();
 		if (!this.getHashMap().containsKey(CourseSearchConstants.SUBJECT_AREA)) {
-			subjects = KsapFrameworkServiceLocator.getOrgHelper()
-					.getTrimmedSubjectAreas();
+			subjects = KsapFrameworkServiceLocator.getOrgHelper().getTrimmedSubjectAreas();
 			getHashMap().put(CourseSearchConstants.SUBJECT_AREA, subjects);
 
 		} else {
@@ -1091,24 +983,17 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @return
 	 */
 	public boolean isCourseIdValid(String courseId) {
-		boolean isCourseIdValid = false;
-
-		CourseInfo course = null;
+		CourseInfo course;
 		try {
-			/* Get version verified course */
-			course = getCourseService().getCourse(
-					getVerifiedCourseId(courseId),
+			course = getCourseService().getCourse(getVerifiedCourseId(courseId),
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (DoesNotExistException e) {
-			throw new RuntimeException(String.format("Course [%s] not found.",
-					courseId), e);
+			LOG.warn(String.format("Course [%s] not found.", courseId), e);
+			return false;
 		} catch (Exception e) {
 			throw new RuntimeException("Query failed.", e);
 		}
-		if (course != null) {
-			isCourseIdValid = true;
-		}
-		return isCourseIdValid;
+		return course != null;
 	}
 
 	/**
@@ -1124,15 +1009,13 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		String planItemId = null;
 		try {
 			PlanController planController = new PlanController();
-			PlanItemInfo planItem = planController.getPlannedOrBackupPlanItem(
-					refObjId, atpId);
+			PlanItemInfo planItem = planController.getPlannedOrBackupPlanItem(refObjId, atpId);
 			if (planItem != null) {
 				planItemId = planItem.getId();
 			}
 
 		} catch (Exception e) {
-			LOG.error(" Exception loading plan item :" + refObjId
-					+ " for atp: " + atpId + " " + e.getMessage());
+			LOG.error(" Exception loading plan item :" + refObjId + " for atp: " + atpId + " " + e.getMessage());
 			return null;
 		}
 		return planItemId;
@@ -1141,14 +1024,12 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	public AcademicRecordService getAcademicRecordService() {
 		if (this.academicRecordService == null) {
 			// TODO: Use constants for namespace.
-			this.academicRecordService = KsapFrameworkServiceLocator
-					.getAcademicRecordService();
+			this.academicRecordService = KsapFrameworkServiceLocator.getAcademicRecordService();
 		}
 		return this.academicRecordService;
 	}
 
-	public void setAcademicRecordService(
-			AcademicRecordService academicRecordService) {
+	public void setAcademicRecordService(AcademicRecordService academicRecordService) {
 		this.academicRecordService = academicRecordService;
 	}
 
@@ -1180,34 +1061,29 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	protected CourseOfferingService getCourseOfferingService() {
 		if (this.courseOfferingService == null) {
-			this.courseOfferingService = KsapFrameworkServiceLocator
-					.getCourseOfferingService();
+			this.courseOfferingService = KsapFrameworkServiceLocator.getCourseOfferingService();
 		}
 		return this.courseOfferingService;
 	}
 
-	public void setCourseOfferingService(
-			CourseOfferingService courseOfferingService) {
+	public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
 		this.courseOfferingService = courseOfferingService;
 	}
 
 	protected AcademicCalendarService getAcademicCalendarService() {
 		if (this.academicCalendarService == null) {
-			this.academicCalendarService = KsapFrameworkServiceLocator
-					.getAcademicCalendarService();
+			this.academicCalendarService = KsapFrameworkServiceLocator.getAcademicCalendarService();
 		}
 		return this.academicCalendarService;
 	}
 
-	public void setAcademicCalendarService(
-			AcademicCalendarService academicCalendarService) {
+	public void setAcademicCalendarService(AcademicCalendarService academicCalendarService) {
 		this.academicCalendarService = academicCalendarService;
 	}
 
 	public AcademicPlanService getAcademicPlanService() {
 		if (academicPlanService == null) {
-			academicPlanService = KsapFrameworkServiceLocator
-					.getAcademicPlanService();
+			academicPlanService = KsapFrameworkServiceLocator.getAcademicPlanService();
 		}
 		return academicPlanService;
 	}

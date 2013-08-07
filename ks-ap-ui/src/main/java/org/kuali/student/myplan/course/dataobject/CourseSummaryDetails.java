@@ -249,4 +249,12 @@ public class CourseSummaryDetails implements Serializable {
 		}
 		return schTermsb.toString();
 	}
+
+	@Override
+	public String toString() {
+		return "CourseSummaryDetails [courseId=" + courseId + ", code=" + code + ", subjectArea=" + subjectArea
+				+ ", courseNumber=" + courseNumber + ", courseTitle=" + courseTitle + "]";
+	}
+	
+	
 }
