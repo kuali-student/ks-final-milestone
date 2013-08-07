@@ -1,5 +1,3 @@
-TRUNCATE TABLE KREW_RULE_EXPR_T DROP STORAGE
-/
 INSERT INTO KREW_RULE_EXPR_T (OBJ_ID,RULE_EXPR,RULE_EXPR_ID,TYP,VER_NBR)
   VALUES ('616A0754-3BA6-39DF-9A1B-11432849DC6B','import edu.sampleu.recipe.util.RecipeUtils
 		        import org.apache.commons.lang.StringUtils
