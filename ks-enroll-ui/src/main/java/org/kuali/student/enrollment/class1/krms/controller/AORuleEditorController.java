@@ -11,6 +11,7 @@ import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
+import org.kuali.student.enrollment.class1.krms.service.impl.AORuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.enrollment.class1.krms.service.impl.AORuleEditorMaintainableImpl;
@@ -263,7 +264,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         AORuleEditorMaintainableImpl aoMaintainable = (AORuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
         aoMaintainable.initPropositionEditor(parentProp);
 
-        enrolRuleEditor.setProposition(this.getViewHelper(form).copyProposition(parentProp));
+        enrolRuleEditor.setProposition(((AORuleViewHelperServiceImpl)this.getViewHelper(form)).copyCOProposition(parentProp));
         AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
 
         this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);

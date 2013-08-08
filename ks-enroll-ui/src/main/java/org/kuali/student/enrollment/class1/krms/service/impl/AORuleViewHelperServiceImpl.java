@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
@@ -148,6 +149,48 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         }
 
         return termParameters;
+    }
+
+    /**
+     * Copy proposition from parent CO and nullify proposition parameters.
+     *
+     * @param coProposition
+     * @return
+     */
+    public PropositionEditor copyCOProposition(PropositionEditor coProposition) {
+        LUPropositionEditor propositionEditor = (LUPropositionEditor) super.copyProposition(coProposition);
+
+        nullifyPropositionParameters(propositionEditor);
+
+        return propositionEditor;
+    }
+
+    /**
+     * Method to recursively set proposition's parameters propId and value to null to force rebuild.
+     *
+     * @param propositionEditor
+     */
+    protected void nullifyPropositionParameters(LUPropositionEditor propositionEditor) {
+
+        //Set cluSetInfo recursively to null to force builder to create new cluset.
+        if(propositionEditor.getParameters()!=null){
+            for(PropositionParameterEditor param : propositionEditor.getParameters()) {
+                param.setPropId(null);
+                param.setValue(null);
+            }
+        } else if(propositionEditor.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+            for(int i = 0; i < propositionEditor.getCompoundEditors().size(); i++) {
+                LUPropositionEditor prop = (LUPropositionEditor) propositionEditor.getCompoundEditors().get(i);
+                if(prop.getParameters() != null) {
+                    for(PropositionParameterEditor param : propositionEditor.getParameters()) {
+                        param.setPropId(null);
+                        param.setValue(null);
+                    }
+                } else if(prop.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+                    nullifyCluSetInfo(prop);
+                }
+            }
+        }
     }
 
     @Override
