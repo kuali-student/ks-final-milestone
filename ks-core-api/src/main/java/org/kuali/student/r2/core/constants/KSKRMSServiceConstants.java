@@ -188,6 +188,8 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_ENROLLEDCOURSES = "EnrolledCourses";
     public static final String TERM_RESOLVER_NUMBEROFENROLLEDCOURSES = "NumberOfEnrolledCourses";
     public static final String TERM_RESOLVER_GPAFORCOURSES = "GPAForCourses";
+    public static final String TERM_RESOLVER_GPAFORDURATION = "GPAForDuration";
+    public static final String TERM_RESOLVER_GPA = "GPA";
     public static final String TERM_RESOLVER_GRADETYPEFORCOURSES = "GradeTypeForCourses";
     public static final String TERM_RESOLVER_NUMBEROFCREDITSFROMORGANIZATION = "NumberOfCreditsFromOrganization";
     public static final String TERM_RESOLVER_NUMBEROFCREDITSFROMCOMPLETEDCOURSES = "NumberOfCreditsFromCompletedCourses";
