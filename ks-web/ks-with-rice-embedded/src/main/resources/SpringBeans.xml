@@ -145,10 +145,9 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeInfoMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/ManageRegistrationGroupsView.xml</value>
+                <!--<value>classpath:org/kuali/student/enrollment/courseoffering/ManageRegistrationGroupsView.xml</value>-->
                 <!--<value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CopyCourseOfferingPage.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SelectedAoDeleteConfirmationPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CoDeleteConfirmationPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseInfoLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseInfoByTermLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingEditMaintenanceView.xml</value>
@@ -173,7 +172,8 @@
 
                 <!-- Manage COs and AOs -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewActivityOfferingsSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CoDeleteConfirmationPage.xml</value>
+                <!--<value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewActivityOfferingsSection.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewAOClustersSection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewRegistrationGroupsSection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
