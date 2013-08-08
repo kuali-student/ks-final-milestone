@@ -641,11 +641,6 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    public List<ScheduleBatchInfo> getScheduleBatchesForScheduleTransaction(String scheduleTransactionId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
     public ScheduleTransactionInfo getScheduleTransaction(String scheduleTransactionId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
