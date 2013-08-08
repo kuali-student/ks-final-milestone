@@ -104,3 +104,115 @@ ALTER TABLE KSAP_MLSTN_TYPE_ATTR
     REFERENCES KSAP_MLSTN_TYPE (TYPE_KEY)
 /
 
+--------------------------------------------------------
+--  Constraints for Table KSEN_ATP
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATP" ADD CONSTRAINT "KSEN_ATP_P" PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_ATPATP_RELTN
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATPATP_RELTN"
+      ADD CONSTRAINT  "KSEN_ATPATP_RELTN_P" PRIMARY KEY ("ID")
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_ATPMSTONE_RELTN
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATPMSTONE_RELTN" ADD CONSTRAINT  "KSEN_ATPMSTONE_RELTN_P" PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_COMM_STATE
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_COMM_STATE" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+  ALTER TABLE "KSEN_COMM_STATE" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_MSTONE
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_MSTONE" ADD CONSTRAINT "KSEN_MSTONE_P" PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_MSTONE_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_MSTONE_ATTR" ADD CONSTRAINT "KSEN_MSTONE_ATTR_P" PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_STATE_PROCESS
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_STATE_PROCESS" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+  ALTER TABLE "KSEN_STATE_PROCESS" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_ATPATP_RELTN_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATPATP_RELTN_ATTR" ADD CONSTRAINT "KSEN_ATPATP_RELTN_ATTR_P" PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_ATP_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATP_ATTR" ADD CONSTRAINT "KSEN_ATP_ATTR_P" PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_ATPATP_RELTN
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATPATP_RELTN" ADD CONSTRAINT "KSEN_ATPATP_RELTN_FK1" FOREIGN KEY ("ATP_ID")
+	  REFERENCES "KSEN_ATP" ("ID") ENABLE
+/
+
+  ALTER TABLE "KSEN_ATPATP_RELTN" ADD CONSTRAINT "KSEN_ATPATP_RELTN_FK2" FOREIGN KEY ("RELATED_ATP_ID")
+	  REFERENCES "KSEN_ATP" ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_ATPMSTONE_RELTN
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATPMSTONE_RELTN" ADD CONSTRAINT "KSEN_ATPMSTONE_RELTN_FK1" FOREIGN KEY ("ATP_ID")
+	  REFERENCES "KSEN_ATP" ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_ATPATP_RELTN_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATPATP_RELTN_ATTR" ADD CONSTRAINT "KSEN_ATPATP_RELTN_ATTR_FK1" FOREIGN KEY ("OWNER")
+	  REFERENCES "KSEN_ATPATP_RELTN" ("ID") ENABLE
+/
+
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_ATP_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_ATP_ATTR" ADD CONSTRAINT "KSEN_ATP_ATTR_FK1" FOREIGN KEY ("OWNER")
+	  REFERENCES "KSEN_ATP" ("ID") ENABLE
+/
+--------------------------------------------------------
+--  Ref Constraints for Table KSEN_MSTONE_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_MSTONE_ATTR" ADD CONSTRAINT "FK3DFA6EE1BA0FC113" FOREIGN KEY ("OWNER")
+	  REFERENCES "KSEN_MSTONE" ("ID") ENABLE
+/

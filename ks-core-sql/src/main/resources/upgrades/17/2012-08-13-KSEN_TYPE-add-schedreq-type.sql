@@ -1,0 +1,2 @@
+insert into KSEN_TYPE (TYPE_KEY, OBJ_ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, EFF_DT, EXPIR_DT, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.scheduling.schedule.request.type.schedule.request', null, 'Schedule Request', 'Schedule Request', 'Schedule Request', null, null, 'http://student.kuali.org/wsdl/scheduling/ScheduleRequestInfo', 1, to_date('2012-08-13', 'YYYY-MM-DD'), 'SYSTEMLOADER', null, null)
+/
