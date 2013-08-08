@@ -182,8 +182,8 @@
                       p:messageText="@{#line.instructorDisplayNames}" />
                 <bean name="enableApproveButton" parent="KS-Uif-DataField-Simple" p:label="enableApproveButton" p:propertyName="enableApproveButton"/>
                 <bean name="enableDraftButton" parent="KS-Uif-DataField-Simple" p:label="enableDraftButton"  p:propertyName="enableDraftButton"/>
-                <bean name="enableSuspendButton" parent="KS-Uif-DataField-Simple" p:label="enableSuspendButton" p:propertyName="enableSuspendButton"/>
                 <bean name="enableCancelButton" parent="KS-Uif-DataField-Simple" p:label="enableCancelButton"  p:propertyName="enableCancelButton"/>
+                <bean name="enableSuspendButton" parent="KS-Uif-DataField-Simple" p:label="enableSuspendButton" p:propertyName="enableSuspendButton"/>
                 <bean name="enableReinstateButton" parent="KS-Uif-DataField-Simple" p:label="enableReinstateButton"  p:propertyName="enableReinstateButton" />
                 <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple"  p:label="enableDeleteButton" p:propertyName="enableDeleteButton" />
                 <bean name="enableCopyAOActionLink" parent="KS-Uif-DataField-Simple"  p:label="enableCopyAOActionLink" p:propertyName="enableCopyAOActionLink" />
@@ -300,35 +300,6 @@
         <property name="lineActions">
             <list>
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseOfferingManagement-AO-ToolBarSection-ClusterTab" parent="KS-Uif-HorizontalBoxSection-ToolbarSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
-        <property name="items">
-            <list>
-                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
-                    <property name="items">
-                        <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Add-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:actionLabel="Add Activity"  p:disabled="@{!enableAddButton}"
-                                  p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"
-                                  p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm').find('input[type=text],select').val('');}});"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveAOs" p:render="@{hasAO}"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Draft-parent" p:methodToCall="draftAOs" p:render="@{hasAO}"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup"  p:noLeftBorder="true">
-                    <property name="items">
-                        <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="@{!enableAddClusterButton}"
-                                  p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddAOCPopupForm').find('input[type=text],select').val('');}});"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-MoveTo-parent"  p:render="@{hasAO}"
-                                  p:actionScript="addNewClusterOptionSuccessCallBack(); openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find('input[type=text],select').val('');}});"/>
-                        </list>
-                    </property>
-                </bean>
             </list>
         </property>
     </bean>
