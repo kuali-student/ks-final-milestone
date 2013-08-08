@@ -124,11 +124,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -1210,7 +1208,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 delim = ", ";
             }
         }
-        if (!(aoCompleteWarningMessageSB.length()==0)) {
+                                                           // not to show warning message for deleted cluster.
+        if (!(aoCompleteWarningMessageSB.length()==0) && !(aoClusterWrapper.getAoCluster().getActivityOfferingSets().isEmpty())) {
             aoClusterWrapper.setRgStatus(RegistrationGroupConstants.RGSTATUS_NO_RG_GENERATED);
             aoClusterWrapper.setRgMessageStyle(ActivityOfferingClusterWrapper.RG_MESSAGE_ALL);
             aoClusterWrapper.setHasAllRegGroups(true);
