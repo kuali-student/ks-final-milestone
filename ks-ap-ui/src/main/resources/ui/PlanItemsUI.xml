@@ -530,6 +530,19 @@
         </property>
         <property name="onDocumentReadyScript" value="
             truncateField('planned_courses_detail_list', true);
+            jQuery('#planned_courses_detail_list')
+                .subscribe('PLAN_ITEM_ADDED', function(data){
+                    fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
+                })
+                .subscribe('PLAN_ITEM_DELETED', function(data){
+                    fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
+                })
+                .subscribe('UPDATE_NEW_TERM_TOTAL_CREDITS', function(data){
+                    fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
+                })
+                .subscribe('UPDATE_OLD_TERM_TOTAL_CREDITS', function(data){
+                    fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
+                });
             jQuery('#planned_courses_detail_list').on('PLAN_ITEM_ADDED', function(event, data) {
                 fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
             }).on('PLAN_ITEM_DELETED', function(event, data) {

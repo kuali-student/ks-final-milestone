@@ -131,13 +131,11 @@ public class PlanController extends UifControllerBase {
 
 		super.start(form, result, request, response);
 		PlanForm planForm = (PlanForm) form;
-		List<LearningPlanInfo> plan = null;
+		LearningPlanInfo plan = null;
 		try {
 			// Throws RuntimeException is there is a problem. Otherwise, returns
 			// a plan or null.
-			plan = getAcademicPlanService().getLearningPlansForStudentByType(
-					getUserId(), PlanConstants.LEARNING_PLAN_TYPE_PLAN,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
+			plan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 		} catch (Exception e) {
 			return doOperationFailedError(planForm,
 					"Query for learning plan failed.", e);
@@ -153,12 +151,12 @@ public class PlanController extends UifControllerBase {
 		if (messages != null && messages.size() > 0) {
 			planForm.setMessagesCount(messages.size());
 		}
-		if (plan != null && plan.size() > 0) {
-			if (plan.get(0).getShared()) {
-				planForm.setEnableAdviserView(plan.get(0).getShared()
+		if (plan != null) {
+			if (plan.getShared()) {
+				planForm.setEnableAdviserView(plan.getShared()
 						.toString());
 			} else {
-				planForm.setEnableAdviserView(plan.get(0).getShared()
+				planForm.setEnableAdviserView(plan.getShared()
 						.toString());
 
 			}
@@ -166,7 +164,7 @@ public class PlanController extends UifControllerBase {
 			PlanItem item = null;
 			try {
 				planItems = getAcademicPlanService().getPlanItemsInPlanByType(
-						plan.get(0).getId(),
+						plan.getId(),
 						PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST,
 						KsapFrameworkServiceLocator.getContext()
 								.getContextInfo());
@@ -364,7 +362,7 @@ public class PlanController extends UifControllerBase {
 		// Validate: Capacity.
 		boolean hasCapacity = false;
 		try {
-			hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+			hasCapacity = isAtpHasCapacity(getLearningPlan(),
 					planItem.getPlanPeriods().get(0),
 					PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
 		} catch (RuntimeException e) {
@@ -453,7 +451,7 @@ public class PlanController extends UifControllerBase {
 		// Validate: Capacity.
 		boolean hasCapacity = false;
 		try {
-			hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+			hasCapacity = isAtpHasCapacity(getLearningPlan(),
 					planItem.getPlanPeriods().get(0),
 					PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
 		} catch (RuntimeException e) {
@@ -549,7 +547,7 @@ public class PlanController extends UifControllerBase {
 		// Validate: Capacity.
 		boolean hasCapacity = false;
 		try {
-			hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+			hasCapacity = isAtpHasCapacity(getLearningPlan(),
 					planItem.getPlanPeriods().get(0),
 					PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
 		} catch (RuntimeException e) {
@@ -643,7 +641,7 @@ public class PlanController extends UifControllerBase {
 		// Validate: Capacity.
 		boolean hasCapacity = false;
 		try {
-			hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+			hasCapacity = isAtpHasCapacity(getLearningPlan(),
 					planItem.getPlanPeriods().get(0),
 					PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
 		} catch (RuntimeException e) {
@@ -733,7 +731,7 @@ public class PlanController extends UifControllerBase {
 		// Validate: Capacity.
 		boolean hasCapacity = false;
 		try {
-			hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+			hasCapacity = isAtpHasCapacity(getLearningPlan(),
 					planItem.getPlanPeriods().get(0),
 					PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
 		} catch (RuntimeException e) {
@@ -824,7 +822,7 @@ public class PlanController extends UifControllerBase {
 		// Validate: Capacity.
 		boolean hasCapacity = false;
 		try {
-			hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+			hasCapacity = isAtpHasCapacity(getLearningPlan(),
 					planItem.getPlanPeriods().get(0),
 					PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
 		} catch (RuntimeException e) {
@@ -982,7 +980,7 @@ public class PlanController extends UifControllerBase {
 		// Validate: Plan Size exceeded.
 		boolean hasCapacity = false;
 		try {
-			hasCapacity = isAtpHasCapacity(getLearningPlan(getUserId()),
+			hasCapacity = isAtpHasCapacity(getLearningPlan(),
 					newAtpIds.get(0), planItem.getTypeKey());
 		} catch (RuntimeException e) {
 			return doOperationFailedError(form,
@@ -1155,7 +1153,7 @@ public class PlanController extends UifControllerBase {
 		boolean hasCapacity = false;
 		LearningPlan learningPlan = null;
 		try {
-			learningPlan = getLearningPlan(getUserId());
+			learningPlan = getLearningPlan();
 			hasCapacity = isAtpHasCapacity(learningPlan, newAtpIds.get(0),
 					planItem.getTypeKey());
 		} catch (RuntimeException e) {
@@ -1303,7 +1301,7 @@ public class PlanController extends UifControllerBase {
 			// will be thrown. Otherwise, the method
 			// will return the default plan or null. Having multiple plans will
 			// also produce a RuntimeException.
-			plan = getLearningPlan(studentId);
+			plan = getLearningPlan();
 		} catch (RuntimeException e) {
 			return doOperationFailedError(form,
 					"Query for default learning plan failed.", e);
@@ -1562,26 +1560,24 @@ public class PlanController extends UifControllerBase {
 			return doErrorPage(form, PlanConstants.ERROR_KEY_ADVISER_ACCESS,
 					params);
 		}
-		List<LearningPlanInfo> plan = new ArrayList<LearningPlanInfo>();
+		LearningPlanInfo plan = null;
 		try {
 			String studentId = getUserId();
-			plan = getAcademicPlanService().getLearningPlansForStudentByType(
-					studentId, PlanConstants.LEARNING_PLAN_TYPE_PLAN,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-			if (plan.size() > 0) {
-				if (!plan.get(0).getShared().toString()
+			plan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
+			if (plan!=null) {
+				if (!plan.getShared().toString()
 						.equalsIgnoreCase(form.getEnableAdviserView())) {
 					if (form.getEnableAdviserView().equalsIgnoreCase(
 							PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY)) {
-						plan.get(0).setShared(true);
+						plan.setShared(true);
 					} else {
-						plan.get(0).setShared(false);
+						plan.setShared(false);
 					}
-					plan.get(0).setStateKey(
+					plan.setStateKey(
 							PlanConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
 					getAcademicPlanService().updateLearningPlan(
-							plan.get(0).getId(),
-							plan.get(0),
+							plan.getId(),
+							plan,
 							KsapFrameworkServiceLocator.getContext()
 									.getContextInfo());
 				}
@@ -1792,7 +1788,7 @@ public class PlanController extends UifControllerBase {
 		try {
 			// Throws RuntimeException is there is a problem. Otherwise, returns
 			// a plan or null.
-			plan = getLearningPlan(studentId);
+			plan = getLearningPlan();
 		} catch (RuntimeException e) {
 			return doOperationFailedError(form,
 					"Query for default learning plan failed.", e);
@@ -2429,7 +2425,7 @@ public class PlanController extends UifControllerBase {
 		}
 
 		String studentId = getUserId();
-		LearningPlan learningPlan = getLearningPlan(studentId);
+		LearningPlan learningPlan = getLearningPlan();
 		if (learningPlan == null) {
 			throw new RuntimeException(String.format(
 					"Could not find the default plan for [%s].", studentId));
@@ -2471,7 +2467,7 @@ public class PlanController extends UifControllerBase {
 	 */
 	public PlanItemInfo getPlannedOrBackupPlanItem(String courseId, String atpId) {
 		String studentId = getUserId();
-		LearningPlan learningPlan = getLearningPlan(studentId);
+		LearningPlan learningPlan = getLearningPlan();
 		if (learningPlan == null) {
 			return null;
 		}
@@ -2504,49 +2500,13 @@ public class PlanController extends UifControllerBase {
 
 	/**
 	 * Retrieve a student's LearningPlan.
-	 * 
-	 * @param studentId
+	 *
 	 * @return A LearningPlan or null on errors.
 	 * @throws RuntimeException
 	 *             if the query fails.
 	 */
-	private LearningPlan getLearningPlan(String studentId) {
-		/*
-		 * First fetch the student's learning plan.
-		 */
-		List<LearningPlanInfo> learningPlans = null;
-		try {
-			learningPlans = getAcademicPlanService()
-					.getLearningPlansForStudentByType(
-							studentId,
-							PlanConstants.LEARNING_PLAN_TYPE_PLAN,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
-		} catch (Exception e) {
-			throw new RuntimeException(String.format(
-					"Could not fetch plan for user [%s].", studentId), e);
-		}
-
-		if (learningPlans == null) {
-			throw new RuntimeException(
-					String.format(
-							"Could not fetch plan for user [%s]. The query returned null.",
-							studentId));
-		}
-
-		// There should currently only be a single learning plan. This may
-		// change in the future.
-		if (learningPlans.size() > 1) {
-			throw new RuntimeException(String.format(
-					"User [%s] has more than one plan.", studentId));
-		}
-
-		LearningPlan learningPlan = null;
-		if (learningPlans.size() != 0) {
-			learningPlan = learningPlans.get(0);
-		}
-
-		return learningPlan;
+	private LearningPlan getLearningPlan() {
+		return KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 	}
 
 	/**

@@ -138,15 +138,15 @@ public class AdviserController extends UifControllerBase {
     public String get(@PathVariable("studentId") String studentId, @ModelAttribute("KualiForm") UifFormBase form) {
         form.setView(getViewService().getViewById("PlannedCourses-FormView"));
         form.setRequestRedirected(true);
-        List<LearningPlanInfo> plan = null;
+        LearningPlanInfo plan = null;
         try {
             //  Throws RuntimeException is there is a problem. Otherwise, returns a plan or null.
-            plan = getAcademicPlanService().getLearningPlansForStudentByType(studentId, PlanConstants.LEARNING_PLAN_TYPE_PLAN, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            plan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
         } catch (Exception e) {
             logger.error("Query for learning plan failed.", e);
         }
-        if (plan != null && plan.size() > 0) {
-            if (plan.get(0).getShared().toString().equalsIgnoreCase(PlanConstants.LEARNING_PLAN_ITEM_SHARED_FALSE_KEY)) {
+        if (plan != null) {
+            if (plan.getShared().toString().equalsIgnoreCase(PlanConstants.LEARNING_PLAN_ITEM_SHARED_FALSE_KEY)) {
                 return "redirect:/myplan/unauthorized";
             }
         }
