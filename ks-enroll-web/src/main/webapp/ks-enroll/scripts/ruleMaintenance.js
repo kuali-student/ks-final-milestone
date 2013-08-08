@@ -234,34 +234,34 @@ function ajaxCallPropositionTree(controllerMethod, collectionGroupId) {
     retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 }
 
-function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic) {
+function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic, controllerMethod, logicAreaField) {
     //Do client side validation before continueing to next tab.
     if (validateForm()) {
 
         if (ui.index == 0) {
 
             //Check if the logic expression has changed.
-            var logicArea = jq('#KRMS-LogicArea-InputField_control');
+            var logicArea = jq('#' + logicAreaField + '_control');
             if (logicArea.hasClass('dirty')) {
 
                 //Add an error message for the user.
-                var data = jQuery("#KRMS-LogicArea-InputField").data(kradVariables.VALIDATION_MESSAGES);
+                var data = jQuery('#' + logicAreaField).data(kradVariables.VALIDATION_MESSAGES);
                 data.errors = [];
                 var errorMessage = getMessage('error.krms.logic.preview');
                 data.errors.push(errorMessage);
-                jQuery("#KRMS-LogicArea-InputField").data(kradVariables.VALIDATION_MESSAGES, data);
+                jQuery('#' + logicAreaField).data(kradVariables.VALIDATION_MESSAGES, data);
 
                 //Display error message
-                handleMessagesAtField('KRMS-LogicArea-InputField');
+                handleMessagesAtField(logicAreaField);
 
                 //Do not continue.
                 event.preventDefault();
             } else {
 
                 //Remove previous error message if any exist.
-                var messagesDiv = jQuery("[data-messages_for='KRMS-LogicArea-InputField']");
+                var messagesDiv = jQuery("[data-messages_for='" + logicAreaField + "']");
                 messagesDiv.hide();
-                handleTabStyle('KRMS-LogicArea-InputField_control', false, false, false);
+                handleTabStyle(logicAreaField + '_control', false, false, false);
 
                 //Refresh the edit tree.
                 retrieveComponent(editwithgroup);
@@ -277,7 +277,7 @@ function ajaxCallOnTabSelect(event, ui, editwithgroup, editwithlogic) {
             } else {
 
                 //Refresh the preview tree.
-                retrieveComponent(editwithlogic);
+                retrieveComponent(editwithlogic, controllerMethod);
             }
         }
     } else {
@@ -339,12 +339,6 @@ function resetCutSelected(selectedItemId) {
 function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
     var selectedItemInput = getSelectedPropositionInput();
     var selectedItemId = selectedItemInput.val();
-
-    var collectionGroup = jq('#' + collectionGroupId);
-    //Set parent to be refreshed
-    var componentId = jq(collectionGroup).offsetParent().attr('id');
-    var tabId = componentId.substring(0, componentId.indexOf('_'));
-
     var actionRevealCallBack = function (htmlContent) {
 
         resetControlKeys();
@@ -355,7 +349,7 @@ function ajaxPastePropositionTree(controllerMethod, collectionGroupId) {
 
         disablePasteButton();
     };
-    retrieveComponent(tabId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
+    retrieveComponent(collectionGroupId, controllerMethod, actionRevealCallBack, {selectedItemInputName: selectedItemId});
 
 }
 
