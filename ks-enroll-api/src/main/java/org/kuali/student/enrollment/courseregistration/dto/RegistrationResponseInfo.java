@@ -114,7 +114,7 @@ public class RegistrationResponseInfo
         return messages;
     }
 
-    public void setMessagess(List<String> messages) {
+    public void setMessages(List<String> messages) {
         this.messages = messages;
     }
 
