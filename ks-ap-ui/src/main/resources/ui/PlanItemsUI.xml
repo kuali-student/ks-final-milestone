@@ -960,7 +960,7 @@
         <property name="items">
             <list>
                 <bean p:id="@{#line.planItemDataObject.id}_cart" parent="Uif-HorizontalFieldGroup"
-                      p:render="@{#line.courseDetails.code ne null}"
+                      p:render="@{#line.courseDetails ne null}"
                       p:title="@{#line.courseDetails.courseTitle}">
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="onClickScript"
