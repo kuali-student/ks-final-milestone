@@ -195,7 +195,7 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
         courseRecord.setAdministrativeGradeScaleKey("1");
         courseRecord.setCalculatedGradeValue("3.0");
         courseRecord.setCalculatedGradeScaleKey("1");
-
+        courseRecord.setCreditsForGPA("3");
         courseRecord.setCreditsEarned("3");
         
         return courseRecord;
