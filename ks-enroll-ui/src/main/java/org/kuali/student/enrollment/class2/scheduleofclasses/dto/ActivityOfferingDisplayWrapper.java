@@ -20,9 +20,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 
 /**
- * This class //TODO ...
- *
- * @author Kuali Student Team
+ * Wraps {@link ActivityOfferingDisplayInfo} and provides storage for text descriptions for related objects (primarily
+ * scheduling info).
  */
 public class ActivityOfferingDisplayWrapper {
 
@@ -35,9 +34,9 @@ public class ActivityOfferingDisplayWrapper {
     private String roomName;
     private String tbaDisplayName;
     private String instructorDisplayNames;
-    private String activityOfferingCode;
     private String colocatedAoInfo = "";
 
+    private static final String BR = "<br/>";
 
     public ActivityOfferingDisplayWrapper(){
         aoDisplayInfo = new ActivityOfferingDisplayInfo();
@@ -69,11 +68,10 @@ public class ActivityOfferingDisplayWrapper {
 
     public void setStartTimeDisplay(String startTimeDisplay,boolean appendForDisplay) {
         if (appendForDisplay && this.startTimeDisplay!=null){
-            this.startTimeDisplay = this.startTimeDisplay + "<br>" + StringUtils.defaultString(startTimeDisplay);
-        }else{
+            this.startTimeDisplay = this.startTimeDisplay + BR + StringUtils.defaultString(startTimeDisplay);
+        } else {
             this.startTimeDisplay = StringUtils.defaultString(startTimeDisplay);
         }
-
     }
 
     public String getEndTimeDisplay() {
@@ -86,11 +84,10 @@ public class ActivityOfferingDisplayWrapper {
 
     public void setEndTimeDisplay(String endTimeDisplay,boolean appendForDisplay) {
         if (appendForDisplay && this.endTimeDisplay!=null){
-            this.endTimeDisplay = this.endTimeDisplay + "<br>" + StringUtils.defaultString(endTimeDisplay);
-        }else{
+            this.endTimeDisplay = this.endTimeDisplay + BR + StringUtils.defaultString(endTimeDisplay);
+        } else {
             this.endTimeDisplay = StringUtils.defaultString(endTimeDisplay);
         }
-
     }
 
     public String getDaysDisplayName() {
@@ -103,8 +100,8 @@ public class ActivityOfferingDisplayWrapper {
 
     public void setDaysDisplayName(String daysDisplayName,boolean appendForDisplay) {
         if (appendForDisplay && this.daysDisplayName!=null){
-            this.daysDisplayName = this.daysDisplayName + "<br>" + StringUtils.defaultString(daysDisplayName);
-        }else{
+            this.daysDisplayName = this.daysDisplayName + BR + StringUtils.defaultString(daysDisplayName);
+        } else {
             this.daysDisplayName = StringUtils.defaultString(daysDisplayName);
         }
 
@@ -120,11 +117,10 @@ public class ActivityOfferingDisplayWrapper {
 
     public void setBuildingName(String buildingName,boolean appendForDisplay) {
         if (appendForDisplay && this.buildingName!=null){
-            this.buildingName = this.buildingName + "<br>" + StringUtils.defaultString(buildingName);
-        }else{
+            this.buildingName = this.buildingName + BR + StringUtils.defaultString(buildingName);
+        } else {
             this.buildingName = StringUtils.defaultString(buildingName);
         }
-
     }
 
     public String getRoomName() {
@@ -137,11 +133,10 @@ public class ActivityOfferingDisplayWrapper {
 
     public void setRoomName(String roomName,boolean appendForDisplay) {
         if (appendForDisplay && this.roomName!=null){
-            this.roomName = this.roomName + "<br>" + StringUtils.defaultString(roomName);
-        }else{
+            this.roomName = this.roomName + BR + StringUtils.defaultString(roomName);
+        } else {
             this.roomName = StringUtils.defaultString(roomName);
         }
-
     }
 
     public String getInstructorDisplayNames() {
@@ -154,11 +149,10 @@ public class ActivityOfferingDisplayWrapper {
 
     public void setInstructorDisplayNames(String instructorDisplayNames,boolean appendForDisplay) {
         if (appendForDisplay && this.instructorDisplayNames!=null){
-            this.instructorDisplayNames = this.instructorDisplayNames + "<br>" + StringUtils.defaultString(instructorDisplayNames);
-        }else{
+            this.instructorDisplayNames = this.instructorDisplayNames + BR + StringUtils.defaultString(instructorDisplayNames);
+        } else {
             this.instructorDisplayNames = StringUtils.defaultString(instructorDisplayNames);
         }
-
     }
 
     public String getTbaDisplayName() {
@@ -170,14 +164,6 @@ public class ActivityOfferingDisplayWrapper {
         if (tba){
             tbaDisplayName =  "TBA";
         }
-    }
-
-    public String getActivityOfferingCode() {
-        return activityOfferingCode;
-    }
-
-    public void setActivityOfferingCode(String activityOfferingCode) {
-        this.activityOfferingCode = activityOfferingCode;
     }
 
     public String getColocatedAoInfo() {
@@ -195,12 +181,7 @@ public class ActivityOfferingDisplayWrapper {
      * @return
      */
     @SuppressWarnings("unused")
-    public String getColocatedAoInfoUI(){
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("This activity is colocated with:<br>");
-        buffer.append(colocatedAoInfo + "<br>");
-
-        return StringUtils.removeEnd(buffer.toString(),"<br>");
+    public String getColocatedAoInfoUI() {
+        return StringUtils.removeEnd("This activity is colocated with:" + BR + colocatedAoInfo, BR);
     }
-
 }

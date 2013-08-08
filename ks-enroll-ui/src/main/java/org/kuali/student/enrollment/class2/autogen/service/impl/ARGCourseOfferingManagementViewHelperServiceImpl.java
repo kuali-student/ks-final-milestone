@@ -1806,10 +1806,8 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                 if (aoDisplayInfoList != null && !aoDisplayInfoList.isEmpty()) {
                     co.setCoHasAoToDelete(true);
                     for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
-
                         ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
                         aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
-                        aoDisplayWrapper.setActivityOfferingCode(aoDisplayInfo.getActivityOfferingCode());
                         // Adding Information (icons)
                         String information = "";
                         if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {

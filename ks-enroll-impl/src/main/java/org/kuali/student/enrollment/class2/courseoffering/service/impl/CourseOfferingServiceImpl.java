@@ -3093,9 +3093,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     /**
      * This method allows you to search for Course Offering Ids by Criteria. In order to make this search more usable it has been backed
      * by the "CriteriaLookupService". This service allows us to join across entities. For example, you are able to pass in
-     * "courseOfferingCode" with a value of "CHEM199" even though the code does no live on the LuiEntity (which backs Course Offerings).
+     * "courseOfferingCode" with a value of "CHEM199" even though the code does not live on the LuiEntity (which backs Course Offerings).
      *
-     * The CourseOfferingCriteriaTransformer is coded to wire in the additional database joins needed to complete the search.
+     * The CourseOfferingCriteriaTransform is coded to wire in the additional database joins needed to complete the search.
      *
      * Please look in CourseOfferingCriteriaTransformer for a complete list of available mappings.
      *

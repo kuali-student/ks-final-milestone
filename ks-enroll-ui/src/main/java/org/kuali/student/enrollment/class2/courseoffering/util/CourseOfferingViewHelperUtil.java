@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -305,15 +306,15 @@ public class CourseOfferingViewHelperUtil {
      */
     public static String createColocatedDisplayData(ActivityOfferingInfo ao, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException,
             OperationFailedException, DoesNotExistException {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(" ");
+        StringBuffer buffer = new StringBuffer(" ");
         CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
         SchedulingService schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
-        List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(ao.getTypeKey(), ao.getId(), context);
+        List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService
+                .getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, ao.getId(), context);
         for(ScheduleRequestSetInfo srs : scheduleRequestSets) {
             List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(srs.getRefObjectIds(), context);
             for(ActivityOfferingInfo aoInfo : aoList) {
-                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + " ");
+                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + "<br/>");
             }
         }
         return buffer.toString();

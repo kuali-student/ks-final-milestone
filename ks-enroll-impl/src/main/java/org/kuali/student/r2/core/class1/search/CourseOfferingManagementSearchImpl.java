@@ -195,10 +195,6 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
         query = query + ") ORDER BY ident.code";
 
-
-
-
-
         /**
          * Search for the course offerings first for a term and subjectarea/coursecode
          */
