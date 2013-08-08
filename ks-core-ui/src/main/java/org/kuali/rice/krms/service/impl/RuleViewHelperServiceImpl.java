@@ -276,14 +276,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         //Rebuild the trees
         rule.setEditTree(this.getEditTreeBuilder().buildTree(rule));
         rule.setPreviewTree(this.getPreviewTreeBuilder().buildTree(rule));
-
-        //Also reset the logic expression. Should only be done after editTree is already built.
-        if (rule.getProposition() != null) {
-            rule.setLogicArea(PropositionTreeUtil.configureLogicExpression(rule.getPropositionEditor()));
-        } else {
-            rule.setLogicArea(StringUtils.EMPTY);
-        }
-
     }
 
     /**

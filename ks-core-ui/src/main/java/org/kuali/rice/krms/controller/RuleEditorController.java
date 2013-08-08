@@ -1214,4 +1214,29 @@ public class RuleEditorController extends MaintenanceDocumentController {
         return this.goToEditProposition(form, result, request, response);
     }
 
+    /**
+     * Refreshes logic area input field when changing tabs.
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(params = "methodToCall=refreshLogicArea")
+    public ModelAndView refreshLogicArea(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) {
+
+        RuleEditor rule = this.getRuleEditor(form);
+
+        //Reset the logic expression.
+        if (rule.getProposition() != null) {
+            rule.setLogicArea(PropositionTreeUtil.configureLogicExpression(rule.getPropositionEditor()));
+        } else {
+            rule.setLogicArea(StringUtils.EMPTY);
+        }
+
+        return super.getUIFModelAndView(form);
+    }
+
 }

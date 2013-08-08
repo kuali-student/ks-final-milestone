@@ -59,7 +59,7 @@ limitations under the License.
             <map>
                 <entry key="selected" value="0"/>
                 <entry key="select"
-                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KRMS-EditWithLogic-EditGroup');}"/>
+                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KRMS-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
             </map>
         </property>
     </bean>
