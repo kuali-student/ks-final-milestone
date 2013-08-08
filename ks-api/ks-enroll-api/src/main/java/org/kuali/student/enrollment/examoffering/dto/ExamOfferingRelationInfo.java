@@ -35,8 +35,8 @@ import java.util.List;
  * @author Mezba Mahtab (mezba.mahtab@utoronto.ca)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ExamOfferingRelationInfo", propOrder = {"id", "typeKey", "stateKey", "name",
-        "descr", "meta", "attributes",
+@XmlType(name = "ExamOfferingRelationInfo", propOrder = {"id", "typeKey", "stateKey",
+        "meta", "attributes",
         "formatOfferingId", "examOfferingId", "activityOfferingIds", "populationIds",
         "_futureElements"})
 public class ExamOfferingRelationInfo extends RelationshipInfo implements ExamOfferingRelation, Serializable {
