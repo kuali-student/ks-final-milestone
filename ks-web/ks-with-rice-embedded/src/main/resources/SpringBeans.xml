@@ -173,14 +173,14 @@
 
                 <!-- Manage COs and AOs -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewActivityOfferingsSection.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewAOClustersSection.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ViewRegistrationGroupsSection.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ToolbarSection.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagementView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/autogen/CourseOfferingManagement-DeleteClusterConfirmPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewActivityOfferingsSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewAOClustersSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewRegistrationGroupsSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageCourseOfferingsPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ManageTheCourseOfferingPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagementView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-DeleteClusterConfirmPage.xml</value>
 
                 <!-- East Coast Sandbox (rollover) -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
