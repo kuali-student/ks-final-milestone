@@ -1,5 +1,3 @@
-TRUNCATE TABLE KRIM_ROLE_MBR_ATTR_DATA_T DROP STORAGE
-/
 -- Note added by Bonnie
 -- We should pull out the authz setup out of ks-rice-sql.
 -- Below is the reference implementation.
