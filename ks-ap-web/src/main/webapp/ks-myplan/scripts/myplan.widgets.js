@@ -189,6 +189,8 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
  * @param blockingSettings - Settings for the html object
  */
 function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, blockingSettings) {
+	data = ksapAdditionalFormData(data);
+	
     var submitOptions = {
         data:data,
         success:function (response) {
@@ -198,9 +200,25 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
             if (!hasError) successCallback(tempDiv);
             jQuery("#formComplete").empty();
         },
-        error:function (jqXHR, textStatus) {
-            alert("Request failed: " + textStatus);
-        }
+        error:function(jqXHR, textStatus,
+                errorThrown) {
+	         hideLoading();
+	         showGrowl(textStatus + " "
+	             + errorThrown,
+	             "Error");
+	     },
+	     statusCode : {
+	         400 : function() {
+	             showGrowl(
+	                 "400 Bad Request",
+	                 "Fatal Error");
+	         },
+	         500 : function() {
+	             showGrowl(
+	                 "500 Internal Server Error",
+	                 "Fatal Error");
+	         }
+	     }
     };
 
     if (elementToBlock != null && elementToBlock.length) {
@@ -233,7 +251,12 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
             complete:function () {
                 elementToBlock.unblock();
             },
-            error:function () {
+            error:function(jqXHR, textStatus,
+                    errorThrown) {
+	   	         hideLoading();
+		         showGrowl(textStatus + " "
+		             + errorThrown,
+		             "Error");
                 if (elementToBlock.hasClass("unrendered")) {
                     elementToBlock.hide();
                 }
@@ -247,7 +270,6 @@ function ksapAjaxSubmitForm(data, successCallback, elementToBlock, formId, block
     var form = jQuery("#" + ((formId) ? formId : "kualiForm"));
     form.ajaxSubmit(submitOptions);
 }
-
 
 
 function openMenu(id, getId, atpId, e, selector, popupClasses, popupOptions, close) {
@@ -895,7 +917,7 @@ function myplanAjaxSubmitForm(methodToCall, successCallback, additionalData, ele
                 hideLoading();
                 showGrowl(textStatus + " "
                     + errorThrown,
-                    "Search Error");
+                    "Error");
                 if (elementToBlock.hasClass("unrendered")) {
                     elementToBlock.hide();
                 }
