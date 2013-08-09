@@ -855,12 +855,16 @@ public class AcademicCalendarController extends UifControllerBase {
             }
             for (KeyDatesGroupWrapper groupWrapper : term.getKeyDatesGroupWrappers()){
                 for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
-                    keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),viewHelperService.createContextInfo()));
+                    //...skip [unsaved] KeyDates that have null Id ...to avoid exception
+                    //note: the UI policy for this page: user must select 'Save' to save changes as make official does not save anything)
+                    if (keyDateWrapper.getKeyDateInfo() != null && keyDateWrapper.getKeyDateInfo().getId()!=null) {
+                        keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),viewHelperService.createContextInfo()));
+                    }
                 }
             }
         } catch (Exception e) {
             LOG.error("Make Official Failed for Term",e);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_OFFICIAL_FAILED + " - " + e.getMessage());
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES,CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_OFFICIAL_FAILED,e.getMessage());
             return false;
         }
         return true;
@@ -890,7 +894,7 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         } catch (Exception e) {
             LOG.error("Make Official Failed for Acal",e);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_OFFICIAL_FAILED + " - " + e.getMessage());
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_OFFICIAL_FAILED ,e.getMessage());
             return false;
         }
         return true;
