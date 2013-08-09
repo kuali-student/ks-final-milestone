@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagat
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.exception.AssertException;
 import org.kuali.student.enrollment.class2.courseoffering.service.exception.PseudoUnitTestException;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.AFUTTypeEnum;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.AoStateTransitionRefSolution;
 import org.kuali.student.enrollment.class2.courseoffering.service.util.PseudoUnitTestStateTransitionGrid;
@@ -437,7 +438,7 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             throw new OperationFailedException(e.getMessage());
         }
         try {
-            rolloverCourseOfferingFromSourceTermToTargetTerm("CHEM237", SAMPLE_TERM, SAMPLE_ROLLOVER_TERM);
+            rolloverCourseOfferingFromSourceTermToTargetTerm("CHEM237", SAMPLE_TERM, SAMPLE_TERM);
         } catch (Exception e) {
             System.out.println("Woops");
         }
@@ -447,7 +448,12 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     @Override
     public void runTests(TestStatePropagationForm form) throws Exception {
         _initServices();
-
+//        CSRServiceFacade csrServiceFacade
+//                = (CSRServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/csrServiceFacade", "CSRServiceFacade"));
+//        System.err.println("Hi");
+//        if (1 + 1 == 2) {
+//            return;
+//        }
         // Now begin to test AO state transitions
         System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
         _reset(true);

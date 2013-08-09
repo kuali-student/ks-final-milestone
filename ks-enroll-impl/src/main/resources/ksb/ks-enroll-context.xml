@@ -928,6 +928,25 @@
         </property>
     </bean>
 
+    <!-- For now, acal KSENROLL-8609 -->
+    <bean id="csrServiceFacade" class="org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacadeImpl">
+        <property name="coService" ref="CourseOfferingService"/>
+        <property name="typeService" ref="typeService" />
+    </bean>
+
+    <!-- Put facade on the bus KSENROLL-8609 -->
+    <bean id="ks.exp.csrServiceFacade" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.JavaServiceDefinition">
+                <property name="service" ref="csrServiceFacade" /> <!-- Must match id in the bean -->
+                <property name="serviceInterface" value="org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade" />
+                <property name="localServiceName" value="CSRServiceFacade" /> <!-- Part of the QName -->
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/csrServiceFacade" />
+                <property name="busSecurity" value="${ks.lum.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
     <!-- For rolling over, colocation, provides mapping from source ScheduleRequestSet to target ScheduleRequestSet -->
     <bean id="rolloverAssist" class="org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssistImpl">
     </bean>
