@@ -240,7 +240,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="10" >
+    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="9" >
         <property name="headerText" value="Activities"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper"/>
@@ -248,6 +248,7 @@
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="items">
             <list>
+                <bean parent="KS-Uif-DataField-Simple" p:label="STATUS" p:propertyName="aoDisplayInfo.stateName"/>
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
                     <property name="items">
                         <list>
@@ -261,15 +262,13 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField-Simple" p:label="STATUS" p:propertyName="aoDisplayInfo.stateName"/>
                 <bean parent="KS-Uif-DataField-Simple" p:label="TYPE" p:propertyName="aoDisplayInfo.typeName" />
-                <bean parent="KS-Uif-DataField-Simple" p:label="MAX ENR" p:propertyName="aoDisplayInfo.maximumEnrollment" />
+                <bean parent="KS-Uif-DataField-Simple" p:label="FORMAT" p:propertyName="aoDisplayInfo.formatOfferingName" />
                 <bean parent="Uif-MessageField"  p:label="DAYS"  p:messageText="@{#lp.daysDisplayName}" />
                 <bean parent="Uif-MessageField"  p:label="START TIME"  p:messageText="@{#lp.startTimeDisplay}" />
                 <bean parent="Uif-MessageField" p:label="END TIME" p:messageText="@{#lp.endTimeDisplay}" />
-                <bean parent="Uif-MessageField" p:label="BUILDING"  p:messageText="@{#lp.buildingName}" />
-                <bean parent="Uif-MessageField" p:label="ROOM" p:messageText="@{#lp.roomName}" />
                 <bean parent="KS-Uif-DataField-Simple" p:label="INSTRUCTOR" p:propertyName="aoDisplayInfo.instructorName" />
+                <bean parent="KS-Uif-DataField-Simple" p:label="MAX ENR" p:propertyName="aoDisplayInfo.maximumEnrollment" />
             </list>
         </property>
     </bean>
