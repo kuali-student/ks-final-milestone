@@ -247,13 +247,13 @@ public class ARGToolbarUtil {
                 //Reset the form
                 activityWrapper.setEnableCopyAOActionLink(false);
                 activityWrapper.setEnableEditAOActionLink(false);
-                activityWrapper.setEnableCancelButton(false);
                 activityWrapper.setEnableMoveToButton(false);
                 activityWrapper.setEnableApproveButton(false);
+                activityWrapper.setEnableDraftButton(false);
+                activityWrapper.setEnableCancelButton(false);
+                activityWrapper.setEnableSuspendButton(false);
                 activityWrapper.setEnableReinstateButton(false);
                 activityWrapper.setEnableDeleteButton(false);
-                activityWrapper.setEnableSuspendButton(false);
-                activityWrapper.setEnableDraftButton(false);
 
                 //for approve AO button
                 if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, "approveAO")) {
@@ -307,13 +307,20 @@ public class ARGToolbarUtil {
                     activityWrapper.setEnableEditAOActionLink(true);
                 }
 
-                //Currently, there are no reinstate, suspend and cancel AO buttons. Comment out the following checking
-                /*
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelAO");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                //for Cancel AO button
+                if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, "cancelAO")) {
                     activityWrapper.setEnableCancelButton(true);
+                    //later need to check role permission
+                    /*
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelAO");
+                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                        activityWrapper.setEnableCancelButton(true);
+                    }
+                    */
                 }
 
+                //Currently, there are no reinstate, suspend and cancel AO buttons. Comment out the following checking
+                /*
                 permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateAO");
                 if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                     activityWrapper.setEnableReinstateButton(true);
@@ -369,6 +376,13 @@ public class ARGToolbarUtil {
             bzEnableButton = true;
         } else if (StringUtils.equals(actionEvent, "moveAO")) {
             bzEnableButton = true;
+        } else if(StringUtils.equals(actionEvent, "cancelAO")){
+            if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) ||
+               StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ||
+               StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
+               StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)){
+                bzEnableButton = true;
+            }
         }
 
         return bzEnableButton;
