@@ -16,19 +16,7 @@
  */
 package org.kuali.student.common.uif.view;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.component.Component;
-import org.kuali.rice.krad.uif.service.ExpressionEvaluatorService;
 import org.kuali.rice.krad.uif.view.MaintenanceDocumentView;
-import org.kuali.rice.krad.uif.view.View;
-import org.kuali.student.common.uif.form.KSUifForm;
-import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
-import org.kuali.student.common.uif.util.KSUifUtils;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 /**
  * This class extends MaintenanceDocumentView and can be used to hold any properties that can be
