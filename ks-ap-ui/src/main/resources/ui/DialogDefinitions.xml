@@ -53,6 +53,96 @@
         </property>
     </bean>
 
+    <!-- This page is for adding courses, course placeholder, or a general placeholder -->
+    <bean parent="KSAP-PopoverPage" p:id="plan_item_add_page" id="plan_item_add_page"
+          p:headerText="@{#form.planItemId EQ null ? 'What would you like to add to ':'Edit your course for '} @{#form.termName}@{#form.planItemId EQ null ? '?' : ''}"
+          p:width="325px">
+        <property name="items">
+            <list>
+                <bean parent="KSAP-VerticalBoxGroup">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>myplan-remove-margin</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="KSAP-HorizontalBoxGroup" p:style="margin-left:2em;" p:id="courseOptions">
+                                <property name="items">
+                                    <list>
+										<bean parent="Uif-Message" p:messageText="Enter the course code"></bean>
+                                        <bean parent="Uif-InputField" p:propertyName="courseCd"
+                                              p:id="courseCode" p:width="70%">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:style="width:180px;">
+                                                    <property name="onDocumentReadyScript"
+                                                              value="jQuery('#courseCode_control').focus();"/>
+                                                    <property name="watermarkText" value="e.g. MATH-M 119"/>
+                                                    <property name="maxLength" value="10"/>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <!-- TODO: Credits
+                                        <bean parent="Uif-InputField" p:propertyName="courseCredit" p:id="creditsCourse"
+                                        		p:label="Units">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="3"/>
+                                            </property>
+                                        </bean>
+                                         -->
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KSAP-SimpleInputField" p:propertyName="planItemId"
+                      p:hidden="true" p:render="@{#form.planItemId NE null}">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                </bean>
+                <bean parent="KSAP-VerticalBoxGroup-NoMargin" p:id="actionButtonsGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="KSAP-HorizontalBoxGroup-NoMargin">
+                                <property name="items">
+                                    <list>
+                                        <bean id="actionCoursePlaceholder" p:id="actionCoursePlaceholder"
+                                              parent="Uif-PrimaryActionButton-Small"
+                                              p:actionLabel="@{#form.planItemId EQ null ? 'Add to Plan':'Save'}">
+                                            <property name="actionScript" value="
+                                                var additionalFormData = {
+                                                    viewId: 'PlannedCourse-FormView',
+                                                    methodToCall: 'addUpdatePlanItem',
+                                                    atpId: '@{#form.atpId}',
+                                                    backup: @{#form.backup},
+                                                    pageId: 'plan_item_add_page'
+                                                };
+                                                submitPopupForm(additionalFormData, e, false);
+                                            "/>
+                                            <property name="disabled" value="@{#form.courseCd EQ null}"/>
+                                            <property name="evaluateDisabledOnKeyUp" value="true"/>
+                                            <property name="onDocumentReadyScript" value="
+                                                jQuery('#actionCoursePlaceholder').on('PLAN_ITEM_ADDED PLAN_ITEM_UPDATED', function(event, data){
+                                                    fnCloseAllPopups();
+                                                }).on('ERROR', function(event, data){
+                                                    fnDisplayMessage(data.message, data.cssClass, 'errorPlaceholder', true, false,true,'errorPlaceholder');
+                                                });
+                                            "/>
+                                        </bean>
+                                        <bean parent="closePopoverCancel"/>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="KSAP-VerticalBoxGroup" p:id="errorPlaceholder" p:hidden="true"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
     <!--Delete confirmation Dialog Box content -->
     <bean id="plan_item_delete_page" parent="KSAP-PopoverPage" p:id="plan_item_delete_page"
           p:headerText="Delete @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}">
@@ -640,6 +730,9 @@
                 </bean>
 
                 <!--This page is used for the Move to another quarter Dialog box -->
+                <ref bean="plan_item_add_page"/>
+
+                <!--This page is used for the Move to another quarter Dialog box -->
                 <ref bean="move_dialog_page"/>
 
                 <!--This page is used for the Copy to another quarter Dialog box -->
@@ -651,6 +744,7 @@
             </list>
         </property>
     </bean>
+
 
     <!-- Course details 3 box group  -->
     <bean id="course_popover_group" parent="Uif-HorizontalBoxGroup" p:style="margin:0px;">
@@ -986,7 +1080,6 @@
             </list>
         </property>
     </bean>
-
 
     <bean id="plan_item_course_move_dialog" parent="Uif-VerticalBoxSection" p:headerText="Move to Another Quarter">
         <property name="header">

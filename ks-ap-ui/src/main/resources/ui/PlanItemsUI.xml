@@ -335,7 +335,7 @@
             	var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
             	var backup = jQuery(this).parents('.myplan-carousel-term').data('plantype');
             	var size = jQuery(this).parents('.myplan-carousel-term').data('size');
-            	var jQuickAdd = jQuery('&lt;div /&gt;').addClass('quick-add-cell').html('Add course or placeholder').click(function(e){
+            	var jQuickAdd = jQuery('&lt;div /&gt;').addClass('quick-add-cell').html('Add a course to plan').click(function(e){
             		var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', atpId:atpId, backup:backup, pageId:'plan_item_add_page'};
                     openPopup('plan_item_add_page', retrieveData, 'plan', popupStyle, popupOptions, e);
             	});
