@@ -35,6 +35,7 @@
         <profile>
             <id>skip-all-wars</id>
             <modules>
+                <module>ks-enroll-sql</module>
                 <module>ks-enroll-impl</module>
                 <module>ks-enroll-ui</module>
                 <module>ks-enroll-rice</module>
