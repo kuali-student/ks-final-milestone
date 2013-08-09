@@ -86,7 +86,7 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
             List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
                     ((DataBinding) collectionGroup).getBindingInfo().getBindingPath());
 
-            headerText = buildLineHeaderText(modelCollection.get(lineIndex), lineGroup);
+            headerText = buildLineHeaderText(view, modelCollection.get(lineIndex), lineGroup);
         }
 
         // don't set header if text is blank (could already be set by other means)
