@@ -384,6 +384,18 @@ a {
 .ks-toolbar-group-padded {
     padding-right: 20px;
 }
+
+.ks-toolbar-group-padded button{
+    margin-right: 0px;
+}
+
+.ks-horizontal-box-group-with-right-padding{
+    padding-right: 20px;
+}
+
+.ks-horizontal-box-group-with-right-padding button{
+    margin-right: 0px;
+}
 /************************************** END TOOLBAR **************************************/
 
 

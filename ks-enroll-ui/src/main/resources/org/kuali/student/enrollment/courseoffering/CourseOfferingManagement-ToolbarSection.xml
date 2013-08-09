@@ -346,6 +346,6 @@
         </property>
     </bean>
 
-    <bean id="KS-HorizontalBoxGroup-WithRPadding" parent="Uif-HorizontalBoxGroup" p:style="padding-right: 20px" />
+    <bean id="KS-HorizontalBoxGroup-WithRPadding" parent="Uif-HorizontalBoxGroup" p:cssClasses="ks-horizontal-box-group-with-right-padding" />
 
 </beans>
