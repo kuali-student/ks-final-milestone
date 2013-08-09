@@ -78,11 +78,11 @@ public class CourseInfoByTermLookupableImpl extends LookupableImpl {
             String courseTitleParam = searchCriteria.get(QueryParamEnum.TITLE.getFieldValue());
 
             if (StringUtils.isBlank(courseCodeParam) && StringUtils.isBlank(courseTitleParam)){
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please enter atleast one field.");
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please enter at least Course Code or Title search criteria.");
                 valid = false;
             } else if ((StringUtils.isBlank(courseCodeParam) && StringUtils.length(courseTitleParam) < 2) ||
                     (StringUtils.length(courseCodeParam) < 2 && StringUtils.isBlank(courseTitleParam))) {
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please enter atleast 2 characters for the search.");
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Please enter at least 2 characters for the search.");
                 valid = false;
             }
         }
