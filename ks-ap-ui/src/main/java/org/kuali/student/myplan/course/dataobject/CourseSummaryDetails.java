@@ -186,7 +186,9 @@ public class CourseSummaryDetails implements Serializable {
 	}
 
 	public List<String> getScheduledTerms() {
-        if(scheduledTerms==null) scheduledTerms=new ArrayList<String>();
+		if (scheduledTerms == null) {
+			scheduledTerms = new java.util.ArrayList<String>();
+		}
 		return scheduledTerms;
 	}
 
@@ -248,4 +250,12 @@ public class CourseSummaryDetails implements Serializable {
 		}
 		return schTermsb.toString();
 	}
+
+	@Override
+	public String toString() {
+		return "CourseSummaryDetails [courseId=" + courseId + ", code=" + code + ", subjectArea=" + subjectArea
+				+ ", courseNumber=" + courseNumber + ", courseTitle=" + courseTitle + "]";
+	}
+	
+	
 }

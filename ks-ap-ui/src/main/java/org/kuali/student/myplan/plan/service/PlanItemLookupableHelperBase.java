@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -27,17 +26,16 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  * Base lookup helper for plan items.
  */
 public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
-	
+
 	private static final long serialVersionUID = -6762982255633597470L;
 
-	private final static Logger LOG = Logger
-			.getLogger(PlanItemLookupableHelperBase.class);
-	
 	private transient AcademicPlanService academicPlanService;
-    private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
+	private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
 
-    protected List<PlannedCourseDataObject> getPlanItems(String planItemType, String studentId)
-            throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException {
+	protected List<PlannedCourseDataObject> getPlanItems(String planItemType,
+			String studentId) throws InvalidParameterException,
+			MissingParameterException, DoesNotExistException,
+			OperationFailedException {
 
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
 
@@ -64,18 +62,11 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 					plannedCourseDO.setPlanItemDataObject(PlanItemDataObject
 							.build(planItem));
 
-					// If the course info lookup fails just log the error and
-					// omit the item.
-					try {
-                        if (getCourseDetailsInquiryService().isCourseIdValid(courseID)) {
-                            plannedCourseDO.setCourseDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(courseID));
-						}
-					} catch (Exception e) {
-						LOG.error(
-								String.format(
-										"Unable to retrieve course info for plan item [%s].",
-										planItem.getId()), e);
-						continue;
+					if (getCourseDetailsInquiryService().isCourseIdValid(
+							courseID)) {
+						plannedCourseDO
+								.setCourseDetails(getCourseDetailsInquiryService()
+										.retrieveCourseSummaryById(courseID));
 					}
 
 					plannedCoursesList.add(plannedCourseDO);
@@ -112,14 +103,10 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 	}
 
 	public synchronized CourseDetailsInquiryHelperImpl getCourseDetailsInquiryService() {
-        if (this.courseDetailsInquiryHelper == null) {
-            this.courseDetailsInquiryHelper = new CourseDetailsInquiryHelperImpl();
+		if (this.courseDetailsInquiryHelper == null) {
+			this.courseDetailsInquiryHelper = new CourseDetailsInquiryHelperImpl();
 		}
-        return courseDetailsInquiryHelper;
+		return courseDetailsInquiryHelper;
 	}
 
-	public void setCourseDetailsInquiryService(
-			CourseDetailsInquiryHelperImpl courseDetailsInquiryService) {
-        this.courseDetailsInquiryHelper = courseDetailsInquiryHelper;
-	}
 }

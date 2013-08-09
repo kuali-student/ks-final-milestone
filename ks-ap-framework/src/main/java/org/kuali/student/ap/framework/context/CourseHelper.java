@@ -38,4 +38,6 @@ public interface CourseHelper {
 
 	String getCodeFromActivityId(String activityId);
 
+	List<Course> getCoursesByCode(String courseCd);
+
 }

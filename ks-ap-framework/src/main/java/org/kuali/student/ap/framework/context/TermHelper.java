@@ -46,64 +46,76 @@ public interface TermHelper {
 	 *             sense.
 	 */
 	Term getLastScheduledTerm();
-	
+
 	/**
 	 * Determine the oldest term to consider when performing historical lookups.
 	 * 
-	 * @return The ID of oldest term to consider when performing historical lookups.
+	 * @return The ID of oldest term to consider when performing historical
+	 *         lookups.
 	 */
 	Term getOldestHistoricalTerm();
-	
+
 	/**
 	 * Gets the ATP ID of the first ATP in the current academic year.
 	 */
 	Term getFirstTermOfAcademicYear(YearTerm yearTerm);
 
-    /**
-     * Gets the number of terms in a academic year.
-     *
-     * @param yearTerm
-     * @return
-     */
-    public int getNumberOfTermsInAcademicYear(YearTerm yearTerm);
-
-    /**
-     * Gets a list of Terms in the academic year.
-     *
-     * @param yearTerm
-     * @return
-     */
-    public List<Term> getTermsInAcademicYear(YearTerm yearTerm);
-
-    /**
-     * Gets the number of terms in a academic year.
-     *
-     * @return
-     */
-    public int getNumberOfTermsInAcademicYear();
-
-    /**
-     * Gets a list of Terms in the academic year.
-     *
-     * @return
-     */
-    public List<Term> getTermsInAcademicYear();
-
-    /**
-     * Gets the term name of a term in the academic year.
-     * @param index
-     * @return
-     */
-    public String getTermNameInAcadmicYear(int index);
-
 	/**
-	 * Returns true if an ATP is considered present or greater in the context of
-	 * WHAT? Otherwise, false.
+	 * Gets the number of terms in a academic year.
 	 * 
-	 * @param termId
+	 * @param yearTerm
 	 * @return
 	 */
-	boolean isPlanning(String atpId);
+	public int getNumberOfTermsInAcademicYear(YearTerm yearTerm);
+
+	/**
+	 * Gets a list of Terms in the academic year.
+	 * 
+	 * @param yearTerm
+	 * @return
+	 */
+	public List<Term> getTermsInAcademicYear(YearTerm yearTerm);
+
+	/**
+	 * Gets the number of terms in a academic year.
+	 * 
+	 * @return
+	 */
+	public int getNumberOfTermsInAcademicYear();
+
+	/**
+	 * Gets a list of Terms in the academic year.
+	 * 
+	 * @return
+	 */
+	public List<Term> getTermsInAcademicYear();
+
+	/**
+	 * Gets the term name of a term in the academic year.
+	 * 
+	 * @param index
+	 * @return
+	 */
+	public String getTermNameInAcadmicYear(int index);
+
+	/**
+	 * Returns true if a term is available for planning.
+	 * 
+	 * @param termId
+	 *            The term ID.
+	 * @return True if the term is available for planning, false if not.
+	 */
+	boolean isPlanning(String termId);
+
+	/**
+	 * Returns true if a term published on the schedule of classes.
+	 * 
+	 * @param termId
+	 *            The term ID.
+	 * @return True if the term is published on the schedule of classes, false
+	 *         if not.
+	 */
+	boolean isPublished(String termId);
 
 	/**
 	 * Returns true if an ATP is considered present or greater in the context of
@@ -131,6 +143,13 @@ public interface TermHelper {
 	List<Term> getPublishedTerms();
 
 	/**
+	 * Gets a list of planning terms.
+	 * 
+	 * @return
+	 */
+	List<Term> getPlanningTerms();
+
+	/**
 	 * 
 	 * @param yearTerm
 	 *            - Year and term storage object
@@ -145,6 +164,5 @@ public interface TermHelper {
 	 * @return YearTerm holding information for the term
 	 */
 	YearTerm getYearTerm(Term term);
-
 
 }

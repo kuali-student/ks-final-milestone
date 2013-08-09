@@ -1,14 +1,11 @@
 package org.kuali.student.myplan.plan.dataobject;
 
-import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.myplan.course.dataobject.CourseDetails;
-import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,7 +22,9 @@ public class PlannedTerm {
     private List<PlannedCourseDataObject> backupList = new ArrayList<PlannedCourseDataObject>();
     private List<AcademicRecordDataObject> academicRecord = new ArrayList<AcademicRecordDataObject>();
     private List<PlannedCourseDataObject> cartList = new ArrayList<PlannedCourseDataObject>();
-    private String credits = null;
+
+    @SuppressWarnings("unused")
+	private String credits = null;
 
     /*These flags are used for help icons to display*/
 

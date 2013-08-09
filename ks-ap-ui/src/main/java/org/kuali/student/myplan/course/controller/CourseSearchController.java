@@ -29,11 +29,15 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
@@ -42,11 +46,13 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.ksb.service.KSBServiceLocator;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.FacetKeyValue;
+import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
 import org.kuali.student.myplan.course.form.CourseSearchFormImpl;
 import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.course.util.CampusSearch;
@@ -1166,6 +1172,8 @@ public class CourseSearchController extends UifControllerBase {
 
 	private ObjectMapper mapper = new ObjectMapper();
 
+	private CourseDetailsInquiryHelperImpl courseDetailsInquiryService;
+
 	/**
 	 * Synchronously retrieve session bound search results for an incoming
 	 * request.
@@ -1531,6 +1539,49 @@ public class CourseSearchController extends UifControllerBase {
 		for (SearchResultRow row : searchResult.getRows())
 			results.add(searcher.getCellValue(row, "courseCode"));
 		return results;
+	}
+
+	public synchronized CourseDetailsInquiryHelperImpl getCourseDetailsInquiryService() {
+		if (this.courseDetailsInquiryService == null) {
+			this.courseDetailsInquiryService = new CourseDetailsInquiryHelperImpl();
+		}
+		return courseDetailsInquiryService;
+	}
+
+	// Course ID GUID, atp key id eg "uw.kuali.atp.2001.1"
+	@RequestMapping(value = "/course/enroll")
+	public void getCourseSectionStatusAsJson(HttpServletResponse response,
+			HttpServletRequest request) throws IOException, ServletException {
+		String courseId = request.getParameter("courseId");
+		CourseSummaryDetails courseDetails = getCourseDetailsInquiryService()
+				.retrieveCourseSummaryById(courseId);
+
+		String termIdInput = request.getParameter("termId");
+		List<String> termIds;
+		if (StringUtils.isBlank(termIdInput))
+			termIds = new java.util.ArrayList<String>(
+					courseDetails.getScheduledTerms());
+		else
+			termIds = Collections.singletonList(termIdInput);
+
+		CourseHelper ch = KsapFrameworkServiceLocator.getCourseHelper();
+		Map<String, Map<String, Object>> payload = new java.util.LinkedHashMap<String, Map<String, Object>>();
+		for (String termId : termIds)
+			ch.getAllSectionStatus(payload, courseId, termId);
+
+		String json;
+		try {
+			json = mapper.writeValueAsString(payload);
+			response.setHeader("content-type", "application/json");
+			response.setHeader("Cache-Control", "No-cache");
+			response.setHeader("Cache-Control", "No-store");
+			response.setHeader("Cache-Control", "max-age=0");
+			response.getWriter().println(json);
+		} catch (JsonGenerationException e) {
+			throw new ServletException("JSON generation failed", e);
+		} catch (JsonMappingException e) {
+			throw new ServletException("JSON generation failed", e);
+		}
 	}
 
 }

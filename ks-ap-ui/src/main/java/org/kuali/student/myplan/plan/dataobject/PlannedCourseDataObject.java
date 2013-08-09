@@ -30,6 +30,14 @@ public class PlannedCourseDataObject implements
 	// resolved
 	private boolean timeScheduleOpen;
 
+	public String getCourseCode() {
+		return courseDetails == null ? null : courseDetails.getCode();
+	}
+	
+	public String getCourseTitle() {
+		return courseDetails == null ? null : courseDetails.getCourseTitle();
+	}
+	
 	public CourseSummaryDetails getCourseDetails() {
 		return courseDetails;
 	}

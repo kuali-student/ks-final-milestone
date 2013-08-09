@@ -13,6 +13,7 @@ import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
 public class CourseDetails {
 
 	private String searchTerm;
+	private String credits;
 	private boolean backup;
 	
 	private CourseSummaryDetails courseSummaryDetails;
@@ -30,6 +31,14 @@ public class CourseDetails {
 
 	public void setSearchTerm(String searchTerm) {
 		this.searchTerm = searchTerm;
+	}
+	
+	public String getCredits() {
+		return credits;
+	}
+
+	public void setCredits(String credits) {
+		this.credits = credits;
 	}
 
 	public boolean isBackup() {

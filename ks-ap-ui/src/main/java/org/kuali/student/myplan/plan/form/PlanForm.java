@@ -14,6 +14,7 @@
  */
 package org.kuali.student.myplan.plan.form;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +61,12 @@ public class PlanForm extends UifFormBase {
 
     private String courseId;
 
+    // Quick Add params
+    private String courseCd;
+    
+    private BigDecimal courseCredit;
+    
+    private String courseNote;
 
     /*properties used for section Planning*/
     private String sectionCode;
@@ -180,7 +187,31 @@ public class PlanForm extends UifFormBase {
         this.javascriptEvents = javascriptEvents;
     }
 
-    public String getAtpId() {
+    public String getCourseCd() {
+		return courseCd;
+	}
+
+	public void setCourseCd(String courseCd) {
+		this.courseCd = courseCd;
+	}
+
+	public BigDecimal getCourseCredit() {
+		return courseCredit;
+	}
+
+	public void setCourseCredit(BigDecimal courseCredit) {
+		this.courseCredit = courseCredit;
+	}
+
+	public String getCourseNote() {
+		return courseNote;
+	}
+
+	public void setCourseNote(String courseNote) {
+		this.courseNote = courseNote;
+	}
+
+	public String getAtpId() {
         return atpId;
     }
 
