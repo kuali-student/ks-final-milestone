@@ -304,7 +304,7 @@ public class QuickAddController extends UifControllerBase {
 			// will be thrown. Otherwise, the method
 			// will return the default plan or null. Having multiple plans will
 			// also produce a RuntimeException.
-			plan = getLearningPlan(studentId);
+			plan = getLearningPlan();
 		} catch (RuntimeException e) {
 			return doOperationFailedError(form,
 					"Query for default learning plan failed.",
@@ -498,7 +498,7 @@ public class QuickAddController extends UifControllerBase {
 			String atpId) {
 		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
 				.getStudentId();
-		LearningPlan learningPlan = getLearningPlan(studentId);
+		LearningPlan learningPlan = getLearningPlan();
 		if (learningPlan == null) {
 			throw new RuntimeException(String.format(
 					"Could not find the default plan for [%s].", studentId));
@@ -1067,7 +1067,7 @@ public class QuickAddController extends UifControllerBase {
 
 		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
 				.getStudentId();
-		LearningPlan learningPlan = getLearningPlan(studentId);
+		LearningPlan learningPlan = getLearningPlan();
 		if (learningPlan == null) {
 			throw new RuntimeException(String.format(
 					"Could not find the default plan for [%s].", studentId));
@@ -1188,49 +1188,13 @@ public class QuickAddController extends UifControllerBase {
 
 	/**
 	 * Retrieve a student's LearningPlan.
-	 * 
-	 * @param studentId
+	 *
 	 * @return A LearningPlan or null on errors.
 	 * @throws RuntimeException
 	 *             if the query fails.
 	 */
-	private LearningPlan getLearningPlan(String studentId) {
-		/*
-		 * First fetch the student's learning plan.
-		 */
-		List<LearningPlanInfo> learningPlans = null;
-		try {
-			learningPlans = KsapFrameworkServiceLocator
-					.getAcademicPlanService().getLearningPlansForStudentByType(
-							studentId,
-							PlanConstants.LEARNING_PLAN_TYPE_PLAN,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
-		} catch (Exception e) {
-			throw new RuntimeException(String.format(
-					"Could not fetch plan for user [%s].", studentId), e);
-		}
-
-		if (learningPlans == null) {
-			throw new RuntimeException(
-					String.format(
-							"Could not fetch plan for user [%s]. The query returned null.",
-							studentId));
-		}
-
-		// There should currently only be a single learning plan. This may
-		// change in the future.
-		if (learningPlans.size() > 1) {
-			throw new RuntimeException(String.format(
-					"User [%s] has more than one plan.", studentId));
-		}
-
-		LearningPlan learningPlan = null;
-		if (learningPlans.size() != 0) {
-			learningPlan = learningPlans.get(0);
-		}
-
-		return learningPlan;
+	private LearningPlan getLearningPlan() {
+		return KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 	}
 
 	/**

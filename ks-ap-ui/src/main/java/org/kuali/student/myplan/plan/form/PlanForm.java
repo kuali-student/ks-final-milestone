@@ -14,6 +14,7 @@
  */
 package org.kuali.student.myplan.plan.form;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +61,12 @@ public class PlanForm extends UifFormBase {
 
     private String courseId;
 
+    // Quick Add params
+    private String courseCd;
+    
+    private BigDecimal courseCredit;
+    
+    private String courseNote;
 
     /*properties used for section Planning*/
     private String sectionCode;
@@ -86,10 +93,6 @@ public class PlanForm extends UifFormBase {
 
     //  Form fields.
     private String atpId;
-
-    private String selectedAtpId;
-
-    private String fakeSelectedAtpId;
 
     private String termName;
 
@@ -124,12 +127,6 @@ public class PlanForm extends UifFormBase {
     private boolean courseInBackup;
 
     private StatusInfo statusInfo = new StatusInfo();
-
-
-    // Dialog Responses
-    private boolean displayDialogStatus;
-    private boolean dialogSuccess;
-    private String dialogMessage;
 
 
     public int getBookmarkedCount() {
@@ -190,7 +187,31 @@ public class PlanForm extends UifFormBase {
         this.javascriptEvents = javascriptEvents;
     }
 
-    public String getAtpId() {
+    public String getCourseCd() {
+		return courseCd;
+	}
+
+	public void setCourseCd(String courseCd) {
+		this.courseCd = courseCd;
+	}
+
+	public BigDecimal getCourseCredit() {
+		return courseCredit;
+	}
+
+	public void setCourseCredit(BigDecimal courseCredit) {
+		this.courseCredit = courseCredit;
+	}
+
+	public String getCourseNote() {
+		return courseNote;
+	}
+
+	public void setCourseNote(String courseNote) {
+		this.courseNote = courseNote;
+	}
+
+	public String getAtpId() {
         return atpId;
     }
 
@@ -463,53 +484,5 @@ public class PlanForm extends UifFormBase {
     }
     public void setStatusInfo(StatusInfo statusInfo){
         this.statusInfo=statusInfo;
-    }
-
-
-    public boolean isDisplayDialogStatus() {
-        return displayDialogStatus;
-    }
-
-    public void setDisplayDialogStatus(boolean displayDialogStatus) {
-        this.displayDialogStatus = displayDialogStatus;
-    }
-
-    public boolean isDialogSuccess() {
-        return dialogSuccess;
-    }
-
-    public void setDialogSuccess(boolean dialogSuccess) {
-        this.dialogSuccess = dialogSuccess;
-    }
-
-    public String getDialogMessage() {
-        return dialogMessage;
-    }
-
-    public void setDialogMessage(String dialogMessage) {
-        this.dialogMessage = dialogMessage;
-    }
-
-    public void resetDialogResponse(){
-        setDialogMessage("");
-        setDialogSuccess(false);
-        setDisplayDialogStatus(false);
-
-    }
-
-    public String getSelectedAtpId() {
-        return selectedAtpId;
-    }
-
-    public void setSelectedAtpId(String selectedAtpId) {
-        this.selectedAtpId = selectedAtpId;
-    }
-
-    public String getFakeSelectedAtpId() {
-        return fakeSelectedAtpId;
-    }
-
-    public void setFakeSelectedAtpId(String fakeSelectedAtpId) {
-        this.fakeSelectedAtpId = fakeSelectedAtpId;
     }
 }

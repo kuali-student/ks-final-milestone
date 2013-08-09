@@ -384,10 +384,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		// Get the first learning plan. There should only be one ...
 		String planTypeKey = AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN;
 		try {
-			List<LearningPlanInfo> plans = academicPlanService.getLearningPlansForStudentByType(studentId, planTypeKey,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-			if (plans.size() > 0) {
-				LearningPlan plan = plans.get(0);
+			LearningPlanInfo plan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
+			if (plan != null) {
 				plannedCourseSummary.setLearningPlanId(plan.getId());
 
 				// Fetch the plan items which are associated with the plan.

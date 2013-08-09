@@ -53,6 +53,9 @@
     <bean name="shoppingCartHelper"
           class="org.kuali.student.ap.framework.context.support.MockShoppingCartHelper" />
 
+    <bean name="planHelper"
+          class="org.kuali.student.ap.framework.context.support.DefaultPlanHelper" />
+
 	<import resource="classpath:META-INF/ks-ap/ks-core-client.xml" />
 	<import resource="classpath:META-INF/ks-ap/ks-enroll-client.xml" />
 	<import resource="classpath:META-INF/ks-ap/ks-lum-client.xml" />

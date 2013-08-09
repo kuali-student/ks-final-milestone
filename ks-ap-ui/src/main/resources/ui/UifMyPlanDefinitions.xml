@@ -541,6 +541,8 @@
                   value="Select the campus and enter degree program to run audit"/>
     </bean>
 
+
+
     <bean id="data_list_formatter" class="org.kuali.student.myplan.course.util.CollectionListPropertyEditor">
         <property name="emptyListMessage" value="None"/>
     </bean>
@@ -678,6 +680,12 @@
         </property>
     </bean>
 
+    <bean id="KSAP-Message" parent="KSAP-Message-parentBean"/>
+    <bean id="KSAP-Message-parentBean" abstract="true" parent="Uif-Message-parentBean" scope="prototype">
+        <property name="generateSpan" value="true"/>
+        <property name="readOnly" value="true"/>
+    </bean>
+
     <bean id="KSAP-NoSpanMessage" parent="KSAP-NoSpanMessage-parentBean"/>
     <bean id="KSAP-NoSpanMessage-parentBean" abstract="true" parent="Uif-Message-parentBean" scope="prototype">
         <property name="generateSpan" value="false"/>
@@ -723,11 +731,30 @@
         <property name="collectionLookup">
             <null/>
         </property>
+        <property name="validationMessages">
+            <null/>
+        </property>
     </bean>
 
     <bean id="KSAP-VerticalBoxGroup" parent="Uif-VerticalBoxGroup">
         <property name="validationMessages">
             <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+        <property name="toolTip">
+            <null/>
+        </property>
+        <property name="scrollpane">
+            <null/>
+        </property>
+    </bean>
+    <bean id="KSAP-VerticalBoxGroup-NoMargin" parent="KSAP-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
         </property>
     </bean>
 
@@ -741,6 +768,71 @@
         <property name="toolTip">
             <null/>
         </property>
+        <property name="scrollpane">
+            <null/>
+        </property>
+    </bean>
+    <bean id="KSAP-HorizontalBoxGroup-NoMargin" parent="KSAP-HorizontalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-VerticalFieldGroup" parent="Uif-VerticalFieldGroup">
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/field/fieldGroup.ftl"/>
+        <property name="fieldLabel">
+            <bean parent="Uif-Label">
+                <property name="render" value="false"/>
+                <property name="renderColon" value="false"/>
+            </bean>
+        </property>
+        <property name="group">
+            <bean parent="KSAP-VerticalBoxGroup"/>
+        </property>
+    </bean>
+    <bean id="KSAP-VerticalFieldGroup-NoMargin" parent="KSAP-VerticalFieldGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KSAP-HorizontalFieldGroup" parent="Uif-HorizontalFieldGroup">
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/field/fieldGroup.ftl"/>
+        <property name="fieldLabel">
+            <bean parent="Uif-Label">
+                <property name="render" value="false"/>
+                <property name="renderColon" value="false"/>
+            </bean>
+        </property>
+        <property name="group">
+            <bean parent="KSAP-HorizontalBoxGroup"/>
+        </property>
+    </bean>
+    <bean id="KSAP-HorizontalFieldGroup-NoMargin" parent="KSAP-HorizontalFieldGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-PopoverPage" parent="Uif-Page">
+        <property name="validationMessages">
+            <null/>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="width" value="300px"/>
+    </bean>
+
+    <bean id="KSAP-Suggest" parent="Uif-Suggest-parentBean">
+        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/widget/suggest.ftl"/>
     </bean>
 
     <bean id="Myplan-Dialog-Base" parent="Uif-DialogGroup">
