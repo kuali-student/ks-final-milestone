@@ -173,6 +173,7 @@
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
                 <module>ks-api</module>
+                <module>ks-deployments</module>
             </modules>
         </profile>
         <profile>
