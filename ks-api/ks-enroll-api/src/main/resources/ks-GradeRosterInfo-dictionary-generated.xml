@@ -1,0 +1,318 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- GradeRosterInfo-->
+	<bean id="GradeRosterInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="gradeRosterInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.grading.dto.GradeRosterInfo"/>
+		<property name="objectLabel" value="Grade Roster"/>
+		<property name="objectDescription">
+			<value>
+Information about a Grading Roster
+			</value>
+		</property>
+		<property name="titleAttribute" value="name"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="GradeRosterInfo.courseOfferingId"/>
+				<ref bean="GradeRosterInfo.id"/>
+				<ref bean="GradeRosterInfo.typeKey"/>
+				<ref bean="GradeRosterInfo.stateKey"/>
+				<ref bean="GradeRosterInfo.name"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="GradeRosterInfo.descr"/>
+				<ref bean="GradeRosterInfo.meta"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="GradeRosterInfo.gradeRosterEntryIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="gradeRosterEntryIds"/>
+		<property name="shortLabel" value="Grade Roster Entry Ids"/>
+		<property name="summary">
+			<value>
+This method gets the list of grade roster entries which are associated
+with this grade roster.
+			</value>
+		</property>
+		<property name="label" value="Grade Roster Entry Ids"/>
+		<property name="elementLabel" value="Grade Roster Entry Id"/>
+		<property name="description">
+			<value>
+This method gets the list of grade roster entries which are associated
+with this grade roster.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.graderIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="graderIds"/>
+		<property name="shortLabel" value="Grader Ids"/>
+		<property name="summary">
+			<value>
+This method gets the list of graders that are associated with this grade
+roster
+			</value>
+		</property>
+		<property name="label" value="Grader Ids"/>
+		<property name="elementLabel" value="Grader Id"/>
+		<property name="description">
+			<value>
+This method gets the list of graders that are associated with this grade
+roster
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.activityOfferingIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="activityOfferingIds"/>
+		<property name="shortLabel" value="Activity Offering Ids"/>
+		<property name="summary">
+			<value>
+This method returns a list of activity offering Ids associated with this
+roster.
+			</value>
+		</property>
+		<property name="label" value="Activity Offering Ids"/>
+		<property name="elementLabel" value="Activity Offering Id"/>
+		<property name="description">
+			<value>
+This method returns a list of activity offering Ids associated with this
+roster.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.courseOfferingId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingId"/>
+		<property name="shortLabel" value="Course Offering Id"/>
+		<property name="summary">
+			<value>
+This method gets the course offering that the roster belongs to. 
+			</value>
+		</property>
+		<property name="label" value="Course Offering Id"/>
+		<property name="description">
+			<value>
+This method gets the course offering that the roster belongs to. A course
+offering might contain one-many rosters
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="descr"/>
+		<property name="shortLabel" value="Descr"/>
+		<property name="summary">
+			<value>
+A description of the entity.
+			</value>
+		</property>
+		<property name="label" value="Description"/>
+		<property name="description">
+			<value>
+A description of the entity.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="descr"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.RichTextInfo"/>
+				<property name="objectLabel" value="Description"/>
+				<property name="objectDescription">
+					<value>
+A description of the entity.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="GradeRosterInfo.descr.plain"/>
+						<ref bean="GradeRosterInfo.descr.formatted"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="GradeRosterInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="plain"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="meta"/>
+		<property name="shortLabel" value="Meta"/>
+		<property name="summary">
+			<value>
+Create and last update info for the structure. 
+			</value>
+		</property>
+		<property name="label" value="Meta"/>
+		<property name="description">
+			<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="meta"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
+				<property name="objectLabel" value="Meta"/>
+				<property name="objectDescription">
+					<value>
+Create and last update info for the structure. This is optional
+and treated as read only since the data is set by the internals
+of the service during maintenance operations.
+
+Contains audit trail information about the creation and last
+update of this object Also contains the version ind used for
+optimistic locking.
+
+Attempts to set or update should result in a ReadOnlyException
+being thrown.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="GradeRosterInfo.meta.versionInd"/>
+						<ref bean="GradeRosterInfo.meta.createTime"/>
+						<ref bean="GradeRosterInfo.meta.createId"/>
+						<ref bean="GradeRosterInfo.meta.updateTime"/>
+						<ref bean="GradeRosterInfo.meta.updateId"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="GradeRosterInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="versionInd"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="createTime"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="createId"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="updateTime"/>
+	</bean>
+
+	<bean id="GradeRosterInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="updateId"/>
+	</bean>
+</beans>

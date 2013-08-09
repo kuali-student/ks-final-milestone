@@ -1,0 +1,239 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- MessageInfo-->
+	<bean id="MessageInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="messageInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.common.messages.dto.MessageInfo"/>
+		<property name="objectLabel" value="Message"/>
+		<property name="objectDescription">
+			<value>
+Refer to interface javadoc
+			</value>
+		</property>
+		<property name="titleAttribute" value="groupName"/>
+		<property name="primaryKeys">
+			<list>
+				<value>key</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="MessageInfo.key"/>
+				<ref bean="MessageInfo.groupName"/>
+				<ref bean="MessageInfo.value"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+				<ref bean="MessageInfo.locale"/>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="MessageInfo.key-generated" abstract="true" parent="BaseKuali.key">
+		<property name="name" value="key"/>
+	</bean>
+
+	<bean id="MessageInfo.locale-generated" abstract="true" parent="ComplexAttributeDefinition">
+		<property name="name" value="locale"/>
+		<property name="shortLabel" value="Locale"/>
+		<property name="summary">
+			<value>
+The Locale.
+			</value>
+		</property>
+		<property name="label" value="Locale"/>
+		<property name="description">
+			<value>
+The Locale.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+		<property name="dataObjectEntry">
+			<bean parent="DataObjectEntry">
+				<property name="name" value="locale"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.LocaleInfo"/>
+				<property name="objectLabel" value="Locale"/>
+				<property name="objectDescription">
+					<value>
+The Locale.
+					</value>
+				</property>
+
+				<property name="attributes">
+					<list>
+						<ref bean="MessageInfo.locale.localeLanguage"/>
+						<ref bean="MessageInfo.locale.localeVariant"/>
+						<ref bean="MessageInfo.locale.localeRegion"/>
+						<ref bean="MessageInfo.locale.localeScript"/>
+					</list>
+				</property>
+
+				<property name="complexAttributes">
+					<list>
+					</list>
+				</property>
+
+				<property name="collections">
+					<list>
+					</list>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="MessageInfo.locale.localeLanguage-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="localeLanguage"/>
+		<property name="shortLabel" value="Locale Language"/>
+		<property name="summary">
+			<value>
+The language portion of the locale information used in this
+context.
+			</value>
+		</property>
+		<property name="label" value="Locale Language"/>
+		<property name="description">
+			<value>
+The language portion of the locale information used in this
+context.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="MessageInfo.locale.localeVariant-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="localeVariant"/>
+		<property name="shortLabel" value="Locale Variant"/>
+		<property name="summary">
+			<value>
+The language variant portion of the locale information to be
+used in this context .
+			</value>
+		</property>
+		<property name="label" value="Locale Language Variant"/>
+		<property name="description">
+			<value>
+The language variant portion of the locale information to be
+used in this context .
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="MessageInfo.locale.localeRegion-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="localeRegion"/>
+		<property name="shortLabel" value="Locale Region"/>
+		<property name="summary">
+			<value>
+The language Region portion of the locale information to be
+used in this context.
+			</value>
+		</property>
+		<property name="label" value="Locale Region"/>
+		<property name="description">
+			<value>
+The language Region portion of the locale information to be
+used in this context.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="MessageInfo.locale.localeScript-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="localeScript"/>
+		<property name="shortLabel" value="Locale Script"/>
+		<property name="summary">
+			<value>
+The language Script to be used in this context.
+			</value>
+		</property>
+		<property name="label" value="Locale Script"/>
+		<property name="description">
+			<value>
+The language Script to be used in this context.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="MessageInfo.groupName-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="groupName"/>
+		<property name="shortLabel" value="Group Name"/>
+		<property name="summary">
+			<value>
+Unique identifier for a message group
+			</value>
+		</property>
+		<property name="label" value="Group Name"/>
+		<property name="description">
+			<value>
+Unique identifier for a message group
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="MessageInfo.value-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="value"/>
+		<property name="shortLabel" value="Value"/>
+		<property name="summary">
+			<value>
+The string representation of the message. 
+			</value>
+		</property>
+		<property name="label" value="Value"/>
+		<property name="description">
+			<value>
+The string representation of the message. Symbols may be included within
+the message, but the expectation is that the caller is aware of the
+format of these symbols.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+</beans>

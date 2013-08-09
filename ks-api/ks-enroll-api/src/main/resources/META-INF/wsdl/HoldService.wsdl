@@ -1,0 +1,1998 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="HoldServiceService" targetNamespace="http://student.kuali.org/wsdl/hold" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/hold" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:ns1="http://rice.kuali.org/core/v2_0" xmlns:tns="http://student.kuali.org/wsdl/hold" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/hold">
+<xs:import namespace="http://rice.kuali.org/core/v2_0"/>
+<xs:element name="createAppliedHold" type="tns:createAppliedHold"/>
+<xs:element name="createAppliedHoldResponse" type="tns:createAppliedHoldResponse"/>
+<xs:element name="createHoldIssue" type="tns:createHoldIssue"/>
+<xs:element name="createHoldIssueResponse" type="tns:createHoldIssueResponse"/>
+<xs:element name="deleteAppliedHold" type="tns:deleteAppliedHold"/>
+<xs:element name="deleteAppliedHoldResponse" type="tns:deleteAppliedHoldResponse"/>
+<xs:element name="deleteHoldIssue" type="tns:deleteHoldIssue"/>
+<xs:element name="deleteHoldIssueResponse" type="tns:deleteHoldIssueResponse"/>
+<xs:element name="getActiveAppliedHoldsByIssueAndPerson" type="tns:getActiveAppliedHoldsByIssueAndPerson"/>
+<xs:element name="getActiveAppliedHoldsByIssueAndPersonResponse" type="tns:getActiveAppliedHoldsByIssueAndPersonResponse"/>
+<xs:element name="getActiveAppliedHoldsByPerson" type="tns:getActiveAppliedHoldsByPerson"/>
+<xs:element name="getActiveAppliedHoldsByPersonResponse" type="tns:getActiveAppliedHoldsByPersonResponse"/>
+<xs:element name="getAppliedHold" type="tns:getAppliedHold"/>
+<xs:element name="getAppliedHoldIdsByIssue" type="tns:getAppliedHoldIdsByIssue"/>
+<xs:element name="getAppliedHoldIdsByIssueResponse" type="tns:getAppliedHoldIdsByIssueResponse"/>
+<xs:element name="getAppliedHoldIdsByType" type="tns:getAppliedHoldIdsByType"/>
+<xs:element name="getAppliedHoldIdsByTypeResponse" type="tns:getAppliedHoldIdsByTypeResponse"/>
+<xs:element name="getAppliedHoldResponse" type="tns:getAppliedHoldResponse"/>
+<xs:element name="getAppliedHoldsByIds" type="tns:getAppliedHoldsByIds"/>
+<xs:element name="getAppliedHoldsByIdsResponse" type="tns:getAppliedHoldsByIdsResponse"/>
+<xs:element name="getAppliedHoldsByIssueAndPerson" type="tns:getAppliedHoldsByIssueAndPerson"/>
+<xs:element name="getAppliedHoldsByIssueAndPersonResponse" type="tns:getAppliedHoldsByIssueAndPersonResponse"/>
+<xs:element name="getAppliedHoldsByPerson" type="tns:getAppliedHoldsByPerson"/>
+<xs:element name="getAppliedHoldsByPersonResponse" type="tns:getAppliedHoldsByPersonResponse"/>
+<xs:element name="getHoldIssue" type="tns:getHoldIssue"/>
+<xs:element name="getHoldIssueIdsByType" type="tns:getHoldIssueIdsByType"/>
+<xs:element name="getHoldIssueIdsByTypeResponse" type="tns:getHoldIssueIdsByTypeResponse"/>
+<xs:element name="getHoldIssueResponse" type="tns:getHoldIssueResponse"/>
+<xs:element name="getHoldIssuesByIds" type="tns:getHoldIssuesByIds"/>
+<xs:element name="getHoldIssuesByIdsResponse" type="tns:getHoldIssuesByIdsResponse"/>
+<xs:element name="getHoldIssuesByOrg" type="tns:getHoldIssuesByOrg"/>
+<xs:element name="getHoldIssuesByOrgResponse" type="tns:getHoldIssuesByOrgResponse"/>
+<xs:element name="releaseAppliedHold" type="tns:releaseAppliedHold"/>
+<xs:element name="releaseAppliedHoldResponse" type="tns:releaseAppliedHoldResponse"/>
+<xs:element name="searchForAppliedHoldIds" type="tns:searchForAppliedHoldIds"/>
+<xs:element name="searchForAppliedHoldIdsResponse" type="tns:searchForAppliedHoldIdsResponse"/>
+<xs:element name="searchForAppliedHolds" type="tns:searchForAppliedHolds"/>
+<xs:element name="searchForAppliedHoldsResponse" type="tns:searchForAppliedHoldsResponse"/>
+<xs:element name="searchForHoldIssueIds" type="tns:searchForHoldIssueIds"/>
+<xs:element name="searchForHoldIssueIdsResponse" type="tns:searchForHoldIssueIdsResponse"/>
+<xs:element name="searchForHoldIssues" type="tns:searchForHoldIssues"/>
+<xs:element name="searchForHoldIssuesResponse" type="tns:searchForHoldIssuesResponse"/>
+<xs:element name="updateAppliedHold" type="tns:updateAppliedHold"/>
+<xs:element name="updateAppliedHoldResponse" type="tns:updateAppliedHoldResponse"/>
+<xs:element name="updateHoldIssue" type="tns:updateHoldIssue"/>
+<xs:element name="updateHoldIssueResponse" type="tns:updateHoldIssueResponse"/>
+<xs:element name="validateAppliedHold" type="tns:validateAppliedHold"/>
+<xs:element name="validateAppliedHoldResponse" type="tns:validateAppliedHoldResponse"/>
+<xs:element name="validateHoldIssue" type="tns:validateHoldIssue"/>
+<xs:element name="validateHoldIssueResponse" type="tns:validateHoldIssueResponse"/>
+<xs:complexType name="getAppliedHoldsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="appliedHoldIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="HoldInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="holdIssueId" type="xs:string"/>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="releasedDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForAppliedHolds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForAppliedHoldsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getHoldIssue">
+<xs:sequence>
+<xs:element minOccurs="0" name="holdIssueId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getHoldIssueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:IssueInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="IssueInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="organizationId" type="xs:string"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="updateAppliedHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="appliedHoldId" type="xs:string"/>
+<xs:element minOccurs="0" name="appliedHoldInfo" type="tns:HoldInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateAppliedHoldResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForHoldIssueIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForHoldIssueIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForAppliedHoldIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForAppliedHoldIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActiveAppliedHoldsByPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActiveAppliedHoldsByPersonResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteAppliedHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="appliedHoldId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteAppliedHoldResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateAppliedHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="appliedHoldInfo" type="tns:HoldInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateAppliedHoldResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="appliedHoldId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getHoldIssueIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="holdIssueTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getHoldIssueIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldsByIssueAndPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="holdIssueId" type="xs:string"/>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldsByIssueAndPersonResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateHoldIssue">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="holdIssueInfo" type="tns:IssueInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateHoldIssueResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldsByPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldsByPersonResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteHoldIssue">
+<xs:sequence>
+<xs:element minOccurs="0" name="holdIssueId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteHoldIssueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForHoldIssues">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForHoldIssuesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:IssueInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="releaseAppliedHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="appliedHoldId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="releaseAppliedHoldResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldIdsByType">
+<xs:sequence>
+<xs:element minOccurs="0" name="appliedHoldTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldIdsByTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getHoldIssuesByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="holdIssueIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getHoldIssuesByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:IssueInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActiveAppliedHoldsByIssueAndPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="holdIssueId" type="xs:string"/>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActiveAppliedHoldsByIssueAndPersonResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createAppliedHold">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="holdIssueId" type="xs:string"/>
+<xs:element minOccurs="0" name="appliedHoldTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="appliedHoldInfo" type="tns:HoldInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createAppliedHoldResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:HoldInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldIdsByIssue">
+<xs:sequence>
+<xs:element minOccurs="0" name="holdIssueId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAppliedHoldIdsByIssueResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateHoldIssue">
+<xs:sequence>
+<xs:element minOccurs="0" name="holdIssueId" type="xs:string"/>
+<xs:element minOccurs="0" name="holdIssueInfo" type="tns:IssueInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateHoldIssueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:IssueInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createHoldIssue">
+<xs:sequence>
+<xs:element minOccurs="0" name="holdIssueTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="holdIssueInfo" type="tns:IssueInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createHoldIssueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:IssueInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getHoldIssuesByOrg">
+<xs:sequence>
+<xs:element minOccurs="0" name="organizationId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getHoldIssuesByOrgResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:IssueInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="ReadOnlyException" nillable="true" type="ns0:ReadOnlyException"/>
+<xs:element name="DependentObjectsExistException" nillable="true" type="ns0:DependentObjectsExistException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://rice.kuali.org/core/v2_0" elementFormDefault="qualified" targetNamespace="http://rice.kuali.org/core/v2_0" version="1.0">
+<xs:element name="and" type="tns:AndType"/>
+<xs:element name="dateTimeValue" type="tns:CriteriaDateTimeValueType"/>
+<xs:element name="decimalValue" type="tns:CriteriaDecimalValueType"/>
+<xs:element name="equal" type="tns:EqualType"/>
+<xs:element name="greaterThan" type="tns:GreaterThanType"/>
+<xs:element name="greaterThanOrEqual" type="tns:GreaterThanOrEqualType"/>
+<xs:element name="in" type="tns:InType"/>
+<xs:element name="integerValue" type="tns:CriteriaIntegerValueType"/>
+<xs:element name="lessThan" type="tns:LessThanType"/>
+<xs:element name="lessThanOrEqual" type="tns:LessThanOrEqualType"/>
+<xs:element name="like" type="tns:LikeType"/>
+<xs:element name="notEqual" type="tns:NotEqualType"/>
+<xs:element name="notIn" type="tns:NotInType"/>
+<xs:element name="notLike" type="tns:NotLikeType"/>
+<xs:element name="notNull" type="tns:NotNullType"/>
+<xs:element name="null" type="tns:NullType"/>
+<xs:element name="or" type="tns:OrType"/>
+<xs:element name="queryByCriteria" type="tns:QueryByCriteriaType"/>
+<xs:element name="stringValue" type="tns:CriteriaStringValueType"/>
+<xs:complexType final="extension restriction" name="QueryByCriteriaType">
+<xs:sequence>
+<xs:choice minOccurs="0">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+<xs:element minOccurs="0" name="startAtIndex" type="xs:int"/>
+<xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+<xs:element name="countFlag" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AndType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="CompositePredicateType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractPredicate">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="EqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:simpleType name="CriteriaStringValueType">
+<xs:restriction base="xs:string"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDateTimeValueType">
+<xs:restriction base="xs:dateTime"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDecimalValueType">
+<xs:restriction base="xs:decimal"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaIntegerValueType">
+<xs:restriction base="xs:integer"/>
+</xs:simpleType>
+<xs:complexType final="extension restriction" name="GreaterThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="GreaterThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="InType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotInType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotLikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotNullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="OrType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DependentObjectsExistException" type="tns:DependentObjectsExistException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="ReadOnlyException" type="tns:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReadOnlyException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DependentObjectsExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHoldIssuesByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getHoldIssuesByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActiveAppliedHoldsByIssueAndPersonResponse">
+    <wsdl:part name="parameters" element="tns:getActiveAppliedHoldsByIssueAndPersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createHoldIssue">
+    <wsdl:part name="parameters" element="tns:createHoldIssue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldIdsByType">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createAppliedHold">
+    <wsdl:part name="parameters" element="tns:createAppliedHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateHoldIssue">
+    <wsdl:part name="parameters" element="tns:validateHoldIssue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActiveAppliedHoldsByPerson">
+    <wsdl:part name="parameters" element="tns:getActiveAppliedHoldsByPerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAppliedHoldResponse">
+    <wsdl:part name="parameters" element="tns:updateAppliedHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DependentObjectsExistException">
+    <wsdl:part name="DependentObjectsExistException" element="tns:DependentObjectsExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForAppliedHoldsResponse">
+    <wsdl:part name="parameters" element="tns:searchForAppliedHoldsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteHoldIssueResponse">
+    <wsdl:part name="parameters" element="tns:deleteHoldIssueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActiveAppliedHoldsByPersonResponse">
+    <wsdl:part name="parameters" element="tns:getActiveAppliedHoldsByPersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOnlyException">
+    <wsdl:part name="ReadOnlyException" element="tns:ReadOnlyException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHold">
+    <wsdl:part name="parameters" element="tns:getAppliedHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="releaseAppliedHold">
+    <wsdl:part name="parameters" element="tns:releaseAppliedHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createAppliedHoldResponse">
+    <wsdl:part name="parameters" element="tns:createAppliedHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateAppliedHold">
+    <wsdl:part name="parameters" element="tns:updateAppliedHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldIdsByIssueResponse">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldIdsByIssueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateHoldIssueResponse">
+    <wsdl:part name="parameters" element="tns:validateHoldIssueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateHoldIssueResponse">
+    <wsdl:part name="parameters" element="tns:updateHoldIssueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForHoldIssueIds">
+    <wsdl:part name="parameters" element="tns:searchForHoldIssueIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHoldIssue">
+    <wsdl:part name="parameters" element="tns:getHoldIssue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="releaseAppliedHoldResponse">
+    <wsdl:part name="parameters" element="tns:releaseAppliedHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHoldIssueIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getHoldIssueIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldsByIssueAndPerson">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldsByIssueAndPerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldIdsByIssue">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldIdsByIssue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateAppliedHoldResponse">
+    <wsdl:part name="parameters" element="tns:validateAppliedHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteHoldIssue">
+    <wsdl:part name="parameters" element="tns:deleteHoldIssue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHoldIssuesByIds">
+    <wsdl:part name="parameters" element="tns:getHoldIssuesByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActiveAppliedHoldsByIssueAndPerson">
+    <wsdl:part name="parameters" element="tns:getActiveAppliedHoldsByIssueAndPerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldsByIds">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldsByPersonResponse">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldsByPersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHoldIssueIdsByType">
+    <wsdl:part name="parameters" element="tns:getHoldIssueIdsByType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHoldIssueResponse">
+    <wsdl:part name="parameters" element="tns:getHoldIssueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createHoldIssueResponse">
+    <wsdl:part name="parameters" element="tns:createHoldIssueResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldIdsByTypeResponse">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldIdsByTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHoldIssuesByOrg">
+    <wsdl:part name="parameters" element="tns:getHoldIssuesByOrg">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForHoldIssuesResponse">
+    <wsdl:part name="parameters" element="tns:searchForHoldIssuesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForAppliedHolds">
+    <wsdl:part name="parameters" element="tns:searchForAppliedHolds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldsByPerson">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldsByPerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateHoldIssue">
+    <wsdl:part name="parameters" element="tns:updateHoldIssue">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateAppliedHold">
+    <wsdl:part name="parameters" element="tns:validateAppliedHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForHoldIssues">
+    <wsdl:part name="parameters" element="tns:searchForHoldIssues">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldResponse">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteAppliedHoldResponse">
+    <wsdl:part name="parameters" element="tns:deleteAppliedHoldResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteAppliedHold">
+    <wsdl:part name="parameters" element="tns:deleteAppliedHold">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getHoldIssuesByOrgResponse">
+    <wsdl:part name="parameters" element="tns:getHoldIssuesByOrgResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForHoldIssueIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForHoldIssueIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAppliedHoldsByIssueAndPersonResponse">
+    <wsdl:part name="parameters" element="tns:getAppliedHoldsByIssueAndPersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForAppliedHoldIds">
+    <wsdl:part name="parameters" element="tns:searchForAppliedHoldIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForAppliedHoldIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForAppliedHoldIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="HoldService">
+    <wsdl:operation name="getAppliedHoldsByIds">
+      <wsdl:input name="getAppliedHoldsByIds" message="tns:getAppliedHoldsByIds">
+    </wsdl:input>
+      <wsdl:output name="getAppliedHoldsByIdsResponse" message="tns:getAppliedHoldsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForAppliedHolds">
+      <wsdl:input name="searchForAppliedHolds" message="tns:searchForAppliedHolds">
+    </wsdl:input>
+      <wsdl:output name="searchForAppliedHoldsResponse" message="tns:searchForAppliedHoldsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getHoldIssue">
+      <wsdl:input name="getHoldIssue" message="tns:getHoldIssue">
+    </wsdl:input>
+      <wsdl:output name="getHoldIssueResponse" message="tns:getHoldIssueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateAppliedHold">
+      <wsdl:input name="updateAppliedHold" message="tns:updateAppliedHold">
+    </wsdl:input>
+      <wsdl:output name="updateAppliedHoldResponse" message="tns:updateAppliedHoldResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForHoldIssueIds">
+      <wsdl:input name="searchForHoldIssueIds" message="tns:searchForHoldIssueIds">
+    </wsdl:input>
+      <wsdl:output name="searchForHoldIssueIdsResponse" message="tns:searchForHoldIssueIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForAppliedHoldIds">
+      <wsdl:input name="searchForAppliedHoldIds" message="tns:searchForAppliedHoldIds">
+    </wsdl:input>
+      <wsdl:output name="searchForAppliedHoldIdsResponse" message="tns:searchForAppliedHoldIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActiveAppliedHoldsByPerson">
+      <wsdl:input name="getActiveAppliedHoldsByPerson" message="tns:getActiveAppliedHoldsByPerson">
+    </wsdl:input>
+      <wsdl:output name="getActiveAppliedHoldsByPersonResponse" message="tns:getActiveAppliedHoldsByPersonResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAppliedHold">
+      <wsdl:input name="deleteAppliedHold" message="tns:deleteAppliedHold">
+    </wsdl:input>
+      <wsdl:output name="deleteAppliedHoldResponse" message="tns:deleteAppliedHoldResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateAppliedHold">
+      <wsdl:input name="validateAppliedHold" message="tns:validateAppliedHold">
+    </wsdl:input>
+      <wsdl:output name="validateAppliedHoldResponse" message="tns:validateAppliedHoldResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHold">
+      <wsdl:input name="getAppliedHold" message="tns:getAppliedHold">
+    </wsdl:input>
+      <wsdl:output name="getAppliedHoldResponse" message="tns:getAppliedHoldResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getHoldIssueIdsByType">
+      <wsdl:input name="getHoldIssueIdsByType" message="tns:getHoldIssueIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getHoldIssueIdsByTypeResponse" message="tns:getHoldIssueIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHoldsByIssueAndPerson">
+      <wsdl:input name="getAppliedHoldsByIssueAndPerson" message="tns:getAppliedHoldsByIssueAndPerson">
+    </wsdl:input>
+      <wsdl:output name="getAppliedHoldsByIssueAndPersonResponse" message="tns:getAppliedHoldsByIssueAndPersonResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateHoldIssue">
+      <wsdl:input name="validateHoldIssue" message="tns:validateHoldIssue">
+    </wsdl:input>
+      <wsdl:output name="validateHoldIssueResponse" message="tns:validateHoldIssueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHoldsByPerson">
+      <wsdl:input name="getAppliedHoldsByPerson" message="tns:getAppliedHoldsByPerson">
+    </wsdl:input>
+      <wsdl:output name="getAppliedHoldsByPersonResponse" message="tns:getAppliedHoldsByPersonResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteHoldIssue">
+      <wsdl:input name="deleteHoldIssue" message="tns:deleteHoldIssue">
+    </wsdl:input>
+      <wsdl:output name="deleteHoldIssueResponse" message="tns:deleteHoldIssueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException" message="tns:DependentObjectsExistException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForHoldIssues">
+      <wsdl:input name="searchForHoldIssues" message="tns:searchForHoldIssues">
+    </wsdl:input>
+      <wsdl:output name="searchForHoldIssuesResponse" message="tns:searchForHoldIssuesResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="releaseAppliedHold">
+      <wsdl:input name="releaseAppliedHold" message="tns:releaseAppliedHold">
+    </wsdl:input>
+      <wsdl:output name="releaseAppliedHoldResponse" message="tns:releaseAppliedHoldResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHoldIdsByType">
+      <wsdl:input name="getAppliedHoldIdsByType" message="tns:getAppliedHoldIdsByType">
+    </wsdl:input>
+      <wsdl:output name="getAppliedHoldIdsByTypeResponse" message="tns:getAppliedHoldIdsByTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getHoldIssuesByIds">
+      <wsdl:input name="getHoldIssuesByIds" message="tns:getHoldIssuesByIds">
+    </wsdl:input>
+      <wsdl:output name="getHoldIssuesByIdsResponse" message="tns:getHoldIssuesByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActiveAppliedHoldsByIssueAndPerson">
+      <wsdl:input name="getActiveAppliedHoldsByIssueAndPerson" message="tns:getActiveAppliedHoldsByIssueAndPerson">
+    </wsdl:input>
+      <wsdl:output name="getActiveAppliedHoldsByIssueAndPersonResponse" message="tns:getActiveAppliedHoldsByIssueAndPersonResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createAppliedHold">
+      <wsdl:input name="createAppliedHold" message="tns:createAppliedHold">
+    </wsdl:input>
+      <wsdl:output name="createAppliedHoldResponse" message="tns:createAppliedHoldResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHoldIdsByIssue">
+      <wsdl:input name="getAppliedHoldIdsByIssue" message="tns:getAppliedHoldIdsByIssue">
+    </wsdl:input>
+      <wsdl:output name="getAppliedHoldIdsByIssueResponse" message="tns:getAppliedHoldIdsByIssueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateHoldIssue">
+      <wsdl:input name="updateHoldIssue" message="tns:updateHoldIssue">
+    </wsdl:input>
+      <wsdl:output name="updateHoldIssueResponse" message="tns:updateHoldIssueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createHoldIssue">
+      <wsdl:input name="createHoldIssue" message="tns:createHoldIssue">
+    </wsdl:input>
+      <wsdl:output name="createHoldIssueResponse" message="tns:createHoldIssueResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getHoldIssuesByOrg">
+      <wsdl:input name="getHoldIssuesByOrg" message="tns:getHoldIssuesByOrg">
+    </wsdl:input>
+      <wsdl:output name="getHoldIssuesByOrgResponse" message="tns:getHoldIssuesByOrgResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HoldServiceServiceSoapBinding" type="tns:HoldService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getAppliedHoldsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAppliedHoldsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAppliedHoldsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForAppliedHolds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForAppliedHolds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForAppliedHoldsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getHoldIssue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getHoldIssue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getHoldIssueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForHoldIssueIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForHoldIssueIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForHoldIssueIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateAppliedHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateAppliedHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateAppliedHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForAppliedHoldIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForAppliedHoldIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForAppliedHoldIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteAppliedHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteAppliedHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteAppliedHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActiveAppliedHoldsByPerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getActiveAppliedHoldsByPerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getActiveAppliedHoldsByPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAppliedHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAppliedHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateAppliedHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateAppliedHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateAppliedHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHoldsByIssueAndPerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAppliedHoldsByIssueAndPerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAppliedHoldsByIssueAndPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getHoldIssueIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getHoldIssueIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getHoldIssueIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateHoldIssue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateHoldIssue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateHoldIssueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHoldsByPerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAppliedHoldsByPerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAppliedHoldsByPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteHoldIssue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteHoldIssue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteHoldIssueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DependentObjectsExistException">
+        <soap:fault name="DependentObjectsExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="releaseAppliedHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="releaseAppliedHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="releaseAppliedHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForHoldIssues">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForHoldIssues">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForHoldIssuesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHoldIdsByType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAppliedHoldIdsByType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAppliedHoldIdsByTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getHoldIssuesByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getHoldIssuesByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getHoldIssuesByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createAppliedHold">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createAppliedHold">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createAppliedHoldResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActiveAppliedHoldsByIssueAndPerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getActiveAppliedHoldsByIssueAndPerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getActiveAppliedHoldsByIssueAndPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAppliedHoldIdsByIssue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getAppliedHoldIdsByIssue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAppliedHoldIdsByIssueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createHoldIssue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createHoldIssue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createHoldIssueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateHoldIssue">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateHoldIssue">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateHoldIssueResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getHoldIssuesByOrg">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getHoldIssuesByOrg">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getHoldIssuesByOrgResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HoldServiceService">
+    <wsdl:port name="HoldServicePort" binding="tns:HoldServiceServiceSoapBinding">
+      <soap:address location="http://localhost:9090/HoldServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,2482 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="WorkflowUtilityServiceSOAP" targetNamespace="http://rice.kuali.org/wsdl/kew" xmlns:ns1="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://rice.kuali.org/wsdl/kew" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://rice.kuali.org/wsdl/kew" xmlns:tns="http://rice.kuali.org/wsdl/kew" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="documentWillHaveAtLeastOneActionRequest" type="tns:documentWillHaveAtLeastOneActionRequest" />
+<xs:element name="documentWillHaveAtLeastOneActionRequestResponse" type="tns:documentWillHaveAtLeastOneActionRequestResponse" />
+<xs:element name="getActionItems" type="tns:getActionItems" />
+<xs:element name="getActionItemsForPrincipal" type="tns:getActionItemsForPrincipal" />
+<xs:element name="getActionItemsForPrincipalResponse" type="tns:getActionItemsForPrincipalResponse" />
+<xs:element name="getActionItemsResponse" type="tns:getActionItemsResponse" />
+<xs:element name="getActionRequests" type="tns:getActionRequests" />
+<xs:element name="getActionRequestsResponse" type="tns:getActionRequestsResponse" />
+<xs:element name="getActionsRequested" type="tns:getActionsRequested" />
+<xs:element name="getActionsRequestedResponse" type="tns:getActionsRequestedResponse" />
+<xs:element name="getActionsTaken" type="tns:getActionsTaken" />
+<xs:element name="getActionsTakenResponse" type="tns:getActionsTakenResponse" />
+<xs:element name="getActiveNodeInstances" type="tns:getActiveNodeInstances" />
+<xs:element name="getActiveNodeInstancesResponse" type="tns:getActiveNodeInstancesResponse" />
+<xs:element name="getAllActionItems" type="tns:getAllActionItems" />
+<xs:element name="getAllActionItemsResponse" type="tns:getAllActionItemsResponse" />
+<xs:element name="getAllActionRequests" type="tns:getAllActionRequests" />
+<xs:element name="getAllActionRequestsResponse" type="tns:getAllActionRequestsResponse" />
+<xs:element name="getClearFutureRequestsValue" type="tns:getClearFutureRequestsValue" />
+<xs:element name="getClearFutureRequestsValueResponse" type="tns:getClearFutureRequestsValueResponse" />
+<xs:element name="getCurrentNodeInstances" type="tns:getCurrentNodeInstances" />
+<xs:element name="getCurrentNodeInstancesResponse" type="tns:getCurrentNodeInstancesResponse" />
+<xs:element name="getDoNotReceiveFutureRequestsValue" type="tns:getDoNotReceiveFutureRequestsValue" />
+<xs:element name="getDoNotReceiveFutureRequestsValueResponse" type="tns:getDoNotReceiveFutureRequestsValueResponse" />
+<xs:element name="getDocumentContent" type="tns:getDocumentContent" />
+<xs:element name="getDocumentContentResponse" type="tns:getDocumentContentResponse" />
+<xs:element name="getDocumentDetail" type="tns:getDocumentDetail" />
+<xs:element name="getDocumentDetailFromAppId" type="tns:getDocumentDetailFromAppId" />
+<xs:element name="getDocumentDetailFromAppIdResponse" type="tns:getDocumentDetailFromAppIdResponse" />
+<xs:element name="getDocumentDetailResponse" type="tns:getDocumentDetailResponse" />
+<xs:element name="getDocumentInitiatorPrincipalId" type="tns:getDocumentInitiatorPrincipalId" />
+<xs:element name="getDocumentInitiatorPrincipalIdResponse" type="tns:getDocumentInitiatorPrincipalIdResponse" />
+<xs:element name="getDocumentRouteNodeInstances" type="tns:getDocumentRouteNodeInstances" />
+<xs:element name="getDocumentRouteNodeInstancesResponse" type="tns:getDocumentRouteNodeInstancesResponse" />
+<xs:element name="getDocumentRoutedByPrincipalId" type="tns:getDocumentRoutedByPrincipalId" />
+<xs:element name="getDocumentRoutedByPrincipalIdResponse" type="tns:getDocumentRoutedByPrincipalIdResponse" />
+<xs:element name="getDocumentStatus" type="tns:getDocumentStatus" />
+<xs:element name="getDocumentStatusResponse" type="tns:getDocumentStatusResponse" />
+<xs:element name="getDocumentType" type="tns:getDocumentType" />
+<xs:element name="getDocumentTypeByName" type="tns:getDocumentTypeByName" />
+<xs:element name="getDocumentTypeByNameResponse" type="tns:getDocumentTypeByNameResponse" />
+<xs:element name="getDocumentTypeResponse" type="tns:getDocumentTypeResponse" />
+<xs:element name="getFutureRequestsKey" type="tns:getFutureRequestsKey" />
+<xs:element name="getFutureRequestsKeyResponse" type="tns:getFutureRequestsKeyResponse" />
+<xs:element name="getNewResponsibilityId" type="tns:getNewResponsibilityId" />
+<xs:element name="getNewResponsibilityIdResponse" type="tns:getNewResponsibilityIdResponse" />
+<xs:element name="getNodeInstance" type="tns:getNodeInstance" />
+<xs:element name="getNodeInstanceResponse" type="tns:getNodeInstanceResponse" />
+<xs:element name="getPreviousRouteNodeNames" type="tns:getPreviousRouteNodeNames" />
+<xs:element name="getPreviousRouteNodeNamesResponse" type="tns:getPreviousRouteNodeNamesResponse" />
+<xs:element name="getPrincipalIdsInRouteLog" type="tns:getPrincipalIdsInRouteLog" />
+<xs:element name="getPrincipalIdsInRouteLogResponse" type="tns:getPrincipalIdsInRouteLogResponse" />
+<xs:element name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId" type="tns:getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId" />
+<xs:element name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocIdResponse" type="tns:getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocIdResponse" />
+<xs:element name="getReceiveFutureRequestsValue" type="tns:getReceiveFutureRequestsValue" />
+<xs:element name="getReceiveFutureRequestsValueResponse" type="tns:getReceiveFutureRequestsValueResponse" />
+<xs:element name="getRouteHeader" type="tns:getRouteHeader" />
+<xs:element name="getRouteHeaderResponse" type="tns:getRouteHeaderResponse" />
+<xs:element name="getRouteHeaderWithPrincipal" type="tns:getRouteHeaderWithPrincipal" />
+<xs:element name="getRouteHeaderWithPrincipalResponse" type="tns:getRouteHeaderWithPrincipalResponse" />
+<xs:element name="getSearchableAttributeDateTimeValuesByKey" type="tns:getSearchableAttributeDateTimeValuesByKey" />
+<xs:element name="getSearchableAttributeDateTimeValuesByKeyResponse" type="tns:getSearchableAttributeDateTimeValuesByKeyResponse" />
+<xs:element name="getSearchableAttributeFloatValuesByKey" type="tns:getSearchableAttributeFloatValuesByKey" />
+<xs:element name="getSearchableAttributeFloatValuesByKeyResponse" type="tns:getSearchableAttributeFloatValuesByKeyResponse" />
+<xs:element name="getSearchableAttributeLongValuesByKey" type="tns:getSearchableAttributeLongValuesByKey" />
+<xs:element name="getSearchableAttributeLongValuesByKeyResponse" type="tns:getSearchableAttributeLongValuesByKeyResponse" />
+<xs:element name="getSearchableAttributeStringValuesByKey" type="tns:getSearchableAttributeStringValuesByKey" />
+<xs:element name="getSearchableAttributeStringValuesByKeyResponse" type="tns:getSearchableAttributeStringValuesByKeyResponse" />
+<xs:element name="getTerminalNodeInstances" type="tns:getTerminalNodeInstances" />
+<xs:element name="getTerminalNodeInstancesResponse" type="tns:getTerminalNodeInstancesResponse" />
+<xs:element name="getUserActionItemCount" type="tns:getUserActionItemCount" />
+<xs:element name="getUserActionItemCountResponse" type="tns:getUserActionItemCountResponse" />
+<xs:element name="hasRouteNode" type="tns:hasRouteNode" />
+<xs:element name="hasRouteNodeResponse" type="tns:hasRouteNodeResponse" />
+<xs:element name="isCurrentActiveDocumentType" type="tns:isCurrentActiveDocumentType" />
+<xs:element name="isCurrentActiveDocumentTypeResponse" type="tns:isCurrentActiveDocumentTypeResponse" />
+<xs:element name="isFinalApprover" type="tns:isFinalApprover" />
+<xs:element name="isFinalApproverResponse" type="tns:isFinalApproverResponse" />
+<xs:element name="isLastApproverAtNode" type="tns:isLastApproverAtNode" />
+<xs:element name="isLastApproverAtNodeResponse" type="tns:isLastApproverAtNodeResponse" />
+<xs:element name="isLastApproverInRouteLevel" type="tns:isLastApproverInRouteLevel" />
+<xs:element name="isLastApproverInRouteLevelResponse" type="tns:isLastApproverInRouteLevelResponse" />
+<xs:element name="isSuperUserForDocumentType" type="tns:isSuperUserForDocumentType" />
+<xs:element name="isSuperUserForDocumentTypeResponse" type="tns:isSuperUserForDocumentTypeResponse" />
+<xs:element name="isUserInRouteLog" type="tns:isUserInRouteLog" />
+<xs:element name="isUserInRouteLogResponse" type="tns:isUserInRouteLogResponse" />
+<xs:element name="isUserInRouteLogWithOptionalFlattening" type="tns:isUserInRouteLogWithOptionalFlattening" />
+<xs:element name="isUserInRouteLogWithOptionalFlatteningResponse" type="tns:isUserInRouteLogWithOptionalFlatteningResponse" />
+<xs:element name="performDocumentSearch" type="tns:performDocumentSearch" />
+<xs:element name="performDocumentSearchResponse" type="tns:performDocumentSearchResponse" />
+<xs:element name="performDocumentSearchWithPrincipal" type="tns:performDocumentSearchWithPrincipal" />
+<xs:element name="performDocumentSearchWithPrincipalResponse" type="tns:performDocumentSearchWithPrincipalResponse" />
+<xs:element name="reResolveRole" type="tns:reResolveRole" />
+<xs:element name="reResolveRoleByDocumentId" type="tns:reResolveRoleByDocumentId" />
+<xs:element name="reResolveRoleByDocumentIdResponse" type="tns:reResolveRoleByDocumentIdResponse" />
+<xs:element name="reResolveRoleResponse" type="tns:reResolveRoleResponse" />
+<xs:element name="routeLevelHasApproverActionRequest" type="tns:routeLevelHasApproverActionRequest" />
+<xs:element name="routeLevelHasApproverActionRequestResponse" type="tns:routeLevelHasApproverActionRequestResponse" />
+<xs:element name="routeNodeHasApproverActionRequest" type="tns:routeNodeHasApproverActionRequest" />
+<xs:element name="routeNodeHasApproverActionRequestResponse" type="tns:routeNodeHasApproverActionRequestResponse" />
+<xs:element name="routingReport" type="tns:routingReport" />
+<xs:element name="routingReportResponse" type="tns:routingReportResponse" />
+<xs:element name="ruleReport" type="tns:ruleReport" />
+<xs:element name="ruleReportResponse" type="tns:ruleReportResponse" />
+<xs:element name="validateWorkflowAttributeDefinitionVO" type="tns:validateWorkflowAttributeDefinitionVO" />
+<xs:element name="validateWorkflowAttributeDefinitionVOResponse" type="tns:validateWorkflowAttributeDefinitionVOResponse" />
+<xs:complexType name="getNewResponsibilityId">
+<xs:sequence />
+</xs:complexType>
+<xs:complexType name="getNewResponsibilityIdResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routeLevelHasApproverActionRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="docType" type="xs:string" />
+<xs:element minOccurs="0" name="docContent" type="xs:string" />
+<xs:element minOccurs="0" name="routeLevel" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routeLevelHasApproverActionRequestResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentDetailFromAppId">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentDetailFromAppIdResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentDetailDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentDetailDTO">
+<xs:complexContent>
+<xs:extension base="tns:routeHeaderDTO">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="actionRequests" nillable="true" type="tns:actionRequestDTO" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="actionsTaken" nillable="true" type="tns:actionTakenDTO" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="nodeInstances" nillable="true" type="tns:routeNodeInstanceDTO" />
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="routeHeaderDTO">
+<xs:sequence>
+<xs:element name="ackRequested" type="xs:boolean" />
+<xs:element minOccurs="0" name="appDocId" type="xs:string" />
+<xs:element name="approveRequested" type="xs:boolean" />
+<xs:element name="completeRequested" type="xs:boolean" />
+<xs:element minOccurs="0" name="currentRouteNodeNames" type="xs:string" />
+<xs:element minOccurs="0" name="dateApproved" type="xs:dateTime" />
+<xs:element minOccurs="0" name="dateCreated" type="xs:dateTime" />
+<xs:element minOccurs="0" name="dateFinalized" type="xs:dateTime" />
+<xs:element minOccurs="0" name="dateLastModified" type="xs:dateTime" />
+<xs:element minOccurs="0" name="docRouteLevel" type="xs:int" />
+<xs:element minOccurs="0" name="docRouteStatus" type="xs:string" />
+<xs:element minOccurs="0" name="docTitle" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeId" type="xs:long" />
+<xs:element minOccurs="0" name="docTypeName" type="xs:string" />
+<xs:element minOccurs="0" name="docVersion" type="xs:int" />
+<xs:element minOccurs="0" name="documentUrl" type="xs:string" />
+<xs:element name="fyiRequested" type="xs:boolean" />
+<xs:element minOccurs="0" name="initiatorPrincipalId" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="notes" nillable="true" type="tns:noteDTO" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="notesToDelete" nillable="true" type="tns:noteDTO" />
+<xs:element minOccurs="0" name="routeHeaderId" type="xs:long" />
+<xs:element minOccurs="0" name="routedByPrincipalId" type="xs:string" />
+<xs:element name="userBlanketApprover" type="xs:boolean" />
+<xs:element minOccurs="0" name="validActions" type="tns:validActionsDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="actionRequestDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="actionRequestId" type="xs:long" />
+<xs:element minOccurs="0" name="actionRequested" type="xs:string" />
+<xs:element minOccurs="0" name="actionTaken" type="tns:actionTakenDTO" />
+<xs:element minOccurs="0" name="actionTakenId" type="xs:long" />
+<xs:element minOccurs="0" name="annotation" type="xs:string" />
+<xs:element minOccurs="0" name="approvePolicy" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="childrenRequests" nillable="true" type="tns:actionRequestDTO" />
+<xs:element minOccurs="0" name="currentIndicator" type="xs:boolean" />
+<xs:element minOccurs="0" name="dateCreated" type="xs:dateTime" />
+<xs:element minOccurs="0" name="delegationType" type="xs:string" />
+<xs:element minOccurs="0" name="docVersion" type="xs:int" />
+<xs:element minOccurs="0" name="forceAction" type="xs:boolean" />
+<xs:element minOccurs="0" name="groupId" type="xs:string" />
+<xs:element minOccurs="0" name="nodeInstanceId" type="xs:long" />
+<xs:element minOccurs="0" name="nodeName" type="xs:string" />
+<xs:element minOccurs="0" name="parentActionRequestId" type="xs:long" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="priority" type="xs:int" />
+<xs:element minOccurs="0" name="qualifiedRoleName" type="xs:string" />
+<xs:element minOccurs="0" name="qualifiedRoleNameLabel" type="xs:string" />
+<xs:element minOccurs="0" name="recipientTypeCd" type="xs:string" />
+<xs:element minOccurs="0" name="requestLabel" type="xs:string" />
+<xs:element minOccurs="0" name="responsibilityDesc" type="xs:string" />
+<xs:element minOccurs="0" name="responsibilityId" type="xs:long" />
+<xs:element minOccurs="0" name="roleName" type="xs:string" />
+<xs:element minOccurs="0" name="routeHeaderId" type="xs:long" />
+<xs:element minOccurs="0" name="routeLevel" type="xs:int" />
+<xs:element minOccurs="0" name="routeMethodName" type="xs:string" />
+<xs:element minOccurs="0" name="status" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="actionTakenDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="actionDate" type="xs:dateTime" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="actionRequests" nillable="true" type="tns:actionRequestDTO" />
+<xs:element minOccurs="0" name="actionTaken" type="xs:string" />
+<xs:element minOccurs="0" name="actionTakenId" type="xs:long" />
+<xs:element minOccurs="0" name="annotation" type="xs:string" />
+<xs:element minOccurs="0" name="delegatorGroupId" type="xs:string" />
+<xs:element minOccurs="0" name="delegatorPrincpalId" type="xs:string" />
+<xs:element minOccurs="0" name="docVersion" type="xs:int" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="routeHeaderId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routeNodeInstanceDTO">
+<xs:sequence>
+<xs:element name="active" type="xs:boolean" />
+<xs:element minOccurs="0" name="branchId" type="xs:long" />
+<xs:element name="complete" type="xs:boolean" />
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element name="initial" type="xs:boolean" />
+<xs:element minOccurs="0" name="name" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="nextNodes" nillable="true" type="tns:routeNodeInstanceDTO" />
+<xs:element minOccurs="0" name="processId" type="xs:long" />
+<xs:element minOccurs="0" name="routeNodeId" type="xs:long" />
+<xs:element minOccurs="0" name="routeNodeInstanceId" type="xs:long" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="state" nillable="true" type="tns:stateDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="stateDTO">
+<xs:complexContent>
+<xs:extension base="tns:keyValueDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="stateId" type="xs:long" />
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="keyValueDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="key" type="xs:string" />
+<xs:element minOccurs="0" name="userDisplayValue" type="xs:string" />
+<xs:element minOccurs="0" name="value" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="noteDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="lockVerNbr" type="xs:int" />
+<xs:element minOccurs="0" name="noteAuthorWorkflowId" type="xs:string" />
+<xs:element minOccurs="0" name="noteCreateDate" type="xs:dateTime" />
+<xs:element minOccurs="0" name="noteId" type="xs:long" />
+<xs:element minOccurs="0" name="noteText" type="xs:string" />
+<xs:element minOccurs="0" name="routeHeaderId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validActionsDTO">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validActionCodesAllowed" nillable="true" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isCurrentActiveDocumentType">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentTypeName" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isCurrentActiveDocumentTypeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routeNodeHasApproverActionRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="docType" type="xs:string" />
+<xs:element minOccurs="0" name="docContent" type="xs:string" />
+<xs:element minOccurs="0" name="nodeName" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routeNodeHasApproverActionRequestResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentWillHaveAtLeastOneActionRequest">
+<xs:sequence>
+<xs:element minOccurs="0" name="reportCriteriaDTO" type="tns:reportCriteriaDTO" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="actionRequestedCodes" type="xs:string" />
+<xs:element name="ignoreCurrentActionRequests" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reportCriteriaDTO">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="actionsToTake" nillable="true" type="tns:reportActionToTakeDTO" />
+<xs:element minOccurs="0" name="activateRequests" type="xs:boolean" />
+<xs:element minOccurs="0" name="documentTypeName" type="xs:string" />
+<xs:element name="flattenNodes" type="xs:boolean" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="nodeNames" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="routeHeaderId" type="xs:long" />
+<xs:element minOccurs="0" name="routingPrincipalId" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ruleTemplateNames" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="targetNodeName" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="targetPrincipalIds" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="xmlContent" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reportActionToTakeDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="actionToPerform" type="xs:string" />
+<xs:element minOccurs="0" name="nodeName" type="xs:string" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentWillHaveAtLeastOneActionRequestResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reResolveRole">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentTypeName" type="xs:string" />
+<xs:element minOccurs="0" name="roleName" type="xs:string" />
+<xs:element minOccurs="0" name="qualifiedRoleNameLabel" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reResolveRoleResponse">
+<xs:sequence />
+</xs:complexType>
+<xs:complexType name="getDoNotReceiveFutureRequestsValue">
+<xs:sequence />
+</xs:complexType>
+<xs:complexType name="getDoNotReceiveFutureRequestsValueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isLastApproverAtNode">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="nodeName" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isLastApproverAtNodeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllActionRequests">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllActionRequestsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:actionRequestDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionsTaken">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionsTakenResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:actionTakenDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionsRequested">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionsRequestedResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:stringMapEntryArray" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="stringMapEntry">
+<xs:sequence>
+<xs:element name="value" type="xs:string" />
+</xs:sequence>
+<xs:attribute name="key" type="xs:string" />
+</xs:complexType>
+<xs:complexType name="performDocumentSearchWithPrincipal">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="criteriaVO" type="tns:documentSearchCriteriaDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentSearchCriteriaDTO">
+<xs:sequence>
+<xs:element name="advancedSearch" type="xs:boolean" />
+<xs:element minOccurs="0" name="appDocId" type="xs:string" />
+<xs:element minOccurs="0" name="approver" type="xs:string" />
+<xs:element minOccurs="0" name="docRouteNodeLogic" type="xs:string" />
+<xs:element minOccurs="0" name="docRouteNodeName" type="xs:string" />
+<xs:element minOccurs="0" name="docRouteStatus" type="xs:string" />
+<xs:element minOccurs="0" name="docTitle" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeFullName" type="xs:string" />
+<xs:element minOccurs="0" name="docVersion" type="xs:string" />
+<xs:element minOccurs="0" name="fromDateApproved" type="xs:string" />
+<xs:element minOccurs="0" name="fromDateCreated" type="xs:string" />
+<xs:element minOccurs="0" name="fromDateFinalized" type="xs:string" />
+<xs:element minOccurs="0" name="fromDateLastModified" type="xs:string" />
+<xs:element minOccurs="0" name="groupViewerName" type="xs:string" />
+<xs:element minOccurs="0" name="initiator" type="xs:string" />
+<xs:element minOccurs="0" name="routeHeaderId" type="xs:string" />
+<xs:element name="saveSearchForUser" type="xs:boolean" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="searchAttributeValues" nillable="true" type="tns:keyValueDTO" />
+<xs:element name="superUserSearch" type="xs:boolean" />
+<xs:element minOccurs="0" name="threshold" type="xs:int" />
+<xs:element minOccurs="0" name="toDateApproved" type="xs:string" />
+<xs:element minOccurs="0" name="toDateCreated" type="xs:string" />
+<xs:element minOccurs="0" name="toDateFinalized" type="xs:string" />
+<xs:element minOccurs="0" name="toDateLastModified" type="xs:string" />
+<xs:element minOccurs="0" name="viewer" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="performDocumentSearchWithPrincipalResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentSearchResultDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentSearchResultDTO">
+<xs:sequence>
+<xs:element name="overThreshold" type="xs:boolean" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="searchResults" nillable="true" type="tns:documentSearchResultRowDTO" />
+<xs:element minOccurs="0" name="securityFilteredRows" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentSearchResultRowDTO">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="fieldValues" nillable="true" type="tns:keyValueDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentRoutedByPrincipalId">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentRoutedByPrincipalIdResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionRequests">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="nodeName" type="xs:string" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionRequestsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:actionRequestDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionItems">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="documentId" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionItemsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:actionItemDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="actionItemDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="actionItemId" type="xs:long" />
+<xs:element minOccurs="0" name="actionItemIndex" type="xs:int" />
+<xs:element minOccurs="0" name="actionRequestCd" type="xs:string" />
+<xs:element minOccurs="0" name="actionRequestId" type="xs:long" />
+<xs:element minOccurs="0" name="actionToTake" type="xs:string" />
+<xs:element minOccurs="0" name="dateAssigned" type="xs:string" />
+<xs:element minOccurs="0" name="dateAssignedString" type="xs:string" />
+<xs:element minOccurs="0" name="delegationType" type="xs:string" />
+<xs:element minOccurs="0" name="delegatorGroupId" type="xs:string" />
+<xs:element minOccurs="0" name="delegatorPrincipalId" type="xs:string" />
+<xs:element minOccurs="0" name="docHandlerURL" type="xs:string" />
+<xs:element minOccurs="0" name="docLabel" type="xs:string" />
+<xs:element minOccurs="0" name="docName" type="xs:string" />
+<xs:element minOccurs="0" name="docTitle" type="xs:string" />
+<xs:element minOccurs="0" name="groupId" type="xs:string" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="responsibilityId" type="xs:long" />
+<xs:element minOccurs="0" name="roleName" type="xs:string" />
+<xs:element minOccurs="0" name="routeHeaderId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPrincipalIdsInRouteLog">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element name="lookFuture" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPrincipalIdsInRouteLogResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCurrentNodeInstances">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getCurrentNodeInstancesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:routeNodeInstanceDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSearchableAttributeLongValuesByKey">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="key" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSearchableAttributeLongValuesByKeyResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRouteHeaderWithPrincipal">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRouteHeaderWithPrincipalResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:routeHeaderDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routingReport">
+<xs:sequence>
+<xs:element minOccurs="0" name="reportCriteria" type="tns:reportCriteriaDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routingReportResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentDetailDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentInitiatorPrincipalId">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentInitiatorPrincipalIdResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRouteHeader">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getRouteHeaderResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:routeHeaderDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reResolveRoleByDocumentId">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="roleName" type="xs:string" />
+<xs:element minOccurs="0" name="qualifiedRoleNameLabel" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="reResolveRoleByDocumentIdResponse">
+<xs:sequence />
+</xs:complexType>
+<xs:complexType name="getDocumentStatus">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentStatusResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSearchableAttributeDateTimeValuesByKey">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="key" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSearchableAttributeDateTimeValuesByKeyResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getClearFutureRequestsValue">
+<xs:sequence />
+</xs:complexType>
+<xs:complexType name="getClearFutureRequestsValueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isSuperUserForDocumentType">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="documentTypeId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isSuperUserForDocumentTypeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActiveNodeInstances">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActiveNodeInstancesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:routeNodeInstanceDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId">
+<xs:sequence>
+<xs:element minOccurs="0" name="actionRequestedCd" type="xs:string" />
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocIdResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllActionItems">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllActionItemsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:actionItemDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSearchableAttributeStringValuesByKey">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="key" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSearchableAttributeStringValuesByKeyResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="hasRouteNode">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentTypeName" type="xs:string" />
+<xs:element minOccurs="0" name="routeNodeName" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="hasRouteNodeResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSearchableAttributeFloatValuesByKey">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="key" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getSearchableAttributeFloatValuesByKeyResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:decimal" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isUserInRouteLog">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element name="lookFuture" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isUserInRouteLogResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getNodeInstance">
+<xs:sequence>
+<xs:element minOccurs="0" name="nodeInstanceId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getNodeInstanceResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:routeNodeInstanceDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="performDocumentSearch">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteriaVO" type="tns:documentSearchCriteriaDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="performDocumentSearchResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentSearchResultDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateWorkflowAttributeDefinitionVO">
+<xs:sequence>
+<xs:element minOccurs="0" name="definition" type="tns:workflowAttributeDefinitionDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="workflowAttributeDefinitionDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="attributeName" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="constructorParameters" nillable="true" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="properties" nillable="true" type="tns:propertyDefinitionDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="propertyDefinitionDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string" />
+<xs:element minOccurs="0" name="value" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateWorkflowAttributeDefinitionVOResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:workflowAttributeValidationErrorDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="workflowAttributeValidationErrorDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="key" type="xs:string" />
+<xs:element minOccurs="0" name="message" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentTypeByName">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentTypeName" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentTypeByNameResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentTypeDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentTypeDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="blanketApproveGroupId" type="xs:string" />
+<xs:element minOccurs="0" name="blanketApprovePolicy" type="xs:string" />
+<xs:element name="docTypeActiveInd" type="xs:boolean" />
+<xs:element name="docTypeActiveInherited" type="xs:boolean" />
+<xs:element minOccurs="0" name="docTypeCurrentInd" type="xs:string" />
+<xs:element name="docTypeDefaultApprovePolicy" type="xs:boolean" />
+<xs:element name="docTypeDefaultApprovePolicyInherited" type="xs:boolean" />
+<xs:element minOccurs="0" name="docTypeDescription" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeHandlerUrl" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeId" type="xs:long" />
+<xs:element minOccurs="0" name="docTypeJndiFactoryClass" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeJndiUrl" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeLabel" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeName" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeParentId" type="xs:long" />
+<xs:element minOccurs="0" name="docTypeParentName" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeVersion" type="xs:int" />
+<xs:element minOccurs="0" name="helpDefinitionUrl" type="xs:string" />
+<xs:element minOccurs="0" name="name" type="xs:string" />
+<xs:element minOccurs="0" name="postProcessorName" type="xs:string" />
+<xs:element minOccurs="0" name="routePath" type="tns:routePathDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routePathDTO">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="processes" nillable="true" type="tns:processDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="processDTO">
+<xs:sequence>
+<xs:element name="initial" type="xs:boolean" />
+<xs:element minOccurs="0" name="initialRouteNode" type="tns:routeNodeDTO" />
+<xs:element minOccurs="0" name="name" type="xs:string" />
+<xs:element minOccurs="0" name="processId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="routeNodeDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="activationType" type="xs:string" />
+<xs:element minOccurs="0" name="branchName" type="xs:string" />
+<xs:element minOccurs="0" name="documentTypeId" type="xs:long" />
+<xs:element minOccurs="0" name="exceptionGroupId" type="xs:string" />
+<xs:element name="finalApprovalInd" type="xs:boolean" />
+<xs:element name="mandatoryRouteInd" type="xs:boolean" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="nextNodeIds" nillable="true" type="xs:long" />
+<xs:element minOccurs="0" name="nodeType" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="previousNodeIds" nillable="true" type="xs:long" />
+<xs:element minOccurs="0" name="routeMethodCode" type="xs:string" />
+<xs:element minOccurs="0" name="routeMethodName" type="xs:string" />
+<xs:element minOccurs="0" name="routeNodeId" type="xs:long" />
+<xs:element minOccurs="0" name="routeNodeName" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUserActionItemCount">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUserActionItemCountResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentType">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentTypeId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentTypeDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getFutureRequestsKey">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getFutureRequestsKeyResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isFinalApprover">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isFinalApproverResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionItemsForPrincipal">
+<xs:sequence>
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getActionItemsForPrincipalResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:actionItemDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentDetail">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentDetailResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentDetailDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentContent">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentContentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:documentContentDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="documentContentDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="applicationContent" type="xs:string" />
+<xs:element minOccurs="0" name="attributeContent" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributeDefinitions" nillable="true" type="tns:workflowAttributeDefinitionDTO" />
+<xs:element minOccurs="0" name="routeHeaderId" type="xs:long" />
+<xs:element minOccurs="0" name="searchableContent" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="searchableDefinitions" nillable="true" type="tns:workflowAttributeDefinitionDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isUserInRouteLogWithOptionalFlattening">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element name="lookFuture" type="xs:boolean" />
+<xs:element name="flattenNodes" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isUserInRouteLogWithOptionalFlatteningResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ruleReport">
+<xs:sequence>
+<xs:element minOccurs="0" name="ruleReportCriteria" type="tns:ruleReportCriteriaDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ruleReportCriteriaDTO">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="actionRequestCodes" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="activeIndicator" type="xs:boolean" />
+<xs:element minOccurs="0" name="considerWorkgroupMembership" type="xs:boolean" />
+<xs:element minOccurs="0" name="documentTypeName" type="xs:string" />
+<xs:element minOccurs="0" name="includeDelegations" type="xs:boolean" />
+<xs:element minOccurs="0" name="responsibleGroupId" type="xs:string" />
+<xs:element minOccurs="0" name="responsiblePrincipalId" type="xs:string" />
+<xs:element minOccurs="0" name="responsibleRoleName" type="xs:string" />
+<xs:element minOccurs="0" name="ruleDescription" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ruleExtensionVOs" nillable="true" type="tns:ruleExtensionDTO" />
+<xs:element minOccurs="0" name="ruleTemplateName" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ruleExtensionDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="key" type="xs:string" />
+<xs:element minOccurs="0" name="value" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ruleReportResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ruleDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ruleDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="activeInd" type="xs:boolean" />
+<xs:element minOccurs="0" name="description" type="xs:string" />
+<xs:element minOccurs="0" name="docTypeName" type="xs:string" />
+<xs:element minOccurs="0" name="forceAction" type="xs:boolean" />
+<xs:element minOccurs="0" name="fromDate" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ruleExtensions" nillable="true" type="tns:ruleExtensionDTO" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="ruleResponsibilities" nillable="true" type="tns:ruleResponsibilityDTO" />
+<xs:element minOccurs="0" name="ruleTemplateId" type="xs:long" />
+<xs:element minOccurs="0" name="ruleTemplateName" type="xs:string" />
+<xs:element minOccurs="0" name="toDate" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ruleResponsibilityDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="actionRequestedCd" type="xs:string" />
+<xs:element minOccurs="0" name="approvePolicy" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="delegationRules" nillable="true" type="tns:ruleDelegationDTO" />
+<xs:element minOccurs="0" name="groupId" type="xs:string" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="priority" type="xs:int" />
+<xs:element minOccurs="0" name="responsibilityId" type="xs:long" />
+<xs:element minOccurs="0" name="roleName" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ruleDelegationDTO">
+<xs:sequence>
+<xs:element minOccurs="0" name="delegationRule" type="tns:ruleDTO" />
+<xs:element minOccurs="0" name="delegationType" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentRouteNodeInstances">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentRouteNodeInstancesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:routeNodeInstanceDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getReceiveFutureRequestsValue">
+<xs:sequence />
+</xs:complexType>
+<xs:complexType name="getReceiveFutureRequestsValueResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPreviousRouteNodeNames">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPreviousRouteNodeNamesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTerminalNodeInstances">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getTerminalNodeInstancesResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:routeNodeInstanceDTO" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isLastApproverInRouteLevel">
+<xs:sequence>
+<xs:element minOccurs="0" name="documentId" type="xs:long" />
+<xs:element minOccurs="0" name="principalId" type="xs:string" />
+<xs:element minOccurs="0" name="routeLevel" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="isLastApproverInRouteLevelResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:boolean" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="#all" name="stringMapEntryArray">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="item" nillable="true" type="tns:stringMapEntry" />
+</xs:sequence>
+</xs:complexType>
+<xs:element name="WorkflowException" type="tns:WorkflowException" />
+<xs:complexType name="WorkflowException">
+<xs:sequence />
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getPreviousRouteNodeNamesResponse">
+    <wsdl:part element="tns:getPreviousRouteNodeNamesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReceiveFutureRequestsValueResponse">
+    <wsdl:part element="tns:getReceiveFutureRequestsValueResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentStatus">
+    <wsdl:part element="tns:getDocumentStatus" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isLastApproverInRouteLevelResponse">
+    <wsdl:part element="tns:isLastApproverInRouteLevelResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentDetailFromAppId">
+    <wsdl:part element="tns:getDocumentDetailFromAppId" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchableAttributeStringValuesByKey">
+    <wsdl:part element="tns:getSearchableAttributeStringValuesByKey" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="hasRouteNodeResponse">
+    <wsdl:part element="tns:hasRouteNodeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentRouteNodeInstancesResponse">
+    <wsdl:part element="tns:getDocumentRouteNodeInstancesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="performDocumentSearchWithPrincipal">
+    <wsdl:part element="tns:performDocumentSearchWithPrincipal" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentRouteNodeInstances">
+    <wsdl:part element="tns:getDocumentRouteNodeInstances" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isCurrentActiveDocumentTypeResponse">
+    <wsdl:part element="tns:isCurrentActiveDocumentTypeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTerminalNodeInstances">
+    <wsdl:part element="tns:getTerminalNodeInstances" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="performDocumentSearchResponse">
+    <wsdl:part element="tns:performDocumentSearchResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionItems">
+    <wsdl:part element="tns:getActionItems" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPreviousRouteNodeNames">
+    <wsdl:part element="tns:getPreviousRouteNodeNames" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRouteHeader">
+    <wsdl:part element="tns:getRouteHeader" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="documentWillHaveAtLeastOneActionRequestResponse">
+    <wsdl:part element="tns:documentWillHaveAtLeastOneActionRequestResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDoNotReceiveFutureRequestsValueResponse">
+    <wsdl:part element="tns:getDoNotReceiveFutureRequestsValueResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllActionItems">
+    <wsdl:part element="tns:getAllActionItems" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserInRouteLogWithOptionalFlatteningResponse">
+    <wsdl:part element="tns:isUserInRouteLogWithOptionalFlatteningResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateWorkflowAttributeDefinitionVO">
+    <wsdl:part element="tns:validateWorkflowAttributeDefinitionVO" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRouteHeaderWithPrincipalResponse">
+    <wsdl:part element="tns:getRouteHeaderWithPrincipalResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPrincipalIdsInRouteLogResponse">
+    <wsdl:part element="tns:getPrincipalIdsInRouteLogResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="routingReport">
+    <wsdl:part element="tns:routingReport" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isFinalApproverResponse">
+    <wsdl:part element="tns:isFinalApproverResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserInRouteLog">
+    <wsdl:part element="tns:isUserInRouteLog" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFutureRequestsKeyResponse">
+    <wsdl:part element="tns:getFutureRequestsKeyResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="routeLevelHasApproverActionRequest">
+    <wsdl:part element="tns:routeLevelHasApproverActionRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getFutureRequestsKey">
+    <wsdl:part element="tns:getFutureRequestsKey" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNodeInstanceResponse">
+    <wsdl:part element="tns:getNodeInstanceResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateWorkflowAttributeDefinitionVOResponse">
+    <wsdl:part element="tns:validateWorkflowAttributeDefinitionVOResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionsRequestedResponse">
+    <wsdl:part element="tns:getActionsRequestedResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="WorkflowException">
+    <wsdl:part element="tns:WorkflowException" name="WorkflowException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentRoutedByPrincipalId">
+    <wsdl:part element="tns:getDocumentRoutedByPrincipalId" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionsTaken">
+    <wsdl:part element="tns:getActionsTaken" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="hasRouteNode">
+    <wsdl:part element="tns:hasRouteNode" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="routeNodeHasApproverActionRequestResponse">
+    <wsdl:part element="tns:routeNodeHasApproverActionRequestResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionItemsForPrincipalResponse">
+    <wsdl:part element="tns:getActionItemsForPrincipalResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNewResponsibilityId">
+    <wsdl:part element="tns:getNewResponsibilityId" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentTypeByNameResponse">
+    <wsdl:part element="tns:getDocumentTypeByNameResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="routingReportResponse">
+    <wsdl:part element="tns:routingReportResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reResolveRole">
+    <wsdl:part element="tns:reResolveRole" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isLastApproverAtNodeResponse">
+    <wsdl:part element="tns:isLastApproverAtNodeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentStatusResponse">
+    <wsdl:part element="tns:getDocumentStatusResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchableAttributeLongValuesByKeyResponse">
+    <wsdl:part element="tns:getSearchableAttributeLongValuesByKeyResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isLastApproverAtNode">
+    <wsdl:part element="tns:isLastApproverAtNode" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isCurrentActiveDocumentType">
+    <wsdl:part element="tns:isCurrentActiveDocumentType" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNewResponsibilityIdResponse">
+    <wsdl:part element="tns:getNewResponsibilityIdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionItemsResponse">
+    <wsdl:part element="tns:getActionItemsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isSuperUserForDocumentTypeResponse">
+    <wsdl:part element="tns:isSuperUserForDocumentTypeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRouteHeaderWithPrincipal">
+    <wsdl:part element="tns:getRouteHeaderWithPrincipal" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getClearFutureRequestsValue">
+    <wsdl:part element="tns:getClearFutureRequestsValue" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllActionItemsResponse">
+    <wsdl:part element="tns:getAllActionItemsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isLastApproverInRouteLevel">
+    <wsdl:part element="tns:isLastApproverInRouteLevel" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchableAttributeLongValuesByKey">
+    <wsdl:part element="tns:getSearchableAttributeLongValuesByKey" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActiveNodeInstances">
+    <wsdl:part element="tns:getActiveNodeInstances" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getReceiveFutureRequestsValue">
+    <wsdl:part element="tns:getReceiveFutureRequestsValue" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentInitiatorPrincipalIdResponse">
+    <wsdl:part element="tns:getDocumentInitiatorPrincipalIdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionItemsForPrincipal">
+    <wsdl:part element="tns:getActionItemsForPrincipal" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentContent">
+    <wsdl:part element="tns:getDocumentContent" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserActionItemCountResponse">
+    <wsdl:part element="tns:getUserActionItemCountResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentNodeInstances">
+    <wsdl:part element="tns:getCurrentNodeInstances" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentType">
+    <wsdl:part element="tns:getDocumentType" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserInRouteLogResponse">
+    <wsdl:part element="tns:isUserInRouteLogResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNodeInstance">
+    <wsdl:part element="tns:getNodeInstance" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="routeNodeHasApproverActionRequest">
+    <wsdl:part element="tns:routeNodeHasApproverActionRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentContentResponse">
+    <wsdl:part element="tns:getDocumentContentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ruleReport">
+    <wsdl:part element="tns:ruleReport" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchableAttributeDateTimeValuesByKeyResponse">
+    <wsdl:part element="tns:getSearchableAttributeDateTimeValuesByKeyResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="documentWillHaveAtLeastOneActionRequest">
+    <wsdl:part element="tns:documentWillHaveAtLeastOneActionRequest" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId">
+    <wsdl:part element="tns:getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentInitiatorPrincipalId">
+    <wsdl:part element="tns:getDocumentInitiatorPrincipalId" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentDetail">
+    <wsdl:part element="tns:getDocumentDetail" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDoNotReceiveFutureRequestsValue">
+    <wsdl:part element="tns:getDoNotReceiveFutureRequestsValue" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getCurrentNodeInstancesResponse">
+    <wsdl:part element="tns:getCurrentNodeInstancesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reResolveRoleResponse">
+    <wsdl:part element="tns:reResolveRoleResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isUserInRouteLogWithOptionalFlattening">
+    <wsdl:part element="tns:isUserInRouteLogWithOptionalFlattening" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionsRequested">
+    <wsdl:part element="tns:getActionsRequested" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRouteHeaderResponse">
+    <wsdl:part element="tns:getRouteHeaderResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocIdResponse">
+    <wsdl:part element="tns:getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocIdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchableAttributeStringValuesByKeyResponse">
+    <wsdl:part element="tns:getSearchableAttributeStringValuesByKeyResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchableAttributeFloatValuesByKeyResponse">
+    <wsdl:part element="tns:getSearchableAttributeFloatValuesByKeyResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getClearFutureRequestsValueResponse">
+    <wsdl:part element="tns:getClearFutureRequestsValueResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reResolveRoleByDocumentIdResponse">
+    <wsdl:part element="tns:reResolveRoleByDocumentIdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionsTakenResponse">
+    <wsdl:part element="tns:getActionsTakenResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentTypeResponse">
+    <wsdl:part element="tns:getDocumentTypeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="performDocumentSearch">
+    <wsdl:part element="tns:performDocumentSearch" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllActionRequests">
+    <wsdl:part element="tns:getAllActionRequests" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isSuperUserForDocumentType">
+    <wsdl:part element="tns:isSuperUserForDocumentType" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="isFinalApprover">
+    <wsdl:part element="tns:isFinalApprover" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reResolveRoleByDocumentId">
+    <wsdl:part element="tns:reResolveRoleByDocumentId" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPrincipalIdsInRouteLog">
+    <wsdl:part element="tns:getPrincipalIdsInRouteLog" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActiveNodeInstancesResponse">
+    <wsdl:part element="tns:getActiveNodeInstancesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="routeLevelHasApproverActionRequestResponse">
+    <wsdl:part element="tns:routeLevelHasApproverActionRequestResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getTerminalNodeInstancesResponse">
+    <wsdl:part element="tns:getTerminalNodeInstancesResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentDetailFromAppIdResponse">
+    <wsdl:part element="tns:getDocumentDetailFromAppIdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentRoutedByPrincipalIdResponse">
+    <wsdl:part element="tns:getDocumentRoutedByPrincipalIdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllActionRequestsResponse">
+    <wsdl:part element="tns:getAllActionRequestsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchableAttributeDateTimeValuesByKey">
+    <wsdl:part element="tns:getSearchableAttributeDateTimeValuesByKey" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionRequests">
+    <wsdl:part element="tns:getActionRequests" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="performDocumentSearchWithPrincipalResponse">
+    <wsdl:part element="tns:performDocumentSearchWithPrincipalResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentTypeByName">
+    <wsdl:part element="tns:getDocumentTypeByName" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ruleReportResponse">
+    <wsdl:part element="tns:ruleReportResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getSearchableAttributeFloatValuesByKey">
+    <wsdl:part element="tns:getSearchableAttributeFloatValuesByKey" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUserActionItemCount">
+    <wsdl:part element="tns:getUserActionItemCount" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getActionRequestsResponse">
+    <wsdl:part element="tns:getActionRequestsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentDetailResponse">
+    <wsdl:part element="tns:getDocumentDetailResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="WorkflowUtilityServiceSOAP">
+    <wsdl:operation name="getNewResponsibilityId">
+      <wsdl:input message="tns:getNewResponsibilityId" name="getNewResponsibilityId">
+    </wsdl:input>
+      <wsdl:output message="tns:getNewResponsibilityIdResponse" name="getNewResponsibilityIdResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="routeLevelHasApproverActionRequest">
+      <wsdl:input message="tns:routeLevelHasApproverActionRequest" name="routeLevelHasApproverActionRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:routeLevelHasApproverActionRequestResponse" name="routeLevelHasApproverActionRequestResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentDetailFromAppId">
+      <wsdl:input message="tns:getDocumentDetailFromAppId" name="getDocumentDetailFromAppId">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentDetailFromAppIdResponse" name="getDocumentDetailFromAppIdResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isCurrentActiveDocumentType">
+      <wsdl:input message="tns:isCurrentActiveDocumentType" name="isCurrentActiveDocumentType">
+    </wsdl:input>
+      <wsdl:output message="tns:isCurrentActiveDocumentTypeResponse" name="isCurrentActiveDocumentTypeResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="routeNodeHasApproverActionRequest">
+      <wsdl:input message="tns:routeNodeHasApproverActionRequest" name="routeNodeHasApproverActionRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:routeNodeHasApproverActionRequestResponse" name="routeNodeHasApproverActionRequestResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="documentWillHaveAtLeastOneActionRequest">
+      <wsdl:input message="tns:documentWillHaveAtLeastOneActionRequest" name="documentWillHaveAtLeastOneActionRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:documentWillHaveAtLeastOneActionRequestResponse" name="documentWillHaveAtLeastOneActionRequestResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reResolveRole">
+      <wsdl:input message="tns:reResolveRole" name="reResolveRole">
+    </wsdl:input>
+      <wsdl:output message="tns:reResolveRoleResponse" name="reResolveRoleResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDoNotReceiveFutureRequestsValue">
+      <wsdl:input message="tns:getDoNotReceiveFutureRequestsValue" name="getDoNotReceiveFutureRequestsValue">
+    </wsdl:input>
+      <wsdl:output message="tns:getDoNotReceiveFutureRequestsValueResponse" name="getDoNotReceiveFutureRequestsValueResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isLastApproverAtNode">
+      <wsdl:input message="tns:isLastApproverAtNode" name="isLastApproverAtNode">
+    </wsdl:input>
+      <wsdl:output message="tns:isLastApproverAtNodeResponse" name="isLastApproverAtNodeResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllActionRequests">
+      <wsdl:input message="tns:getAllActionRequests" name="getAllActionRequests">
+    </wsdl:input>
+      <wsdl:output message="tns:getAllActionRequestsResponse" name="getAllActionRequestsResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionsTaken">
+      <wsdl:input message="tns:getActionsTaken" name="getActionsTaken">
+    </wsdl:input>
+      <wsdl:output message="tns:getActionsTakenResponse" name="getActionsTakenResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionsRequested">
+      <wsdl:input message="tns:getActionsRequested" name="getActionsRequested">
+    </wsdl:input>
+      <wsdl:output message="tns:getActionsRequestedResponse" name="getActionsRequestedResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="performDocumentSearchWithPrincipal">
+      <wsdl:input message="tns:performDocumentSearchWithPrincipal" name="performDocumentSearchWithPrincipal">
+    </wsdl:input>
+      <wsdl:output message="tns:performDocumentSearchWithPrincipalResponse" name="performDocumentSearchWithPrincipalResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentRoutedByPrincipalId">
+      <wsdl:input message="tns:getDocumentRoutedByPrincipalId" name="getDocumentRoutedByPrincipalId">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentRoutedByPrincipalIdResponse" name="getDocumentRoutedByPrincipalIdResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionRequests">
+      <wsdl:input message="tns:getActionRequests" name="getActionRequests">
+    </wsdl:input>
+      <wsdl:output message="tns:getActionRequestsResponse" name="getActionRequestsResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionItems">
+      <wsdl:input message="tns:getActionItems" name="getActionItems">
+    </wsdl:input>
+      <wsdl:output message="tns:getActionItemsResponse" name="getActionItemsResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPrincipalIdsInRouteLog">
+      <wsdl:input message="tns:getPrincipalIdsInRouteLog" name="getPrincipalIdsInRouteLog">
+    </wsdl:input>
+      <wsdl:output message="tns:getPrincipalIdsInRouteLogResponse" name="getPrincipalIdsInRouteLogResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentNodeInstances">
+      <wsdl:input message="tns:getCurrentNodeInstances" name="getCurrentNodeInstances">
+    </wsdl:input>
+      <wsdl:output message="tns:getCurrentNodeInstancesResponse" name="getCurrentNodeInstancesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchableAttributeLongValuesByKey">
+      <wsdl:input message="tns:getSearchableAttributeLongValuesByKey" name="getSearchableAttributeLongValuesByKey">
+    </wsdl:input>
+      <wsdl:output message="tns:getSearchableAttributeLongValuesByKeyResponse" name="getSearchableAttributeLongValuesByKeyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRouteHeaderWithPrincipal">
+      <wsdl:input message="tns:getRouteHeaderWithPrincipal" name="getRouteHeaderWithPrincipal">
+    </wsdl:input>
+      <wsdl:output message="tns:getRouteHeaderWithPrincipalResponse" name="getRouteHeaderWithPrincipalResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="routingReport">
+      <wsdl:input message="tns:routingReport" name="routingReport">
+    </wsdl:input>
+      <wsdl:output message="tns:routingReportResponse" name="routingReportResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentInitiatorPrincipalId">
+      <wsdl:input message="tns:getDocumentInitiatorPrincipalId" name="getDocumentInitiatorPrincipalId">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentInitiatorPrincipalIdResponse" name="getDocumentInitiatorPrincipalIdResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRouteHeader">
+      <wsdl:input message="tns:getRouteHeader" name="getRouteHeader">
+    </wsdl:input>
+      <wsdl:output message="tns:getRouteHeaderResponse" name="getRouteHeaderResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="reResolveRoleByDocumentId">
+      <wsdl:input message="tns:reResolveRoleByDocumentId" name="reResolveRoleByDocumentId">
+    </wsdl:input>
+      <wsdl:output message="tns:reResolveRoleByDocumentIdResponse" name="reResolveRoleByDocumentIdResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentStatus">
+      <wsdl:input message="tns:getDocumentStatus" name="getDocumentStatus">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentStatusResponse" name="getDocumentStatusResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchableAttributeDateTimeValuesByKey">
+      <wsdl:input message="tns:getSearchableAttributeDateTimeValuesByKey" name="getSearchableAttributeDateTimeValuesByKey">
+    </wsdl:input>
+      <wsdl:output message="tns:getSearchableAttributeDateTimeValuesByKeyResponse" name="getSearchableAttributeDateTimeValuesByKeyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getClearFutureRequestsValue">
+      <wsdl:input message="tns:getClearFutureRequestsValue" name="getClearFutureRequestsValue">
+    </wsdl:input>
+      <wsdl:output message="tns:getClearFutureRequestsValueResponse" name="getClearFutureRequestsValueResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isSuperUserForDocumentType">
+      <wsdl:input message="tns:isSuperUserForDocumentType" name="isSuperUserForDocumentType">
+    </wsdl:input>
+      <wsdl:output message="tns:isSuperUserForDocumentTypeResponse" name="isSuperUserForDocumentTypeResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActiveNodeInstances">
+      <wsdl:input message="tns:getActiveNodeInstances" name="getActiveNodeInstances">
+    </wsdl:input>
+      <wsdl:output message="tns:getActiveNodeInstancesResponse" name="getActiveNodeInstancesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId">
+      <wsdl:input message="tns:getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId" name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId">
+    </wsdl:input>
+      <wsdl:output message="tns:getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocIdResponse" name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocIdResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllActionItems">
+      <wsdl:input message="tns:getAllActionItems" name="getAllActionItems">
+    </wsdl:input>
+      <wsdl:output message="tns:getAllActionItemsResponse" name="getAllActionItemsResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchableAttributeStringValuesByKey">
+      <wsdl:input message="tns:getSearchableAttributeStringValuesByKey" name="getSearchableAttributeStringValuesByKey">
+    </wsdl:input>
+      <wsdl:output message="tns:getSearchableAttributeStringValuesByKeyResponse" name="getSearchableAttributeStringValuesByKeyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="hasRouteNode">
+      <wsdl:input message="tns:hasRouteNode" name="hasRouteNode">
+    </wsdl:input>
+      <wsdl:output message="tns:hasRouteNodeResponse" name="hasRouteNodeResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchableAttributeFloatValuesByKey">
+      <wsdl:input message="tns:getSearchableAttributeFloatValuesByKey" name="getSearchableAttributeFloatValuesByKey">
+    </wsdl:input>
+      <wsdl:output message="tns:getSearchableAttributeFloatValuesByKeyResponse" name="getSearchableAttributeFloatValuesByKeyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserInRouteLog">
+      <wsdl:input message="tns:isUserInRouteLog" name="isUserInRouteLog">
+    </wsdl:input>
+      <wsdl:output message="tns:isUserInRouteLogResponse" name="isUserInRouteLogResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNodeInstance">
+      <wsdl:input message="tns:getNodeInstance" name="getNodeInstance">
+    </wsdl:input>
+      <wsdl:output message="tns:getNodeInstanceResponse" name="getNodeInstanceResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="performDocumentSearch">
+      <wsdl:input message="tns:performDocumentSearch" name="performDocumentSearch">
+    </wsdl:input>
+      <wsdl:output message="tns:performDocumentSearchResponse" name="performDocumentSearchResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateWorkflowAttributeDefinitionVO">
+      <wsdl:input message="tns:validateWorkflowAttributeDefinitionVO" name="validateWorkflowAttributeDefinitionVO">
+    </wsdl:input>
+      <wsdl:output message="tns:validateWorkflowAttributeDefinitionVOResponse" name="validateWorkflowAttributeDefinitionVOResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentTypeByName">
+      <wsdl:input message="tns:getDocumentTypeByName" name="getDocumentTypeByName">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentTypeByNameResponse" name="getDocumentTypeByNameResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserActionItemCount">
+      <wsdl:input message="tns:getUserActionItemCount" name="getUserActionItemCount">
+    </wsdl:input>
+      <wsdl:output message="tns:getUserActionItemCountResponse" name="getUserActionItemCountResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentType">
+      <wsdl:input message="tns:getDocumentType" name="getDocumentType">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentTypeResponse" name="getDocumentTypeResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFutureRequestsKey">
+      <wsdl:input message="tns:getFutureRequestsKey" name="getFutureRequestsKey">
+    </wsdl:input>
+      <wsdl:output message="tns:getFutureRequestsKeyResponse" name="getFutureRequestsKeyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isFinalApprover">
+      <wsdl:input message="tns:isFinalApprover" name="isFinalApprover">
+    </wsdl:input>
+      <wsdl:output message="tns:isFinalApproverResponse" name="isFinalApproverResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionItemsForPrincipal">
+      <wsdl:input message="tns:getActionItemsForPrincipal" name="getActionItemsForPrincipal">
+    </wsdl:input>
+      <wsdl:output message="tns:getActionItemsForPrincipalResponse" name="getActionItemsForPrincipalResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentDetail">
+      <wsdl:input message="tns:getDocumentDetail" name="getDocumentDetail">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentDetailResponse" name="getDocumentDetailResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentContent">
+      <wsdl:input message="tns:getDocumentContent" name="getDocumentContent">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentContentResponse" name="getDocumentContentResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isUserInRouteLogWithOptionalFlattening">
+      <wsdl:input message="tns:isUserInRouteLogWithOptionalFlattening" name="isUserInRouteLogWithOptionalFlattening">
+    </wsdl:input>
+      <wsdl:output message="tns:isUserInRouteLogWithOptionalFlatteningResponse" name="isUserInRouteLogWithOptionalFlatteningResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ruleReport">
+      <wsdl:input message="tns:ruleReport" name="ruleReport">
+    </wsdl:input>
+      <wsdl:output message="tns:ruleReportResponse" name="ruleReportResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentRouteNodeInstances">
+      <wsdl:input message="tns:getDocumentRouteNodeInstances" name="getDocumentRouteNodeInstances">
+    </wsdl:input>
+      <wsdl:output message="tns:getDocumentRouteNodeInstancesResponse" name="getDocumentRouteNodeInstancesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReceiveFutureRequestsValue">
+      <wsdl:input message="tns:getReceiveFutureRequestsValue" name="getReceiveFutureRequestsValue">
+    </wsdl:input>
+      <wsdl:output message="tns:getReceiveFutureRequestsValueResponse" name="getReceiveFutureRequestsValueResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPreviousRouteNodeNames">
+      <wsdl:input message="tns:getPreviousRouteNodeNames" name="getPreviousRouteNodeNames">
+    </wsdl:input>
+      <wsdl:output message="tns:getPreviousRouteNodeNamesResponse" name="getPreviousRouteNodeNamesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getTerminalNodeInstances">
+      <wsdl:input message="tns:getTerminalNodeInstances" name="getTerminalNodeInstances">
+    </wsdl:input>
+      <wsdl:output message="tns:getTerminalNodeInstancesResponse" name="getTerminalNodeInstancesResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isLastApproverInRouteLevel">
+      <wsdl:input message="tns:isLastApproverInRouteLevel" name="isLastApproverInRouteLevel">
+    </wsdl:input>
+      <wsdl:output message="tns:isLastApproverInRouteLevelResponse" name="isLastApproverInRouteLevelResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:WorkflowException" name="WorkflowException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WorkflowUtilityServiceSOAPSoapBinding" type="tns:WorkflowUtilityServiceSOAP">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="getNewResponsibilityId">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getNewResponsibilityId">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getNewResponsibilityIdResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="routeLevelHasApproverActionRequest">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="routeLevelHasApproverActionRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="routeLevelHasApproverActionRequestResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentDetailFromAppId">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentDetailFromAppId">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentDetailFromAppIdResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isCurrentActiveDocumentType">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="isCurrentActiveDocumentType">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="isCurrentActiveDocumentTypeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="routeNodeHasApproverActionRequest">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="routeNodeHasApproverActionRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="routeNodeHasApproverActionRequestResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="documentWillHaveAtLeastOneActionRequest">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="documentWillHaveAtLeastOneActionRequest">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="documentWillHaveAtLeastOneActionRequestResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reResolveRole">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="reResolveRole">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="reResolveRoleResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDoNotReceiveFutureRequestsValue">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDoNotReceiveFutureRequestsValue">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDoNotReceiveFutureRequestsValueResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isLastApproverAtNode">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="isLastApproverAtNode">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="isLastApproverAtNodeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionsTaken">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getActionsTaken">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getActionsTakenResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllActionRequests">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getAllActionRequests">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getAllActionRequestsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionsRequested">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getActionsRequested">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getActionsRequestedResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentRoutedByPrincipalId">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentRoutedByPrincipalId">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentRoutedByPrincipalIdResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="performDocumentSearchWithPrincipal">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="performDocumentSearchWithPrincipal">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="performDocumentSearchWithPrincipalResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionRequests">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getActionRequests">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getActionRequestsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionItems">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getActionItems">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getActionItemsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCurrentNodeInstances">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getCurrentNodeInstances">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getCurrentNodeInstancesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPrincipalIdsInRouteLog">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getPrincipalIdsInRouteLog">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getPrincipalIdsInRouteLogResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchableAttributeLongValuesByKey">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSearchableAttributeLongValuesByKey">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSearchableAttributeLongValuesByKeyResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRouteHeaderWithPrincipal">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getRouteHeaderWithPrincipal">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getRouteHeaderWithPrincipalResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="routingReport">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="routingReport">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="routingReportResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentInitiatorPrincipalId">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentInitiatorPrincipalId">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentInitiatorPrincipalIdResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getRouteHeader">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getRouteHeader">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getRouteHeaderResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentStatus">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentStatus">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentStatusResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="reResolveRoleByDocumentId">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="reResolveRoleByDocumentId">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="reResolveRoleByDocumentIdResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchableAttributeDateTimeValuesByKey">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSearchableAttributeDateTimeValuesByKey">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSearchableAttributeDateTimeValuesByKeyResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getClearFutureRequestsValue">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getClearFutureRequestsValue">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getClearFutureRequestsValueResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getActiveNodeInstances">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getActiveNodeInstances">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getActiveNodeInstancesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isSuperUserForDocumentType">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="isSuperUserForDocumentType">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="isSuperUserForDocumentTypeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getAllActionItems">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getAllActionItems">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getAllActionItemsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocId">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getPrincipalIdsWithPendingActionRequestByActionRequestedAndDocIdResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchableAttributeStringValuesByKey">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSearchableAttributeStringValuesByKey">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSearchableAttributeStringValuesByKeyResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="hasRouteNode">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="hasRouteNode">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="hasRouteNodeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getSearchableAttributeFloatValuesByKey">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getSearchableAttributeFloatValuesByKey">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getSearchableAttributeFloatValuesByKeyResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="isUserInRouteLog">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="isUserInRouteLog">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="isUserInRouteLogResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNodeInstance">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getNodeInstance">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getNodeInstanceResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="performDocumentSearch">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="performDocumentSearch">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="performDocumentSearchResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateWorkflowAttributeDefinitionVO">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="validateWorkflowAttributeDefinitionVO">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="validateWorkflowAttributeDefinitionVOResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentTypeByName">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentTypeByName">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentTypeByNameResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUserActionItemCount">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getUserActionItemCount">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getUserActionItemCountResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getFutureRequestsKey">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getFutureRequestsKey">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getFutureRequestsKeyResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentType">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentType">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentTypeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isFinalApprover">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="isFinalApprover">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="isFinalApproverResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getActionItemsForPrincipal">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getActionItemsForPrincipal">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getActionItemsForPrincipalResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentDetail">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentDetail">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentDetailResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentContent">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentContent">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentContentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isUserInRouteLogWithOptionalFlattening">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="isUserInRouteLogWithOptionalFlattening">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="isUserInRouteLogWithOptionalFlatteningResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentRouteNodeInstances">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentRouteNodeInstances">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentRouteNodeInstancesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="ruleReport">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="ruleReport">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ruleReportResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPreviousRouteNodeNames">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getPreviousRouteNodeNames">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getPreviousRouteNodeNamesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getReceiveFutureRequestsValue">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getReceiveFutureRequestsValue">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getReceiveFutureRequestsValueResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTerminalNodeInstances">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getTerminalNodeInstances">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getTerminalNodeInstancesResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="isLastApproverInRouteLevel">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="isLastApproverInRouteLevel">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="isLastApproverInRouteLevelResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="WorkflowException">
+        <soap:fault name="WorkflowException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WorkflowUtilityServiceSOAP">
+    <wsdl:port binding="tns:WorkflowUtilityServiceSOAPSoapBinding" name="WorkflowUtilityServiceSOAPPort">
+      <soap:address location="http://localhost:8081/ks-rice-standalone-dev/remoting/WorkflowUtilityServiceSOAP" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
