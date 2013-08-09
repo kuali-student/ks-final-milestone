@@ -17,7 +17,7 @@
 package org.kuali.student.common.uif.container;
 
 import org.kuali.rice.krad.uif.container.PageGroup;
-import org.kuali.rice.krad.uif.service.ExpressionEvaluatorService;
+import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
 
 /**
  * KS page class that extends PageGroup to perform the customized breadcrumb generation.
@@ -25,7 +25,7 @@ import org.kuali.rice.krad.uif.service.ExpressionEvaluatorService;
  * @author Kuali Student Team
  */
 public class KSUifPage extends PageGroup {
-    private transient ExpressionEvaluatorService expressionEvaluatorService;
+    private transient ExpressionEvaluator expressionEvaluator;
 
     public KSUifPage() {
     }
