@@ -590,6 +590,50 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
 
+    @RequestMapping(params = "methodToCall=cancelAOs")
+    public ModelAndView cancelAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
+                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
+        List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToCancelList();
+        CourseOfferingWrapper currentCoWrapper = theForm.getCurrentCourseOfferingWrapper();
+        currentCoWrapper.setColocatedAoToCancel(false);
+
+        boolean bNoDeletion = false;
+        int checked = 0;
+        int enabled = 0;
+
+        selectedIndexList.clear();
+        for(ActivityOfferingWrapper ao : aoList) {
+
+            if(ao.isEnableCancelButton() && ao.getIsCheckedByCluster()) {
+                ao.setActivityCode(ao.getAoInfo().getActivityCode());
+                selectedIndexList.add(ao);
+                if(ao.isColocatedAO())  {
+                    currentCoWrapper.setColocatedAoToCancel(true);
+                }
+                enabled++;
+            } else if (ao.getIsCheckedByCluster()){
+                checked++;
+                if (!bNoDeletion) {
+                    bNoDeletion = true;
+                }
+            }
+        }
+
+        if (selectedIndexList.isEmpty()) {
+            theForm.setSelectedIllegalAOInCancel(false);
+            if (bNoDeletion) {
+                theForm.setSelectedIllegalAOInCancel(true);
+            }
+        }
+
+        if(checked > enabled){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_CANCEL);
+        }
+
+        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_CANCEL_CONFIRM_PAGE);
+    }
+
     @RequestMapping(params = "methodToCall=suspendAOs")
     public ModelAndView suspendAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
@@ -598,14 +642,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
 
-    @RequestMapping(params = "methodToCall=cancelAOs")
-    public ModelAndView cancelAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
-                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        //TODO: cancelAOs
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
-    }
-
-    @RequestMapping(params = "methodToCall=reinstateAOs")
+   @RequestMapping(params = "methodToCall=reinstateAOs")
     public ModelAndView reinstateAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
 
