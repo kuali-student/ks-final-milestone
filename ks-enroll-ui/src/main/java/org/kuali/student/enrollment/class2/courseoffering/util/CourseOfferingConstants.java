@@ -79,6 +79,7 @@ public class CourseOfferingConstants {
     public static final String MANAGE_CO_LIST_SECTION = "KS-CourseOfferingManagement-CourseOfferingResultSection";
     public static final String CO_DELETE_CONFIRM_PAGE = "coDeleteConfirmationPage";
     public static final String AO_DELETE_CONFIRM_PAGE = "selectedAoDeleteConfirmationPage";
+    public static final String AO_CANCEL_CONFIRM_PAGE = "selectedAoCancelConfirmationPage";
     public static final String REG_GROUP_PAGE = "manageRegistrationGroupsPage";
     public static final String COPY_CO_PAGE = "copyCourseOfferingPage";
     public static final String SEARCH_PAGE = "searchInputPage";
@@ -130,6 +131,7 @@ public class CourseOfferingConstants {
     public static final String ACTIVITYOFFERING_TOOLBAR_DELETE="info.enroll.activityoffering.toolbar.delete";
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT="info.enroll.activityoffering.toolbar.draft" ;
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED="info.enroll.activityoffering.toolbar.approved" ;
+    public static final String ACTIVITYOFFERING_TOOLBAR_CANCEL="info.enroll.activityoffering.toolbar.cancel";
     public static final String COURSEOFFERING_TOOLBAR_DELETE="info.enroll.courseoffering.toolbar.delete" ;
     public static final String COURSEOFFERING_TOOLBAR_APPROVED="info.enroll.courseoffering.toolbar.approved" ;
     public static final String COURSEOFFERING_TOOLBAR_ADD="info.enroll.courseoffering.toolbar.add.success";

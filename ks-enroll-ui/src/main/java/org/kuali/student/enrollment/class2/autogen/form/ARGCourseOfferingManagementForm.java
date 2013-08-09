@@ -127,6 +127,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      * I dont think we need a seperate list to handle that - courseOfferingCopyWrapper
      */
     private List<ActivityOfferingWrapper> selectedToDeleteList;
+    private List<ActivityOfferingWrapper> selectedToCancelList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
     private boolean isCrossListedCO;
@@ -148,6 +149,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String toBeScheduledCourseOfferingsUI;
     private int toBeScheduledCourseOfferingsCount;
     private boolean selectedIllegalAOInDeletion = false;
+    private boolean selectedIllegalAOInCancel = false;
 
     private boolean withinPortal = true;
 
@@ -199,6 +201,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     public ARGCourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
+        selectedToCancelList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
         selectedCoToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
         clusterResultList = new ArrayList<ActivityOfferingClusterWrapper>();
@@ -289,6 +292,14 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.selectedToDeleteList = selectedToDeleteList;
     }
 
+    public List<ActivityOfferingWrapper> getSelectedToCancelList() {
+        return selectedToCancelList;
+    }
+
+    public void setSelectedToCancelList(List<ActivityOfferingWrapper> selectedToCancelList) {
+        this.selectedToCancelList = selectedToCancelList;
+    }
+
     public String getFormatIdForNewAO() {
         return formatIdForNewAO;
     }
@@ -363,6 +374,14 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
 
     public void setSelectedIllegalAOInDeletion(boolean selectedIllegalAOInDeletion) {
         this.selectedIllegalAOInDeletion = selectedIllegalAOInDeletion;
+    }
+
+    public boolean isSelectedIllegalAOInCancel() {
+        return selectedIllegalAOInCancel;
+    }
+
+    public void setSelectedIllegalAOInCancel(boolean selectedIllegalAOInCancel) {
+        this.selectedIllegalAOInCancel = selectedIllegalAOInCancel;
     }
 
     public boolean isWithinPortal() {

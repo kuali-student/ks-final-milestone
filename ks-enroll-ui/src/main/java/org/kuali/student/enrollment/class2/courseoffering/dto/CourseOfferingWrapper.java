@@ -54,6 +54,7 @@ public class CourseOfferingWrapper implements Serializable{
     private String coOwningDeptName;
 
     private boolean isColocatedAoToDelete;
+    private boolean isColocatedAoToCancel;
     /**
      * Usage of this property only in create and edit CO screens. Basically, this is whether to
      * allow the user to select cross lists or not. If it's false, then the cross
@@ -339,6 +340,13 @@ public class CourseOfferingWrapper implements Serializable{
         isColocatedAoToDelete = colocatedAoToDelete;
     }
 
+    public boolean isColocatedAoToCancel() {
+        return isColocatedAoToCancel;
+    }
+
+    public void setColocatedAoToCancel(boolean colocatedAoToCancel) {
+        isColocatedAoToCancel = colocatedAoToCancel;
+    }
     /**
      * This method returns whether alternate code selection is allowed or not.
      * This method reads the configuration property <code>kuali.ks.enrollment.options.selective-crosslisting-allowed</code>
