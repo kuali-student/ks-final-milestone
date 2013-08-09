@@ -1,2 +1,0 @@
-update KSEN_ATP set START_DT = TO_DATE( '20140103000000', 'YYYYMMDDHH24MISS' ) where id = '20141'
-/
