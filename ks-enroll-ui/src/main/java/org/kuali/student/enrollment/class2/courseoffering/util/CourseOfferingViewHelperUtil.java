@@ -21,6 +21,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -314,7 +315,7 @@ public class CourseOfferingViewHelperUtil {
         for(ScheduleRequestSetInfo srs : scheduleRequestSets) {
             List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(srs.getRefObjectIds(), context);
             for(ActivityOfferingInfo aoInfo : aoList) {
-                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + "<br/>");
+                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + ActivityOfferingDisplayWrapper.BR);
             }
         }
         return buffer.toString();

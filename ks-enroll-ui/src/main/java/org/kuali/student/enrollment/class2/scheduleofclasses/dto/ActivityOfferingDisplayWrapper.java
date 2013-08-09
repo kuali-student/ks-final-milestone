@@ -36,7 +36,7 @@ public class ActivityOfferingDisplayWrapper {
     private String instructorDisplayNames;
     private String colocatedAoInfo = "";
 
-    private static final String BR = "<br/>";
+    public static final String BR = "<br/>";
 
     public ActivityOfferingDisplayWrapper(){
         aoDisplayInfo = new ActivityOfferingDisplayInfo();
