@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.infc.Context;
 
 /**
  * Used to do CSR

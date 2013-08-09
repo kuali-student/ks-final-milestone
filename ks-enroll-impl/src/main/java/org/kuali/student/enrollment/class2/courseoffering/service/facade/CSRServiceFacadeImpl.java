@@ -17,9 +17,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import javax.annotation.Resource;
@@ -36,6 +35,9 @@ public class CSRServiceFacadeImpl implements CSRServiceFacade {
     @Resource(name="typeService")
     private TypeService typeService;
 
+    @Resource(name="socService")
+    private CourseOfferingSetService socService;
+
     public void setCoService(CourseOfferingService coService) {
         this.coService = coService;
     }
@@ -44,9 +46,13 @@ public class CSRServiceFacadeImpl implements CSRServiceFacade {
         this.typeService = typeService;
     }
 
+    public void setSocService(CourseOfferingSetService socService) {
+        this.socService = socService;
+    }
+
     @Override
     public void cancelActivityOffering(String aoId, ContextInfo context) {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override

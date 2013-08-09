@@ -932,6 +932,7 @@
     <bean id="csrServiceFacade" class="org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacadeImpl">
         <property name="coService" ref="CourseOfferingService"/>
         <property name="typeService" ref="typeService" />
+        <property name="socService" ref="CourseOfferingSetService" />
     </bean>
 
     <!-- Put facade on the bus KSENROLL-8609 -->
