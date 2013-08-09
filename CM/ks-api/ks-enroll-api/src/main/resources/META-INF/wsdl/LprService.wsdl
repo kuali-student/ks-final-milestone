@@ -1,0 +1,2670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="LprService" targetNamespace="http://student.kuali.org/wsdl/lpr" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://student.kuali.org/wsdl/lpr" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns0="http://exceptions.common.r2.student.kuali.org/" xmlns:ns1="http://rice.kuali.org/core/v2_0" xmlns:tns="http://student.kuali.org/wsdl/lpr" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://student.kuali.org/wsdl/lpr">
+<xs:import namespace="http://rice.kuali.org/core/v2_0"/>
+<xs:element name="createLpr" type="tns:createLpr"/>
+<xs:element name="createLprResponse" type="tns:createLprResponse"/>
+<xs:element name="createLprTransaction" type="tns:createLprTransaction"/>
+<xs:element name="createLprTransactionFromExisting" type="tns:createLprTransactionFromExisting"/>
+<xs:element name="createLprTransactionFromExistingResponse" type="tns:createLprTransactionFromExistingResponse"/>
+<xs:element name="createLprTransactionResponse" type="tns:createLprTransactionResponse"/>
+<xs:element name="createLprsForLui" type="tns:createLprsForLui"/>
+<xs:element name="createLprsForLuiResponse" type="tns:createLprsForLuiResponse"/>
+<xs:element name="createLprsForPerson" type="tns:createLprsForPerson"/>
+<xs:element name="createLprsForPersonResponse" type="tns:createLprsForPersonResponse"/>
+<xs:element name="deleteLpr" type="tns:deleteLpr"/>
+<xs:element name="deleteLprResponse" type="tns:deleteLprResponse"/>
+<xs:element name="deleteLprTransaction" type="tns:deleteLprTransaction"/>
+<xs:element name="deleteLprTransactionResponse" type="tns:deleteLprTransactionResponse"/>
+<xs:element name="getLpr" type="tns:getLpr"/>
+<xs:element name="getLprResponse" type="tns:getLprResponse"/>
+<xs:element name="getLprTransaction" type="tns:getLprTransaction"/>
+<xs:element name="getLprTransactionItemsByLui" type="tns:getLprTransactionItemsByLui"/>
+<xs:element name="getLprTransactionItemsByLuiResponse" type="tns:getLprTransactionItemsByLuiResponse"/>
+<xs:element name="getLprTransactionItemsByPersonAndLui" type="tns:getLprTransactionItemsByPersonAndLui"/>
+<xs:element name="getLprTransactionItemsByPersonAndLuiResponse" type="tns:getLprTransactionItemsByPersonAndLuiResponse"/>
+<xs:element name="getLprTransactionItemsByResultingLpr" type="tns:getLprTransactionItemsByResultingLpr"/>
+<xs:element name="getLprTransactionItemsByResultingLprResponse" type="tns:getLprTransactionItemsByResultingLprResponse"/>
+<xs:element name="getLprTransactionResponse" type="tns:getLprTransactionResponse"/>
+<xs:element name="getLprTransactionsByIds" type="tns:getLprTransactionsByIds"/>
+<xs:element name="getLprTransactionsByIdsResponse" type="tns:getLprTransactionsByIdsResponse"/>
+<xs:element name="getLprsByIds" type="tns:getLprsByIds"/>
+<xs:element name="getLprsByIdsResponse" type="tns:getLprsByIdsResponse"/>
+<xs:element name="getLprsByLui" type="tns:getLprsByLui"/>
+<xs:element name="getLprsByLuiAndType" type="tns:getLprsByLuiAndType"/>
+<xs:element name="getLprsByLuiAndTypeResponse" type="tns:getLprsByLuiAndTypeResponse"/>
+<xs:element name="getLprsByLuiResponse" type="tns:getLprsByLuiResponse"/>
+<xs:element name="getLprsByPerson" type="tns:getLprsByPerson"/>
+<xs:element name="getLprsByPersonAndLui" type="tns:getLprsByPersonAndLui"/>
+<xs:element name="getLprsByPersonAndLuiResponse" type="tns:getLprsByPersonAndLuiResponse"/>
+<xs:element name="getLprsByPersonAndLuiType" type="tns:getLprsByPersonAndLuiType"/>
+<xs:element name="getLprsByPersonAndLuiTypeResponse" type="tns:getLprsByPersonAndLuiTypeResponse"/>
+<xs:element name="getLprsByPersonAndTypeForAtp" type="tns:getLprsByPersonAndTypeForAtp"/>
+<xs:element name="getLprsByPersonAndTypeForAtpResponse" type="tns:getLprsByPersonAndTypeForAtpResponse"/>
+<xs:element name="getLprsByPersonForAtp" type="tns:getLprsByPersonForAtp"/>
+<xs:element name="getLprsByPersonForAtpAndLuiType" type="tns:getLprsByPersonForAtpAndLuiType"/>
+<xs:element name="getLprsByPersonForAtpAndLuiTypeResponse" type="tns:getLprsByPersonForAtpAndLuiTypeResponse"/>
+<xs:element name="getLprsByPersonForAtpResponse" type="tns:getLprsByPersonForAtpResponse"/>
+<xs:element name="getLprsByPersonResponse" type="tns:getLprsByPersonResponse"/>
+<xs:element name="getLuiIdsByPersonAndTypeAndState" type="tns:getLuiIdsByPersonAndTypeAndState"/>
+<xs:element name="getLuiIdsByPersonAndTypeAndStateResponse" type="tns:getLuiIdsByPersonAndTypeAndStateResponse"/>
+<xs:element name="getPersonIdsByLuiAndTypeAndState" type="tns:getPersonIdsByLuiAndTypeAndState"/>
+<xs:element name="getPersonIdsByLuiAndTypeAndStateResponse" type="tns:getPersonIdsByLuiAndTypeAndStateResponse"/>
+<xs:element name="getUnsubmittedLprTransactionsByRequestingPersonAndAtp" type="tns:getUnsubmittedLprTransactionsByRequestingPersonAndAtp"/>
+<xs:element name="getUnsubmittedLprTransactionsByRequestingPersonAndAtpResponse" type="tns:getUnsubmittedLprTransactionsByRequestingPersonAndAtpResponse"/>
+<xs:element name="processLprTransaction" type="tns:processLprTransaction"/>
+<xs:element name="processLprTransactionResponse" type="tns:processLprTransactionResponse"/>
+<xs:element name="searchForLprIds" type="tns:searchForLprIds"/>
+<xs:element name="searchForLprIdsResponse" type="tns:searchForLprIdsResponse"/>
+<xs:element name="searchForLprTransactionIds" type="tns:searchForLprTransactionIds"/>
+<xs:element name="searchForLprTransactionIdsResponse" type="tns:searchForLprTransactionIdsResponse"/>
+<xs:element name="searchForLprTransactions" type="tns:searchForLprTransactions"/>
+<xs:element name="searchForLprTransactionsResponse" type="tns:searchForLprTransactionsResponse"/>
+<xs:element name="searchForLprs" type="tns:searchForLprs"/>
+<xs:element name="searchForLprsResponse" type="tns:searchForLprsResponse"/>
+<xs:element name="updateLpr" type="tns:updateLpr"/>
+<xs:element name="updateLprResponse" type="tns:updateLprResponse"/>
+<xs:element name="updateLprTransaction" type="tns:updateLprTransaction"/>
+<xs:element name="updateLprTransactionResponse" type="tns:updateLprTransactionResponse"/>
+<xs:element name="validateLpr" type="tns:validateLpr"/>
+<xs:element name="validateLprResponse" type="tns:validateLprResponse"/>
+<xs:element name="verifyLprTransaction" type="tns:verifyLprTransaction"/>
+<xs:element name="verifyLprTransactionResponse" type="tns:verifyLprTransactionResponse"/>
+<xs:complexType name="searchForLprTransactionIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ContextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticatedPrincipalId" type="xs:string"/>
+<xs:element minOccurs="0" name="principalId" type="xs:string"/>
+<xs:element minOccurs="0" name="currentDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="locale" type="tns:LocaleInfo"/>
+<xs:element minOccurs="0" name="timeZone" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LocaleInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="localeLanguage" type="xs:string"/>
+<xs:element minOccurs="0" name="localeVariant" type="xs:string"/>
+<xs:element minOccurs="0" name="localeRegion" type="xs:string"/>
+<xs:element minOccurs="0" name="localeScript" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AttributeInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="key" type="xs:string"/>
+<xs:element minOccurs="0" name="value" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForLprTransactionIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteLprTransaction">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprTransactionId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteLprTransactionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="StatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByLui">
+<xs:sequence>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByLuiResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LprInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="resultValuesGroupKeys" type="xs:string"/>
+<xs:element minOccurs="0" name="commitmentPercent" type="xs:string"/>
+<xs:element minOccurs="0" name="effectiveDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="expirationDate" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="MetaInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="versionInd" type="xs:string"/>
+<xs:element minOccurs="0" name="createTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="createId" type="xs:string"/>
+<xs:element minOccurs="0" name="updateTime" type="xs:dateTime"/>
+<xs:element minOccurs="0" name="updateId" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLprsForPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTypeKey" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lprInfos" type="tns:LprInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLprsForPersonResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:BulkStatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="BulkStatusInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="isSuccess" type="xs:boolean"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonAndLui">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonAndLuiResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLpr">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPerson">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateLpr">
+<xs:sequence>
+<xs:element minOccurs="0" name="validationType" type="xs:string"/>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="lprInfo" type="tns:LprInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="validateLprResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ValidationResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="element" type="xs:string"/>
+<xs:element minOccurs="0" name="level" type="tns:errorLevel"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByLuiAndType">
+<xs:sequence>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByLuiAndTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateLprTransaction">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprTransactionId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTransactionInfo" type="tns:LprTransactionInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LprTransactionInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="requestingPersonId" type="xs:string"/>
+<xs:element minOccurs="0" name="atpId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lprTransactionItems" type="tns:LprTransactionItemInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RichTextInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="plain" type="xs:string"/>
+<xs:element minOccurs="0" name="formatted" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LprTransactionItemInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="transactionId" type="xs:string"/>
+<xs:element minOccurs="0" name="newLuiId" type="xs:string"/>
+<xs:element minOccurs="0" name="existingLuiId" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="resultValuesGroupKeys" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="requestOptions" type="tns:RequestOptionInfo"/>
+<xs:element minOccurs="0" name="lprTransactionItemResult" type="tns:LprTransactionItemResultInfo"/>
+<xs:element minOccurs="0" name="name" type="xs:string"/>
+<xs:element minOccurs="0" name="descr" type="tns:RichTextInfo"/>
+<xs:element minOccurs="0" name="meta" type="tns:MetaInfo"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attributes" type="tns:AttributeInfo"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="id" type="xs:string"/>
+<xs:attribute name="typeKey" type="xs:string"/>
+<xs:attribute name="stateKey" type="xs:string"/>
+</xs:complexType>
+<xs:complexType name="RequestOptionInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="id" type="xs:string"/>
+<xs:element minOccurs="0" name="optionKey" type="xs:string"/>
+<xs:element minOccurs="0" name="optionValue" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LprTransactionItemResultInfo">
+<xs:sequence>
+<xs:element minOccurs="0" name="resultingLprId" type="xs:string"/>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element minOccurs="0" name="status" type="xs:boolean"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateLprTransactionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LprTransactionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="processLprTransaction">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprTransactionId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="processLprTransactionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LprTransactionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransactionsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lprTransactionIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransactionsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprTransactionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonAndLuiType">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="luiTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonAndLuiTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransactionItemsByPersonAndLui">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransactionItemsByPersonAndLuiResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprTransactionItemInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="verifyLprTransaction">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprTransactionId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="verifyLprTransactionResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:ValidationResultInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLuiIdsByPersonAndTypeAndState">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="relationState" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLuiIdsByPersonAndTypeAndStateResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForLprTransactions">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForLprTransactionsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprTransactionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLprTransactionFromExisting">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprTransactionId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLprTransactionFromExistingResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LprTransactionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPersonIdsByLuiAndTypeAndState">
+<xs:sequence>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="relationState" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getPersonIdsByLuiAndTypeAndStateResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForLprs">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForLprsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransactionItemsByResultingLpr">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransactionItemsByResultingLprResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprTransactionItemInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForLprIds">
+<xs:sequence>
+<xs:element minOccurs="0" name="criteria" type="ns1:QueryByCriteriaType"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="searchForLprIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonForAtpAndLuiType">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="atpId" type="xs:string"/>
+<xs:element minOccurs="0" name="luiTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonForAtpAndLuiTypeResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLprsForLui">
+<xs:sequence>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTypeKey" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lprInfos" type="tns:LprInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLprsForLuiResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:BulkStatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransaction">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprTransactionId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransactionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LprTransactionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonForAtp">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="atpId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonForAtpResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLprTransaction">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprTransactionType" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTransactionInfo" type="tns:LprTransactionInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLprTransactionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LprTransactionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateLpr">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprInfo" type="tns:LprInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateLprResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUnsubmittedLprTransactionsByRequestingPersonAndAtp">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="atpId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUnsubmittedLprTransactionsByRequestingPersonAndAtpResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprTransactionInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLpr">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="lprInfo" type="tns:LprInfo"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="createLprResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransactionItemsByLui">
+<xs:sequence>
+<xs:element minOccurs="0" name="luiId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprTransactionItemsByLuiResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprTransactionItemInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonAndTypeForAtp">
+<xs:sequence>
+<xs:element minOccurs="0" name="personId" type="xs:string"/>
+<xs:element minOccurs="0" name="atpId" type="xs:string"/>
+<xs:element minOccurs="0" name="lprTypeKey" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByPersonAndTypeForAtpResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByIds">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="lprIds" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getLprsByIdsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:LprInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteLpr">
+<xs:sequence>
+<xs:element minOccurs="0" name="lprId" type="xs:string"/>
+<xs:element minOccurs="0" name="contextInfo" type="tns:ContextInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="deleteLprResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:StatusInfo"/>
+</xs:sequence>
+</xs:complexType>
+<xs:simpleType name="errorLevel">
+<xs:restriction base="xs:string">
+<xs:enumeration value="OK"/>
+<xs:enumeration value="WARN"/>
+<xs:enumeration value="ERROR"/>
+</xs:restriction>
+</xs:simpleType>
+<xs:element name="PermissionDeniedException" nillable="true" type="ns0:PermissionDeniedException"/>
+<xs:element name="OperationFailedException" nillable="true" type="ns0:OperationFailedException"/>
+<xs:element name="InvalidParameterException" nillable="true" type="ns0:InvalidParameterException"/>
+<xs:element name="MissingParameterException" nillable="true" type="ns0:MissingParameterException"/>
+<xs:element name="DoesNotExistException" nillable="true" type="ns0:DoesNotExistException"/>
+<xs:element name="DataValidationErrorException" nillable="true" type="ns0:DataValidationErrorException"/>
+<xs:element name="ReadOnlyException" nillable="true" type="ns0:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" nillable="true" type="ns0:VersionMismatchException"/>
+<xs:element name="AlreadyExistsException" nillable="true" type="ns0:AlreadyExistsException"/>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://rice.kuali.org/core/v2_0" elementFormDefault="qualified" targetNamespace="http://rice.kuali.org/core/v2_0" version="1.0">
+<xs:element name="and" type="tns:AndType"/>
+<xs:element name="dateTimeValue" type="tns:CriteriaDateTimeValueType"/>
+<xs:element name="decimalValue" type="tns:CriteriaDecimalValueType"/>
+<xs:element name="equal" type="tns:EqualType"/>
+<xs:element name="greaterThan" type="tns:GreaterThanType"/>
+<xs:element name="greaterThanOrEqual" type="tns:GreaterThanOrEqualType"/>
+<xs:element name="in" type="tns:InType"/>
+<xs:element name="integerValue" type="tns:CriteriaIntegerValueType"/>
+<xs:element name="lessThan" type="tns:LessThanType"/>
+<xs:element name="lessThanOrEqual" type="tns:LessThanOrEqualType"/>
+<xs:element name="like" type="tns:LikeType"/>
+<xs:element name="notEqual" type="tns:NotEqualType"/>
+<xs:element name="notIn" type="tns:NotInType"/>
+<xs:element name="notLike" type="tns:NotLikeType"/>
+<xs:element name="notNull" type="tns:NotNullType"/>
+<xs:element name="null" type="tns:NullType"/>
+<xs:element name="or" type="tns:OrType"/>
+<xs:element name="queryByCriteria" type="tns:QueryByCriteriaType"/>
+<xs:element name="stringValue" type="tns:CriteriaStringValueType"/>
+<xs:complexType final="extension restriction" name="QueryByCriteriaType">
+<xs:sequence>
+<xs:choice minOccurs="0">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+<xs:element minOccurs="0" name="startAtIndex" type="xs:int"/>
+<xs:element minOccurs="0" name="maxResults" type="xs:int"/>
+<xs:element name="countFlag" type="xs:string"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="AndType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="CompositePredicateType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:and"/>
+<xs:element ref="tns:equal"/>
+<xs:element ref="tns:greaterThan"/>
+<xs:element ref="tns:greaterThanOrEqual"/>
+<xs:element ref="tns:in"/>
+<xs:element ref="tns:lessThan"/>
+<xs:element ref="tns:lessThanOrEqual"/>
+<xs:element ref="tns:like"/>
+<xs:element ref="tns:notEqual"/>
+<xs:element ref="tns:notIn"/>
+<xs:element ref="tns:notLike"/>
+<xs:element ref="tns:notNull"/>
+<xs:element ref="tns:null"/>
+<xs:element ref="tns:or"/>
+</xs:choice>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType abstract="true" name="abstractPredicate">
+<xs:sequence/>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="EqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:simpleType name="CriteriaStringValueType">
+<xs:restriction base="xs:string"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDateTimeValueType">
+<xs:restriction base="xs:dateTime"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaDecimalValueType">
+<xs:restriction base="xs:decimal"/>
+</xs:simpleType>
+<xs:simpleType name="CriteriaIntegerValueType">
+<xs:restriction base="xs:integer"/>
+</xs:simpleType>
+<xs:complexType final="extension restriction" name="GreaterThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="GreaterThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="InType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LessThanOrEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="LikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotEqualType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice>
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:decimalValue"/>
+<xs:element ref="tns:integerValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotInType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:choice maxOccurs="unbounded">
+<xs:element ref="tns:stringValue"/>
+<xs:element ref="tns:dateTimeValue"/>
+<xs:element ref="tns:integerValue"/>
+<xs:element ref="tns:decimalValue"/>
+</xs:choice>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotLikeType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:element ref="tns:stringValue"/>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NotNullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="NullType">
+<xs:complexContent>
+<xs:extension base="tns:abstractPredicate">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+<xs:attribute name="propertyPath" type="xs:string"/>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType final="extension restriction" name="OrType">
+<xs:complexContent>
+<xs:extension base="tns:CompositePredicateType">
+<xs:sequence>
+<xs:any maxOccurs="unbounded" minOccurs="0" namespace="##other" processContents="skip"/>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+</xs:schema>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://exceptions.common.r2.student.kuali.org/" targetNamespace="http://exceptions.common.r2.student.kuali.org/" version="1.0">
+<xs:element name="AlreadyExistsException" type="tns:AlreadyExistsException"/>
+<xs:element name="DataValidationErrorException" type="tns:DataValidationErrorException"/>
+<xs:element name="DoesNotExistException" type="tns:DoesNotExistException"/>
+<xs:element name="InvalidParameterException" type="tns:InvalidParameterException"/>
+<xs:element name="MissingParameterException" type="tns:MissingParameterException"/>
+<xs:element name="OperationFailedException" type="tns:OperationFailedException"/>
+<xs:element name="PermissionDeniedException" type="tns:PermissionDeniedException"/>
+<xs:element name="ReadOnlyException" type="tns:ReadOnlyException"/>
+<xs:element name="VersionMismatchException" type="tns:VersionMismatchException"/>
+<xs:complexType name="PermissionDeniedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="OperationFailedException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="InvalidParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MissingParameterException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DoesNotExistException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DataValidationErrorException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="validationResults" nillable="true" type="xs:anyType"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ReadOnlyException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="VersionMismatchException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AlreadyExistsException">
+<xs:sequence>
+<xs:element minOccurs="0" name="message" type="xs:string"/>
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="validateLprResponse">
+    <wsdl:part name="parameters" element="tns:validateLprResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForLprTransactionIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForLprTransactionIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransactionItemsByResultingLpr">
+    <wsdl:part name="parameters" element="tns:getLprTransactionItemsByResultingLpr">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteLprTransaction">
+    <wsdl:part name="parameters" element="tns:deleteLprTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLprsForPersonResponse">
+    <wsdl:part name="parameters" element="tns:createLprsForPersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonForAtp">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonForAtp">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteLpr">
+    <wsdl:part name="parameters" element="tns:deleteLpr">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransactionResponse">
+    <wsdl:part name="parameters" element="tns:getLprTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonResponse">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteLprResponse">
+    <wsdl:part name="parameters" element="tns:deleteLprResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="processLprTransaction">
+    <wsdl:part name="parameters" element="tns:processLprTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="InvalidParameterException">
+    <wsdl:part name="InvalidParameterException" element="tns:InvalidParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForLprs">
+    <wsdl:part name="parameters" element="tns:searchForLprs">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForLprTransactions">
+    <wsdl:part name="parameters" element="tns:searchForLprTransactions">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransactionItemsByLui">
+    <wsdl:part name="parameters" element="tns:getLprTransactionItemsByLui">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPersonIdsByLuiAndTypeAndStateResponse">
+    <wsdl:part name="parameters" element="tns:getPersonIdsByLuiAndTypeAndStateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="processLprTransactionResponse">
+    <wsdl:part name="parameters" element="tns:processLprTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DoesNotExistException">
+    <wsdl:part name="DoesNotExistException" element="tns:DoesNotExistException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForLprIds">
+    <wsdl:part name="parameters" element="tns:searchForLprIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="validateLpr">
+    <wsdl:part name="parameters" element="tns:validateLpr">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForLprTransactionsResponse">
+    <wsdl:part name="parameters" element="tns:searchForLprTransactionsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLprsForLui">
+    <wsdl:part name="parameters" element="tns:createLprsForLui">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForLprIdsResponse">
+    <wsdl:part name="parameters" element="tns:searchForLprIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByLuiAndTypeResponse">
+    <wsdl:part name="parameters" element="tns:getLprsByLuiAndTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLpr">
+    <wsdl:part name="parameters" element="tns:getLpr">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransactionItemsByPersonAndLui">
+    <wsdl:part name="parameters" element="tns:getLprTransactionItemsByPersonAndLui">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MissingParameterException">
+    <wsdl:part name="MissingParameterException" element="tns:MissingParameterException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateLprTransaction">
+    <wsdl:part name="parameters" element="tns:updateLprTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransactionItemsByLuiResponse">
+    <wsdl:part name="parameters" element="tns:getLprTransactionItemsByLuiResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUnsubmittedLprTransactionsByRequestingPersonAndAtpResponse">
+    <wsdl:part name="parameters" element="tns:getUnsubmittedLprTransactionsByRequestingPersonAndAtpResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonAndLui">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonAndLui">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLpr">
+    <wsdl:part name="parameters" element="tns:createLpr">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransactionItemsByPersonAndLuiResponse">
+    <wsdl:part name="parameters" element="tns:getLprTransactionItemsByPersonAndLuiResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateLprResponse">
+    <wsdl:part name="parameters" element="tns:updateLprResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonForAtpResponse">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonForAtpResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLprTransactionFromExistingResponse">
+    <wsdl:part name="parameters" element="tns:createLprTransactionFromExistingResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonAndTypeForAtp">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonAndTypeForAtp">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByLuiResponse">
+    <wsdl:part name="parameters" element="tns:getLprsByLuiResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPerson">
+    <wsdl:part name="parameters" element="tns:getLprsByPerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonAndLuiTypeResponse">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonAndLuiTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransactionsByIds">
+    <wsdl:part name="parameters" element="tns:getLprTransactionsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransactionItemsByResultingLprResponse">
+    <wsdl:part name="parameters" element="tns:getLprTransactionItemsByResultingLprResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForLprsResponse">
+    <wsdl:part name="parameters" element="tns:searchForLprsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprResponse">
+    <wsdl:part name="parameters" element="tns:getLprResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonForAtpAndLuiType">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonForAtpAndLuiType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLuiIdsByPersonAndTypeAndState">
+    <wsdl:part name="parameters" element="tns:getLuiIdsByPersonAndTypeAndState">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="searchForLprTransactionIds">
+    <wsdl:part name="parameters" element="tns:searchForLprTransactionIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLprTransactionResponse">
+    <wsdl:part name="parameters" element="tns:createLprTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransaction">
+    <wsdl:part name="parameters" element="tns:getLprTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLuiIdsByPersonAndTypeAndStateResponse">
+    <wsdl:part name="parameters" element="tns:getLuiIdsByPersonAndTypeAndStateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonAndLuiType">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonAndLuiType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUnsubmittedLprTransactionsByRequestingPersonAndAtp">
+    <wsdl:part name="parameters" element="tns:getUnsubmittedLprTransactionsByRequestingPersonAndAtp">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonAndLuiResponse">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonAndLuiResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLprsForLuiResponse">
+    <wsdl:part name="parameters" element="tns:createLprsForLuiResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getLprsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonAndTypeForAtpResponse">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonAndTypeForAtpResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByLuiAndType">
+    <wsdl:part name="parameters" element="tns:getLprsByLuiAndType">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateLprTransactionResponse">
+    <wsdl:part name="parameters" element="tns:updateLprTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verifyLprTransaction">
+    <wsdl:part name="parameters" element="tns:verifyLprTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByIds">
+    <wsdl:part name="parameters" element="tns:getLprsByIds">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprTransactionsByIdsResponse">
+    <wsdl:part name="parameters" element="tns:getLprTransactionsByIdsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AlreadyExistsException">
+    <wsdl:part name="AlreadyExistsException" element="tns:AlreadyExistsException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="verifyLprTransactionResponse">
+    <wsdl:part name="parameters" element="tns:verifyLprTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="VersionMismatchException">
+    <wsdl:part name="VersionMismatchException" element="tns:VersionMismatchException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PermissionDeniedException">
+    <wsdl:part name="PermissionDeniedException" element="tns:PermissionDeniedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OperationFailedException">
+    <wsdl:part name="OperationFailedException" element="tns:OperationFailedException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLprResponse">
+    <wsdl:part name="parameters" element="tns:createLprResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DataValidationErrorException">
+    <wsdl:part name="DataValidationErrorException" element="tns:DataValidationErrorException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLprsForPerson">
+    <wsdl:part name="parameters" element="tns:createLprsForPerson">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLprTransactionFromExisting">
+    <wsdl:part name="parameters" element="tns:createLprTransactionFromExisting">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createLprTransaction">
+    <wsdl:part name="parameters" element="tns:createLprTransaction">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByLui">
+    <wsdl:part name="parameters" element="tns:getLprsByLui">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ReadOnlyException">
+    <wsdl:part name="ReadOnlyException" element="tns:ReadOnlyException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPersonIdsByLuiAndTypeAndState">
+    <wsdl:part name="parameters" element="tns:getPersonIdsByLuiAndTypeAndState">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteLprTransactionResponse">
+    <wsdl:part name="parameters" element="tns:deleteLprTransactionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateLpr">
+    <wsdl:part name="parameters" element="tns:updateLpr">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getLprsByPersonForAtpAndLuiTypeResponse">
+    <wsdl:part name="parameters" element="tns:getLprsByPersonForAtpAndLuiTypeResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="LprService">
+    <wsdl:operation name="searchForLprTransactionIds">
+      <wsdl:input name="searchForLprTransactionIds" message="tns:searchForLprTransactionIds">
+    </wsdl:input>
+      <wsdl:output name="searchForLprTransactionIdsResponse" message="tns:searchForLprTransactionIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteLprTransaction">
+      <wsdl:input name="deleteLprTransaction" message="tns:deleteLprTransaction">
+    </wsdl:input>
+      <wsdl:output name="deleteLprTransactionResponse" message="tns:deleteLprTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByLui">
+      <wsdl:input name="getLprsByLui" message="tns:getLprsByLui">
+    </wsdl:input>
+      <wsdl:output name="getLprsByLuiResponse" message="tns:getLprsByLuiResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLprsForPerson">
+      <wsdl:input name="createLprsForPerson" message="tns:createLprsForPerson">
+    </wsdl:input>
+      <wsdl:output name="createLprsForPersonResponse" message="tns:createLprsForPersonResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonAndLui">
+      <wsdl:input name="getLprsByPersonAndLui" message="tns:getLprsByPersonAndLui">
+    </wsdl:input>
+      <wsdl:output name="getLprsByPersonAndLuiResponse" message="tns:getLprsByPersonAndLuiResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLpr">
+      <wsdl:input name="getLpr" message="tns:getLpr">
+    </wsdl:input>
+      <wsdl:output name="getLprResponse" message="tns:getLprResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPerson">
+      <wsdl:input name="getLprsByPerson" message="tns:getLprsByPerson">
+    </wsdl:input>
+      <wsdl:output name="getLprsByPersonResponse" message="tns:getLprsByPersonResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateLpr">
+      <wsdl:input name="validateLpr" message="tns:validateLpr">
+    </wsdl:input>
+      <wsdl:output name="validateLprResponse" message="tns:validateLprResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByLuiAndType">
+      <wsdl:input name="getLprsByLuiAndType" message="tns:getLprsByLuiAndType">
+    </wsdl:input>
+      <wsdl:output name="getLprsByLuiAndTypeResponse" message="tns:getLprsByLuiAndTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateLprTransaction">
+      <wsdl:input name="updateLprTransaction" message="tns:updateLprTransaction">
+    </wsdl:input>
+      <wsdl:output name="updateLprTransactionResponse" message="tns:updateLprTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="processLprTransaction">
+      <wsdl:input name="processLprTransaction" message="tns:processLprTransaction">
+    </wsdl:input>
+      <wsdl:output name="processLprTransactionResponse" message="tns:processLprTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException" message="tns:AlreadyExistsException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransactionsByIds">
+      <wsdl:input name="getLprTransactionsByIds" message="tns:getLprTransactionsByIds">
+    </wsdl:input>
+      <wsdl:output name="getLprTransactionsByIdsResponse" message="tns:getLprTransactionsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonAndLuiType">
+      <wsdl:input name="getLprsByPersonAndLuiType" message="tns:getLprsByPersonAndLuiType">
+    </wsdl:input>
+      <wsdl:output name="getLprsByPersonAndLuiTypeResponse" message="tns:getLprsByPersonAndLuiTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransactionItemsByPersonAndLui">
+      <wsdl:input name="getLprTransactionItemsByPersonAndLui" message="tns:getLprTransactionItemsByPersonAndLui">
+    </wsdl:input>
+      <wsdl:output name="getLprTransactionItemsByPersonAndLuiResponse" message="tns:getLprTransactionItemsByPersonAndLuiResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verifyLprTransaction">
+      <wsdl:input name="verifyLprTransaction" message="tns:verifyLprTransaction">
+    </wsdl:input>
+      <wsdl:output name="verifyLprTransactionResponse" message="tns:verifyLprTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLuiIdsByPersonAndTypeAndState">
+      <wsdl:input name="getLuiIdsByPersonAndTypeAndState" message="tns:getLuiIdsByPersonAndTypeAndState">
+    </wsdl:input>
+      <wsdl:output name="getLuiIdsByPersonAndTypeAndStateResponse" message="tns:getLuiIdsByPersonAndTypeAndStateResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForLprTransactions">
+      <wsdl:input name="searchForLprTransactions" message="tns:searchForLprTransactions">
+    </wsdl:input>
+      <wsdl:output name="searchForLprTransactionsResponse" message="tns:searchForLprTransactionsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLprTransactionFromExisting">
+      <wsdl:input name="createLprTransactionFromExisting" message="tns:createLprTransactionFromExisting">
+    </wsdl:input>
+      <wsdl:output name="createLprTransactionFromExistingResponse" message="tns:createLprTransactionFromExistingResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPersonIdsByLuiAndTypeAndState">
+      <wsdl:input name="getPersonIdsByLuiAndTypeAndState" message="tns:getPersonIdsByLuiAndTypeAndState">
+    </wsdl:input>
+      <wsdl:output name="getPersonIdsByLuiAndTypeAndStateResponse" message="tns:getPersonIdsByLuiAndTypeAndStateResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForLprs">
+      <wsdl:input name="searchForLprs" message="tns:searchForLprs">
+    </wsdl:input>
+      <wsdl:output name="searchForLprsResponse" message="tns:searchForLprsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransactionItemsByResultingLpr">
+      <wsdl:input name="getLprTransactionItemsByResultingLpr" message="tns:getLprTransactionItemsByResultingLpr">
+    </wsdl:input>
+      <wsdl:output name="getLprTransactionItemsByResultingLprResponse" message="tns:getLprTransactionItemsByResultingLprResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForLprIds">
+      <wsdl:input name="searchForLprIds" message="tns:searchForLprIds">
+    </wsdl:input>
+      <wsdl:output name="searchForLprIdsResponse" message="tns:searchForLprIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonForAtpAndLuiType">
+      <wsdl:input name="getLprsByPersonForAtpAndLuiType" message="tns:getLprsByPersonForAtpAndLuiType">
+    </wsdl:input>
+      <wsdl:output name="getLprsByPersonForAtpAndLuiTypeResponse" message="tns:getLprsByPersonForAtpAndLuiTypeResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLprsForLui">
+      <wsdl:input name="createLprsForLui" message="tns:createLprsForLui">
+    </wsdl:input>
+      <wsdl:output name="createLprsForLuiResponse" message="tns:createLprsForLuiResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransaction">
+      <wsdl:input name="getLprTransaction" message="tns:getLprTransaction">
+    </wsdl:input>
+      <wsdl:output name="getLprTransactionResponse" message="tns:getLprTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonForAtp">
+      <wsdl:input name="getLprsByPersonForAtp" message="tns:getLprsByPersonForAtp">
+    </wsdl:input>
+      <wsdl:output name="getLprsByPersonForAtpResponse" message="tns:getLprsByPersonForAtpResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLprTransaction">
+      <wsdl:input name="createLprTransaction" message="tns:createLprTransaction">
+    </wsdl:input>
+      <wsdl:output name="createLprTransactionResponse" message="tns:createLprTransactionResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateLpr">
+      <wsdl:input name="updateLpr" message="tns:updateLpr">
+    </wsdl:input>
+      <wsdl:output name="updateLprResponse" message="tns:updateLprResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException" message="tns:VersionMismatchException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUnsubmittedLprTransactionsByRequestingPersonAndAtp">
+      <wsdl:input name="getUnsubmittedLprTransactionsByRequestingPersonAndAtp" message="tns:getUnsubmittedLprTransactionsByRequestingPersonAndAtp">
+    </wsdl:input>
+      <wsdl:output name="getUnsubmittedLprTransactionsByRequestingPersonAndAtpResponse" message="tns:getUnsubmittedLprTransactionsByRequestingPersonAndAtpResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLpr">
+      <wsdl:input name="createLpr" message="tns:createLpr">
+    </wsdl:input>
+      <wsdl:output name="createLprResponse" message="tns:createLprResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException" message="tns:DataValidationErrorException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException" message="tns:ReadOnlyException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransactionItemsByLui">
+      <wsdl:input name="getLprTransactionItemsByLui" message="tns:getLprTransactionItemsByLui">
+    </wsdl:input>
+      <wsdl:output name="getLprTransactionItemsByLuiResponse" message="tns:getLprTransactionItemsByLuiResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonAndTypeForAtp">
+      <wsdl:input name="getLprsByPersonAndTypeForAtp" message="tns:getLprsByPersonAndTypeForAtp">
+    </wsdl:input>
+      <wsdl:output name="getLprsByPersonAndTypeForAtpResponse" message="tns:getLprsByPersonAndTypeForAtpResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByIds">
+      <wsdl:input name="getLprsByIds" message="tns:getLprsByIds">
+    </wsdl:input>
+      <wsdl:output name="getLprsByIdsResponse" message="tns:getLprsByIdsResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteLpr">
+      <wsdl:input name="deleteLpr" message="tns:deleteLpr">
+    </wsdl:input>
+      <wsdl:output name="deleteLprResponse" message="tns:deleteLprResponse">
+    </wsdl:output>
+      <wsdl:fault name="InvalidParameterException" message="tns:InvalidParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="MissingParameterException" message="tns:MissingParameterException">
+    </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException" message="tns:DoesNotExistException">
+    </wsdl:fault>
+      <wsdl:fault name="OperationFailedException" message="tns:OperationFailedException">
+    </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException" message="tns:PermissionDeniedException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="LprServiceSoapBinding" type="tns:LprService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="searchForLprTransactionIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForLprTransactionIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForLprTransactionIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteLprTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteLprTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteLprTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByLui">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprsByLui">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprsByLuiResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLprsForPerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createLprsForPerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createLprsForPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLpr">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLpr">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonAndLui">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprsByPersonAndLui">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprsByPersonAndLuiResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPerson">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprsByPerson">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprsByPersonResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByLuiAndType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprsByLuiAndType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprsByLuiAndTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="validateLpr">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="validateLpr">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="validateLprResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateLprTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateLprTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateLprTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="processLprTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="processLprTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="processLprTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="AlreadyExistsException">
+        <soap:fault name="AlreadyExistsException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransactionsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprTransactionsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprTransactionsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransactionItemsByPersonAndLui">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprTransactionItemsByPersonAndLui">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprTransactionItemsByPersonAndLuiResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonAndLuiType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprsByPersonAndLuiType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprsByPersonAndLuiTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="verifyLprTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="verifyLprTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="verifyLprTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLuiIdsByPersonAndTypeAndState">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLuiIdsByPersonAndTypeAndState">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLuiIdsByPersonAndTypeAndStateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLprTransactionFromExisting">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createLprTransactionFromExisting">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createLprTransactionFromExistingResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForLprTransactions">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForLprTransactions">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForLprTransactionsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getPersonIdsByLuiAndTypeAndState">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPersonIdsByLuiAndTypeAndState">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPersonIdsByLuiAndTypeAndStateResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransactionItemsByResultingLpr">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprTransactionItemsByResultingLpr">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprTransactionItemsByResultingLprResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForLprs">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForLprs">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForLprsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonForAtpAndLuiType">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprsByPersonForAtpAndLuiType">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprsByPersonForAtpAndLuiTypeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="searchForLprIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="searchForLprIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="searchForLprIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLprsForLui">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createLprsForLui">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createLprsForLuiResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonForAtp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprsByPersonForAtp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprsByPersonForAtpResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLprTransaction">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createLprTransaction">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createLprTransactionResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="updateLpr">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="updateLpr">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="updateLprResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="VersionMismatchException">
+        <soap:fault name="VersionMismatchException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getUnsubmittedLprTransactionsByRequestingPersonAndAtp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getUnsubmittedLprTransactionsByRequestingPersonAndAtp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getUnsubmittedLprTransactionsByRequestingPersonAndAtpResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createLpr">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createLpr">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createLprResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DataValidationErrorException">
+        <soap:fault name="DataValidationErrorException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ReadOnlyException">
+        <soap:fault name="ReadOnlyException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprTransactionItemsByLui">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprTransactionItemsByLui">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprTransactionItemsByLuiResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="deleteLpr">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="deleteLpr">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="deleteLprResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByIds">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprsByIds">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprsByIdsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getLprsByPersonAndTypeForAtp">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getLprsByPersonAndTypeForAtp">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getLprsByPersonAndTypeForAtpResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="InvalidParameterException">
+        <soap:fault name="InvalidParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="MissingParameterException">
+        <soap:fault name="MissingParameterException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="DoesNotExistException">
+        <soap:fault name="DoesNotExistException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="OperationFailedException">
+        <soap:fault name="OperationFailedException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="PermissionDeniedException">
+        <soap:fault name="PermissionDeniedException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="LprService">
+    <wsdl:port name="LprService" binding="tns:LprServiceSoapBinding">
+      <soap:address location="http://localhost:9090/LprService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
