@@ -148,6 +148,7 @@
                 <!--<value>classpath:org/kuali/student/enrollment/courseoffering/ManageRegistrationGroupsView.xml</value>-->
                 <!--<value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CopyCourseOfferingPage.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SelectedAoDeleteConfirmationPage.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/SelectedAoCancelConfirmationPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseInfoLookupView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingEditMaintenanceView.xml</value>
                 <!--<value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingRolloverMaintenanceView.xml</value>-->
