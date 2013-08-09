@@ -751,6 +751,9 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     public ModelAndView deleteClusterCascaded(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         ARGActivityOfferingClusterHandler.deleteClusterCascaded(theForm);
+        // Because everything in this method is inside a transaction we need to separate the delete and the render. If we don't the render
+        // will not detect the delete and the user is shown the same screen. So for this case, delete the cluster then call
+        // show, which will clean up the form and render outside the transaction.
         return show(theForm);
     }
 
