@@ -16,24 +16,25 @@
  */
 package org.kuali.student.common.kitchensink;
 
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADUtils;
-
+import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.krad.UserSession;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
+import org.kuali.rice.krad.web.filter.UserLoginFilter;
 
 /**
  * This class will set a default user for KS Kitchen Sink pages
  *
  * @author Kuali Student Team
  */
-public class KitchenSinkUserLoginFilter extends org.kuali.rice.kew.web.UserLoginFilter {
+public class KitchenSinkUserLoginFilter extends UserLoginFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
