@@ -1,0 +1,132 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- DateOverrideInfo-->
+	<bean id="DateOverrideInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="dateOverrideInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.dto.DateOverrideInfo"/>
+		<property name="objectLabel" value="Date Override"/>
+		<property name="objectDescription">
+			<value>
+Information about a DateOverride. A Date override describes data to
+override a milestone date with a new date without having to create
+a new Milestone.
+			</value>
+		</property>
+		<property name="primaryKeys">
+			<list>
+				<value>milestoneId</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="DateOverrideInfo.milestoneId"/>
+				<ref bean="DateOverrideInfo.effectiveStartDate"/>
+				<ref bean="DateOverrideInfo.effectiveEndDate"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="DateOverrideInfo.milestoneId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="milestoneId"/>
+		<property name="shortLabel" value="Milestone Id"/>
+		<property name="summary">
+			<value>
+The id for the Milestone that is being overridden
+			</value>
+		</property>
+		<property name="label" value="Milestone id"/>
+		<property name="description">
+			<value>
+The id for the Milestone that is being overridden
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="DateOverrideInfo.effectiveStartDate-generated" abstract="true" parent="BaseKuali.startDate">
+		<property name="name" value="effectiveStartDate"/>
+		<property name="shortLabel" value="Effective Start Date"/>
+		<property name="summary">
+			<value>
+The start date thats should be in effect to replace the
+Milestone.
+			</value>
+		</property>
+		<property name="label" value="Effective Start Date"/>
+		<property name="description">
+			<value>
+The start date thats should be in effect to replace the
+Milestone.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="DateOverrideInfo.effectiveEndDate-generated" abstract="true" parent="BaseKuali.endDate">
+		<property name="name" value="effectiveEndDate"/>
+		<property name="shortLabel" value="Effective End Date"/>
+		<property name="summary">
+			<value>
+The new end date that should be in effect to replace the
+Milestone.
+			</value>
+		</property>
+		<property name="label" value="Effective End Date"/>
+		<property name="description">
+			<value>
+The new end date that should be in effect to replace the
+Milestone.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>
