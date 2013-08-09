@@ -58,7 +58,7 @@ public class KSRichTable extends RichTable {
                         "[" + UifConstants.TableToolsValues.ADD_ROW_DEFAULT_INDEX + "]");
             }
 
-            StringBuffer tableToolsColumnOptions = new StringBuffer("[");
+            StringBuilder tableToolsColumnOptions = new StringBuilder("[");
 
             int columnIndex = 0;
             int actionIndex = -1;
@@ -113,7 +113,7 @@ public class KSRichTable extends RichTable {
                     String actionColOptions = constructTableColumnOptions(actionIndex, false, null, null);
                     tableToolsColumnOptions.append(actionColOptions);
                 } else {
-                    tableToolsColumnOptions = new StringBuffer(StringUtils.removeEnd(tableToolsColumnOptions.toString(),
+                    tableToolsColumnOptions = new StringBuilder(StringUtils.removeEnd(tableToolsColumnOptions.toString(),
                             ", "));
                 }
 
@@ -130,7 +130,7 @@ public class KSRichTable extends RichTable {
                     String actionColOptions = constructTableColumnOptions(actionIndex, false, null, null);
                     tableToolsColumnOptions.append(actionColOptions);
                 } else {
-                    tableToolsColumnOptions = new StringBuffer(StringUtils.removeEnd(tableToolsColumnOptions.toString(),
+                    tableToolsColumnOptions = new StringBuilder(StringUtils.removeEnd(tableToolsColumnOptions.toString(),
                             ", "));
                 }
 
@@ -204,7 +204,11 @@ public class KSRichTable extends RichTable {
                         columnIndex++;
                     } else if (component instanceof MessageField) {
                         //For message field, sort as a regular String
-                        String colOptions = constructTableColumnOptions(columnIndex, true, String.class, UifConstants.TableToolsValues.DOM_TEXT);
+                        String sortType = component.getDataAttributes().get("sortType");
+                        if (StringUtils.isBlank(sortType)){
+                            sortType = UifConstants.TableToolsValues.DOM_TEXT;
+                        }
+                        String colOptions = constructTableColumnOptions(columnIndex, true, String.class, sortType);
                         tableToolsColumnOptions.append(colOptions + " , ");
                         columnIndex++;
                     } else {
@@ -219,7 +223,7 @@ public class KSRichTable extends RichTable {
                     String actionColOptions = constructTableColumnOptions(actionIndex, false, null, null);
                     tableToolsColumnOptions.append(actionColOptions);
                 } else {
-                    tableToolsColumnOptions = new StringBuffer(StringUtils.removeEnd(tableToolsColumnOptions.toString(),
+                    tableToolsColumnOptions = new StringBuilder(StringUtils.removeEnd(tableToolsColumnOptions.toString(),
                             ", "));
                 }
                 //merge the aoColumnDefs passed in
