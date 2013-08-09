@@ -714,8 +714,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     public ModelAndView deleteClusterCascaded(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         ARGActivityOfferingClusterHandler.deleteClusterCascaded(theForm);
-        show(theForm);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+        return show(theForm);
     }
 
     @RequestMapping(params = "methodToCall=cancelDeleteCluster")
