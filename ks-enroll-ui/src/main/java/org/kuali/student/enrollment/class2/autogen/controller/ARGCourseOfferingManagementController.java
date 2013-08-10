@@ -377,6 +377,15 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     }
 
     /*
+    * Method used to cancel a list of selected Activity Offerings (that can be in Draft or Approved or Suspended state)
+    */
+    @RequestMapping(params = "methodToCall=cancelSelectedAoList")
+    public ModelAndView cancelSelectedAoList(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
+        ARGActivityOfferingClusterHandler.cancelSelectedAoList(theForm);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+    }
+
+    /*
      * Method used to confirm delete AOs
      */
     @RequestMapping(params = "methodToCall=deleteCoConfirmation")
