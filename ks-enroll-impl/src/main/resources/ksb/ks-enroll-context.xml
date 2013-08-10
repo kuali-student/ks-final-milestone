@@ -933,6 +933,7 @@
         <property name="coService" ref="CourseOfferingService"/>
         <property name="typeService" ref="typeService" />
         <property name="socService" ref="CourseOfferingSetService" />
+        <property name="luiService" ref="LuiService" />
     </bean>
 
     <!-- Put facade on the bus KSENROLL-8609 -->

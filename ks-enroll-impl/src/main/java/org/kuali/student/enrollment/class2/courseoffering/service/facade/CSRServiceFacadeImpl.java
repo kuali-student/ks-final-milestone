@@ -18,7 +18,16 @@ package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 
 import javax.annotation.Resource;
@@ -38,6 +47,9 @@ public class CSRServiceFacadeImpl implements CSRServiceFacade {
     @Resource(name="socService")
     private CourseOfferingSetService socService;
 
+    @Resource(name="luiService")
+    private LuiService luiService;
+
     public void setCoService(CourseOfferingService coService) {
         this.coService = coService;
     }
@@ -50,9 +62,20 @@ public class CSRServiceFacadeImpl implements CSRServiceFacade {
         this.socService = socService;
     }
 
+    public void setLuiService(LuiService luiService) {
+        this.luiService = luiService;
+    }
+
     @Override
     public void cancelActivityOffering(String aoId, ContextInfo context) {
-
+        LuiInfo aoLui = null;
+        try {
+            aoLui = luiService.getLui(aoId, context);
+            aoLui.setStateKey(LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY);
+            luiService.updateLui(aoLui.getId(), aoLui, context);
+        } catch (Exception e) {
+            new RuntimeException("Could not cancel AO(s) " + e);
+        }
     }
 
     @Override
