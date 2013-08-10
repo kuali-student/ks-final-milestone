@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapter;
+import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
@@ -61,6 +62,7 @@ public class ARGUtil {
     private static TypeService typeService;
     private static AcademicCalendarService academicCalendarService;
     private static AutogenRegGroupServiceAdapter argServiceAdapter;
+    private static CSRServiceFacade csrServiceFacade;
 
     public static CourseOfferingService getCourseOfferingService() {
         return CourseOfferingResourceLoader.loadCourseOfferingService();
@@ -120,6 +122,13 @@ public class ARGUtil {
             argServiceAdapter = (AutogenRegGroupServiceAdapter) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/autogenRegistrationGroupAppLayer", "AutogenRegGroupServiceAdapter"));
         }
         return argServiceAdapter;
+    }
+
+    public static CSRServiceFacade getCsrServiceFacade() {
+        if (csrServiceFacade == null) {
+            csrServiceFacade = (CSRServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/csrServiceFacade", "CSRServiceFacade"));
+        }
+        return csrServiceFacade;
     }
 
     public static boolean checkEditViewAuthz(ARGCourseOfferingManagementForm theForm) {
