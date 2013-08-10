@@ -12,21 +12,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@Import({ org.kuali.common.util.metainf.spring.SqlLocationsConfig.class, SourceDbLocationsConfig.class })
+@Import({ SourceDbLocationsConfig.class })
 public class SqlLocationsConfig implements PropertyLocationsConfig {
 
 	@Autowired
 	SourceDbLocationsConfig sourceDbLocationsConfig;
-
-	@Autowired
-	org.kuali.common.util.metainf.spring.SqlLocationsConfig sqlLocationsConfig;
 
 	@Override
 	@Bean
 	public List<Location> propertyLocations() {
 		List<Location> locations = new ArrayList<Location>();
 		locations.add(sourceDbLocationsConfig.ksSourceDbCommon());
-		locations.addAll(sqlLocationsConfig.metaInfSqlLocations());
 		return Collections.unmodifiableList(locations);
 	}
 }
