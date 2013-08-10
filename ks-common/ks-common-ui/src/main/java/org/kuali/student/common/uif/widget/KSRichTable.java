@@ -236,4 +236,12 @@ public class KSRichTable extends RichTable {
         }
     }
 
+    // RICE 2.3 FINAL UPGRADE
+    // Added this method to consolidate calls to the superclass method of constructTableColumnOptions
+    // TODO KSENROLL-8469 Update calls to this method to properly handle new boolean parameter (isUseServerPaging)
+    @Deprecated
+    protected String constructTableColumnOptions(int target, boolean isSortable, Class dataTypeClass, String sortDataType) {
+        return constructTableColumnOptions(target, isSortable, false, dataTypeClass, sortDataType);
+    }
+
 }
