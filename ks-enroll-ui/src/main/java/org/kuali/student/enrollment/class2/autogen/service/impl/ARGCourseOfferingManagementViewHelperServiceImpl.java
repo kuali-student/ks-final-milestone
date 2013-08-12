@@ -27,10 +27,14 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
+import org.kuali.student.enrollment.class1.krms.service.impl.AORuleEditorMaintainableImpl;
 import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
 import org.kuali.student.enrollment.class2.autogen.dto.ScheduleCalcContainer;
 import org.kuali.student.enrollment.class2.autogen.dto.ScheduleRequestCalcContainer;
@@ -63,6 +67,7 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -95,6 +100,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
@@ -1066,7 +1072,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     aoWrapper.getAoInfo().setTermId(cell.getValue());
                 }
             }
-
+            aoWrapper.setHasRuleAttached(this.hasRuleAttached(aoWrapper));
             aoWrapper.getAoInfo().setScheduleIds(scheduleIds);
             for(String scheduleId : scheduleIds){
                 List<ActivityOfferingWrapper> list = sch2aoMap.get(scheduleId);
@@ -2095,6 +2101,27 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         }
 
         return jointDefinedCodes.toString();
+    }
+    private boolean hasRuleAttached(ActivityOfferingWrapper aoWrapper ){
+        AORuleEditorMaintainableImpl aoRuleEditorMaintainableImpl  = new AORuleEditorMaintainableImpl();
+        AORuleManagementWrapper dataObject = new AORuleManagementWrapper();
+        List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
+        Map <String,String> dataObjectKeys = new HashMap<String, String>();
+        boolean hasRule = false;
+        dataObjectKeys.put("refObjectId",aoWrapper.getAoInfo().getId());
+        Object  object = (AORuleManagementWrapper) aoRuleEditorMaintainableImpl.retrieveObjectForEditOrCopy(null, dataObjectKeys);
+
+        dataObject =  (AORuleManagementWrapper) object;
+        agendas.addAll(dataObject.getAgendas());
+        for(AgendaEditor agendaEditor: agendas)
+        {
+           if(agendaEditor instanceof LUAgendaEditor) {
+               hasRule = true;
+            break;
+           }
+        }
+
+       return hasRule;
     }
 
     private CourseOfferingService _getCourseOfferingService() {

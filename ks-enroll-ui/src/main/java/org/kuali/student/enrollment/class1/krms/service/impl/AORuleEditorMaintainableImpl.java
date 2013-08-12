@@ -97,46 +97,49 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
         dataObject.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
         dataObject.setRefDiscriminatorType(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
-
-        //Retrieve the Reg Object information
-        ActivityOfferingInfo activityOffering = null;
-        CourseOfferingInfo courseOffering = null;
-        if (aoId != null) {
-
+        if (document == null) {
             dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), aoId));
+        } else {
+            //Retrieve the Reg Object information
+            ActivityOfferingInfo activityOffering = null;
+            CourseOfferingInfo courseOffering = null;
+            if (aoId != null) {
 
-            try {
-                activityOffering = this.getCourseOfferingService().getActivityOffering(aoId, ContextUtils.createDefaultContextInfo());
-                courseOffering = this.getCourseOfferingService().getCourseOffering(activityOffering.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                dataObject.setCluAgendas(this.getCluAgendasByCourseId(courseOffering.getCourseId()));
-            } catch (Exception e) {
-                throw new RuntimeException("Could not retrieve activity offering for " + aoId);
+                dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), aoId));
+
+                try {
+                    activityOffering = this.getCourseOfferingService().getActivityOffering(aoId, ContextUtils.createDefaultContextInfo());
+                    courseOffering = this.getCourseOfferingService().getCourseOffering(activityOffering.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
+                    dataObject.setCluAgendas(this.getCluAgendasByCourseId(courseOffering.getCourseId()));
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not retrieve activity offering for " + aoId);
+                }
             }
-        }
 
-        //Populate Clu Identification Information
-        if (activityOffering != null) {
-            //Set the description on the screen.
-            dataObject.setCluDescription(activityOffering.getCourseOfferingCode());
-            dataObject.setAoDescription(activityOffering.getCourseOfferingCode() + activityOffering.getActivityCode());
-        }
-
-        if(courseOffering!=null){
-            //Set the subjectArea for breadcrumb link
-            dataObject.setCluSubjectCode(courseOffering.getSubjectArea());
-
-            try {
-                //Get the atp code.
-                AtpInfo atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
-                //Set the term code for breadcrumb link
-                dataObject.setCluTermCode(atp.getCode());
-                populateContextBar(dataObject, atp.getCode());
-            } catch (Exception e) {
-                throw new RuntimeException("Could not populate context bar.");
+            //Populate Clu Identification Information
+            if (activityOffering != null) {
+                //Set the description on the screen.
+                dataObject.setCluDescription(activityOffering.getCourseOfferingCode());
+                dataObject.setAoDescription(activityOffering.getCourseOfferingCode() + activityOffering.getActivityCode());
             }
-        }
 
-        dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
+            if (courseOffering != null) {
+                //Set the subjectArea for breadcrumb link
+                dataObject.setCluSubjectCode(courseOffering.getSubjectArea());
+
+                try {
+                    //Get the atp code.
+                    AtpInfo atp = this.getAtpService().getAtp(courseOffering.getTermId(), ContextUtils.createDefaultContextInfo());
+                    //Set the term code for breadcrumb link
+                    dataObject.setCluTermCode(atp.getCode());
+                    populateContextBar(dataObject, atp.getCode());
+                } catch (Exception e) {
+                    throw new RuntimeException("Could not populate context bar.");
+                }
+            }
+
+            dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
+        }
         return dataObject;
     }
 

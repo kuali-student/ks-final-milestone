@@ -129,7 +129,7 @@
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE" >
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
@@ -137,10 +137,18 @@
                                     <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                                 </property>
                             </bean>
+                            <bean parent="Uif-ImageField" p:hidden="@{#lp.hasRuleAttached eq false}"
+                                  p:title="This Activity has requisite(s)in addition to any of the course offering"
+                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/ActivityRuleIcon6px.png">
+                                <property name="style" value="padding-left:3px padding-bottom:3px;"/>
+                                <property name="toolTip">
+                                    <bean parent="Uif-Tooltip" p:tooltipContent="This Activity has requisite(s)in addition to any of the course offering"/>
+                                </property>
+                            </bean>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}"
                                   p:image.altText="@{#line.colocatedAoInfoUI}"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
-                                <property name="style" value="padding-left:5px"/>
+                                <property name="style" value="padding-left:3px"/>
                                 <property name="toolTip">
                                     <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
                                 </property>

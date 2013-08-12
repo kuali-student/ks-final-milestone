@@ -142,6 +142,9 @@ public class ActivityOfferingWrapper implements Serializable{
      */
     private String subTermDatesJsonString;
 
+    //use this boolean to check if AO has any rule attached to it
+    private boolean hasRuleAttached;
+
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
         instructors = new ArrayList<OfferingInstructorWrapper>();
@@ -1145,5 +1148,13 @@ public class ActivityOfferingWrapper implements Serializable{
      */
     public void setRemovedFromColoSet(boolean removedFromColoSet) {
         isRemovedFromColoSet = removedFromColoSet;
+    }
+
+    public boolean isHasRuleAttached() {
+        return hasRuleAttached;
+    }
+
+    public void setHasRuleAttached(boolean hasRuleAttached) {
+        this.hasRuleAttached = hasRuleAttached;
     }
 }
