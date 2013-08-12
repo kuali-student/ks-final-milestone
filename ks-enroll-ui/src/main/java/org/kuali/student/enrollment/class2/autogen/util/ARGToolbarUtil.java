@@ -24,6 +24,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -215,9 +216,9 @@ public class ARGToolbarUtil {
         permissionDetails.put(KimConstants.AttributeConstants.VIEW_ID, form.getViewId());
 
         //for Add Activity button
-        if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "addAO")) {
+        if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD)) {
             //check role permission
-            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addAO");
+            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD);
             if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                 form.setEnableAddButton(true);
             }
@@ -226,9 +227,9 @@ public class ARGToolbarUtil {
 
 
         //for add cluster button
-        if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "addCluster")) {
+        if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD_CLUSTER)) {
             //check role permission
-            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "addCluster");
+            permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD_CLUSTER);
             if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                 form.setEnableAddClusterButton(true);
             }
@@ -256,36 +257,36 @@ public class ARGToolbarUtil {
                 activityWrapper.setEnableDeleteButton(false);
 
                 //for approve AO button
-                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, "approveAO")) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_APPROVE)) {
                     //check role permission
-                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "approveAO");
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_APPROVE);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableApproveButton(true);
                     }
                 }
 
                 //for Delete AO button
-                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "deleteAO")) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_DELETE)) {
                     //check role permission
-                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "deleteAO");
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_DELETE);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableDeleteButton(true);
                     }
                 }
 
                 //for Set as Draft button
-                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, "setDraftAO")) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SET_DRAFT)) {
                     //check role permission
-                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "setDraftAO");
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SET_DRAFT);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableDraftButton(true);
                     }
                 }
 
                 //for move to button
-                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", "moveAO")) {
+                if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_MOVE)) {
                     //check role permission
-                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "moveAO");
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_MOVE);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableMoveToButton(true);
                     }
@@ -308,29 +309,38 @@ public class ARGToolbarUtil {
                 }
 
                 //for Cancel AO button
-                if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, "cancelAO")) {
+                if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL)) {
                     activityWrapper.setEnableCancelButton(true);
                     //later need to check role permission
                     /*
-                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelAO");
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableCancelButton(true);
                     }
                     */
                 }
 
-                //Currently, there are no reinstate, suspend and cancel AO buttons. Comment out the following checking
-                /*
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateAO");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    activityWrapper.setEnableReinstateButton(true);
+                //for Suspend AO button
+                if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND)) {
+                    activityWrapper.setEnableSuspendButton(true);
+                    /*
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND);
+                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                        activityWrapper.setEnableSuspendButton(true);
+                    }
+                    */
                 }
 
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendAO");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    activityWrapper.setEnableSuspendButton(true);
+                //for Reinstate AO button
+                if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE)) {
+                    activityWrapper.setEnableReinstateButton(true);
+                    /*
+                    permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE);
+                    if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
+                        activityWrapper.setEnableReinstateButton(true);
+                    }
+                    */
                 }
-                */
             }
         }
 
@@ -356,7 +366,7 @@ public class ARGToolbarUtil {
 
     private static boolean checkBzLogicForAOButtons(String socState, String socSchedulingState, String aoStateKey, String actionEvent){
         boolean bzEnableButton = false;
-        if(StringUtils.equals(actionEvent, "approveAO")) {
+        if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_APPROVE)) {
             if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) &&
                      // !(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) &&
                     (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
@@ -364,23 +374,34 @@ public class ARGToolbarUtil {
                             isSOCLockedAndMSEInProgress(socState, socSchedulingState))){
                 bzEnableButton = true;
             }
-        } else if (StringUtils.equals(actionEvent, "addAO")) {
+        } else if (StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD)) {
             bzEnableButton = true;
-        } else if (StringUtils.equals(actionEvent, "setDraftAO")) {
+        } else if (StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SET_DRAFT)) {
             if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
                 bzEnableButton = true;
             }
-        } else if (StringUtils.equals(actionEvent, "deleteAO")) {
+        } else if (StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_DELETE)) {
             bzEnableButton = true;
-        } else if (StringUtils.equals(actionEvent, "addCluster")) {
+        } else if (StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD_CLUSTER)) {
             bzEnableButton = true;
-        } else if (StringUtils.equals(actionEvent, "moveAO")) {
+        } else if (StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_MOVE)) {
             bzEnableButton = true;
-        } else if(StringUtils.equals(actionEvent, "cancelAO")){
+        } else if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL)){
             if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) ||
                StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ||
                StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
                StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)){
+                bzEnableButton = true;
+            }
+        } else if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND)){
+            if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) ||
+                    StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ||
+                    StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)){
+                bzEnableButton = true;
+            }
+        } else if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE)){
+            if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY) ||
+                    StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)){
                 bzEnableButton = true;
             }
         }
