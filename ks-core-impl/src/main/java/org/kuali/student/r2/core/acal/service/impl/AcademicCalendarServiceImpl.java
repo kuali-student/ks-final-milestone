@@ -39,6 +39,7 @@ import org.kuali.student.r2.core.acal.service.assembler.HolidayAssembler;
 import org.kuali.student.r2.core.acal.service.assembler.HolidayCalendarAssembler;
 import org.kuali.student.r2.core.acal.service.assembler.KeyDateAssembler;
 import org.kuali.student.r2.core.acal.service.assembler.TermAssembler;
+import org.kuali.student.r2.core.acal.service.transformer.ExamPeriodTransformer;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -89,6 +90,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private AcalEventAssembler acalEventAssembler;
     private StateTransitionsHelper stateTransitionsHelper;
 
+    private ExamPeriodTransformer examPeriodTransformer;
+
     private SearchService searchService = null;
 
     public AcalEventAssembler getAcalEventAssembler() {
@@ -121,6 +124,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     public void setHolidayCalendarAssembler(HolidayCalendarAssembler holidayCalendarAssembler) {
         this.holidayCalendarAssembler = holidayCalendarAssembler;
+    }
+
+    public ExamPeriodTransformer getExamPeriodTransformer() {
+        return examPeriodTransformer;
+    }
+
+    public void setExamPeriodTransformer(ExamPeriodTransformer examPeriodTransformer) {
+        this.examPeriodTransformer = examPeriodTransformer;
     }
 
     public DataDictionaryService getDataDictionaryService() {
@@ -1406,21 +1417,30 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
            return checkTypeInTypes(typeKey, types);
     }
 
-   private boolean checkTypeForKeydateType(String kdtypeKey, String termType, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-       List<TypeInfo> kdTypes = new ArrayList<TypeInfo>();
-       List<TypeInfo> kdGroupTypes = getKeyDateTypesForTermType(termType, context);
+    private boolean checkTypeForKeydateType(String kdtypeKey, String termType, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeInfo> kdTypes = new ArrayList<TypeInfo>();
+        List<TypeInfo> kdGroupTypes = getKeyDateTypesForTermType(termType, context);
 
-       if(kdGroupTypes != null && !kdGroupTypes.isEmpty()){
-           for(TypeInfo type : kdGroupTypes){
-            List<TypeInfo> kdtype = getTypesForGroupType(type.getKey(), context);
-               if(kdtype != null && !kdtype.isEmpty()){
-                kdTypes.addAll(kdtype);
-               }
-           }
-       }
+        if (kdGroupTypes != null && !kdGroupTypes.isEmpty()) {
+            for (TypeInfo type : kdGroupTypes) {
+                List<TypeInfo> kdtype = getTypesForGroupType(type.getKey(), context);
+                if (kdtype != null && !kdtype.isEmpty()) {
+                    kdTypes.addAll(kdtype);
+                }
+            }
+        }
 
-       return checkTypeInTypes(kdtypeKey, kdTypes);
-   }
+        return checkTypeInTypes(kdtypeKey, kdTypes);
+    }
+
+    private boolean checkTypeForExamPeriodType(String examPeriodTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // Right now, there is only one examPeriod type. So we only check the given examPeriod type against it for now
+        if (!StringUtils.equals(examPeriodTypeKey, AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY)){
+            return false;
+        }
+
+        return true;
+    }
 
     private List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
             OperationFailedException {
@@ -2534,7 +2554,21 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<ExamPeriodInfo> getExamPeriodsForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException ("has not been implemented yet!");
+        List<AtpAtpRelationInfo> results = atpService.getAtpAtpRelationsByTypeAndAtp(termId,
+                AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY,
+                contextInfo);
+        List<ExamPeriodInfo> examPeriodInfos = new ArrayList<ExamPeriodInfo>(results.size());
+        for (AtpAtpRelationInfo atpRelation : results) {
+            if (atpRelation.getAtpId().equals(termId)) {
+                AtpInfo possibleExamPeriodAtp = atpService.getAtp(atpRelation.getRelatedAtpId(), contextInfo);
+                if (checkTypeForExamPeriodType(possibleExamPeriodAtp.getTypeKey(), contextInfo)) {
+                    ExamPeriodInfo examPeriodInfo = new ExamPeriodInfo();
+                    examPeriodTransformer.atp2ExamPeriod(possibleExamPeriodAtp, examPeriodInfo);
+                    examPeriodInfos.add(examPeriodInfo);
+                }
+            }
+        }
+        return examPeriodInfos;
     }
 
     @Override
@@ -2550,7 +2584,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<TypeInfo> getExamPeriodTypesForTermType(String termTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException ("has not been implemented yet!");
-    }
+        }
 
     @Override
     public StateInfo getExamPeriodState(String examPeriodStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -2565,7 +2599,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public ExamPeriodInfo getExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException ("has not been implemented yet!");
-    }
+        }
 
     @Override
     public List<ExamPeriodInfo> getExamPeriodsByIds(List<String> examPeriodIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -2600,7 +2634,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public ExamPeriodInfo createExamPeriod(String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new OperationFailedException ("has not been implemented yet!");
-    }
+        }
 
     @Override
     public ExamPeriodInfo updateExamPeriod(String examPeriodId, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
