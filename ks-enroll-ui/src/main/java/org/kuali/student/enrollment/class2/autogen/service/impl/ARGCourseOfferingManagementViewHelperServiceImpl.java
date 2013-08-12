@@ -2109,6 +2109,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         Map <String,String> dataObjectKeys = new HashMap<String, String>();
         boolean hasRule = false;
         dataObjectKeys.put("refObjectId",aoWrapper.getAoInfo().getId());
+        if (aoWrapper.getAoInfo().getId() != null){
         Object  object = (AORuleManagementWrapper) aoRuleEditorMaintainableImpl.retrieveObjectForEditOrCopy(null, dataObjectKeys);
 
         dataObject =  (AORuleManagementWrapper) object;
@@ -2120,7 +2121,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
             break;
            }
         }
-
+        }
        return hasRule;
     }
 
