@@ -42,10 +42,12 @@ import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
+import static org.kuali.student.logging.FormattedLogger.*;
+
 /**
  * This is the helper class for CourseView
  * 
- * @author Kuali Student Team
+ * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 

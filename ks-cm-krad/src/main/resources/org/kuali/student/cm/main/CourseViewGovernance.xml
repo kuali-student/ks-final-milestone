@@ -48,7 +48,7 @@
           </bean>
           <bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.unitsContentOwner" p:label="Curriculum Oversight"
                 p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal."
-                p:optionsFinderClass="org.kuali.rice.student.lookup.keyvalues.AllOrgsValuesFinder">
+                p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder">
             <property name="control">
               <bean parent="Uif-DropdownControl" />
             </property>

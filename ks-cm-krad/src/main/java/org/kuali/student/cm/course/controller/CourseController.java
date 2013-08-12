@@ -81,7 +81,6 @@ import static org.kuali.student.logging.FormattedLogger.*;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-
 @Controller
 @RequestMapping(value = "/courses")
 public class CourseController extends UifControllerBase {
