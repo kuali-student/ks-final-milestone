@@ -29,6 +29,7 @@ public class LURuleManagementWrapper extends RuleManagementWrapper {
     private String cluSubjectCode;
     private String cluTermCode;
     private List<CluInformation> clusInRange;
+    private String courseOfferingTitle;
 
     private String adminOrg;
 
@@ -81,5 +82,13 @@ public class LURuleManagementWrapper extends RuleManagementWrapper {
 
     public void setAdminOrg(String adminOrg) {
         this.adminOrg = adminOrg;
+    }
+
+    public String getCourseOfferingTitle() {
+        return courseOfferingTitle;
+    }
+
+    public void setCourseOfferingTitle(String courseOfferingTitle) {
+        this.courseOfferingTitle = courseOfferingTitle;
     }
 }
