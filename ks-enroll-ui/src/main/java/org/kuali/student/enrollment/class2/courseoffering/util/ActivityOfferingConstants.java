@@ -43,7 +43,7 @@ public class ActivityOfferingConstants {
     public static final String MSG_ERROR_INVALID_START_TIME = "error.enroll.ao.starttime.invalid";
     public static final String MSG_ERROR_ORGANIZATION_ID_REQUIRED = "error.enroll.ao.organization.id.required" ;
 
-    public static final String ACTIVITYOFFERING_ACTION_CANCEL = "cancel";
-    public static final String ACTIVITYOFFERING_ACTION_SUSPEND = "suspend";
-    public static final String ACTIVITYOFFERING_ACTION_REINSTATE = "reinstate";
+    public static final String ACTIVITYOFFERING_ACTION_CANCEL = "cancelAO";
+    public static final String ACTIVITYOFFERING_ACTION_SUSPEND = "suspendAO";
+    public static final String ACTIVITYOFFERING_ACTION_REINSTATE = "reinstateAO";
 }
