@@ -247,19 +247,7 @@
         <property name="items">
             <list>
                 <ref bean="menuOptionCourseSummary"/>
-
-                <bean parent="Uif-Link" p:target="" p:href="#" p:style="margin:0;"
-                      p:linkText="Copy to Another Quarter"
-                      p:title="Copy to Another Quarter">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-                    <property name="onClickScript"
-                              value="var temp = jQuery(this).data('courseid').replace(/\./g,'_');
-                              openPlanItemPopUp(temp,'copy_dialog_page',{courseId:jQuery(this).data('courseid'),pageId:'copy_dialog_page'},e,null,{tail:{hidden:true},align:'top'});"/>
-                </bean>
+                <ref bean="menuOptionCopyPlanItem"/>
             </list>
         </property>
     </bean>
