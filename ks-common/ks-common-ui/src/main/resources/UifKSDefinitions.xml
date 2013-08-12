@@ -21,7 +21,7 @@
     -->
 
     <bean id="KSTheme" abstract="true" parent="KSTheme-parentBean"/>
-    <bean id="KSTheme-parentBean" parent="Uif-KradTheme">
+    <bean id="KSTheme-parentBean" parent="Uif-KbootTheme">
         <property name="cssFiles">
             <list merge="true">
                 <value>ks-enroll/bootstrap/css/bootstrap.css</value>

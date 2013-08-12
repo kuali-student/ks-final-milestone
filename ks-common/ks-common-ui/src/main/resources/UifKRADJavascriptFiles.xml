@@ -21,7 +21,7 @@
     -->
 
     <!-- This allows switching of minified and pretty KRAD javascript for debugging -->
-    <bean id="Uif-BaseTheme" abstract="true" parent="Uif-BaseTheme-parentBean">
+    <bean id="Uif-BaseTheme" abstract="true" parent="Uif-RiceViewTheme">
         <property name="cssFiles">
             <list merge="true">
                 <value>krad/plugins/tooltip/ks.jquery.bubblepopup.css</value>
