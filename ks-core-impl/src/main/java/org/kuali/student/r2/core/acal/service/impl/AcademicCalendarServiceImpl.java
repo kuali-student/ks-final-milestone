@@ -2662,7 +2662,28 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public StatusInfo addExamPeriodToTerm(String termId, String examPeriodId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException ("has not been implemented yet!");
+        TermInfo Term = getTerm(termId, contextInfo);
+        ExamPeriodInfo examPeriodInfo = getExamPeriod(examPeriodId, contextInfo);
+
+        // check if the relationship already exists
+        List<ExamPeriodInfo> examPeriodInfos = getExamPeriodsForTerm(Term.getId(), contextInfo);
+
+        for (ExamPeriodInfo tempExamPeriod : examPeriodInfos) {
+            if (StringUtils.equals(tempExamPeriod.getId(),examPeriodInfo.getId())) {
+                throw new AlreadyExistsException("A relationship already exists exists between term: " + termId + " and exam period: " + examPeriodId);
+            }
+        }
+
+        StatusInfo resultStatus = new StatusInfo();
+
+        try {
+            createAtpAtpRelation(termId, examPeriodInfo.getId(), AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY, contextInfo);
+        } catch (DataValidationErrorException e) {
+            resultStatus.setSuccess(false);
+            resultStatus.setMessage("Creation of AtpAtpRelation failed due to DataValidationErrorExecption: " + e.getMessage());
+        }
+
+        return resultStatus;
     }
 
     @Override
