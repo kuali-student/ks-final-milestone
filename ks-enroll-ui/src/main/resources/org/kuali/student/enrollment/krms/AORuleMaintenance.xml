@@ -49,7 +49,7 @@ limitations under the License.
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.krms.service.impl.AORuleViewHelperServiceImpl"/>
-        <property name="headerText" value="@{#dp.aoDescription}"/>
+        <property name="headerText" value="@{#dp.cluDescription} - @{#dp.aoDescription}"/>
         <property name="items">
             <list>
                 <bean id="KSAO-AgendaMaintenance-Page" parent="KSAO-AgendaMaintenance-Page-parent"/>
@@ -78,7 +78,7 @@ limitations under the License.
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Manage Course Offerings"/>
+                    <property name="label" value="Course Offerings"/>
                     <property name="url.viewId" value="courseOfferingManagementView"/>
                     <property name="url.controllerMapping" value="courseOfferingManagement"/>
                 </bean>
@@ -133,7 +133,7 @@ limitations under the License.
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value=" Manage Activity Offering Requisites"/>
+                    <property name="label" value=" Activity Offering Requisites"/>
                 </bean>
             </list>
         </property>
@@ -376,7 +376,7 @@ limitations under the License.
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Manage Activity Offering Requisites"/>
+                    <property name="label" value="Activity Offering Requisites"/>
                     <property name="url.controllerMapping" value="/activityOfferingRules"/>
                     <property name="url.viewType" value="MAINTENANCE"/>
                     <property name="url.methodToCall" value="maintenanceEdit"/>

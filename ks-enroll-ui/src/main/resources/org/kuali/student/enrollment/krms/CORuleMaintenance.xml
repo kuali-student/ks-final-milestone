@@ -49,7 +49,7 @@ limitations under the License.
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.krms.service.impl.CORuleViewHelperServiceImpl"/>
-        <property name="headerText" value="@{#dp.cluDescription}"/>
+        <property name="headerText" value="@{#dp.cluDescription} : @{#dp.courseOfferingTitle}"/>
         <property name="items">
             <list>
                 <bean id="KSCO-AgendaMaintenance-Page" parent="KSCO-AgendaMaintenance-Page-parent"/>
@@ -75,7 +75,7 @@ limitations under the License.
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Manage Course Offerings"/>
+                    <property name="label" value="Course Offerings"/>
                     <property name="url.viewId" value="courseOfferingManagementView"/>
                     <property name="url.controllerMapping" value="courseOfferingManagement"/>
                 </bean>

@@ -120,7 +120,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             if (activityOffering != null) {
                 //Set the description on the screen.
                 dataObject.setCluDescription(activityOffering.getCourseOfferingCode());
-                dataObject.setAoDescription(activityOffering.getCourseOfferingCode() + activityOffering.getActivityCode());
+                dataObject.setAoDescription(activityOffering.getName() + " " + activityOffering.getActivityCode());
             }
 
             if (courseOffering != null) {
