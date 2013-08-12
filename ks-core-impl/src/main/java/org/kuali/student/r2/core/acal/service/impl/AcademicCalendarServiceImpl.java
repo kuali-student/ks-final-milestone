@@ -77,7 +77,6 @@ import java.util.TreeSet;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService {
-
     private AtpService atpService;
     private StateService stateService;
     private TypeService typeService;
@@ -306,7 +305,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         try {
             existingOne = atpService.getAtp(academicCalendarId,context);
             if (!StringUtils.equals(existingOne.getStateKey(),academicCalendarInfo.getStateKey())){
-                 throw new OperationFailedException("It's not possible to update the state with this call. Please use changeAcademicCalendarState() instead");
+                throw new OperationFailedException("It's not possible to update the state with this call. Please use changeAcademicCalendarState() instead");
             }
         } catch (Exception e) {
             throw new OperationFailedException("Unexpected", e);
@@ -679,28 +678,28 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         AtpInfo atp;
 
         if (checkTypeForTermType(termTypeKey, context)) {
-                try {
-                    atp = termAssembler.disassemble(termInfo, context);
-                    if(!isInitialState(AtpServiceConstants.ATP_LIFECYCLE_KEY, atp.getStateKey(), context)) {
-                        throw new OperationFailedException("Wrong initial TermInfo state Key!");
-                    }
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            try {
+                atp = termAssembler.disassemble(termInfo, context);
+                if(!isInitialState(AtpServiceConstants.ATP_LIFECYCLE_KEY, atp.getStateKey(), context)) {
+                    throw new OperationFailedException("Wrong initial TermInfo state Key!");
                 }
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
 
-                try {
-                    if(!hasTermCode(atp.getTypeKey(), atp.getCode(), context)){
-                        AtpInfo newAtp = atpService.createAtp(atp.getTypeKey(), atp, context);
-                        termInfo = termAssembler.assemble(newAtp, context);
-                    }
-                    else {
-                        throw new DataValidationErrorException("The term code " + atp.getCode() + " with type (" + atp.getTypeKey() + ") already exists.");
-                    }
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("Error assembling term", e);
-                } catch (ReadOnlyException e) {
-                    throw new OperationFailedException("Error assembling term", e);
+            try {
+                if(!hasTermCode(atp.getTypeKey(), atp.getCode(), context)){
+                    AtpInfo newAtp = atpService.createAtp(atp.getTypeKey(), atp, context);
+                    termInfo = termAssembler.assemble(newAtp, context);
                 }
+                else {
+                    throw new DataValidationErrorException("The term code " + atp.getCode() + " with type (" + atp.getTypeKey() + ") already exists.");
+                }
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("Error assembling term", e);
+            } catch (ReadOnlyException e) {
+                throw new OperationFailedException("Error assembling term", e);
+            }
         } else {
             throw new InvalidParameterException("Term type not found: '" + termTypeKey + "'");
         }
@@ -724,7 +723,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             if((termCode == null && toUpdate.getCode() == null) || termCode.equals(toUpdate.getCode()) || (!termCode.equals(toUpdate.getCode()) && !hasTermCode(toUpdate.getTypeKey(), toUpdate.getCode(), context))){
 
                 if (!StringUtils.equals(existingAtp.getStateKey(),termInfo.getStateKey())){
-                     throw new OperationFailedException("State cant be updated with this call. Please use changeTermState() instead.");
+                    throw new OperationFailedException("State cant be updated with this call. Please use changeTermState() instead.");
                 }
 
                 AtpInfo updated = atpService.updateAtp(termId, toUpdate, context);
@@ -1135,7 +1134,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         MilestoneInfo existingMilestone = atpService.getMilestone(keyDateId,context);
 
         if (!StringUtils.equals(existingMilestone.getStateKey(),keyDateInfo.getStateKey())){
-             throw new OperationFailedException("It's not possible to update the state with this call. Please use changeKeyDateState() instead");
+            throw new OperationFailedException("It's not possible to update the state with this call. Please use changeKeyDateState() instead");
         }
         MilestoneInfo toUpdate = keyDateAssembler.disassemble(keyDateInfo,context);
         MilestoneInfo newMilestone;
@@ -1192,7 +1191,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             MilestoneInfo existingMilestone = atpService.getMilestone(holidayId,context);
 
             if (!StringUtils.equals(existingMilestone.getStateKey(),holidayInfo.getStateKey())){
-                 throw new OperationFailedException("It's not possible to update the state with this call. Please use changeHolidayState() instead");
+                throw new OperationFailedException("It's not possible to update the state with this call. Please use changeHolidayState() instead");
             }
 
             MilestoneInfo toUpdate = holidayAssembler.disassemble(holidayInfo, context);
@@ -1354,52 +1353,52 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     protected StatusInfo processMilestoneStateChange(String milestoneId,String nextStateKey, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
-    MilestoneInfo milestoneInfo = getAtpService().getMilestone(milestoneId,contextInfo);
-    String thisStateKey = milestoneInfo.getStateKey();
+        MilestoneInfo milestoneInfo = getAtpService().getMilestone(milestoneId,contextInfo);
+        String thisStateKey = milestoneInfo.getStateKey();
 
-    if (StringUtils.isNotBlank(thisStateKey) && !StringUtils.equals(thisStateKey,nextStateKey)){
+        if (StringUtils.isNotBlank(thisStateKey) && !StringUtils.equals(thisStateKey,nextStateKey)){
 
-        StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(milestoneId,nextStateKey,contextInfo);
+            StatusInfo statusInfo = getStateTransitionsHelper().processStateConstraints(milestoneId,nextStateKey,contextInfo);
 
-        if (statusInfo.getIsSuccess()){
+            if (statusInfo.getIsSuccess()){
 
-            milestoneInfo.setStateKey(nextStateKey);
-            try{
-                getAtpService().updateMilestone(milestoneInfo.getId(), milestoneInfo, contextInfo);
-            }catch(Exception e){
-                throw new OperationFailedException("Failed to update State", e);
-            }
-
-            String propagationKey = thisStateKey + ":" + nextStateKey;
-            Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(milestoneId,propagationKey,contextInfo);
-
-            for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
-                if (!statusInfo1.getIsSuccess()){
-                    throw new OperationFailedException(statusInfo1.getMessage());
+                milestoneInfo.setStateKey(nextStateKey);
+                try{
+                    getAtpService().updateMilestone(milestoneInfo.getId(), milestoneInfo, contextInfo);
+                }catch(Exception e){
+                    throw new OperationFailedException("Failed to update State", e);
                 }
-            }
 
-            return new StatusInfo();
-        }else{
-            return statusInfo;
+                String propagationKey = thisStateKey + ":" + nextStateKey;
+                Map<String,StatusInfo> stringStatusInfoMap = getStateTransitionsHelper().processStatePropagations(milestoneId,propagationKey,contextInfo);
+
+                for (StatusInfo statusInfo1 : stringStatusInfoMap.values()) {
+                    if (!statusInfo1.getIsSuccess()){
+                        throw new OperationFailedException(statusInfo1.getMessage());
+                    }
+                }
+
+                return new StatusInfo();
+            }else{
+                return statusInfo;
+            }
         }
+
+        return new StatusInfo();
     }
 
-    return new StatusInfo();
-}
-
     private boolean checkTypeForAcademicCalendar(String typeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-         if (typeKey.equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY))
-             return true;
-         else
-             return false;
-     }
+        if (typeKey.equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY))
+            return true;
+        else
+            return false;
+    }
 
     private boolean checkTypeForHolidayCalendar(String typeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-         if (typeKey.equals(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY))
-             return true;
-         else
-             return false;
+        if (typeKey.equals(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY))
+            return true;
+        else
+            return false;
     }
 
     private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -1413,8 +1412,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     private boolean checkTypeForAcalEventType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-           List<TypeInfo> types = getAcalEventTypes(context);
-           return checkTypeInTypes(typeKey, types);
+        List<TypeInfo> types = getAcalEventTypes(context);
+        return checkTypeInTypes(typeKey, types);
     }
 
     private boolean checkTypeForKeydateType(String kdtypeKey, String termType, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -1702,18 +1701,18 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<TypeInfo> getKeyDateTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-       List<TypeInfo> kdTypes = new ArrayList<TypeInfo>();
-       List<TypeInfo> instructionalKDs = getTypesForGroupType("kuali.milestone.type.group.instructional", contextInfo);
-       if (instructionalKDs != null && !instructionalKDs.isEmpty()) {
-           kdTypes.addAll(instructionalKDs);
-       }
+        List<TypeInfo> kdTypes = new ArrayList<TypeInfo>();
+        List<TypeInfo> instructionalKDs = getTypesForGroupType("kuali.milestone.type.group.instructional", contextInfo);
+        if (instructionalKDs != null && !instructionalKDs.isEmpty()) {
+            kdTypes.addAll(instructionalKDs);
+        }
 
-       List<TypeInfo> registrationKDs = getTypesForGroupType("kuali.milestone.type.group.registration", contextInfo);
-       if (registrationKDs != null && !registrationKDs.isEmpty()) {
-           kdTypes.addAll(registrationKDs);
-       }
+        List<TypeInfo> registrationKDs = getTypesForGroupType("kuali.milestone.type.group.registration", contextInfo);
+        if (registrationKDs != null && !registrationKDs.isEmpty()) {
+            kdTypes.addAll(registrationKDs);
+        }
 
-       return kdTypes;
+        return kdTypes;
 
     }
 
@@ -1950,26 +1949,26 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AcalEventInfo createAcalEvent(String academicCalendarId, String acalEventTypeKey, AcalEventInfo acalEventInfo, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-            if(checkTypeForAcalEventType(acalEventTypeKey, contextInfo)){
-                try {
-                    MilestoneInfo milestoneInfo = acalEventAssembler.disassemble(acalEventInfo, contextInfo);
-                    if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
-                        milestoneInfo.setTypeKey(acalEventTypeKey);
-                    }
-
-                    MilestoneInfo newMilestone = atpService.createMilestone(acalEventTypeKey, milestoneInfo, contextInfo);
-
-                    atpService.addMilestoneToAtp(newMilestone.getId(), academicCalendarId, contextInfo);
-                    return acalEventAssembler.assemble(newMilestone, contextInfo);
-
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("Error disassembling AcalEvent", e);
-                } catch (AlreadyExistsException e) {
-                    throw new OperationFailedException("Error associating AcalEvent with AcademicCalendar", e);
+        if(checkTypeForAcalEventType(acalEventTypeKey, contextInfo)){
+            try {
+                MilestoneInfo milestoneInfo = acalEventAssembler.disassemble(acalEventInfo, contextInfo);
+                if (StringUtils.isBlank(milestoneInfo.getTypeKey())) {
+                    milestoneInfo.setTypeKey(acalEventTypeKey);
                 }
-            } else {
-                throw new InvalidParameterException("AcalEvent type not found: '" + acalEventTypeKey + "'");
+
+                MilestoneInfo newMilestone = atpService.createMilestone(acalEventTypeKey, milestoneInfo, contextInfo);
+
+                atpService.addMilestoneToAtp(newMilestone.getId(), academicCalendarId, contextInfo);
+                return acalEventAssembler.assemble(newMilestone, contextInfo);
+
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("Error disassembling AcalEvent", e);
+            } catch (AlreadyExistsException e) {
+                throw new OperationFailedException("Error associating AcalEvent with AcademicCalendar", e);
             }
+        } else {
+            throw new InvalidParameterException("AcalEvent type not found: '" + acalEventTypeKey + "'");
+        }
 
     }
 
@@ -2243,7 +2242,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 instructionalPeriodKeyDate.getEndDate() == null ){
             return 0;
         }
-        
+
         int instructionalDaysForTerm = 0;
         DateMidnight currentDate = new DateMidnight(instructionalPeriodKeyDate.getStartDate().getTime());
         DateMidnight endDate = new DateMidnight(instructionalPeriodKeyDate.getEndDate().getTime());
@@ -2259,7 +2258,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         // subtract non-instructional holidays which fall on instructional days
         instructionalDaysForTerm -=
                 _getNumberOfNonInstructionalHolidaysForTerm(termAtp, instructionalPeriodKeyDate, contextInfo);
-        
+
         return instructionalDaysForTerm;
     }
 
@@ -2339,7 +2338,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 }
             }
         }
-        
+
         return nonInstructionalHolidayDates.size();
     }
 
@@ -2583,8 +2582,26 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<TypeInfo> getExamPeriodTypesForTermType(String termTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException ("has not been implemented yet!");
+        List<TypeInfo> types;
+        try {
+            // TODO: change this when the new contract gets merged in because it does not have the refobject uri as a parameter
+            types = this.typeService.getAllowedTypesForType(termTypeKey, contextInfo);
+        } catch (PermissionDeniedException ex) {
+            throw new OperationFailedException("TODO: change the contract to allow this method, getExamPeriodTypesForTermType, to throw the PermissionDeniedException", ex);
         }
+        // filter by ref object uri
+        List<TypeInfo> list = new ArrayList<TypeInfo>(types.size());
+        for (TypeInfo type : types) {
+            if (type.getRefObjectUri() == null) {
+                throw new NullPointerException(type.getKey());
+            }
+
+            if (StringUtils.equals(type.getRefObjectUri(),AtpServiceConstants.REF_OBJECT_URI_ATP)) {
+                list.add(type);
+            }
+        }
+        return list;
+    }
 
     @Override
     public StateInfo getExamPeriodState(String examPeriodStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
