@@ -382,7 +382,8 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     */
     @RequestMapping(params = "methodToCall=cancelSelectedAoList")
     public ModelAndView cancelSelectedAoList(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
-        theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL);
+        //Going to set this earlier, don't think we need this
+        //theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL);
         ARGActivityOfferingClusterHandler.cancelSelectedAoList(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
@@ -604,7 +605,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=cancelAOs")
     public ModelAndView cancelAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
+        theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL);
         ARGCourseOfferingHandler.prepareCSRConfirmationView(theForm, "cancelAOs", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND);
         return getUIFModelAndView(theForm, CourseOfferingConstants.AO_CANCEL_CONFIRM_PAGE);
     }
@@ -612,7 +613,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=suspendAOs")
     public ModelAndView suspendAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
+        theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND);
         ARGCourseOfferingHandler.prepareCSRConfirmationView(theForm, "suspendAOs", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND);
         return getUIFModelAndView(theForm, CourseOfferingConstants.AO_SUSPEND_CONFIRM_PAGE);
     }
@@ -620,7 +621,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=reinstateAOs")
     public ModelAndView reinstateAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-
+        theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE);
         ARGCourseOfferingHandler.prepareCSRConfirmationView(theForm, "reinstateAOs", CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_REINSTATE);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }

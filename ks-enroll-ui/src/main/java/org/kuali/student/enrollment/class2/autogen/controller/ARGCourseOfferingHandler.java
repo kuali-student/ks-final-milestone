@@ -220,14 +220,17 @@ public class ARGCourseOfferingHandler {
                 if(ao.isEnableCancelButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
                 }
+                theForm.setCsrLabel("Cancel");
             }if("suspendAOs".equals(methodToCall)){
                 if(ao.isEnableSuspendButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
                 }
-            }if("reistateAOs".equals(methodToCall)){
+                theForm.setCsrLabel("Suspend");
+            }if("reinstateAOs".equals(methodToCall)){
                 if(ao.isEnableReinstateButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
                 }
+                theForm.setCsrLabel("Reinstate");
             }
 
             if(isEnabled && ao.getIsCheckedByCluster()) {

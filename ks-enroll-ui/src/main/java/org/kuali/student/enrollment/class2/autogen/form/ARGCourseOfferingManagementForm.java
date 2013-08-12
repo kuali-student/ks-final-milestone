@@ -177,6 +177,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String clusterIdForAOMove;
     private String selectedFOIDForAOMove;
     private String selectedFONameForAOMove;
+    private String csrLabel;
             
     private ActivityOfferingClusterWrapper selectedCluster;
     private int aoCount=0;
@@ -792,4 +793,13 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     public void setRequisiteLink(boolean requisiteLink) {
         this.requisiteLink = requisiteLink;
     }
+
+    public String getCsrLabel() {
+        return csrLabel;
+    }
+
+    public void setCsrLabel(String csrLabel) {
+        this.csrLabel = csrLabel;
+    }
+
 }

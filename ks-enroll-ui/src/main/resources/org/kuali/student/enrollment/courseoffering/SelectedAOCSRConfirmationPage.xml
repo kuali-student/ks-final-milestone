@@ -27,7 +27,7 @@
         <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect title of the page.
              ie: from "Course Offerings" to "Cancel Activity Offerings"
              This is a work-around, at least until KRAD 2.3-m3 -->
-        <property name="onDocumentReadyScript" value="updateViewHeaderText( 'Cancel Activity Offerings' );" />
+        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{csrLabel} Activity Offerings' );" />
         <property name="headerText" value="@{currentCourseOfferingWrapper.courseOfferingCode}" />
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
@@ -43,7 +43,7 @@
         <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Cancel Activity Offerings" />
+                    <property name="label" value="@{csrLabel} Activity Offerings" />
                 </bean>
             </list>
         </property>
@@ -61,8 +61,12 @@
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoCancelConfirmationCancelButton" p:actionLabel="Cancel Activity Offering(s)" p:methodToCall="cancelSelectedAoList"/>
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelCancelAOs" />
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoCancelConfirmationCancelButton" p:actionLabel="Cancel Activity Offering(s)" p:methodToCall="cancelSelectedAoList" p:render="@{actionCSR == 'cancelAO'}"/>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoSuspendConfirmationCancelButton" p:actionLabel="Suspend Activity Offering(s)" p:methodToCall="suspendSelectedAoList" p:render="@{actionCSR == 'suspendAO'}"/>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="AoReinstateConfirmationCancelButton" p:actionLabel="Reinstate Activity Offering(s)" p:methodToCall="reinstateSelectedAoList" p:render="@{actionCSR == 'reinstateAO'}"/>
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelCancelAOs" p:render="@{actionCSR=='cancelAO'}" />
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelSuspendAOs" p:render="@{actionCSR=='suspendAO'}" />
+                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelReinstateAOs" p:render="@{actionCSR=='reinstateAO'}" />
                                 </list>
                             </property>
                         </bean>
@@ -79,7 +83,7 @@
           p:style="underline">
         <property name="items">
             <list>
-                <bean id="KS-SelectedAoCancelConfirmation-Message" parent="Uif-VerticalBoxSection">
+                <bean id="KS-SelectedAoCSRConfirmation-Message" parent="Uif-VerticalBoxSection">
                     <property name="disclosure.render" value="false"/>
                     <property name="items" >
                         <list>
@@ -89,6 +93,7 @@
                 </bean>
 
                 <bean id="KS-SelectedAoCancelConfirmation-WarningMessage" parent="Uif-VerticalBoxSection">
+                    <property name="render" value="@{actionCSR=='cancelAO'}"/>
                     <property name="headerText"
                               value=""/>
                     <property name="style" value="background-color:#FFEE99"/>
@@ -120,7 +125,7 @@
                                   p:messageText="This is a crosslisted course."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="You are about to permanently cancel the following activity offering(s) from this course offering."
+                                  p:messageText="You are about to cancel the following activity offering(s) from this course offering."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
 
                             <bean parent="Uif-Message"
@@ -128,7 +133,111 @@
                                   p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
                             <bean parent="Uif-Message"
-                                  p:messageText="You are about to permanently cancel the following activity offering(s) from this course offering."
+                                  p:messageText="You are about to cancel the following activity offering(s) from this course offering."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="Affected Activities:  @{selectedToCSRList.size()}"
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="KS-SelectedAoReinstateConfirmation-WarningMessage" parent="Uif-VerticalBoxSection">
+                    <property name="render" value="@{actionCSR=='reinstateAO'}"/>
+                    <property name="headerText"
+                              value=""/>
+                    <property name="style" value="background-color:#FFEE99"/>
+                    <property name="disclosure.render" value="false"/>
+                    <property name="items" >
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Colocated Activity Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Components of one or more of the listed activities are co-located."
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Deleting will remove the activity offering(s) and break the relationship with the co-located activities and courses."
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png&quot;] icon(s) in the table below for more information."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"  p:render="@{currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Crosslisted Course Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != '' and !currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Crosslisted Course Warning"
+                                  p:style="background-color:#FFEE99;   margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != '' and currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="This is a crosslisted course."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="You are about to reinstate the following activity offering(s) from this course offering."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;] Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
+                            <bean parent="Uif-Message"
+                                  p:messageText="You are about to reinstate the following activity offering(s) from this course offering."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="Affected Activities:  @{selectedToCSRList.size()}"
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="KS-SelectedAoSuspendConfirmation-WarningMessage" parent="Uif-VerticalBoxSection">
+                    <property name="render" value="@{actionCSR=='suspendAO'}"/>
+                    <property name="headerText"
+                              value=""/>
+                    <property name="style" value="background-color:#FFEE99"/>
+                    <property name="disclosure.render" value="false"/>
+                    <property name="items" >
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Colocated Activity Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Components of one or more of the listed activities are co-located."
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Deleting will remove the activity offering(s) and break the relationship with the co-located activities and courses."
+                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png&quot;] icon(s) in the table below for more information."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"  p:render="@{currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Crosslisted Course Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != '' and !currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Crosslisted Course Warning"
+                                  p:style="background-color:#FFEE99;   margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != '' and currentCourseOfferingWrapper.colocatedAoToCSR}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="This is a crosslisted course."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="You are about to suspend the following activity offering(s) from this course offering."
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
+
+                            <bean parent="Uif-Message"
+                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;] Warning"
+                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
+                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
+                            <bean parent="Uif-Message"
+                                  p:messageText="You are about to suspend the following activity offering(s) from this course offering."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
 
@@ -159,6 +268,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-DataField"  p:showLabel="false" p:propertyName="aoInfo.activityCode"/>
+                                        <!--Colocated is not in scope for M8
                                         <bean parent="Uif-ImageField" p:image.altText="@{#lp.colocatedAoInfoUI}"
                                               p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                                             <property name="style" value="padding-left:5px"/>
@@ -166,6 +276,7 @@
                                                 <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
                                             </property>
                                         </bean>
+                                        -->
                                     </list>
                                 </property>
                             </bean>
