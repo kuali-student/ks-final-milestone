@@ -80,7 +80,7 @@ public class CourseOfferingConstants {
     public static final String MANAGE_CO_LIST_SECTION = "KS-CourseOfferingManagement-CourseOfferingResultSection";
     public static final String CO_DELETE_CONFIRM_PAGE = "coDeleteConfirmationPage";
     public static final String AO_DELETE_CONFIRM_PAGE = "selectedAoDeleteConfirmationPage";
-    public static final String AO_CANCEL_CONFIRM_PAGE = "selectedAoCancelConfirmationPage";
+    public static final String AO_CANCEL_CONFIRM_PAGE = "selectedAOCSRConfirmationPage";
     public static final String REG_GROUP_PAGE = "manageRegistrationGroupsPage";
     public static final String COPY_CO_PAGE = "copyCourseOfferingPage";
     public static final String SEARCH_PAGE = "searchInputPage";
