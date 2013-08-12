@@ -76,7 +76,10 @@ import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -96,7 +99,11 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 @Daos({@Dao(value = "org.kuali.student.r2.lum.lu.dao.impl.LuDaoImpl", testSqlFile = "classpath:ks-lu.sql")})
 @PersistenceFileLocation("classpath:META-INF/lu-persistence.xml")
 @FixMethodOrder(NAME_ASCENDING)
+@ContextConfiguration(locations = {"classpath:course-test-context.xml"})
 public class TestCluServiceImpl extends AbstractServiceTest {
+
+    @Autowired
+    LuDao luDao;
     @Client(value = "org.kuali.student.r2.lum.lu.service.impl.CluServiceImpl", additionalContextFile = "classpath:clu-additional-context.xml")
     public CluService client;
 
@@ -3674,4 +3681,22 @@ public class TestCluServiceImpl extends AbstractServiceTest {
         }
     }
 
+    @Test
+    public void test70GetCluResultsByClus() throws MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
+        List<String> cluIds = new ArrayList<String>();
+        cluIds.add("CLU-1");
+        cluIds.add("CLU-2");
+        cluIds.add("CLU-3");
+
+        List<CluResultInfo> cluResultInfos = client.getCluResultsByClus(cluIds,  ContextUtils.getContextInfo());
+
+        assertNotNull(cluResultInfos);
+        assertEquals(3,cluResultInfos.size());
+        boolean bool = false;
+        for(CluResultInfo cluResultInfo : cluResultInfos) {
+            if(cluResultInfo.getCluId().equals("CLU-1"))
+                bool = true;
+        }
+        assertTrue(bool);
+    }
 }
