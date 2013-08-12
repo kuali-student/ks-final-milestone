@@ -104,7 +104,7 @@ public class ARGActivityOfferingClusterHandler {
 
     public static void cancelSelectedAoList(ARGCourseOfferingManagementForm theForm) throws Exception {
 
-        List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToCancelList();
+        List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToCSRList();
 
         try {
             for (ActivityOfferingWrapper ao : selectedAolist) {

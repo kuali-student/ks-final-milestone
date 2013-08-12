@@ -38,6 +38,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCrea
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
@@ -381,6 +382,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     */
     @RequestMapping(params = "methodToCall=cancelSelectedAoList")
     public ModelAndView cancelSelectedAoList(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
+        theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL);
         ARGActivityOfferingClusterHandler.cancelSelectedAoList(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }
@@ -603,9 +605,9 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     public ModelAndView cancelAOs(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
-        List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToCancelList();
+        List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToCSRList();
         CourseOfferingWrapper currentCoWrapper = theForm.getCurrentCourseOfferingWrapper();
-        currentCoWrapper.setColocatedAoToCancel(false);
+        currentCoWrapper.setColocatedAoToCSR(false);
 
         boolean bNoDeletion = false;
         int checked = 0;
@@ -618,7 +620,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                 ao.setActivityCode(ao.getAoInfo().getActivityCode());
                 selectedIndexList.add(ao);
                 if(ao.isColocatedAO())  {
-                    currentCoWrapper.setColocatedAoToCancel(true);
+                    currentCoWrapper.setColocatedAoToCSR(true);
                 }
                 enabled++;
             } else if (ao.getIsCheckedByCluster()){
@@ -630,9 +632,9 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
         }
 
         if (selectedIndexList.isEmpty()) {
-            theForm.setSelectedIllegalAOInCancel(false);
+            theForm.setSelectedIllegalAOInCSR(false);
             if (bNoDeletion) {
-                theForm.setSelectedIllegalAOInCancel(true);
+                theForm.setSelectedIllegalAOInCSR(true);
             }
         }
 

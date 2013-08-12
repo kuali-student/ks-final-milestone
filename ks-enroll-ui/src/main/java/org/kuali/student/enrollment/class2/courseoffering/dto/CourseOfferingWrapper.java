@@ -54,7 +54,7 @@ public class CourseOfferingWrapper implements Serializable{
     private String coOwningDeptName;
 
     private boolean isColocatedAoToDelete;
-    private boolean isColocatedAoToCancel;
+    private boolean isColocatedAoToCSR;
     /**
      * Usage of this property only in create and edit CO screens. Basically, this is whether to
      * allow the user to select cross lists or not. If it's false, then the cross
@@ -340,12 +340,12 @@ public class CourseOfferingWrapper implements Serializable{
         isColocatedAoToDelete = colocatedAoToDelete;
     }
 
-    public boolean isColocatedAoToCancel() {
-        return isColocatedAoToCancel;
+    public boolean isColocatedAoToCSR() {
+        return isColocatedAoToCSR;
     }
 
-    public void setColocatedAoToCancel(boolean colocatedAoToCancel) {
-        isColocatedAoToCancel = colocatedAoToCancel;
+    public void setColocatedAoToCSR(boolean isColocatedAoToCSR) {
+        isColocatedAoToCSR = isColocatedAoToCSR;
     }
     /**
      * This method returns whether alternate code selection is allowed or not.

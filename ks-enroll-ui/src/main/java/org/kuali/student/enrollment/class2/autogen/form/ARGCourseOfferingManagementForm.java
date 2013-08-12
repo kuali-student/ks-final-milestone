@@ -127,7 +127,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
      * I dont think we need a seperate list to handle that - courseOfferingCopyWrapper
      */
     private List<ActivityOfferingWrapper> selectedToDeleteList;
-    private List<ActivityOfferingWrapper> selectedToCancelList;
+    private List<ActivityOfferingWrapper> selectedToCSRList;
     private CourseOfferingCopyWrapper courseOfferingCopyWrapper;
 
     private boolean isCrossListedCO;
@@ -149,7 +149,8 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private String toBeScheduledCourseOfferingsUI;
     private int toBeScheduledCourseOfferingsCount;
     private boolean selectedIllegalAOInDeletion = false;
-    private boolean selectedIllegalAOInCancel = false;
+    private boolean selectedIllegalAOInCSR = false;
+    private String actionCSR = "";
 
     private boolean withinPortal = true;
 
@@ -201,7 +202,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     public ARGCourseOfferingManagementForm (){
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
-        selectedToCancelList = new ArrayList<ActivityOfferingWrapper>();
+        selectedToCSRList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
         selectedCoToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
         clusterResultList = new ArrayList<ActivityOfferingClusterWrapper>();
@@ -292,12 +293,12 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.selectedToDeleteList = selectedToDeleteList;
     }
 
-    public List<ActivityOfferingWrapper> getSelectedToCancelList() {
-        return selectedToCancelList;
+    public List<ActivityOfferingWrapper> getSelectedToCSRList() {
+        return selectedToCSRList;
     }
 
-    public void setSelectedToCancelList(List<ActivityOfferingWrapper> selectedToCancelList) {
-        this.selectedToCancelList = selectedToCancelList;
+    public void setSelectedToCSRList(List<ActivityOfferingWrapper> selectedToCSRList) {
+        this.selectedToCSRList = selectedToCSRList;
     }
 
     public String getFormatIdForNewAO() {
@@ -376,12 +377,20 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
         this.selectedIllegalAOInDeletion = selectedIllegalAOInDeletion;
     }
 
-    public boolean isSelectedIllegalAOInCancel() {
-        return selectedIllegalAOInCancel;
+    public boolean isSelectedIllegalAOInCSR() {
+        return selectedIllegalAOInCSR;
     }
 
-    public void setSelectedIllegalAOInCancel(boolean selectedIllegalAOInCancel) {
-        this.selectedIllegalAOInCancel = selectedIllegalAOInCancel;
+    public void setSelectedIllegalAOInCSR(boolean selectedIllegalAOInCSR) {
+        this.selectedIllegalAOInCSR = selectedIllegalAOInCSR;
+    }
+
+    public String getActionCSR() {
+        return actionCSR;
+    }
+
+    public void setActionCSR(String actionCSR) {
+        this.actionCSR = actionCSR;
     }
 
     public boolean isWithinPortal() {
