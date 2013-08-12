@@ -51,6 +51,7 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE = "error.courseoffering.selected.AO.delete.confirmation";
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_CANCEL = "error.courseoffering.selected.AO.cancel.confirmation";
     public static final String COURSEOFFERING_INVALID_STATE_FOR_DELETE = "error.enroll.courseoffering.delete.invalid.state";
+    public static final String COURSEOFFERING_INVALID_STATE_FOR_CANCEL = "error.enroll.courseoffering.cancel.invalid.state";
     public static final String COURSEOFFERING_INVALID_AO_STATE_FOR_DELETE = "error.enroll.courseoffering.delete.invalid.ao.state";
     public static final String COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY = "error.courseoffering.aodraftonlyapproved";
     public static final String COURSEOFFERING_WITH_AO_ORG_APPROVED_ONLY = "error.courseoffering.aoorgonlyapproved";
@@ -79,8 +80,10 @@ public class CourseOfferingConstants {
     public static final String MANAGE_CO_PAGE = "manageCourseOfferingsPage";
     public static final String MANAGE_CO_LIST_SECTION = "KS-CourseOfferingManagement-CourseOfferingResultSection";
     public static final String CO_DELETE_CONFIRM_PAGE = "coDeleteConfirmationPage";
+    public static final String CO_CANCEL_CONFIRM_PAGE = "coCancelConfirmationPage";
     public static final String AO_DELETE_CONFIRM_PAGE = "selectedAoDeleteConfirmationPage";
     public static final String AO_CANCEL_CONFIRM_PAGE = "selectedAOCSRConfirmationPage";
+    public static final String AO_SUSPEND_CONFIRM_PAGE = "selectedAOCSRConfirmationPage";
     public static final String REG_GROUP_PAGE = "manageRegistrationGroupsPage";
     public static final String COPY_CO_PAGE = "copyCourseOfferingPage";
     public static final String SEARCH_PAGE = "searchInputPage";
@@ -133,6 +136,8 @@ public class CourseOfferingConstants {
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT="info.enroll.activityoffering.toolbar.draft" ;
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED="info.enroll.activityoffering.toolbar.approved" ;
     public static final String ACTIVITYOFFERING_TOOLBAR_CANCEL="info.enroll.activityoffering.toolbar.cancel";
+    public static final String ACTIVITYOFFERING_TOOLBAR_SUSPEND="info.enroll.activityoffering.toolbar.suspend";
+    public static final String ACTIVITYOFFERING_TOOLBAR_REINSTATE="info.enroll.activityoffering.toolbar.reinstate";
     public static final String COURSEOFFERING_TOOLBAR_DELETE="info.enroll.courseoffering.toolbar.delete" ;
     public static final String COURSEOFFERING_TOOLBAR_APPROVED="info.enroll.courseoffering.toolbar.approved" ;
     public static final String COURSEOFFERING_TOOLBAR_ADD="info.enroll.courseoffering.toolbar.add.success";

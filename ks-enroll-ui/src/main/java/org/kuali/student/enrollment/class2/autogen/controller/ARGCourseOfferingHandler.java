@@ -201,6 +201,62 @@ public class ARGCourseOfferingHandler {
         return CourseOfferingConstants.CO_DELETE_CONFIRM_PAGE;
     }
 
+    public static void prepareCSRConfirmationView(ARGCourseOfferingManagementForm theForm, String methodToCall, String warningMessage) throws Exception{
+
+        List<ActivityOfferingWrapper> aoList = theForm.getActivityWrapperList();
+        List<ActivityOfferingWrapper> selectedIndexList = theForm.getSelectedToCSRList();
+        CourseOfferingWrapper currentCoWrapper = theForm.getCurrentCourseOfferingWrapper();
+        currentCoWrapper.setColocatedAoToCSR(false);
+
+        boolean bNoDeletion = false;
+        int checked = 0;
+        int enabled = 0;
+
+        selectedIndexList.clear();
+        for(ActivityOfferingWrapper ao : aoList) {
+            boolean isEnabled = false;
+
+            if("cancelAOs".equals(methodToCall)){
+                if(ao.isEnableCancelButton() && ao.getIsCheckedByCluster()) {
+                    isEnabled = true;
+                }
+            }if("suspendAOs".equals(methodToCall)){
+                if(ao.isEnableSuspendButton() && ao.getIsCheckedByCluster()) {
+                    isEnabled = true;
+                }
+            }if("reistateAOs".equals(methodToCall)){
+                if(ao.isEnableReinstateButton() && ao.getIsCheckedByCluster()) {
+                    isEnabled = true;
+                }
+            }
+
+            if(isEnabled && ao.getIsCheckedByCluster()) {
+                ao.setActivityCode(ao.getAoInfo().getActivityCode());
+                selectedIndexList.add(ao);
+                if(ao.isColocatedAO())  {
+                    currentCoWrapper.setColocatedAoToCSR(true);
+                }
+                enabled++;
+            } else if (ao.getIsCheckedByCluster()){
+                checked++;
+                if (!bNoDeletion) {
+                    bNoDeletion = true;
+                }
+            }
+        }
+
+        if (selectedIndexList.isEmpty()) {
+            theForm.setSelectedIllegalAOInCSR(false);
+            if (bNoDeletion) {
+                theForm.setSelectedIllegalAOInCSR(true);
+            }
+        }
+
+        if(checked > enabled){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, warningMessage);
+        }
+    }
+
     public static void deleteBulkCos(ARGCourseOfferingManagementForm theForm) throws Exception {
         List<CourseOfferingListSectionWrapper> coList = theForm.getSelectedCoToDeleteList();
         int checked = 0;
