@@ -26,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
@@ -182,45 +183,92 @@ public class PlanController extends UifControllerBase {
 	}
 
 	@RequestMapping(params = "methodToCall=startAddPlannedCourseForm")
-	public ModelAndView startAddPlannedCourseForm(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
-			HttpServletRequest request, HttpServletResponse response) {
+	public ModelAndView startAddPlannedCourseForm(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		super.start(form, result, request, response);
 		// ignore the form returned by super.start()
 		PlanForm planForm = (PlanForm) form;
 
-		/**
-		 * Loading and returning quickAdd view if requested Pre-populating the
-		 * data for quickAdd view if requested for edit
-		 * 
-		 */
-		if (PlanConstants.ADD_DIALOG_PAGE.equals(form.getPageId())) {
-
+		boolean quickAdd = PlanConstants.ADD_DIALOG_PAGE.equals(form.getPageId());
+		if (quickAdd) {
 			if (hasText(planForm.getAtpId())) {
 				String termYear = KsapFrameworkServiceLocator.getTermHelper().getTerm(planForm.getAtpId()).getName();
 				planForm.setTermName(termYear);
 			} else {
-				return doPageRefreshError(planForm, "Could not open Quick Add.", null);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or invalid ATP ID");
+				return null;
 			}
+		}
 
-			if (hasText(planForm.getPlanItemId())) {
+		String pageId = planForm.getPageId();
+		boolean courseIdRequired = PlanConstants.COURSE_SUMMARY_DIALOG_PAGE.equals(pageId)
+				|| PlanConstants.COPY_DIALOG_PAGE.equals(pageId);
+		String courseId = form.getCourseId();
+
+		boolean hasPlanItem = hasText(planForm.getPlanItemId());
+		if (hasPlanItem) {
+			ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
+			PlanItemInfo planItem;
+			try {
+				planItem = getAcademicPlanService().getPlanItem(planForm.getPlanItemId(), context);
+			} catch (DoesNotExistException e) {
+				LOG.warn("Plan item " + planForm.getPlanItemId() + " does not exist", e);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plan item " + planForm.getPlanItemId()
+						+ " does not exist");
+				return null;
+			} catch (InvalidParameterException e) {
+				LOG.warn("Invalid plan item ID " + planForm.getPlanItemId(), e);
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+						"Invalid plan item ID " + planForm.getPlanItemId());
+				return null;
+			} catch (MissingParameterException e) {
+				throw new ServletException("LP lookup failure", e);
+			} catch (OperationFailedException e) {
+				throw new ServletException("LP lookup failure", e);
+			}
+			// TODO: Add course notes to plan info ?
+			//					if (hasText(planItemInfo.getDescr().getPlain())) {
+			//						planForm.setCourseNote(planItemInfo.getDescr().getPlain());
+			//					}
+			if (hasText(planItem.getRefObjectId())) {
+				courseId = planItem.getRefObjectId();
+				CourseInfo courseInfo;
 				try {
-					PlanItemInfo planItemInfo = getAcademicPlanService().getPlanItem(planForm.getPlanItemId(),
-							KsapFrameworkServiceLocator.getContext().getContextInfo());
-					// TODO: Add course notes to plan info
-					//					if (hasText(planItemInfo.getDescr().getPlain())) {
-					//						planForm.setCourseNote(planItemInfo.getDescr().getPlain());
-					//					}
-					if (hasText(planItemInfo.getRefObjectId())) {
-						CourseInfo courseInfo = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(
-								planItemInfo.getRefObjectId());
-						if (courseInfo != null && hasText(courseInfo.getCode())) {
-							planForm.setCourseCd(courseInfo.getCode());
-						}
-					}
-				} catch (Exception e) {
-					return doPageRefreshError(planForm, "Could not open Quick Add.", null);
+					courseInfo = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, context);
+				} catch (DoesNotExistException e) {
+					throw new ServletException("LP lookup failure", e);
+				} catch (InvalidParameterException e) {
+					throw new ServletException("LP lookup failure", e);
+				} catch (MissingParameterException e) {
+					throw new ServletException("LP lookup failure", e);
+				} catch (OperationFailedException e) {
+					throw new ServletException("LP lookup failure", e);
+				} catch (PermissionDeniedException e) {
+					throw new ServletException("LP lookup failure", e);
+				}
+				if (courseInfo != null && hasText(courseInfo.getCode())) {
+					planForm.setCourseCd(courseInfo.getCode());
 				}
 			}
+			if (planItem.getTypeKey().equalsIgnoreCase(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+				planForm.setBackup(true);
+			}
+		} else if (!quickAdd && !courseIdRequired) {
+			LOG.warn("Missing plan item for loading page " + planForm.getPageId());
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+					"Missing plan item for loading page " + planForm.getPageId());
+			return null;
+		}
+
+		if (courseId != null) {
+			planForm.setCourseSummaryDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(courseId));
+			//			planForm.setPlannedCourseSummary(getCourseDetailsInquiryService().getPlannedCourseSummaryById(courseId,
+			//					KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId()));
+		} else if (courseIdRequired) {
+			LOG.warn("Missing course ID for summary " + planForm.getPageId());
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+					"Missing course ID for summary " + planForm.getPageId());
+			return null;
 		}
 
 		return getUIFModelAndView(planForm);
@@ -295,18 +343,25 @@ public class PlanController extends UifControllerBase {
 		planItem = getWishlistPlanItem(course.getCourseId());
 
 		try {
+			boolean create = planItem == null;
 			if (planItem == null) {
 				planItem = new PlanItemInfo();
 				planItem.setTypeKey(newType);
 				planItem.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-				planItem = academicPlanService.createPlanItem(planItem, context);
+				planItem.setLearningPlanId(plan.getId());
 			} else {
+				assert plan.getId().equals(planItem.getLearningPlanId()) : plan.getId() + " "
+						+ planItem.getLearningPlanId();
 				wishlistEvents = makeRemoveEvent(planItem, course, form, null);
 			}
 			planItem.setRefObjectId(course.getCourseId());
 			planItem.setRefObjectType(PlanConstants.COURSE_TYPE);
 			planItem.setPlanPeriods(new java.util.ArrayList<String>(Arrays.asList(newAtpId)));
-			academicPlanService.updatePlanItem(planItem.getId(), planItem, context);
+			if (create) {
+				planItem = academicPlanService.createPlanItem(planItem, context);
+			} else {
+				planItem = academicPlanService.updatePlanItem(planItem.getId(), planItem, context);
+			}
 		} catch (DataValidationErrorException e) {
 			throw new IllegalArgumentException("LP service failure", e);
 		} catch (InvalidParameterException e) {
@@ -329,7 +384,7 @@ public class PlanController extends UifControllerBase {
 		if (wishlistEvents != null) {
 			events.putAll(wishlistEvents);
 		}
-		String plannedTerm = null;
+
 		try {
 			if (planItem != null) {
 				Map<String, String> params = new HashMap<String, String>();
@@ -347,8 +402,7 @@ public class PlanController extends UifControllerBase {
 			return doOperationFailedError(form, "Unable to create add event.", e);
 		}
 
-		events.putAll(makeUpdateTotalCreditsEvent(plannedTerm,
-				PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
+		events.putAll(makeUpdateTotalCreditsEvent(newAtpId, PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
 
 		form.setJavascriptEvents(events);
 

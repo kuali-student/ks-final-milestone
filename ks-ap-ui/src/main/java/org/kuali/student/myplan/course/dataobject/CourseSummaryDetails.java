@@ -197,22 +197,20 @@ public class CourseSummaryDetails implements Serializable {
 
 	public String getScheduledTermsNames() {
 		StringBuilder list = new StringBuilder();
+		if (scheduledTerms != null) {
+			for (int i = 0; i < scheduledTerms.size(); i++) {
+				String term = scheduledTerms.get(i);
+				String elemTxt = KsapFrameworkServiceLocator.getTermHelper().getTerm(term).getName();
 
-		for (int i = 0; i < scheduledTerms.size(); i++) {
-			String term = scheduledTerms.get(i);
-			String elemTxt = KsapFrameworkServiceLocator.getTermHelper()
-					.getTerm(term).getName();
+				// Convert Winter 2012 to WI 12
 
-			// Convert Winter 2012 to WI 12
-
-			Matcher m = CourseSearchConstants.TERM_PATTERN
-					.matcher(KsapFrameworkServiceLocator.getTermHelper()
-							.getTerm(term).getName());
-			if (m.matches()) {
-				elemTxt = m.group(1).substring(0, 2).toUpperCase() + " "
-						+ m.group(2);
+				Matcher m = CourseSearchConstants.TERM_PATTERN.matcher(KsapFrameworkServiceLocator.getTermHelper()
+						.getTerm(term).getName());
+				if (m.matches()) {
+					elemTxt = m.group(1).substring(0, 2).toUpperCase() + " " + m.group(2);
+				}
+				list.append(elemTxt + " ");
 			}
-			list.append(elemTxt + " ");
 		}
 		return list.toString();
 	}
@@ -220,12 +218,10 @@ public class CourseSummaryDetails implements Serializable {
 	public String getPlanningTerms() {
 		StringBuilder schTermsb = new StringBuilder();
 		for (String term : scheduledTerms) {
-			String termDescription = KsapFrameworkServiceLocator
-					.getTermHelper().getTerm(term).getDescr().getPlain();
+			String termDescription = KsapFrameworkServiceLocator.getTermHelper().getTerm(term).getDescr().getPlain();
 			Element schTermSpan = DocumentHelper.createElement("span");
 			schTermSpan.setText(termDescription);
-			Matcher m = CourseSearchConstants.TERM_PATTERN
-					.matcher(termDescription);
+			Matcher m = CourseSearchConstants.TERM_PATTERN.matcher(termDescription);
 			String termAbbreviation;
 			if (m.matches()) {
 				termAbbreviation = m.group(1).substring(0, 2).toUpperCase();
@@ -255,6 +251,5 @@ public class CourseSummaryDetails implements Serializable {
 		return "CourseSummaryDetails [courseId=" + courseId + ", code=" + code + ", subjectArea=" + subjectArea
 				+ ", courseNumber=" + courseNumber + ", courseTitle=" + courseTitle + "]";
 	}
-	
-	
+
 }

@@ -76,6 +76,8 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	public static final String WITHDRAWN_GRADE = "W";
 
     public static final String ADD_DIALOG_PAGE = "plan_item_add_page";
+	public static final String COURSE_SUMMARY_DIALOG_PAGE = "course_summary_dialog_page";
+	public static final String COPY_DIALOG_PAGE = "copy_dialog_page";
     public static final String COURSE_NOT_FOUND = "myplan.text.error.quickAdd.courseNotFound";
 	
 	/* Course Credit Types */

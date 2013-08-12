@@ -11,6 +11,21 @@ import org.kuali.student.r2.lum.course.infc.Course;
 public interface TermHelper {
 
 	/**
+	 * Front-load term and academic calendar data for the planner based on the
+	 * earliest ATP ID.
+	 * 
+	 * <p>
+	 * This method should have no impact on TermHelper functionality, but when
+	 * implemented will improve performance by loading all term data used by the
+	 * planner into the current transaction.
+	 * </p>
+	 * 
+	 * @param firstAtpId
+	 *            The earliest ATP ID in the planner.
+	 */
+	void frontLoadForPlanner(String firstAtpId);
+
+	/**
 	 * Look up a term by ATP ID.
 	 * 
 	 * @param atpId
