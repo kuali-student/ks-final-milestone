@@ -51,8 +51,7 @@ import java.util.Properties;
  * @author Kuali Student Team
  */
 @Controller
-// TODO: KSENROLL-6698 workaround for inability to exclude LookupController. Change back to "/lookup"
-@RequestMapping(value = "/ks-lookup")
+@RequestMapping(value = "/lookup")
 public class KSLookupController extends LookupController {
 
     private static final Logger LOG = Logger.getLogger(KSLookupController.class);
