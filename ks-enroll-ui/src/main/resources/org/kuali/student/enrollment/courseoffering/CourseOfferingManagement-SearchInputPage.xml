@@ -49,12 +49,14 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true" p:readOnly="false">
+                <bean parent="Uif-Label"  p:labelText="Term *" p:required="true" p:renderColon="false" />
+                <bean parent="Uif-InputField" p:propertyName="termCode" p:readOnly="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="inputCode" p:label="Course" p:required="true" p:readOnly="false" p:valign="left">
+                <bean parent="Uif-Label"  p:labelText="Course *" p:required="true" p:renderColon="false" />
+                <bean parent="Uif-InputField" p:propertyName="inputCode" p:readOnly="false" p:valign="left">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="30" p:watermarkText="ENGL or ENGL1 or ENGL101"/>
                     </property>
@@ -66,7 +68,7 @@
                     </property>
                     <property name="quickfinder.readOnlySearchFields" value="courseInfo.courseTitle" />
                     <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:methodToCall="performLookup" p:id="lookup_searchCourseCode"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Find a Course"  p:style="display:block" p:methodToCall="performLookup" p:id="lookup_searchCourseCode"/>
                     </property>
 
                     <property name="quickfinder.lightBoxLookup">
