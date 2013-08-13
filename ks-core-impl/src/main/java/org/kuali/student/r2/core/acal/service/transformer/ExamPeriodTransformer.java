@@ -20,7 +20,7 @@ import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
 /**
- * This class //TODO ...
+ * This class transforms between ExamPeriodInfo and ATP
  *
  * @author Kuali Student Team
  */

@@ -2583,12 +2583,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<TypeInfo> getExamPeriodTypesForTermType(String termTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> types;
-        try {
-            // TODO: change this when the new contract gets merged in because it does not have the refobject uri as a parameter
-            types = this.typeService.getAllowedTypesForType(termTypeKey, contextInfo);
-        } catch (PermissionDeniedException ex) {
-            throw new OperationFailedException("TODO: change the contract to allow this method, getExamPeriodTypesForTermType, to throw the PermissionDeniedException", ex);
-        }
+        types = this.typeService.getAllowedTypesForType(termTypeKey, contextInfo);
+
         // filter by ref object uri
         List<TypeInfo> list = new ArrayList<TypeInfo>(types.size());
         for (TypeInfo type : types) {
