@@ -310,36 +310,26 @@ public class ARGToolbarUtil {
 
                 //for Cancel AO button
                 if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL)) {
-                    activityWrapper.setEnableCancelButton(true);
-                    //later need to check role permission
-                    /*
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableCancelButton(true);
                     }
-                    */
                 }
 
                 //for Suspend AO button
                 if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND)) {
-                    activityWrapper.setEnableSuspendButton(true);
-                    /*
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableSuspendButton(true);
                     }
-                    */
                 }
 
                 //for Reinstate AO button
                 if (!activityWrapper.isColocatedAO() && checkBzLogicForAOButtons(socStateKey, socSchedulingState, aoStateKey, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE)) {
-                    activityWrapper.setEnableReinstateButton(true);
-                    /*
                     permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE);
                     if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
                         activityWrapper.setEnableReinstateButton(true);
                     }
-                    */
                 }
             }
         }
@@ -394,9 +384,11 @@ public class ARGToolbarUtil {
                 bzEnableButton = true;
             }
         } else if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND)){
-            if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) ||
+            if((StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) ||
                     StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ||
-                    StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)){
+                    StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY)) &&
+                    !StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) &&
+                    !StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)){
                 bzEnableButton = true;
             }
         } else if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE)){
