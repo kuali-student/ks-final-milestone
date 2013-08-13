@@ -243,4 +243,9 @@ public class RiceWebApplicationContextProxy implements WebApplicationContext {
     public Environment getEnvironment() {
         return applicationContext.getEnvironment();
     }
+
+	public String getApplicationName() {
+		return applicationContext.getApplicationName();
+	}
+
 }
