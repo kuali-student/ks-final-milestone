@@ -21,6 +21,7 @@ import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.AutowireCandidateResolver;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 
 /**
  * Short-term alternate for
@@ -231,7 +232,7 @@ public class RiceBeanFactory extends DefaultListableBeanFactory {
 	}
 
 	@Override
-	protected void populateBean(String beanName, AbstractBeanDefinition mbd,
+	protected void populateBean(String beanName, RootBeanDefinition mbd,
 			BeanWrapper bw) {
 		PopulatingBean obn = POPULATING.get();
 		try {

@@ -174,8 +174,6 @@ public class KsapDataDictionary extends DataDictionary implements
 				if (loader == this || ddBeans == null) {
 					ddBeans = loadingDdBeans;
 					ddIndex = loadingDdIndex;
-					if (uifIndex != null)
-						uifIndex.cancelActiveBuilders();
 					uifIndex = loadingUifIndex;
 					beanValidationFiles = loadingBeanValidationFiles;
 				}

@@ -2,6 +2,7 @@ package org.kuali.student.ap.framework.context.support;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,6 +29,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -92,7 +94,60 @@ public class DefaultTermHelper implements TermHelper {
 				cache(t);
 				rv.add(t);
 			}
+			Collections.sort(rv, new Comparator<Term>() {
+				@Override
+				public int compare(Term o1, Term o2) {
+					return o1.getStartDate().compareTo(o2.getStartDate());
+				}
+			});
 			return rv;
+		}
+
+		private void frontLoad(Date start, Date end) {
+			ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
+			AtpService atpService = KsapFrameworkServiceLocator.getAtpService();
+			AcademicCalendarService academicCalendarService = KsapFrameworkServiceLocator.getAcademicCalendarService();
+			try {
+				List<AtpInfo> atps = atpService.getAtpsByDates(start, end, ctx);
+				List<String> termIds = new java.util.ArrayList<String>(atps.size());
+				List<String> acalIds = new java.util.ArrayList<String>(atps.size());
+				List<String> termTypes = Arrays.asList(AcademicCalendarServiceConstants.TERM_TYPE_KEYS);
+				for (AtpInfo atp : atps) {
+					String atpType = atp.getTypeKey();
+					if (AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY.equals(atpType))
+						acalIds.add(atp.getId());
+					else if (termTypes.contains(atpType))
+						termIds.add(atp.getId());
+				}
+				List<AcademicCalendarInfo> acals = academicCalendarService.getAcademicCalendarsByIds(acalIds, ctx);
+				for (Term t : cache(academicCalendarService.getTermsByIds(termIds, ctx))) {
+					for (AcademicCalendarInfo acal : acals) {
+						if (!t.getStartDate().before(acal.getStartDate()) && !t.getEndDate().after(acal.getEndDate())) {
+							List<AcademicCalendarInfo> termAcals = acalMap.get(t.getId());
+							if (termAcals == null) {
+								acalMap.put(t.getId(), termAcals = new java.util.LinkedList<AcademicCalendarInfo>());
+							}
+							termAcals.add(acal);
+
+							List<Term> acalTerms = acalTermMap.get(acal.getId());
+							if (acalTerms == null) {
+								acalTermMap.put(t.getId(), acalTerms = new java.util.LinkedList<Term>());
+							}
+							acalTerms.add(t);
+						}
+					}
+				}
+			} catch (DoesNotExistException e) {
+				throw new IllegalArgumentException("ATP lookup failure", e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("ATP lookup failure", e);
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException("ATP lookup failure", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("ATP lookup failure", e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("ATP lookup failure", e);
+			}
 		}
 	}
 
@@ -103,6 +158,19 @@ public class DefaultTermHelper implements TermHelper {
 		}
 		return rv;
 	}
+
+	
+	@Override
+	public void frontLoadForPlanner(String firstAtpId) {
+		Date start = getTerm(firstAtpId).getStartDate();
+		Date end = null;
+		for (Term pt : getPlanningTerms()) {
+			if (end == null || end.before(pt.getEndDate()))
+				end = pt.getEndDate();
+		}
+		getTermMarker().frontLoad(start, end);
+	}
+
 
 	@Override
 	public Term getTerm(String atpId) {

@@ -32,9 +32,8 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 	private transient AcademicPlanService academicPlanService;
 	private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
 
-	protected List<PlannedCourseDataObject> getPlanItems(String planItemType,
-			String studentId) throws InvalidParameterException,
-			MissingParameterException, DoesNotExistException,
+	protected List<PlannedCourseDataObject> getPlanItems(String planItemType, String studentId)
+			throws InvalidParameterException, MissingParameterException, DoesNotExistException,
 			OperationFailedException {
 
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
@@ -42,37 +41,43 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 		AcademicPlanService academicPlanService = getAcademicPlanService();
 		String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
 
-		List<LearningPlanInfo> learningPlanList = academicPlanService
-				.getLearningPlansForStudentByType(studentId, planTypeKey,
-						KsapFrameworkServiceLocator.getContext()
-								.getContextInfo());
+		List<LearningPlanInfo> learningPlanList = academicPlanService.getLearningPlansForStudentByType(studentId,
+				planTypeKey, KsapFrameworkServiceLocator.getContext().getContextInfo());
+		Map<String, List<PlanItemInfo>> itemsByPlan = new java.util.HashMap<String, List<PlanItemInfo>>(
+				learningPlanList.size());
+		String firstAtpId = null;
 		for (LearningPlanInfo learningPlan : learningPlanList) {
 			String learningPlanID = learningPlan.getId();
-			List<PlanItemInfo> planItemList = academicPlanService
-					.getPlanItemsInPlan(learningPlanID,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
+			List<PlanItemInfo> planItems = academicPlanService.getPlanItemsInPlan(learningPlanID,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
+			itemsByPlan.put(learningPlanID, planItems);
+			for (PlanItemInfo item : planItems)
+				if (item.getPlanPeriods() != null)
+					for (String atp : item.getPlanPeriods())
+						if (firstAtpId == null || firstAtpId.compareTo(atp) > 0)
+							firstAtpId = atp;
+		}
+		
+		KsapFrameworkServiceLocator.getTermHelper().frontLoadForPlanner(firstAtpId);
 
+		for (List<PlanItemInfo> planItemList : itemsByPlan.values())
 			for (PlanItemInfo planItem : planItemList) {
 				PlannedCourseDataObject plannedCourseDO = new PlannedCourseDataObject();
 				String courseID = planItem.getRefObjectId();
 				// Only create a data object for the specified type.
 				if (planItem.getTypeKey().equals(planItemType)) {
 
-					plannedCourseDO.setPlanItemDataObject(PlanItemDataObject
-							.build(planItem));
+					plannedCourseDO.setPlanItemDataObject(PlanItemDataObject.build(planItem));
 
-					if (getCourseDetailsInquiryService().isCourseIdValid(
-							courseID)) {
-						plannedCourseDO
-								.setCourseDetails(getCourseDetailsInquiryService()
-										.retrieveCourseSummaryById(courseID));
+					if (getCourseDetailsInquiryService().isCourseIdValid(courseID)) {
+						plannedCourseDO.setCourseDetails(getCourseDetailsInquiryService().retrieveCourseSummaryById(
+								courseID));
 					}
 
 					plannedCoursesList.add(plannedCourseDO);
 				}
 			}
-		}
+		
 		return plannedCoursesList;
 	}
 
@@ -84,16 +89,14 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 	 * @return
 	 */
 	@Override
-	public boolean validateSearchParameters(LookupForm form,
-			Map<String, String> searchCriteria) {
+	public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria) {
 		return true;
 	}
 
 	public AcademicPlanService getAcademicPlanService() {
 		if (academicPlanService == null) {
-			academicPlanService = (AcademicPlanService) GlobalResourceLoader
-					.getService(new QName(PlanConstants.NAMESPACE,
-							PlanConstants.SERVICE_NAME));
+			academicPlanService = (AcademicPlanService) GlobalResourceLoader.getService(new QName(
+					PlanConstants.NAMESPACE, PlanConstants.SERVICE_NAME));
 		}
 		return academicPlanService;
 	}

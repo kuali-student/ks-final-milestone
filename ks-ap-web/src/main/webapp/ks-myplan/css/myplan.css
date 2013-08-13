@@ -2562,3 +2562,59 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 .invisible {
     visibility: hidden;
 }
+
+
+/*
+ * IU's efforts to remove inline styles and place them in appropriate classes.
+ */
+
+.ks-plan-Header-headline {
+    margin: 0;
+    width: 440px;
+}
+
+.ks-plan-Header-buttonWrapper {
+    margin: 0;
+    text-align: right;
+    width: 90px;   
+}
+
+.ks-plan-Header-button {
+    margin: 0;
+}
+
+.ks-plan-Header-button--next {}
+
+.ks-plan-Header-button--previous {}
+
+.ks-plan-Header-buttonImage {
+    margin: 0;
+}
+
+.ks-plan-Loader {
+    margin-right: 10px;
+    min-height: 400px;
+    width: 620px;
+}
+
+.ks-plan-Loader .blockOverlay {
+    background-color: #fff !important;
+    cursor: wait;
+    opacity: 0;
+}
+
+.ks-plan-Loader .blockMsg {
+    background-color: #fffdd7;
+    border: 1px solid #ffd14c !important;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    width: 230px !important;
+}
+
+.ks-plan-Widgets {
+    margin: 0;
+    width: 310px;
+}
