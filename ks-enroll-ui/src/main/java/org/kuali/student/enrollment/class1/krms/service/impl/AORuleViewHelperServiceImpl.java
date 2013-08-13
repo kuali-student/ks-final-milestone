@@ -182,7 +182,7 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
             for(int i = 0; i < propositionEditor.getCompoundEditors().size(); i++) {
                 LUPropositionEditor prop = (LUPropositionEditor) propositionEditor.getCompoundEditors().get(i);
                 if(prop.getParameters() != null) {
-                    for(PropositionParameterEditor param : propositionEditor.getParameters()) {
+                    for(PropositionParameterEditor param : prop.getParameters()) {
                         param.setPropId(null);
                         param.setValue(null);
                     }
