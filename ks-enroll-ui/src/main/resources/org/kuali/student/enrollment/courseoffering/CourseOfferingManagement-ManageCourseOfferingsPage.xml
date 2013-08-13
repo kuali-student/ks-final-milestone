@@ -126,7 +126,18 @@
                                 <property name="toolTip">
                                     <bean parent="Uif-Tooltip" p:tooltipContent="@{#lp.crossListedCodesUI}"/>
                                 </property>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <!-- Don't render the tooltip elements if they aren't needed -->
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip" p:condition="@{#lp.alternateCOCodes.isEmpty()}">
+                                            <property name="replacement">
+                                                <null/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
                             </bean>
+
                         </list>
                     </property>
                 </bean>

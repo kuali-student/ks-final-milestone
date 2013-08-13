@@ -69,7 +69,6 @@
                       p:onClickScript="jQuery('input.required[value=]').removeClass('required');writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                       p:actionLabel="Delete&#160;&#160;|&#160;&#160;"  p:style="float:right"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCluster"/>
-
             </list>
         </property>
 
@@ -142,7 +141,17 @@
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/ActivityRuleIcon6px.png">
                                 <property name="style" value="padding-left:3px padding-bottom:3px;"/>
                                 <property name="toolTip">
-                                    <bean parent="Uif-Tooltip" p:tooltipContent="This Activity has requisite(s)in addition to any of the course offering"/>
+                                    <bean parent="Uif-Tooltip" p:tooltipContent="This Activity has requisite(s) in addition to any of the course offering"/>
+                                </property>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <!-- Don't render the tooltip elements if they aren't needed -->
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip" p:condition="@{#lp.hasRuleAttached eq false}">
+                                            <property name="replacement">
+                                                <null/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}"
@@ -151,6 +160,16 @@
                                 <property name="style" value="padding-left:3px"/>
                                 <property name="toolTip">
                                     <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
+                                </property>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <!-- Don't render the tooltip elements if they aren't needed -->
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip" p:condition="@{#lp.colocatedAoInfo.isEmpty()}">
+                                            <property name="replacement">
+                                                <null/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.subTermName eq 'None'}"

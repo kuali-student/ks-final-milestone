@@ -1443,10 +1443,6 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
         //Interpret new server message state for refreshed InputFields and write them out
         profile(true,"hiddenscripts");
         if (!skipValidationBubbling) {
-
-            //reinitialize BubblePopup
-            initBubblePopups();
-
             jQuery(selector).find("div[data-role='InputField']").andSelf().filter("div[data-role='InputField']").each(function () {
                 var id = jQuery(this).attr('id');
                 var field = jQuery("#" + id);
@@ -1465,11 +1461,9 @@ function runHiddenScripts(id, isSelector, skipValidationBubbling) {
     }
     else {
         evaluateScripts();
-
-        //reinitialize BubblePopup
-        initBubblePopups();
     }
-
+    //reinitialize BubblePopup
+    initBubblePopups();
 }
 //END: Please REMOVE THIS CODE AFTER THE RICE 2.3-RC1 Upgrade!!!
 //*********************************************************************************************
