@@ -50,6 +50,8 @@ public class CourseOfferingConstants {
     public static final String AO_NOT_DRAFT_FOR_DELETION_ERROR = "error.courseoffering.selected.aos.notdraft";
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE = "error.courseoffering.selected.AO.delete.confirmation";
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_CANCEL = "error.courseoffering.selected.AO.cancel.confirmation";
+    public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_SUSPEND = "error.courseoffering.selected.AO.suspend.confirmation";
+    public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_REINSTATE = "error.courseoffering.selected.AO.reinstate.confirmation";
     public static final String COURSEOFFERING_INVALID_STATE_FOR_DELETE = "error.enroll.courseoffering.delete.invalid.state";
     public static final String COURSEOFFERING_INVALID_STATE_FOR_CANCEL = "error.enroll.courseoffering.cancel.invalid.state";
     public static final String COURSEOFFERING_INVALID_AO_STATE_FOR_DELETE = "error.enroll.courseoffering.delete.invalid.ao.state";
@@ -146,7 +148,9 @@ public class CourseOfferingConstants {
     public static final String ACTIVITYOFFERING_TOOLBAR_DELETE_N_SUCCESS="info.enroll.activityoffering.toolbar.delete.n.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT_N_SUCCESS="info.enroll.activityoffering.toolbar.draft.n.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED_N_SUCCESS="info.enroll.activityoffering.toolbar.approved.n.success";
-    public static final String ACTIVITYOFFERING_TOOLBAR_CANCEL_N_SUCCESS="info.enroll.activityoffering.toolbar.cancel.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_CANCEL_N_SUCCESS="info.enroll.activityoffering.toolbar.cancel.n.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_SUSPEND_N_SUCCESS="info.enroll.activityoffering.toolbar.suspend.n.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_REINSTATE_N_SUCCESS="info.enroll.activityoffering.toolbar.reinstate.n.success";
     public static final String COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS="info.enroll.courseoffering.toolbar.delete.n.success";
     public static final String COURSEOFFERING_TOOLBAR_APPROVED_N_SUCCESS="info.enroll.courseoffering.toolbar.approved.n.success";
 
@@ -155,6 +159,8 @@ public class CourseOfferingConstants {
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT_1_SUCCESS="info.enroll.activityoffering.toolbar.draft.1.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED_1_SUCCESS="info.enroll.activityoffering.toolbar.approved.1.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_CANCEL_1_SUCCESS="info.enroll.activityoffering.toolbar.cancel.1.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_SUSPEND_1_SUCCESS="info.enroll.activityoffering.toolbar.suspend.1.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_REINSTATE_1_SUCCESS="info.enroll.activityoffering.toolbar.reinstate.1.success";
     public static final String COURSEOFFERING_TOOLBAR_DELETE_1_SUCCESS="info.enroll.courseoffering.toolbar.delete.1.success";
     public static final String COURSEOFFERING_TOOLBAR_APPROVED_1_SUCCESS="info.enroll.courseoffering.toolbar.approved.1.success";
 

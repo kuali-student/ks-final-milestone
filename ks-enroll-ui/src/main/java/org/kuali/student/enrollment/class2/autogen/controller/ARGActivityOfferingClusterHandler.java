@@ -133,6 +133,68 @@ public class ARGActivityOfferingClusterHandler {
         }
     }
 
+    public static void suspendSelectedAoList(ARGCourseOfferingManagementForm theForm) throws Exception {
+
+        List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToCSRList();
+
+        try {
+            for (ActivityOfferingWrapper ao : selectedAolist) {
+                // The adapter does not technically need an AOC ID, so I'm setting it to null
+                ARGUtil.getCsrServiceFacade().suspendActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+            }
+
+            // check for changes to states in CO and related FOs
+            CourseOfferingViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), ContextBuilder.loadContextInfo());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+
+        if (selectedAolist.size() > 0 && theForm.isSelectedIllegalAOInDeletion()) {
+            GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
+                    CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_SUSPEND);
+        }
+
+        if (selectedAolist.size() > 1) {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND_N_SUCCESS);
+        } else {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND_1_SUCCESS);
+        }
+    }
+
+    public static void reinstateSelectedAoList(ARGCourseOfferingManagementForm theForm) throws Exception {
+
+        List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToCSRList();
+
+        try {
+            for (ActivityOfferingWrapper ao : selectedAolist) {
+                // The adapter does not technically need an AOC ID, so I'm setting it to null
+                ARGUtil.getCsrServiceFacade().reinstateActivityOffering(ao.getAoInfo().getId(), ContextBuilder.loadContextInfo());
+            }
+
+            // check for changes to states in CO and related FOs
+            CourseOfferingViewHelperUtil.updateCourseOfferingStateFromActivityOfferingStateChange(theForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo(), ContextBuilder.loadContextInfo());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        ARGUtil.reloadTheCourseOfferingWithAOs_RGs_Clusters(theForm);
+
+        if (selectedAolist.size() > 0 && theForm.isSelectedIllegalAOInDeletion()) {
+            GlobalVariables.getMessageMap().putWarningForSectionId("manageActivityOfferingsPage",
+                    CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_REINSTATE);
+        }
+
+        if (selectedAolist.size() > 1) {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_REINSTATE_N_SUCCESS);
+        } else {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_REINSTATE_1_SUCCESS);
+        }
+    }
+
     public static void deleteSelectedAoList(ARGCourseOfferingManagementForm theForm) throws Exception {
 
         List<ActivityOfferingWrapper> selectedAolist = theForm.getSelectedToDeleteList();
