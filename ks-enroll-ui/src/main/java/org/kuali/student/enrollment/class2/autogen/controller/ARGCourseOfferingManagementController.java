@@ -637,7 +637,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE);
         ARGCourseOfferingHandler.prepareCSRConfirmationView(theForm, ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_REINSTATE, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_REINSTATE);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_REINSTATE_CONFIRM_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=deleteAOs")
