@@ -31,18 +31,15 @@ public class KeyDatesGroupWrapper {
     private String keyDateGroupType;
     private String keyDateGroupNameUI;
     private List<KeyDateWrapper> keydates;
-    private List<ExamPeriodWrapper> examdates;
 
     private TypeInfo typeInfo;
 
     public KeyDatesGroupWrapper(){
         keydates = new ArrayList<KeyDateWrapper>();
-        examdates = new ArrayList<ExamPeriodWrapper>();
     }
 
     public KeyDatesGroupWrapper(String keydateGroupType,String nameUI){
         this.keydates = new ArrayList<KeyDateWrapper>();
-        this.examdates = new ArrayList<ExamPeriodWrapper>();
         this.keyDateGroupType = keydateGroupType;
         this.keyDateGroupNameUI = nameUI;
     }
@@ -74,14 +71,6 @@ public class KeyDatesGroupWrapper {
      */
     public void setKeydates(List<KeyDateWrapper> keydates) {
         this.keydates = keydates;
-    }
-
-    public List<ExamPeriodWrapper> getExamdates() {
-        return examdates;
-    }
-
-    public void setExamdates(List<ExamPeriodWrapper> examdates) {
-        this.examdates = examdates;
     }
 
     public TypeInfo getTypeInfo() {
