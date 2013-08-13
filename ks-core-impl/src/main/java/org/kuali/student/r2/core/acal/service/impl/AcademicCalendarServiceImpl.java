@@ -2674,7 +2674,22 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public ExamPeriodInfo updateExamPeriod(String examPeriodId, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new OperationFailedException ("has not been implemented yet!");
+        AtpInfo existingAtp = atpService.getAtp(examPeriodId, contextInfo);
+        AtpInfo toUpdateAtp = new AtpInfo();
+
+        examPeriodTransformer.ExamPeriod2Atp(examPeriodInfo, toUpdateAtp);
+
+        if (!StringUtils.equals(existingAtp.getStateKey(), examPeriodInfo.getStateKey())) {
+            throw new OperationFailedException("State cant be updated with this call. Please use changeExamPeriodState() instead.");
+        }
+
+        AtpInfo updatedAtp = atpService.updateAtp(examPeriodId, toUpdateAtp, contextInfo);
+
+        ExamPeriodInfo updatedExamPeriod = new ExamPeriodInfo();
+        examPeriodTransformer.atp2ExamPeriod(updatedAtp, updatedExamPeriod);
+
+
+        return updatedExamPeriod;
     }
 
     @Override
