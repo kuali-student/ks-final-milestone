@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrap
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExistingCourseOffering;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -216,17 +217,17 @@ public class ARGCourseOfferingHandler {
         for(ActivityOfferingWrapper ao : aoList) {
             boolean isEnabled = false;
 
-            if("cancelAOs".equals(methodToCall)){
+            if(ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_CANCEL.equals(methodToCall)){
                 if(ao.isEnableCancelButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
                 }
                 theForm.setCsrLabel("Cancel");
-            }if("suspendAOs".equals(methodToCall)){
+            }if(ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_SUSPEND.equals(methodToCall)){
                 if(ao.isEnableSuspendButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
                 }
                 theForm.setCsrLabel("Suspend");
-            }if("reinstateAOs".equals(methodToCall)){
+            }if(ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_REINSTATE.equals(methodToCall)){
                 if(ao.isEnableReinstateButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
                 }

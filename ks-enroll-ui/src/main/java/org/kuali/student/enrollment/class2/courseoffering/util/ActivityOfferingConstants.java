@@ -52,5 +52,8 @@ public class ActivityOfferingConstants {
     public static final String ACTIVITYOFFERING_ACTION_CANCEL = "cancelAO";
     public static final String ACTIVITYOFFERING_ACTION_SUSPEND = "suspendAO";
     public static final String ACTIVITYOFFERING_ACTION_REINSTATE = "reinstateAO";
+    public static final String ACTIVITYOFFERINGS_ACTION_CANCEL = "cancelAOs";
+    public static final String ACTIVITYOFFERINGS_ACTION_SUSPEND = "suspendAOs";
+    public static final String ACTIVITYOFFERINGS_ACTION_REINSTATE = "reinstateAOs";
 
 }
