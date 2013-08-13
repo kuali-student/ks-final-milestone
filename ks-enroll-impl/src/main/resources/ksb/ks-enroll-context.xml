@@ -501,9 +501,14 @@
   <!--</bean>-->
 
     <bean id="luiServiceValidationDecorator" class=" org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceValidationDecorator">
-        <property name="nextDecorator" ref="luiServiceImpl" />
+        <property name="nextDecorator" ref="luiServiceCache" />
         <property name="validator" ref="validator" />
         <property name="typeService" ref="typeServiceCacheDecorator" />
+    </bean>
+
+    <bean id="luiServiceCache" class="org.kuali.student.enrollment.class1.lui.service.decorators.LuiServiceCacheDecorator">
+        <property name="cacheManager" ref="ksCacheManager"/>
+        <property name="nextDecorator" ref="luiServiceImpl"/>
     </bean>
 
   <bean id="luiServiceImpl" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
