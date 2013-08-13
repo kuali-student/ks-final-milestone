@@ -24,6 +24,8 @@ import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
+import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+
 /**
  * This is the helper class for CourseView
  * 
@@ -58,6 +60,8 @@ public class CourseForm extends UifFormBase {
     private Boolean showAll;
     
     private List<DecisionInfo> decisions;
+
+    private List<OrganizationInfoWrapper> administeringOrganizations;
     
     public CourseForm() {
         this.courseInfo = new CourseInfo();
@@ -68,6 +72,7 @@ public class CourseForm extends UifFormBase {
         this.courseJointDisplays = new ArrayList<CourseJointInfoWrapper>();
         this.commentInfos = new ArrayList<CommentInfo>();
         this.decisions = new ArrayList<DecisionInfo>();
+        this.administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
     }
 
     public CourseInfo getCourseInfo() {
@@ -93,6 +98,14 @@ public class CourseForm extends UifFormBase {
     public void setInstructorDisplays(
         List<CluInstructorInfoWrapper> instructorDisplays) {
         this.instructorDisplays = instructorDisplays;
+    }
+    
+    public List<OrganizationInfoWrapper> getAdministeringOrganizations() {
+        return administeringOrganizations;
+    }
+
+    public void setAdministeringOrganizations(final List<OrganizationInfoWrapper> administeringOrganizations) {
+        this.administeringOrganizations = administeringOrganizations;
     }
 
     public boolean isAudit() {

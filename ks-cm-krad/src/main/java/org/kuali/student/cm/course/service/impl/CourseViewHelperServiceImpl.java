@@ -25,7 +25,7 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
-import org.kuali.student.logging.FormattedLogger;
+import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.lum.lu.ui.course.keyvalues.KeyValueConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
@@ -68,6 +68,56 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 			instance = new CourseViewHelperServiceImpl();
 		}
 		return instance;
+	}
+
+    /**
+     * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
+     *
+     * @param organizationName  
+     * @return {@link List} of wrapper instances which get added to the {@link CourseForm}
+     */
+	public List<OrganizationInfoWrapper> getOrganizationsForSuggest(final String organizationName) {
+		final List<OrganizationInfoWrapper> cluOrgInfoDisplays = new ArrayList<OrganizationInfoWrapper>();
+		final List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
+        
+        final SearchParamInfo displayNameParam = new SearchParamInfo();
+        displayNameParam.setKey("org.queryParam.orgOptionalId");
+        displayNameParam.getValues().add(organizationName);
+        queryParamValueList.add(displayNameParam);
+        
+    	final SearchRequestInfo searchRequest = new SearchRequestInfo();
+        searchRequest.setSearchKey("org.search.generic");
+        searchRequest.setParams(queryParamValueList);
+        searchRequest.setStartAt(0);
+        searchRequest.setMaxResults(10);
+        searchRequest.setNeededTotalResults(false);
+        searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
+        
+        SearchResultInfo searchResult = null;
+        try {
+        	searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+        for (final SearchResultRowInfo result : searchResult.getRows()) {
+            final List<SearchResultCellInfo> cells = result.getCells();
+            final OrganizationInfoWrapper cluOrgInfoDisplay = new OrganizationInfoWrapper();
+            for (final SearchResultCellInfo cell : cells) {
+                info("Got key %s", cell.getKey());
+                info("Got key %s", cell.getValue());
+                
+                if ("org.resultColumn.orgId".equals(cell.getKey())) {
+                    cluOrgInfoDisplay.setId(cell.getValue());
+                } 
+                else if ("org.resultColumn.orgOptionalLongName".equals(cell.getKey())) {
+                    cluOrgInfoDisplay.setOrganizationName(cell.getValue());
+                } 
+            }
+            cluOrgInfoDisplays.add(cluOrgInfoDisplay);
+        }
+        
+		return cluOrgInfoDisplays;
 	}
 	
 	public List<CluInstructorInfoWrapper> getInstructorsForSuggest(
@@ -157,12 +207,11 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                     }
 				}
 			} else {
-				FormattedLogger
-						.error("The method getInstructor returned more than 1 search result.");
+				error("The method getInstructor returned more than 1 search result.");
 			}
 		} catch (Exception e) {
-			FormattedLogger.error(
-					"An error occurred in the getInstructor method.", e);
+			error(
+                "An error occurred in the getInstructor method. %s", e.getMessage());
 		}
 
 		return instructor;
@@ -202,7 +251,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 retrievedCodes.add(new SubjectCodeWrapper(id, code));
             }
         } catch (Exception e) {
-            FormattedLogger.error("An error occurred retrieving the SubjectCodeDisplay: " + e);
+            error("An error occurred retrieving the SubjectCodeDisplay: %s", e);
         }
 
         return retrievedCodes;
@@ -257,7 +306,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 courseJoints.add(courseJointDisplay);
             }
         } catch (Exception e) {
-            FormattedLogger.error("An error occurred retrieving the courseJointDisplay: " + e);
+            error("An error occurred retrieving the courseJointDisplay: ", e);
         }
 		
 		return courseJoints;
@@ -317,11 +366,11 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 courseJointInfo.setCourseNumberSuffix(numberSuffix);
                 
         	} else {
-        		FormattedLogger.error("The getJointOfferingCourse method has returned more than 1 result.");
+        		error("The getJointOfferingCourse method has returned more than 1 result.");
         	}
         	
         } catch (Exception e) {
-        	FormattedLogger.error("An error occurred in getJointOfferingCourse.", e);
+        	error("An error occurred in getJointOfferingCourse.", e);
         }
 		
 		return courseJointInfo;
@@ -361,7 +410,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
                 retrievedCategories.add(newCat);
             }
         } catch (Exception e) {
-            FormattedLogger.error("An error occurred in getLoCategoriesForSuggest.", e);
+            error("An error occurred in getLoCategoriesForSuggest.", e);
         }
 
         return retrievedCategories;
