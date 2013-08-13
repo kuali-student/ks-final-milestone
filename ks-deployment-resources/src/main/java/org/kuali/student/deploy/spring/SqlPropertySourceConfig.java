@@ -1,7 +1,7 @@
 package org.kuali.student.deploy.spring;
 
 import org.kuali.common.util.properties.PropertiesService;
-import org.kuali.common.util.properties.spring.ProjectPropertiesServiceConfig;
+import org.kuali.common.util.properties.spring.DefaultPropertiesServiceConfig;
 import org.kuali.common.util.spring.PropertySourceUtils;
 import org.kuali.common.util.spring.service.PropertySourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.env.PropertySource;
 
 @Configuration
-@Import({ SqlLocationsConfig.class, ProjectPropertiesServiceConfig.class })
+@Import({ SqlLocationsConfig.class, DefaultPropertiesServiceConfig.class })
 public class SqlPropertySourceConfig implements PropertySourceConfig {
 
 	@Autowired
