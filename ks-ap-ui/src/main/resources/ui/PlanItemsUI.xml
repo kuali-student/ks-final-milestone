@@ -28,6 +28,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>myplan-view</value>
+                <value>ks-plan-View</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -38,7 +39,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Page" p:id="plan-page">
-
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-plan-View-page</value>
+                        </list>
+                    </property>
                     <property name="layoutManager">
                         <bean parent="Uif-HorizontalBoxLayout"/>
                     </property>
@@ -65,7 +70,12 @@
     </bean>
     
     <bean id="plannedCourses_myplan_section" parent="plannedCourses_myplan_section-parent" />
-    <bean id="plannedCourses_myplan_section-parent" abstract="true" parent="myplan_section" p:style="width: 310px; margin: 0;">
+    <bean id="plannedCourses_myplan_section-parent" abstract="true" parent="myplan_section">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-plan-Widgets</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <ref bean="messages_widget"/>
@@ -74,11 +84,11 @@
         </property>
     </bean>
 
-    <bean id="planned_mock_detail" parent="Uif-VerticalBoxSubSection"
-          p:style="width: 620px; min-height:400px; margin-right: 10px;">
+    <bean id="planned_mock_detail" parent="Uif-VerticalBoxSubSection">
         <property name="cssClasses">
             <list merge="true">
                 <value>myplan-plan-loader</value>
+                <value>ks-plan-Loader</value>
             </list>
         </property>
         <property name="validationMessages.displayMessages" value="false"/>
@@ -103,7 +113,7 @@
             } else {
                 retrieveOptions = {viewId:'PlannedCourses-LookupView'};
             }
-            myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null, {message:'&lt;p&gt;&lt;img src=&quot;@{#ConfigProperties['ks.myplan.externalizable.images.url']}ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching your plan...&lt;/p&gt;', fadeIn:0, fadeOut:0, overlayCSS:{backgroundColor:'#fff',opacity:0,cursor:'wait'}, css:{backgroundColor:'#fffdd7', border:'solid 1px #ffd14c', borderRadius:'15px','-webkit-border-radius':'15px','-moz-border-radius':'15px', width:'230px', textAlign:'center', padding:'20px'}});
+            myplanRetrieveComponent('planned_mock_detail','planned_courses_detail','search','lookup', retrieveOptions, null, {message:'&lt;p&gt;&lt;img src=&quot;@{#ConfigProperties['ks.myplan.externalizable.images.url']}ajaxAuditRunning32.gif&quot; alt=&quot;loading...&quot; /&gt;&lt;/p&gt;&lt;p&gt;Please wait while we are fetching your plan...&lt;/p&gt;', fadeIn:0, fadeOut:0});
         "/>
     </bean>
 
@@ -372,24 +382,38 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-plan-heading</value>
+                            <value>ks-plan-Header</value>
                         </list>
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-VerticalBoxGroup" p:style="margin:0; text-align:right; width:90px;">
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-plan-Header-buttonWrapper</value>
+                                        <value>ks-plan-Header-buttonWrapper--previous</value>
+                                    </list>
+                                </property>
                                 <property name="validationMessages.render" value="false"/>
                                 <property name="items">
                                     <list>
                                         <bean id="previous_year_button" parent="Uif-PrimaryActionButton"
-                                              p:actionScript="" p:title="Previous Academic Year" p:style="margin:0;">
+                                              p:actionScript="" p:title="Previous Academic Year">
                                             <property name="actionImage">
                                                 <bean parent="Uif-Image"
-                                                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
-                                                      p:style="margin:0;"/>
+                                                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+                                                    <property name="cssClasses">
+                                                        <list merge="true">
+                                                            <value>ks-plan-Header-buttonImage</value>
+                                                        </list>
+                                                    </property>
+                                                </bean>
                                             </property>
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>myplan-carousel-prev</value>
+                                                    <value>ks-plan-Header-button</value>
+                                                    <value>ks-plan-Header-button--previous</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -397,28 +421,45 @@
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-MessageField" p:style="margin:0;width: 440px;"
-                                  p:cssClasses="myplan-plan-header">
+                            <bean parent="Uif-MessageField">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>myplan-plan-header</value>
+                                        <value>ks-plan-Header-headline</value>
+                                    </list>
+                                </property>
                                 <property name="message">
                                     <bean parent="Uif-Message" p:messageText="Academic Year"/>
                                 </property>
                             </bean>
 
-                            <bean parent="Uif-VerticalBoxGroup"
-                                  p:style="margin:0; text-align:left; width:90px;">
+                            <bean parent="Uif-VerticalBoxGroup">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ks-plan-Header-buttonWrapper</value>
+                                        <value>ks-plan-Header-buttonWrapper--next</value>
+                                    </list>
+                                </property>
                                 <property name="validationMessages.render" value="false"/>
                                 <property name="items">
                                     <list>
                                         <bean id="next_year_button" parent="Uif-PrimaryActionButton" p:actionScript=""
-                                              p:title="Next Academic Year" p:style="margin:0;">
+                                              p:title="Next Academic Year">
                                             <property name="actionImage">
                                                 <bean parent="Uif-Image"
-                                                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif"
-                                                      p:style="margin:0;"/>
+                                                      p:source="@{#ConfigProperties['ks.myplan.externalizable.images.url']}pixel.gif">
+                                                    <property name="cssClasses">
+                                                        <list merge="true">
+                                                            <value>ks-plan-Header-buttonImage</value>
+                                                        </list>
+                                                    </property>
+                                                </bean>
                                             </property>
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>myplan-carousel-next</value>
+                                                    <value>ks-plan-Header-button</value>
+                                                    <value>ks-plan-Header-button--next</value>
                                                 </list>
                                             </property>
                                         </bean>
@@ -434,6 +475,11 @@
                         <list>
                             <bean parent="Uif-MessageField"
                                   p:messageText="Create your plan by finding and adding courses to any quarter."/>
+                        </list>
+                    </property>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-plan-Instructions</value>
                         </list>
                     </property>
                 </bean>
