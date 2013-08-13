@@ -125,7 +125,7 @@
                                   p:messageText="This is a crosslisted course."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="You are about to cancel the following activity offering(s) from this course offering."
+                                  p:messageText="You are about to cancel the following activity offering(s)."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
 
                             <bean parent="Uif-Message"
@@ -138,7 +138,10 @@
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
 
                             <bean parent="Uif-Message"
-                                  p:messageText="Affected Activities:  @{selectedToCSRList.size()}"
+                                  p:messageText="@{selectedToCSRList.size()} activity offering(s) will be cancelled"
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be cancelled(ineligible status)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
@@ -185,12 +188,15 @@
                                   p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
                             <bean parent="Uif-Message"
-                                  p:messageText="You are about to reinstate the following activity offering(s) from this course offering."
+                                  p:messageText="You are about to reinstate the following activity offering(s). The selected activity offering(s) will reinstate to the status listed in the &quot;Reinstated Status&quot; column below."
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
 
                             <bean parent="Uif-Message"
-                                  p:messageText="Affected Activities:  @{selectedToCSRList.size()}"
+                                  p:messageText="@{selectedToCSRList.size()} activity offering(s) will be reinstated"
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be reinstated(ineligible status)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
@@ -237,12 +243,15 @@
                                   p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
                             <bean parent="Uif-Message"
-                                  p:messageText="You are about to suspend the following activity offering(s) from this course offering."
+                                  p:messageText="You are about to suspend the following activity offering(s)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
                                   p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToCSR }" />
 
                             <bean parent="Uif-Message"
-                                  p:messageText="Affected Activities:  @{selectedToCSRList.size()}"
+                                  p:messageText="@{selectedToCSRList.size()} activity offering(s) will be suspended"
+                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                            <bean parent="Uif-Message"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be suspended(ineligible status/SOC state)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>

@@ -256,6 +256,8 @@ public class ARGCourseOfferingHandler {
             }
         }
 
+        theForm.setNumIneligibleAOsForCSR(checked);
+
         if(checked > enabled){
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.WARNING, warningMessage);
         }

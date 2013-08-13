@@ -139,6 +139,7 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     private boolean isJointDefinedCo;
     private boolean isJointDefinedCoOnly;
     private Integer numOfJointDefinedCosToDelete = 0;
+    private int numIneligibleAOsForCSR=0;
 
     //TODO: do we need this one?
     private boolean readOnly;
@@ -801,5 +802,16 @@ public class ARGCourseOfferingManagementForm extends KSUifForm {
     public void setCsrLabel(String csrLabel) {
         this.csrLabel = csrLabel;
     }
+
+
+    public int getNumIneligibleAOsForCSR() {
+        return numIneligibleAOsForCSR;
+    }
+
+    public void setNumIneligibleAOsForCSR(int numIneligibleAOsForCSR) {
+        this.numIneligibleAOsForCSR = numIneligibleAOsForCSR;
+    }
+
+
 
 }
