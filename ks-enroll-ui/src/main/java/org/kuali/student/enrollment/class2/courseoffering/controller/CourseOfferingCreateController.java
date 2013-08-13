@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCrea
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.CreateSocViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingCreateMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysService;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOptionKeysServiceImpl;
@@ -48,12 +49,15 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemI
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingHistorySearchImpl;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -75,6 +79,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -108,6 +113,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     private transient SearchService searchService;
     private transient TypeService typeService;
     private transient CourseOfferingSetService socService;
+    private AtpService  atpService;
 
     private String getGradingOption(String gradingOptionId) throws Exception {
         String gradingOption = "";
@@ -118,7 +124,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             }
         }
 
-        return gradingOption;
+       return gradingOption;
     }
 
     private DefaultOptionKeysService defaultOptionKeysService;
@@ -567,17 +573,63 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
     private List<CourseInfo> retrieveMatchingCourses(String courseCode, TermInfo term) {
 
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
         CourseInfo returnCourseInfo;
         String courseId;
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         List<CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
 
-        searchParams.add(new SearchParamInfo("lu_queryParam_code", courseCode.toUpperCase()));
-        searchParams.add(new SearchParamInfo("lu_queryParam_someDate", DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(term.getStartDate())));
+        SearchParamInfo qpv = new SearchParamInfo();
+        qpv.setKey("lu.queryParam.luOptionalType");
+        qpv.getValues().add("kuali.lu.type.CreditCourse");
+        searchParams.add(qpv);
+
+        //Include course states of: Active, Superseded and Retired
+        qpv = new SearchParamInfo();
+        qpv.setKey("lu.queryParam.luOptionalState");
+        qpv.setValues(Arrays.asList(
+                DtoConstants.STATE_ACTIVE,
+                DtoConstants.STATE_SUPERSEDED,
+                DtoConstants.STATE_RETIRED));
+        searchParams.add(qpv);
+
+        /**Note:  TermCode lookup criteria field takes the special bus route:  it is used to retrieve
+         * term begin/end dates to in-turn constrain courses by their effective and
+         * retire dates, respectively.  AND NOTE that termId is not itself used
+         * directly in the course lookup query.
+         */
+        List<AtpInfo> atps;
+        try {
+            atps = getAtpService().getAtpsByCode(term.getCode(), context);
+        } catch (Exception e) {
+            return courseInfoList;
+        }
+        if (atps == null || atps.size() != 1) {
+            return courseInfoList;
+        }
+
+        qpv = new SearchParamInfo();
+        qpv.setKey(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_START.getQueryKey());
+        qpv.getValues().add(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
+        searchParams.add(qpv);
+
+        qpv = new SearchParamInfo();
+        qpv.setKey(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_END.getQueryKey());
+        qpv.getValues().add(DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
+        searchParams.add(qpv);
+
+        //set courseCode to query by
+        qpv = new SearchParamInfo();
+        qpv.setKey(CourseInfoByTermLookupableImpl.QueryParamEnum.CODE.getQueryKey());
+        qpv.getValues().add(courseCode);
+        searchParams.add(qpv);
+
+
+
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setParams(searchParams);
-        searchRequest.setSearchKey("lu.search.validCluForDate");
+        searchRequest.setSearchKey("lu.search.courseCodes");
 
         try {
             SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
@@ -651,6 +703,12 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             socService = CourseOfferingResourceLoader.loadSocService();
         }
         return socService;
+    }
+    private AtpService getAtpService() {
+        if(atpService == null){
+            atpService = CourseOfferingResourceLoader.loadAtpService();
+        }
+        return atpService;
     }
 
 }
