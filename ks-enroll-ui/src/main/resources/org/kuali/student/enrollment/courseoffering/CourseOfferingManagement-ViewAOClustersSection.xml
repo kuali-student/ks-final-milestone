@@ -137,11 +137,10 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-ImageField" p:hidden="@{#lp.hasRuleAttached eq false}"
-                                  p:title="This Activity has requisite(s)in addition to any of the course offering"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/ActivityRuleIcon6px.png">
                                 <property name="style" value="padding-left:3px padding-bottom:3px;"/>
                                 <property name="toolTip">
-                                    <bean parent="Uif-Tooltip" p:tooltipContent="This Activity has requisite(s) in addition to any of the course offering"/>
+                                    <bean parent="Uif-Tooltip" p:tooltipContent="This Activity has requisite(s) in addition to any for the Course Offering"/>
                                 </property>
                                 <property name="propertyReplacers">
                                     <list>
