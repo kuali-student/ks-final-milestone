@@ -87,6 +87,15 @@
 	</bean>
 	<bean id="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets"
 		parent="Uif-VerticalBoxSection" p:headerText="Grades/Assessments">
+		<property name="help">
+			<bean parent="Uif-Help"
+				p:tooltipHelpContent="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt; 
+ 						A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital  
+ 						Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem  
+ 						ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem  
+ 						ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed  
+ 						Notation&lt;b&gt;&lt;br&gt;complete,incomplete " />
+		</property>
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="courseInfo.gradingOptions"
@@ -97,15 +106,6 @@
 					<property name="optionsFinder">
 						<bean
 							class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
-					</property>
-					<property name="help">
-						<bean parent="Uif-Help"
-							p:tooltipHelpContent="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt; 
-						A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital 
-						Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem 
-						ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem 
-						ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed 
-						Notation&lt;b&gt;&lt;br&gt;complete,incomplete " />
 					</property>
 				</bean>
 			</list>
