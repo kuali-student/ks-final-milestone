@@ -30,6 +30,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
@@ -43,6 +44,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -958,6 +960,9 @@ public class AcademicCalendarController extends UifControllerBase {
                 LOG.error("Unable to load instructional days",ex);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_CALCULATING_INSTRUCTIONAL_DAYS, term.getStartDate().toString(), term.getEndDate().toString());
             }
+
+            //process exam periods
+            academicCalendarForm = processExamPeriods(academicCalendarForm,i,viewHelperService);
         }
 
         // Reset values
@@ -1040,6 +1045,13 @@ public class AcademicCalendarController extends UifControllerBase {
                 KeyDateWrapper newKeyDateWrapper = saveKeyDate(keyDateWrapper, form.getTermWrapperList().get(termIndex), helperService);
                 form.getTermWrapperList().get(termIndex).getKeyDatesGroupWrappers().get(keyDateGroupIndex).getKeydates().set(keyDateIndex,newKeyDateWrapper);
 
+            } else if (field.contains("examdates")) {
+                // Save an individual exam period change and refresh it in the form
+                int termIndex = processFieldIndex(field.substring(0, field.indexOf(".")));
+                int examPeriodIndex = processFieldIndex(field.substring(field.indexOf(".")+1));
+                ExamPeriodWrapper examPeriodWrapper = form.getTermWrapperList().get(termIndex).getExamdates().get(examPeriodIndex);
+                ExamPeriodWrapper newExamPeriodWrapper = saveExamPeriod(examPeriodWrapper, form.getTermWrapperList().get(termIndex), helperService);
+                form.getTermWrapperList().get(termIndex).getExamdates().set(examPeriodIndex,newExamPeriodWrapper);
             } else if(field.contains("termWrapperList")){
 
                 // Save and individual even and refresh it in the form
@@ -1288,6 +1300,77 @@ public class AcademicCalendarController extends UifControllerBase {
 
         return keyDateWrapper;
     }
+
+    /**
+     * Cycles through the exam periods and process each of them
+     *
+     * @param form - View form containing the Calendar information
+     * @param termIndex - The index of the term.
+     * @param helperService - View Helper service
+     * @return The updated form.
+     */
+    private AcademicCalendarForm processExamPeriods(AcademicCalendarForm form, int termIndex, AcademicCalendarViewHelperService helperService){
+        AcademicTermWrapper term = form.getTermWrapperList().get(termIndex);
+        for(int i=0; i<term.getExamdates().size(); i++ ) {
+            ExamPeriodWrapper examPeriodWrapper = term.getExamdates().get(i);
+
+            if (examPeriodWrapper.getStartDate()!=null && examPeriodWrapper.getEndDate()!=null && examPeriodWrapper.isNew()) {
+                ExamPeriodWrapper newExamPeriodWrapper = saveExamPeriod(examPeriodWrapper, term, helperService);
+                form.getTermWrapperList().get(termIndex).getExamdates().set(i,newExamPeriodWrapper);
+            } else if (examPeriodWrapper.getStartDate()==null && examPeriodWrapper.getEndDate()==null) {
+
+            }
+        }
+
+        return form;
+    }
+
+    /**
+     * Save changes to a exam period or create it if it has not already been saved
+     *
+     * @param examPeriodWrapper - ExamPeriod to be saved
+     * @param term - Term containing the key date
+     * @param helperService - View helper service
+     * @return The updated keydate with information filled in from the save/create
+     */
+    private ExamPeriodWrapper saveExamPeriod(ExamPeriodWrapper examPeriodWrapper, AcademicTermWrapper term, AcademicCalendarViewHelperService helperService){
+        // Create exam period info base
+        ExamPeriodInfo examPeriodInfo = examPeriodWrapper.getExamPeriodInfo();
+        String examPeriodName = examPeriodWrapper.getExamPeriodNameUI() + " " + term.getName();
+        // Fill in key date info from the wrapper
+        examPeriodInfo.setTypeKey(examPeriodWrapper.getExamPeriodType());
+        examPeriodInfo.setName(examPeriodName);
+        examPeriodInfo.setEndDate(examPeriodWrapper.getEndDate());
+        examPeriodInfo.setStartDate(examPeriodWrapper.getStartDate());
+        examPeriodInfo.setStateKey(term.getTermInfo().getStateKey()); //the state of the exam period is the same as the term state
+
+        RichTextInfo rti = new RichTextInfo();
+        rti.setPlain(examPeriodName);
+        rti.setFormatted(examPeriodName);
+        examPeriodInfo.setDescr(rti);
+
+        // Save Exam Period to database
+        try{
+            if (examPeriodWrapper.isNew()){
+                // Save the exam period to the database and update wrapper information.
+                List<String> termTypeKeyList = new ArrayList<String>();
+                termTypeKeyList.add(term.getTermInfo().getTypeKey());
+                ExamPeriodInfo createdExamPeriodInfo = getAcademicCalendarServiceFacade().addExamPeriod(examPeriodInfo.getTypeKey(), termTypeKeyList, examPeriodInfo, helperService.createContextInfo());
+                getAcalService().addExamPeriodToTerm(term.getTermInfo().getId(), createdExamPeriodInfo.getId(), helperService.createContextInfo());
+                examPeriodWrapper.setExamPeriodInfo(createdExamPeriodInfo);
+            } else {
+                // Update the exam period in the datebase and update wrapper information.
+                ExamPeriodInfo updatedExamPeriodInfo = getAcalService().updateExamPeriod(examPeriodInfo.getId(), examPeriodInfo, helperService.createContextInfo());
+                examPeriodWrapper.setExamPeriodInfo(updatedExamPeriodInfo);
+            }
+        }catch(Exception e){
+            LOG.error("Save exam period has failed",e);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_EXAMPERIOD_FAILED,examPeriodWrapper.getExamPeriodNameUI(),term.getName());
+        }
+
+        return examPeriodWrapper;
+    }
+
 
     /**
      * Determines kay dates that have been deleted in the UI and deletes them from the database

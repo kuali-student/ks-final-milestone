@@ -480,7 +480,7 @@
         <property name="items">
             <list>
                 <bean id="exam_date_type" parent="Uif-InputField" p:propertyName="examPeriodType" p:readOnly="true" p:readOnlyDisplayReplacementPropertyName="examPeriodNameUI" p:style="font-weight:bold;"/>
-                <bean id="exam_date_start_date" parent="Uif-InputField" p:propertyName="startDate" p:readOnlyDisplayReplacementPropertyName="startDateUI"
+                <bean id="exam_date_start_date" parent="Uif-InputField" p:propertyName="startDate" p:readOnlyDisplayReplacementPropertyName="startDate"
                       p:label="Start Date" >
                     <property name="control">
                         <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>

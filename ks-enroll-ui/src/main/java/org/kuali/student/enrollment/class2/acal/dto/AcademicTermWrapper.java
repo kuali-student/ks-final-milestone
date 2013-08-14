@@ -105,8 +105,8 @@ public class AcademicTermWrapper {
             getTermInfo().setDescr(desc);
             getTermInfo().setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         } else{
-           setTermInfo(termInfo);
-           this.name = termInfo.getName();
+            setTermInfo(termInfo);
+            this.name = termInfo.getName();
         }
 
     }
