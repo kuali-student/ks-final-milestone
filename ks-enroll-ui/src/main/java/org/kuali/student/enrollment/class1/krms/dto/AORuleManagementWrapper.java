@@ -25,16 +25,7 @@ import java.util.List;
  */
 public class AORuleManagementWrapper extends CORuleManagementWrapper {
 
-    private List<AgendaEditor> cluAgendas = new ArrayList<AgendaEditor>();
     private String aoDescription;
-
-    public List<AgendaEditor> getCluAgendas() {
-        return cluAgendas;
-    }
-
-    public void setCluAgendas(List<AgendaEditor> cluAgendas) {
-        this.cluAgendas = cluAgendas;
-    }
 
     public String getAoDescription() {
         return aoDescription;

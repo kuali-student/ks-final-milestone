@@ -197,40 +197,19 @@ limitations under the License.
     </bean>
 
     <bean id="KSAO-AgendaManage-EditRule" parent="KRMS-AgendaManage-EditRule">
-    <property name="items">
-        <list>
-            <bean id="KSAO-RuleEdit-ActionLinks" parent="KSAO-RuleEdit-Links" p:align="right"/>
-            <!--<bean id="KSAO-RuleView-ActionLinks" parent="KSAO-RuleView-Links" p:align="right"/>-->
-            <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
-            <bean id="KSAO-ViewTree-Group" parent="Uif-VerticalBoxGroup"
-                  p:cssClasses="viewModeNode">
-                <property name="items">
-                    <list>
-                        <ref bean="KSAO-ViewTree-Section"/>
-                    </list>
-                </property>
-            </bean>
-        </list>
-    </property>
-    </bean>
-
-    <bean id="KSAO-AgendaManage-AddRule" parent="KRMS-AgendaManage-AddRule">
         <property name="items">
             <list>
-                <bean id="KSAO-RuleAdd-ActionLink" parent="KSAO-RuleAdd-Links"  p:align="right"/>
+                <bean id="KSAO-RuleEdit-ActionLinks" parent="KSAO-RuleEdit-Links" p:align="right"/>
+                <!--<bean id="KSAO-RuleView-ActionLinks" parent="KSAO-RuleView-Links" p:align="right"/>-->
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KSAO-RuleAdd-Links" parent="KRMS-RuleAdd-Links">
-        <property name="items">
-            <list>
-                <bean parent="KSAO-RuleView-Links" p:render="@{#line.dummy and #line.parent != null}"/>
-                <bean parent="KSAO-RuleCopyEdit-Links" p:render="@{#line.dummy and #line.parent != null}"/>
-                <bean parent="KSAO-ReplaceRule-Link" p:render="@{#line.dummy and #line.parent != null}"/>
-                <bean parent="KSAO-SuppressRule-Link" p:render="@{#line.dummy and #line.parent != null}"/>
-                <bean parent="KSAO-AddRule-Link" p:render="@{#line.dummy and #line.parent eq null}"/>
+                <bean id="KSAO-ViewTree-Group" parent="Uif-VerticalBoxGroup"
+                    p:cssClasses="viewModeNode">
+                    <property name="items">
+                        <list>
+                            <ref bean="KSAO-ViewTree-Section"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
@@ -245,7 +224,7 @@ limitations under the License.
                               p:tooltipContent="Compare Course Offering, Catalog and Activity Offering Rules"/>
                     </property>
                 </bean>
-                <bean parent="KSAO-RuleView-Links" p:render="@{#line.dummy}"/>
+                <bean parent="KSAO-RuleView-Link" p:render="@{#line.dummy}"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite">
                     <property name="toolTip">
@@ -265,64 +244,54 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KSAO-RuleView-Links" parent="KRMS-RuleView-Links">
+    <bean id="KSAO-AgendaManage-AddRule" parent="KRMS-AgendaManage-AddRule">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and Course Offering Rule"
-                      p:methodToCall="viewCoAndCluRules" p:componentSecurity.performActionAuthz="true"
-                      p:actionEvent="compare"/>
+                <bean id="KSAO-RuleAdd-ActionLink" parent="KSAO-RuleAdd-Links"  p:align="right"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KSAO-RuleCopyEdit-Links" parent="KRMS-RuleView-Links">
+    <bean id="KSAO-RuleAdd-Links" parent="KRMS-RuleAdd-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit Course Offering Rule"
-                      p:methodToCall="copyEditCoRule" p:componentSecurity.performActionAuthz="true"
-                      p:actionEvent="addEditRequisite">
-                    <property name="toolTip">
-                        <bean parent="Uif-Tooltip"
-                              p:tooltipContent="Modify Existing rule to apply to this Activity Offering"/>
-                    </property>
-                </bean>
+                <bean parent="KSAO-RuleView-Link" p:render="@{#line.dummy and (#line.parent != null or #line.cluEditor != null)}"/>
+                <bean parent="KSAO-RuleCopyEdit-Link" p:render="@{#line.dummy and #line.parent != null}"/>
+                <bean parent="KSAO-ReplaceRule-Link" p:render="@{#line.dummy and #line.parent != null}"/>
+                <bean parent="KSAO-SuppressRule-Link" p:render="@{#line.dummy and #line.parent != null}"/>
+                <bean parent="KSAO-AddRule-Link" p:render="@{#line.dummy and #line.parent eq null}"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KSAO-ReplaceRule-Link" parent="KRMS-RuleView-Links">
-        <property name="items">
-            <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Replace Rule" p:methodToCall="addRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" >
-                    <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Add new rule to excecute in place of Course Offering rule"/>
-                    </property>
-                </bean>
-            </list>
+
+    <bean id="KSAO-RuleView-Link" parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and Course Offering Rule"
+          p:methodToCall="viewCoAndCluRules" p:componentSecurity.performActionAuthz="true" p:actionEvent="compare"/>
+
+    <bean id="KSAO-RuleCopyEdit-Link" parent="KS-Uif-ActionLink" p:actionLabel="Copy and  Edit Course Offering Rule"
+          p:methodToCall="copyEditCoRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite">
+        <property name="toolTip">
+            <bean parent="Uif-Tooltip" p:tooltipContent="Modify Existing rule to apply to this Activity Offering"/>
         </property>
     </bean>
 
-    <bean id="KSAO-AddRule-Link" parent="KRMS-RuleView-Links">
-        <property name="items">
-            <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule" p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" />
-            </list>
+    <bean id="KSAO-ReplaceRule-Link" parent="KS-Uif-ActionLink" p:actionLabel="Replace Rule" p:methodToCall="addRule"
+          p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"
+          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" >
+        <property name="toolTip">
+            <bean parent="Uif-Tooltip" p:tooltipContent="Add new rule to excecute in place of Course Offering rule"/>
         </property>
     </bean>
 
-    <bean id="KSAO-SuppressRule-Link" parent="KRMS-RuleView-Links">
-        <property name="items">
-            <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Suppress Rule" p:methodToCall="deleteRuleStatements"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteRequisite">
-                    <property name="toolTip">
-                        <bean parent="Uif-Tooltip"
-                              p:tooltipContent="No Rule of this type will be executed. Will appear as a blank rule."/>
-                    </property>
-                </bean>
-            </list>
+    <bean id="KSAO-AddRule-Link" parent="KS-Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
+          p:componentSecurity.performActionAuthz="true" p:actionEvent="addEditRequisite"
+          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" />
+
+    <bean id="KSAO-SuppressRule-Link" parent="KS-Uif-ActionLink" p:actionLabel="Suppress Rule" p:methodToCall="deleteRuleStatements"
+          p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteRequisite">
+          <property name="toolTip">
+            <bean parent="Uif-Tooltip" p:tooltipContent="No Rule of this type will be executed. Will appear as a blank rule."/>
         </property>
     </bean>
 

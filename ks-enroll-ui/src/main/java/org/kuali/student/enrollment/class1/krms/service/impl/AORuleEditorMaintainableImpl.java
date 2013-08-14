@@ -33,6 +33,7 @@ import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
+import org.kuali.student.enrollment.class1.krms.dto.AORuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
@@ -107,7 +108,6 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             try {
                 activityOffering = this.getCourseOfferingService().getActivityOffering(aoId, ContextUtils.createDefaultContextInfo());
                 courseOffering = this.getCourseOfferingService().getCourseOffering(activityOffering.getCourseOfferingId(), ContextUtils.createDefaultContextInfo());
-                dataObject.setCluAgendas(this.getCluAgendasByCourseId(courseOffering.getCourseId()));
             } catch (Exception e) {
                 throw new RuntimeException("Could not retrieve activity offering for " + aoId);
             }
@@ -123,6 +123,8 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (courseOffering != null) {
             //Set the subjectArea for breadcrumb link
             dataObject.setCluSubjectCode(courseOffering.getSubjectArea());
+
+            this.setCluRules(dataObject.getAgendas(), courseOffering.getCourseId());
 
             try {
                 //Get the atp code.
@@ -158,6 +160,13 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         return new LUAgendaEditor(agenda);
     }
 
+    protected RuleEditor createDummyRuleEditor(String ruleTypeId) {
+        RuleEditor ruleEditor = new AORuleEditor();
+        ruleEditor.setDummy(true);
+        ruleEditor.setTypeId(ruleTypeId);
+        return ruleEditor;
+    }
+
     /**
      * Retrieves all the rules from the agenda tree and create a list of ruleeditor objects.
      * <p/>
@@ -173,7 +182,7 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         if (agendaItem.getRule() != null) {
 
             //Build the ruleEditor
-            RuleEditor ruleEditor = new LURuleEditor(agendaItem.getRule());
+            RuleEditor ruleEditor = new AORuleEditor(agendaItem.getRule());
 
             //Initialize the Proposition tree
             if (initProps) {
@@ -215,29 +224,41 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
      *
      * @param courseId - the course offering id.
      * @return
-     * @throws Exception
      */
-    public List<AgendaEditor> getCluAgendasByCourseId(String courseId) {
+    public void setCluRules(List<AgendaEditor> agendas, String courseId) {
 
-        List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
         List<ReferenceObjectBinding> cluRefObjects = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(KSKRMSServiceConstants.RULE_DISCR_TYPE_CREDIT, courseId);
         for (ReferenceObjectBinding referenceObject : cluRefObjects) {
-            AgendaEditor agendaEditor = this.getAgendaEditor(referenceObject.getKrmsObjectId());
+            AgendaDefinition cluAgenda = this.getRuleManagementService().getAgenda(referenceObject.getKrmsObjectId());
+            AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(cluAgenda.getFirstItemId());
+            List<RuleEditor> cluRules = getRuleEditorsFromTree(firstItem, false);
 
-            if (agendaEditor.getId() != null) {
-                AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agendaEditor.getFirstItemId());
-                List<RuleEditor> cluRules = getRuleEditorsFromTree(firstItem, false);
-                Map<String, RuleEditor> ruleEditors = new LinkedHashMap<String, RuleEditor>();
-                for (RuleEditor clurule : cluRules) {
-                    ruleEditors.put(clurule.getTypeId(), clurule);
-                }
-                agendaEditor.setRuleEditors(ruleEditors);
+            AgendaEditor aoAgenda = this.getAgendaForType(agendas, cluAgenda.getTypeId());
+            for(RuleEditor cluRule : cluRules){
+                RuleEditor aoRule = getRuleForType(aoAgenda, cluRule.getTypeId());
+                ((AORuleEditor) aoRule).setCluEditor(cluRule);
             }
 
-            agendas.add(agendaEditor);
         }
 
-        return agendas;
+    }
+
+    private AgendaEditor getAgendaForType(List<AgendaEditor> agendas, String typeId){
+        for(AgendaEditor agenda : agendas){
+            if(agenda.getTypeId().equals(typeId)){
+                return agenda;
+            }
+        }
+        return null;
+    }
+
+    private RuleEditor getRuleForType(AgendaEditor agenda, String typeId){
+        for(RuleEditor rule : agenda.getRuleEditors().values()){
+            if(rule.getTypeId().equals(typeId)){
+                return rule;
+            }
+        }
+        return null;
     }
 
     /**

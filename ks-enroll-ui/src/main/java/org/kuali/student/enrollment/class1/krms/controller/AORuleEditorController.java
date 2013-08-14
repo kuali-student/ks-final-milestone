@@ -11,6 +11,7 @@ import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.rice.krms.util.AgendaUtilities;
 import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.student.enrollment.class1.krms.dto.AORuleEditor;
 import org.kuali.student.enrollment.class1.krms.dto.AORuleManagementWrapper;
 import org.kuali.student.enrollment.class1.krms.service.impl.AORuleViewHelperServiceImpl;
 import org.kuali.student.enrollment.class1.krms.util.EnrolKRMSConstants;
@@ -153,13 +154,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
             }
         }
 
-        RuleEditor cluRuleEditor = null;
-        for (AgendaEditor agendaEditor : ruleWrapper.getCluAgendas()) {
-            if (agendaEditor.getRuleEditors().containsKey(aoRuleEditor.getTypeId())) {
-                AgendaEditor selectedAgendaEditor = agendaEditor;
-                cluRuleEditor = selectedAgendaEditor.getRuleEditors().get(aoRuleEditor.getTypeId());
-            }
-        }
+        RuleEditor cluRuleEditor = ((AORuleEditor) aoRuleEditor).getCluEditor();
         //Build the compare rule tree
         ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(aoRuleEditor, cluRuleEditor));
         ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
@@ -187,7 +182,6 @@ public class AORuleEditorController extends EnrolRuleEditorController {
             AORuleManagementWrapper ruleWrapper = (AORuleManagementWrapper) dataObject;
             String ruleId = document.getActionParamaterValue("ruleKey");
             RuleEditor aoRuleEditor = null;
-            RuleEditor cluRuleEditor = null;
             if ((ruleId != null) && (StringUtils.isNotBlank(ruleId))) {
                 //Get a specific ruleEditor based on the ruleId.
                 aoRuleEditor = AgendaUtilities.getSelectedRuleEditor(ruleWrapper, ruleId);
@@ -195,12 +189,8 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                 //Get the current editing ruleEditor.
                 aoRuleEditor = ruleWrapper.getRuleEditor();
             }
-            for (AgendaEditor agendaEditor : ruleWrapper.getCluAgendas()) {
-                if (agendaEditor.getRuleEditors().containsKey(aoRuleEditor.getTypeId())) {
-                    AgendaEditor selectedAgendaEditor = agendaEditor;
-                    cluRuleEditor = selectedAgendaEditor.getRuleEditors().get(aoRuleEditor.getTypeId());
-                }
-            }
+
+            RuleEditor cluRuleEditor = ((AORuleEditor) aoRuleEditor).getCluEditor();
             //Build the compare rule tree
             ruleWrapper.setCompareTree(this.getViewHelper(form).buildMultiViewTree(aoRuleEditor.getParent(), cluRuleEditor));
             ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
