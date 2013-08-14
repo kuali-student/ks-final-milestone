@@ -1827,7 +1827,7 @@
         <search:name>Course Code criteria</search:name>
         <search:desc>Course code criteria</search:desc>
         <search:queryParams>
-            <ref bean="lu.queryParam.startsWith.cluCode" />
+            <ref bean="lu.queryParam.luOptionalCode" />
             <ref bean="lu.queryParam.luOptionalType" />
             <ref bean="lu.queryParam.luOptionalGreaterThanEqualExpirDate" />
             <ref bean="lu.queryParam.luOptionalLessThanEqualEffectDate" />
@@ -1848,8 +1848,7 @@
                             clu.id
                         FROM Clu clu
                         LEFT JOIN clu.officialIdentifier officialIdentifier
-                        LEFT JOIN clu.descr cludesc
-                        WHERE clu.officialIdentifier.code like :lu_queryParam_startsWith_cluCode || '%'</value>
+                        LEFT JOIN clu.descr cludesc</value>
                 </entry>
 
                 <entry key="lu.search.relatedTypes">
