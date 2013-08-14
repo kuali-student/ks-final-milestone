@@ -325,12 +325,15 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
         Map<String,KeyDatesGroupWrapper> keyDateGroup = new HashMap<String,KeyDatesGroupWrapper>();
 
         for (KeyDateInfo keyDateInfo : keydateList) {
-            KeyDateWrapper keyDateWrapper = new KeyDateWrapper(keyDateInfo,isCopy);
-            type = getTypeService().getType(keyDateInfo.getTypeKey(),createContextInfo());
-            keyDateWrapper.setTypeInfo(type);
-            keyDateWrapper.setKeyDateNameUI(type.getName());
+           //TODO - KSENROLL-8689 FEP - Remove Final Exam Period from milestone type
+            if (!keyDateInfo.getTypeKey().equals("kuali.atp.milestone.FinalExamPeriod")) {
+                KeyDateWrapper keyDateWrapper = new KeyDateWrapper(keyDateInfo,isCopy);
+                type = getTypeService().getType(keyDateInfo.getTypeKey(),createContextInfo());
+                keyDateWrapper.setTypeInfo(type);
+                keyDateWrapper.setKeyDateNameUI(type.getName());
 
-            addKeyDateGroup(keyDateTypes,keyDateWrapper,keyDateGroup);
+                addKeyDateGroup(keyDateTypes,keyDateWrapper,keyDateGroup);
+            }
         }
 
         for (KeyDatesGroupWrapper group : keyDateGroup.values()) {
@@ -579,7 +582,10 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 List<TypeInfo> types = getTypeService().getTypesForGroupType(groupWrapper.getKeyDateGroupType(),createContextInfo());
                 for (TypeInfo type : types) {
                     if (!groupWrapper.isKeyDateExists(type.getKey())){
-                        keyValues.add(new ConcreteKeyValue(type.getKey(), type.getName()));
+                       //TODO KSENROLL-8689 FEP - Remove Final Exam Period from milestone type
+                        if (!type.getKey().equals("kuali.atp.milestone.FinalExamPeriod")) {
+                            keyValues.add(new ConcreteKeyValue(type.getKey(), type.getName()));
+                        }
                     }
                 }
             } catch (Exception e) {
