@@ -2658,10 +2658,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         AtpInfo atp = new AtpInfo();
 
         examPeriodTransformer.ExamPeriod2Atp(examPeriodInfo, atp);
-        if (!isInitialState(AtpServiceConstants.ATP_LIFECYCLE_KEY, atp.getStateKey(), contextInfo)) {
-            throw new OperationFailedException("Wrong initial ExamPeriodInfo state Key!");
-        }
-
         AtpInfo newAtp = atpService.createAtp(atp.getTypeKey(), atp, contextInfo);
         examPeriodTransformer.atp2ExamPeriod(newAtp, examPeriodInfo);
 

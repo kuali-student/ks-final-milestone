@@ -320,6 +320,8 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         return acalService.createExamPeriod(examPeriodTypeKey, examPeriodInfo, context);
     }
 
+    // validate if the given examPeriod type is kuali.atp.type.ExamPeriod
+    // also validate if the given examPeriod type is allowed by the given term type
     private boolean _validateExamPeriodType (String examPeriodTypeKey, String termTypeKey, ContextInfo context) {
         if (!StringUtils.equals(examPeriodTypeKey, AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY)){
             return false;
