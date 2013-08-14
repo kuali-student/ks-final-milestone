@@ -77,14 +77,14 @@ public class ARGFormatsForCreateAOKeyValues extends UifKeyValuesFinderBase imple
         return keyValues;
     }
 
+    // Get the first Format Offering Key from the database by using the search service to get all FOs for a CO and picking the first one.
+    // This will be used as the default value for the Format Offering dropdown in the Add Activity popover,
+    // and to determine the default value for the Activity Type and Cluster dropdowns to ensure there are no mismatches.
     public String getFirstKey(ViewModel model){
         ARGCourseOfferingManagementForm coForm = (ARGCourseOfferingManagementForm) model;
         ARGCourseOfferingManagementViewHelperServiceImpl helperService = ((ARGCourseOfferingManagementViewHelperServiceImpl)coForm.getView().getViewHelperService());
-
         String foId = null;
-
         CourseOfferingInfo selectedCourseOffering = coForm.getCurrentCourseOfferingWrapper().getCourseOfferingInfo();
-
         try {
             SearchRequestInfo sr = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.FO_BY_CO_ID_SEARCH_KEY);
             sr.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, selectedCourseOffering.getId());
