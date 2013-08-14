@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class1.krms.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.dto.AgendaEditor;
@@ -272,6 +273,20 @@ public class AORuleEditorController extends EnrolRuleEditorController {
 
         return super.navigate(form, result, request, response);
 
+    }
+
+    protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
+
+        RuleManagementWrapper ruleWrapper = (RuleManagementWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+
+        //Compare CO to CLU and display info message
+        if (ruleEditor.getProposition() != null) {
+            if (!this.getViewHelper(form).compareRules(ruleWrapper.getRuleEditor())) {
+                GlobalVariables.getMessageMap().putInfoForSectionId(KRMSConstants.KRMS_RULE_TREE_GROUP_ID, EnrolKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_CHANGED);
+            } else if (GlobalVariables.getMessageMap().containsMessageKey(KRMSConstants.KRMS_RULE_TREE_GROUP_ID)) {
+                GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRMSConstants.KRMS_RULE_TREE_GROUP_ID);
+            }
+        }
     }
 
 }
