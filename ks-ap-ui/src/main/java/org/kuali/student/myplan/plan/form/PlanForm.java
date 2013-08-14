@@ -264,6 +264,13 @@ public class PlanForm extends UifFormBase {
         this.backup = backup;
     }
 
+    public boolean isFakeBackup() {
+        return backup;
+    }
+
+    public void setFakeBackup(boolean fakeBackup) {
+    }
+
     public String getTermYear() {
         return termYear;
     }

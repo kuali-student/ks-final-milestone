@@ -404,18 +404,15 @@
 		<property name="hidden" value="true" />
 		<property name="items">
 			<list>
-
-				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Add to Plan"
-					p:title="Add to Plan">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>uif-tooltip</value>
-                        </list>
-                    </property>
-					<property name="onClickScript"
-						value="var temp = jQuery(this).data('courseid').replace(/\./g,'_');
-						openPlanItemPopUp(temp,'add_dialog_page',{courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page', moveCourse:'false'},e,null,{tail:{hidden:true},align:'top'});" />
-				</bean>
+                <bean parent="Uif-ActionLink" p:actionLabel="Add to Plan"
+                      p:title="Add to Plan">
+                    <property name="actionScript" value="
+                        var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page'};
+                        var popupStyle = {width:'300px', height:'16px'};
+                        var popupOptions = {tail:{hidden:true}, align:'top', close:true};
+                        openPopup('add_dialog_page', retrieveData, 'plan', popupStyle, popupOptions, e);
+                    "/>
+                </bean>
 
 				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Bookmark"
 					p:title="Bookmark" p:style="margin:0;">
