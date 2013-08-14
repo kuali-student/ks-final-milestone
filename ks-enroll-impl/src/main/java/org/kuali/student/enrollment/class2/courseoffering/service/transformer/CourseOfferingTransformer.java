@@ -37,6 +37,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -753,12 +754,9 @@ public class CourseOfferingTransformer {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
         krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
-                // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-                "kuali.lu.type.CreditCourse",
-//                CourseServiceConstants.REF_OBJECT_URI_COURSE,
+                CourseServiceConstants.REF_OBJECT_URI_COURSE,
                 courseInfo.getId(),
-                "kuali.lui.type.course.offering",
-//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 courseOfferingInfo.getId(),
                 optionKeys);
     }
@@ -775,12 +773,9 @@ public class CourseOfferingTransformer {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
         krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
-                // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-                "kuali.lui.type.course.offering",
-//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 sourceCo.getId(),
-                "kuali.lui.type.course.offering",
-//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 targetCo.getId(),
                 optionKeys);
     }
