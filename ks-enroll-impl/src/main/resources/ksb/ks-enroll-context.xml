@@ -335,6 +335,7 @@
         <property name="acalService" ref="AcademicCalendarService" />
         <property name="registrationCodeGeneratorFactory" ref="regGroupCodeGeneratorFactory" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+        <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="acalServiceFacade" ref="acalServiceFacade"/>
         <!--The coService property is looked up in the service bus to prevent a circular spring reference-->
     </bean>
@@ -359,6 +360,7 @@
         <property name="businessLogic" ref="coBusinessLogic" />
         <property name="offeringCodeGenerator" ref="offeringCodeGenerator" />
         <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+        <property name="activityOfferingTransformer" ref="activityTransformer" />
         <property name="seatPoolDefinitionDao" ref="seatPoolDefinitionDao" />
         <property name="activityOfferingClusterDao" ref="activityOfferingClusterDao" />
         <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
@@ -461,6 +463,7 @@
   <bean id="coMockService" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceImpl">
     <property name="courseService" ref="courseServiceImpl" />
     <property name="courseOfferingTransformer" ref="courseOfferingTransformer" />
+    <property name="activityOfferingTransformer" ref="activityTransformer" />
     <property name="registrationGroupTransformer" ref="registrationGroupTransformer" />
   </bean>
 
@@ -782,7 +785,9 @@
     </property>
   </bean>
 
-  <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
+  <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" >
+    <property name="krmsRuleManagementCopyMethods" ref="krmsRuleManagementCopyMethods" />
+  </bean>
 
   <!-- Process Service -->
   <bean id="processService" class="org.kuali.student.r2.core.process.impl.ProcessServiceImpl">

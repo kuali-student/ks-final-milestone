@@ -125,6 +125,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
     private CourseOfferingServiceBusinessLogic businessLogic;
     private CourseOfferingCodeGenerator offeringCodeGenerator;
     private CourseOfferingTransformer courseOfferingTransformer;
+    private ActivityOfferingTransformer activityOfferingTransformer;
     private SeatPoolDefinitionDaoApi seatPoolDefinitionDao;
     private ActivityOfferingClusterDaoApi activityOfferingClusterDao;
     private RegistrationGroupTransformer registrationGroupTransformer;
@@ -1550,6 +1551,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         targetAO.setActivityCode(null);
         targetAO = createActivityOffering(sourceAO.getFormatOfferingId(), sourceAO.getActivityId(), sourceAO.getTypeKey(), targetAO, context);
+
+        // have to copy rules AFTER AO is created because the link is by the AO id
+        activityOfferingTransformer.copyRulesFromExistingActivityOffering(sourceAO, targetAO, new ArrayList<String>(), context);
 
         /**
          * Create ScheduleRequests on the target AO. Use ScheduleComponents (ADL) to create the RDLs if any exist.
@@ -3323,6 +3327,10 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
 
     public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
         this.courseOfferingTransformer = courseOfferingTransformer;
+    }
+
+    public void setActivityOfferingTransformer(ActivityOfferingTransformer activityOfferingTransformer) {
+        this.activityOfferingTransformer = activityOfferingTransformer;
     }
 
     public void setRegistrationGroupTransformer(RegistrationGroupTransformer registrationGroupTransformer) {

@@ -4,6 +4,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
+import org.kuali.rice.krms.impl.util.KrmsRuleManagementCopyMethods;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -43,6 +44,8 @@ import java.util.Set;
  */
 public class ActivityOfferingTransformer {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ActivityOfferingTransformer.class);
+    private KrmsRuleManagementCopyMethods krmsRuleManagementCopyMethods;
+
     /**
      * Transform a list of LuiInfos into Activity Offerings. It is the bulk version of lui2Activity transformer
      *
@@ -433,4 +436,29 @@ public class ActivityOfferingTransformer {
         return luiToScheduleRequestsMap;
     }
 
+    public void copyRulesFromExistingActivityOffering(ActivityOfferingInfo sourceAo,
+                                                    ActivityOfferingInfo targetAo,
+                                                    List<String> optionKeys, ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException,
+            PermissionDeniedException,
+            OperationFailedException {
+        if (targetAo.getId() == null) {
+            throw new InvalidParameterException("Target ActivityOffering should already have it's id assigned");
+        }
+        getKrmsRuleManagementCopyMethods().deepCopyReferenceObjectBindingsFromTo(
+                CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                sourceAo.getId(),
+                CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                targetAo.getId(),
+                optionKeys);
+    }
+
+    public KrmsRuleManagementCopyMethods getKrmsRuleManagementCopyMethods() {
+        return krmsRuleManagementCopyMethods;
+    }
+
+    public void setKrmsRuleManagementCopyMethods(KrmsRuleManagementCopyMethods krmsRuleManagementCopyMethods) {
+        this.krmsRuleManagementCopyMethods = krmsRuleManagementCopyMethods;
+    }
 }
