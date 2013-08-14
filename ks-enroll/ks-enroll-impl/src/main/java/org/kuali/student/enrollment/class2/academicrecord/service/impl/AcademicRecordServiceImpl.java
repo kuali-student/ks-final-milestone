@@ -22,6 +22,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -170,7 +171,14 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
-	@Override
+    @Override
+    public GPAInfo calculateGPA(List<StudentCourseRecordInfo> studentCourseRecordInfoList, String calculationTypeKey,
+            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Method not yet implemented!");
+    }
+
+    @Override
 	public String getEarnedCreditsForTerm(String personId, String termId,
 			String calculationTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,

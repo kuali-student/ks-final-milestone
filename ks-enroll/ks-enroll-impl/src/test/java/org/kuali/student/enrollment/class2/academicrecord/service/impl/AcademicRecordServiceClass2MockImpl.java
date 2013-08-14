@@ -42,6 +42,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jws.WebParam;
+
 /**
  * @author Kuali Student Team
  */
@@ -263,6 +265,30 @@ public class AcademicRecordServiceClass2MockImpl implements
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return gpasMap.get("gpa3");
+    }
+
+    /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.academicrecord.service.AcademicRecordService#calculateGPA(java.util.List<org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo>, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public GPAInfo calculateGPA(List<StudentCourseRecordInfo> studentCourseRecordInfoList, String calculationTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        //This is a mock GPA calculation
+        float totalCredits = 0.0f;
+        float gradePoints = 0.0f;
+        for (StudentCourseRecordInfo info : studentCourseRecordInfoList){
+            float creditsForGPA = Float.parseFloat(info.getCreditsForGPA());
+            gradePoints += Float.parseFloat(info.getCalculatedGradeValue())*creditsForGPA;
+            totalCredits += creditsForGPA;
+        }
+
+        GPAInfo gpa = new GPAInfo();
+        gpa.setCalculationTypeKey(calculationTypeKey);
+        gpa.setScaleKey("1");
+        gpa.setValue(String.valueOf(gradePoints/totalCredits));
+        return gpa;
     }
 
     /* (non-Javadoc)
