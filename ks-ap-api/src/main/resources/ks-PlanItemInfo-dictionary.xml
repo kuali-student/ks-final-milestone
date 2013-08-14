@@ -70,6 +70,11 @@
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+    <bean id="PlanItemInfo.credit" parent="PlanItemInfo.credit-parent"/>
+	<bean id="PlanItemInfo.credit-parent" abstract="true" parent="PlanItemInfo.credit-generated">
+	<!-- insert any overrides to the generated attribute definitions here -->
+	</bean>
+
 	<bean id="PlanItemInfo.typeKey" parent="PlanItemInfo.typeKey-parent"/>
 	<bean id="PlanItemInfo.typeKey-parent" abstract="true" parent="PlanItemInfo.typeKey-generated">
     <!-- Overrides here -->

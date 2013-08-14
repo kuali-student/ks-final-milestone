@@ -58,6 +58,7 @@ PlanItem message structure
 				<ref bean="PlanItemInfo.refObjectType"/>
 				<ref bean="PlanItemInfo.learningPlanId"/>
 				<ref bean="PlanItemInfo.id"/>
+                <ref bean="PlanItemInfo.credit"/>
 				<ref bean="PlanItemInfo.typeKey"/>
 				<ref bean="PlanItemInfo.stateKey"/>
 			</list>
@@ -123,6 +124,23 @@ Containing learning plan
 		<property name="description">
 			<value>
 Containing learning plan
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+    <bean id="PlanItemInfo.credit-generated" abstract="true" parent="BaseKuali.float">
+		<property name="name" value="credit"/>
+		<property name="shortLabel" value="Credit"/>
+		<property name="summary">
+			<value>
+Credit hours for the plan item, used for placeholders.
+			</value>
+		</property>
+		<property name="label" value="Credit"/>
+		<property name="description">
+			<value>
+Credit hours for the plan item, used for placeholders.
 			</value>
 		</property>
 		<property name="required" value="false"/>

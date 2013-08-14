@@ -7,9 +7,7 @@ import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * PlanItem message structure
@@ -19,7 +17,7 @@ import java.util.Set;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PlanItemInfo", propOrder = {"refObjectId", "refObjectType", "learningPlanId", "planPeriods", "id",
-        "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
+        "credit", "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
 public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
 
     @XmlAttribute
@@ -39,6 +37,9 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
 
     @XmlElement
     private List<String> planPeriods;
+
+    @XmlElement
+    private Float credit;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -119,5 +120,13 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
 
     public void setPlanPeriods(List<String> planPeriods) {
         this.planPeriods = planPeriods;
+    }
+
+     public Float getCredit() {
+        return credit;
+    }
+
+    public void setCredit(Float credit) {
+         this.credit = credit;
     }
 }
