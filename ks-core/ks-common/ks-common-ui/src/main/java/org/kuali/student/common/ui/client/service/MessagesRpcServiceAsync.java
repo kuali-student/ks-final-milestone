@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.service;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
@@ -24,9 +24,9 @@ import org.kuali.student.r2.common.dto.LocaleInfo;
 
 public interface MessagesRpcServiceAsync {
     
-    public void getMessageGroups(AsyncCallback<List<String>> callback);
+    public void getMessageGroups(AsyncCallback<ArrayList<String>> callback);
     
-    public void getLocales(AsyncCallback<List<LocaleInfo>> callback);
+    public void getLocales(AsyncCallback<ArrayList<LocaleInfo>> callback);
 
     public void getMessage(
             String localeKey, 
@@ -34,15 +34,15 @@ public interface MessagesRpcServiceAsync {
             String messageKey, 
             AsyncCallback<MessageInfo> callback);
     
-    public void getMessages(
+    public void getMessagesByGroup(
             String localeKey, 
             String messageGroupKey, 
-            AsyncCallback<List<MessageInfo>> callback);
+            AsyncCallback<ArrayList<MessageInfo>> callback);
     
     public void getMessagesByGroups(
             String localeKey, 
-            List<String> messageGroupKeys, 
-            AsyncCallback<List<MessageInfo>> callback);
+            ArrayList<String> messageGroupKeys, 
+            AsyncCallback<ArrayList<MessageInfo>> callback);
     
     public void updateMessage(
             String localeKey, 
