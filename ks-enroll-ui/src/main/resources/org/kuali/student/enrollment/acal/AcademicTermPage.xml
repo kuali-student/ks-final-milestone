@@ -460,7 +460,9 @@
         <!--property name="renderLineActions" value="false" /-->
         <property name="propertyName" value="examdates" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper" />
-        <property name="header.render" value="false"/>
+        <!--<property name="header.render" value="false"/>-->
+        <property name="headerText" value="Final Exam Period" />
+        <property name="disclosure.render" value="false"/>
         <!--<property name="layoutManager.numberOfColumns" value="@{#view.readOnly ? 3 : 9}"/>-->
         <property name="layoutManager.style" value="width:40%;"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
