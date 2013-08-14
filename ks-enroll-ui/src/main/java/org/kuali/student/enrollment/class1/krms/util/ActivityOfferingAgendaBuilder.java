@@ -36,11 +36,6 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
     protected Component buildRule(RuleEditor rule, String bindingPrefix, AgendaSection agendaSection) {
         Component group = super.buildRule(rule, bindingPrefix, agendaSection);
 
-        //Open disclosure if rule has statements
-        if(!rule.isDummy()) {
-            ((Group) group).getDisclosure().setDefaultOpen(true);
-        }
-
         //Add warning messages for empty or deleted rules.
         if (rule.isDummy() && rule.getParent() != null)  {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_HASPARENT);
@@ -48,9 +43,17 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_EMPTY);
         }
 
-        //Add Info message if co rule differs from clu rule.
-        if (!this.getViewHelperService().compareRules(rule) && !rule.isDummy()) {
-            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_CHANGED);
+        //Only do this if the rule does exist.
+        if(!rule.isDummy()){
+            //Open disclosure if rule has statements
+            ((Group) group).getDisclosure().setDefaultOpen(true);
+
+            //Add Info message if co rule differs from clu rule.
+            if (!this.getViewHelperService().compareRules(rule)) {
+                GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_CHANGED);
+            } else {
+                GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_NOT_CHANGED);
+            }
         }
 
         return group;
