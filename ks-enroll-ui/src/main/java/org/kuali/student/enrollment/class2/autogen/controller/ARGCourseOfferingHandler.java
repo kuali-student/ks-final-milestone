@@ -230,6 +230,21 @@ public class ARGCourseOfferingHandler {
             }if(ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_REINSTATE.equals(methodToCall)){
                 if(ao.isEnableReinstateButton() && ao.getIsCheckedByCluster()) {
                     isEnabled = true;
+                    if(ao.getStateName().equals("Canceled")){
+                        ao.setReinstateStateName("Draft");
+                    }
+                    if(ao.getStateName().equals("Suspended")){
+                        if(ao.getActualScheduleComponents().isEmpty()){
+                            ao.setReinstateStateName("Draft");
+                        } else {
+                            if(theForm.getSocState().equals("Published")){
+                               ao.setReinstateStateName("Offered");
+                            } else if(theForm.getSocState().equals("Final Edits") || theForm.getSocState().equals("Locked")){
+                                ao.setReinstateStateName("Approved");
+                            }
+                        }
+                    }
+
                 }
                 theForm.setCsrLabel("Reinstate");
             }

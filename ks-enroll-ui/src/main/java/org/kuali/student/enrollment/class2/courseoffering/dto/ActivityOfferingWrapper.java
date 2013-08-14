@@ -110,6 +110,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private boolean isColocatedOnLoadAlready;
     private boolean isSendRDLsToSchedulerAfterMSE;
     private boolean isRemovedFromColoSet;
+    private String reinstateStateName;
 
     private CourseOfferingContextBar contextBar = CourseOfferingContextBar.NULL_SAFE_INSTANCE;
 
@@ -1157,4 +1158,15 @@ public class ActivityOfferingWrapper implements Serializable{
     public void setHasRule(boolean hasRule) {
         this.hasRule = hasRule;
     }
+
+
+    public String getReinstateStateName() {
+        return reinstateStateName;
+    }
+
+    public void setReinstateStateName(String reinstateStateName) {
+        this.reinstateStateName = reinstateStateName;
+    }
+
+
 }

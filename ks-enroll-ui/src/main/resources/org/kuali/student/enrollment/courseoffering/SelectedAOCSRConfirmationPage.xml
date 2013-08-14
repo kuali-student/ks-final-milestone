@@ -141,7 +141,7 @@
                                   p:messageText="@{selectedToCSRList.size()} activity offering(s) will be cancelled"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be cancelled  (ineligible status)"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be cancelled (ineligible status)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
@@ -196,7 +196,7 @@
                                   p:messageText="@{selectedToCSRList.size()} activity offering(s) will be reinstated"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be reinstated  (ineligible status)"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be reinstated (ineligible status)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
@@ -251,15 +251,16 @@
                                   p:messageText="@{selectedToCSRList.size()} activity offering(s) will be suspended"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be suspended  (ineligible status/SOC state)"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be suspended (ineligible status/SOC state)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
                 </bean>
 
-                <bean id="KS-CourseOfferingManagement-SelectedActivityOfferingListSection"
+                <bean id="KS-CourseOfferingManagement-SelectedCancelActivityOfferingListSection"
                       parent="Uif-TableCollectionSection"
                       p:layoutManager.numberOfColumns="3" p:renderAddLine="false" p:readOnly="true">
+                    <property name="render" value="@{actionCSR=='cancelAO'}"/>
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="propertyName" value="selectedToCSRList"/>
@@ -273,6 +274,98 @@
                             <bean parent="Uif-DataField"
                                   p:label="STATUS"
                                   p:propertyName="stateName"/>
+                            <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField"  p:showLabel="false" p:propertyName="aoInfo.activityCode"/>
+                                        <!--Colocated is not in scope for M8
+                                        <bean parent="Uif-ImageField" p:image.altText="@{#lp.colocatedAoInfoUI}"
+                                              p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                                            <property name="style" value="padding-left:5px"/>
+                                            <property name="toolTip">
+                                                <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
+                                            </property>
+                                        </bean>
+                                        -->
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-DataField"
+                                  p:label="TYPE"
+                                  p:propertyName="typeName"/>
+                            <bean parent="Uif-DataField"
+                                  p:label="FORMAT"
+                                  p:propertyName="aoInfo.formatOfferingName"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="KS-CourseOfferingManagement-SelectedSuspendActivityOfferingListSection"
+                      parent="Uif-TableCollectionSection"
+                      p:layoutManager.numberOfColumns="3" p:renderAddLine="false" p:readOnly="true">
+                    <property name="render" value="@{actionCSR=='suspendAO'}"/>
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+                    <property name="propertyName" value="selectedToCSRList"/>
+                    <property name="collectionLookup.quickfinderAction.render" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="layoutManager.actionFieldPrototype.render" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField"
+                                  p:label="STATUS"
+                                  p:propertyName="stateName"/>
+                            <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField"  p:showLabel="false" p:propertyName="aoInfo.activityCode"/>
+                                        <!--Colocated is not in scope for M8
+                                        <bean parent="Uif-ImageField" p:image.altText="@{#lp.colocatedAoInfoUI}"
+                                              p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                                            <property name="style" value="padding-left:5px"/>
+                                            <property name="toolTip">
+                                                <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
+                                            </property>
+                                        </bean>
+                                        -->
+                                    </list>
+                                </property>
+                            </bean>
+
+                            <bean parent="Uif-DataField"
+                                  p:label="TYPE"
+                                  p:propertyName="typeName"/>
+                            <bean parent="Uif-DataField"
+                                  p:label="FORMAT"
+                                  p:propertyName="aoInfo.formatOfferingName"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean id="KS-CourseOfferingManagement-SelectedReinstateActivityOfferingListSection"
+                      parent="Uif-TableCollectionSection"
+                      p:layoutManager.numberOfColumns="3" p:renderAddLine="false" p:readOnly="true">
+                    <property name="render" value="@{actionCSR=='reinstateAO'}"/>
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+                    <property name="propertyName" value="selectedToCSRList"/>
+                    <property name="collectionLookup.quickfinderAction.render" value="false"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="layoutManager.actionFieldPrototype.render" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField"
+                                  p:label="STATUS"
+                                  p:propertyName="stateName"/>
+                            <bean parent="Uif-DataField"
+                                  p:label="Reinstated Status"
+                                  p:propertyName="reinstateStateName"/>
+
                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
                                 <property name="items">
                                     <list>
