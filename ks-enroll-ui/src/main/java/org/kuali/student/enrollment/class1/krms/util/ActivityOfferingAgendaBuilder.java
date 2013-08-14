@@ -49,7 +49,7 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
         }
 
         //Add Info message if co rule differs from clu rule.
-        if (!this.getViewHelperService().compareRules(rule)) {
+        if (!this.getViewHelperService().compareRules(rule) && !rule.isDummy()) {
             GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_CHANGED);
         }
 
