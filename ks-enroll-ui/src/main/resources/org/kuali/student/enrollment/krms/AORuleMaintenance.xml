@@ -237,12 +237,12 @@ limitations under the License.
     <bean id="KSAO-RuleEdit-Links" parent="KRMS-RuleEdit-Links">
         <property name="items">
             <list>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules" p:render="@{!#line.dummy}">
                     <property name="toolTip">
                         <bean parent="Uif-Tooltip" p:tooltipContent="Compare Course Offering, Catalog and Activity Offering Rules"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and Course Offering Rule" p:methodToCall="viewCoAndCluRules"/>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="View Catalog and Course Offering Rule" p:methodToCall="viewCoAndCluRules" p:render="@{#line.dummy}"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRuleStatements"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Revert to Course Offering" p:methodToCall="deleteRule"/>
