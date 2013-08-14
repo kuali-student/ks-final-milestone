@@ -21,6 +21,7 @@
     <security:http pattern="/favicon.ico" security="none" />
     <security:http pattern="/login.jsp*" security="none" />
     <security:http pattern="/index.jsp*" security="none"/>
+    <security:http pattern="/themes/**" security="none"/>
     <!-- resource files (css, scripts, images) can bypass security: -->
     <security:http pattern="\S*?\.(css|js|png|gif|jpg)$" request-matcher="ciRegex" security="none" />
     <!-- enable KS Kitchen Sink pages to bypass login.jsp: -->
