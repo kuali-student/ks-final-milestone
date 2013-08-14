@@ -7,6 +7,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -71,6 +72,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     @Resource
     private CourseOfferingTransformer courseOfferingTransformer;
+
+    @Resource
+    private ActivityOfferingTransformer activityOfferingTransformer;
 
     @Resource
     private AcademicCalendarServiceFacade acalServiceFacade;
@@ -211,6 +215,10 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         tempContext.setAttributes(attrs);
         targetAo = coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                 targetAo.getTypeKey(), targetAo, tempContext);
+
+        // have to copy rules AFTER AO is created because the link is by the AO id
+        //getActivityOfferingTransformer().copyRulesFromExistingActivityOffering(sourceAo, targetAo, optionKeys, context);
+
         return targetAo;
     }
 
@@ -1184,5 +1192,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         }
     }
 
+    public ActivityOfferingTransformer getActivityOfferingTransformer() {
+        return activityOfferingTransformer;
+    }
 
+    public void setActivityOfferingTransformer(ActivityOfferingTransformer activityOfferingTransformer) {
+        this.activityOfferingTransformer = activityOfferingTransformer;
+    }
 }
