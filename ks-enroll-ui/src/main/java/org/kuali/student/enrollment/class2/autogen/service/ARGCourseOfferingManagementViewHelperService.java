@@ -54,4 +54,6 @@ public interface ARGCourseOfferingManagementViewHelperService extends CO_AO_RG_V
     public void draftActivityOfferings(ARGCourseOfferingManagementForm form) throws Exception;
 
     public void build_AOs_RGs_AOCs_Lists_For_TheCourseOffering (ARGCourseOfferingManagementForm form, CourseOfferingWrapper theCourseOffering) throws Exception;
+
+    public void  setupRuleIndicator(List<ActivityOfferingWrapper> wrappers );
 }

@@ -101,6 +101,8 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             form.setCurrentCourseOfferingWrapper(null);
         }
 
+        //Refresh AO list on KRMS return
+        ARGUtil.getViewHelperService(form).setupRuleIndicator(form.getActivityWrapperList());
         // check view authorization
         // TODO: this needs to be invoked for each request
         if (form.getView() != null) {

@@ -143,7 +143,7 @@ public class ActivityOfferingWrapper implements Serializable{
     private String subTermDatesJsonString;
 
     //use this boolean to check if AO has any rule attached to it
-    private boolean hasRuleAttached;
+    private boolean hasRule;
 
     public ActivityOfferingWrapper(){
         aoInfo = new ActivityOfferingInfo();
@@ -1150,11 +1150,11 @@ public class ActivityOfferingWrapper implements Serializable{
         isRemovedFromColoSet = removedFromColoSet;
     }
 
-    public boolean isHasRuleAttached() {
-        return hasRuleAttached;
+    public boolean isHasRule() {
+        return hasRule;
     }
 
-    public void setHasRuleAttached(boolean hasRuleAttached) {
-        this.hasRuleAttached = hasRuleAttached;
+    public void setHasRule(boolean hasRule) {
+        this.hasRule = hasRule;
     }
 }

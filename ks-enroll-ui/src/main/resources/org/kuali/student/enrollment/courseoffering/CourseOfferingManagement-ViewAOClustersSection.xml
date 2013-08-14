@@ -136,7 +136,7 @@
                                     <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-ImageField" p:hidden="@{#lp.hasRuleAttached eq false}"
+                            <bean parent="Uif-ImageField" p:hidden="@{#lp.hasRule eq false}"
                                   p:source="@{#ConfigProperties['ks.externalizable.images.url']}/ActivityRuleIcon6px.png">
                                 <property name="style" value="padding-left:3px padding-bottom:3px;"/>
                                 <property name="toolTip">
@@ -145,7 +145,7 @@
                                 <property name="propertyReplacers">
                                     <list>
                                         <!-- Don't render the tooltip elements if they aren't needed -->
-                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip" p:condition="@{#lp.hasRuleAttached eq false}">
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="toolTip" p:condition="@{#lp.hasRule eq false}">
                                             <property name="replacement">
                                                 <null/>
                                             </property>

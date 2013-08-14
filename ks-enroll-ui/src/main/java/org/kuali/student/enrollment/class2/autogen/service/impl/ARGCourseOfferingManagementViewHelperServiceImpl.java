@@ -319,7 +319,7 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
 
         //Parse the search results
         List<ActivityOfferingWrapper> wrappers = processAoClusterData(results, sch2aoMap, clusterMap, aoMap, foIds, aoIdsWithoutSch, contextInfo);
-
+        setupRuleIndicator(wrappers);
         processAosData(coId, clusterMap);
 
         //Sort Activity Wrappers and Clusters
@@ -1071,7 +1071,6 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
                     aoWrapper.getAoInfo().setTermId(cell.getValue());
                 }
             }
-            aoWrapper.setHasRuleAttached(this.hasRuleAttached(aoWrapper));
             aoWrapper.getAoInfo().setScheduleIds(scheduleIds);
             for(String scheduleId : scheduleIds){
                 List<ActivityOfferingWrapper> list = sch2aoMap.get(scheduleId);
@@ -2102,15 +2101,20 @@ public class ARGCourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_V
         return jointDefinedCodes.toString();
     }
 
-    private boolean hasRuleAttached(ActivityOfferingWrapper aoWrapper) {
-        boolean hasRule = false;
+    public void  setupRuleIndicator(List<ActivityOfferingWrapper> wrappers ) {
+        int i = 0;
+        for (ActivityOfferingWrapper aoWrapper :wrappers)  {
         if (aoWrapper.getAoInfo().getId() != null) {
             List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoWrapper.getAoInfo().getId());
             if (refObjectsBindings.size() > 0) {
-                hasRule = true;
+                wrappers.get(i).setHasRule(true);
+            }
+            else{
+                wrappers.get(i).setHasRule(false);
             }
         }
-        return hasRule;
+            i++;
+        }
     }
 
     private CourseOfferingService _getCourseOfferingService() {
