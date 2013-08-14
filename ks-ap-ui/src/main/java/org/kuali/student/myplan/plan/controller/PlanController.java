@@ -20,6 +20,7 @@ import static org.springframework.util.StringUtils.hasText;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -60,6 +61,7 @@ import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstant
 import org.kuali.student.myplan.audit.dto.AuditReportInfo;
 import org.kuali.student.myplan.audit.service.DegreeAuditService;
 import org.kuali.student.myplan.audit.service.DegreeAuditServiceConstants;
+import org.kuali.student.myplan.comment.CommentConstants;
 import org.kuali.student.myplan.comment.dataobject.MessageDataObject;
 import org.kuali.student.myplan.comment.service.CommentQueryHelper;
 import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
@@ -67,7 +69,9 @@ import org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution;
 import org.kuali.student.myplan.course.dataobject.CourseOfferingTerm;
 import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
 import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
+import org.kuali.student.myplan.plan.dataobject.TermNoteDataObject;
 import org.kuali.student.myplan.plan.form.PlanForm;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -79,6 +83,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.springframework.stereotype.Controller;
@@ -230,9 +236,9 @@ public class PlanController extends UifControllerBase {
 				throw new ServletException("LP lookup failure", e);
 			}
 			// TODO: Add course notes to plan info ?
-			//					if (hasText(planItemInfo.getDescr().getPlain())) {
-			//						planForm.setCourseNote(planItemInfo.getDescr().getPlain());
-			//					}
+			if (hasText(planItem.getDescr().getPlain())) {
+			    planForm.setCourseNote(planItem.getDescr().getPlain());
+			}
 			if (hasText(planItem.getRefObjectId())) {
 				courseId = planItem.getRefObjectId();
 				CourseInfo courseInfo;
@@ -438,6 +444,28 @@ public class PlanController extends UifControllerBase {
 		events.put(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_DELETED, params);
 		return events;
 	}
+
+    @RequestMapping(params = "methodToCall=startTermNoteForm")
+    public ModelAndView startTermNoteForm(@ModelAttribute("KualiForm") UifFormBase form,
+                                          BindingResult result, HttpServletRequest request,
+                                          HttpServletResponse response) {
+        super.start(form, result, request, response);
+
+        PlanForm planForm = (PlanForm) form;
+        String atpId = planForm.getAtpId();
+
+        if (StringUtils.isEmpty(atpId)) {
+            return doOperationFailedError(planForm,
+                    "Could not initialize form because atp id was missing.",
+                    null);
+        }
+
+        String termNoteStr = getTermNoteString(planForm);
+
+        planForm.setTermNote(termNoteStr);
+
+        return getUIFModelAndView(planForm);
+    }
 
 	@RequestMapping(params = "methodToCall=plannedToBackup")
 	public ModelAndView plannedToBackup(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
@@ -1516,6 +1544,146 @@ public class PlanController extends UifControllerBase {
 		return doPlanActionSuccess(form, PlanConstants.SUCCESS_KEY_PLANNED_ITEM_ADDED, params);
 	}
 
+
+    @RequestMapping(params = "methodToCall=editPlanCourse")
+    public ModelAndView editPlannedCourse(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest httprequest, HttpServletResponse httpresponse){
+
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            return doAdviserAccessError(form, "Adviser Access Denied", null);
+        }
+
+        String planItemId = form.getPlanItemId();
+        String courseId = form.getCourseId();
+        if (StringUtils.isEmpty(planItemId) && StringUtils.isEmpty(courseId)) {
+            return doOperationFailedError(form,
+                    "Plan item id and courseId are missing.", null);
+        }
+
+        if (StringUtils.isEmpty(planItemId)) {
+            planItemId = getPlanIdFromCourseId(courseId,
+                    PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
+        }
+
+        String sectionCode = null;
+        // See if the plan item exists.
+        PlanItemInfo planItem = null;
+        try {
+            planItem = getAcademicPlanService().getPlanItem(planItemId,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (DoesNotExistException e) {
+            return doPageRefreshError(form, String.format(
+                    "No plan item with id [%s] exists.", planItemId), e);
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Query for plan item failed.",
+                    e);
+        }
+
+        // Set Course Note
+        String note = form.getCourseNote();
+        note = note.replaceAll("\\xA0"," ");
+        RichTextInfo planItemNote = new RichTextInfo();
+        planItemNote.setPlain(note);
+        planItemNote.setFormatted(note);
+        planItem.setDescr(planItemNote);
+
+        // Save note
+        try{
+            getAcademicPlanService().updatePlanItem(planItem.getId(),planItem,KsapFrameworkServiceLocator.getContext().getContextInfo());
+        }catch (DoesNotExistException e) {
+            return doPageRefreshError(form, String.format(
+                    "No plan item with id [%s] exists.", planItemId), e);
+        } catch (Exception e) {
+            return doOperationFailedError(form, "Query for plan item failed.",
+                    e);
+        }
+
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
+
+        events.putAll(makeUpdatePlanNoteEvent(form.getAtpId(),planItemId,PlanConstants.JS_EVENT_NAME.PLAN_NOTE_UPDATED));
+
+        form.setJavascriptEvents(events);
+        return doPlanActionSuccess(form,
+                PlanConstants.SUCCESS_KEY_ITEM_EDITED, new String[0]);
+
+    }
+
+    @RequestMapping(params = "methodToCall=editTermNote")
+    public ModelAndView editTermNote(
+            @ModelAttribute("KualiForm") PlanForm form, BindingResult result,
+            HttpServletRequest httprequest, HttpServletResponse httpresponse){
+
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            return doAdviserAccessError(form, "Adviser Access Denied", null);
+        }
+
+        String note = form.getTermNote();
+        note = note.replaceAll("\\xA0"," ");
+
+        AcademicPlanService academicPlanService = getAcademicPlanService();
+        String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
+        try{
+            List<LearningPlanInfo> learningPlanList = academicPlanService
+                    .getLearningPlansForStudentByType(getUserId(), planTypeKey,
+                            KsapFrameworkServiceLocator.getContext()
+                                    .getContextInfo());
+            for (LearningPlanInfo learningPlan : learningPlanList) {
+                String learningPlanID = learningPlan.getId();
+                CommentService commentService = (CommentService) GlobalResourceLoader
+                        .getService(new QName(CommentConstants.NAMESPACE,
+                                CommentConstants.SERVICE_NAME));
+                List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
+                try{
+                    commentInfos = commentService.getCommentsByReferenceAndType(learningPlanID,PlanConstants.TERM_NOTE_COMMENT_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                }catch(Exception e){
+                    LOG.error("Unable to load term notes",e);
+                }
+                boolean found = false;
+                RichTextInfo newNote = new RichTextInfo();
+                newNote.setFormatted(note);
+                newNote.setPlain(note);
+                for(CommentInfo comment :commentInfos){
+                    String commentAtpId = comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
+                    if(form.getAtpId().equals(commentAtpId)){
+                        found=true;
+                        comment.setCommentText(newNote);
+                        commentService.updateComment(comment.getId(),comment,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                        break;
+                    }
+                }
+                if(!found){
+                    CommentInfo newComment = new CommentInfo();
+                    newComment.setCommentText(newNote);
+                    newComment.setEffectiveDate(new Date());
+                    newComment.setReferenceId(learningPlanID);
+                    newComment.setReferenceTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);
+                    newComment.setTypeKey(PlanConstants.TERM_NOTE_COMMENT_TYPE);
+                    newComment.setStateKey("ACTIVE");
+                    AttributeInfo atpIdAttr = new AttributeInfo();
+                    atpIdAttr.setKey(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
+                    atpIdAttr.setValue(form.getAtpId());
+                    newComment.getAttributes().add(atpIdAttr);
+                    commentService.createComment(newComment.getReferenceId(), newComment.getReferenceTypeKey(), PlanConstants.TERM_NOTE_COMMENT_TYPE, newComment, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                }
+
+            }
+        }catch(Exception e){
+            return doOperationFailedError(form, "Query for term note failed.",
+                    e);
+        }
+
+        note=getTermNoteString(form);
+        form.setTermNote(note);
+
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
+
+        events.putAll(makeUpdateTermNoteEvent(form.getAtpId(), note, PlanConstants.JS_EVENT_NAME.TERM_NOTE_UPDATED));
+        form.setJavascriptEvents(events);
+        return doPlanActionSuccess(form,
+                PlanConstants.SUCCESS_KEY_ITEM_EDITED, new String[0]);
+    }
+
 	/* Academic Planner */
 
 	@RequestMapping(params = "methodToCall=academicPlanner")
@@ -2560,6 +2728,39 @@ public class PlanController extends UifControllerBase {
 		return events;
 	}
 
+    private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeUpdatePlanNoteEvent(
+            String atpId, String planItemId, PlanConstants.JS_EVENT_NAME eventName) {
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
+
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("atpId", formatAtpIdForUI(atpId));
+        params.put("planItemId", planItemId);
+
+        events.put(eventName, params);
+        return events;
+    }
+
+    /**
+     * Creates an update plan item event.
+     *
+     * @param atpId
+     *            The id of the term.
+     * @return
+     */
+    private Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> makeUpdateTermNoteEvent(
+            String atpId, String note, PlanConstants.JS_EVENT_NAME eventName) {
+        Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
+
+        Map<String, String> params = new HashMap<String, String>();
+
+        params.put("atpId", formatAtpIdForUI(atpId));
+        params.put("termNote", note);
+
+        events.put(eventName, params);
+        return events;
+    }
+
 	private String getUserId() {
 		Person user = GlobalVariables.getUserSession().getPerson();
 		return user.getPrincipalId();
@@ -2885,4 +3086,54 @@ public class PlanController extends UifControllerBase {
 	public void setCourseDetailsInquiryService(CourseDetailsInquiryHelperImpl courseDetailsInquiryService) {
 		this.courseDetailsInquiryService = courseDetailsInquiryService;
 	}
+
+    public String getTermNoteString(PlanForm planForm){
+        List<TermNoteDataObject> termNoteList = new ArrayList<TermNoteDataObject>();
+
+        String termNoteStr = "";
+
+        AcademicPlanService academicPlanService = getAcademicPlanService();
+        String planTypeKey = PlanConstants.LEARNING_PLAN_TYPE_PLAN;
+        try{
+            List<LearningPlanInfo> learningPlanList = academicPlanService
+                    .getLearningPlansForStudentByType(getUserId(), planTypeKey,
+                            KsapFrameworkServiceLocator.getContext()
+                                    .getContextInfo());
+            for (LearningPlanInfo learningPlan : learningPlanList) {
+                String learningPlanID = learningPlan.getId();
+                CommentService commentService = (CommentService) GlobalResourceLoader
+                        .getService(new QName(CommentConstants.NAMESPACE,
+                                CommentConstants.SERVICE_NAME));
+                List<CommentInfo> commentInfos = new ArrayList<CommentInfo>();
+                try{
+                    commentInfos = commentService.getCommentsByReferenceAndType(learningPlanID,PlanConstants.TERM_NOTE_COMMENT_TYPE,KsapFrameworkServiceLocator.getContext().getContextInfo());
+                }catch(Exception e){
+                    LOG.error("Unable to load term notes.",e);
+                    termNoteStr=termNoteStr+"Unable to load note"+"\r";
+                }
+
+                for(CommentInfo comment :commentInfos){
+                    String commentAtp = comment.getAttributeValue(PlanConstants.TERM_NOTE_COMMENT_ATTRIBUTE_ATPID);
+                    if(planForm.getAtpId().equals(commentAtp)){
+                        TermNoteDataObject newTermNote = new TermNoteDataObject();
+                        newTermNote.setId(comment.getId());
+                        newTermNote.setAtpId(commentAtp);
+                        newTermNote.setDate(comment.getEffectiveDate());
+                        newTermNote.setTermNote(comment.getCommentText().getFormatted());
+                        termNoteList.add(newTermNote);
+                    }
+                }
+
+            }
+        }catch (Exception e){
+            LOG.error("Unable to load term notes.",e);
+            termNoteStr=termNoteStr+"Unable to load notes"+"\r";
+        }
+
+        for(TermNoteDataObject termNote : termNoteList){
+            termNoteStr=termNoteStr+termNote.getTermNoteUI()+"\r";
+        }
+
+        return termNoteStr;
+    }
 }

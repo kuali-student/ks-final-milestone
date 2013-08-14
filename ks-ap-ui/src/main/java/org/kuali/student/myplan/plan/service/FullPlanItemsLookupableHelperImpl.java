@@ -74,7 +74,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 
 		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
 				.populatePlannedTerms(plannedCoursesList, null,
-						studentCourseRecordInfos,null, null, true);
+						studentCourseRecordInfos,null, null,"", true);
         int numberOfTerms =KsapFrameworkServiceLocator.getTermHelper().getNumberOfTermsInAcademicYear();
 
 

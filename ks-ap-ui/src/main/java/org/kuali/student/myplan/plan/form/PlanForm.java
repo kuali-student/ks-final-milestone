@@ -63,9 +63,9 @@ public class PlanForm extends UifFormBase {
 
     // Quick Add params
     private String courseCd;
-    
+
     private BigDecimal courseCredit;
-    
+
     private String courseNote;
 
     /*properties used for section Planning*/
@@ -128,7 +128,7 @@ public class PlanForm extends UifFormBase {
 
     private StatusInfo statusInfo = new StatusInfo();
 
-
+    private String termNote;
     public int getBookmarkedCount() {
         return bookmarkedCount;
     }
@@ -211,7 +211,7 @@ public class PlanForm extends UifFormBase {
 		this.courseNote = courseNote;
 	}
 
-	public String getAtpId() {
+    public String getAtpId() {
         return atpId;
     }
 
@@ -222,6 +222,14 @@ public class PlanForm extends UifFormBase {
             }
         }
         this.atpId = atpId;
+    }
+
+    public String getFakeAtpId() {
+        return atpId;
+    }
+
+    public void setFakeAtpId(String fakeAtpId) {
+
     }
 
     public boolean isOther() {
@@ -426,6 +434,7 @@ public class PlanForm extends UifFormBase {
             jsonOut = StringEscapeUtils.unescapeJava(jsonOut);
             jsonOut = jsonOut.replaceAll("\"\\{", "{");
             jsonOut = jsonOut.replaceAll("}\"", "}");
+            jsonOut = StringEscapeUtils.escapeJava(jsonOut);
             jsonOut = StringEscapeUtils.escapeHtml(jsonOut);
         } catch (Exception e) {
             logger.error("Could not convert javascript events to JSON.", e);
@@ -485,4 +494,29 @@ public class PlanForm extends UifFormBase {
     public void setStatusInfo(StatusInfo statusInfo){
         this.statusInfo=statusInfo;
     }
+
+    public String getFakeCourseNote() {
+        return courseNote;
+    }
+
+    public void setFakeCourseNote(String fakeCourseNote) {
+
+    }
+
+    public String getTermNote() {
+        return termNote;
+    }
+
+    public void setTermNote(String termNote) {
+        this.termNote = termNote;
+    }
+
+    public String getFakeTermNote() {
+        return termNote;
+    }
+
+    public void setFakeTermNote(String fakeTermNote) {
+
+    }
+
 }

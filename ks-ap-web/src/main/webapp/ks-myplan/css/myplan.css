@@ -2618,3 +2618,14 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     margin: 0;
     width: 310px;
 }
+
+.uif-inputField .uif-message.counter {
+    font-size: 80%;
+    font-style: italic;
+    color: #aaa;
+    line-height: 12px;
+    text-align: right;
+    display: block;
+    width: 97%;
+    margin-left: 8px;
+}

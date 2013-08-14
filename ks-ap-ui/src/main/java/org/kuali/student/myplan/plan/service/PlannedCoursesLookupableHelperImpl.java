@@ -6,6 +6,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -13,6 +16,7 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
+import org.kuali.student.myplan.plan.dataobject.TermNoteDataObject;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -28,6 +32,9 @@ public class PlannedCoursesLookupableHelperImpl extends
 		PlanItemLookupableHelperBase {
 
 	private static final long serialVersionUID = 1502719861875054079L;
+
+	private static final Logger LOG = Logger
+			.getLogger(PlannedCoursesLookupableHelperImpl.class);
 
 	private transient AcademicRecordService academicRecordService;
 
@@ -68,6 +75,7 @@ public class PlannedCoursesLookupableHelperImpl extends
 				.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
 		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
 				.getStudentId();
+		String[] params = {};
 
 		/************* PlannedCourseList **************/
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
@@ -134,10 +142,19 @@ public class PlannedCoursesLookupableHelperImpl extends
 			throw new IllegalStateException("LP lookup failure", e);
 		}
 
+        /************* Cart List **************/
+        List<TermNoteDataObject> termNoteList = new ArrayList<TermNoteDataObject>();
+        try {
+            termNoteList = getTermNotes(studentId);
+        } catch (Exception e) {
+            LOG.error("Could not load term note list", e);
+
+        }
+
+        int futureYears = (int)ConfigContext.getCurrentContextConfig().getNumericProperty("ks.ap.MAX_FUTURE_YEARS", PlanConstants.MAX_FUTURE_YEARS);
 		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
 				.populatePlannedTerms(plannedCoursesList, backupCoursesList,
-						studentCourseRecordInfos, cartCoursesList, focusAtpId,
-						false);
+						studentCourseRecordInfos, cartCoursesList, termNoteList, focusAtpId, false);
 		return perfectPlannedTerms;
 	}
 }
