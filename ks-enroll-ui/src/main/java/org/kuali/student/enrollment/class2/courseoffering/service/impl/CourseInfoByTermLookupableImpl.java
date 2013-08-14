@@ -50,7 +50,7 @@ public class CourseInfoByTermLookupableImpl extends LookupableImpl {
         TERM_START("lu.queryParam.luOptionalGreaterThanEqualExpirDate","termStartDate"),
         TERM_END("lu.queryParam.luOptionalLessThanEqualEffectDate","termEndDate"),
         TERM_ID("termId","termId"),
-        CODE("lu.queryParam.startsWith.cluCode", "code"),
+        CODE("lu.queryParam.luOptionalCode", "code"),
         TITLE("lu.queryParam.luOptionalLongName", "courseTitle");
 
         private final String fieldValue;

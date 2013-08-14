@@ -653,10 +653,10 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
         //Then do the search
         SearchRequestInfo request = new SearchRequestInfo("lu.search.courseCodes");
-        request.addParam("lu.queryParam.startsWith.cluCode", catalogCourseCode);
+        request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.CODE.getQueryKey(), catalogCourseCode);
         request.addParam("lu.queryParam.luOptionalType", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
-        request.addParam("lu.queryParam.luOptionalGreaterThanEqualExpirDate", DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
-        request.addParam("lu.queryParam.luOptionalLessThanEqualEffectDate", DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
+        request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_START.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
+        request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_END.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
         request.setSortColumn("lu.resultColumn.cluOfficialIdentifier.cluCode");
         
         SearchResultInfo results = getCluService().search(request, context);
