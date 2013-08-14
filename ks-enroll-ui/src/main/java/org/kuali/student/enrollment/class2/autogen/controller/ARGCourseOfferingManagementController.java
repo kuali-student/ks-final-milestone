@@ -623,7 +623,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL);
         ARGCourseOfferingHandler.prepareCSRConfirmationView(theForm, ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_CANCEL, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_CANCEL_CONFIRM_PAGE);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_CSR_CONFIRM_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=suspendAOs")
@@ -631,7 +631,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND);
         ARGCourseOfferingHandler.prepareCSRConfirmationView(theForm, ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_SUSPEND, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_SUSPEND_CONFIRM_PAGE);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_CSR_CONFIRM_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=reinstateAOs")
@@ -639,7 +639,7 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
                                      @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_REINSTATE);
         ARGCourseOfferingHandler.prepareCSRConfirmationView(theForm, ActivityOfferingConstants.ACTIVITYOFFERINGS_ACTION_REINSTATE, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_REINSTATE);
-        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_REINSTATE_CONFIRM_PAGE);
+        return getUIFModelAndView(theForm, CourseOfferingConstants.AO_CSR_CONFIRM_PAGE);
     }
 
     @RequestMapping(params = "methodToCall=deleteAOs")

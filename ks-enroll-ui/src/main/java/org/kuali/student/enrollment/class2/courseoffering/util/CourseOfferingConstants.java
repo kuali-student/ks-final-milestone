@@ -85,9 +85,6 @@ public class CourseOfferingConstants {
     public static final String CO_CANCEL_CONFIRM_PAGE = "coCancelConfirmationPage";
     public static final String AO_DELETE_CONFIRM_PAGE = "selectedAoDeleteConfirmationPage";
     public static final String AO_CSR_CONFIRM_PAGE = "selectedAOCSRConfirmationPage";
-    public static final String AO_CANCEL_CONFIRM_PAGE = AO_CSR_CONFIRM_PAGE;
-    public static final String AO_SUSPEND_CONFIRM_PAGE = AO_CSR_CONFIRM_PAGE;
-    public static final String AO_REINSTATE_CONFIRM_PAGE = AO_CSR_CONFIRM_PAGE;
     public static final String REG_GROUP_PAGE = "manageRegistrationGroupsPage";
     public static final String COPY_CO_PAGE = "copyCourseOfferingPage";
     public static final String SEARCH_PAGE = "searchInputPage";
