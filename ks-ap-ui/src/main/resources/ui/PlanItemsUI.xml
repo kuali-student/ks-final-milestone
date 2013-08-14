@@ -341,7 +341,8 @@
     </bean>
 
     <!-- Single term view that lists planned course, total credits and backup courses -->
-    <bean id="planned_courses_detail" parent="Uif-VerticalBoxSubSection" p:style="width: 620px; margin-right: 10px;">
+    <bean id="planned_courses_detail" parent="planned_courses_detail_parent" />
+    <bean id="planned_courses_detail_parent" parent="Uif-VerticalBoxSubSection" abstract="true" p:style="width: 620px; margin-right: 10px;">
         <property name="onDocumentReadyScript" value="
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, position:'right', align:'top', close:true};
@@ -506,7 +507,8 @@
         </property>
     </bean>
 
-    <bean id="planned_courses_detail_list" parent="Uif-ListCollectionSection">
+    <bean id="planned_courses_detail_list" parent="planned_courses_detail_list-parent" />
+    <bean id="planned_courses_detail_list-parent" parent="Uif-ListCollectionSection">
         <property name="validationMessages.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="true"/>
