@@ -278,6 +278,7 @@
         <property name="subCollections">
             <list>
                 <ref bean="KS-KeyDatesGroup-EditSubSection" />
+                <ref bean="KS-ExamDates-EditSubSection" />
             </list>
         </property>
     </bean>
@@ -451,5 +452,54 @@
             </list>
         </property>
     </bean>
-    <bean id="textAligns" class="org.kuali.rice.krad.uif.CssConstants.TextAligns"/>
+
+    <!--Final Exam Period section-->
+    <bean id="KS-ExamDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
+          p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}"
+          p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
+        <!--property name="renderLineActions" value="false" /-->
+        <property name="propertyName" value="examdates" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper" />
+        <property name="header.render" value="false"/>
+        <!--<property name="layoutManager.numberOfColumns" value="@{#view.readOnly ? 3 : 9}"/>-->
+        <property name="layoutManager.style" value="width:40%;"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <!--<property name="validationMessages.displayMessages" value="false"/>-->
+        <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.cssClasses">
+            <list merge="true">
+                <value>ks-tablecollection-table</value>
+            </list>
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="layoutManager.separateAddLine" value="false" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+            <list>
+                <bean id="exam_date_type" parent="Uif-InputField" p:propertyName="examPeriodType" p:readOnly="true" p:readOnlyDisplayReplacementPropertyName="examPeriodNameUI" p:style="font-weight:bold;"/>
+                <bean id="exam_date_start_date" parent="Uif-InputField" p:propertyName="startDate" p:readOnlyDisplayReplacementPropertyName="startDateUI"
+                      p:label="Start Date" >
+                    <property name="control">
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                </bean>
+                <bean id="exam_date_end_date" parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}" p:label="End Date">
+                    <property name="control">
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}" p:label="End Date"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

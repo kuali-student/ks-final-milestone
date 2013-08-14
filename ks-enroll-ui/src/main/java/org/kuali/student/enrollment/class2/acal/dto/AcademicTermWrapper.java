@@ -53,6 +53,7 @@ public class AcademicTermWrapper {
 
     private List<KeyDatesGroupWrapper> keyDatesGroupWrappers;
     private List<KeyDateWrapper> keyDatesToDeleteOnSave;
+    private List<ExamPeriodWrapper> examdates;
 
     private String instructionalDayConfig = "cars";
 
@@ -72,6 +73,7 @@ public class AcademicTermWrapper {
     public AcademicTermWrapper(){
         keyDatesGroupWrappers = new ArrayList();
         keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+        examdates = new ArrayList<ExamPeriodWrapper>();
         termInfo = new TermInfo();
         termInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         RichTextInfo desc = new RichTextInfo();
@@ -94,6 +96,7 @@ public class AcademicTermWrapper {
         this.keyDatesGroupWrappers = new ArrayList();
         this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
         this.subterms = new ArrayList<AcademicTermWrapper>();
+        this.examdates = new ArrayList<ExamPeriodWrapper>();
 
         if (isCopy){
             setTermInfo(new TermInfo());
@@ -501,4 +504,13 @@ public class AcademicTermWrapper {
     public void setSubterms(List<AcademicTermWrapper> subterms) {
         this.subterms = subterms;
     }
+
+    public List<ExamPeriodWrapper> getExamdates() {
+        return examdates;
+    }
+
+    public void setExamdates(List<ExamPeriodWrapper> examdates) {
+        this.examdates = examdates;
+    }
+
 }

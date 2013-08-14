@@ -38,6 +38,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
@@ -51,6 +52,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -307,6 +309,15 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             termWrapper.setName(type.getName());
         }
 
+        //Populate examdates
+        List<ExamPeriodInfo> examPeriodInfos = getAcalService().getExamPeriodsForTerm(termInfo.getId(),createContextInfo());
+        if (examPeriodInfos != null && examPeriodInfos.size() > 0) {  //only one or none
+            for (ExamPeriodInfo examPeriodInfo : examPeriodInfos) {
+                ExamPeriodWrapper examPeriodWrapper = new ExamPeriodWrapper(examPeriodInfo, isCopy);
+                termWrapper.getExamdates().add(examPeriodWrapper);
+            }
+        }
+        
         //Populate keydates
         List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(termInfo.getId(),createContextInfo());
         List<TypeInfo> keyDateTypes = getTypeService().getAllowedTypesForType(termInfo.getTypeKey(),createContextInfo());

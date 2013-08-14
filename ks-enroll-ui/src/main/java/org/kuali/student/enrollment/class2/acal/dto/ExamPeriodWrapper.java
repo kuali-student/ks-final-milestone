@@ -17,78 +17,79 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
+import java.util.Date;
+
 /**
- * This class //TODO ...
+ * Wrapper class for <code>ExamPeriodInfo</code> dto.
  *
  * @author Kuali Student Team
  */
-public class ExamPeriodWrapper extends TimeSetWrapper {
+public class ExamPeriodWrapper {
 
-    private String keyDateType;
-    private String keyDateNameUI;
+    private String examPeriodType;
+    private String examPeriodNameUI;
+    private Date startDate;
+    private Date endDate;
 
     private ExamPeriodInfo examPeriodInfo;
     private TypeInfo typeInfo;
 
     public ExamPeriodWrapper(){
-        setAllDay(true);
-        setDateRange(false);
         examPeriodInfo = new ExamPeriodInfo();
         examPeriodInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         RichTextInfo desc = new RichTextInfo();
         desc.setPlain("test");
         examPeriodInfo.setDescr(desc);
-        setKeyDateType("Final Examination Period");
-        setKeyDateNameUI("Final Examination Period");
+        setExamPeriodType(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY);
+        setExamPeriodNameUI("Final Examination Period");
     }
 
-    public ExamPeriodWrapper(ExamPeriodInfo examPeriod, boolean isCopy){
-
-        this.setKeyDateType("Final Examination Period");
-        this.setKeyDateNameUI("Final Examination Period");
+    public ExamPeriodWrapper(ExamPeriodInfo examPeriodInfo, boolean isCopy){
+        this.startDate = examPeriodInfo.getStartDate();
+        this.endDate = examPeriodInfo.getEndDate();
+        setExamPeriodType(examPeriodInfo.getTypeKey());
+        setExamPeriodNameUI("Final Examination Period");
 
         if (isCopy){
-            this.setExamPeriodInfo(new ExamPeriodInfo());
+            setExamPeriodInfo(new ExamPeriodInfo());
             RichTextInfo desc = new RichTextInfo();
-            desc.setPlain(examPeriod.getTypeKey());
+            desc.setPlain(examPeriodInfo.getTypeKey());
             getExamPeriodInfo().setDescr(desc);
             getExamPeriodInfo().setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         }else{
-            this.setStartDate(examPeriod.getStartDate());
-            this.setEndDate(examPeriod.getEndDate());
-            this.setExamPeriodInfo(examPeriod);
-            buildDateAndTime();        // don't do this when copying
+            setExamPeriodInfo(examPeriodInfo);
         }
 
     }
 
 
-    public String getKeyDateType() {
-        return keyDateType;
+    public String getExamPeriodType() {
+        return examPeriodType;
     }
 
-    public void setKeyDateType(String keyDateType) {
+    public void setExamPeriodType(String keyDateType) {
         if (keyDateType == null || keyDateType.equals("")) {
-            this.keyDateType = "Final Examination Period";
+            this.examPeriodType = AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY;
         } else {
-            this.keyDateType = keyDateType;
+            this.examPeriodType = keyDateType;
         }
     }
 
-    public String getKeyDateNameUI() {
-        return keyDateNameUI;
+    public String getExamPeriodNameUI() {
+        return examPeriodNameUI;
     }
 
-    public void setKeyDateNameUI(String keyDateNameUI) {
-        if (keyDateNameUI == null || keyDateNameUI.equals("")) {
-            this.keyDateNameUI = "Final Examination Period";
+    public void setExamPeriodNameUI(String examPeriodNameUI) {
+        if (examPeriodNameUI == null || examPeriodNameUI.equals("")) {
+            this.examPeriodNameUI = "Final Examination Period";
         } else {
-            this.keyDateNameUI = keyDateNameUI;
+            this.examPeriodNameUI = examPeriodNameUI;
         }
     }
 
@@ -106,6 +107,26 @@ public class ExamPeriodWrapper extends TimeSetWrapper {
 
     public void setTypeInfo(TypeInfo typeInfo) {
         this.typeInfo = typeInfo;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public boolean isNew() {
+        return StringUtils.isBlank(examPeriodInfo.getId());
     }
 
 }
