@@ -30,7 +30,7 @@ public class EnrolKRMSConstants {
     // AO Bean references
     public static final String KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID = "KSAO-RuleMaintenance-Page";
     public static final String KSKRMS_AGENDA_AO_MAINTENANCE_PAGE_ID = "KSAO-AgendaMaintenance-Page";
-    public static final String KSKRMS_RULE_AO_TABS_ID = "KSCO-TabsWidget";
+    public static final String KSKRMS_RULE_AO_TABS_ID = "KSAO-TabsWidget";
     public static final String KSKRMS_RULE_AO_EDITWITHOBJECT_ID = "KSAO-EditWithObject-EditSection";
     public static final String KSKRMS_RULE_AO_EDITWITHLOGIC_ID = "KSAO-EditWithLogic-EditSection";
 
