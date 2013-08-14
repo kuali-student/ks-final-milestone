@@ -80,11 +80,25 @@ public class CSRServiceFacadeImpl implements CSRServiceFacade {
 
     @Override
     public void suspendActivityOffering(String aoId, ContextInfo context) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        LuiInfo aoLui = null;
+        try {
+            aoLui = luiService.getLui(aoId, context);
+            aoLui.setStateKey(LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY);
+            luiService.updateLui(aoLui.getId(), aoLui, context);
+        } catch (Exception e) {
+            new RuntimeException("Could not cancel AO(s) " + e);
+        }
     }
 
     @Override
     public void reinstateActivityOffering(String aoId, ContextInfo context) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        LuiInfo aoLui = null;
+        try {
+            aoLui = luiService.getLui(aoId, context);
+            aoLui.setStateKey(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY);
+            luiService.updateLui(aoLui.getId(), aoLui, context);
+        } catch (Exception e) {
+            new RuntimeException("Could not cancel AO(s) " + e);
+        }
     }
 }
