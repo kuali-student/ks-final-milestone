@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2010 The Kuali Foundation Licensed under the
+    Educational Community License, Version 2.0 (the "License"); you may
+    not use this file except in compliance with the License. You may
+    obtain a copy of the License at
+
+    http://www.osedu.org/licenses/ECL-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an "AS IS"
+    BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+    or implied. See the License for the specific language governing
+    permissions and limitations under the License.
+
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+	<bean id="enCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="en" />
+        <property name="groupName"      value="common" />
+	</bean>
+
+   	<bean parent="enCommon" p:messageId="confirm"		p:value="Confirm"/>
+   	<bean parent="enCommon" p:messageId="cancel"		p:value="Cancel"/>
+   	<bean parent="enCommon" p:messageId="wait"			p:value="Please wait..."/>
+   	<bean parent="enCommon" p:messageId="yes"			p:value="Yes"/>
+  	<bean parent="enCommon" p:messageId="no"			p:value="No"/>
+  	<bean parent="enCommon" p:messageId="add"			p:value="Add"/>  	
+  	<bean parent="enCommon" p:messageId="remove"		p:value="Remove"/>
+  	<bean parent="enCommon" p:messageId="modify"		p:value="Modify"/>
+  	<bean parent="enCommon" p:messageId="processing"	p:value="Processing..."/>
+   	<bean parent="enCommon" p:messageId="advSearch"	p:value="Advanced Search"/>
+   	<bean parent="enCommon" p:messageId="send"     	p:value="Send"/>
+   	<bean parent="enCommon" p:messageId="go"		p:value="Go"/>
+   	<bean parent="enCommon" p:messageId="create"		p:value="Create"/>
+   	<bean parent="enCommon" p:messageId="search"		p:value="Search"/>
+   	
+   	<bean parent="enCommon" p:messageId="errorDialogTitle"     	p:value="Send us an Error Report"/>
+   	<bean parent="enCommon" p:messageId="errorDescription"     	p:value="Here is the information included in this report."/>
+   	<bean parent="enCommon" p:messageId="describeAction"     	p:value="Enter a brief description of what you were doing at the time of the error."/>
+   	 
+   	 <!--  CommentPanel Messages -->
+   	<bean parent="enCommon" p:messageId="allComments"     	p:value="All"/>
+   	
+   	<!-- CreditCourse readable states -->
+   	<bean parent="enCommon" p:messageId="kuali.lu.type.CreditCourse.draft"     	p:value="Proposal"/>
+   	<bean parent="enCommon" p:messageId="kuali.lu.type.CreditCourse.submitted"     	p:value="Submitted"/>
+   	
+   	<!-- RequiredEnum Messages -->
+   	<bean parent="enCommon" p:messageId="required"     	p:value="Required"/>
+   	<bean parent="enCommon" p:messageId="optional"     	p:value="(optional)"/>
+  	
+	<bean id="esCommon" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="es" />
+        <property name="groupName"      value="common" />
+	</bean>
+
+   	<bean parent="esCommon" p:messageId="confirm"		p:value="Confirmar"/>
+   	<bean parent="esCommon" p:messageId="cancel"		p:value="Cancelar"/>
+   	<bean parent="esCommon" p:messageId="wait"			p:value="Espere por favor..."/>
+   	<bean parent="esCommon" p:messageId="yes"			p:value="Sí"/>
+  	<bean parent="esCommon" p:messageId="no"			p:value="No"/>
+  	<bean parent="esCommon" p:messageId="add"			p:value="Agregue"/>  	
+  	<bean parent="esCommon" p:messageId="remove"		p:value="Quite"/>
+  	<bean parent="esCommon" p:messageId="modify"		p:value="Modifiqúese"/>
+  	<bean parent="esCommon" p:messageId="processing"	p:value="Proceso..."/>
+   	<bean parent="esCommon" p:messageId="advSearch"	p:value="Búsqueda avanzada"/>
+   	<bean parent="esCommon" p:messageId="send"     	p:value="Envie"/>
+   	<bean parent="esCommon" p:messageId="go"		p:value="Vaya"/>
+
+   	<bean parent="esCommon" p:messageId="errorDialogTitle"     	p:value="Envíenos un informe del error"/>
+   	<bean parent="esCommon" p:messageId="errorDescription"     	p:value="Aquí está la información incluida en este informe."/>
+   	<bean parent="esCommon" p:messageId="describeAction"     	p:value="Incorpore una breve descripción de lo que usted hacía."/>
+
+	<!--  Default Validation Messages -->
+	<bean id="enValidation" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+        <property name="locale"         value="en" />
+        <property name="groupName"      value="validation" />
+	</bean>
+
+    <!-- need better messages than these -->
+   	<bean parent="enValidation" p:messageId="validation.required"		p:value="Required"/>
+   	<bean parent="enValidation" p:messageId="validation.requiresField"		p:value="${field1} requires ${field2}"/>
+   	<bean parent="enValidation" p:messageId="validation.validCharsFailed"		p:value="Invalid Characters"/>
+   	<bean parent="enValidation" p:messageId="validation.lengthOutOfRange"		p:value="Length out of range. Minimum Characters: ${minLength} Maximum Characters: ${maxLength} "/>
+   	<bean parent="enValidation" p:messageId="validation.maxLengthFailed"		p:value="Maximum Characters ${maxLength} allowed"/>
+   	<bean parent="enValidation" p:messageId="validation.minLengthFailed"		p:value="Minimum Characters ${minLength} required"/>
+   	<bean parent="enValidation" p:messageId="validation.outOfRange"		p:value="Value out of range. Minimum: ${minValue} Maximum ${maxValue}"/>
+   	<bean parent="enValidation" p:messageId="validation.maxValueFailed"		p:value="Value cannot be more than ${maxValue}"/>
+   	<bean parent="enValidation" p:messageId="validation.minValueFailed"		p:value="Value cannot be less than ${minValue}"/>
+    <bean parent="enValidation" p:messageId="validation.maxOccurs"		p:value="May only occur ${maxOccurs} or fewer times"/>
+    <bean parent="enValidation" p:messageId="validation.minOccurs"		p:value="Must occur at least ${minOccurs} times"/>
+    <bean parent="enValidation" p:messageId="validation.mustBeBoolean"		p:value="Must be a boolean value"/>
+    <bean parent="enValidation" p:messageId="validation.mustBeDate"		p:value="Must be a date"/>
+    <bean parent="enValidation" p:messageId="validation.mustBeDouble"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:messageId="validation.mustBeFloat"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:messageId="validation.mustBeInteger"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:messageId="validation.mustBeLong"		p:value="Must be numeric"/>
+    <bean parent="enValidation" p:messageId="validation.occurs"		p:value="Invalid number of occurrences."/>
+    <bean parent="enValidation" p:messageId="validation.invalid"		p:value="Invalid value"/>
+
+
+	
+	
+	
+</beans>
