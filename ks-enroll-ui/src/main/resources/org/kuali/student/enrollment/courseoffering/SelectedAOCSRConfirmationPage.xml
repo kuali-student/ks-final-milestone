@@ -141,7 +141,7 @@
                                   p:messageText="@{selectedToCSRList.size()} activity offering(s) will be cancelled"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be cancelled(ineligible status)"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be cancelled (ineligible status)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
@@ -196,7 +196,7 @@
                                   p:messageText="@{selectedToCSRList.size()} activity offering(s) will be reinstated"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be reinstated(ineligible status)"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be reinstated (ineligible status)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
@@ -251,7 +251,7 @@
                                   p:messageText="@{selectedToCSRList.size()} activity offering(s) will be suspended"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                             <bean parent="Uif-Message"
-                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be suspended(ineligible status/SOC state)"
+                                  p:messageText="@{numIneligibleAOsForCSR} activity offering(s) cannot be suspended (ineligible status/SOC state)"
                                   p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
                         </list>
                     </property>
