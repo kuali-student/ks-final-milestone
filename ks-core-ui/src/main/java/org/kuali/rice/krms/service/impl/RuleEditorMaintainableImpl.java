@@ -196,9 +196,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
             // If the ruletype does not exist, add an empty rule section
             if (ruleEditor == null) {
-                ruleEditor = new RuleEditor();
-                ruleEditor.setDummy(true);
-                ruleEditor.setTypeId(ruleType.getId());
+                ruleEditor = createDummyRuleEditor(ruleType.getId());
             }
 
             ruleEditor.setKey((String) alphaIterator.next());
@@ -217,6 +215,13 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
 
         return ruleEditors;
+    }
+
+    protected RuleEditor createDummyRuleEditor(String ruleTypeId) {
+        RuleEditor ruleEditor = new RuleEditor();
+        ruleEditor.setDummy(true);
+        ruleEditor.setTypeId(ruleTypeId);
+        return ruleEditor;
     }
 
     protected List<RuleEditor> getRuleEditorsFromTree(AgendaItemDefinition agendaItem, boolean initProps) {
