@@ -623,7 +623,6 @@
         <property name="renderAddBlankLineButton" value="true" />
         <property name="addLinePlacement" value="BOTTOM" />
         <property name="layoutManager.style" value="width: 100%; display:block;"/>
-        <property name="addBlankLineAction.style" value="margin-top:20px;"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <!--<property name="addLineActions">
             <list>
@@ -632,7 +631,9 @@
             </list>
         </property>-->
         <property name="addBlankLineAction">
-            <ref bean="KS-BottomAddLine"/>
+            <bean parent="KS-BottomAddLine">
+                <property name="style" value="margin-top:20px;"/>
+            </bean>
         </property>
         <property name="lineActions">
             <list>
