@@ -33,7 +33,6 @@
     <bean id="KS-CourseOfferingManagement-AO-ToolBarSection-ClusterTab" parent="KS-Uif-HorizontalBoxSection-ToolbarSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">
         <property name="items">
             <list>
-                <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
                     <property name="items">
                         <list>
@@ -46,7 +45,7 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
                     <property name="items">
                         <list>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Cancel-parent" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>
@@ -57,7 +56,7 @@
                     </property>
                 </bean>
 
-                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
                     <property name="items">
                         <list>
                             <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="@{!enableAddClusterButton}"
