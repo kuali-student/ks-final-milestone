@@ -824,7 +824,7 @@ public interface AppointmentService extends AppointmentServiceBusinessLogic {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo changeAppointmentSlowState(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeAppointmentSlotState(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Delete an AppointmentSlot, including all associated Appointments (i.e., cascading delete)
