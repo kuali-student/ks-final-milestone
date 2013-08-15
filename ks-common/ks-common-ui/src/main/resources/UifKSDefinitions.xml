@@ -21,19 +21,15 @@
     -->
 
     <bean id="KSTheme" abstract="true" parent="KSTheme-parentBean"/>
-    <bean id="KSTheme-parentBean" parent="Uif-BaseTheme">
+    <bean id="KSTheme-parentBean" parent="Uif-KbootTheme">
         <property name="cssFiles">
             <list merge="true">
                 <value>ks-enroll/bootstrap/css/bootstrap.css</value>
-                <value>krad/min/css/krad_@{#ConfigProperties['rice.version']}.min.css</value>
                 <value>krad/css/ks/theme-krad.css</value>
                 <value>krad/css/ks/fss-theme-krad.css</value>
                 <value>ks-enroll/css/enroll.css</value>
                 <value>ks-enroll/css/ks-jquery.css</value>
                 <value>ks-enroll/css/link-tabs.css</value>
-                <!--
-                <value>ks-enroll/css/new_kualistudent.css</value>
-                -->
             </list>
         </property>
         <property name="scriptFiles">
@@ -663,5 +659,9 @@
     <bean id="KS-Uif-RichTable" parent="KS-Uif-RichTable-parent"/>
 
     <bean id="KS-Uif-RichTable-parent" parent="Uif-RichTable-parentBean" abstract="true" class="org.kuali.student.common.uif.widget.KSRichTable" scope="prototype"/>
+
+    <bean id="Uif-ViewTheme" class="org.kuali.student.common.uif.view.KSViewTheme" scope="prototype">
+      <property name="minVersionSuffix" value="${application.version}"/>
+    </bean>
 
 </beans>
