@@ -57,7 +57,7 @@
 			<list>
 				<bean parent="Uif-HeaderOne" p:headerText="[strong]Conversations[/strong]" />
 				<bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="New"
-					p:actionScript="showLightboxUrl('review/conversation?methodToCall=create')" />
+					p:actionScript="showLightboxUrl('review/conversation?methodToCall=create'+ksapAddGetParameters())" />
 				<ref bean="conversation_list" />
 			</list>
 		</property>
