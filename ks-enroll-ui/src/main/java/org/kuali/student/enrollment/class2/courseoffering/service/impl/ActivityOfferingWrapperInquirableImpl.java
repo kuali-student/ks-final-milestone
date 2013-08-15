@@ -5,7 +5,7 @@ import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelperImpl;
+import org.kuali.student.enrollment.class2.courseoffering.helper.impl.ActivityOfferingScheduleHelperImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;

@@ -111,7 +111,6 @@ public class CourseOfferingManagementForm extends KSUifForm {
         activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
         selectedToDeleteList = new ArrayList<ActivityOfferingWrapper>();
         courseOfferingResultList = new ArrayList<CourseOfferingListSectionWrapper>();
-//        courseOfferingResultListEmpty = new ArrayList<CourseOfferingListSectionWrapper>();
         selectedCoToDeleteList = new ArrayList<CourseOfferingListSectionWrapper>();
         setCourseOfferingCopyWrapper(null);
     }

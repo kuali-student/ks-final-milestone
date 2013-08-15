@@ -71,7 +71,6 @@ public class DiagnoseRolloverController extends UifControllerBase {
             }
         }
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     private ModelAndView _startSelectTermForDiagnoseRollover(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,

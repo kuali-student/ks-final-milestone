@@ -105,11 +105,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
                     ((CourseOfferingEditWrapper) selectedObject).setEditCrossListedCoAlias(true);
                 }
             }
-//            form.setEditAuthz(checkEditViewAuthz(form));
         }
-
-        //populate the previousFormsMap of the form. The map contains info about the previous view to generate customized breadcrumb
-//        KSUifUtils.populationPreviousFormsMap(request, (KSUifMaintenanceDocumentForm) form);
 
         return getUIFModelAndView(form);
     }
@@ -201,7 +197,6 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             }
             else {
                 form.getViewRequestParameters().put(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, Boolean.FALSE.toString());
-                //urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
             }
             urlToRedirectTo = returnLocationFromForm.replaceFirst("methodToCall=[a-zA-Z0-9]+","methodToCall=show");
         }
@@ -515,7 +510,6 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         }
 
     }
-
 
     protected CourseService getCourseService() {
         if(courseService == null) {

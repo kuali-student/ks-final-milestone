@@ -14,7 +14,7 @@
  *
  * Created by venkat on 11/30/12
  */
-package org.kuali.student.enrollment.class2.courseoffering.helper;
+package org.kuali.student.enrollment.class2.courseoffering.helper.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -25,7 +25,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.helper.infc.ActivityOfferingScheduleHelper;
+import org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -57,7 +57,6 @@ import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -71,7 +70,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingScheduleHelper{
+public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingScheduleHelper {
 
     private CourseOfferingService courseOfferingService;
     private SchedulingService schedulingService;

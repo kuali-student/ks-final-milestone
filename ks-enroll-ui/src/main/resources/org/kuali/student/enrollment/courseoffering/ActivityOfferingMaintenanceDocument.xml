@@ -169,7 +169,7 @@
         <property name="viewHelperService.helperClasses">
               <map>
                 <entry key="scheduleHelper">
-                  <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelperImpl</value>
+                  <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseoffering.helper.impl.ActivityOfferingScheduleHelperImpl</value>
                   </entry>
             </map>
         </property>

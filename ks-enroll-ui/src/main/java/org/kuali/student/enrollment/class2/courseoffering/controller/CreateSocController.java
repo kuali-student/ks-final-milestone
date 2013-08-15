@@ -67,7 +67,6 @@ public class CreateSocController extends UifControllerBase {
             }
         }
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     private ModelAndView _startSelectTermForSocCreation(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,

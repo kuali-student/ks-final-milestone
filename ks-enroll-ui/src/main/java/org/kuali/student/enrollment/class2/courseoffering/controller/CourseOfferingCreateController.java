@@ -310,10 +310,12 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         // check if term or course is empty
         if( StringUtils.isBlank(termCode) ) {
+//            Please user commented instead of GLOBAL_ERRORS AFTER THE RICE 2.3-RC1 Upgrade!!!
 //            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.targetTermCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Term");
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Term");
         }
         if( StringUtils.isBlank(courseCode) ) {
+//            Please user commented instead of GLOBAL_ERRORS AFTER THE RICE 2.3-RC1 Upgrade!!!
 //            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.catalogCourseCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Course Code");
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Course Code");
         }
@@ -350,6 +352,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             boolean canOpenView = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 
             if (!canOpenView) {    // checking authz for course
+//              Please user commented instead of GLOBAL_ERRORS AFTER THE RICE 2.3-RC1 Upgrade!!!
 //              GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.catalogCourseCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_COURSE_RESTRICTED, courseCode);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_COURSE_RESTRICTED, courseCode);
                 coWrapper.setAdminOrg(null);
@@ -367,6 +370,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
                     boolean canOpenViewSoc = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 
                     if(!canOpenViewSoc) {   // check if user authz for the soc
+//                      Please user commented instead of GLOBAL_ERRORS AFTER THE RICE 2.3-RC1 Upgrade!!!
 //                      GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.targetTermCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_TERM_RESTRICTED);
                         GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_TERM_RESTRICTED);
                         coWrapper.setSocInfo(null);
@@ -450,6 +454,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             }
         } else {
             if (matchingCourses.size() > 1) {
+//              Please user commented instead of GLOBAL_ERRORS AFTER THE RICE 2.3-RC1 Upgrade!!!
 //              GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.catalogCourseCode", CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_MULTIPLE_COURSE_MATCHES, courseCode);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_MULTIPLE_COURSE_MATCHES, courseCode);
             } else if (matchingCourses.isEmpty()) {

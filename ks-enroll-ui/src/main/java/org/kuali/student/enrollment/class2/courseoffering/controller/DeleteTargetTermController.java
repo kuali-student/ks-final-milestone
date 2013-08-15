@@ -77,7 +77,6 @@ public class DeleteTargetTermController extends UifControllerBase {
         LOGGER.error(date.toString() + " ");
         LOGGER.error(theForm);
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=goTargetTerm")

@@ -121,7 +121,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             }
         }
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     private ModelAndView _startPerformRollover(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
@@ -129,7 +128,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
         CourseOfferingRolloverManagementForm theForm = (CourseOfferingRolloverManagementForm) form;
         LOGGER.info("startPerformRollover");
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     private ModelAndView _startRolloverDetails(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
@@ -199,7 +197,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             if (!coIds.isEmpty()) {
                 // Print error message if there are course offerings in the target term
                 GlobalVariables.getMessageMap().putError("targetTermCode", "error.courseoffering.rollover.targetTermExists");
-                //form.resetForm();
                 return getUIFModelAndView(form);
             }
             // Get first term
@@ -411,7 +408,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
             showRolloverResults(form, result, request, response); // TODO: Factor out a common method?
             // Switch to rollover details page
             return start(form, result, request, response);
-            //return getUIFModelAndView(form, ROLLOVER_DETAILS_PAGEID);
         } else {
             // Had problems, stay in the same screen
             return getUIFModelAndView(form);
@@ -695,7 +691,6 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     public ModelAndView confirmReleaseToDepts(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
                                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
         LOGGER.info("confirmReleaseToDepts ");
-        //if (!hasDialogBeenDisplayed("releaseToDepts", form)){
         if(form.getActionParamaterValue("confirm") == null || form.getActionParamaterValue("confirm").equals("")){
             // redirect back to client to display lightbox
             return showDialog("releaseToDepts", form, request, response);
