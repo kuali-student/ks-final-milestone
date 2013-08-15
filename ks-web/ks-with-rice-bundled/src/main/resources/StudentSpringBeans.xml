@@ -112,8 +112,6 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeInfoLookupAndInquiryView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/EnrollmentFeeInfoMaintenanceDocument.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/FormatOfferingInfoMaintenanceView.xml</value>
-                <!--<value>classpath:org/kuali/student/enrollment/courseoffering/ManageRegistrationGroupsView.xml</value>-->
-                <!--<value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CopyCourseOfferingPage.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SelectedAoDeleteConfirmationPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/SelectedAOCSRConfirmationPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseInfoLookupView.xml</value>
