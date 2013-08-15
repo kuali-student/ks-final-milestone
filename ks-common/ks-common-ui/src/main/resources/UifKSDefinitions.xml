@@ -25,7 +25,6 @@
         <property name="cssFiles">
             <list merge="true">
                 <value>ks-enroll/bootstrap/css/bootstrap.css</value>
-                <value>krad/min/css/krad_@{#ConfigProperties['rice.version']}.min.css</value>
                 <value>krad/css/ks/theme-krad.css</value>
                 <value>krad/css/ks/fss-theme-krad.css</value>
                 <value>ks-enroll/css/enroll.css</value>
