@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.krms.dto;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinitionContract;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 
 import java.util.ArrayList;
@@ -36,6 +37,10 @@ public class AORuleEditor extends LURuleEditor {
     }
     public AORuleEditor(RuleDefinitionContract definition){
         super(definition);
+    }
+
+    public AORuleEditor(String key, boolean dummy, RuleTypeInfo ruleTypeInfo) {
+        super(key, dummy, ruleTypeInfo);
     }
 
     public RuleEditor getCluEditor() {

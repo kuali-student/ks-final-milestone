@@ -41,7 +41,7 @@ limitations under the License.
     </bean>
 
     <bean id="EnrolRuleEditor" parent="RuleEditor-parentBean">
-        <property name="dataObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor"/>
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.AORuleEditor"/>
     </bean>
 
     <bean id="KSAO-AgendaManagement-View" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder">
@@ -239,7 +239,7 @@ limitations under the License.
                               p:tooltipContent="Delete this rule. Course Offering rule(if any) will be executed."/>
                     </property>
                 </bean>
-                <bean parent="KSAO-SuppressRule-Link" p:render="@{!#line.dummy}"/>
+                <bean parent="KSAO-SuppressRule-Link" p:render="@{!#line.dummy and #line.proposition != null}"/>
             </list>
         </property>
     </bean>
@@ -260,7 +260,7 @@ limitations under the License.
                 <bean parent="KSAO-RuleCopyEdit-Link" p:render="@{#line.dummy and #line.parent != null and #line.parent.proposition != null}"/>
                 <bean parent="KSAO-ReplaceRule-Link" p:render="@{#line.dummy and #line.parent != null and #line.parent.proposition != null}"/>
                 <bean parent="KSAO-SuppressRule-Link" p:render="@{#line.dummy and #line.parent != null and #line.parent.proposition != null}"/>
-                <bean parent="KSAO-AddRule-Link" p:render="@{#line.dummy and (#line.parent eq null or #line.cluEditor != null)}"/>
+                <bean parent="KSAO-AddRule-Link" p:render="@{#line.dummy and (#line.parent eq null or #line.parent.proposition eq null)}"/>
             </list>
         </property>
     </bean>

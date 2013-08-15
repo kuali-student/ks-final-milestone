@@ -49,7 +49,13 @@ public class AORuleEditorController extends EnrolRuleEditorController {
                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, EnrolKRMSConstants.KSKRMS_RULE_AO_MAINTENANCE_PAGE_ID);
-        return super.addRule(form, result, request, response);
+        //Clear the client state on new edit rule.
+        form.getClientStateForSyncing().clear();
+
+        AORuleEditor ruleEditor = (AORuleEditor) AgendaUtilities.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
+
+        this.getViewHelper(form).refreshInitTrees(ruleEditor);
+        return super.navigate(form, result, request, response);
     }
 
     /**
@@ -247,15 +253,16 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         form.getClientStateForSyncing().clear();
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
 
-        RuleEditor ruleEditor = AgendaUtilities.getSelectedRuleEditor(document);
-        LURuleEditor enrolRuleEditor = new LURuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+        AORuleEditor ruleEditor = (AORuleEditor) AgendaUtilities.getSelectedRuleEditor(document);
+        AORuleEditor enrolRuleEditor = new AORuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
         enrolRuleEditor.setParent(ruleEditor.getParent());
+        enrolRuleEditor.setCluEditor(ruleEditor.getCluEditor());
 
         PropositionEditor parentProp = ruleEditor.getParent().getPropositionEditor();
         AORuleEditorMaintainableImpl aoMaintainable = (AORuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
         aoMaintainable.initPropositionEditor(parentProp);
 
-        enrolRuleEditor.setProposition(((AORuleViewHelperServiceImpl)this.getViewHelper(form)).copyCOProposition(parentProp));
+        enrolRuleEditor.setProposition(((AORuleViewHelperServiceImpl) this.getViewHelper(form)).copyCOProposition(parentProp));
         AgendaUtilities.getRuleWrapper(document).setRuleEditor(enrolRuleEditor);
 
         this.getViewHelper(form).refreshInitTrees(enrolRuleEditor);
@@ -263,6 +270,42 @@ public class AORuleEditorController extends EnrolRuleEditorController {
 
         return super.navigate(form, result, request, response);
 
+    }
+
+    /**
+     * Deletes selected rule from agenda on Manage Course Requistes page
+     *
+     * @param form
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @Override
+    @RequestMapping(params = "methodToCall=deleteRule")
+    public ModelAndView deleteRule(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+                                   @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
+
+        MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
+        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+        String ruleKey = AgendaUtilities.getRuleKey(document);
+
+        AgendaEditor agenda = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleKey);
+        if (agenda != null) {
+            AORuleEditor ruleEditor = (AORuleEditor) agenda.getRuleEditors().get(ruleKey);
+
+            //Only add rules to delete list that are already persisted.
+            if (ruleEditor.getId() != null) {
+                agenda.getDeletedRules().add(ruleEditor);
+            }
+
+            AORuleEditor dummyRule = new AORuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+            dummyRule.setParent(ruleEditor.getParent());
+            dummyRule.setCluEditor(ruleEditor.getCluEditor());
+            agenda.getRuleEditors().put(ruleEditor.getKey(), dummyRule);
+        }
+
+        return getUIFModelAndView(document);
     }
 
     protected void compareRulePropositions(MaintenanceDocumentForm form, RuleEditor ruleEditor) {
