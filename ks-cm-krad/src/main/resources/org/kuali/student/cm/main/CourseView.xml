@@ -158,14 +158,6 @@
         </property>
     </bean>
 
-    <!-- <bean id="Uif-MainteanceDialogResponse" parent="Uif-DialogResponse"> -->
-    <!-- <property name="bindingInfo.bindToForm" value="true" /> -->
-    <!-- </bean> -->
-
-    <!-- <bean id="Uif-MainteanceDialogExplanation" parent="Uif-DialogExplanation"> -->
-    <!-- <property name="bindingInfo.bindToForm" value="true" /> -->
-    <!-- </bean> -->
-
     <bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>

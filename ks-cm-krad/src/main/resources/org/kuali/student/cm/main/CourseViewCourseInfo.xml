@@ -32,10 +32,11 @@
         <property name="footer">
             <ref bean="KS-CourseView-Footer" />
         </property>
+        <property name="onDocumentReadyScript" value="setupCharCounters()" />
     </bean>
     
     <bean id="KS-CourseView-CourseInfoPage-Widgets" parent="Uif-VerticalBoxSection">
-		<property name="items">
+        <property name="items">
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:label="Proposal Title"
 					p:propertyName="proposalInfo.name" p:required="true">
@@ -66,10 +67,14 @@
 					<property name="instructionalText"
 						value="This is the truncated title that will appear on the printed transcript." />
 					<property name="control">
-						<bean parent="Uif-TextControl" p:size="24" 
-							p:onDocumentReadyScript="jQuery('#KS-TranscriptTitle_control').jqEasyCounter({'maxChars': 24, 'maxCharsWarning': 14, 'msgTextAlign': 'left'});" />
-					</property>
-					
+						<bean parent="Uif-TextControl" p:size="24">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>cm-charcount-max-24</value>    
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
 				</bean>
 
 				<bean parent="Uif-HorizontalBoxSection">
@@ -197,8 +202,13 @@
 								<property name="instructionalText"
 									value="This will be used in evaluating the proposal. It will not be published in the catalog." />
 								<property name="control">
-									<bean parent="Uif-LargeTextAreaControl"
-										p:onDocumentReadyScript="jQuery('#KS-ProposalRationale_control').jqEasyCounter({'maxChars': 255, 'maxCharsWarning': 220, 'msgTextAlign': 'left'});" />
+									<bean parent="Uif-LargeTextAreaControl">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>cm-charcount-max-255</value>
+                                            </list>
+                                        </property>
+                                    </bean>
 								</property>
 							</bean>
 						</list>

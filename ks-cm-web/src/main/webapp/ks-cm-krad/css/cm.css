@@ -39,3 +39,13 @@
     padding-right: 0em ;
     padding-left: 0em;
 }
+
+/* Empty marker classes for the character counter */
+.cm-charcount-max-24 {
+}
+
+.cm-charcount-max-255 {
+}
+
+.cm-charcount-max-500 {
+}	
