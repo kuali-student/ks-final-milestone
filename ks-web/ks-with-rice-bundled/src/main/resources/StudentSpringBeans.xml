@@ -138,7 +138,6 @@
                 <!-- Manage COs and AOs -->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-SearchInputPage.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-CoDeleteConfirmationPage.xml</value>
-                <!--<value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewActivityOfferingsSection.xml</value>-->
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewAOClustersSection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ViewRegistrationGroupsSection.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/CourseOfferingManagement-ToolbarSection.xml</value>
