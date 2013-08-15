@@ -59,6 +59,8 @@ public class CourseForm extends UifFormBase {
     
     private Boolean showAll;
     
+    private String userId;
+    
     private List<DecisionInfo> decisions;
 
     private List<OrganizationInfoWrapper> administeringOrganizations;
@@ -186,6 +188,14 @@ public class CourseForm extends UifFormBase {
 
     public void setDecisions(List<DecisionInfo> decisionInfos) {
         this.decisions = decisionInfos;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
 }

@@ -15,8 +15,10 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +30,9 @@ import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
+import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
@@ -245,6 +249,7 @@ public class CourseController extends UifControllerBase {
         final CourseForm courseForm = (CourseForm) form;
 
         courseForm.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
+        courseForm.setUserId(ContextUtils.getContextInfo().getPrincipalId());
         try {
             redrawDecisionTable(courseForm);
         }
@@ -372,29 +377,47 @@ public class CourseController extends UifControllerBase {
         return identities;
     }
      
-    @RequestMapping(params = "methodToCall=createComment")
-    public ModelAndView createComment(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+    @RequestMapping(params = "methodToCall=showComment")
+    public ModelAndView showComment(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+            // redirect back to client to display lightbox
+            return showDialog("commentsLightBox", form, request, response);
+    }
+    
+    
+    @RequestMapping(params = "methodToCall=saveAndCloseComment")
+    public ModelAndView saveAndCloseComment(@ModelAttribute("KualiForm") CourseForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-            for(CommentInfo ittCommentInfo: form.getCommentInfos()){
-                CommentInfo commentInfo = ittCommentInfo;
-                commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
-                commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
-                //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
-                commentInfo.setReferenceId("temp_reference_id");
-                commentInfo.setReferenceTypeKey("referenceType.clu.proposal");
-                commentInfo.setStateKey(DtoState.ACTIVE.toString());
-                CommentInfo newComment = null;
-                try {
-                    newComment = getCommentService().createComment_KRAD(commentInfo.getReferenceId(),
-                            commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
-                            ContextUtils.getContextInfo());
-                } catch (Exception e) {
-                    throw new RuntimeException("Error creating a new comment.", e);
-                }
-                ittCommentInfo = newComment;    
+        DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
+        Date date = new Date();
+        
+        for (CommentInfo ittCommentInfo : form.getCommentInfos()) {
+            CommentInfo commentInfo = ittCommentInfo;
+            commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
+            //get the userID from the form to save with the comment made.
+            commentInfo.setCommenterId(getUserNameLoggedin(form.getUserId())+" "+df.format(date));
+            commentInfo.setEffectiveDate(date);
+            commentInfo.setTypeKey("kuali.comment.type.generalRemarks");
+            //TODO KSCM-848 : Will need to replace these temp values once we get UMD's reference data
+            commentInfo.setReferenceId("temp_reference_id");
+            commentInfo.setReferenceTypeKey("referenceType.clu.proposal");
+            commentInfo.setStateKey(DtoState.ACTIVE.toString());
+            CommentInfo newComment = null;
+            try {
+                newComment = getCommentService().createComment_KRAD(commentInfo.getReferenceId(),
+                        commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
+                        ContextUtils.getContextInfo());
+            } catch (Exception e) {
+                throw new RuntimeException("Error creating a new comment.", e);
             }
-        return getUIFModelAndView(form);
+            ittCommentInfo = newComment;
+        }
+        //form.getDialogManager().removeDialog("commentsLightBox");
+        /*return getUIFModelAndView(form);*/
+        form.getDialogManager().setDialogReturnMethod("commentsLightBox", "start");
+        return returnFromLightbox(form, result, request, response);
     }
     
     @RequestMapping(params = "methodToCall=browseForCategories")
@@ -475,4 +498,48 @@ public class CourseController extends UifControllerBase {
         }
         return identityService;
     }
+    
+    /**
+     * Returns the KimentityInfo of the person logged in.
+     * @param userId.
+     * @return returns UserName of person logged in.
+     */
+    public String getUserNameLoggedin(String userId){
+        
+        Entity kimEntityInfo = getIdentityService().getEntityByPrincipalId(userId);
+        return getUserRealNameByEntityInfo(kimEntityInfo);
+        
+    }
+    
+    protected String getUserRealNameByEntityInfo(Entity kimEntityInfo){
+        EntityNameContract kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
+        StringBuilder name = new StringBuilder(); 
+        if (kimEntityNameInfo != null) {
+            if (!nvl(kimEntityNameInfo.getFirstName()).trim().isEmpty()) {
+                if (!name.toString().isEmpty()) {
+                    name.append(" ");
+                }
+                name.append(nvl(kimEntityNameInfo.getFirstName()));
+            }
+            
+            if (!nvl(kimEntityNameInfo.getMiddleName()).trim().isEmpty()) {
+                if (!name.toString().isEmpty()) {
+                    name.append(" ");
+                }
+                name.append(nvl(kimEntityNameInfo.getMiddleName()));
+            }
+            if (!nvl(kimEntityNameInfo.getLastName()).trim().isEmpty()) {
+                if (!name.toString().isEmpty()) {
+                    name.append(" ");
+                }
+                name.append(nvl(kimEntityNameInfo.getLastName()));
+            }
+        }
+        return name.toString();
+    }
+    
+    private String nvl(String inString) {
+        return (inString == null)? "" : inString;
+    }
+    
 }
