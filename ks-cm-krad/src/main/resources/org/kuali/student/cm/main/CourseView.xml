@@ -83,12 +83,12 @@
                             <property name="labelText" value=" " />
                         </bean>
                     </property>
-                    <property name="layoutManager.generateAutoSequence" value="true" />
+                    <property name="layoutManager.renderSequenceField" value="false" />
                     <property name="layoutManager.richTable.render" value="true" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="commenterId"/>
-                            <bean parent="Uif-InputField" p:propertyName="commentText.plain" >
+                            <bean parent="Uif-DataField" p:label=" " p:propertyName="commenterId"/>
+                            <bean parent="Uif-InputField" p:label=" " p:propertyName="commentText.plain" >
                             </bean>
                         </list>
                     </property>
