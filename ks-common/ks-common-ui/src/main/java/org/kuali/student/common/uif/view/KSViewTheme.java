@@ -19,8 +19,11 @@ package org.kuali.student.common.uif.view;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.view.ViewTheme;
+import org.kuali.rice.krad.util.KRADConstants;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 
 /**
@@ -65,5 +68,41 @@ public class KSViewTheme extends ViewTheme {
                 getMinScriptSourceFiles().add(jsFile);
             }
         }
+    }
+
+    /**
+     * Retrieves the theme properties associated with the theme
+     * <p/>
+     * <p>
+     * The theme builder creates a file named {@link org.kuali.rice.krad.uif.UifConstants#THEME_DERIVED_PROPERTY_FILE}
+     * located in the theme directory. Here the path is formed and loaded into a properties object
+     * </p>
+     *
+     * @return Properties object containing theme properties, or null if the properties file was not found
+     * @throws java.io.IOException
+     */
+    @Override
+    protected Properties getThemeProperties() throws IOException {
+        Properties themeProperties = null;
+
+        String appUrl = getConfigurationService().getPropertyValueAsString(KRADConstants.ConfigParameters.APPLICATION_URL);
+        String propertiesUrlPath = appUrl + "/" + getThemeDirectory() + "/"
+                + UifConstants.THEME_DERIVED_PROPERTY_FILE;
+
+        InputStream inputStream = null;
+        try {
+            URL propertiesUrl = new URL(propertiesUrlPath);
+            LOG.warn("About to download theme properties from URL: " + propertiesUrl);
+            inputStream = propertiesUrl.openStream();
+
+            themeProperties = new Properties();
+            themeProperties.load(inputStream);
+        } finally {
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+
+        return themeProperties;
     }
 }
