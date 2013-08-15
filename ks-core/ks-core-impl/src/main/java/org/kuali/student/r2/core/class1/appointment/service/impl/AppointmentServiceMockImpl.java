@@ -646,4 +646,35 @@ public class AppointmentServiceMockImpl implements AppointmentService, MockServi
             PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+	@Override
+	public StatusInfo changeAppointmentState(String appointmentId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO KSENROLL-8703
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo changeAppointmentWindowState(String appointmentWindowId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO KSENROLL-8703
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo changeAppointmentSlotState(String appointmentSlotId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO KSENROLL-8703
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
 }
