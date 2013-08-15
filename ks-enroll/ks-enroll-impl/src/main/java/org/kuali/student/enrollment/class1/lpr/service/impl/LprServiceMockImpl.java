@@ -608,4 +608,23 @@ public class LprServiceMockImpl implements LprService, MockService {
         return new ArrayList<ValidationResultInfo>();
     }
     
+    @Override
+	public StatusInfo changeLprState(String lprId, String nextStateKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO KSENROLL-8714
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo changeLprTransactionState(String lprTransactionId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO KSENROLL-8714
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
 }
