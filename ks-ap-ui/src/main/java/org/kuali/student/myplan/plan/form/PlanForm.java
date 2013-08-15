@@ -64,7 +64,7 @@ public class PlanForm extends UifFormBase {
     // Quick Add params
     private String courseCd;
 
-    private BigDecimal courseCredit;
+    private String courseCredit;
 
     private String courseNote;
 
@@ -195,13 +195,21 @@ public class PlanForm extends UifFormBase {
 		this.courseCd = courseCd;
 	}
 
-	public BigDecimal getCourseCredit() {
+	public String getCourseCredit() {
 		return courseCredit;
 	}
 
-	public void setCourseCredit(BigDecimal courseCredit) {
+	public void setCourseCredit(String courseCredit) {
 		this.courseCredit = courseCredit;
 	}
+
+    public String getFakeCourseCredit() {
+        return courseCredit;
+    }
+
+    public void setFakeCourseCredit(BigDecimal fakeCourseCredit) {
+
+    }
 
 	public String getCourseNote() {
 		return courseNote;

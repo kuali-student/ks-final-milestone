@@ -1839,8 +1839,8 @@
         "/>
     </bean>
 
-    <bean id="menuOptionEdit" parent="Uif-ActionLink" p:actionLabel="Edit Course Note"
-          p:title="Edit Course Note">
+    <bean id="menuOptionEdit" parent="Uif-ActionLink" p:actionLabel="Edit Plan Item"
+          p:title="Edit Plan Item">
         <property name="actionScript" value="
             var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', planItemId:jQuery(this).data('planitemid'), atpId:jQuery(this).data('atpid'), pageId:'plan_item_edit_page'};
             var popupStyle = {width:'300px', height:'16px'};

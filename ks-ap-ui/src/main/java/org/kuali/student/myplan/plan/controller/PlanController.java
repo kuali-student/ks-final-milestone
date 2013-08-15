@@ -18,10 +18,14 @@ package org.kuali.student.myplan.plan.controller;
 import static org.springframework.util.StringUtils.hasText;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParser;
@@ -49,6 +54,7 @@ import org.kuali.student.ap.framework.context.EnrollmentStatusHelper.CourseCode;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.UserSessionHelper;
+import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.infc.Term;
@@ -64,6 +70,7 @@ import org.kuali.student.myplan.audit.service.DegreeAuditServiceConstants;
 import org.kuali.student.myplan.comment.CommentConstants;
 import org.kuali.student.myplan.comment.dataobject.MessageDataObject;
 import org.kuali.student.myplan.comment.service.CommentQueryHelper;
+import org.kuali.student.myplan.course.controller.CourseSearchController;
 import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
 import org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution;
 import org.kuali.student.myplan.course.dataobject.CourseOfferingTerm;
@@ -71,6 +78,7 @@ import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
 import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.plan.dataobject.TermNoteDataObject;
 import org.kuali.student.myplan.plan.form.PlanForm;
+import org.kuali.student.myplan.quickAdd.form.QuickAddForm;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -239,6 +247,8 @@ public class PlanController extends UifControllerBase {
 			if (hasText(planItem.getDescr().getPlain())) {
 			    planForm.setCourseNote(planItem.getDescr().getPlain());
 			}
+
+
 			if (hasText(planItem.getRefObjectId())) {
 				courseId = planItem.getRefObjectId();
 				CourseInfo courseInfo;
@@ -296,26 +306,27 @@ public class PlanController extends UifControllerBase {
 	@RequestMapping(params = "methodToCall=addUpdatePlanItem")
 	public ModelAndView addUpdatePlanItem(@ModelAttribute("KualiForm") PlanForm form, BindingResult result,
 			HttpServletRequest httprequest, HttpServletResponse httpresponse) throws IOException {
-		UserSessionHelper userSessionHelper = KsapFrameworkServiceLocator.getUserSessionHelper();
 		TermHelper termHelper = KsapFrameworkServiceLocator.getTermHelper();
 		AcademicPlanService academicPlanService = KsapFrameworkServiceLocator.getAcademicPlanService();
 		ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
-		if (!userSessionHelper.isStudent()) {
-			httpresponse.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied");
-			return null;
-		}
+        if (KsapFrameworkServiceLocator.getUserSessionHelper().isAdviser()) {
+            return doAdviserAccessError(form, "Adviser Access Denied", null);
+        }
 
 		String courseCd = form.getCourseCd();
 
 		CourseSummaryDetails course;
 		if (PlanConstants.ADD_DIALOG_PAGE.equals(form.getPageId())) {
 			if (hasText(courseCd)) {
-				List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCd);
+
+                // Not Supported in KSAP
+                List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCd);
 				if (courses.isEmpty())
 					return doErrorPage(form, "Course not found", PlanConstants.COURSE_NOT_FOUND,
 							new String[] { courseCd }, null);
 				else
 					course = getCourseDetailsInquiryService().retrieveCourseSummaryById(courses.get(0).getId());
+
 			} else
 				return getUIFModelAndView(form);
 		} else {
@@ -338,7 +349,6 @@ public class PlanController extends UifControllerBase {
 			return doCannotChangeHistoryError(form);
 		}
 
-		// TODO: convert to PlanHelper
 		LearningPlan plan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 		if (plan == null) {
 			return doOperationFailedError(form, "Unable to create/retrieve learning plan.", null);
@@ -366,6 +376,22 @@ public class PlanController extends UifControllerBase {
 			planItem.setRefObjectId(course.getCourseId());
 			planItem.setRefObjectType(PlanConstants.COURSE_TYPE);
 			planItem.setPlanPeriods(new java.util.ArrayList<String>(Arrays.asList(newAtpId)));
+            if(hasText(form.getCourseNote())) {
+                RichTextInfo descr = new RichTextInfo();
+                descr.setPlain(form.getCourseNote());
+                descr.setFormatted(form.getCourseNote());
+                planItem.setDescr(descr);
+            }
+
+            if(hasText(form.getCourseCredit())){
+                try{
+                    float credits = Float.parseFloat(form.getCourseCredit());
+                    planItem.setCredit(credits);
+                }catch(NumberFormatException e){
+                    return doOperationFailedError(form, "Unable to read credit value",
+                            e);
+                }
+            }
 			if (create) {
 				planItem = academicPlanService.createPlanItem(planItem, context);
 			} else {
@@ -380,7 +406,7 @@ public class PlanController extends UifControllerBase {
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("LP service failure", e);
 		} catch (AlreadyExistsException e) {
-			throw new IllegalArgumentException("LP service failure", e);
+			return doDuplicatePlanItem(form,newAtpId,course);
 		} catch (OperationFailedException e) {
 			throw new IllegalStateException("LP service failure", e);
 		} catch (PermissionDeniedException e) {
@@ -393,24 +419,7 @@ public class PlanController extends UifControllerBase {
 		if (wishlistEvents != null) {
 			events.putAll(wishlistEvents);
 		}
-
-		try {
-			if (planItem != null) {
-				Map<String, String> params = new HashMap<String, String>();
-				params.put("atpId", formatAtpIdForUI(newAtpId));
-				params.put("planItemType", planItem.getTypeKey());
-				params.put("courseDetails.code", courseCd);
-				params.put("courseDetails.courseTitle", course.getCourseTitle());
-				params.put("courseDetails.credit", course.getCredit());
-				params.put("showAlert", "false");
-				params.put("termName", termHelper.getTerm(newAtpId).getName());
-				params.put("timeScheduleOpen", "true");
-				events.put(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_ADDED, params);
-			}
-		} catch (RuntimeException e) {
-			return doOperationFailedError(form, "Unable to create add event.", e);
-		}
-
+        events.putAll(makeAddEvent(planItem,course,form));
 		events.putAll(makeUpdateTotalCreditsEvent(newAtpId, PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS));
 
 		form.setJavascriptEvents(events);
@@ -1587,6 +1596,16 @@ public class PlanController extends UifControllerBase {
         planItemNote.setPlain(note);
         planItemNote.setFormatted(note);
         planItem.setDescr(planItemNote);
+
+        try{
+            if(hasText(form.getCourseCredit())){
+                String credits=form.getCourseCredit();
+                planItem.setCredit(Float.parseFloat(credits.trim()));
+            }
+        }catch(NumberFormatException e){
+            return doOperationFailedError(form, "Unable to read credit value",
+                    e);
+        }
 
         // Save note
         try{
@@ -3135,5 +3154,79 @@ public class PlanController extends UifControllerBase {
         }
 
         return termNoteStr;
+    }
+
+    /**
+     * TODO Remove when Course Helper supported.
+     *
+     * Synchronously retrieve session bound search results for an incoming
+     * request.
+     *
+     * <p>
+     * This method ensures that only one back-end search per HTTP session is
+     * running at the same time for the same set of criteria. This is important
+     * since the browser fires requests for the facet table and the search table
+     * independently, so this consideration constrains those two requests to
+     * operating synchronously on the same set of results.
+     * </p>
+     *
+     * @param request
+     *            The incoming request.
+     * @return Session-bound search results for the request.
+     */
+    private CourseSearchController.SessionSearchInfo getSearchResults(PlanForm planForm,
+                                                                      HttpServletRequest request) {
+        /**
+         * HTTP session attribute key for holding recent search results.
+         */
+        String RESULTS_ATTR = PlanController.class.getName() + ".results";
+
+        // Populate search form from HTTP request
+        CourseSearchForm form = KsapFrameworkServiceLocator
+                .getCourseSearchStrategy().createSearchForm();
+        try {
+            PropertyUtils.setProperty(form, "searchQuery",
+                    planForm.getCourseCd());
+            PropertyUtils.setProperty(form, "searchTerm", "any");
+        } catch (IllegalAccessException e) {
+            throw new IllegalStateException("CourseSearchForm is not mutable "
+                    + form, e);
+        } catch (InvocationTargetException e) {
+            throw new IllegalStateException("CourseSearchForm is not mutable "
+                    + form, e);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalStateException("CourseSearchForm is not mutable "
+                    + form, e);
+        }
+        if (LOG.isDebugEnabled())
+            LOG.debug("Search form : " + form);
+
+        // Check HTTP session for cached search results
+        CourseSearchController.FormKey k = new CourseSearchController.FormKey(form);
+        @SuppressWarnings("unchecked")
+        Map<CourseSearchController.FormKey, CourseSearchController.SessionSearchInfo> results = (Map<CourseSearchController.FormKey, CourseSearchController.SessionSearchInfo>) request
+                .getSession().getAttribute(RESULTS_ATTR);
+        if (results == null)
+            request.getSession()
+                    .setAttribute(
+                            RESULTS_ATTR,
+                            results = Collections
+                                    .synchronizedMap(new java.util.LinkedHashMap<CourseSearchController.FormKey, CourseSearchController.SessionSearchInfo>()));
+        CourseSearchController.SessionSearchInfo table = null;
+        // Synchronize on the result table to constrain sessions to
+        // one back-end search at a time
+        synchronized (results) {
+            // dump search results in excess of 3
+            while (results.size() > 3) {
+                Iterator<?> ei = results.entrySet().iterator();
+                ei.next();
+                ei.remove();
+            }
+            results.put(
+                    k, // The back-end search happens here --------V
+                    (table = results.remove(k)) == null ? table = new CourseSearchController.SessionSearchInfo(
+                            request, form) : table);
+        }
+        return table;
     }
 }

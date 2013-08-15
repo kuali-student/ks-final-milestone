@@ -82,14 +82,23 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <!-- TODO: Credits
-                                        <bean parent="Uif-InputField" p:propertyName="courseCredit" p:id="creditsCourse"
-                                        		p:label="Units">
+                                        <bean parent="Uif-InputField" p:id="courseCreditsNew_@{atpId.replaceAll('\.','-')}">
+                                            <property name="label" value="Enter Course Credits"/>
+                                            <property name="fieldLabel.render" value="true"/>
+                                            <property name="fieldLabel.cssClasses">
+                                                <list merge="true">
+                                                    <value>myplan-text-normal</value>
+                                                </list>
+                                            </property>
+                                            <property name="propertyName" value="fakeCourseCredit"/>
+                                            <property name="defaultValue" value="@{#form.courseCredit NE null ? #form.courseCredit : ''}"/>
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:size="3"/>
+                                                <bean parent="Uif-TextControl">
+                                                    <property name="size" value="3"/>
+                                                </bean>
                                             </property>
                                         </bean>
-                                         -->
+                                        <bean parent="planItemNote" p:id="courseNoteNew_@{atpId.replaceAll('\.','-')}"/>
                                     </list>
                                 </property>
                             </bean>
@@ -108,21 +117,23 @@
                             <bean parent="KSAP-HorizontalBoxGroup-NoMargin">
                                 <property name="items">
                                     <list>
-                                        <bean id="actionCoursePlaceholder" p:id="actionCoursePlaceholder"
+                                        <bean id="actionCoursePlaceholder" p:id="actionCoursePlaceholder_@{#form.atpId}_@{#form.backup}"
                                               parent="Uif-PrimaryActionButton-Small"
                                               p:actionLabel="@{#form.planItemId EQ null ? 'Add to Plan':'Save'}">
                                             <property name="actionScript" value="
+                                                var newNote = jQuery('#courseNoteNew_@{atpId.replaceAll('\.','-')}_control').val();
+                                                var newCredit = jQuery('#courseCreditsNew_@{atpId.replaceAll('\.','-')}_control').val();
                                                 var additionalFormData = {
                                                     viewId: 'PlannedCourse-FormView',
                                                     methodToCall: 'addUpdatePlanItem',
                                                     atpId: '@{#form.atpId}',
                                                     backup: @{#form.backup},
-                                                    pageId: 'plan_item_add_page'
+                                                    pageId: 'plan_item_add_page',
+                                                    courseCredit: newCredit,
+                                                    courseNote: newNote
                                                 };
                                                 submitPopupForm(additionalFormData, e, false);
                                             "/>
-                                            <property name="disabled" value="@{#form.courseCd EQ null}"/>
-                                            <property name="evaluateDisabledOnKeyUp" value="true"/>
                                             <property name="onDocumentReadyScript" value="
                                                 jQuery('#actionCoursePlaceholder').on('PLAN_ITEM_ADDED PLAN_ITEM_UPDATED', function(event, data){
                                                     fnCloseAllPopups();
@@ -444,6 +455,22 @@
             <list>
                 <bean parent="Uif-Message"
                       p:messageText="Edit @{courseSummaryDetails.code} @{atpId eq null ? 'Bookmark' : 'from the '+shortTerm+' Plan'}"/>
+                <bean parent="Uif-InputField" p:id="courseCredits_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}">
+                    <property name="label" value="Enter Course Credits"/>
+                    <property name="fieldLabel.render" value="true"/>
+                    <property name="fieldLabel.cssClasses">
+                        <list merge="true">
+                            <value>myplan-text-normal</value>
+                        </list>
+                    </property>
+                    <property name="propertyName" value="fakeCourseCredit"/>
+                    <property name="defaultValue" value="@{#form.courseCredit NE null ? #form.courseCredit : ''}"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="size" value="3"/>
+                        </bean>
+                    </property>
+                </bean>
                 <bean parent="planItemNote" p:id="courseNote_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}"/>
                 <bean parent="KSAP-HorizontalBoxGroup">
                     <property name="items">
@@ -452,12 +479,14 @@
                                   p:actionLabel="Save">
                                 <property name="actionScript" value="
                                                 var newNote = jQuery('#courseNote_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
+                                                var newCredit = jQuery('#courseCredits_@{atpId.replaceAll('\.','-')}_@{courseSummaryDetails.courseIdXmlSafe}_control').val();
                                                 var additionalFormData = {
                                                     viewId: 'PlannedCourse-FormView',
                                                     methodToCall: 'editPlanCourse',
                                                     planItemId: '@{planItemIdXmlSafe}',
                                                     atpId: '@{atpId}',
-                                                    courseNote: newNote
+                                                    courseNote: newNote,
+                                                    courseCredit: newCredit
                                                 };
                                                 submitPopupForm(additionalFormData, e, false);
                                             "/>
