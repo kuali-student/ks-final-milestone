@@ -70,53 +70,6 @@
         </property>
     </bean>
 
-    <!--<bean id="KSCourseOfferingManagement-AO-ToolBarSection" parent="Uif-HorizontalBoxSection" p:render="@{!currentCourseOfferingWrapper.crossListed}">-->
-        <!--<property name="items">-->
-            <!--<list>-->
-                <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
-                    <!--<property name="items">-->
-                        <!--<list>-->
-                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Add-AO" parent="KS-CourseOfferingManagement-ToolBar-Add-parent" p:actionLabel="Add Activity"  p:disabled="false"-->
-                                  <!--p:performClientSideValidation="true" p:methodToCall="addActivityOfferings"-->
-                                  <!--p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddActivityOfferingPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddActivityOfferingPopupForm').find('input[type=text],select').val('');}});"/>-->
-                        <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
-                <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
-                    <!--<property name="items">-->
-                        <!--<list>-->
-                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Approve-AO" parent="KS-CourseOfferingManagement-ToolBar-Approve-parent" p:methodToCall="approveAOs" p:render="true"/>-->
-                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Draft-AO" parent="KS-CourseOfferingManagement-ToolBar-Draft-parent" p:methodToCall="draftAOs" p:render="true"/>-->
-                        <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
-                <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
-                    <!--<property name="items">-->
-                        <!--<list>-->
-                            <!--&lt;!&ndash;<bean id="KS-CourseOfferingManagement-ToolBar-Copy-AO" parent="KS-CourseOfferingManagement-ToolBar-Copy" p:methodToCall="copyAOs" p:render="@{hasAO}"/>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO" parent="KS-CourseOfferingManagement-ToolBar-Cancel" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO" parent="KS-CourseOfferingManagement-ToolBar-Suspend" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO" parent="KS-CourseOfferingManagement-ToolBar-Reinstate" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>&ndash;&gt;-->
-                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent" p:methodToCall="deleteAOs" p:render="true"/>-->
-                        <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
-                <!--<bean parent="KS-HorizontalBoxGroup-WithRPadding">-->
-                    <!--<property name="items">-->
-                        <!--<list>-->
-                            <!--&lt;!&ndash;-->
-                      <!--<bean id="KS-CourseOfferingManagement-ToolBar-AddCluster" parent="KS-CourseOfferingManagement-ToolBar-AddCluster" p:methodToCall="addCluster" p:render="@{hasAO}" p:disabled="false"-->
-                            <!--p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-AddAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-AddAOCPopupForm').find('input[type=text],select').val('');}});"/>-->
-                            <!--&ndash;&gt;-->
-                            <!--<bean id="KS-CourseOfferingManagement-ToolBar-MoveTo" parent="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" p:render="true" p:disabled="false" p:methodToCall="dummyReload"-->
-                                  <!--p:successCallback="openPopupContent(e,'KS-CourseOfferingManagement-MoveAOCPopupForm',{afterHidden:new function(){jQuery('#KS-CourseOfferingManagement-MoveAOCPopupForm').find('input[type=text],select').val('');}});"/>-->
-                        <!--</list>-->
-                    <!--</property>-->
-                <!--</bean>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
-
     <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" parent="KS-Uif-ToolBar-Button"
           p:onClickScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');">
         <property name="actionLabel" value="Add Cluster"/>
