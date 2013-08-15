@@ -160,25 +160,6 @@ public class ARGToolbarUtil {
                     }
                 }
 
-
-                //Currently, there are no reinstate, suspend and cancel CO buttons. Comment out the following checking
-                /*
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "reinstateCO");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    coListWrapper.setEnableReinstateButton(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "suspendCO");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    coListWrapper.setEnableSuspendButton(true);
-                }
-
-                permissionDetails.put(KimConstants.AttributeConstants.ACTION_EVENT, "cancelCO");
-                if (permissionService.isAuthorizedByTemplate(principalId, "KS-ENR", KimConstants.PermissionTemplateNames.PERFORM_ACTION, permissionDetails, roleQualifications)) {
-                    coListWrapper.setEnableCancelButton(true);
-                }
-                */
-
             }
         }
 
@@ -189,8 +170,6 @@ public class ARGToolbarUtil {
         form.setEnableMoveAOButton(false);
         form.setEnableAddClusterButton(false);
         String principalId = GlobalVariables.getUserSession().getPerson().getPrincipalId();
-
-       // String coState=form.getCurrentCourseOfferingWrapper().getStateKey();
 
         String socStateKey = form.getSocStateKey();
         String socState = socStateKey==null?null:socStateKey.substring(socStateKey.lastIndexOf('.')+1);
@@ -225,7 +204,6 @@ public class ARGToolbarUtil {
 
         }
 
-
         //for add cluster button
         if (checkBzLogicForAOButtons(socStateKey, socSchedulingState, "", ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD_CLUSTER)) {
             //check role permission
@@ -234,7 +212,6 @@ public class ARGToolbarUtil {
                 form.setEnableAddClusterButton(true);
             }
         }
-
 
         if (activityWrapperList != null && !activityWrapperList.isEmpty()) {
             for (ActivityOfferingWrapper activityWrapper : activityWrapperList) {
@@ -358,7 +335,6 @@ public class ARGToolbarUtil {
         boolean bzEnableButton = false;
         if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_APPROVE)) {
             if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) &&
-                     // !(StringUtils.equals(coState, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) &&
                     (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
                             StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
                             isSOCLockedAndMSEInProgress(socState, socSchedulingState))){
@@ -400,7 +376,6 @@ public class ARGToolbarUtil {
 
         return bzEnableButton;
     }
-
 
     private static boolean isInProgress(String socState, String socSchedulingState){
         boolean inProgress = false;

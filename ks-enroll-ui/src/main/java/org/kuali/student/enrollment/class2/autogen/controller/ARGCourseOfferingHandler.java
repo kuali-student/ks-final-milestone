@@ -159,10 +159,6 @@ public class ARGCourseOfferingHandler {
             theForm.getCurrentCourseOfferingWrapper().setCourseOfferingInfo(theCourseOffering);
         }
 
-        //venkat - dont think this happen
-        /*if (theCourseOffering == null) {
-            theCourseOffering = theForm.getTheCourseOffering();
-        }*/
         if (theCourseOffering == null) {
             throw new RuntimeException("No Course Offering selected!");
         }
@@ -178,8 +174,6 @@ public class ARGCourseOfferingHandler {
                     CourseOfferingConstants.COURSEOFFERING_INVALID_STATE_FOR_DELETE);
             return  CourseOfferingConstants.MANAGE_CO_PAGE;
         }
-
-//        theForm.setCourseOfferingCode(theCourseOffering.getCourseOfferingCode());
 
         // Load activity offerings
         try {

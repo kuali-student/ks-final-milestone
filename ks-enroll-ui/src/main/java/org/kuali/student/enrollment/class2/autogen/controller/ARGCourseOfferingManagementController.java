@@ -91,11 +91,6 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
             form.setAdminOrg(inputValue);
         }
 
-        //clean up termCode, inputCode, and theCourseOffering value in the form to prevent the
-        //side effect of the authorization.
-        //form.setTermCode(null);
-        //form.setInputCode(null);
-
         //TODO: Workaround for KRMS return
         if(!(form.getMethodToCall().contains("edit") || form.getMethodToCall().contains("refresh"))) {
             form.setCurrentCourseOfferingWrapper(null);
@@ -286,8 +281,6 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
     @RequestMapping(params = "methodToCall=copyCourseOffering")
     public ModelAndView copyCourseOffering(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
-//        ARGCourseOfferingHandler.copyCourseOffering(theForm);
-//        return getUIFModelAndView(theForm, CourseOfferingConstants.COPY_CO_PAGE);
 
         Object selectedObject = ARGUtil.getSelectedObject(theForm, "Copy"); // Receives edit wrapper, "Copy" for error message.
         if (selectedObject instanceof CourseOfferingListSectionWrapper) {
@@ -305,13 +298,12 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
 
             Properties urlParameters = new Properties();
             urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
-//            urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "continueFromCreate");
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingCreateWrapper.class.getName());
             urlParameters.put("pageId", "courseOfferingCopyPage");
             urlParameters.put("targetTermCode",  theForm.getTermCode());
             urlParameters.put("catalogCourseCode", courseOfferingCode);
             urlParameters.put("courseOfferingId", courseOfferingInfo.getId());
-//            urlParameters.put("createFromCatalog", "false");
+
             return super.performRedirect(theForm, "courseOfferingCreate", urlParameters);
         }
         else {
@@ -384,8 +376,6 @@ public class ARGCourseOfferingManagementController extends UifControllerBase {
     */
     @RequestMapping(params = "methodToCall=cancelSelectedAoList")
     public ModelAndView cancelSelectedAoList(@ModelAttribute("KualiForm") ARGCourseOfferingManagementForm theForm) throws Exception {
-        //Going to set this earlier, don't think we need this
-        //theForm.setActionCSR(ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL);
         ARGActivityOfferingClusterHandler.cancelSelectedAoList(theForm);
         return getUIFModelAndView(theForm, CourseOfferingConstants.MANAGE_THE_CO_PAGE);
     }

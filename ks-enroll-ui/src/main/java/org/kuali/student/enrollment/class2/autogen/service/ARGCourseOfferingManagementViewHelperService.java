@@ -40,8 +40,6 @@ public interface ARGCourseOfferingManagementViewHelperService extends CO_AO_RG_V
 
     public void createActivityOfferings(String formatOfferingId,String activityId,int noOfActivityOfferings, ARGCourseOfferingManagementForm form);
 
-//    public void changeActivityOfferingsState(List<ActivityOfferingWrapper> aoList, CourseOfferingInfo courseOfferingInfo, String selectedAction) throws Exception;
-
     public void markCourseOfferingsForScheduling(List<CourseOfferingListSectionWrapper> coWrappers, String viewId, String socStateKey, boolean checkedOnly) throws Exception;
 
     public void loadPreviousAndNextCourseOffering(ARGCourseOfferingManagementForm form);
