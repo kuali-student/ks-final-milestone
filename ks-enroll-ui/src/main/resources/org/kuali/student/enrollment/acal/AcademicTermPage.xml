@@ -479,6 +479,12 @@
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
         <property name="layoutManager.richTable.render" value="false" />
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean id="exam_date_type" parent="Uif-InputField" p:propertyName="examPeriodType" p:readOnly="true" p:readOnlyDisplayReplacementPropertyName="examPeriodNameUI" p:style="font-weight:bold;"/>
@@ -500,6 +506,11 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}" p:label="End Date"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean  id="key_date_delete_button1" parent="Uif-ActionLink"  p:methodToCall="deleteKeyDate" p:actionLabel="Delete" />
             </list>
         </property>
     </bean>
