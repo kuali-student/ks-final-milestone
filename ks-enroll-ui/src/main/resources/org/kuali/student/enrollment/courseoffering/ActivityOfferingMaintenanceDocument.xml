@@ -109,7 +109,9 @@
                                 <list>
                                     <bean parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}" p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
                                         <property name="control">
-                                            <bean parent="Uif-CheckboxControl"/>
+                                            <bean parent="Uif-CheckboxControl">
+                                            <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
+                                            </bean>
                                         </property>
                                     </bean>
                                     <ref bean="ActivityOfferingEdit_SubmitCancel"/>
