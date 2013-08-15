@@ -119,7 +119,7 @@
                       p:id="is_co_located" p:componentSecurity.viewAuthz="true">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
-                            <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' or #dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.suspended'}"/>
+                            <property name="disabled" value="@{#dp.aoInfo.stateKey.toLowerCase().contains('canceled') or #dp.aoInfo.stateKey.toLowerCase().contains('suspended')}"/>
                             <!--<property name="onChangeScript" value="setupColoCheckBoxChange(this,true)"/>-->
                             <property name="onChangeScript" value="handleColocation();"/>
                         </bean>
