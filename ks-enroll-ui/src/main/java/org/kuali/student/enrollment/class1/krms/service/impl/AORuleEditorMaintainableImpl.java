@@ -121,6 +121,16 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
 
         if (courseOffering != null) {
+
+            List<String> orgIds = courseOffering.getUnitsDeploymentOrgIds();
+            if (orgIds != null && !orgIds.isEmpty()) {
+                // managing multiple orgs
+                String orgIdString = org.springframework.util.StringUtils.arrayToCommaDelimitedString(orgIds.toArray());
+                if (orgIdString.length() > 0) {
+                    dataObject.setAdminOrg(orgIdString);
+                }
+            }
+
             //Set the subjectArea for breadcrumb link
             dataObject.setCluSubjectCode(courseOffering.getSubjectArea());
 
