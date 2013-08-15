@@ -92,8 +92,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AppliedHoldInfo.releasedDate" parent="AppliedHoldInfo.releasedDate-parent"/>
-	<bean id="AppliedHoldInfo.releasedDate-parent" abstract="true" parent="AppliedHoldInfo.releasedDate-generated">
+	<bean id="AppliedHoldInfo.expirationDate" parent="AppliedHoldInfo.expirationDate-parent"/>
+	<bean id="AppliedHoldInfo.expirationDate-parent" abstract="true" parent="AppliedHoldInfo.expirationDate-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
