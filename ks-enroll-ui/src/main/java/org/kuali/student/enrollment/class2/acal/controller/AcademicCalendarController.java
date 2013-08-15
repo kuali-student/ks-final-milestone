@@ -1317,8 +1317,6 @@ public class AcademicCalendarController extends UifControllerBase {
             if (examPeriodWrapper.getStartDate()!=null && examPeriodWrapper.getEndDate()!=null && examPeriodWrapper.isNew()) {
                 ExamPeriodWrapper newExamPeriodWrapper = saveExamPeriod(examPeriodWrapper, term, helperService);
                 form.getTermWrapperList().get(termIndex).getExamdates().set(i,newExamPeriodWrapper);
-            } else if (examPeriodWrapper.getStartDate()==null && examPeriodWrapper.getEndDate()==null) {
-
             }
         }
 
