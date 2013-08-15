@@ -81,8 +81,7 @@ public class PlanForm extends UifFormBase {
 
     private List<String> sectionsToDelete;
 
-    //Flag Used for student to hide or un hide
-    // plan view to adviser
+    //Flag Used for student to hide/unhide plan view to adviser
     private String enableAdviserView= PlanConstants.LEARNING_PLAN_ITEM_SHARED_TRUE_KEY;
 
     private CourseSummaryDetails courseSummaryDetails;
@@ -203,13 +202,7 @@ public class PlanForm extends UifFormBase {
 		this.courseCredit = courseCredit;
 	}
 
-    public String getFakeCourseCredit() {
-        return courseCredit;
-    }
 
-    public void setFakeCourseCredit(BigDecimal fakeCourseCredit) {
-
-    }
 
 	public String getCourseNote() {
 		return courseNote;
@@ -232,13 +225,7 @@ public class PlanForm extends UifFormBase {
         this.atpId = atpId;
     }
 
-    public String getFakeAtpId() {
-        return atpId;
-    }
 
-    public void setFakeAtpId(String fakeAtpId) {
-
-    }
 
     public boolean isOther() {
         return other;
@@ -270,13 +257,6 @@ public class PlanForm extends UifFormBase {
 
     public void setBackup(boolean backup) {
         this.backup = backup;
-    }
-
-    public boolean isFakeBackup() {
-        return backup;
-    }
-
-    public void setFakeBackup(boolean fakeBackup) {
     }
 
     public String getTermYear() {
@@ -437,34 +417,6 @@ public class PlanForm extends UifFormBase {
     /**
      * Returns the list of events that should be
      */
-    public String getPlannerJavascriptEventsAsJSON() {
-
-
-
-        ObjectMapper mapper = new ObjectMapper();
-        String jsonOut = null;
-        try {
-            //  Turn the list of javascript events into a string of JSON.
-            jsonOut = mapper.writeValueAsString(javascriptEvents);
-            jsonOut = StringEscapeUtils.unescapeJava(jsonOut);
-            jsonOut = jsonOut.replaceAll("\"\\{", "{");
-            jsonOut = jsonOut.replaceAll("}\"", "}");
-            jsonOut = StringEscapeUtils.escapeJava(jsonOut);
-            jsonOut = StringEscapeUtils.escapeHtml(jsonOut);
-        } catch (Exception e) {
-            logger.error("Could not convert javascript events to JSON.", e);
-            jsonOut = "";
-        }
-
-        //  TODO: Determine if there is a config that can be set to avoid having to do this.
-
-
-        return jsonOut;
-    }
-
-    /**
-     * Returns the list of events that should be
-     */
     public String getJavascriptEventsAsJSON() {
         ObjectMapper mapper = new ObjectMapper();
         String jsonOut = null;
@@ -510,14 +462,6 @@ public class PlanForm extends UifFormBase {
         this.statusInfo=statusInfo;
     }
 
-    public String getFakeCourseNote() {
-        return courseNote;
-    }
-
-    public void setFakeCourseNote(String fakeCourseNote) {
-
-    }
-
     public String getTermNote() {
         return termNote;
     }
@@ -526,12 +470,40 @@ public class PlanForm extends UifFormBase {
         this.termNote = termNote;
     }
 
+
+    /**
+     * Fake Property Wrappers
+     * Used to display form values in Datafield/InputFields but pass them back in javascript
+     */
+
     public String getFakeTermNote() {
-        return termNote;
+        return getTermNote();
     }
 
-    public void setFakeTermNote(String fakeTermNote) {
+    public void setFakeTermNote(String fakeTermNote) {}
 
+    public String getFakeCourseNote() {
+        return getCourseNote();
     }
+
+    public void setFakeCourseNote(String fakeCourseNote) {}
+
+    public String getFakeCourseCredit() {
+        return getCourseCredit();
+    }
+
+    public void setFakeCourseCredit(BigDecimal fakeCourseCredit) {}
+
+    public String getFakeAtpId() {
+        return getAtpId();
+    }
+
+    public void setFakeAtpId(String fakeAtpId) {}
+
+    public boolean isFakeBackup() {
+        return isBackup();
+    }
+
+    public void setFakeBackup(boolean fakeBackup) {}
 
 }
