@@ -5,314 +5,312 @@ import java.util.List;
 
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.enrollment.acal.infc.Term;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
 /**
- * Created by IntelliJ IDEA.
- * User: hemanthg
- * Date: 4/2/12
- * Time: 3:17 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: hemanthg Date: 4/2/12 Time: 3:17 PM To change
+ * this template use File | Settings | File Templates.
  */
 public class PlannedTerm {
-    private String atpId;
-    private String qtrYear;
+	private String atpId;
+	private String qtrYear;
 
-    private List<PlannedCourseDataObject> plannedList = new ArrayList<PlannedCourseDataObject>();
-    private List<PlannedCourseDataObject> backupList = new ArrayList<PlannedCourseDataObject>();
-    private List<AcademicRecordDataObject> academicRecord = new ArrayList<AcademicRecordDataObject>();
-    private List<PlannedCourseDataObject> cartList = new ArrayList<PlannedCourseDataObject>();
+	private List<PlannedCourseDataObject> plannedList = new ArrayList<PlannedCourseDataObject>();
+	private List<PlannedCourseDataObject> backupList = new ArrayList<PlannedCourseDataObject>();
+	private List<AcademicRecordDataObject> academicRecord = new ArrayList<AcademicRecordDataObject>();
+	private List<PlannedCourseDataObject> cartList = new ArrayList<PlannedCourseDataObject>();
 
-    @SuppressWarnings("unused")
+	@SuppressWarnings("unused")
 	private String credits = null;
 
-    /*These flags are used for help icons to display*/
+	/* These flags are used for help icons to display */
 
-    private boolean displayCompletedHelp;
-    private boolean displayPlannedHelp;
-    private boolean displayCreditsHelp = true;
-    private boolean displayBackupHelp;
-    private boolean displayCartHelp;
-    private boolean displayRegisteredHelp;
+	private boolean displayCompletedHelp;
+	private boolean displayPlannedHelp;
+	private boolean displayCreditsHelp = true;
+	private boolean displayBackupHelp;
+	private boolean displayCartHelp;
+	private boolean displayRegisteredHelp;
 
+	/*
+	 * These flags are used for styling, highlighting, naming of terms in the
+	 * quarter view
+	 */
+	private boolean currentTermForView;
+	private boolean completedTerm;
+	private boolean openForPlanning;
 
-    /*These flags are used for styling, highlighting, naming  of terms in the quarter view */
-    private boolean currentTermForView;
-    private boolean completedTerm;
-    private boolean openForPlanning;
+	/*
+	 * The index of this item in a list of PlannedTerms. This is used by the UI
+	 * to focus the "carousellite" javascript component. The value should be -1
+	 * unless this PlannedTerm should have focus.
+	 */
+	private int index = -1;
 
+	public PlannedTerm() {
 
-    /*
-    *  The index of this item in a list of PlannedTerms. This is used by the UI to focus the "carousellite" javascript
-    *  component. The value should be -1 unless this PlannedTerm should have focus.
-    */
-    private int index = -1;
+	}
 
-    public PlannedTerm(){
+	public int getIndex() {
+		return index;
+	}
 
-    }
+	public void setIndex(int index) {
+		this.index = index;
+	}
 
-    public int getIndex() {
-        return index;
-    }
+	public String getAtpId() {
+		return atpId;
+	}
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
+	public String getQtrYear() {
+		return qtrYear;
+	}
 
-    public String getAtpId() {
-        return atpId;
-    }
+	public void setQtrYear(String qtrYear) {
+		this.qtrYear = qtrYear;
+	}
 
-    public String getQtrYear() {
-        return qtrYear;
-    }
+	public void setAtpId(String atpId) {
+		this.atpId = atpId;
+	}
 
-    public void setQtrYear(String qtrYear) {
-        this.qtrYear = qtrYear;
-    }
+	public List<PlannedCourseDataObject> getPlannedList() {
+		return plannedList;
+	}
 
-    public void setAtpId(String atpId) {
-        this.atpId = atpId;
-    }
+	public void setPlannedList(List<PlannedCourseDataObject> plannedList) {
+		this.plannedList = plannedList;
+	}
 
-    public List<PlannedCourseDataObject> getPlannedList() {
-        return plannedList;
-    }
+	public List<PlannedCourseDataObject> getCartList() {
+		return cartList;
+	}
 
-    public void setPlannedList(List<PlannedCourseDataObject> plannedList) {
-        this.plannedList = plannedList;
-    }
+	public void setCartList(List<PlannedCourseDataObject> cartList) {
+		this.cartList = cartList;
+	}
 
-    public List<PlannedCourseDataObject> getCartList() {
-        return cartList;
-    }
+	public List<PlannedCourseDataObject> getBackupList() {
+		return backupList;
+	}
 
-    public void setCartList(List<PlannedCourseDataObject> cartList) {
-        this.cartList = cartList;
-    }
+	public void setBackupList(List<PlannedCourseDataObject> backupList) {
+		this.backupList = backupList;
+	}
 
-    public List<PlannedCourseDataObject> getBackupList() {
-        return backupList;
-    }
+	public String getCredits() {
+		String totalCredits = null;
+		double plannedTotalMin = 0;
+		double plannedTotalMax = 0;
+		// TODO need to check code and refine try statement to catch exact place of failures
+		try {
+			if (getPlannedList().size() > 0 && isOpenForPlanning()) {
 
-    public void setBackupList(List<PlannedCourseDataObject> backupList) {
-        this.backupList = backupList;
-    }
+				for (PlannedCourseDataObject pc : getPlannedList()) {
+					if (pc.getCourseDetails() != null && !pc.getCourseDetails().getCredit().contains(".")) {
+						String[] str = pc.getCourseDetails().getCredit().split("\\D");
+						double min = Double.parseDouble(str[0]);
+						plannedTotalMin += min;
+						double max = Double.parseDouble(str[str.length - 1]);
+						plannedTotalMax += max;
 
-    public String getCredits() {
-        String totalCredits = null;
-        double plannedTotalMin = 0;
-        double plannedTotalMax = 0;
-        // TODO need to check code and refine try statement to catch exact place of failures
-        try{
-            if (getPlannedList().size() > 0 && isOpenForPlanning()) {
+					} else if (pc.getCourseDetails() != null && pc.getCourseDetails().getCredit().contains(".")) {
+						if (pc.getCourseDetails().getCredit().contains(PlanConstants.MULTIPLE)) {
+							String[] str = pc.getCourseDetails().getCredit().split(PlanConstants.MULTIPLE);
+							plannedTotalMin += Double.parseDouble(str[0]);
+							plannedTotalMax += Double.parseDouble(str[1]);
+						} else if (pc.getCourseDetails().getCredit().contains(PlanConstants.RANGE)) {
+							String[] str = pc.getCourseDetails().getCredit().split(PlanConstants.RANGE);
+							plannedTotalMin += Double.parseDouble(str[0]);
+							plannedTotalMax += Double.parseDouble(str[1]);
+						} else {
+							plannedTotalMin += Double.parseDouble(pc.getCourseDetails().getCredit());
+							plannedTotalMax += Double.parseDouble(pc.getCourseDetails().getCredit());
+						}
+					}
+				}
+				totalCredits = Double.toString(plannedTotalMin);
 
-                for (PlannedCourseDataObject pc : getPlannedList()) {
-                    if (pc.getCourseDetails() != null && !pc.getCourseDetails().getCredit().contains(".")) {
-                        String[] str = pc.getCourseDetails().getCredit().split("\\D");
-                        double min = Double.parseDouble(str[0]);
-                        plannedTotalMin += min;
-                        double max = Double.parseDouble(str[str.length - 1]);
-                        plannedTotalMax += max;
+				if (plannedTotalMin != plannedTotalMax) {
+					totalCredits = totalCredits + "-" + Double.toString(plannedTotalMax);
 
-                    } else if (pc.getCourseDetails() != null && pc.getCourseDetails().getCredit().contains(".")) {
-                        if (pc.getCourseDetails().getCredit().contains(PlanConstants.MULTIPLE)) {
-                            String[] str = pc.getCourseDetails().getCredit().split(PlanConstants.MULTIPLE);
-                            plannedTotalMin += Double.parseDouble(str[0]);
-                            plannedTotalMax += Double.parseDouble(str[1]);
-                        } else if (pc.getCourseDetails().getCredit().contains(PlanConstants.RANGE)) {
-                            String[] str = pc.getCourseDetails().getCredit().split(PlanConstants.RANGE);
-                            plannedTotalMin += Double.parseDouble(str[0]);
-                            plannedTotalMax += Double.parseDouble(str[1]);
-                        } else {
-                            plannedTotalMin += Double.parseDouble(pc.getCourseDetails().getCredit());
-                            plannedTotalMax += Double.parseDouble(pc.getCourseDetails().getCredit());
-                        }
-                    }
-                }
-                totalCredits = Double.toString(plannedTotalMin);
+				}
+			}
+			double academicTotalMin = 0;
+			double academicTotalMax = 0;
+			if (getAcademicRecord().size() > 0) {
 
-                if (plannedTotalMin != plannedTotalMax) {
-                    totalCredits = totalCredits + "-" + Double.toString(plannedTotalMax);
+				for (AcademicRecordDataObject ar : getAcademicRecord()) {
+					if (ar.getCredit() != null || !ar.getCredit().isEmpty() && !ar.getCredit().contains(".")) {
+						String[] str = ar.getCredit().split("\\D");
+						double min = Double.parseDouble(str[0]);
+						academicTotalMin += min;
+						double max = Double.parseDouble(str[str.length - 1]);
+						academicTotalMax += max;
+					} else if (ar.getCredit() != null || !ar.getCredit().isEmpty() && ar.getCredit().contains(".")) {
+						academicTotalMin += Double.parseDouble(ar.getCredit());
+						academicTotalMax += Double.parseDouble(ar.getCredit());
+					}
+				}
+				totalCredits = Double.toString(academicTotalMin);
 
-                }
-            }
-            double academicTotalMin = 0;
-            double academicTotalMax = 0;
-            if (getAcademicRecord().size() > 0) {
+				if (academicTotalMin != academicTotalMax) {
+					totalCredits = totalCredits + "-" + Double.toString(academicTotalMax);
 
-                for (AcademicRecordDataObject ar : getAcademicRecord()) {
-                    if (ar.getCredit() != null || !ar.getCredit().isEmpty() && !ar.getCredit().contains(".")) {
-                        String[] str = ar.getCredit().split("\\D");
-                        double min = Double.parseDouble(str[0]);
-                        academicTotalMin += min;
-                        double max = Double.parseDouble(str[str.length - 1]);
-                        academicTotalMax += max;
-                    } else if (ar.getCredit() != null || !ar.getCredit().isEmpty() && ar.getCredit().contains(".")) {
-                        academicTotalMin += Double.parseDouble(ar.getCredit());
-                        academicTotalMax += Double.parseDouble(ar.getCredit());
-                    }
-                }
-                totalCredits = Double.toString(academicTotalMin);
+				}
 
-                if (academicTotalMin != academicTotalMax) {
-                    totalCredits = totalCredits + "-" + Double.toString(academicTotalMax);
+			}
 
+			/*
+			 * TODO:Implement this based on the flags (past,present,future)
+			 * logic
+			 */
+			if (getPlannedList().size() > 0 && getAcademicRecord().size() > 0) {
+				if (plannedTotalMin != plannedTotalMax && academicTotalMin != academicTotalMax) {
+					double minVal = 0;
+					double maxVal = 0;
+					minVal = plannedTotalMin + academicTotalMin;
+					maxVal = plannedTotalMax + academicTotalMax;
+					totalCredits = minVal + "-" + maxVal;
+				}
+				if (plannedTotalMin == plannedTotalMax && academicTotalMin == academicTotalMax) {
+					totalCredits = String.valueOf(plannedTotalMin + academicTotalMin);
+				}
+				if (plannedTotalMin != plannedTotalMax && academicTotalMin == academicTotalMax) {
+					double minVal = 0;
+					double maxVal = 0;
+					minVal = plannedTotalMin + academicTotalMin;
+					maxVal = plannedTotalMax + academicTotalMax;
+					totalCredits = minVal + "-" + maxVal;
 
-                }
+				}
+				if (plannedTotalMin == plannedTotalMax && academicTotalMin != academicTotalMax) {
+					double minVal = 0;
+					double maxVal = 0;
+					minVal = academicTotalMin;
+					maxVal = plannedTotalMax + academicTotalMax;
+					totalCredits = minVal + "-" + maxVal;
+				}
+			}
+			if (totalCredits != null) {
+				if (totalCredits.contains(".0"))
+					totalCredits = totalCredits.replace(".0", "");
+			}
+		} catch (NumberFormatException e) {
+			return null;
+		}
+		return totalCredits;
+	}
 
+	public String getCartCredits() {
+		double realTotal = 0.0;
+		for (int i = 0; i < this.getCartList().size(); i++) {
+			String itemCredits = this.getCartList().get(i).getCourseDetails().getCredit();
+			try {
+				realTotal = realTotal + Double.parseDouble(itemCredits);
 
-            }
+			} catch (NumberFormatException e) {
 
-            /*TODO:Implement this based on the flags (past,present,future) logic*/
-            if (getPlannedList().size() > 0 && getAcademicRecord().size() > 0) {
-                if (plannedTotalMin != plannedTotalMax && academicTotalMin != academicTotalMax) {
-                    double minVal = 0;
-                    double maxVal = 0;
-                    minVal = plannedTotalMin + academicTotalMin;
-                    maxVal = plannedTotalMax + academicTotalMax;
-                    totalCredits = minVal + "-" + maxVal;
-                }
-                if (plannedTotalMin == plannedTotalMax && academicTotalMin == academicTotalMax) {
-                    totalCredits = String.valueOf(plannedTotalMin + academicTotalMin);
-                }
-                if (plannedTotalMin != plannedTotalMax && academicTotalMin == academicTotalMax) {
-                    double minVal = 0;
-                    double maxVal = 0;
-                    minVal = plannedTotalMin + academicTotalMin;
-                    maxVal = plannedTotalMax + academicTotalMax;
-                    totalCredits = minVal + "-" + maxVal;
+			}
+		}
+		if (realTotal == 0.0)
+			return null;
+		return (realTotal + "").replaceAll(".0", "");
+	}
 
-                }
-                if (plannedTotalMin == plannedTotalMax && academicTotalMin != academicTotalMax) {
-                    double minVal = 0;
-                    double maxVal = 0;
-                    minVal = academicTotalMin;
-                    maxVal = plannedTotalMax + academicTotalMax;
-                    totalCredits = minVal + "-" + maxVal;
-                }
-            }
-            if (totalCredits != null) {
-                if (totalCredits.contains(".0")) totalCredits = totalCredits.replace(".0", "");
-            }
-        }catch(NumberFormatException e){
-            return null;
-        }
-        return totalCredits;
-    }
+	public void setCredits(String credits) {
+		this.credits = credits;
+	}
 
-    public String getCartCredits(){
-        double realTotal=0.0;
-        for(int i=0;i<this.getCartList().size();i++){
-            String itemCredits = this.getCartList().get(i).getCourseDetails().getCredit();
-            try{
-                    realTotal=realTotal+Double.parseDouble(itemCredits);
+	public List<AcademicRecordDataObject> getAcademicRecord() {
+		return academicRecord;
+	}
 
-            }catch(NumberFormatException e){
+	public void setAcademicRecord(List<AcademicRecordDataObject> academicRecord) {
+		this.academicRecord = academicRecord;
+	}
 
-            }
-        }
-        if(realTotal==0.0) return null;
-        return (realTotal+"").replaceAll(".0", "");
-    }
+	public boolean isCurrentTermForView() {
+		return currentTermForView;
+	}
 
-    public void setCredits(String credits) {
-        this.credits = credits;
-    }
+	public void setCurrentTermForView(boolean currentTermForView) {
+		this.currentTermForView = currentTermForView;
+	}
 
+	public boolean isCompletedTerm() {
+		return completedTerm;
+	}
 
-    public List<AcademicRecordDataObject> getAcademicRecord() {
-        return academicRecord;
-    }
+	public void setCompletedTerm(boolean completedTerm) {
+		this.completedTerm = completedTerm;
+	}
 
-    public void setAcademicRecord(List<AcademicRecordDataObject> academicRecord) {
-        this.academicRecord = academicRecord;
-    }
+	public boolean isOpenForPlanning() {
+		return openForPlanning;
+	}
 
+	public void setOpenForPlanning(boolean openForPlanning) {
+		this.openForPlanning = openForPlanning;
+	}
 
-    public boolean isCurrentTermForView() {
-        return currentTermForView;
-    }
+	public boolean isDisplayCompletedHelp() {
+		return displayCompletedHelp;
+	}
 
-    public void setCurrentTermForView(boolean currentTermForView) {
-        this.currentTermForView = currentTermForView;
-    }
+	public void setDisplayCompletedHelp(boolean displayCompletedHelp) {
+		this.displayCompletedHelp = displayCompletedHelp;
+	}
 
-    public boolean isCompletedTerm() {
-        return completedTerm;
-    }
+	public boolean isDisplayPlannedHelp() {
+		return displayPlannedHelp;
+	}
 
-    public void setCompletedTerm(boolean completedTerm) {
-        this.completedTerm = completedTerm;
-    }
+	public void setDisplayPlannedHelp(boolean displayPlannedHelp) {
+		this.displayPlannedHelp = displayPlannedHelp;
+	}
 
-    public boolean isOpenForPlanning() {
-        return openForPlanning;
-    }
+	public boolean isDisplayCartHelp() {
+		return displayCartHelp;
+	}
 
-    public void setOpenForPlanning(boolean openForPlanning) {
-        this.openForPlanning = openForPlanning;
-    }
+	public void setDisplayCartHelp(boolean displayCartHelp) {
+		this.displayCartHelp = displayCartHelp;
+	}
 
-    public boolean isDisplayCompletedHelp() {
-        return displayCompletedHelp;
-    }
+	public boolean isDisplayCreditsHelp() {
+		return displayCreditsHelp;
+	}
 
-    public void setDisplayCompletedHelp(boolean displayCompletedHelp) {
-        this.displayCompletedHelp = displayCompletedHelp;
-    }
+	public void setDisplayCreditsHelp(boolean displayCreditsHelp) {
+		this.displayCreditsHelp = displayCreditsHelp;
+	}
 
-    public boolean isDisplayPlannedHelp() {
-        return displayPlannedHelp;
-    }
+	public boolean isDisplayBackupHelp() {
+		return displayBackupHelp;
+	}
 
-    public void setDisplayPlannedHelp(boolean displayPlannedHelp) {
-        this.displayPlannedHelp = displayPlannedHelp;
-    }
+	public void setDisplayBackupHelp(boolean displayBackupHelp) {
+		this.displayBackupHelp = displayBackupHelp;
+	}
 
-    public boolean isDisplayCartHelp() {
-        return displayCartHelp;
-    }
+	public boolean isDisplayRegisteredHelp() {
+		return displayRegisteredHelp;
+	}
 
-    public void setDisplayCartHelp(boolean displayCartHelp) {
-        this.displayCartHelp = displayCartHelp;
-    }
+	public void setDisplayRegisteredHelp(boolean displayRegisteredHelp) {
+		this.displayRegisteredHelp = displayRegisteredHelp;
+	}
 
-    public boolean isDisplayCreditsHelp() {
-        return displayCreditsHelp;
-    }
+	public String getAtpIdYear() {
+		try {
+			Term atp = KsapFrameworkServiceLocator.getTermHelper().getTerm(getAtpId());
+			return atp.getName();
+		} catch (Exception e) {
+			return "0000";
+		}
+	}
 
-    public void setDisplayCreditsHelp(boolean displayCreditsHelp) {
-        this.displayCreditsHelp = displayCreditsHelp;
-    }
-
-    public boolean isDisplayBackupHelp() {
-        return displayBackupHelp;
-    }
-
-    public void setDisplayBackupHelp(boolean displayBackupHelp) {
-        this.displayBackupHelp = displayBackupHelp;
-    }
-
-    public boolean isDisplayRegisteredHelp() {
-        return displayRegisteredHelp;
-    }
-
-    public void setDisplayRegisteredHelp(boolean displayRegisteredHelp) {
-        this.displayRegisteredHelp = displayRegisteredHelp;
-    }
-
-    public String getAtpIdYear(){
-        try{
-            AtpInfo atp = KsapFrameworkServiceLocator.getAtpService().getAtp(getAtpId()
-                ,KsapFrameworkServiceLocator.getContext().getContextInfo());
-            return atp.getName();
-        }catch (Exception e){
-            return "0000";
-        }
-
-
-    }
 }
-

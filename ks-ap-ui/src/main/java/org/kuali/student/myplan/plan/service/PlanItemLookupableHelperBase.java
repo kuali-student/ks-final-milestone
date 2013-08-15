@@ -3,6 +3,7 @@ package org.kuali.student.myplan.plan.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -45,20 +46,18 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 				planTypeKey, KsapFrameworkServiceLocator.getContext().getContextInfo());
 		Map<String, List<PlanItemInfo>> itemsByPlan = new java.util.HashMap<String, List<PlanItemInfo>>(
 				learningPlanList.size());
-		String firstAtpId = null;
+		Set<String> courseIds = new java.util.LinkedHashSet<String>();
 		for (LearningPlanInfo learningPlan : learningPlanList) {
 			String learningPlanID = learningPlan.getId();
 			List<PlanItemInfo> planItems = academicPlanService.getPlanItemsInPlan(learningPlanID,
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			itemsByPlan.put(learningPlanID, planItems);
-			for (PlanItemInfo item : planItems)
-				if (item.getPlanPeriods() != null)
-					for (String atp : item.getPlanPeriods())
-						if (firstAtpId == null || firstAtpId.compareTo(atp) > 0)
-							firstAtpId = atp;
+			if (planItems != null)
+				for (PlanItemInfo planItem : planItems)
+					if (PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()))
+						courseIds.add(planItem.getRefObjectId());
 		}
-		
-		KsapFrameworkServiceLocator.getTermHelper().frontLoadForPlanner(firstAtpId);
+		KsapFrameworkServiceLocator.getCourseHelper().frontLoad(new java.util.ArrayList<String>(courseIds));
 
 		for (List<PlanItemInfo> planItemList : itemsByPlan.values())
 			for (PlanItemInfo planItem : planItemList) {
@@ -77,7 +76,7 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 					plannedCoursesList.add(plannedCourseDO);
 				}
 			}
-		
+
 		return plannedCoursesList;
 	}
 

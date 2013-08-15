@@ -543,12 +543,12 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		 * data dictionary.
 		 */
 		try {
-			KsapFrameworkServiceLocator.getCourseService().getCourse(planItemInfo.getRefObjectId(), context);
-		} catch (DoesNotExistException e) {
-			validationResultInfos.add(makeValidationResultInfo(
-					String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()), "refObjectId",
-					ValidationResult.ErrorLevel.ERROR));
-		} catch (Exception e) {
+			if (KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(planItemInfo.getRefObjectId()) == null) {
+				validationResultInfos.add(makeValidationResultInfo(
+						String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
+						"refObjectId", ValidationResult.ErrorLevel.ERROR));
+			}
+		} catch (RuntimeException e) {
 			validationResultInfos.add(makeValidationResultInfo(e.getLocalizedMessage(), "refObjectId",
 					ValidationResult.ErrorLevel.ERROR));
 		}
@@ -566,7 +566,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 				for (String atpId : planItemInfo.getPlanPeriods()) {
 					boolean valid = false;
 					try {
-						valid = isValidAtp(atpId, context);
+						valid = isValidTerm(atpId);
 						if (!valid) {
 							validationResultInfos.add(makeValidationResultInfo(
 									String.format("ATP ID [%s] was not valid.", atpId), "atpId",
@@ -652,14 +652,12 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		return vri;
 	}
 
-	private boolean isValidAtp(String atpId, ContextInfo context) {
+	private boolean isValidTerm(String atpId) {
 		try {
-			KsapFrameworkServiceLocator.getAtpService().getAtp(atpId, context);
-		} catch (DoesNotExistException e) {
-			return false;
+			return KsapFrameworkServiceLocator.getTermHelper().getTerm(atpId) != null;
 		} catch (Exception e) {
 			throw new RuntimeException("Query to ATP service failed.", e);
 		}
-		return true;
 	}
+
 }

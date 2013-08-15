@@ -52,37 +52,27 @@ public class TermsFacet extends AbstractFacet {
 		Set<String> facetKeys = new HashSet<String>();
 
 		// Terms
-		if (null != course.getTermInfoList()
-				&& 0 != course.getTermInfoList().size()) {
+		if (null != course.getTermInfoList() && 0 != course.getTermInfoList().size()) {
 			for (String term : course.getTermInfoList()) {
 				// Title-case the term name.
 				String termName;
 				try {
 					termName = PROJECTED_TERM_PREFIX
-							+ KsapFrameworkServiceLocator
-									.getTypeService()
-									.getType(
-											term,
-											KsapFrameworkServiceLocator
-													.getContext()
-													.getContextInfo())
-									.getName().substring(0, 2).toUpperCase();
+							+ KsapFrameworkServiceLocator.getTypeService()
+									.getType(term, KsapFrameworkServiceLocator.getContext().getContextInfo()).getName()
+									.substring(0, 2).toUpperCase();
 				} catch (DoesNotExistException e) {
-					throw new IllegalArgumentException("Invalid term type "
-							+ term, e);
+					throw new IllegalArgumentException("Invalid term type " + term, e);
 				} catch (InvalidParameterException e) {
-					throw new IllegalArgumentException("Invalid term type "
-							+ term, e);
+					throw new IllegalArgumentException("Invalid term type " + term, e);
 				} catch (MissingParameterException e) {
-					throw new IllegalArgumentException("Invalid term type "
-							+ term, e);
+					throw new IllegalArgumentException("Invalid term type " + term, e);
 				} catch (OperationFailedException e) {
 					throw new IllegalStateException("Type lookup error", e);
 				} catch (PermissionDeniedException e) {
 					throw new IllegalStateException("Type lookup error", e);
 				}
-				String key = FACET_KEY_DELIMITER + termName
-						+ FACET_KEY_DELIMITER;
+				String key = FACET_KEY_DELIMITER + termName + FACET_KEY_DELIMITER;
 
 				// If an FacetItem doesn't exist for this key then create one
 				// and add it to the Facet.
@@ -95,42 +85,20 @@ public class TermsFacet extends AbstractFacet {
 		}
 
 		// Scheduled terms.
-		if (null == course.getScheduledTermsList()
-				|| 0 == course.getScheduledTermsList().size()) {
-			String key = FACET_KEY_DELIMITER + getUnknownFacetKey()
-					+ FACET_KEY_DELIMITER;
+		if (null == course.getScheduledTermsList() || 0 == course.getScheduledTermsList().size()) {
+			String key = FACET_KEY_DELIMITER + getUnknownFacetKey() + FACET_KEY_DELIMITER;
 			facetKeys.add(key);
 		} else {
 			for (String t : course.getScheduledTermsList()) {
-				String termFacetKey;
-				try {
-					termFacetKey = KsapFrameworkServiceLocator
-							.getAtpService()
-							.getAtp(t,
-									KsapFrameworkServiceLocator.getContext()
-											.getContextInfo()).getName();
-				} catch (DoesNotExistException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				} catch (InvalidParameterException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				} catch (MissingParameterException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				} catch (OperationFailedException e) {
-					throw new IllegalStateException("ATP lookup error", e);
-				} catch (PermissionDeniedException e) {
-					throw new IllegalStateException("ATP lookup error", e);
-				}
+				String termFacetKey = KsapFrameworkServiceLocator.getTermHelper().getTerm(t).getName();
 
 				// Convert Winter 2012 to WI 12
-				Matcher m = CourseSearchConstants.TERM_PATTERN
-						.matcher(termFacetKey);
+				Matcher m = CourseSearchConstants.TERM_PATTERN.matcher(termFacetKey);
 				if (m.matches()) {
-					termFacetKey = m.group(1).substring(0, 2).toUpperCase()
-							+ " " + m.group(2);
+					termFacetKey = m.group(1).substring(0, 2).toUpperCase() + " " + m.group(2);
 				}
 
-				String key = FACET_KEY_DELIMITER + termFacetKey
-						+ FACET_KEY_DELIMITER;
+				String key = FACET_KEY_DELIMITER + termFacetKey + FACET_KEY_DELIMITER;
 				if (isNewFacetKey(key)) {
 					facetItems.add(new FacetItem(key, termFacetKey));
 				}
@@ -150,37 +118,28 @@ public class TermsFacet extends AbstractFacet {
 		@Override
 		public int compare(FacetItem fi1, FacetItem fi2) {
 			// Unknown is always last.
-			if (fi1.getKey().equals(
-					FACET_KEY_DELIMITER + TermsFacet.this.unknownFacetKey
-							+ FACET_KEY_DELIMITER)) {
+			if (fi1.getKey().equals(FACET_KEY_DELIMITER + TermsFacet.this.unknownFacetKey + FACET_KEY_DELIMITER)) {
 				return 1;
 			}
 
-			if (fi2.getKey().equals(
-					FACET_KEY_DELIMITER + TermsFacet.this.unknownFacetKey
-							+ FACET_KEY_DELIMITER)) {
+			if (fi2.getKey().equals(FACET_KEY_DELIMITER + TermsFacet.this.unknownFacetKey + FACET_KEY_DELIMITER)) {
 				return -1;
 			}
 
 			// If the facet items that end with a year are scheduled terms and
 			// should precede terms.
-			boolean isYear1 = fi1.getKey().matches(
-					".*\\d{2}" + FACET_KEY_DELIMITER + "$");
-			boolean isYear2 = fi2.getKey().matches(
-					".*\\d{2}" + FACET_KEY_DELIMITER + "$");
+			boolean isYear1 = fi1.getKey().matches(".*\\d{2}" + FACET_KEY_DELIMITER + "$");
+			boolean isYear2 = fi2.getKey().matches(".*\\d{2}" + FACET_KEY_DELIMITER + "$");
 
 			// Two scheduled terms.
 			if (isYear1 && isYear2) {
 				// TODO: For now just ignore the year and projected keywords
-				String termKey1 = fi1.getKey()
-						.replaceAll(FACET_KEY_DELIMITER, "").toUpperCase();
+				String termKey1 = fi1.getKey().replaceAll(FACET_KEY_DELIMITER, "").toUpperCase();
 				termKey1 = termKey1.replaceAll(" \\d{2}", "");
-				String termKey2 = fi2.getKey()
-						.replaceAll(FACET_KEY_DELIMITER, "").toUpperCase();
+				String termKey2 = fi2.getKey().replaceAll(FACET_KEY_DELIMITER, "").toUpperCase();
 				termKey2 = termKey2.replaceAll(" \\d{2}", "");
 
-				return TermsFacet.TermOrder.valueOf(termKey1).compareTo(
-						TermsFacet.TermOrder.valueOf(termKey2));
+				return TermsFacet.TermOrder.valueOf(termKey1).compareTo(TermsFacet.TermOrder.valueOf(termKey2));
 			}
 
 			if (isYear1 && !isYear2) {
@@ -193,14 +152,11 @@ public class TermsFacet extends AbstractFacet {
 
 			// Two terms.
 			if (!isYear1 && !isYear2) {
-				String termKey1 = fi1.getKey()
-						.replaceAll(FACET_KEY_DELIMITER, "")
+				String termKey1 = fi1.getKey().replaceAll(FACET_KEY_DELIMITER, "")
 						.replaceAll(PROJECTED_TERM_PREFIX, "").toUpperCase();
-				String termKey2 = fi2.getKey()
-						.replaceAll(FACET_KEY_DELIMITER, "")
+				String termKey2 = fi2.getKey().replaceAll(FACET_KEY_DELIMITER, "")
 						.replaceAll(PROJECTED_TERM_PREFIX, "").toUpperCase();
-				return TermsFacet.TermOrder.valueOf(termKey1).compareTo(
-						TermsFacet.TermOrder.valueOf(termKey2));
+				return TermsFacet.TermOrder.valueOf(termKey1).compareTo(TermsFacet.TermOrder.valueOf(termKey2));
 			}
 			return 0;
 		}
@@ -209,5 +165,5 @@ public class TermsFacet extends AbstractFacet {
 	private enum TermOrder {
 		FA, AU, WI, SP, SU
 	}
-	
+
 }

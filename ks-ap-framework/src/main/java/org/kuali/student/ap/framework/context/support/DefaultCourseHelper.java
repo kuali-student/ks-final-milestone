@@ -33,11 +33,70 @@ import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 // TODO: REVIEW https://svn.kuali.org/repos/student/contrib/myplan/trunk/ks-myplan/myplan-ui/src/main/java/edu/uw/kuali/student/myplan/util/CourseHelperImpl.java
 public class DefaultCourseHelper implements CourseHelper, Serializable {
 
 	private static final long serialVersionUID = 8000868050066661992L;
+
+	private static final CourseMarkerKey COURSE_MARKER_KEY = new CourseMarkerKey();
+
+	private static class CourseMarkerKey {
+		@Override
+		public int hashCode() {
+			return CourseMarkerKey.class.hashCode();
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			return obj instanceof CourseMarkerKey;
+		}
+	}
+
+	private static class CourseMarker {
+		private Map<String, CourseInfo> courseIdMap = new java.util.HashMap<String, CourseInfo>();
+
+		private void cache(CourseInfo courseInfo) {
+			if (courseInfo != null) {
+				courseIdMap.put(courseInfo.getId(), courseInfo);
+			}
+		}
+
+		private void cache(List<CourseInfo> courseInfos) {
+			if (courseInfos != null)
+				for (CourseInfo courseInfo : courseInfos)
+					cache(courseInfo);
+		}
+	}
+
+	private static CourseMarker getCourseMarker() {
+		CourseMarker rv = (CourseMarker) TransactionSynchronizationManager.getResource(COURSE_MARKER_KEY);
+		if (rv == null) {
+			TransactionSynchronizationManager.bindResource(COURSE_MARKER_KEY, rv = new CourseMarker());
+		}
+		return rv;
+	}
+
+	@Override
+	public void frontLoad(List<String> courseIds) {
+		try {
+			ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
+			CourseMarker cm = getCourseMarker();
+			cm.cache(KsapFrameworkServiceLocator.getCourseService().getCoursesByIds(courseIds, context));
+			// TODO: course offerings, activity offerings
+		} catch (DoesNotExistException e) {
+			throw new IllegalArgumentException("CO lookup error", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("CO lookup error", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("CO lookup error", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("CO lookup error", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("CO lookup error", e);
+		}
+	}
 
 	@Override
 	public Map<String, Map<String, Object>> getAllSectionStatus(Map<String, Map<String, Object>> status,
@@ -253,20 +312,27 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	 * @return
 	 */
 	public CourseInfo getCourseInfo(String courseId) {
-		try {
-			return KsapFrameworkServiceLocator.getCourseService().getCourse(getVerifiedCourseId(courseId),
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
-		}
+		CourseMarker cm = getCourseMarker();
+		CourseInfo rv = cm.courseIdMap.get(courseId);
+		if (rv == null)
+			try {
+				cm.courseIdMap.put(
+						courseId,
+						rv = KsapFrameworkServiceLocator.getCourseService().getCourse(
+								KsapFrameworkServiceLocator.getCourseHelper().getVerifiedCourseId(courseId),
+								KsapFrameworkServiceLocator.getContext().getContextInfo()));
+			} catch (DoesNotExistException e) {
+				return null;
+			} catch (MissingParameterException e) {
+				throw new IllegalArgumentException("CLU lookup error", e);
+			} catch (InvalidParameterException e) {
+				throw new IllegalArgumentException("CLU lookup error", e);
+			} catch (OperationFailedException e) {
+				throw new IllegalStateException("CLU lookup error", e);
+			} catch (PermissionDeniedException e) {
+				throw new IllegalStateException("CLU lookup error", e);
+			}
+		return rv;
 	}
 
 	/**
@@ -289,7 +355,6 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	@Override
 	public String getVerifiedCourseId(String courseId) {
 		SearchRequestInfo req = new SearchRequestInfo("myplan.course.version.id");
-		req.addParam("courseId", courseId);
 		req.addParam("courseId", courseId);
 		req.addParam("lastScheduledTerm", KsapFrameworkServiceLocator.getTermHelper().getLastScheduledTerm().getId());
 		SearchResult result;

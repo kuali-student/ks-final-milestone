@@ -40,4 +40,6 @@ public interface CourseHelper {
 
 	List<Course> getCoursesByCode(String courseCd);
 
+	void frontLoad(List<String> courseIds);
+
 }

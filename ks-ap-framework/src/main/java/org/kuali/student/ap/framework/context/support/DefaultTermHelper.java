@@ -8,11 +8,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -31,7 +29,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.infc.Atp;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -60,8 +57,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * </dl>
  */
 public class DefaultTermHelper implements TermHelper {
-
-	private static final Logger LOG = Logger.getLogger(DefaultTermHelper.class);
 
 	private static final MarkerKey MARKER_KEY = new MarkerKey();
 
@@ -159,10 +154,10 @@ public class DefaultTermHelper implements TermHelper {
 		return rv;
 	}
 
-	
 	@Override
 	public void frontLoadForPlanner(String firstAtpId) {
-		Date start = getTerm(firstAtpId).getStartDate();
+		Term firstTerm = firstAtpId == null ? getPlanningTerms().get(0) : getTerm(firstAtpId);
+		Date start = firstTerm.getStartDate();
 		Date end = null;
 		for (Term pt : getPlanningTerms()) {
 			if (end == null || end.before(pt.getEndDate()))
@@ -170,7 +165,6 @@ public class DefaultTermHelper implements TermHelper {
 		}
 		getTermMarker().frontLoad(start, end);
 	}
-
 
 	@Override
 	public Term getTerm(String atpId) {
@@ -410,77 +404,8 @@ public class DefaultTermHelper implements TermHelper {
 		}
 	}
 
-	private static class TermByYearTermKey {
-		private final YearTerm yearTerm;
-
-		private TermByYearTermKey(YearTerm yearTerm) {
-			this.yearTerm = yearTerm;
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + ((yearTerm == null) ? 0 : yearTerm.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			TermByYearTermKey other = (TermByYearTermKey) obj;
-			if (yearTerm == null) {
-				if (other.yearTerm != null)
-					return false;
-			} else if (!yearTerm.equals(other.yearTerm))
-				return false;
-			return true;
-		}
-	}
-
-	@Override
 	public Term getTerm(YearTerm yearTerm) {
-		TermByYearTermKey k = new TermByYearTermKey(yearTerm);
-		Term rv = (Term) TransactionSynchronizationManager.getResource(k);
-		if (rv == null)
-			try {
-				Calendar c = new GregorianCalendar(yearTerm.getYear() - 1, Calendar.NOVEMBER, 1);
-				Date d1 = c.getTime();
-				c.add(Calendar.YEAR, 1);
-				Date d2 = c.getTime();
-				List<AtpInfo> atps = KsapFrameworkServiceLocator.getAtpService().getAtpsByStartDateRangeAndType(d1, d2,
-						yearTerm.getTermType(), KsapFrameworkServiceLocator.getContext().getContextInfo());
-				if (atps == null || atps.isEmpty())
-					throw new IllegalArgumentException("AtpService did not return any results for " + yearTerm);
-				TermMarker tm = getTermMarker();
-				for (Atp atp : atps)
-					try {
-						rv = tm.termMap.get(atp.getId());
-						if (rv == null)
-							tm.cache(rv = KsapFrameworkServiceLocator.getAcademicCalendarService().getTerm(atp.getId(),
-									KsapFrameworkServiceLocator.getContext().getContextInfo()));
-					} catch (DoesNotExistException e) {
-						LOG.warn("ATP has term type, but is not a term " + atp, e);
-					}
-				if (rv == null)
-					throw new IllegalArgumentException("AtpService did not return any valid results for " + yearTerm);
-				else
-					TransactionSynchronizationManager.bindResource(k, rv);
-			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("Acal lookup failure", e);
-			} catch (MissingParameterException e) {
-				throw new IllegalArgumentException("Acal lookup failure", e);
-			} catch (OperationFailedException e) {
-				throw new IllegalStateException("Acal lookup failure", e);
-			} catch (PermissionDeniedException e) {
-				throw new IllegalStateException("Acal lookup failure", e);
-			}
-		return rv;
+		return getTerm(yearTerm.getTermId());
 	}
 
 	@Override

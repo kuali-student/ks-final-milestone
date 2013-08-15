@@ -11,6 +11,7 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -24,8 +25,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 /**
  * Produce a list of planned course items.
  */
-public class PlannedCoursesLookupableHelperImpl extends
-		PlanItemLookupableHelperBase {
+public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelperBase {
 
 	private static final long serialVersionUID = 1502719861875054079L;
 
@@ -33,15 +33,13 @@ public class PlannedCoursesLookupableHelperImpl extends
 
 	public AcademicRecordService getAcademicRecordService() {
 		if (this.academicRecordService == null) {
-			this.academicRecordService = KsapFrameworkServiceLocator
-					.getAcademicRecordService();
+			this.academicRecordService = KsapFrameworkServiceLocator.getAcademicRecordService();
 		}
 
 		return this.academicRecordService;
 	}
 
-	public void setAcademicRecordService(
-			AcademicRecordService academicRecordService) {
+	public void setAcademicRecordService(AcademicRecordService academicRecordService) {
 		this.academicRecordService = academicRecordService;
 	}
 
@@ -54,44 +52,23 @@ public class PlannedCoursesLookupableHelperImpl extends
 	 * @return
 	 */
 	@Override
-	public boolean validateSearchParameters(LookupForm form,
-			Map<String, String> searchCriteria) {
+	public boolean validateSearchParameters(LookupForm form, Map<String, String> searchCriteria) {
 		return true;
 	}
 
 	@Override
-	protected List<PlannedTerm> getSearchResults(LookupForm lookupForm,
-			Map<String, String> fieldValues, boolean unbounded) {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes()).getRequest();
-		String focusAtpId = request
-				.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
-		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
-				.getStudentId();
-
-		/************* PlannedCourseList **************/
-		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
-		try {
-			plannedCoursesList = getPlanItems(
-					PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("LP lookup failure", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("LP lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("LP lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("LP lookup failure", e);
-		}
+	protected List<PlannedTerm> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues,
+			boolean unbounded) {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+		String focusAtpId = request.getParameter(PlanConstants.FOCUS_ATP_ID_KEY);
+		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 
 		/**** academic record SWS call to get the studentCourseRecordInfo list *****/
 		List<StudentCourseRecordInfo> studentCourseRecordInfos = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			studentCourseRecordInfos = getAcademicRecordService()
-					.getCompletedCourseRecords(
-							studentId,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
+			studentCourseRecordInfos = getAcademicRecordService().getCompletedCourseRecords(studentId,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("AR lookup failure", e);
 		} catch (InvalidParameterException e) {
@@ -104,11 +81,31 @@ public class PlannedCoursesLookupableHelperImpl extends
 			throw new IllegalStateException("AR lookup failure", e);
 		}
 
+		String firstAtpId = null;
+		if (studentCourseRecordInfos != null)
+			for (StudentCourseRecordInfo item : studentCourseRecordInfos)
+				if (item.getTermName() != null)
+					firstAtpId = item.getTermName();
+		KsapFrameworkServiceLocator.getTermHelper().frontLoadForPlanner(firstAtpId);
+
+		/************* PlannedCourseList **************/
+		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
+		try {
+			plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
+		} catch (DoesNotExistException e) {
+			throw new IllegalArgumentException("LP lookup failure", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("LP lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("LP lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("LP lookup failure", e);
+		}
+
 		/************* BackupCourseList **************/
 		List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
 		try {
-			backupCoursesList = getPlanItems(
-					PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
+			backupCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("LP lookup failure", e);
 		} catch (InvalidParameterException e) {
@@ -122,8 +119,7 @@ public class PlannedCoursesLookupableHelperImpl extends
 		/************* Cart List **************/
 		List<PlannedCourseDataObject> cartCoursesList = new ArrayList<PlannedCourseDataObject>();
 		try {
-			cartCoursesList = getPlanItems(
-					PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART, studentId);
+			cartCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART, studentId);
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("LP lookup failure", e);
 		} catch (InvalidParameterException e) {
@@ -134,10 +130,8 @@ public class PlannedCoursesLookupableHelperImpl extends
 			throw new IllegalStateException("LP lookup failure", e);
 		}
 
-		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase
-				.populatePlannedTerms(plannedCoursesList, backupCoursesList,
-						studentCourseRecordInfos, cartCoursesList, focusAtpId,
-						false);
+		List<PlannedTerm> perfectPlannedTerms = PlannedTermsHelperBase.populatePlannedTerms(plannedCoursesList,
+				backupCoursesList, studentCourseRecordInfos, cartCoursesList, focusAtpId, false);
 		return perfectPlannedTerms;
 	}
 }

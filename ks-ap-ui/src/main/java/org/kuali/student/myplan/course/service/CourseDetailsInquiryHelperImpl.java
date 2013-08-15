@@ -19,18 +19,13 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.infc.Term;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
-import org.kuali.student.myplan.academicplan.infc.LearningPlan;
 import org.kuali.student.myplan.academicplan.infc.PlanItem;
 import org.kuali.student.myplan.academicplan.service.AcademicPlanService;
-import org.kuali.student.myplan.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.myplan.course.dataobject.ActivityOfferingItem;
 import org.kuali.student.myplan.course.dataobject.CourseDetails;
 import org.kuali.student.myplan.course.dataobject.CourseOfferingInstitution;
@@ -44,7 +39,6 @@ import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
 import org.kuali.student.myplan.utils.CourseLinkBuilder;
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -53,7 +47,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.room.infc.Building;
@@ -62,9 +55,7 @@ import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.service.CourseService;
 
 @SuppressWarnings("deprecation")
 public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
@@ -74,41 +65,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	private static final Logger LOG = Logger.getLogger(CourseDetailsInquiryHelperImpl.class);
 
 	public static final String NOT_OFFERED_IN_LAST_TEN_YEARS = "Not offered for more than 10 years.";
-
-	private transient CourseService courseService;
-
-	private transient CourseOfferingService courseOfferingService;
-
-	private transient AcademicCalendarService academicCalendarService;
-
-	private transient AtpService atpService;
-
-	private transient CluService cluService;
-
-	private transient AcademicPlanService academicPlanService;
-
-	private transient AcademicRecordService academicRecordService;
-
-	private HashMap<String, Map<String, String>> hashMap;
-	private transient CourseInfo courseInfo;
-
-	public HashMap<String, Map<String, String>> getHashMap() {
-		if (this.hashMap == null) {
-			this.hashMap = new HashMap<String, Map<String, String>>();
-		}
-		return this.hashMap;
-	}
-
-	public void setHashMap(HashMap<String, Map<String, String>> hashMap) {
-		this.hashMap = hashMap;
-	}
-
-	protected CluService getCluService() {
-		if (this.cluService == null) {
-			this.cluService = KsapFrameworkServiceLocator.getCluService();
-		}
-		return this.cluService;
-	}
 
 	private transient CourseLinkBuilder courseLinkBuilder;
 
@@ -124,14 +80,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	public void setCourseLinkBuilder(CourseLinkBuilder courseLinkBuilder) {
 		this.courseLinkBuilder = courseLinkBuilder;
-	}
-
-	public CourseInfo getCourseInfo() {
-		return courseInfo;
-	}
-
-	public void setCourseInfo(CourseInfo courseInfo) {
-		this.courseInfo = courseInfo;
 	}
 
 	@Override
@@ -154,23 +102,9 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @return
 	 */
 	public CourseSummaryDetails retrieveCourseSummaryById(String courseId) {
-		/**
-		 * If version identpendent Id provided, retrieve the right course
-		 * version Id based on current term/date else get the same id as the
-		 * provided course version specific Id
-		 */
-		String verifiedCourseId = getVerifiedCourseId(courseId);
-		try {
-			CourseInfo course = getCourseService().getCourse(verifiedCourseId,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-			CourseSummaryDetails courseDetails = retrieveCourseSummary(course);
-
-			return courseDetails;
-		} catch (DoesNotExistException e) {
-			throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
-		} catch (Exception e) {
-			throw new RuntimeException("Query failed.", e);
-		}
+		CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+		CourseSummaryDetails courseDetails = retrieveCourseSummary(course);
+		return courseDetails;
 	}
 
 	/**
@@ -297,22 +231,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	public CourseDetails retrieveCourseDetails(String courseId, String termId, String studentId,
 			boolean loadActivityOffering) {
 		CourseDetails courseDetails = new CourseDetails();
-		ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
-		final CourseInfo course;
-		try {
-			/* Get version verified course */
-			course = getCourseService().getCourse(getVerifiedCourseId(courseId), context);
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("Course lookup failure", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("Course lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("Course lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("Course lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("Course lookup failure", e);
-		}
+		final CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
 
 		CourseSummaryDetails courseSummaryDetails = retrieveCourseSummary(course);
 		courseDetails.setCourseSummaryDetails(courseSummaryDetails);
@@ -346,23 +265,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @return
 	 */
 	public PlannedCourseSummary getPlannedCourseSummaryById(String courseId, String studentId) {
-
-		/**
-		 * If version identpendent Id provided, retrieve the right course
-		 * version Id based on current term/date else get the same id as the
-		 * provided course version specific Id
-		 */
-		String verifiedCourseId = getVerifiedCourseId(courseId);
-		try {
-			CourseInfo course = getCourseService().getCourse(verifiedCourseId,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-			return getPlannedCourseSummary(course, studentId);
-		} catch (DoesNotExistException e) {
-			throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
-		} catch (Exception e) {
-			throw new RuntimeException("Query failed.", e);
-		}
-
+		CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+		return getPlannedCourseSummary(course, studentId);
 	}
 
 	/**
@@ -379,10 +283,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		PlannedCourseSummary plannedCourseSummary = new PlannedCourseSummary();
 
 		// Planned, backup and Saved Item
-		AcademicPlanService academicPlanService = getAcademicPlanService();
+		AcademicPlanService academicPlanService = KsapFrameworkServiceLocator.getAcademicPlanService();
 
-		// Get the first learning plan. There should only be one ...
-		String planTypeKey = AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN;
 		try {
 			LearningPlanInfo plan = KsapFrameworkServiceLocator.getPlanHelper().getDefaultLearningPlan();
 			if (plan != null) {
@@ -424,8 +326,9 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		// Get Academic Record Data from the SWS and set that to CourseDetails
 		// acadRecordList
 		try {
-			List<StudentCourseRecordInfo> studentCourseRecordInfos = getAcademicRecordService()
-					.getCompletedCourseRecords(studentId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+			List<StudentCourseRecordInfo> studentCourseRecordInfos = KsapFrameworkServiceLocator
+					.getAcademicRecordService().getCompletedCourseRecords(studentId,
+							KsapFrameworkServiceLocator.getContext().getContextInfo());
 			for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
 				AcademicRecordDataObject acadrec = new AcademicRecordDataObject();
 				acadrec.setAtpId(studentInfo.getTermName());
@@ -462,22 +365,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @return
 	 */
 	public List<CourseOfferingInstitution> getCourseOfferingInstitutionsById(String courseId, List<String> terms) {
-
-		/**
-		 * If version identpendent Id provided, retrieve the right course
-		 * version Id based on current term/date else get the same id as the
-		 * provided course version specific Id
-		 */
-		String verifiedCourseId = getVerifiedCourseId(courseId);
-		try {
-			CourseInfo course = getCourseService().getCourse(verifiedCourseId,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-			return getCourseOfferingInstitutions(course, terms);
-		} catch (DoesNotExistException e) {
-			throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
-		} catch (Exception e) {
-			throw new RuntimeException("Query failed.", e);
-		}
+		CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+		return getCourseOfferingInstitutions(course, terms);
 	}
 
 	/**
@@ -495,11 +384,12 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		List<LearningPlanInfo> learningPlanList;
 		try {
-			learningPlanList = getAcademicPlanService().getLearningPlansForStudentByType(studentId,
-					PlanConstants.LEARNING_PLAN_TYPE_PLAN, KsapFrameworkServiceLocator.getContext().getContextInfo());
+			learningPlanList = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlansForStudentByType(
+					studentId, PlanConstants.LEARNING_PLAN_TYPE_PLAN,
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			for (LearningPlanInfo learningPlan : learningPlanList) {
-				List<PlanItemInfo> planItems = getAcademicPlanService().getPlanItemsInPlan(learningPlan.getId(),
-						KsapFrameworkServiceLocator.getContext().getContextInfo());
+				List<PlanItemInfo> planItems = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlan(
+						learningPlan.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
 				if (null != planItems) {
 					for (PlanItem item : planItems) {
 						for (String planPeriod : item.getPlanPeriods()) {
@@ -547,8 +437,9 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			// Load course offering comments
 			List<CourseOfferingInfo> courseOfferingInfoList;
 			try {
-				courseOfferingInfoList = getCourseOfferingService().getCourseOfferingsByCourseAndTerm(course.getId(),
-						termId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+				courseOfferingInfoList = KsapFrameworkServiceLocator.getCourseOfferingService()
+						.getCourseOfferingsByCourseAndTerm(course.getId(), termId,
+								KsapFrameworkServiceLocator.getContext().getContextInfo());
 			} catch (DoesNotExistException e) {
 				throw new IllegalArgumentException("CO lookup failure " + e);
 			} catch (InvalidParameterException e) {
@@ -636,18 +527,13 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		List<ActivityOfferingItem> activityOfferingItems = new ArrayList<ActivityOfferingItem>();
 
-		// Get version verified course
-		courseId = getVerifiedCourseId(courseId);
 		try {
-			CourseInfo course = getCourseService().getCourse(courseId,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-
-			List<CourseOfferingInfo> courseOfferingInfoList = getCourseOfferingService()
+			CourseInfo course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId);
+			List<CourseOfferingInfo> courseOfferingInfoList = KsapFrameworkServiceLocator.getCourseOfferingService()
 					.getCourseOfferingsByCourseAndTerm(courseId, termId,
 							KsapFrameworkServiceLocator.getContext().getContextInfo());
 			activityOfferingItems = getActivityOfferingItems(course, courseOfferingInfoList, termId,
 					loadStudentsPlanItems().get(termId));
-
 		} catch (DoesNotExistException e) {
 			throw new RuntimeException(String.format("Course [%s] not found.", courseId), e);
 		} catch (Exception e) {
@@ -692,8 +578,9 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				String courseOfferingID = courseInfo.getId();
 				List<ActivityOfferingDisplayInfo> aodiList;
 				try {
-					aodiList = getCourseOfferingService().getActivityOfferingDisplaysForCourseOffering(
-							courseOfferingID, KsapFrameworkServiceLocator.getContext().getContextInfo());
+					aodiList = KsapFrameworkServiceLocator.getCourseOfferingService()
+							.getActivityOfferingDisplaysForCourseOffering(courseOfferingID,
+									KsapFrameworkServiceLocator.getContext().getContextInfo());
 				} catch (DoesNotExistException e) {
 					throw new IllegalArgumentException("CO lookup error", e);
 				} catch (InvalidParameterException e) {
@@ -951,47 +838,13 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	}
 
 	/**
-	 * To get the title for the respective display name
-	 * 
-	 * @param display
-	 * @return
-	 */
-	protected String getTitle(String display) {
-		String titleValue = null;
-		Map<String, String> subjects = new HashMap<String, String>();
-		if (!this.getHashMap().containsKey(CourseSearchConstants.SUBJECT_AREA)) {
-			subjects = KsapFrameworkServiceLocator.getOrgHelper().getTrimmedSubjectAreas();
-			getHashMap().put(CourseSearchConstants.SUBJECT_AREA, subjects);
-
-		} else {
-			subjects = getHashMap().get(CourseSearchConstants.SUBJECT_AREA);
-		}
-
-		if (subjects != null && subjects.size() > 0) {
-			titleValue = subjects.get(display.trim());
-		}
-
-		return titleValue;
-	}
-
-	/**
 	 * Validates if the courseId/versionIndependentId is valid or not.
 	 * 
 	 * @param courseId
 	 * @return
 	 */
 	public boolean isCourseIdValid(String courseId) {
-		CourseInfo course;
-		try {
-			course = getCourseService().getCourse(getVerifiedCourseId(courseId),
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (DoesNotExistException e) {
-			LOG.warn(String.format("Course [%s] not found.", courseId), e);
-			return false;
-		} catch (Exception e) {
-			throw new RuntimeException("Query failed.", e);
-		}
-		return course != null;
+		return KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId) != null;
 	}
 
 	/**
@@ -1017,104 +870,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 			return null;
 		}
 		return planItemId;
-	}
-
-	public AcademicRecordService getAcademicRecordService() {
-		if (this.academicRecordService == null) {
-			// TODO: Use constants for namespace.
-			this.academicRecordService = KsapFrameworkServiceLocator.getAcademicRecordService();
-		}
-		return this.academicRecordService;
-	}
-
-	public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-		this.academicRecordService = academicRecordService;
-	}
-
-	protected synchronized CourseService getCourseService() {
-		if (this.courseService == null) {
-			this.courseService = KsapFrameworkServiceLocator.getCourseService();
-		}
-		return this.courseService;
-	}
-
-	public synchronized void setCourseService(CourseService courseService) {
-		this.courseService = courseService;
-	}
-
-	/**
-	 * Provides an instance of the AtpService client.
-	 */
-	protected AtpService getAtpService() {
-		if (atpService == null) {
-			// TODO: Namespace should not be hard-coded.
-			atpService = KsapFrameworkServiceLocator.getAtpService();
-		}
-		return this.atpService;
-	}
-
-	public void setAtpService(AtpService atpService) {
-		this.atpService = atpService;
-	}
-
-	protected CourseOfferingService getCourseOfferingService() {
-		if (this.courseOfferingService == null) {
-			this.courseOfferingService = KsapFrameworkServiceLocator.getCourseOfferingService();
-		}
-		return this.courseOfferingService;
-	}
-
-	public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-		this.courseOfferingService = courseOfferingService;
-	}
-
-	protected AcademicCalendarService getAcademicCalendarService() {
-		if (this.academicCalendarService == null) {
-			this.academicCalendarService = KsapFrameworkServiceLocator.getAcademicCalendarService();
-		}
-		return this.academicCalendarService;
-	}
-
-	public void setAcademicCalendarService(AcademicCalendarService academicCalendarService) {
-		this.academicCalendarService = academicCalendarService;
-	}
-
-	public AcademicPlanService getAcademicPlanService() {
-		if (academicPlanService == null) {
-			academicPlanService = KsapFrameworkServiceLocator.getAcademicPlanService();
-		}
-		return academicPlanService;
-	}
-
-	public void setAcademicPlanService(AcademicPlanService academicPlanService) {
-		this.academicPlanService = academicPlanService;
-	}
-
-	/**
-	 * Takes a courseId that can be either a version independent Id or a version
-	 * dependent Id and returns a version dependent Id. In case of being passed
-	 * in a version depend
-	 * 
-	 * @param courseId
-	 * @return
-	 */
-	private String getVerifiedCourseId(String courseId) {
-		/*
-		 * String verifiedCourseId = null; try { SearchRequestInfo req = new
-		 * SearchRequestInfo("myplan.course.version.id");
-		 * req.addParam("courseId", courseId); req.addParam("courseId",
-		 * courseId); req.addParam("lastScheduledTerm",
-		 * KsapFrameworkServiceLocator.getAtpHelper().getLastScheduledAtpId());
-		 * SearchResult result = getCluService().search(req,
-		 * KsapFrameworkServiceLocator.getContext().getContextInfo()); for
-		 * (SearchResultRow row : result.getRows()) { for (SearchResultCell cell
-		 * : row.getCells()) { if
-		 * ("lu.resultColumn.cluId".equals(cell.getKey())) { verifiedCourseId =
-		 * cell.getValue(); } } } } catch (Exception e) {
-		 * LOG.error("version verified Id retrieval failed", e); } return
-		 * verifiedCourseId;
-		 */
-		return courseId;
 	}
 
 }
