@@ -19,7 +19,6 @@ import static org.springframework.util.StringUtils.hasText;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,6 +57,8 @@ import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.enrollment.acal.infc.Term;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.myplan.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.myplan.academicplan.dto.PlanItemInfo;
 import org.kuali.student.myplan.academicplan.infc.LearningPlan;
@@ -78,7 +79,6 @@ import org.kuali.student.myplan.course.dataobject.CourseSummaryDetails;
 import org.kuali.student.myplan.course.service.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.myplan.plan.dataobject.TermNoteDataObject;
 import org.kuali.student.myplan.plan.form.PlanForm;
-import org.kuali.student.myplan.quickAdd.form.QuickAddForm;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -95,6 +95,7 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -272,6 +273,9 @@ public class PlanController extends UifControllerBase {
 			if (planItem.getTypeKey().equalsIgnoreCase(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
 				planForm.setBackup(true);
 			}
+            if(planItem.getCredit()!=null){
+                form.setCourseCredit(planItem.getCredit().toString());
+            }
 		} else if (!quickAdd && !courseIdRequired) {
 			LOG.warn("Missing plan item for loading page " + planForm.getPageId());
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST,
@@ -320,18 +324,21 @@ public class PlanController extends UifControllerBase {
 			if (hasText(courseCd)) {
 
                 // Not Supported in KSAP
+                try{
                 List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCd);
 				if (courses.isEmpty())
 					return doErrorPage(form, "Course not found", PlanConstants.COURSE_NOT_FOUND,
 							new String[] { courseCd }, null);
 				else
 					course = getCourseDetailsInquiryService().retrieveCourseSummaryById(courses.get(0).getId());
-
+                }catch(Exception e){
+                    return doErrorPage(form, "Course not found", PlanConstants.COURSE_NOT_FOUND,
+                            new String[] { courseCd }, null);
+                }
 			} else
 				return getUIFModelAndView(form);
 		} else {
-			httpresponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "Page ID not supported " + form.getPageId());
-			return null;
+            return doOperationFailedError(form,"Page ID not supported " + form.getPageId(), null);
 		}
 
 		/* Should the course be type 'planned' or 'backup'. Default to planned. */
@@ -383,15 +390,25 @@ public class PlanController extends UifControllerBase {
                 planItem.setDescr(descr);
             }
 
-            if(hasText(form.getCourseCredit())){
-                try{
-                    float credits = Float.parseFloat(form.getCourseCredit());
-                    planItem.setCredit(credits);
-                }catch(NumberFormatException e){
-                    return doOperationFailedError(form, "Unable to read credit value",
-                            e);
+            String credits="";
+            float newPlanCredits = 0;
+            try{
+                if(hasText(form.getCourseCredit())){
+                    credits=form.getCourseCredit();
+                    newPlanCredits = Float.parseFloat(credits);
                 }
+            }catch(NumberFormatException e){
+                return doOperationFailedError(form, "Unable to read credit value",
+                        e);
             }
+
+            try{
+                newPlanCredits = getPlanItemCredits(newPlanCredits, planItem);
+            }catch(Exception e){
+                return doOperationFailedError(form, "Unable to verify the credit value",
+                        e);
+            }
+            planItem.setCredit(newPlanCredits);
 			if (create) {
 				planItem = academicPlanService.createPlanItem(planItem, context);
 			} else {
@@ -1575,7 +1592,6 @@ public class PlanController extends UifControllerBase {
                     PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
         }
 
-        String sectionCode = null;
         // See if the plan item exists.
         PlanItemInfo planItem = null;
         try {
@@ -1597,15 +1613,26 @@ public class PlanController extends UifControllerBase {
         planItemNote.setFormatted(note);
         planItem.setDescr(planItemNote);
 
+
+        String credits="";
+        float newPlanCredits = 0;
         try{
             if(hasText(form.getCourseCredit())){
-                String credits=form.getCourseCredit();
-                planItem.setCredit(Float.parseFloat(credits.trim()));
+                credits=form.getCourseCredit();
+                newPlanCredits = Float.parseFloat(credits);
             }
         }catch(NumberFormatException e){
             return doOperationFailedError(form, "Unable to read credit value",
                     e);
         }
+
+        try{
+            newPlanCredits = getPlanItemCredits(newPlanCredits, planItem);
+        }catch(Exception e){
+            return doOperationFailedError(form, "Unable to verify the credit value",
+                    e);
+        }
+        planItem.setCredit(newPlanCredits);
 
         // Save note
         try{
@@ -2252,7 +2279,6 @@ public class PlanController extends UifControllerBase {
 		GlobalVariables.getMessageMap().putErrorForSectionId(
 				PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID, errorKey, params);
 
-        GlobalVariables.getMessageMap().addGrowlMessage("",errorKey,params);
 		return getUIFModelAndView(form,
 				PlanConstants.PLAN_ITEM_RESPONSE_PAGE_ID);
 	}
@@ -3228,5 +3254,29 @@ public class PlanController extends UifControllerBase {
                             request, form) : table);
         }
         return table;
+    }
+
+    private float getPlanItemCredits(float newPlanCredits, PlanItemInfo planItem) throws Exception{
+        float minCredit = 100;
+        float maxCredit = 0;
+
+        CourseInfo courseInfo = KsapFrameworkServiceLocator.getCourseService().getCourse(planItem.getRefObjectId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+        for(ResultValuesGroupInfo option : courseInfo.getCreditOptions()){
+            String min=option.getResultValueRange().getMinValue();
+            String max=option.getResultValueRange().getMaxValue();
+            try{
+                float tempMin = Float.parseFloat(min);
+                float tempMax = Float.parseFloat(max);
+                if(minCredit>tempMin) minCredit=tempMin;
+                if(maxCredit<tempMax) maxCredit=tempMax;
+            }catch(NumberFormatException e){
+                LOG.error("Unable to parse credit option",e);
+            }
+        }
+        if(newPlanCredits>maxCredit || newPlanCredits<minCredit){
+            newPlanCredits=minCredit;
+        }
+
+        return newPlanCredits;
     }
 }

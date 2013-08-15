@@ -43,6 +43,7 @@ public class PlanItemDataObject implements Serializable {
         itemDO.setRefObjId(item.getRefObjectId());
         itemDO.setRefObjType(item.getRefObjectType());
         itemDO.setPlanType(item.getTypeKey());
+        if(item.getCredit()!=null)itemDO.setCreditPref(item.getCredit().toString());
 
         return itemDO;
     }

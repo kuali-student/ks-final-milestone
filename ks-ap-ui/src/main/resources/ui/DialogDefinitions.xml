@@ -84,6 +84,7 @@
                                         </bean>
                                         <bean parent="Uif-InputField" p:id="courseCreditsNew_@{atpId.replaceAll('\.','-')}">
                                             <property name="label" value="Enter Course Credits"/>
+                                            <property name="instructionalText" value="Empty and invalid values will default to the minimum credit value."/>
                                             <property name="fieldLabel.render" value="true"/>
                                             <property name="fieldLabel.cssClasses">
                                                 <list merge="true">
@@ -117,7 +118,7 @@
                             <bean parent="KSAP-HorizontalBoxGroup-NoMargin">
                                 <property name="items">
                                     <list>
-                                        <bean id="actionCoursePlaceholder" p:id="actionCoursePlaceholder_@{#form.atpId}_@{#form.backup}"
+                                        <bean id="actionCoursePlaceholder" p:id="actionCoursePlaceholder"
                                               parent="Uif-PrimaryActionButton-Small"
                                               p:actionLabel="@{#form.planItemId EQ null ? 'Add to Plan':'Save'}">
                                             <property name="actionScript" value="
@@ -146,7 +147,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="KSAP-VerticalBoxGroup" p:id="errorPlaceholder" p:hidden="true"/>
+                            <bean parent="errorPlaceholder"/>
                         </list>
                     </property>
                 </bean>
@@ -465,6 +466,7 @@
                     </property>
                     <property name="propertyName" value="fakeCourseCredit"/>
                     <property name="defaultValue" value="@{#form.courseCredit NE null ? #form.courseCredit : ''}"/>
+                    <property name="instructionalText" value="Empty and invalid values will default to the minimum credit value."/>
                     <property name="control">
                         <bean parent="Uif-TextControl">
                             <property name="size" value="3"/>
