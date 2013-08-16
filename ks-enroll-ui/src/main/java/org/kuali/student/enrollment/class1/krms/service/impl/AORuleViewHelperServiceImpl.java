@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
@@ -166,29 +167,25 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
     }
 
     /**
-     * Method to recursively set proposition's parameters propId and value to null to force rebuild.
+     * Method to recursively set proposition's parameters propId to null to force rebuild.
+     * If the proposition parameter is of type Term, null the term id out as well(value field)
      *
      * @param propositionEditor
      */
     protected void nullifyPropositionParameters(LUPropositionEditor propositionEditor) {
-
-        //Set cluSetInfo recursively to null to force builder to create new cluset.
+        //If the proposition has parameters its a simple proposition
         if(propositionEditor.getParameters()!=null){
             for(PropositionParameterEditor param : propositionEditor.getParameters()) {
                 param.setPropId(null);
-                param.setValue(null);
+                if(param.getParameterType().equals(PropositionParameterType.TERM.getCode())){
+                    param.setTermValue(null);
+                    param.setValue(null);
+                }
             }
         } else if(propositionEditor.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+            //The proposition is a compound so do a recursive call on each of its child propositions
             for(int i = 0; i < propositionEditor.getCompoundEditors().size(); i++) {
-                LUPropositionEditor prop = (LUPropositionEditor) propositionEditor.getCompoundEditors().get(i);
-                if(prop.getParameters() != null) {
-                    for(PropositionParameterEditor param : prop.getParameters()) {
-                        param.setPropId(null);
-                        param.setValue(null);
-                    }
-                } else if(prop.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
-                    nullifyCluSetInfo(prop);
-                }
+                nullifyPropositionParameters((LUPropositionEditor) propositionEditor.getCompoundEditors().get(i));
             }
         }
     }
