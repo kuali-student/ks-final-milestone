@@ -126,7 +126,7 @@ public class DefaultTermHelper implements TermHelper {
 
 							List<Term> acalTerms = acalTermMap.get(acal.getId());
 							if (acalTerms == null) {
-								acalTermMap.put(t.getId(), acalTerms = new java.util.LinkedList<Term>());
+								acalTermMap.put(acal.getId(), acalTerms = new java.util.LinkedList<Term>());
 							}
 							acalTerms.add(t);
 						}

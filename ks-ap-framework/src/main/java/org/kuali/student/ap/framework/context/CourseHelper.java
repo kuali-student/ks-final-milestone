@@ -3,10 +3,17 @@ package org.kuali.student.ap.framework.context;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 
 public interface CourseHelper {
+
+	void frontLoad(List<String> courseIds, String... termId);
+
+	CourseInfo getCourseInfo(String courseId);
+
+	List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String term);
 
 	Map<String, Map<String, Object>> getAllSectionStatus(
 			Map<String, Map<String, Object>> mapmap, String termId,
@@ -30,8 +37,6 @@ public interface CourseHelper {
 
 	String joinStringsByDelimiter(char delimiter, String... list);
 
-	CourseInfo getCourseInfo(String courseId);
-
 	String getVerifiedCourseId(String courseId);
 
 	String getCourseCdFromActivityId(String activityId);
@@ -39,7 +44,5 @@ public interface CourseHelper {
 	String getCodeFromActivityId(String activityId);
 
 	List<Course> getCoursesByCode(String courseCd);
-
-	void frontLoad(List<String> courseIds);
 
 }
