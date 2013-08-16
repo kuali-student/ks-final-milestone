@@ -226,8 +226,13 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         AgendaEditor agenda = AgendaUtilities.getSelectedAgendaEditor(ruleWrapper, ruleKey);
         if (agenda != null) {
             RuleEditor ruleEditor = agenda.getRuleEditors().get(ruleKey);
+            if(ruleEditor.getProposition() != null){
             ruleEditor.setProposition(null);
-
+            }
+            else{
+                form.getClientStateForSyncing().clear();
+                ruleEditor.setDummy(false);
+            }
             //Compare rule with parent rule.
             compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
             this.getViewHelper(form).refreshViewTree(ruleEditor);
@@ -254,7 +259,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
 
         AORuleEditor ruleEditor = (AORuleEditor) AgendaUtilities.getSelectedRuleEditor(document);
-        AORuleEditor enrolRuleEditor = new AORuleEditor(ruleEditor.getKey(), true, ruleEditor.getRuleTypeInfo());
+        AORuleEditor enrolRuleEditor = new AORuleEditor(ruleEditor.getKey(), false, ruleEditor.getRuleTypeInfo());
         enrolRuleEditor.setParent(ruleEditor.getParent());
         enrolRuleEditor.setCluEditor(ruleEditor.getCluEditor());
 
