@@ -1119,6 +1119,17 @@ function resetDirtyFields(returnFieldId){
     }
 }
 
+function hideAddExamPeriodButton(collectionGroupId, lineIdPrefix) {
+    var termLineIndex = collectionGroupId.substring(collectionGroupId.lastIndexOf("line"));
+    var lineId = lineIdPrefix + "_" + termLineIndex + "_line0";
+    var addExamPeriodButtonId = collectionGroupId + "_add";
+
+    if (jQuery("#"+lineId).length > 0) {
+        jQuery("#"+addExamPeriodButtonId).hide();
+    }
+
+}
+
 /**
  * Once we get the next rice release, have to remove this override
  *

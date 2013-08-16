@@ -45,7 +45,7 @@
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="style" value="min-width:70em;"/>
-        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');" />
+        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); " />
         <!--<property name="header.render" value="false" />-->
         <property name="headerText" value="Terms"/>
         <property name="validationMessages.displayMessages" value="false"/>
@@ -454,37 +454,24 @@
     </bean>
 
     <!--Final Exam Period section-->
-    <bean id="KS-ExamDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
-          p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}"
-          p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
-        <!--property name="renderLineActions" value="false" /-->
+    <bean id="KS-ExamDates-EditSubSection" parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod"
+          p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}">
         <property name="propertyName" value="examdates" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper" />
-        <!--<property name="header.render" value="false"/>-->
         <property name="headerText" value="Final Exam Period" />
         <property name="disclosure.render" value="false"/>
-        <!--<property name="layoutManager.numberOfColumns" value="@{#view.readOnly ? 3 : 9}"/>-->
         <property name="layoutManager.style" value="width:40%;"/>
-        <property name="layoutManager.applyDefaultCellWidths" value="false" />
-        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <!--<property name="validationMessages.displayMessages" value="false"/>-->
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
+
+        <property name="addBlankLineAction.actionLabel" value="Add Final Exam Period"/>
+        <property name="addBlankLineAction.onDocumentReadyScript" value="hideAddExamPeriodButton('@{#collectionGroup.id}', 'exam_date_type');"/>
+
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-tablecollection-table</value>
             </list>
         </property>
-        <property name="layoutManager.renderSequenceField" value="false" />
-        <property name="layoutManager.generateAutoSequence" value="false" />
-        <property name="layoutManager.separateAddLine" value="false" />
-        <property name="layoutManager.richTable.disableTableSort" value="true" />
-        <property name="layoutManager.richTable.render" value="false" />
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
-                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
-            </list>
-        </property>
+
         <property name="items">
             <list>
                 <bean id="exam_date_type" parent="Uif-InputField" p:propertyName="examPeriodType" p:readOnly="true" p:readOnlyDisplayReplacementPropertyName="examPeriodNameUI" p:style="font-weight:bold;"/>
@@ -510,7 +497,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean  id="key_date_delete_button1" parent="Uif-ActionLink"  p:methodToCall="deleteKeyDate" p:actionLabel="Delete" />
+                <bean  id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="deleteLine" p:actionLabel="delete" />
             </list>
         </property>
     </bean>
