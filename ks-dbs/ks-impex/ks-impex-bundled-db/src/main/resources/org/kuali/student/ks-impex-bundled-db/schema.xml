@@ -10951,6 +10951,9 @@
         <column name="EFF_DT" nullable="false" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
+        <column name="EXPIR_DT" type="TIMESTAMP">
+            <size scale="6" scaleSet="true" value="11"/>
+        </column>
         <column name="HOLD_STATE" nullable="false" type="STRING">
             <size value="255"/>
         </column>
@@ -10971,9 +10974,6 @@
         </column>
         <column name="PERS_ID" nullable="false" type="STRING">
             <size value="255"/>
-        </column>
-        <column name="RELEASED_DT" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
         </column>
         <column name="UPDATEID" type="STRING">
             <size value="255"/>
