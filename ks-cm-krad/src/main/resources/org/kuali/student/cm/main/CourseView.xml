@@ -238,6 +238,8 @@
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
                                                     p:actionScript="showLightboxComponent('decisionsDialog');" />
                                                 <bean parent="Uif-Space" />
+                                                <bean parent="Uif-DataField" p:label="Last Updated"
+                                                    p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="lastUpdated" />
                                             </list>
                                         </property>
                                     </bean>

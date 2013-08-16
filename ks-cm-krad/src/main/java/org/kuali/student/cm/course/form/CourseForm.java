@@ -24,6 +24,9 @@ import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 
 /**
@@ -64,6 +67,8 @@ public class CourseForm extends UifFormBase {
     private List<DecisionInfo> decisions;
 
     private List<OrganizationInfoWrapper> administeringOrganizations;
+
+    private String lastUpdated;
     
     public CourseForm() {
         this.courseInfo = new CourseInfo();
@@ -75,6 +80,8 @@ public class CourseForm extends UifFormBase {
         this.commentInfos = new ArrayList<CommentInfo>();
         this.decisions = new ArrayList<DecisionInfo>();
         this.administeringOrganizations = new ArrayList<OrganizationInfoWrapper>();
+        
+        setLastUpdated(DateTimeFormat.forPattern("MM-dd-yyyy HH:mm:ss").print(new DateTime()));
     }
 
     public CourseInfo getCourseInfo() {
@@ -186,7 +193,7 @@ public class CourseForm extends UifFormBase {
         return decisions;
     }
 
-    public void setDecisions(List<DecisionInfo> decisionInfos) {
+    public void setDecisions(final List<DecisionInfo> decisionInfos) {
         this.decisions = decisionInfos;
     }
 
@@ -198,4 +205,11 @@ public class CourseForm extends UifFormBase {
         this.userId = userId;
     }
 
+    public void setLastUpdated(final String lastUpdated) {
+        this.lastUpdated = lastUpdated;
+    }
+
+    public String getLastUpdated() {
+        return this.lastUpdated;
+    }
 }
