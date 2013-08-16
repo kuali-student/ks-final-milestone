@@ -2568,19 +2568,41 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
  * IU's efforts to remove inline styles and place them in appropriate classes.
  */
 
+.ks-plan-Bucket-emptyLabel {
+    display: block !important;
+    font-size: 0.8462em !important;
+    height: 25px !important;
+    line-height: 25px !important;
+    margin-top: 1px !important;
+    padding: 0 5px !important;
+    text-align: center !important;
+}
+
+.ks-plan-Bucket-item {
+    padding-left: 28px !important;
+}
+
+.ks-plan-Bucket-itemCreditCount::before {
+    content: '(' !important;
+}
+
+.ks-plan-Bucket-itemCreditCount::after {
+    content: ')' !important;
+}
+
 .ks-plan-Header-headline {
-    margin: 0;
-    width: 440px;
+    margin: 0 !important;
+    width: 440px !important;
 }
 
 .ks-plan-Header-buttonWrapper {
-    margin: 0;
-    text-align: right;
-    width: 90px;   
+    margin: 0 !important;
+    text-align: right !important;
+    width: 90px !important;   
 }
 
 .ks-plan-Header-button {
-    margin: 0;
+    margin: 0 !important;
 }
 
 .ks-plan-Header-button--next {}
@@ -2588,33 +2610,38 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 .ks-plan-Header-button--previous {}
 
 .ks-plan-Header-buttonImage {
-    margin: 0;
+    margin: 0 !important;
 }
 
 .ks-plan-Loader {
-    margin-right: 10px;
-    min-height: 400px;
-    width: 620px;
+    margin-right: 10px !important;
+    min-height: 400px !important;
+    width: 620px !important;
 }
 
 .ks-plan-Loader .blockOverlay {
     background-color: #fff !important;
-    cursor: wait;
-    opacity: 0;
+    cursor: wait !important;
+    opacity: 0 !important;
 }
 
 .ks-plan-Loader .blockMsg {
-    background-color: #fffdd7;
+    background-color: #fffdd7 !important;
     border: 1px solid #ffd14c !important;
-    border-radius: 15px;
-    -webkit-border-radius: 15px;
-    -moz-border-radius: 15px;
-    padding: 20px;
-    text-align: center;
+    border-radius: 15px !important;
+    -webkit-border-radius: 15px !important;
+    -moz-border-radius: 15px !important;
+    padding: 20px !important;
+    text-align: center !important;
     width: 230px !important;
 }
 
+.ks-plan-View-pageDetails {
+    margin-right: 10px;
+    width: 620px;
+}
+
 .ks-plan-Widgets {
-    margin: 0;
-    width: 310px;
+    margin: 0 !important;
+    width: 310px !important;
 }
