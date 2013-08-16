@@ -22,6 +22,7 @@
 
     <!-- This allows switching of minified and pretty KRAD javascript for debugging -->
     <bean id="Uif-BaseTheme" abstract="true" parent="Uif-KbootTheme">
+        <!-- since we are providing a manual listing of files below, we should exclude minimized files -->
         <property name="includeMinFiles" value="false" />
         <property name="cssFiles">
             <list>
