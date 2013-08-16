@@ -609,6 +609,33 @@
         </property>
     </bean>
 
+    <bean id="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod" parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod-parent"/>
+    <bean id="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod-parent" parent="Uif-Disclosure-TableSubCollection-WithinSubSection" abstract="true" scope="prototype">
+        <property name="collectionLookup">
+            <null/>
+        </property>
+        <property name="headerText" value="" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.separateAddLine" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="renderAddBlankLineButton" value="true" />
+        <property name="addLinePlacement" value="BOTTOM" />
+        <property name="layoutManager.style" value="width: 100%; display:block;"/>
+        <property name="addBlankLineAction.style" value="margin-top:20px;"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="addBlankLineAction">
+            <ref bean="KS-BottomAddLine"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction"/>
+            </list>
+        </property>
+    </bean>
+
+
+
     <bean id="KS-TableCollectionSubSection-BottomAddLine" parent="KS-TableCollectionSubSection-BottomAddLine-parent"/>
 
     <bean id="KS-TableCollectionSubSection-BottomAddLine-parent" parent="Uif-TableCollectionSection" abstract="true" scope="prototype">
