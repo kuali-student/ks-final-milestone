@@ -152,7 +152,7 @@
         </property>
     </bean>
 
-    <bean id="total_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp ? true : false}">
+    <bean id="total_credits_help_icon" parent="MyPlanHelpImage" p:render="@{#line.displayCreditsHelp ? true : false}" p:cssClasses="ks-plan-Bucket-creditHelpIcon">
         <property name="dataAttributes">
             <map>
                 <entry key="help"

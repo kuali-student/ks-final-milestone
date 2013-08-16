@@ -252,7 +252,7 @@
     </bean>
 
     <!--Completed Menu Items-->
-    <bean id="completed_menu_items" parent="Uif-VerticalBoxSubSection" p:style="" p:cssClasses="fl-container-150">
+    <bean id="completed_menu_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -263,8 +263,7 @@
     </bean>
 
     <!--Completed backup Menu Items-->
-    <bean id="completed_backup_menu_items" parent="Uif-VerticalBoxSubSection" p:style=""
-          p:cssClasses="fl-container-150">
+    <bean id="completed_backup_menu_items" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
@@ -324,7 +323,7 @@
 
     <!-- Single term view that lists planned course, total credits and backup courses -->
     <bean id="planned_courses_detail" parent="planned_courses_detail_parent" />
-    <bean id="planned_courses_detail_parent" parent="Uif-VerticalBoxSubSection" abstract="true" p:style="width: 620px; margin-right: 10px;">
+    <bean id="planned_courses_detail_parent" parent="Uif-VerticalBoxSubSection" abstract="true" p:cssClasses="ks-plan-View-pageDetails">
         <property name="onDocumentReadyScript" value="
             var popupStyle = {width:'300px', height:'16px'};
             var popupOptions = {tail:{hidden:true}, position:'right', align:'top', close:true};
@@ -333,7 +332,7 @@
             	var atpId = jQuery(this).parents('.myplan-carousel-term').data('atpid');
             	var backup = jQuery(this).parents('.myplan-carousel-term').data('plantype');
             	var size = jQuery(this).parents('.myplan-carousel-term').data('size');
-            	var jQuickAdd = jQuery('&lt;div /&gt;').addClass('quick-add-cell').html('Add a course to plan').click(function(e){
+            	var jQuickAdd = jQuery('&lt;div /&gt;').addClass('quick-add-cell ks-plan-Bucket-addItem').html('Add a course to plan').click(function(e){
             		var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddPlannedCourseForm', atpId:atpId, backup:backup, pageId:'plan_item_add_page'};
                     openPopup('plan_item_add_page', retrieveData, 'plan', popupStyle, popupOptions, e);
             	});
@@ -506,19 +505,30 @@
                     #line.openForPlanning ? 'myplan-term-future' : 'myplan-term-past')}
                 </value>
                 <value>@{#line.openForPlanning ? 'open' : 'closed'}</value>
+                <value>ks-plan-TermsList-item</value>
+                <value>@{#line.currentTermForView ? 'ks-plan-TermsList-item--current' : (!#line.currentTermForView and
+                    #line.openForPlanning ? 'ks-plan-TermsList-item--future' : 'ks-plan-TermsList-item--past')}
+                </value>
+                <value>@{#line.openForPlanning ? 'ks-plan-TermsList-item--open' : 'ks-plan-TermsList-item--closed'}</value>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.style"
                   value="width:@{588/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
                   margin:0 @{20/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;"/>
+        <property name="layoutManager.lineGroupPrototype.header.cssClasses">
+            <list merge="true">
+                <value>ks-plan-TermsList-itemHeader</value>
+            </list>
+        </property>
         <property name="header">
-            <bean parent="Uif-HeaderFour"/>
+            <bean parent="Uif-HeaderFour" />
         </property>
         <property name="propertyName" value="lookupResults"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>myplan-carousel-list</value>
                 <value>myplan-remove-margin</value>
+                <value>ks-plan-TermsList</value>
             </list>
         </property>
         <property name="header.render" value="false"/>
@@ -595,14 +605,15 @@
 
     <bean id="academicRecordCollection" parent="Uif-StackedCollectionGroup"
           p:headerText="@{#parentLine.completedTerm ? 'Completed': (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning)? 'Registered' : ''}">
+        <property name="render" value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
         <property name="validationMessages.render" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
         <property name="header.render"
                   value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
         <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
@@ -613,7 +624,7 @@
             </bean>
         </property>
         <property name="header.lowerGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
@@ -626,6 +637,11 @@
         <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem"/>
                 </property>
@@ -636,6 +652,7 @@
                 <value>myplan-carousel-term</value>
                 <value>myplan-term-completed</value>
                 <value>@{#line.openForPlanning ? '' : 'myplan-term-fixed-height'}</value>
+                <value>ks-plan-Bucket</value>
             </list>
         </property>
         <property name="collectionObjectClass"
@@ -648,11 +665,10 @@
         <property name="items">
             <list>
                 <bean p:id="@{#line.uuid}_completed" parent="Uif-HorizontalFieldGroup" p:title="@{#line.courseTitle}"
-                      p:style="padding-left:28px"
                       p:render="@{#line.courseCode ne null and #line.courseId ne null}">
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="onClickScript"
-                              value="openMenu('@{#line.uuid}_completed','completed_menu_items','@{#line.atpId}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                              value="openMenu('@{#line.uuid}_completed','completed_menu_items','@{#line.atpId}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem ks-plan-ContextMenu',{tail:{align:'top'},align:'top',position:'right'},false);"/>
                     <property name="dataAttributes">
                         <map>
                             <entry key="courseid" value="@{#line.courseId}"/>
@@ -662,6 +678,8 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-course-valid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
                         </list>
                     </property>
                     <property name="items">
@@ -671,14 +689,16 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="(@{#line.credit})"/>
+                                <property name="messageText" value="@{#line.credit}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -687,6 +707,7 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>grade</value>
+                                        <value>ks-plan-Bucket-itemGrade</value>
                                     </list>
                                 </property>
                             </bean>
@@ -694,12 +715,13 @@
                     </property>
                 </bean>
                 <bean p:id="@{#line.uuid}_completed" parent="Uif-HorizontalFieldGroup" p:title="@{#line.courseTitle}"
-                      p:style="padding-left:28px"
                       p:render="@{#line.courseCode ne null and #line.courseId eq null}">
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-course-invalid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--invalid</value>
                         </list>
                     </property>
                     <property name="items">
@@ -709,14 +731,16 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="(@{#line.credit})"/>
+                                <property name="messageText" value="@{#line.credit}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -725,6 +749,7 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>grade</value>
+                                        <value>ks-plan-Bucket-itemGrade</value>
                                     </list>
                                 </property>
                             </bean>
@@ -736,8 +761,13 @@
         <property name="collectionLookup.render" value="false"/>
         <property name="collectionLookup.quickfinderAction.render" value="false"/>
         <property name="footer">
-            <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
-                  p:render="@{!#line.openForPlanning}">
+            <bean parent="term_total_credits" p:render="@{!#line.openForPlanning}">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>myplan-carousel-term-total</value>
+                        <value>ks-plan-Bucket-credit</value>
+                    </list>
+                </property>
                 <property name="items">
                     <list>
                         <ref bean="term_total_credits_label"/>
@@ -753,12 +783,12 @@
           p:headerText="@{#parentLine.completedTerm ? 'Completed': (#parentLine.academicRecord.size() gt 0 or !#parentLine.openForPlanning)? 'Registered' : ''}">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
         <property name="header.render"
                   value="@{#line.completedTerm or #line.academicRecord.size() gt 0 or !#line.openForPlanning}"/>
         <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
@@ -769,7 +799,7 @@
             </bean>
         </property>
         <property name="header.lowerGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerStatusIcons">
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
@@ -782,6 +812,11 @@
         <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem"/>
                 </property>
@@ -792,6 +827,7 @@
                 <value>myplan-carousel-term</value>
                 <value>myplan-term-completed</value>
                 <value>@{#line.openForPlanning ? '' : 'myplan-term-fixed-height'}</value>
+                <value>ks-plan-Bucket</value>
             </list>
         </property>
         <property name="collectionObjectClass"
@@ -810,6 +846,8 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-course-valid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
                         </list>
                     </property>
                     <property name="items">
@@ -819,14 +857,16 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="(@{#line.credit})"/>
+                                <property name="messageText" value="@{#line.credit}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -835,6 +875,7 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>grade</value>
+                                        <value>ks-plan-Bucket-itemGrade</value>
                                     </list>
                                 </property>
                             </bean>
@@ -856,14 +897,16 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="(@{#line.credit})"/>
+                                <property name="messageText" value="@{#line.credit}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -872,6 +915,7 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>grade</value>
+                                        <value>ks-plan-Bucket-itemGrade</value>
                                     </list>
                                 </property>
                             </bean>
@@ -883,8 +927,13 @@
         <property name="collectionLookup.render" value="false"/>
         <property name="collectionLookup.quickfinderAction.render" value="false"/>
         <property name="footer">
-            <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
-                  p:render="@{#line.openForPlanning eq false}">
+            <bean parent="term_total_credits" p:render="@{#line.openForPlanning eq false}">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>myplan-carousel-term-total</value>
+                        <value>ks-plan-Bucket-credit</value>
+                    </list>
+                </property>
                 <property name="items">
                     <list>
                         <ref bean="term_total_credits_label"/>
@@ -899,10 +948,10 @@
     <bean id="cartCollection" parent="Uif-StackedCollectionGroup" p:headerText="Cart">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
         <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
@@ -913,6 +962,11 @@
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem"/>
                 </property>
@@ -930,6 +984,7 @@
                 <value>myplan-carousel-term</value>
                 <value>@{#line.atpId.replaceAll("\.","-")}</value>
                 <value>myplan-term-cart</value>
+                <value>ks-plan-Bucket</value>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
@@ -960,6 +1015,9 @@
                         <list merge="true">
                             <value>myplan-course-valid</value>
                             <value>@{#line.timeScheduleOpen ? 'schedule':''}</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                            <value>@{#line.timeScheduleOpen ? 'ks-plan-Bucket-item--scheduleOpen':''}</value>
                         </list>
                     </property>
                     <property name="items">
@@ -981,14 +1039,16 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="(@{#line.courseDetails.credit})"/>
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -1004,34 +1064,48 @@
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
-                        <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
+                        <bean parent="term_total_credits"
                               p:render="@{#line.academicRecord.size() gt 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>myplan-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
                                     <ref bean="cart_credits_help_icon"/>
-                                    <bean  parent="Uif-MessageField"
+                                    <bean parent="Uif-MessageField"
                                           p:messageText="@{#line.cartCredits ne null ? #line.cartCredits : '0'}">
                                         <property name="cssClasses">
                                             <list merge="true">
                                                 <value>credits</value>
+                                                <value>ks-plan-Bucket-creditCount</value>
                                             </list>
                                         </property>
                                     </bean>
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
+                        <bean parent="term_total_credits"
                               p:render="@{#line.academicRecord.size() eq 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>myplan-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
                                     <ref bean="cart_credits_help_icon"/>
-                                    <bean  parent="Uif-MessageField"
+                                    <bean parent="Uif-MessageField"
                                            p:messageText="@{#line.cartCredits ne null ? #line.cartCredits : '0'}">
                                         <property name="cssClasses">
                                             <list merge="true">
                                                 <value>credits</value>
+                                                <value>ks-plan-Bucket-creditCount</value>
                                             </list>
                                         </property>
                                     </bean>
@@ -1049,10 +1123,10 @@
     <bean id="plannedCollection" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
         <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
@@ -1063,6 +1137,11 @@
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem"/>
                 </property>
@@ -1081,6 +1160,7 @@
                 <value>@{#line.atpId.replaceAll("\.","-")}</value>
                 <value>myplan-term-planned</value>
                 <value>@{#line.openForPlanning ? 'myplan-term-fixed-height' : ''}</value>
+                <value>ks-plan-Bucket</value>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
@@ -1113,6 +1193,9 @@
                         <list merge="true">
                             <value>myplan-course-valid</value>
                             <value>@{#line.timeScheduleOpen ? 'schedule':''}</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                            <value>ks-plan-Bucket-scheduleOpen</value>
                         </list>
                     </property>
                     <property name="items">
@@ -1134,14 +1217,16 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="(@{#line.courseDetails.credit})"/>
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -1157,8 +1242,14 @@
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
-                        <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
+                        <bean parent="term_total_credits"
                               p:render="@{#line.academicRecord.size() gt 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>myplan-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
@@ -1167,8 +1258,14 @@
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
+                        <bean parent="term_total_credits"
                               p:render="@{#line.academicRecord.size() eq 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>myplan-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
@@ -1188,10 +1285,10 @@
     <bean id="advisorPlannedCollection" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
         <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
@@ -1202,6 +1299,11 @@
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem"/>
                 </property>
@@ -1213,6 +1315,7 @@
                 <value>@{#line.atpId.replaceAll("\.","-")}</value>
                 <value>myplan-term-planned</value>
                 <value>@{#line.openForPlanning ? 'myplan-term-fixed-height' : ''}</value>
+                <value>ks-plan-Bucket</value>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
@@ -1234,6 +1337,8 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-course-valid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
                         </list>
                     </property>
                     <property name="items">
@@ -1243,14 +1348,16 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="(@{#line.courseDetails.credit})"/>
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -1266,8 +1373,14 @@
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
-                        <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
+                        <bean parent="term_total_credits"
                               p:render="@{#line.academicRecord.size() gt 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>myplan-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
@@ -1276,8 +1389,14 @@
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="term_total_credits" p:cssClasses="myplan-carousel-term-total"
+                        <bean parent="term_total_credits"
                               p:render="@{#line.academicRecord.size() eq 0 and #line.openForPlanning}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>myplan-carousel-term-total</value>
+                                    <value>ks-plan-Bucket-credit</value>
+                                </list>
+                            </property>
                             <property name="items">
                                 <list>
                                     <ref bean="term_total_credits_label"/>
@@ -1297,10 +1416,10 @@
     <bean id="backupCollection" parent="Uif-StackedCollectionGroup" p:headerText="Backup">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
         <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
@@ -1311,6 +1430,11 @@
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem"/>
                 </property>
@@ -1328,6 +1452,7 @@
                 <value>myplan-carousel-term</value>
                 <value>@{#line.atpId.replaceAll("\.","-")}</value>
                 <value>myplan-term-backup</value>
+                <value>ks-plan-Bucket</value>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
@@ -1360,6 +1485,9 @@
                         <list merge="true">
                             <value>myplan-course-valid</value>
                             <value>@{#line.timeScheduleOpen ? 'schedule':''}</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
+                            <value>@{#line.timeScheduleOpen ? 'ks-plan-Bucket-item--scheduleOpen':''}</value>
                         </list>
                     </property>
                     <property name="items">
@@ -1381,14 +1509,16 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="(@{#line.courseDetails.credit})"/>
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -1408,10 +1538,10 @@
     <bean id="advisorBackupCollection" parent="Uif-StackedCollectionGroup" p:headerText="Backup">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
         <property name="header.rightGroup">
-            <bean parent="Uif-HorizontalBoxGroup">
+            <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-Bucket-headerHelpIcons">
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
@@ -1422,6 +1552,11 @@
         </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-plan-Bucket-collection</value>
+                    </list>
+                </property>
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionVerticalBoxItem"/>
                 </property>
@@ -1432,6 +1567,7 @@
                 <value>myplan-carousel-term</value>
                 <value>@{#line.atpId.replaceAll("\.","-")}</value>
                 <value>myplan-term-backup</value>
+                <value>ks-plan-Bucket</value>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.footer.render" value="false"/>
@@ -1453,6 +1589,8 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>myplan-course-valid</value>
+                            <value>ks-plan-Bucket-item</value>
+                            <value>ks-plan-Bucket-item--valid</value>
                         </list>
                     </property>
                     <property name="items">
@@ -1462,14 +1600,16 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>code</value>
+                                        <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
                             </bean>
                             <bean parent="Uif-MessageField">
-                                <property name="messageText" value="(@{#line.courseDetails.credit})"/>
+                                <property name="messageText" value="@{#line.courseDetails.credit}"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>credit</value>
+                                        <value>ks-plan-Bucket-itemCreditCount</value>
                                     </list>
                                 </property>
                             </bean>
@@ -1491,12 +1631,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="No courses planned">
-                    <property name="style"
-                              value="margin-top:1px; font-size:0.8462em; height:25px; line-height:25px; padding:0 5px; display:block; text-align:center;"/>
                     <property name="cssClasses">
                         <list merge="true">
                             <value>fl-text-gray</value>
                             <value>myplan-text-italic</value>
+                            <value>ks-plan-Bucket-emptyLabel</value>
                         </list>
                     </property>
                 </bean>
@@ -1515,13 +1654,14 @@
         </property>
     </bean>
 
-    <bean id="term_total_credits_label" parent="Uif-MessageField" p:messageText="Credits"/>
+    <bean id="term_total_credits_label" parent="Uif-MessageField" p:messageText="Credits" p:cssClasses="ks-plan-Bucket-creditLabel"/>
 
     <bean id="term_total_credits_text" parent="Uif-MessageField"
           p:messageText="@{#line.credits ne null ? #line.credits : '0'}">
         <property name="cssClasses">
             <list merge="true">
                 <value>credits</value>
+                <value>ks-plan-Bucket-creditCount</value>
             </list>
         </property>
     </bean>
@@ -1575,7 +1715,7 @@
     <bean id="plan_item_section_add_dialog" parent="Uif-VerticalBoxSection" p:headerText="@{courseInPlan eq false AND courseInBackup eq true ? 'Add to Backup' : 'Add to Plan'}"
           p:style="margin:0;">
         <property name="header">
-            <bean parent="Uif-HeaderSix"/>
+            <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header"/>
         </property>
         <property name="items">
             <list>
