@@ -2645,3 +2645,7 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     margin: 0 !important;
     width: 310px !important;
 }
+
+.ks-plan-TermsList-itemHeader {
+		position: relative;
+}
