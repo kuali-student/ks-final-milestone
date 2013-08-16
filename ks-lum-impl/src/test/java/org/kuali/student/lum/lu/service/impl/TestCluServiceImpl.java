@@ -3682,13 +3682,28 @@ public class TestCluServiceImpl extends AbstractServiceTest {
     }
 
     @Test
-    public void test70GetCluResultsByClus() throws MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
+    public void test70GetCluResultsByClus() throws Exception, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
         List<String> cluIds = new ArrayList<String>();
         cluIds.add("CLU-1");
-        cluIds.add("CLU-2");
-        cluIds.add("CLU-3");
+//        cluIds.add("CLU-2");
+//        cluIds.add("CLU-3");
 
-        List<CluResultInfo> cluResultInfos = client.getCluResultsByClus(cluIds,  ContextUtils.getContextInfo());
+        ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+        contextInfo.setPrincipalId("123");
+
+        CluResultInfo dto = new CluResultInfo();
+        RichTextInfo desc = new RichTextInfo();
+        desc.setPlain("Plain description");
+        dto.setDescr(desc);
+        dto.setCluId("CLU-1");
+        dto.setStateKey("active");
+        dto.setTypeKey("kuali.resultType.gradeCourseResult");
+        dto.setEffectiveDate(new Date());
+        dto.setExpirationDate(new Date());
+
+        CluResultInfo cluResult = client.createCluResult("CLU-1", "kuali.resultType.gradeCourseResult", dto, contextInfo);
+
+        List<CluResultInfo> cluResultInfos = client.getCluResultsByClus(cluIds,  contextInfo);
 
         assertNotNull(cluResultInfos);
         assertEquals(3,cluResultInfos.size());
