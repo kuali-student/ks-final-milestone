@@ -7,7 +7,8 @@ import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.IdEntityTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
-import org.kuali.student.common.test.util.TimeTester;
+import org.kuali.student.common.test.util.RelationshipTester;
+import org.kuali.student.common.test.util.RichTextTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -239,18 +240,18 @@ public class TestHoldServiceMockImpl {
         expected.setName("name of hold");
         expected.setDescr(new RichTextHelper().fromPlain("description of hold"));
         expected.setEffectiveDate(new Date());
-        expected.setReleasedDate(new Date());
+        expected.setExpirationDate(new Date());
         expected.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         expected.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         new AttributeTester().add2ForCreate(expected.getAttributes());
         AppliedHoldInfo actual = holdService.createAppliedHold(expected.getPersonId(), expected.getHoldIssueId(), expected.getTypeKey(), expected,
                 callContext);
         assertNotNull(actual.getId());
-        new IdEntityTester().check(expected, actual);
+        new RelationshipTester().check(expected, actual);
+        assertEquals(expected.getName(), actual.getName());
+        new RichTextTester().check(expected.getDescr(), actual.getDescr());
         assertEquals(expected.getPersonId(), actual.getPersonId());
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
-        new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
-        new TimeTester().check(expected.getReleasedDate(), actual.getReleasedDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterCreate(actual.getMeta());
 
@@ -258,11 +259,11 @@ public class TestHoldServiceMockImpl {
         expected = actual;
         actual = holdService.getAppliedHold(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
-        new IdEntityTester().check(expected, actual);
+        new RelationshipTester().check(expected, actual);
+        assertEquals(expected.getName(), actual.getName());
+        new RichTextTester().check(expected.getDescr(), actual.getDescr());
         assertEquals(expected.getPersonId(), actual.getPersonId());
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
-        new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
-        new TimeTester().check(expected.getReleasedDate(), actual.getReleasedDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 
@@ -271,16 +272,16 @@ public class TestHoldServiceMockImpl {
         expected.setName(expected.getName() + " updated");
         expected.setDescr(new RichTextHelper().fromPlain(expected.getDescr().getPlain() + " updated"));
         expected.setEffectiveDate(new Date(expected.getEffectiveDate().getTime() - 1000));
-        expected.setReleasedDate(new Date());
+        expected.setExpirationDate(new Date());
         expected.setStateKey(HoldServiceConstants.HOLD_RELEASED_STATE_KEY);
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = holdService.updateAppliedHold(expected.getId(), expected, callContext);
         assertEquals(expected.getId(), actual.getId());
-        new IdEntityTester().check(expected, actual);
+        new RelationshipTester().check(expected, actual);
+        assertEquals(expected.getName(), actual.getName());
+        new RichTextTester().check(expected.getDescr(), actual.getDescr());
         assertEquals(expected.getPersonId(), actual.getPersonId());
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
-        new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
-        new TimeTester().check(expected.getReleasedDate(), actual.getReleasedDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
 
@@ -288,11 +289,11 @@ public class TestHoldServiceMockImpl {
         expected = actual;
         actual = holdService.getAppliedHold(actual.getId(), callContext);
         assertEquals(expected.getId(), actual.getId());
-        new IdEntityTester().check(expected, actual);
+        new RelationshipTester().check(expected, actual);
+        assertEquals(expected.getName(), actual.getName());
+        new RichTextTester().check(expected.getDescr(), actual.getDescr());
         assertEquals(expected.getPersonId(), actual.getPersonId());
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
-        new TimeTester().check(expected.getEffectiveDate(), actual.getEffectiveDate());
-        new TimeTester().check(expected.getReleasedDate(), actual.getReleasedDate());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterCreate(actual.getMeta());
 
@@ -304,7 +305,7 @@ public class TestHoldServiceMockImpl {
         finAidHoldStudent1.setName("name of hold");
         finAidHoldStudent1.setDescr(new RichTextHelper().fromPlain("description of hold"));
         finAidHoldStudent1.setEffectiveDate(new Date());
-        finAidHoldStudent1.setReleasedDate(null);
+        finAidHoldStudent1.setExpirationDate(null);
         finAidHoldStudent1.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         finAidHoldStudent1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         finAidHoldStudent1 = holdService.createAppliedHold(finAidHoldStudent1.getPersonId(), 
@@ -318,7 +319,7 @@ public class TestHoldServiceMockImpl {
         acadHoldActiveStudent1.setName("name of hold");
         acadHoldActiveStudent1.setDescr(new RichTextHelper().fromPlain("description of hold"));
         acadHoldActiveStudent1.setEffectiveDate(new Date());
-        acadHoldActiveStudent1.setReleasedDate(null);
+        acadHoldActiveStudent1.setExpirationDate(null);
         acadHoldActiveStudent1.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         acadHoldActiveStudent1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         acadHoldActiveStudent1 = holdService.createAppliedHold(acadHoldActiveStudent1.getPersonId(), 
@@ -333,7 +334,7 @@ public class TestHoldServiceMockImpl {
         acadHoldActiveInstructor1.setName("name of hold");
         acadHoldActiveInstructor1.setDescr(new RichTextHelper().fromPlain("description of hold"));
         acadHoldActiveInstructor1.setEffectiveDate(new Date());
-        acadHoldActiveInstructor1.setReleasedDate(null);
+        acadHoldActiveInstructor1.setExpirationDate(null);
         acadHoldActiveInstructor1.setTypeKey(HoldServiceConstants.INTRUCTOR_HOLD_TYPE_KEY);
         acadHoldActiveInstructor1.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
         acadHoldActiveInstructor1 = holdService.createAppliedHold(acadHoldActiveInstructor1.getPersonId(),
