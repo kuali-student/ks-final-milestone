@@ -39,6 +39,7 @@ import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseForm;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
+import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.impl.CourseViewHelperServiceImpl;
 import org.kuali.student.cm.course.service.impl.LookupableConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
@@ -145,15 +146,21 @@ public class CourseController extends UifControllerBase {
         
         //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
         if (form.getCourseJointDisplays() != null) {
-            for (CourseJointInfoWrapper jointInfoDisplay : form.getCourseJointDisplays()) {
+            for (final CourseJointInfoWrapper jointInfoDisplay : form.getCourseJointDisplays()) {
                 form.getCourseInfo().getJoints().add(CourseViewHelperServiceImpl.getInstance().getJointOfferingCourse(jointInfoDisplay.getCourseCode()));
             }
         }
         
         if (form.getInstructorDisplays() != null) {
-            for (CluInstructorInfoWrapper instructorDisplay : form.getInstructorDisplays()) {
-                CluInstructorInfoWrapper retrievedInstructor = CourseViewHelperServiceImpl.getInstance().getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
+            for (final CluInstructorInfoWrapper instructorDisplay : form.getInstructorDisplays()) {
+                final CluInstructorInfoWrapper retrievedInstructor = CourseViewHelperServiceImpl.getInstance().getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
                 form.getCourseInfo().getInstructors().add(retrievedInstructor);
+            }
+        }
+
+        if (form.getAdministeringOrganizations() != null) {
+            for (final OrganizationInfoWrapper org : form.getAdministeringOrganizations()) {
+                form.getCourseInfo().getUnitsDeployment().add(org.getOrganizationName());
             }
         }
         
