@@ -30,9 +30,7 @@
   <import resource="krad-base-servlet.xml"/>
   <bean id="exceptionResolver" class="org.kuali.student.common.uif.controller.KsHandlerExceptionResolver"/>
 
-  <context:component-scan base-package="org.kuali.rice.krad" >
-     <context:exclude-filter type="assignable" expression="org.kuali.rice.krad.web.controller.LookupController"/>
-  </context:component-scan>
+  <context:component-scan base-package="org.kuali.rice.krad" />
 
   <!-- overwriting this section so that some controller methods are not transactional -->
   <aop:config>

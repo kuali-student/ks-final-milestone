@@ -90,7 +90,7 @@
 	<param name="transaction.timeout">3600</param>  
 
     <!-- Login Filter Configuration - Dummy Login Filter (CAS later?) -->
-    <!--    <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>-->
+    <!--    <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>-->
     <!--    <param name="filtermapping.login.1">/*</param>-->
 
 
