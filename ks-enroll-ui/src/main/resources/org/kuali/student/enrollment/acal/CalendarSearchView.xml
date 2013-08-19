@@ -194,7 +194,9 @@
 		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'HolidayCalendar'" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -237,7 +239,9 @@
 		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'AcademicCalendar'" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -280,7 +284,9 @@
 		p:layoutManager.numberOfColumns="1" p:progressiveRender="@{(calendarType eq 'AcademicTerm') or (calendarType eq 'SubTerm')}" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />

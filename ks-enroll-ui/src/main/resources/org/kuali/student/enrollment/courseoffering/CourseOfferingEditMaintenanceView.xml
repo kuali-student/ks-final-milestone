@@ -253,7 +253,6 @@
                 <entry key="methodToCall" value="start"/>
                 <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
                 <entry key="hideReturnLink" value="true"/>
-                <entry key="showMaintenanceLinks" value="true"/>
                 <entry key="viewName" value="Create Course Offering"/>
             </map>
         </property>
@@ -646,16 +645,20 @@
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
                                   p:label="ID" p:required="false" p:cssClasses="col_5">
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="name" value="offeringInstructorInfo.personName"/>
-                                        <entry key="principalId" value="offeringInstructorInfo.personId"/>
-                                    </map>
-                                </property>
-                                <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
-                                <property name="quickfinder.lightBoxLookup">
-                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="name" value="offeringInstructorInfo.personName"/>
+                                                <entry key="principalId" value="offeringInstructorInfo.personId"/>
+                                            </map>
+                                        </property>
+                                        <property name="viewName" value="ks_simplePersonLookup" />
+                                        <property name="lightBoxLookup">
+                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
@@ -711,14 +714,17 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="16" p:ReadOnly="true" />
                     </property>
-                    <!--<property name="quickfinder.render" value="true"/>-->
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo" />
 
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="id" value="id" />
-                            <entry key="longName" value="organizationName"/>
-                        </map>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="id" value="id" />
+                                    <entry key="longName" value="organizationName"/>
+                                </map>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="organizationName" p:label="Organization Name"/>

@@ -15,13 +15,14 @@
 
 package org.kuali.student.krms.naturallanguage.config.context;
 
+import org.kuali.rice.krms.impl.repository.language.AbstractTranslationContext;
 import org.kuali.student.krms.naturallanguage.config.context.util.NLHelper;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.Map;
 import org.kuali.rice.krms.impl.repository.language.AbstractContext;
 
-public class BasicContextImpl extends AbstractContext {
+public class BasicContextImpl extends AbstractTranslationContext {
 	/**
 	 * <code>NLHelper</code> token (key) references a static natural language
 	 * helper class for use in templates.

@@ -17,11 +17,15 @@
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="ownerOrgId">
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="id" value="ownerOrgId"/>
-                        </map>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="id" value="ownerOrgId"/>
+                                </map>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"/>

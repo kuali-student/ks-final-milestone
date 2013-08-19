@@ -170,7 +170,10 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
         props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
         props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
         props.put(CalendarConstants.SELECT_TAB,CalendarConstants.ACAL_TERM_TAB);
-        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 
         if (readOnlyView){
             props.put(CalendarConstants.READ_ONLY_VIEW,""+ true);
@@ -194,7 +197,10 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put(CalendarConstants.CALENDAR_ID,acal.getId());
         props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
-        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 
         if (StringUtils.equals(methodToCall,CalendarConstants.AC_COPY_METHOD)){
            props.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_COPY_PAGE);
@@ -224,7 +230,10 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put(CalendarConstants.CALENDAR_ID, hcInfo.getId());
         props.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
-        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
 
         if (StringUtils.equals(methodToCall,CalendarConstants.HC_COPY_METHOD)){
            props.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_COPYPAGE);

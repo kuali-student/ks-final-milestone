@@ -46,12 +46,16 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="16" p:disabled="true"/>
                                 </property>
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="id" value="ownerOrgId"/>
-                                        <entry key="shortName" value="orgName"/>
-                                    </map>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="id" value="ownerOrgId"/>
+                                                <entry key="shortName" value="orgName"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField-LabelTop" p:propertyName="ownerOrgId" p:label="" p:readOnly="true" p:hidden="true" />

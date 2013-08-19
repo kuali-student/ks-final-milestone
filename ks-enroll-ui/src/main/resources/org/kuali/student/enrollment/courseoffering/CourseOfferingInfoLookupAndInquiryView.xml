@@ -15,11 +15,15 @@
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termId" >
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="code" value="termId"/>
-                        </map>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="code" value="termId"/>
+                                </map>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="subjectArea" />

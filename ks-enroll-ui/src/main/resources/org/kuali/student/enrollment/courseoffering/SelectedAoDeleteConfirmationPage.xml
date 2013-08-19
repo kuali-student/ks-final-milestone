@@ -145,7 +145,9 @@
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="propertyName" value="selectedToDeleteList"/>
-                    <property name="collectionLookup.quickfinderAction.render" value="false"/>
+                    <property name="collectionLookup">
+                        <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                    </property>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.applyDefaultCellWidths" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>

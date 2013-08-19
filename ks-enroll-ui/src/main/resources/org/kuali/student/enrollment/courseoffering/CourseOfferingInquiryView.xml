@@ -39,14 +39,24 @@
                                         <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:fieldLabel.renderColon="false"/>
                                         <bean parent="Uif-MessageField" p:label="Wait List" p:messageText="@{(dataObject.courseOfferingInfo.hasWaitlist eq null or !dataObject.courseOfferingInfo.hasWaitlist) ? 'NO':'YES'}" p:fieldLabel.renderColon="false"/>
                                         <bean parent="Uif-DataField" p:propertyName="termName" p:label="Term" p:fieldLabel.renderColon="false"/>
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:inquiry.render="false" p:fieldLabel.renderColon="false" p:labelPlacement="LEFT" p:render="@{!(dataObject.courseOfferingInfo.waitlistLevelTypeKey eq null) and (dataObject.courseOfferingInfo.hasWaitlist)}" >
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistLevelTypeKey" p:label="Waitlist Level" p:fieldLabel.renderColon="false" p:labelPlacement="LEFT" p:render="@{!(dataObject.courseOfferingInfo.waitlistLevelTypeKey eq null) and (dataObject.courseOfferingInfo.hasWaitlist)}" >
+                                            <property name="inquiry">
+                                                <bean parent="Uif-Inquiry">
+                                                    <property name="render" value="false" />
+                                                </bean>
+                                            </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistLevelOptionsKeyValues"/>
                                             </property>
                                         </bean>
 
                                         <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.creditCnt" p:fieldLabel.renderColon="false"/>
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistTypeKey" p:label="Waitlist Type" p:inquiry.render="false" p:fieldLabel.renderColon="false" p:labelPlacement="LEFT" p:render="@{!(dataObject.courseOfferingInfo.waitlistTypeKey eq null) and (dataObject.courseOfferingInfo.hasWaitlist)}">
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.waitlistTypeKey" p:label="Waitlist Type" p:fieldLabel.renderColon="false" p:labelPlacement="LEFT" p:render="@{!(dataObject.courseOfferingInfo.waitlistTypeKey eq null) and (dataObject.courseOfferingInfo.hasWaitlist)}">
+                                            <property name="inquiry">
+                                                <bean parent="Uif-Inquiry">
+                                                    <property name="render" value="false" />
+                                                </bean>
+                                            </property>
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues"/>
                                             </property>
@@ -152,7 +162,9 @@
                                 <property name="headerText" value="Activity Offerings" />
                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
                                 <property name="propertyName" value="aoWrapperList" />
-                                <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                <property name="collectionLookup">
+                                    <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                                </property>
                                 <property name="layoutManager.renderSequenceField" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="items">

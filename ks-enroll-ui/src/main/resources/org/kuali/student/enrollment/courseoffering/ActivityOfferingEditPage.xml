@@ -217,22 +217,26 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
-                    <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
-                    </property>
-                    <property name="quickfinder.autoSearch" value="true"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="aoInfo.activityCode" value="activityOfferingCode"/>
-                            <entry key="aoInfo.id" value="aoId"/>
-                        </map>
-                    </property>
-                    <property name="quickfinder.lookupParameters">
-                        <map>
-                            <entry key="courseOfferingCode" value="courseOfferingCode"/>
-                            <entry key="editRenderHelper.termId" value="termId"/>
-                        </map>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
+                            </property>
+                            <property name="autoSearch" value="true"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="aoInfo.activityCode" value="activityOfferingCode"/>
+                                    <entry key="aoInfo.id" value="aoId"/>
+                                </map>
+                            </property>
+                            <property name="lookupParameters">
+                                <map>
+                                    <entry key="courseOfferingCode" value="courseOfferingCode"/>
+                                    <entry key="editRenderHelper.termId" value="termId"/>
+                                </map>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
 
@@ -320,16 +324,20 @@
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
                                    p:label="ID" p:required="false" p:cssClasses="col_5">
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="name" value="offeringInstructorInfo.personName"/>
-                                        <entry key="principalId" value="offeringInstructorInfo.personId"/>
-                                    </map>
-                                </property>
-                                <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
-                                <property name="quickfinder.lightBoxLookup">
-                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="name" value="offeringInstructorInfo.personName"/>
+                                                <entry key="principalId" value="offeringInstructorInfo.personId"/>
+                                            </map>
+                                        </property>
+                                        <property name="viewName" value="ks_simplePersonLookup" />
+                                        <property name="lightBoxLookup">
+                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
@@ -394,12 +402,16 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"/>
                                 </property>
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
-                                        <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
-                                    </map>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                                <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </property>
                                 <property name="dependencyConstraints">
                                     <list>

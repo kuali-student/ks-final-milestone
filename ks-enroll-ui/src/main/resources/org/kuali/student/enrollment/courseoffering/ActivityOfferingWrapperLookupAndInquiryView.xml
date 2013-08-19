@@ -291,12 +291,16 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40"/>
                                 </property>
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
-                                        <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
-                                    </map>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                                <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </property>
 
                             </bean>

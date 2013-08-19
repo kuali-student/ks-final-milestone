@@ -41,20 +41,26 @@
 				      p:label="Keyword(s)"
 				      p:helpSummary="Searches fields like name and description to see if they contain the keyword" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="key" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
-					p:quickfinder.fieldConversions="key:typeKey"
-					/>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo"
-					p:quickfinder.fieldConversions="key:stateKey"
-					/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
+                              p:fieldConversions="key:typeKey" />
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo"
+                              p:fieldConversions="key:stateKey" />
+                    </property>
+                </bean>
 				<!-- skip name because keyword searching should cover it -->
 				<!-- skip description because keyword searching should cover it -->
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="resultScaleKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo"
-					p:quickfinder.fieldConversions="key:resultScaleKey"
-					/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="resultScaleKey">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo"
+                              p:fieldConversions="key:resultScaleKey" />
+                    </property>
+                </bean>
 				<!-- TODO: deal with  resultValueKeys which is a List -->
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="resultValueRange.minValue" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="resultValueRange.maxValue" />

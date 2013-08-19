@@ -29,6 +29,8 @@ import org.kuali.student.r2.core.krms.naturallanguage.TermParameterTypes;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.jws.WebParam;
+
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 
 /**
@@ -137,6 +139,11 @@ public class TermBoMockService implements TermBoService {
     public TermSpecificationDefinition getTermSpecificationByNameAndNamespace(String name, String namespace) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
+    @Override
+    public List<TermSpecificationDefinition> findAllTermSpecificationsByContextId(@WebParam(name = "contextId") String s) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+
 }

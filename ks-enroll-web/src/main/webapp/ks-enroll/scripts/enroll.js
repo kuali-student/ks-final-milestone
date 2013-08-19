@@ -194,8 +194,6 @@ function addActionColumn(isReadOnly, componentId) {
                 "methodToCall":"loadAOs_RGs_AOCs",
                 "actionParameters[selectedCollectionPath]":"courseOfferingResultList",
                 "actionParameters[selectedLineIndex]":index,
-                "showHistory":"false",
-                "showHome":"false",
                 "jumpToId":componentId
             });
 
@@ -429,7 +427,7 @@ function jsonShow(url) {
             row.append(checkboxColumn);
 
             var codeAnchor = jQuery("<a id='code_line" + rowNumber + "'"
-                + "href='" + url + "/kr-krad/inquiry?courseOfferingId=" + columns.courseOfferingId +"&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&amp;renderedInLightBox=true&amp;showHome=false&amp;showHistory=false&amp;history=" + historyParameterString
+                + "href='" + url + "/kr-krad/inquiry?courseOfferingId=" + columns.courseOfferingId +"&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&amp;renderedInLightBox=true&amp;history=" + historyParameterString
                 + "' target='_self' class='uif-link' title='Course Offering =courseOfferingId'>" + columns.courseOfferingCode + "</a>");
 
 //            <input type="hidden" data-role="script" value="
@@ -999,73 +997,6 @@ function removeNewItemHighlights(){
 
 }
 
-
-/**
- * KSENROLL-7852 Temp fix for KRAD bug KULRICE-9866
- * Runs client side validation on the entire form and returns the result (an alert is also given
- * if errors are encountered)
- *
- */
-function validateForm() {
-    clientErrorStorage = new Object();
-    var summaryTextExistence = new Object();
-    var validForm = true;
-
-    jQuery.watermark.hideAll();
-    pauseTooltipDisplay = true;
-
-    if (validateClient) {
-        // Turn on this flag to avoid prematurely writing out messages which will cause performance issues if MANY
-        // fields have validation errors simultaneously (first we are only checking for errors, not checking and
-        // writing simultaneously like normal)
-        clientErrorExistsCheck = true;
-
-        // Temporarily turn off this flag to avoid traversing unneeded logic (all messages will be shown at the end)
-        messageSummariesShown = false;
-
-        // Validate the whole form
-        validForm = jq("#kualiForm").valid();
-
-        // Handle field message bubbling manually, but do not write messages out yet
-        jQuery("div[data-role='InputField']").each(function () {
-            var id = jQuery(this).attr('id');
-            var field = jQuery("#" + id);
-            var data = field.data(kradVariables.VALIDATION_MESSAGES);
-            data.errors = [];
-            data.warnings = [];
-            data.info = [];
-            var parent = field.data("parent");
-            handleMessagesAtGroup(parent, id, data, true);
-        });
-
-        // Toggle the flag back to default
-        clientErrorExistsCheck = false;
-
-        // Message summaries are going to be shown
-        messageSummariesShown = true;
-
-        // Finally, write the result of the validation messages
-        writeMessagesForPage();
-    }
-
-    if (!validForm) {
-        validForm = false;
-
-        //ensure all non-visible controls are visible to the user
-        jQuery(".error:not(:visible)").each(function () {
-            cascadeOpen(jQuery(this));
-        });
-
-        jumpToTop();
-        showClientSideErrorNotification();
-        jQuery(".uif-pageValidationMessages li.uif-errorMessageItem:first > a").focus();
-    }
-
-    jq.watermark.showAll();
-    pauseTooltipDisplay = false;
-
-    return validForm;
-}
 
 /*
 Replaces the checkbox inputs with radio in a table.

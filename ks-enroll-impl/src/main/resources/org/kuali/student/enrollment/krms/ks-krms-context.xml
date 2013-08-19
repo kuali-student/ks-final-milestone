@@ -28,10 +28,12 @@
     <bean id="agendaTypeService" class="org.kuali.rice.krms.impl.type.AgendaTypeServiceImpl">
     </bean>
 
+    <bean id="translationContextRegistry" class="org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry"/>
+
     <bean id="propositionTemplater"
           class="org.kuali.rice.krms.impl.repository.language.PropositionNaturalLanguageTemplater">
         <property name="krmsTypeRepositoryService" ref="krmsTypeRepositoryService"/>
-        <property name="contextRegistry" ref="contextRegistry"/>
+        <property name="translationContextRegistry" ref="translationContextRegistry"/>
     </bean>
 
 

@@ -144,7 +144,9 @@
                                 <property name="header.headerTagStyle" value="font-family:Arial;font-size:15px;font-weight:bold;font-style:normal;text-decoration:none;color:#000000;background-image:url('../ks-enroll/images/exclamation_diamond_frame.png');background-repeat: no-repeat;background-position: left;padding-left:20px;"/>
                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper"/>
                                 <property name="propertyName" value="socRolloverResultItems"/>
-                                <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                <property name="collectionLookup">
+                                    <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                                </property>
                                 <property name="layoutManager.renderSequenceField" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="true" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />

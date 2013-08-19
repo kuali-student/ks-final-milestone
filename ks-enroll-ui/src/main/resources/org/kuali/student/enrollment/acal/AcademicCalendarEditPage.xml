@@ -52,8 +52,6 @@ limitations under the License.
                     <property name="url.methodToCall" value="start"/>
                     <property name="url.requestParameters">
                         <map key-type="java.lang.String" merge="true">
-                            <entry key="showHome" value="false"/>
-                            <entry key="readOnlyView" value="true"/>
                             <entry key="id" value="@{academicCalendarInfo.id}"/>
                         </map>
                     </property>
@@ -195,7 +193,9 @@ limitations under the License.
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="headerText" value="Terms"/>
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -313,7 +313,7 @@ limitations under the License.
 		<property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
-        <property name="addLineLabel.labelText" value=""/>
+        <property name="addLineLabel.messageText" value=""/>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="addLineActions">
@@ -409,10 +409,12 @@ limitations under the License.
         <property name="headerText" value="Holidays" />
         <property name="propertyName" value="holidayCalendarList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>
 
-        <property name="addLineLabel.labelText" value=""/>
+        <property name="addLineLabel.messageText" value=""/>
         <property name="layoutManager.lineGroupPrototype.header.cssClasses">
           <list merge="true">
             <value>ks-borderBottom2</value>
@@ -470,8 +472,12 @@ limitations under the License.
                                     <list>
                                         <bean parent="Uif-InputField" p:label=" " p:propertyName="id" p:render="@{#isAddLine}"
                                               p:refreshWhenChangedPropertyNames="academicCalendarInfo.startDate">
-                                            <property name="inquiry.directInquiryAction">
-                                                <bean parent="Uif-ActionLink" p:actionLabel="View selected holiday calendar details" p:style="display:block" />
+                                            <property name="inquiry">
+                                                <bean parent="Uif-Inquiry">
+                                                    <property name="directInquiryAction">
+                                                        <bean parent="Uif-ActionLink" p:actionLabel="View selected holiday calendar details" p:style="display:block" />
+                                                    </property>
+                                                </bean>
                                             </property>
                                             <property name="control">
                                                 <bean parent="Uif-DropdownControl"/>

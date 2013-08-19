@@ -35,6 +35,7 @@ import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -182,7 +183,10 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put("periodId", uifForm.getPeriodId());
         urlParameters.put("termType", uifForm.getTermType());
         urlParameters.put("termYear", uifForm.getTermYear());
-        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
         try {
@@ -235,7 +239,10 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put("periodId", uifForm.getPeriodId());
         urlParameters.put("termType", uifForm.getTermType());
         urlParameters.put("termYear", uifForm.getTermYear());
-        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
         try {

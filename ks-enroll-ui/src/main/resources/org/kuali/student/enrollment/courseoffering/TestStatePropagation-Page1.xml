@@ -59,7 +59,9 @@
                             <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper" />
                                 <property name="propertyName" value="aoStatePropagationWrapperList" />
-                                <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                <property name="collectionLookup">
+                                    <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                                </property>
                                 <property name="layoutManager.renderSequenceField" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="true" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -117,7 +119,9 @@
                                 <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
                                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper" />
                                     <property name="propertyName" value="foStatePropagationWrapperList" />
-                                    <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                    <property name="collectionLookup">
+                                        <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                                    </property>
                                     <property name="layoutManager.renderSequenceField" value="false" />
                                     <property name="layoutManager.applyDefaultCellWidths" value="true" />
                                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -175,7 +179,9 @@
                                 <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
                                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper" />
                                     <property name="propertyName" value="coStatePropagationWrapperList" />
-                                    <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                    <property name="collectionLookup">
+                                        <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                                    </property>
                                     <property name="layoutManager.renderSequenceField" value="false" />
                                     <property name="layoutManager.applyDefaultCellWidths" value="true" />
                                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -233,7 +239,9 @@
                                     <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
                                         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RGStateWrapper" />
                                         <property name="propertyName" value="rgFromAOStatePropagationWrapperList" />
-                                        <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                        <property name="collectionLookup">
+                                            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                                        </property>
                                         <property name="layoutManager.renderSequenceField" value="false" />
                                         <property name="layoutManager.applyDefaultCellWidths" value="true" />
                                         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -289,7 +297,9 @@
                                     <bean id="KS-TestStatePropagationTable" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false">
                                         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RGStateWrapper" />
                                         <property name="propertyName" value="rgFromTransitionsStatePropagationWrapperList" />
-                                        <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                        <property name="collectionLookup">
+                                            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                                        </property>
                                         <property name="layoutManager.renderSequenceField" value="false" />
                                         <property name="layoutManager.applyDefaultCellWidths" value="true" />
                                         <property name="layoutManager.applyAlternatingRowStyles" value="false" />

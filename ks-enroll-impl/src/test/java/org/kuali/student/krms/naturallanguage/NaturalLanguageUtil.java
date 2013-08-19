@@ -15,19 +15,21 @@
 
 package org.kuali.student.krms.naturallanguage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.impl.repository.language.Context;
+import org.kuali.rice.krms.impl.repository.language.ContextRegistry;
+import org.kuali.rice.krms.impl.repository.language.TranslationContext;
+import org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry;
 import org.kuali.student.krms.naturallanguage.mock.ContextMockImpl;
 import org.kuali.student.r2.core.krms.config.context.lu.MockCluInfo;
 import org.kuali.student.r2.core.krms.config.context.lu.MockCluSetInfo;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import org.kuali.rice.krms.impl.repository.language.Context;
-import org.kuali.rice.krms.impl.repository.language.ContextRegistry;
 
 
 
@@ -261,8 +263,8 @@ public class NaturalLanguageUtil {
 ////		return headerList;
 ////	}
     
-    public static ContextRegistry<Context> getPropositionContextRegistry() {
-    	ContextRegistry<Context> contextRegistry = new ContextRegistry<Context>();
+    public static TranslationContextRegistry<TranslationContext> getPropositionContextRegistry() {
+        TranslationContextRegistry<TranslationContext> contextRegistry = new TranslationContextRegistry<TranslationContext>();
 
     	createData();
     	//CourseListContextImpl.setCluInfo(cluList);

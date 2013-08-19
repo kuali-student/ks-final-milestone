@@ -23,6 +23,8 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.proposition.PropositionDefinitionContract;
 import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.impl.repository.language.PropositionNaturalLanguageTemplater;
+import org.kuali.rice.krms.impl.repository.language.TranslationContext;
+import org.kuali.rice.krms.impl.repository.language.TranslationContextRegistry;
 import org.kuali.student.krms.naturallanguage.NaturalLanguageUtil;
 import org.kuali.student.krms.naturallanguage.service.impl.NaturalLanguageTemplateBoMockService;
 import org.springframework.test.context.ContextConfiguration;
@@ -47,9 +49,9 @@ public class PropositionNaturalLanguageTemplaterTest{
     private NaturalLanguageTemplateBoMockService naturalLanguageTemplateBoService = new NaturalLanguageTemplateBoMockService();
 
     private void createTranslator() {
-        ContextRegistry<Context> contextRegistry = NaturalLanguageUtil.getPropositionContextRegistry();
+        TranslationContextRegistry<TranslationContext> contextRegistry = NaturalLanguageUtil.getPropositionContextRegistry();
 
-        propositionTemplater.setContextRegistry(contextRegistry);
+        propositionTemplater.setTranslationContextRegistry(contextRegistry);
     }
 
     @Before

@@ -75,7 +75,6 @@
                             <entry key="methodToCall" value="start"/>
                             <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
-                            <entry key="showMaintenanceLinks" value="true"/>
                             <entry key="viewName" value="Create Course Offering"/>
                         </map>
                     </property>
@@ -148,7 +147,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true" p:layoutManager.renderSequenceField="false">
+                <bean parent="Uif-TableCollectionSubSection" p:readOnly="true" p:layoutManager.renderSequenceField="false">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
                     <property name="propertyName" value="dialogFormatOfferingWrapperList" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -199,7 +198,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Catalog-JointCourse-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" 
+    <bean id="KS-Catalog-JointCourse-Section" parent="Uif-TableCollectionSubSection"
           p:render="@{#dp.showJointOption}" p:renderAddLine="false" p:layoutManager.renderSequenceField="false">
         <property name="headerText" value="Jointly Defined Courses"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper" />
@@ -253,7 +252,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Catalog-ExistingFormatOfferings" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
+    <bean id="KS-Catalog-ExistingFormatOfferings" parent="Uif-TableCollectionSubSection" p:renderAddLine="false"
           p:layoutManager.renderSequenceField="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
         <property name="propertyName" value="formatOfferingWrappers" />
@@ -280,7 +279,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Catalog-CopyFormatOffering" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
+    <bean id="KS-Catalog-CopyFormatOffering" parent="Uif-TableCollectionSubSection" p:renderAddLine="false"
               p:layoutManager.renderSequenceField="false" p:renderLineActions="false" p:render="@{#dp.showCopyFormatSection}">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
         <property name="propertyName" value="copyFromFormats" />
@@ -352,7 +351,7 @@
     </bean>
 
     <!-- This is used to display a list of existing offerings in the current section. This will be displayed for Copy from Catalog action-->
-    <bean id="KS-Catalog-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
+    <bean id="KS-Catalog-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:readOnly="true">
 		<property name="headerText" value="Existing Offerings for @{document.newMaintainableObject.dataObject.term?.name}" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
 		<property name="propertyName" value="existingOfferingsInCurrentTerm" />
@@ -452,24 +451,29 @@
                             <property name="evaluateDisabledOnKeyUp" value="true"/>
                         </bean>
                     </property>
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-                    <property name="quickfinder.viewName" value="CourseInfoByTermLookupView"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="code" value="catalogCourseCode"/>
-                        </map>
-                    </property>
-                    <property name="quickfinder.lookupParameters">
-                        <map>
-                            <entry key="targetTermCode" value="termId"/>
-                            <entry key="catalogCourseCode" value="code"/>
-                        </map>
-                    </property>
-                    <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup"  />
-                    </property>
-                    <property name="quickfinder.lightBoxLookup">
-                        <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                            <property name="viewName" value="CourseInfoByTermLookupView"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="code" value="catalogCourseCode"/>
+                                </map>
+                            </property>
+                            <property name="lookupParameters">
+                                <map>
+                                    <entry key="targetTermCode" value="termId"/>
+                                    <entry key="catalogCourseCode" value="code"/>
+                                </map>
+                            </property>
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup" p:disabled="@{#dp.targetTermCode eq null}"
+                                      p:evaluateDisabledOnKeyUp="true" />
+                            </property>
+                            <property name="lightBoxLookup">
+                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            </property>
+                        </bean>
                     </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="catalogCourseCode">
@@ -531,7 +535,6 @@
                             <entry key="methodToCall" value="start"/>
                             <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
-                            <entry key="showMaintenanceLinks" value="true"/>
                             <entry key="viewName" value="Create Course Offering"/>
                         </map>
                     </property>
@@ -622,7 +625,7 @@
     </bean>
 
     <!-- Displays a list of COs from current and previous terms-->
-    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:collectionLookup.render="false" p:renderAddLine="false">
+    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:renderAddLine="false">
 		<property name="cssClasses">
             <list merge="true">
                 <value>co_copy_tables</value>

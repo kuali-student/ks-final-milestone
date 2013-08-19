@@ -24,7 +24,9 @@
         <property name="propertyName" value="clusterResultList" />
         <property name="cssClasses" value="aoc_disclosure"/>
         <property name="headerText" value=""/>
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
         <!--<property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.clusterNameForDisplay}"/>-->
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
@@ -104,7 +106,9 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="aoWrapperList" />
         <property name="headerText" value=""/>
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -259,7 +263,9 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper" />
         <property name="propertyName" value="rgWrapperList" />
         <property name="headerText" value="View Registration Groups (@{#line.rgWrapperList.size()})"/>
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />

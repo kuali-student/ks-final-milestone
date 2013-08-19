@@ -667,7 +667,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         props.put(CourseOfferingConstants.SOC_ID, socId);
         props.put(CourseOfferingConstants.CREATE_COURSEOFFERING, "true");
         props.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName());
-        props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        // props.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         return props;
     }
 

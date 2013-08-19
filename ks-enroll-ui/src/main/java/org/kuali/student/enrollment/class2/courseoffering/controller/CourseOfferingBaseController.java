@@ -211,7 +211,10 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             urlParameters.put( KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT );
             urlParameters.put( "courseOfferingInfo.id", loadNewCO );
             urlParameters.put( KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName() );
-            urlParameters.put( UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false) );
+            // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+            // https://fisheye.kuali.org/changelog/rice?cs=39034
+            // TODO KSENROLL-8469
+            // urlParameters.put( UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false) );
 
             urlParameters.put( "returnLocation", urlToRedirectTo );
 
@@ -464,7 +467,10 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
             urlParameters.put( KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.Maintenance.METHOD_TO_CALL_EDIT );
             urlParameters.put( "courseOfferingInfo.id", loadNewCO );
             urlParameters.put( KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseOfferingEditWrapper.class.getName() );
-            urlParameters.put( UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false) );
+            // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+            // https://fisheye.kuali.org/changelog/rice?cs=39034
+            // TODO KSENROLL-8469
+            //urlParameters.put( UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false) );
 
             urlParameters.put( "returnLocation", urlToRedirectTo );
 

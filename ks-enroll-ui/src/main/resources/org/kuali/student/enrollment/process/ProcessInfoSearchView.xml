@@ -91,12 +91,16 @@
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="16" p:disabled="true"/>
                                             </property>
-                                            <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
-                                            <property name="quickfinder.fieldConversions">
-                                                <map>
-                                                    <entry key="id" value="ownerOrgId"/>
-                                                    <entry key="shortName" value="orgName"/>
-                                                </map>
+                                            <property name="quickfinder">
+                                                <bean parent="Uif-QuickFinder">
+                                                    <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+                                                    <property name="fieldConversions">
+                                                        <map>
+                                                            <entry key="id" value="ownerOrgId"/>
+                                                            <entry key="shortName" value="orgName"/>
+                                                        </map>
+                                                    </property>
+                                                </bean>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey" >
@@ -144,7 +148,9 @@
           p:layoutManager.numberOfColumns="6" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.r2.core.process.dto.ProcessInfo" />
         <property name="propertyName" value="processInfos" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />

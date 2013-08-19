@@ -110,7 +110,7 @@
                 <!-- Empty to override defaults-->
             </list>
         </property>
-        <property name="addLineLabel.labelText" value="Add Terms"/>
+        <property name="addLineLabel.messageText" value="Add Terms"/>
 
         <property name="addLineItems">
             <list>
