@@ -37,20 +37,25 @@
                             <bean parent="Uif-InputField">
                                 <property name="propertyName" value="name"/>
                                 <property name="label" value="Term Name"/>
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo"/>
-                                <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="name" value="name"/>
-                                        <entry key="typeKey" value="description"/>
-                                    </map>
-                                </property>
-                                <property name="quickfinder.quickfinderAction">
-                                    <bean parent="Uif-ActionLink">
-                                        <property name="methodToCall" value="performLookup"/>
-                                        <property name="actionLabel" value="Advanced Select"/>
-                                        <property name="style" value="display:block"/>
-                                    </bean>
+                                
+                                <property name="quickfinder">
+                                	<bean parent="Uif-QuickFinder">
+    		                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo"/>
+	        	                        <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
+                	                	<property name="fieldConversions">
+                    	        	        <map>
+                        		                <entry key="name" value="name"/>
+                    	    	                <entry key="typeKey" value="description"/>
+                	            	        </map>
+            	                    	</property>
+	        	                        <property name="quickfinderAction">
+    		                                <bean parent="Uif-ActionLink">
+	    	                                    <property name="methodToCall" value="performLookup"/>
+            	                            	<property name="actionLabel" value="Advanced Select"/>
+                	                        	<property name="style" value="display:block"/>
+                    	                	</bean>
+                        	        	</property>
+                            	    </bean>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField">

@@ -51,29 +51,30 @@ public class RuleCompareTreeBuilder extends AbstractTreeBuilder{
             if(childNode.getData() != null){
                 CompareTreeNode compareTreeNode = childNode.getData();
 
-                if(firstElement != null) {
-                    if(firstElement.getProposition() != null) {
-                        if(firstElement.getProposition().getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
-                            if(!compareTreeNode.getFirstElement().trim().isEmpty()){
-                                compareTreeNode.setFirstElement(compareTreeNode.getFirstElement() + ":");
-                            }
-                        }
+                if(colonRequired(firstElement)) {
+                    if(!compareTreeNode.getFirstElement().trim().isEmpty()){
+                        compareTreeNode.setFirstElement(compareTreeNode.getFirstElement() + ":");
                     }
                 }
 
-                if(secondElement != null) {
-                    if(secondElement.getProposition() != null) {
-                        if(secondElement.getProposition().getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
-                            if(!compareTreeNode.getSecondElement().trim().isEmpty()){
-                                compareTreeNode.setSecondElement(compareTreeNode.getSecondElement() + ":");
-                            }
-                        }
+                if(colonRequired(secondElement)) {
+                    if(!compareTreeNode.getSecondElement().trim().isEmpty()){
+                        compareTreeNode.setSecondElement(compareTreeNode.getSecondElement() + ":");
                     }
                 }
             }
         }
 
         return myTree;
+    }
+
+    protected boolean colonRequired(RuleEditor element) {
+        if(element != null && element.getProposition() != null) {
+            if(element.getProposition().getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected PropositionEditor getRootProposition(RuleEditor rule){

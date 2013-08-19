@@ -140,6 +140,16 @@ public class RuleLogicExpressionParser {
             } else if (token.getType() != ExpressionToken.CONDITION) {
                 operatorStack.push(token);
             }
+        } if (!operatorStack.isEmpty()) {
+            ExpressionToken operator = operatorStack.pop();
+            //Check if all other types are the same as the first type.
+            while (!operatorStack.isEmpty()) {
+                ExpressionToken next = operatorStack.pop();
+                if (next.getType() != operator.getType()) {
+                    errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_OPERATOR_TYPE);
+                    return false;
+                }
+            }
         }
 
         return true;

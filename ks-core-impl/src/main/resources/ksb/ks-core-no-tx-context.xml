@@ -971,6 +971,7 @@
         <property name="keyDateAssembler" ref="keyDateAssembler" />
         <property name="acalEventAssembler" ref = "acalEventAssembler" />
         <property name="stateTransitionsHelper" ref="calStateTransitionsHelper"/>
+        <property name="examPeriodTransformer" ref="examPeriodTransformer" />
     </bean>
 
     <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1006,6 +1007,9 @@
 
     <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
         <property name="entityManager" ref="coreEntityManager"/>
+    </bean>
+
+    <bean id="examPeriodTransformer" class="org.kuali.student.r2.core.acal.service.transformer.ExamPeriodTransformer">
     </bean>
 
 </beans>

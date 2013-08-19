@@ -18,11 +18,14 @@ package org.kuali.student.r2.core.acal.service.facade;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 
 import java.util.List;
 
@@ -114,4 +117,24 @@ public interface AcademicCalendarServiceFacade {
      * @throws PermissionDeniedException
      */
     public List<String> getTermIdsForAcademicCalendar(String acalId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+
+    /**
+     * Returns (non subterm) term ids for a given academic calendar
+     * @param examPeriodTypeKey the type key of the examPeriod to be created
+     * @param termTypeKeyList the type key list of the terms that the examPeriod is associated with
+     * @param examPeriodInfo the examPeriod DTO to be created
+     * @param context call context
+     * @return the ExamPeriodInfo that has been created
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    public ExamPeriodInfo addExamPeriod (String examPeriodTypeKey, List<String> termTypeKeyList, ExamPeriodInfo examPeriodInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+
+
 }

@@ -61,20 +61,24 @@
         <property name="propertyName" value="stringField2"/>
         <property name="label" value="Basic Lookup"/>
         <property name="instructionalText" value="Use the &quot;Advanced Select&quot; link to perform a Term lookup"/>
-        <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo"/>
-        <property name="quickfinder.viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
-        <property name="quickfinder.fieldConversions">
-            <map>
-                <entry key="name" value="stringField2"/>
-            </map>
-        </property>
-        <!-- quickfinderAction overrides default magnifying glass button -->
-        <property name="quickfinder.quickfinderAction">
-            <bean parent="Uif-ActionLink">
-                <property name="methodToCall" value="performLookup"/>
-                <property name="actionLabel" value="Advanced Select"/>
-                <property name="style" value="display:block"/>
-            </bean>
+        <property name="quickfinder">
+	       	<bean parent="Uif-QuickFinder">
+        		<property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.TermInfo"/>
+	    	    <property name="viewName" value="KS-KitchenSink-Lookup-TermInfo"/>
+    	    		<property name="fieldConversions">
+            		<map>
+                		<entry key="name" value="stringField2"/>
+		            </map>
+        		</property>
+		        <!-- quickfinderAction overrides default magnifying glass button -->
+        		<property name="quickfinderAction">
+		            <bean parent="Uif-ActionLink">
+        		        <property name="methodToCall" value="performLookup"/>
+                		<property name="actionLabel" value="Advanced Select"/>
+		                <property name="style" value="display:block"/>
+        		    </bean>
+        		</property>
+        	</bean>
         </property>
     </bean>
 
