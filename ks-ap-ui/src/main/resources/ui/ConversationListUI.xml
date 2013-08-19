@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+    <bean id="Conversation-list-FormView" parent="Conversation-list-FormView-parent" />
+	<bean abstract="true" id="Conversation-list-FormView-parent" parent="MyPlanFormView">
+		<property name="id" value="Conversation-list-FormView" />
+		<property name="entryPageId" value="conversation_main" />
+		<property name="cssClasses">
+			<list merge="true">
+				<value>myplan-view</value>
+			</list>
+		</property>
+		<property name="additionalScriptFiles">
+            <list>
+                <value>arm-ks/scripts/arm-review-ks.js</value>
+                <value>kart/arm/arm.js?srbackdoor=chmaurer</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>arm-ks/css/arm-review-ks.css</value>
+            </list>
+        </property>
+		<property name="items">
+			<list>
+				<ref bean="conversation_main_page" />
+			</list>
+		</property>
+		<property name="persistFormToSession" value="true"/>
+		<property name="header.render" value="false" />
+		<property name="footer.render" value="false" />
+	</bean>
+
+	<bean id="conversation_main_page" parent="conversation_main_page-parent" />
+	<bean abstract="true" id="conversation_main_page-parent" parent="Uif-Page" p:id="conversation_main">
+		<property name="layoutManager">
+			<bean parent="Uif-HorizontalBoxLayout" />
+		</property>
+		<property name="items">
+			<list>
+				<ref bean="conversation_controls" />
+				
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="conversation_controls" parent="conversation_controls-parent" />
+	<bean abstract="true" id="conversation_controls-parent" parent="Uif-VerticalBoxGroup" p:id="conversation_controls">
+		<property name="forceSessionPersistence" value="true"/>
+		<property name="items">
+			<list>
+				<bean parent="Uif-HeaderOne" p:headerText="[strong]Conversations[/strong]" />
+				<bean parent="Uif-HorizontalFieldGroup">
+					<property name="items">
+            			<list>
+            				<bean parent="Uif-MessageField" p:messageText="@{messageSummaryText}"/>
+							<bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="New"
+								p:actionScript="showLightboxUrl('review/conversation?methodToCall=create'+ksapAddGetParameters())" />
+						</list>
+					</property>
+				</bean>
+				<ref bean="conversation_year_list" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="conversation_year_list" parent="conversation_year_list-parent"/>
+	<bean id="conversation_year_list-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.plan.review.dto.ConversationYearInfo"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="propertyName" value="conversations"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        
+        <property name="items">
+            <list>
+            	<bean parent="Uif-VerticalFieldGroup">
+                    <property name="fieldLabel.render" value="false"/>
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="items">
+                        <list>
+                        	<!-- 
+                        	<bean parent="Uif-MessageField" p:messageText="@{#line.headerOpenText}"/>
+                        	<bean parent="Uif-MessageField" p:messageText="@{#line.headerClosedText}"/>
+                        	 -->
+		                </list>
+	                </property>
+                </bean>
+            </list>
+        </property>
+        <property name="subCollections">
+        	<list>
+        		<ref bean="conversation_list" />
+        	</list>
+        </property>
+    </bean>
+    
+ 
+ 	<bean id="conversation_list" parent="conversation_list-parent"/>
+	<bean id="conversation_list-parent" abstract="true" parent="Uif-ListCollectionSection">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.plan.review.dto.ConversationInfo"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="true"/>
+        <property name="propertyName" value="conversations"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        <property name="headerText" value="@{#line.headerOpenText}" />
+        <property name="items">
+            <list>
+            	<bean parent="Uif-HorizontalFieldGroup">
+                    <property name="fieldLabel.render" value="false"/>
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="cssClasses">
+	            		<list merge="true">
+	                		<value>@{#line.closed ? '' : 'openConversation'}</value>
+	            		</list>
+	        		</property>
+                    <property name="items">
+                        <list>
+                        	<bean parent="Uif-ImageField" p:altText="Unread Conversation"
+    							p:source="@{#line.hasUnreadComments() ? '../arm-ks/images/bullet_black.png' : '../ks-myplan/images/pixel.gif'}">
+    							<property name="cssClasses">
+				            		<list merge="true">
+				                		<value>unreadConversationColumn</value>
+				            		</list>
+				        		</property>
+    						</bean>
+			                <bean parent="Uif-VerticalFieldGroup" p:id="@{#line.learningPlanId}">
+			                    <property name="fieldLabel.render" value="false"/>
+			                    <property name="group.validationMessages.render" value="false"/>
+			                    <property name="items">
+			                        <list>
+			                        	<bean id="conversation_lp_id" parent="Uif-LinkField" p:linkText="@{#line.learningPlanId}" p:href="review/view?learningPlanId=@{#line.learningPlanId}"/>
+			                        	<bean id="conversation_topic" parent="Uif-MessageField" p:messageText="[b]@{#line.topic}[/b]"/>
+			                        	<bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.learningPlanId}">
+						                    <property name="fieldLabel.render" value="false"/>
+						                    <property name="group.validationMessages.render" value="false"/>
+						                    <property name="items">
+						                        <list>
+						                            <bean id="conversation_advisor_id" parent="Uif-MessageField" p:messageText="@{#line.advisorId}"/>
+						                            <bean id="conversation_comment_date" parent="Uif-MessageField" p:messageText="@{#line.getLatestComment().getHumanReadableDate()}"/>
+						                        </list>
+						                    </property>
+						                </bean>
+						                <bean id="conversation_comment" parent="Uif-MessageField" p:messageText="@{#line.getLatestComment().commentText.plain}"/>
+			                        </list>
+			                    </property>
+			                </bean>
+		                </list>
+                    </property>
+                </bean>
+        	</list>
+        </property>
+    </bean>
+ 
+</beans>
