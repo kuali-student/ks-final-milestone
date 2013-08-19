@@ -26,6 +26,7 @@ import java.io.Serializable;
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 public class OrganizationInfoWrapper extends OrgInfo implements Serializable {
+    private String abbreviation;
     private String organizationName;
     private String id;
 
@@ -44,6 +45,14 @@ public class OrganizationInfoWrapper extends OrgInfo implements Serializable {
 
     public void setOrganizationName(final String organizationName) {
         this.organizationName = organizationName;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public void setAbbreviation(final String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
     public String getId() {

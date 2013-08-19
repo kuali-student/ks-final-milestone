@@ -81,9 +81,16 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 		final List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         
         final SearchParamInfo displayNameParam = new SearchParamInfo();
-        displayNameParam.setKey("org.queryParam.orgOptionalId");
+        displayNameParam.setKey("org.queryParam.orgOptionalLongName");
         displayNameParam.getValues().add(organizationName);
         queryParamValueList.add(displayNameParam);
+
+        final SearchParamInfo orgOptionalTypeParam = new SearchParamInfo();
+        orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
+        orgOptionalTypeParam.getValues().add("kuali.org.COC");
+        orgOptionalTypeParam.getValues().add("kuali.org.Department");
+        orgOptionalTypeParam.getValues().add("kuali.org.College");
+        queryParamValueList.add(orgOptionalTypeParam);
         
     	final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("org.search.generic");

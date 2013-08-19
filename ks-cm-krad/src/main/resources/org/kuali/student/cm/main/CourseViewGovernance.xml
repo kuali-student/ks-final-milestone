@@ -113,13 +113,11 @@
                             </property>
                             <property name="dataObjectClassName"
                                       value="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
-                            <!--
                             <property name="fieldConversions">
                                 <map>
-                                    <entry key="organizationName" value="organizationName" />
+                                    <entry key="organizationName" value="longName" />
                                 </map>
                             </property>
-                            -->
                         </bean>
                     </property>
                 </bean>
