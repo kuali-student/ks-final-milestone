@@ -2654,6 +2654,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ExamPeriodInfo createExamPeriod(String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AtpInfo atp = new AtpInfo();
 
@@ -2665,6 +2666,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ExamPeriodInfo updateExamPeriod(String examPeriodId, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         AtpInfo existingAtp = atpService.getAtp(examPeriodId, contextInfo);
         AtpInfo toUpdateAtp = new AtpInfo();
@@ -2690,8 +2692,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException ("has not been implemented yet!");
+        AtpInfo atp = atpService.getAtp(examPeriodId, contextInfo);
+        if (atp == null) {
+            throw new DoesNotExistException(examPeriodId);
+        }
+
+        if (!checkTypeForExamPeriodType(atp.getTypeKey(), contextInfo)) {
+            throw new InvalidParameterException("Invalid examPeriodId: " + examPeriodId + "  Given key does not map to a Exam Period");
+        }
+
+        StatusInfo result = atpService.deleteAtp(examPeriodId, contextInfo);
+
+        return result;
     }
 
     @Override
