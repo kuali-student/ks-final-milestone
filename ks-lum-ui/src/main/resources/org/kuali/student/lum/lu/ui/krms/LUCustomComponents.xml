@@ -467,7 +467,9 @@ limitations under the License.
         <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
         <property name="propertyName" value="clusInRange"/>
         <property name="renderLineActions" value="false"/>
-        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
@@ -519,19 +521,25 @@ limitations under the License.
                 </property>
             </bean>
         </property>
-        <property name="quickfinder.dataObjectClassName"
-                  value="org.kuali.student.lum.lu.ui.krms.dto.TestSetInfo"/>
-        <property name="quickfinder.fieldConversions">
-            <map>
-                <entry key="name" value="tests"/>
-            </map>
-        </property>
-        <property name="quickfinder.quickfinderAction">
-            <bean parent="KS-Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block"
-                  p:methodToCall="performLookup"/>
-        </property>
-        <property name="quickfinder.lightBoxLookup">
-            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+        
+        <property name="quickfinder">
+	       	<bean parent="Uif-QuickFinder">
+	       	
+		        <property name="dataObjectClassName"
+        		          value="org.kuali.student.lum.lu.ui.krms.dto.TestSetInfo"/>
+		        <property name="fieldConversions">
+		            <map>
+        		        <entry key="name" value="tests"/>
+		            </map>
+        		</property>
+        		<property name="quickfinderAction">
+		            <bean parent="KS-Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block"
+        		          p:methodToCall="performLookup"/>
+		        </property>
+        		<property name="lightBoxLookup">
+		            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+        		</property>
+        	</bean>
         </property>
     </bean>
     <bean id="KRMS-TestName-Field" parent="KRMS-TestName-Field-Parent"/>
