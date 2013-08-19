@@ -99,13 +99,13 @@ public class CourseController extends UifControllerBase {
         COURSE_INFO("KS-CourseView-CourseInfoPage"), 
         GOVERNANCE("KS-CourseView-GovernancePage"), 
         COURSE_LOGISTICS("KS-CourseView-CourseLogisticsPage"), 
-        LEARNING_OBJECTIVES("KS-CourseView-LearningObjectivesPage"), 
-        COURSE_REQUISITES("KS-CourseView-CourseRequisitesPage"), 
+        //LEARNING_OBJECTIVES("KS-CourseView-LearningObjectivesPage"), 
+        //COURSE_REQUISITES("KS-CourseView-CourseRequisitesPage"), 
         ACTIVE_DATES("KS-CourseView-ActiveDatesPage"), 
-        FINANCIALS("KS-CourseView-FinancialsPage"),
-        AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaboratorsPage"),
-        SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocumentsPage"),
-        REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");
+        //FINANCIALS("KS-CourseView-FinancialsPage"),
+        //AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaboratorsPage"),
+        SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocumentsPage");
+        //REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");
         
         private String pageId;
         
