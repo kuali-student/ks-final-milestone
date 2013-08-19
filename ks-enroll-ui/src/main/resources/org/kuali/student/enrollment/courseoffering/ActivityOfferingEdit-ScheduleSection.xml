@@ -200,7 +200,7 @@
                         <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
                     </property>
                 </bean>
-                <bean id="rdl_bldg" parent="Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true" p:required="true">
+                <bean id="rdl_bldg" parent="Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
@@ -234,7 +234,7 @@
                 </bean>
                 <bean id="rdl_room" parent="Uif-InputField-LabelTop" p:label="Room" p:propertyName="newScheduleRequest.roomCode">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20"/>
+                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
