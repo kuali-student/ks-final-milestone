@@ -2089,7 +2089,7 @@
             <size value="100"/>
         </column>
         <column name="LOC" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
+            <size value="80"/>
         </column>
         <column name="MSG_DESC" type="STRING">
             <size value="255"/>
@@ -2110,7 +2110,7 @@
             <defaultValue>1 </defaultValue>
             <size value="8"/>
         </column>
-        <uniqueConstraint name="KRAD_MSG_TC2">
+        <uniqueConstraint name="KRAD_MSG_TC0">
             <column>OBJ_ID</column>
         </uniqueConstraint>
     </table>
@@ -8830,6 +8830,7 @@
             <size value="40"/>
         </column>
         <column name="SESN_ID" nullable="false" type="STRING">
+            <defaultValue>'undefined' </defaultValue>
             <size value="40"/>
         </column>
         <column name="VER_NBR" nullable="false" type="FLOAT">
