@@ -167,7 +167,8 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StudentCourseRecordInfo createStudentCourseRecord(String studentId, String termId, String courseCode, String courseTitle) throws DoesNotExistException, OperationFailedException {
+    public StudentCourseRecordInfo createStudentCourseRecord(String studentId, String termId, String courseCode, String courseTitle,
+                                                             String gradeValue, String gradeScaleKey) throws DoesNotExistException, OperationFailedException {
         
         StudentCourseRecordInfo courseRecord = new StudentCourseRecordInfo();
         
@@ -189,10 +190,10 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
         courseRecord.setCourseBeginDate(term.getStartDate());
         courseRecord.setCourseEndDate(term.getEndDate());
         
-        courseRecord.setAssignedGradeValue("3.0");
-        courseRecord.setAssignedGradeScaleKey("1");
-        courseRecord.setAdministrativeGradeValue("3.0");
-        courseRecord.setAdministrativeGradeScaleKey("1");
+        courseRecord.setAssignedGradeValue(gradeValue);
+        courseRecord.setAssignedGradeScaleKey(gradeScaleKey);
+        courseRecord.setAdministrativeGradeValue(gradeValue);
+        courseRecord.setAdministrativeGradeScaleKey(gradeScaleKey);
         courseRecord.setCalculatedGradeValue("3.0");
         courseRecord.setCalculatedGradeScaleKey("1");
         courseRecord.setCreditsForGPA("3");

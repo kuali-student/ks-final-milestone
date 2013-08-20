@@ -19,6 +19,7 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.krms.util.KSKRMSExecutionUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
@@ -29,11 +30,19 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Returns true if the student has completed all the courses in the courseset with
+ * a equal or higher grade than the given grade.
+ *
+ * Rule Statement examples:
+ * 1) Must not have earned a grade of <gradeType> <grade> or higher in <courses>
+ * 2) Must have earned a minimum grade of <gradeType> <grade> in <courses>
+ *
  * @author Kuali Student Team
  */
-public class GradeTypeTermResolver implements TermResolver<Integer> {
+public class CoursesWithGradeTermResolver implements TermResolver<Boolean> {
 
-    private AcademicRecordService academicRecordService;
+    private TermResolver<List<String>> cluIdsInCluSetTermResolver;
+    private TermResolver<Boolean> courseWithGradeTermResolver;
 
     @Override
     public Set<String> getPrerequisites() {
@@ -63,30 +72,37 @@ public class GradeTypeTermResolver implements TermResolver<Integer> {
     }
 
     @Override
-    public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
-        String courseSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
-        String gradeType = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
-        String grade = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY);
-        
-        List<StudentCourseRecordInfo> studentCourseRecordInfoList = null;
-        Integer result = null;
-        /*try {
-            studentCourseRecordInfoList = academicRecordService.??(personId, context);
+    public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+        try {
+            //Retrieve the list of cluIds from the cluset.
+            List<String> versionIndIds = this.getCluIdsInCluSetTermResolver().resolve(resolvedPrereqs, parameters);
+            for(String versionIndId : versionIndIds){
+                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
+                if(!this.getCourseWithGradeTermResolver().resolve(resolvedPrereqs, parameters)){
+                    return false;
+                }
+            }
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);
-        }*/
+        }
 
-        return result;
+        return true;
     }
 
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
+    public TermResolver<List<String>> getCluIdsInCluSetTermResolver() {
+        return cluIdsInCluSetTermResolver;
     }
 
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
+    public void setCluIdsInCluSetTermResolver(TermResolver<List<String>> cluIdsInCluSetTermResolver) {
+        this.cluIdsInCluSetTermResolver = cluIdsInCluSetTermResolver;
+    }
+
+    public TermResolver<Boolean> getCourseWithGradeTermResolver() {
+        return courseWithGradeTermResolver;
+    }
+
+    public void setCourseWithGradeTermResolver(TermResolver<Boolean> courseWithGradeTermResolver) {
+        this.courseWithGradeTermResolver = courseWithGradeTermResolver;
     }
 
 }

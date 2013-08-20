@@ -102,7 +102,8 @@ public class TestKRMSEnrollmentEligibility {
 	public void testCompletedCourseBetweenTermsProposition() throws DoesNotExistException, OperationFailedException {
 	    
 	    // setup the test data
-        StudentCourseRecordInfo courseRecord = dataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(), "ENGL123", "Comparative English Literature");
+        StudentCourseRecordInfo courseRecord = dataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID,
+                dataLoader.getFallTermId(), "ENGL123", "Comparative English Literature", "3.0", "1");
         
         dataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(), KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID, courseRecord);
 	    
@@ -141,7 +142,8 @@ public class TestKRMSEnrollmentEligibility {
     public void testCompletedCourseBetweenTermsPropositionWithTermResolvers() throws DoesNotExistException, OperationFailedException {
         
         // setup the test data
-        StudentCourseRecordInfo courseRecord = dataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(), "ENGL123", "Comparative English Literature");
+        StudentCourseRecordInfo courseRecord = dataLoader.createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID,
+                dataLoader.getFallTermId(), "ENGL123", "Comparative English Literature", "3.0", "1");
         
         dataLoader.storeStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(), KRMSEnrollmentEligibilityDataLoader.FAKE_COURSE_ID, courseRecord);
         
