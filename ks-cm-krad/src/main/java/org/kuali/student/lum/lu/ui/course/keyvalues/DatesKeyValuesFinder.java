@@ -29,6 +29,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.cm.course.form.CourseForm;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -53,10 +54,11 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
                 AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_SUMMER_TYPE_KEY,
                 AtpServiceConstants.ATP_MINI_MESTER_1_A_TYPE_KEY, AtpServiceConstants.ATP_MINI_MESTER_1_B_TYPE_KEY,
                 AtpServiceConstants.ATP_SESSION_1_TYPE_KEY, AtpServiceConstants.ATP_SESSION_2_TYPE_KEY));
-        
+
         QueryByCriteria qbc = qbcBuilder.build();
         try {
-            List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc,ContextUtils.createDefaultContextInfo());
+            List<AtpInfo> searchResult = this.getAtpService().searchForAtps(qbc,
+                    ContextUtils.createDefaultContextInfo());
 
             Collections.sort(searchResult, new Comparator<AtpInfo>() {
                 public int compare(AtpInfo m1, AtpInfo m2) {
@@ -64,11 +66,32 @@ public class DatesKeyValuesFinder extends UifKeyValuesFinderBase {
                 }
             });
 
-            for (AtpInfo result : searchResult) {
-                keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
+            /*
+             * This method is used to ensures that EndDate is always greater than startDate.
+             */
+            if (model instanceof CourseForm) {
+                CourseForm courseForm = (CourseForm) model;
+                if (courseForm.getCourseInfo().isPilotCourse()) {
+                    
+                    for (int i = 0; i < searchResult.size(); i++) {
+                        if (courseForm.getCourseInfo().getStartTerm().equals(searchResult.get(i).getId().toString())) {
+                            searchResult.remove(searchResult.get(i));
+                            i--;
+                            break;
+                        }
+                        else {
+                            searchResult.remove(searchResult.get(i));
+                            i--;
+                        }
+                    }
+                }
+                for (AtpInfo result : searchResult) {
+                    keyValues.add(new ConcreteKeyValue(result.getId(), result.getName()));
+                }
             }
+
         } catch (Exception ex) {
-            throw new RuntimeException("Could not retrieve the ATP duration Dates: "+ex);
+            throw new RuntimeException("Could not retrieve the ATP duration Dates: " + ex);
         }
         return keyValues;
     }
