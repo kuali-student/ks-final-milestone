@@ -42,6 +42,9 @@ import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+
+
 import static org.kuali.student.logging.FormattedLogger.*;
 
 /**
@@ -52,6 +55,8 @@ import static org.kuali.student.logging.FormattedLogger.*;
 public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
 
 	private static final long serialVersionUID = 1338662637708570500L;
+
+	private OrganizationService organizationService;
 
 	private SearchService searchService;
 
@@ -102,7 +107,7 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         
         SearchResultInfo searchResult = null;
         try {
-        	searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+        	searchResult = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -452,4 +457,12 @@ public class CourseViewHelperServiceImpl extends ViewHelperServiceImpl {
         return learningObjectiveService;
     }
 	
+	protected OrganizationService getOrganizationService() {
+		if (organizationService == null) {
+	        organizationService = (OrganizationService) GlobalResourceLoader
+                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
+		}
+		return organizationService;
+	}
+
 }

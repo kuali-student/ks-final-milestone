@@ -53,6 +53,7 @@
               <bean parent="Uif-DropdownControl" />
             </property>
           </bean>
+
           <ref bean="KS-AdministeringOrganization-Section" />
         </list>
       </property>
@@ -115,7 +116,8 @@
                                       value="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
                             <property name="fieldConversions">
                                 <map>
-                                    <entry key="organizationName" value="longName" />
+                                    <entry key="organizationName" value="organizationName" />
+                                    <entry key="abbreviation" value="abbreviation" />
                                 </map>
                             </property>
                         </bean>

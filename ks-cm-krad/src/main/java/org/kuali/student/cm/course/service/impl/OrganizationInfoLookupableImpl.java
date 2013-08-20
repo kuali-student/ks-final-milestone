@@ -36,6 +36,9 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+
+
 import static org.kuali.student.logging.FormattedLogger.*;
 
 
@@ -49,6 +52,8 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 	private static final long serialVersionUID = -3027283578926320100L;
 	
 	private SearchService searchService;
+	private OrganizationService organizationService;
+
 
 	@Override
 	protected List<?> getSearchResults(final LookupForm form,
@@ -67,31 +72,26 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
             queryParamValueList.add(displayNameParam);
         }
 
-        if (StringUtils.isNotBlank(organizationName)) {
+        if (StringUtils.isNotBlank(shortName)) {
             final SearchParamInfo shortNameParam = new SearchParamInfo();
             shortNameParam.setKey("org.queryParam.orgOptionalShortName");
             shortNameParam.getValues().add(shortName);
             queryParamValueList.add(shortNameParam);
         }
 
-        final SearchParamInfo orgOptionalTypeParam = new SearchParamInfo();
-        orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
-        orgOptionalTypeParam.getValues().add("kuali.org.COC");
-        orgOptionalTypeParam.getValues().add("kuali.org.Department");
-        orgOptionalTypeParam.getValues().add("kuali.org.College");
-        queryParamValueList.add(orgOptionalTypeParam);
+        info("Searching for %s", queryParamValueList);
 
-    	final SearchRequestInfo searchRequest = new SearchRequestInfo();
+        final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("org.search.generic");
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
         searchRequest.setMaxResults(10);
         searchRequest.setNeededTotalResults(false);
-        searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
+        searchRequest.setSortColumn("org.resultColumn.orgOptionalId");
         
         SearchResultInfo searchResult = null;
         try {
-        	searchResult = getSearchService().search(searchRequest, ContextUtils.getContextInfo());
+        	searchResult = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -116,11 +116,19 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 		return retval;
 	}
 	
-	private SearchService getSearchService() {
+	protected SearchService getSearchService() {
 		if (searchService == null) {
 			searchService = GlobalResourceLoader.getService(new QName(LookupableConstants.NAMESPACE_PERSONSEACH, LookupableConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
 		}
 		return searchService;
+	}
+
+	protected OrganizationService getOrganizationService() {
+		if (organizationService == null) {
+	        organizationService = (OrganizationService) GlobalResourceLoader
+                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
+		}
+		return organizationService;
 	}
 
 }
