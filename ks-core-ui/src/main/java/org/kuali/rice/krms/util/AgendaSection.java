@@ -17,12 +17,16 @@ package org.kuali.rice.krms.util;
 
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.CollectionFilter;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.TreeGroup;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.element.Message;
 import org.kuali.rice.krad.uif.field.DataField;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.widget.QuickFinder;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.rice.krms.service.RuleViewHelperService;
 
@@ -41,6 +45,10 @@ public class AgendaSection extends Group {
     private Group rulePrototype;
 
     private AgendaBuilder agendaBuilder;
+
+    public AgendaSection(){
+        super();
+    }
 
     @Override
     public void performInitialization(View view, Object model) {
@@ -86,6 +94,26 @@ public class AgendaSection extends Group {
         components.add(this.getRulePrototype());
 
         return components;
+    }
+
+    /**
+     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
+     */
+    @Override
+    protected <T> void copyProperties(T component) {
+        super.copyProperties(component);
+
+        AgendaSection agendaSectionCopy = (AgendaSection) component;
+        agendaSectionCopy.setPropertyName(this.propertyName);
+        if (this.agendaPrototype != null){
+            agendaSectionCopy.setAgendaPrototype((Group) this.agendaPrototype.copy());
+        }
+        if (this.rulePrototype != null){
+            agendaSectionCopy.setRulePrototype((Group) this.rulePrototype.copy());
+        }
+        if (this.bindingInfo != null) {
+            agendaSectionCopy.setBindingInfo((BindingInfo) this.bindingInfo.copy());
+        }
     }
 
     public AgendaBuilder getAgendaBuilder() {

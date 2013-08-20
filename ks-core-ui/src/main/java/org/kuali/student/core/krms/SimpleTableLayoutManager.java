@@ -16,10 +16,12 @@
 package org.kuali.student.core.krms;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeMap;
 
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.datadictionary.parse.BeanTagAttribute;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -30,6 +32,7 @@ import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.element.Label;
 import org.kuali.rice.krad.uif.field.DataField;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
@@ -58,9 +61,6 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
     private FieldGroup subCollectionFieldGroupPrototype;
     private Field selectFieldPrototype;
 
-    //private boolean separateAddLine;
-    //private Group addLineGroup;
-
     // internal counter for the data columns (not including sequence, action)
     private int numberOfDataColumns;
 
@@ -83,7 +83,6 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
         useShortLabels = false;
         renderSequenceField = true;
         generateAutoSequence = false;
-        //separateAddLine = false;
         rowDetailsOpen = false;
 
         dataFields = new ArrayList<Component>();
@@ -980,5 +979,70 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
      */
     public void setExpandDetailsActionPrototype(Action expandDetailsActionPrototype) {
         this.expandDetailsActionPrototype = expandDetailsActionPrototype;
+    }
+
+    /**
+     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
+     */
+    @Override
+    protected <T> void copyProperties(T layoutManager) {
+        super.copyProperties(layoutManager);
+        TableLayoutManager tableLayoutManagerCopy = (TableLayoutManager) layoutManager;
+        tableLayoutManagerCopy.setUseShortLabels(this.isUseShortLabels());
+        tableLayoutManagerCopy.setRepeatHeader(this.isRepeatHeader());
+
+        tableLayoutManagerCopy.setRenderSequenceField(this.isRenderSequenceField());
+        tableLayoutManagerCopy.setGenerateAutoSequence(this.isGenerateAutoSequence());
+
+        if (this.sequenceFieldPrototype != null) {
+            tableLayoutManagerCopy.setSequenceFieldPrototype((Field) this.getSequenceFieldPrototype().copy());
+        }
+
+        if (this.subCollectionFieldGroupPrototype != null) {
+            tableLayoutManagerCopy.setSubCollectionFieldGroupPrototype(
+                    (FieldGroup) this.getSubCollectionFieldGroupPrototype().copy());
+        }
+
+        if (this.selectFieldPrototype != null) {
+            tableLayoutManagerCopy.setSelectFieldPrototype((Field) this.getSelectFieldPrototype().copy());
+        }
+
+        tableLayoutManagerCopy.setSeparateAddLine(this.isSeparateAddLine());
+
+        tableLayoutManagerCopy.setNumberOfDataColumns(this.numberOfDataColumns);
+
+        if (this.richTable != null) {
+            tableLayoutManagerCopy.setRichTable((RichTable) this.getRichTable().copy());
+        }
+
+        tableLayoutManagerCopy.setActionColumnIndex(this.getActionColumnIndex());
+
+        if (this.rowDetailsGroup != null) {
+            tableLayoutManagerCopy.setRowDetailsGroup((Group) this.getRowDetailsGroup().copy());
+        }
+
+        tableLayoutManagerCopy.setRowDetailsOpen(this.isRowDetailsOpen());
+        tableLayoutManagerCopy.setShowToggleAllDetails(this.isShowToggleAllDetails());
+
+        if (this.toggleAllDetailsAction != null) {
+            tableLayoutManagerCopy.setToggleAllDetailsAction((Action) this.getToggleAllDetailsAction().copy());
+        }
+
+        tableLayoutManagerCopy.setAjaxDetailsRetrieval(this.isAjaxDetailsRetrieval());
+
+        if (this.expandDetailsActionPrototype != null) {
+            tableLayoutManagerCopy.setExpandDetailsActionPrototype(
+                    (Action) this.getExpandDetailsActionPrototype().copy());
+        }
+
+        tableLayoutManagerCopy.setGroupingTitle(this.getGroupingTitle());
+        tableLayoutManagerCopy.setGroupingPrefix(this.getGroupingPrefix());
+        tableLayoutManagerCopy.setGroupingColumnIndex(this.getGroupingColumnIndex());
+
+        tableLayoutManagerCopy.setRenderOnlyLeftTotalLabels(this.isRenderOnlyLeftTotalLabels());
+        tableLayoutManagerCopy.setShowTotal(this.isShowTotal());
+        tableLayoutManagerCopy.setShowPageTotal(this.isShowPageTotal());
+        tableLayoutManagerCopy.setShowGroupTotal(this.isShowGroupTotal());
+
     }
 }
