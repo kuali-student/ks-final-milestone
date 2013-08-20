@@ -76,7 +76,7 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
                     public int compare(ResultValueInfo o1, ResultValueInfo o2) {
                         Integer first = Integer.valueOf(o1.getNumericValue());
                         Integer second = Integer.valueOf(o2.getNumericValue());
-                        return Integer.compare(second, first);
+                        return (second < first) ? -1 : ((second == first) ? 0 : 1);
                     }
                 });
 
