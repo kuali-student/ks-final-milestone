@@ -29,6 +29,26 @@
                     <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.lesscss</groupId>
+                <artifactId>lesscss-maven-plugin</artifactId>
+                <configuration>
+                    <sourceDirectory>${project.basedir}/src/main/webapp/ks-enroll/css</sourceDirectory>
+                    <outputDirectory>${project.build.directory}/${project.artifactId}-webapp/ks-enroll/css</outputDirectory>
+                    <compress>false</compress>
+                    <force>true</force>
+                    <includes>
+                        <include>*.less</include>
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
@@ -79,6 +99,10 @@
         <dependency>
             <groupId>org.apache.struts</groupId>
             <artifactId>struts-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.lesscss</groupId>
+            <artifactId>lesscss</artifactId>
         </dependency>
     </dependencies>
 </project>

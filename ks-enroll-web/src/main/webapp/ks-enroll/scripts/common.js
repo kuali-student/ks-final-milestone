@@ -66,11 +66,8 @@ function showLightbox(componentId, url) {
     parent.jQuery('head').append('<link href="' + url + '/krad/plugins/rice/datatables/TableTools.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/krad/plugins/fancybox/jquery.fancybox.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/krad/css/global/base.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="' + url + '/krad/css/ks/theme-krad.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="' + url + '/krad/css/ks/fss-theme-krad.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/enroll.css" rel="stylesheet" type="text/css">');
     parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/acal.css" rel="stylesheet" type="text/css">');
-    parent.jQuery('head').append('<link href="' + url + '/ks-enroll/css/ks-jquery.css" rel="stylesheet" type="text/css">');
 
     var overrideOptions = { afterClose:function () {
         // Remove the following css files before the lightbox appearing
@@ -82,11 +79,8 @@ function showLightbox(componentId, url) {
         parent.jQuery('link[href="' + url + '/krad/plugins/rice/datatables/TableTools.css"]').remove();
         parent.jQuery('link[href="' + url + '/krad/plugins/fancybox/jquery.fancybox.css"]').remove();
         parent.jQuery('link[href="' + url + '/krad/css/global/base.css"]').remove();
-        parent.jQuery('link[href="' + url + '/krad/css/ks/theme-krad.css"]').remove();
-        parent.jQuery('link[href="' + url + '/krad/css/ks/fss-theme-krad.css"]').remove();
         parent.jQuery('link[href="' + url + '/ks-enroll/css/enroll.css"]').remove();
         parent.jQuery('link[href="' + url + '/ks-enroll/css/acal.css"]').remove();
-        parent.jQuery('link[href="' + url + '/ks-enroll/css/ks-jquery.css"]').remove();
         if(isPortal){
             parent.jQuery('head').append('<link href="' + url + '/rice-portal/css/portal.css" rel="stylesheet" type="text/css">');
         }
