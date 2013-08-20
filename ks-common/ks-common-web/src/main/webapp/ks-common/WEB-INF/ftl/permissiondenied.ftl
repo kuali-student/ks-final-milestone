@@ -5,7 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" >
     <title>Error - Access forbidden</title>
     <link href="../krad/css/global/base.css" rel="stylesheet" type="text/css"/>
-    <link href="../krad/css/ks/theme-krad.css" rel="stylesheet" type="text/css"/>
     <link href="../ks-enroll/css/enroll.css" rel="stylesheet" type="text/css"/>
 </head>
 

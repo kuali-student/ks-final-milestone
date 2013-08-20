@@ -25,11 +25,7 @@
         <property name="cssFiles">
             <list merge="true">
                 <value>ks-enroll/css/enroll.css</value>
-                <value>ks-enroll/css/ks-jquery.css</value>
                 <value>ks-enroll/css/link-tabs.css</value>
-                <!--
-                <value>ks-enroll/css/new_kualistudent.css</value>
-                -->
             </list>
         </property>
         <property name="scriptFiles">
