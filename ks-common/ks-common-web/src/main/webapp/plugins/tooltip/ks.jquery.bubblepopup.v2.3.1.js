@@ -600,6 +600,10 @@
             var I = new Array();
             var u = N.offset();
             var t = parseInt(u.top);
+            var tmpStr = N.text().trim();
+            if(tmpStr.match(/Add/)) {
+                t = parseInt(u.top) - 183;
+            }
             var y = parseInt(u.left);
             var P = parseInt(N.outerWidth(false));
             var L = parseInt(N.outerHeight(false));
