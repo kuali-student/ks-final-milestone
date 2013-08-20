@@ -170,7 +170,7 @@
     <property name="businessObjectService" ref="businessObjectService" />
   </bean>
 
-    <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.RuleManagementServiceImpl">
+    <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.KSRuleManagementServiceImpl">
         <property name="templater" ref="propositionTemplater"/>
         <property name="businessObjectService" ref="businessObjectService"/>
         <property name="criteriaLookupService" ref="criteriaLookupService" />
