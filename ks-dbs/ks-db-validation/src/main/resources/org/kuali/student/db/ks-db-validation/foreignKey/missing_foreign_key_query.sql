@@ -179,7 +179,7 @@ FROM (
                 'OBJ_SUB_TYPE_ID', 'KSST_OBJECT_SUB_TYPE',
                 'REF_STMT_REL_TYPE_ID', 'KSST_REF_STMT_REL_TYPE',
                 'REQ_COMP_FIELD_TYPE_ID', 'KSST_REQ_COM_FIELD_TYPE',
-                'REQ_COMP_TYPE_ID', 'KSST_REQ_COM_FIELD',
+                'REQ_COMP_TYPE_ID', 'KSST_REQ_COM_TYPE',
                 'OBJ_TYPE_ID', 'KSST_OBJECT_TYPE',
                 'SORT_ORDER_TYPE_ID', 'KSEN_POPULATION_RULE_SOT',
                 -- default behavior
