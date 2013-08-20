@@ -640,7 +640,6 @@
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
                 <entry key="bPaginate" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}"/>
-                <entry key="aoColumns" value="oTable.fnSetColumnVis( 0, false );"/>
             </map>
         </property>
 		<property name="items">
