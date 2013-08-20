@@ -18,7 +18,9 @@ package org.kuali.student.lum.lrc.service.util;
 
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValueRange;
@@ -52,6 +54,24 @@ public class MockLrcTestDataLoader  {
     }
 
     public void loadData() {
+        loadResultValueInfo("kuali.result.value.grade.completed.c", "Completed", "Completed", "kuali.result.scale.grade.completed", "2");
+        loadResultValueInfo("kuali.result.value.grade.completed.ip", "In-Progress", "In-Progress", "kuali.result.scale.grade.completed", "1");
+        loadResultValueInfo("kuali.result.value.grade.completed.nc", "Not-Completed", "Not-Completed", "kuali.result.scale.grade.completed", "0");
+
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.a+", "A+", "A+", "kuali.result.scale.grade.letter.plus.minus", "12");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.a", "A", "A", "kuali.result.scale.grade.letter.plus.minus", "11");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.a-", "A-", "A-", "kuali.result.scale.grade.letter.plus.minus", "10");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.b+", "B+", "B+", "kuali.result.scale.grade.letter.plus.minus", "9");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.b", "B", "B", "kuali.result.scale.grade.letter.plus.minus", "8");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.b-", "B-", "B-", "kuali.result.scale.grade.letter.plus.minus", "7");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.c+", "C+", "C+", "kuali.result.scale.grade.letter.plus.minus", "6");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.c", "C", "C", "kuali.result.scale.grade.letter.plus.minus", "5");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.c-", "C-", "C-", "kuali.result.scale.grade.letter.plus.minus", "4");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.d+", "D+", "D+", "kuali.result.scale.grade.letter.plus.minus", "3");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.d", "D", "D", "kuali.result.scale.grade.letter.plus.minus", "2");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.d-", "D-", "D-", "kuali.result.scale.grade.letter.plus.minus", "1");
+        loadResultValueInfo("kuali.result.value.grade.letter.plus.minus.f", "F", "F", "kuali.result.scale.grade.letter.plus.minus", "0");
+
         loadResultValuesGroupInfo("kuali.creditType.credit.degree.1.0", "kuali.result.values.group.type.fixed", "kuali.result.values.group.state.approved", "1 Credit", "1 Academic Credit", "kuali.result.scale.credit.degree", "1", "1");
         loadResultValuesGroupInfo("kuali.creditType.credit.degree.2.0", "kuali.result.values.group.type.fixed", "kuali.result.values.group.state.approved", "1 Credit", "1 Academic Credit", "kuali.result.scale.credit.degree", "1", "1");
     }
@@ -83,6 +103,38 @@ public class MockLrcTestDataLoader  {
             if (dataExists) {
                 lrcService.createResultValuesGroup(resultScaleKey, id, info, context);
             }
+        } catch (Exception e) {
+            throw new RuntimeException("error assigning to services: "+e);
+        }
+    }
+
+    public void loadResultValueInfo(String id, String name, String description, String resultScaleKey, String numericValue){
+        loadResultValueInfo(id, "kuali.result.value.type.value", "kuali.result.value.state.approved", name, description, resultScaleKey, numericValue);
+    }
+
+    public void loadResultValueInfo(String id, String type, String state, String name, String description, String resultScaleKey, String numericValue) {
+        ContextInfo context = new ContextInfo();
+        context.setPrincipalId(principalId);
+        context.setCurrentDate(new Date());
+
+        try {
+            try {
+                lrcService.getResultValue(id, context);
+            } catch (DoesNotExistException dne) {
+
+                ResultValueInfo info = new ResultValueInfo();
+                info.setKey(id);
+                info.setTypeKey(type);// use id for code
+                info.setStateKey(state);
+                info.setName(name);
+                info.setDescr(new RichTextHelper().fromPlain(description));
+                info.setResultScaleKey(resultScaleKey);
+                info.setNumericValue(numericValue);
+
+                lrcService.createResultValue(resultScaleKey, id, info, context);
+
+            }
+
         } catch (Exception e) {
             throw new RuntimeException("error assigning to services: "+e);
         }

@@ -54,7 +54,8 @@ public class AssesmentKeyValueFinder extends KeyValuesBase {
         Predicate typePredicate = PredicateFactory.in("type", LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED,
                 LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE,
                 LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE);
-        Predicate idPredicate = PredicateFactory.in("id", LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER,
+        Predicate idPredicate = PredicateFactory.in("id", LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_PLUS_MINUS_STANDARD,
+                LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER,
                 LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL,
                 LrcServiceConstants.RESULT_GROUP_KEY_GRADE_SATISFACTORY,
                 LrcServiceConstants.RESULT_GROUP_KEY_GRADE_COMPLETEDNOTATION,

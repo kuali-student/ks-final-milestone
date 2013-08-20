@@ -24,6 +24,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.util.ContextBuilder;
@@ -35,6 +36,8 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -49,7 +52,7 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        String gradeScale = "";
+        String resultValuesGroupKey = "";
 
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
         Object dataObject = maintenanceForm.getDocument().getNewMaintainableObject().getDataObject();
@@ -57,20 +60,33 @@ public class GradeValuesKeyFinder extends UifKeyValuesFinderBase {
             RuleEditor ruleEditor = ((RuleManagementWrapper) dataObject).getRuleEditor();
             PropositionEditor propositionEditor = PropositionTreeUtil.getProposition(ruleEditor);
             if ((propositionEditor != null) && (propositionEditor instanceof LUPropositionEditor)) {
-                gradeScale = ((LUPropositionEditor) propositionEditor).getGradeScale();
+                resultValuesGroupKey = ((LUPropositionEditor) propositionEditor).getGradeScale();
             }
         }
 
         try {
 
-            ResultValuesGroupInfo rvgInfo = this.getLRCService().getResultValuesGroup(gradeScale, this.getContextInfo());
-            List<ResultValueInfo> rvInfos = this.getLRCService().getResultValuesByKeys(rvgInfo.getResultValueKeys(), this.getContextInfo());
+            if (resultValuesGroupKey != null) {
+                ResultValuesGroupInfo rvgInfo = this.getLRCService().getResultValuesGroup(resultValuesGroupKey, this.getContextInfo());
+                List<ResultValueInfo> rvInfos = this.getLRCService().getResultValuesByKeys(rvgInfo.getResultValueKeys(), this.getContextInfo());
 
-            for (ResultValueInfo info : rvInfos) {
-                keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
+                Collections.sort(rvInfos, new Comparator<ResultValueInfo>() {
+
+                    @Override
+                    public int compare(ResultValueInfo o1, ResultValueInfo o2) {
+                        Integer first = Integer.valueOf(o1.getNumericValue());
+                        Integer second = Integer.valueOf(o2.getNumericValue());
+                        return Integer.compare(second, first);
+                    }
+                });
+
+                for (ResultValueInfo info : rvInfos) {
+                    keyValues.add(new ConcreteKeyValue(info.getKey(), info.getName()));
+                }
             }
 
         } catch (Exception e) {
+            throw new RuntimeException("Unable to retrieve result values", e);
         }
 
         return keyValues;
