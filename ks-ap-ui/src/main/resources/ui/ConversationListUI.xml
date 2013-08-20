@@ -133,11 +133,15 @@
                     <property name="cssClasses">
 	            		<list merge="true">
 	                		<value>@{#line.closed ? '' : 'openConversation'}</value>
+	                		<value>clickableConversation</value>
 	            		</list>
 	        		</property>
+	        		<property name="onClickScript" value="
+	        			location.href='review/view?learningPlanId=@{#line.learningPlanId}';
+	        			"/>
                     <property name="items">
                         <list>
-                        	<bean parent="Uif-ImageField" p:altText="Unread Conversation"
+                        	<bean parent="Uif-ImageField" p:altText="Unread Conversation" p:valign="middle"
     							p:source="@{#line.hasUnreadComments() ? '../arm-ks/images/bullet_black.png' : '../ks-myplan/images/pixel.gif'}">
     							<property name="cssClasses">
 				            		<list merge="true">
@@ -150,7 +154,6 @@
 			                    <property name="group.validationMessages.render" value="false"/>
 			                    <property name="items">
 			                        <list>
-			                        	<bean id="conversation_lp_id" parent="Uif-LinkField" p:linkText="@{#line.learningPlanId}" p:href="review/view?learningPlanId=@{#line.learningPlanId}"/>
 			                        	<bean id="conversation_topic" parent="Uif-MessageField" p:messageText="[b]@{#line.topic}[/b]"/>
 			                        	<bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.learningPlanId}">
 						                    <property name="fieldLabel.render" value="false"/>
